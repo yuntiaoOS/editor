@@ -2,7 +2,6 @@ import SearchReplace from '@sereneinserenade/tiptap-search-and-replace'
 import Bold from '@tiptap/extension-bold'
 import CharacterCount from '@tiptap/extension-character-count'
 import Color from '@tiptap/extension-color'
-import Document from '@tiptap/extension-document'
 import Dropcursor from '@tiptap/extension-dropcursor'
 import Focus from '@tiptap/extension-focus'
 import FontFamily from '@tiptap/extension-font-family'
@@ -45,6 +44,8 @@ import Margin from './margin'
 import NodeAlign from './node-align'
 import OrderedList from './ordered-list'
 import Placeholder from './placeholder'
+// 自定义数据表格
+import Ttable from './tTable'
 // 其他
 import Selection from './selection'
 import TableCell from './table-cell'
@@ -69,7 +70,6 @@ export const extensions = [
     horizontalRule: false,
     dropcursor: false,
   }),
-  Document.extend({ content: 'page+' }),
   Placeholder.configure({
     placeholder: l(doc.placeholder),
   }),
@@ -79,6 +79,7 @@ export const extensions = [
   }),
   FormatPainter,
   FontFamily,
+  Ttable,
   FontSize,
   Bold.extend({
     renderHTML: ({ HTMLAttributes }) => ['b', HTMLAttributes, 0],

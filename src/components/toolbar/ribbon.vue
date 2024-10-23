@@ -104,6 +104,9 @@
             <menus-toolbar-insert-template />
             <menus-toolbar-insert-web-page />
           </div>
+          <div class="umo-virtual-group">
+            <menus-toolbar-insert-tTable />
+          </div>
           <div class="virtual-group is-slot">
             <slot name="toolbar_insert" toolbar-mode="ribbon" />
           </div>

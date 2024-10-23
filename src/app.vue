@@ -1,13 +1,14 @@
 <template>
   <div class="box">
-    <umo-editor ref="editorRef" v-bind="options" />
+    <!-- <UmoEditor ref="editorRef" v-bind="options" /> -->
+    <UmoSimpleEditor ref="editorRef" v-bind="options" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { shortId } from '@/utils/short-id'
-
-// import { UmoEditor } from '../dist/umo-editor'
+// import { UmoSimpleEditor,UmoEditor } from './components/index.ts'
+// import UmoEdit from './components/editor/index.vue'
 
 const editorRef = $ref(null)
 const templates = [

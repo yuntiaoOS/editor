@@ -1,11 +1,23 @@
 const { container, editor } = useStore()
 
 export const useNodePostion = () => {
-  const currentNode = document.querySelector(
-    `${container} .umo-page-node-content .umo-node-focused, ${container} .umo-page-node-content .ProseMirror-gapcursor`,
-  ) as HTMLElement
-  if (currentNode === null) {
-    return { offsetTop: null, offsetLeft: null }
+  const pageNode = document.querySelector(`${container} .umo-page-node-content`) as HTMLElement
+  let currentNode = undefined
+  // 判断是否存在pageNode。不存在就是使用的是simple编辑器模式
+  if (pageNode) {
+    currentNode = document.querySelector(
+      `${container} .umo-page-node-content .umo-node-focused, ${container} .umo-page-node-content .ProseMirror-gapcursor`,
+    ) as HTMLElement
+    if (currentNode === null) {
+      return { offsetTop: null, offsetLeft: null }
+    }
+  }else{
+    currentNode = document.querySelector(
+      `${container} .umo-page-node-content .umo-node-focused,${container} .umo-node-focused, ${container} .umo-page-node-content .ProseMirror-gapcursor`,
+    ) as HTMLElement
+    if (currentNode === null) {
+      return { offsetTop: null, offsetLeft: null }
+    }
   }
 
   // 当前元素距离页面顶部的距离
@@ -21,5 +33,6 @@ export const useNodePostion = () => {
   ) {
     offsetTop = offsetTop + 5
   }
+  offsetTop = offsetTop + 5
   return { offsetTop, offsetLeft }
 }

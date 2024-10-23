@@ -31,6 +31,7 @@
 import Typography from '@tiptap/extension-typography'
 import { Editor, EditorContent, type Extension } from '@tiptap/vue-3'
 import Mathematics from '@tiptap-pro/extension-mathematics'
+import Document from '@tiptap/extension-document'
 
 import { extensions } from '@/extensions'
 import Image from '@/extensions/image'
@@ -72,6 +73,7 @@ const editorInstance: Editor = new Editor({
   },
   parseOptions: options.value.document?.parseOptions,
   extensions: [
+    Document.extend({ content: 'page+' }),
     Page.configure({
       types: options.value.page.nodesComputedOption?.types ?? [],
       slots: useSlots(),

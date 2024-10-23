@@ -112,7 +112,7 @@
         <template #dropdown>
           <t-dropdown-menu
             v-for="item in editorModeOptions"
-            :key="item.value as string"
+            :key="item.value"
             :content="item.label"
             :value="item.value"
             :divider="item.divider"
