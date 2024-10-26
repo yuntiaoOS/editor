@@ -1,19 +1,6 @@
 <template>
-  <t-dropdown ref="dropdownRef"
-    :attach="`${container} .umo-page-container`"
-    placement="bottom-right"
-    overlay-class-name="umo-block-menu-dropdown"
-    trigger="click"
-    :destroy-on-close="false"
-    :popup-props="popupProps"
-  >
-    <menus-button
-      class="umo-block-menu-button"
-      :menu-active="menuActive"
-      ico="block-add"
-      hide-text
-    />
-    <t-dropdown-menu>
+  <div >
+    <!-- <t-dropdown-menu > -->
       <t-dropdown-item
         v-if="
           options.assistant?.enabled &&
@@ -39,21 +26,8 @@
           :tooltip="false"
         />
         <t-dropdown-menu overlay-class-name="umo-block-menu-dropdown">
-          <t-dropdown-item v-if="formList && formList.length > 0 ">
-            <menus-button
-              ico="t-table"
-              :text="t('insert.tTable')"
-              :tooltip="false"
-            />
-            <t-dropdown-menu overlay-class-name="umo-block-menu-dropdown">
-              <t-dropdown-item
-                v-for="form in formList"
-                :key="form.id"
-                :disabled="form.disabled"
-              >
-                <menus-toolbar-insert-tTable :huge="false" :tooltip="false" :formData="form" />
-              </t-dropdown-item>
-            </t-dropdown-menu>
+          <t-dropdown-item>
+            <menus-toolbar-insert-tTable :huge="false" :tooltip="false" />
           </t-dropdown-item>
           <t-dropdown-item>
             <menus-button
@@ -248,8 +222,9 @@
           @menu-click="toggleNodeType('blockquote')"
         />
       </t-dropdown-item>
-    </t-dropdown-menu>
-  </t-dropdown>
+    <!-- </t-dropdown-menu> -->
+  </div>
+  
 </template>
 
 <script setup lang="ts">
@@ -258,17 +233,8 @@ import type { Level } from '@tiptap/extension-heading'
 import type { Template } from '@/types'
 
 const { container, options, editor, blockMenu, assistantBox } = useStore()
-const dropdownRef = ref<HTMLElement>()
-let menuActive = $ref(false)
-const popupProps = {
-  onVisibleChange(visible: boolean) {
-    editor.value.commands.focus()
-    blockMenu.value = visible
-    menuActive = visible
-  },
-}
-// 实体表单列表及对应数据
-const formList = ref<any>([])
+
+
 
 const headings = $ref<number[]>([1, 2, 3, 4, 5, 6])
 
@@ -321,20 +287,6 @@ const toggleNodeType = (
       break
   }
 }
-
-onMounted(() => {
-  options.value.getEntityFormMethod().then((res:any) =>{
-    console.log('----222-----getEntityFormMethod--------------',res)
-    formList.value = res
-  })
-});
-
-defineExpose({
-  dropdownRef,
-  menuActive,
-  popupProps,
-  openAssistantBox,
-})
 </script>
 
 <style lang="less"></style>

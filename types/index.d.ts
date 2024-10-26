@@ -208,4 +208,15 @@ export interface UmoEditorOptions {
   onFileDelete?: CallableFunction
   onAssistant?: AsyncFunction
   onCustomImportWordMethod?: AsyncFunction
+  // 获取实体表单接口方法
+  getEntityFormMethod?: (id: string) => Promise<unknown>
+}
+
+export interface XmTitleModel {
+  title: string
+  content: string
+}
+
+export interface XmTitlesModel {
+  content: XmTitleModel[]
 }

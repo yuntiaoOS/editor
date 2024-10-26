@@ -1,6 +1,5 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
-import { Plugin, PluginKey } from 'prosemirror-state';
 import NodeView from './node-view.vue'
 
 declare module '@tiptap/core' {
@@ -15,8 +14,8 @@ export default Node.create({
   name: 'tTable',
   group: 'block',
   content: 'block*',
-  atom: true,
-  selectable: false,
+  atom: false,
+  selectable: true,
  
   parseHTML() {
     return [{ tag: 'tTable' }]
@@ -46,7 +45,7 @@ export default Node.create({
   addNodeView() {
     return VueNodeViewRenderer(NodeView, {
       update: (props) => {
-        console.log('update------------------------50', props)
+        // console.log('update------------------------50', props)
         // 根据props来更新节点，这里只是一个示例，具体实现需要根据实际情况
         props.updateProps(); // 调用提供的更新props的函数
         return true; // 根据VueNodeViewRenderer的API，这里通常需要返回一个布尔值
@@ -70,8 +69,7 @@ export default Node.create({
                 {
                   type: 'paragraph',
                   content: [
-                    { type: 'text', text: 'This is a paragraph inside an operation node.' },
-
+                    { type: 'text', text: '图表1' },
                   ],
                 }
               ],
@@ -85,5 +83,27 @@ export default Node.create({
     return {
       ...this.parent?.()
     }
-  }
+  },
+  onTransaction({ transaction ,editor}) {
+    // 获取当前的选择
+    const selection = transaction.curSelection
+
+    // 检查选择的类型
+    if (selection) {
+      const { $anchor, $head } = selection
+
+      // 判断选择的类型
+      if ($anchor.sameParent($head)) {
+        const parent = $anchor.parent
+        const type = parent.type.name
+
+        // console.log(`Current selection type: ${type}`,parent)
+
+        
+      }
+    } 
+
+    
+  
+  },
 })

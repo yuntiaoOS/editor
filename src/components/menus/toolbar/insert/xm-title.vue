@@ -3,7 +3,7 @@
     ico="table"
     :text="t('insert.tTable')"
     huge
-    @menu-click="editor?.chain().focus().addXmTitle().run()"
+    @menu-click="editor?.chain().focus().addXmTitle({key: 'default', title: '标题',content: '内容' }).run()"
   />
 </template>
 

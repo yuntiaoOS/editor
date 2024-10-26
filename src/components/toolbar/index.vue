@@ -139,9 +139,16 @@ import type { DropdownOption } from 'tdesign-vue-next'
 import { timeAgo } from '@/utils/time-ago'
 const emits = defineEmits(['menu-change'])
 const { container, options, editor, savedAt } = useStore()
-const $toolbar = useState('toolbar')
+const $toolbar = useState('toolbar') // options.value && options.value.toolbar ? ref( { mode: options.value.toolbar.defaultMode, show: true } ) : useState('toolbar')
 let statusPopup = $ref(false)
 const online = useOnline()
+
+const props = defineProps({
+  defaultMode: {
+    type: String ,
+    default: '',
+  },
+})
 
 // 工具栏菜单
 const defaultToolbarMenus = [
@@ -243,6 +250,11 @@ const setContentFromCache = () => {
   }
   statusPopup = false
   editor.value?.chain().setContent(content, true).focus().run()
+}
+
+
+if (props.defaultMode !== '') {
+  toggleToolbarMode({value: props.defaultMode })
 }
 </script>
 

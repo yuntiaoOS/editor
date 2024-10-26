@@ -2,10 +2,10 @@
   <node-view-wrapper :id="node.attrs.id" class="umo-node-view">
     <div
       ref="containerRef"
-      class="umo-node-container umo-hover-shadow umo-select-outline "
+      class="umo-node-container umo-hover-shadow umo-select-outline umo-node-code-block"
       :class="node.attrs.theme"
     >
-      <node-view-content class="content" ></node-view-content>
+      <node-view-content class="content" > </node-view-content>
     </div>
   </node-view-wrapper>
 </template>
@@ -18,9 +18,6 @@ const { node, updateAttributes } = defineProps(nodeViewProps)
 
 const { options } = useStore()
 
-const title = computed(() => node.attrs.title)
-const content = computed(() => node.attrs.content)
-
 onMounted(() => {
   
 })
@@ -30,15 +27,7 @@ onBeforeUnmount(() => {
 
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 @import '@/assets/styles/_mixins.less';
-.umo-node-view {
-  display: block;
-  .content {
-    width: 100%;
-    background-color: #f5f6f7;
-    border-radius: 5px;
-  }
- }
 
 </style>

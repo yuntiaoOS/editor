@@ -1,5 +1,14 @@
 {
   "welcome": "%c感谢使用 Umo Editor%c当前版本：v{version}，更多信息请访问：{homepage}",
+  "editor": {
+    "slash": {
+      "base": "输入 '/' 唤起更多",
+      "empty": "暂无搜索结果",
+      "format": "格式",
+      "insert": "插入",
+      "embed": "嵌入第三方服务"
+    }
+  },
   "toolbar": {
     "ribbon": "专业工具栏",
     "classic": "经典工具栏",

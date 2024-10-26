@@ -1,48 +1,28 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
+import atomUnselect from '../atom-unselect'
 
 import NodeView from './node-view.vue'
-
+import type { XmTitlesModel,XmTitleModel } from '@/types'
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     addXmTitle: {
-      addXmTitle: (options: any) => ReturnType
+      addXmTitle: (options: XmTitlesModel) => ReturnType
     }
   }
 }
 
-export default Node.create({
+export default atomUnselect.extend({
   name: 'xmTitle',
-  group: 'block',
-  atom: true,
-  selectable: false,
+  content: 'block*',
+  // selectable: true,
+  // atom: false,
   addAttributes() {
     return {
-      vnode: {
-        default: true,
-      },
-      code: {
-        default: '',
-      },
-      language: {
-        default: 'plaintext',
-      },
-      theme: {
-        default: 'light',
-      },
-      lineNumbers: {
-        default: true,
-      },
-      wordWrap: {
-        default: false,
-      },
+      key: '',
+      content: '',
+      title: '',
     }
-  },
-  parseHTML() {
-    return [{ tag: 'pre' }]
-  },
-  renderHTML({ HTMLAttributes }) {
-    return ['pre', mergeAttributes(this.options.HTMLAttributes, HTMLAttributes)]
   },
   addNodeView() {
     return VueNodeViewRenderer(NodeView)
@@ -50,13 +30,53 @@ export default Node.create({
   addCommands() {
     return {
       addXmTitle:
-        (options) =>
-        ({ commands }) => {
-          return commands.insertContent({
-            type: this.name,
-            attrs: options,
-          })
-        },
+      (options) =>
+      ({ commands,editor }) => {
+        const currentOption = mergeAttributes(this.options, options) 
+        const content = {
+          type: 'xmTitle',
+          attrs: {
+            ...currentOption,
+          },
+          content:  [
+              {
+                "type": "heading",
+                "attrs": {
+                    "indent": null,
+                    "textAlign": "left",
+                    "lineHeight": 1.5,
+                    "margin": {},
+                    "id": "elm5s8",
+                    "data-toc-id": "elm5s8",
+                    "level": 2
+                },
+                "content": [
+                    {
+                        "type": "text",
+                        "text": currentOption.title
+                    }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "attrs": {
+                    "indent": null,
+                    "textAlign": "left",
+                    "lineHeight": 1.5,
+                    "margin": {}
+                },
+                "content": [
+                  {
+                    "type": "text",
+                    "text": currentOption.content
+                  }
+                ]
+              }
+            ]    
+        }
+        // return editor.chain().focus().insertContent(content).run()
+        return commands.insertContent(content)
+      },
     }
   }
 })

@@ -1,5 +1,14 @@
 {
   "welcome": "%cThanks for using Umo Editor%cCurrent version: v{version}, More info: {homepage}",
+  "editor": {
+    "slash": {
+      "base": "Press '/' for commands",
+      "empty": "No Result",
+      "format": "Format",
+      "insert": "Insert",
+      "embed": "Embed Services"
+    }
+  },
   "toolbar": {
     "ribbon": "Professional",
     "classic": "Classic",

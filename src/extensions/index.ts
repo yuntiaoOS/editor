@@ -21,6 +21,9 @@ import Mathematics from '@tiptap-pro/extension-mathematics'
 import { TableOfContents } from '@tiptap-pro/extension-table-of-contents'
 import { getHierarchicalIndexes } from '@tiptap-pro/extension-table-of-contents'
 
+// 输入 ‘/’ 触发插入菜单
+import SlashCommand from './SlashCommand'
+
 import { shortId } from '@/utils/short-id'
 
 import Audio from './audio'
@@ -46,6 +49,9 @@ import OrderedList from './ordered-list'
 import Placeholder from './placeholder'
 // 自定义数据表格
 import Ttable from './tTable'
+// 自定义不能选中移动的节点
+import atomUnselect from './atom-unselect'
+import xmTitle from './xm-title'
 // 其他
 import Selection from './selection'
 import TableCell from './table-cell'
@@ -77,9 +83,12 @@ export const extensions = [
     className: 'umo-node-focused',
     mode: 'all',
   }),
+  SlashCommand,
   FormatPainter,
   FontFamily,
   Ttable,
+  atomUnselect,
+  xmTitle,
   FontSize,
   Bold.extend({
     renderHTML: ({ HTMLAttributes }) => ['b', HTMLAttributes, 0],

@@ -29,7 +29,6 @@ export function useState<T extends StateKey>(
   editorKey?: string,
 ): RemovableRef<StateValue<T>> {
   const { options } = useStore()
-
   const storageKey = `umo-editor:${editorKey ?? options.value.editorKey}:${key}`
 
   if (key === 'document') {

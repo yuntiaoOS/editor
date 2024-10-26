@@ -17,6 +17,20 @@
       }"
       :style="{ height: options.height }"
     >
+      <header class="umo-toolbar">
+        <toolbar defaultMode="hideToolbar"
+          :key="toolbarKey"
+          @menu-change="(event: any) => emits('menuChange', event)"
+        >
+          <template
+            v-for="item in options.toolbar?.menus"
+            :key="item"
+            #[`toolbar_${item}`]="slotProps"
+          >
+            <slot :name="`toolbar_${item}`" v-bind="slotProps" />
+          </template>
+        </toolbar>
+      </header>
       <main class="umo-main">
         <div class="umo-zoomable-container umo-scrollbar">
           <div class="umo-zoomable-content" >
@@ -60,6 +74,7 @@
 <script setup lang="ts">
 import Typography from '@tiptap/extension-typography'
 import { Editor, EditorContent, type Extension } from '@tiptap/vue-3'
+import type { Editor as CoreEditor } from '@tiptap/core'
 import Document from '@tiptap/extension-document'
 import Mathematics from '@tiptap-pro/extension-mathematics'
 import {
@@ -74,7 +89,7 @@ import { propsOptions } from '@/options'
 import type { GlobalConfigProvider } from 'tdesign-vue-next'
 import enConfig from 'tdesign-vue-next/esm/locale/en_US'
 import cnConfig from 'tdesign-vue-next/esm/locale/zh_CN'
-
+import { differenceBy, getCssUnitWithDefault, hasExtension, isEqual, throttle } from '@/utils/utils'
 defineOptions({ name: 'UmoSimpleEditor' })
 
 const props = defineProps(propsOptions)
@@ -86,14 +101,6 @@ const emits = defineEmits([
   'changed:transaction',
   'changed:menu',
   'changed:toolbar',
-  'changed:pageSize',
-  'changed:pageOrientation',
-  'changed:pageMargin',
-  'changed:pageBackground',
-  'changed:pageShowToc',
-  'changed:pagePreview',
-  'changed:pageZoom',
-  'changed:pageWatermark',
   'changed:locale',
   'changed:theme',
   'contentError',
@@ -118,14 +125,12 @@ const {
   resetStore,
 } = useStore()
 
-// 页面大小
-const pageSize = $computed(() => {
-  const { width, height } = page.value.size ?? { width: 0, height: 0 }
-  return {
-    width: page.value.orientation === 'portrait' ? width : height,
-    height: page.value.orientation === 'portrait' ? height : width,
-  }
-})
+setOptions(props)
+watch(
+  () => props,
+  () => setOptions(props),
+  { deep: true },
+)
 
 const $toolbar = useState('toolbar', props.editorKey)
 const $document = useState('document', props.editorKey)
@@ -169,7 +174,8 @@ const defaultLineHeight = $computed(
 
 let isReady = $ref<boolean>(false)
 let isEmpty = $ref<boolean>(false)
-setOptions(props)
+
+console.log('--simple-----props--------',options.value)
 const editorInstance: Editor = new Editor({
   editable: !options.value.document?.readOnly,
   autofocus: options.value.document?.autofocus,
@@ -189,15 +195,39 @@ const editorInstance: Editor = new Editor({
     ...(options.value.extensions as Extension[]),
   ],
   onCreate({ editor }) {
-    isEmpty = editor.commands.setPlaceholder('')
+    isEmpty = editor.commands.setPlaceholder(options.value.document?.placeholder?? '请输入' )
   },
-  onUpdate({ editor }) {
-    isEmpty = editor.commands.setPlaceholder('')
+  onUpdate: throttle(({ editor }) => {
+    let output = getOutput(editor, 'html')
+    emits('change')
+    console.log('-------onUpdate---204-------', output,getOutput(editor, 'json'))
+  
+    isEmpty = editor.commands.setPlaceholder(options.value.document?.placeholder)
     isReady = true
     $document.value.content = editor.getHTML()
-  },
+  }, 1000),
+  // onUpdate({ editor }) {
+  //   isEmpty = editor.commands.setPlaceholder('')
+  //   isReady = true
+  //   $document.value.content = editor.getHTML()
+  // },
 })
 setEditor(editorInstance)
+
+
+function getOutput(editor: CoreEditor, output: 'html' | 'json' | 'text') {
+  if (props.removeDefaultWrapper) {
+    if (output === 'html') return editor.isEmpty ? '' : editor.getHTML()
+    if (output === 'json') return editor.isEmpty ? {} : editor.getJSON()
+    if (output === 'text') return editor.isEmpty ? '' : editor.getText()
+    return ''
+  }
+
+  if (output === 'html') return editor.getHTML()
+  if (output === 'json') return editor.getJSON()
+  if (output === 'text') return editor.getText()
+  return ''
+}
 
 // 动态导入 katex 样式
 const loadTatexStyle = () => {
@@ -219,6 +249,9 @@ onMounted(loadTatexStyle)
 onBeforeUnmount(() => {
   editorInstance.destroy()
 })
+defineExpose({
+  editorInstance,
+})
 </script>
 
 <style lang="less" scoped>
@@ -226,10 +259,8 @@ onBeforeUnmount(() => {
 @import '@/assets/styles/drager.less';
 .umo-zoomable-container {
   flex: 1;
-  padding: 10px 10px 10px 0px ;
   scroll-behavior: smooth;
   overflow: visible;
-  margin-left: -50px;
   .umo-zoomable-content {
     margin: 0 auto;
     position: relative;
@@ -258,18 +289,36 @@ onBeforeUnmount(() => {
 :deep( .umo-menu-button-wrap:not(:last-child) ){
   margin-right: 1px ;
 }
-:deep( .umo-button--shape-square.umo-size-s ) {
-  width: var(--td-comp-size-xxxs) ;
-  padding: 0;
-}
-:deep( .umo-editor-container .umo-editor ) {
-  width: calc(100% - 80px);
-  margin-left: 86px;
+:deep( .umo-block-menu-button ) {
+  border-radius: 0 !important;
+ .umo-button--shape-square.umo-size-s  {
+    width: var(--td-comp-size-xxxs) ;
+    padding: 0;
+  }
 }
 
 :deep( .umo-node-focused:not(hr):not(.tableWrapper):not(table) ) {
   border-radius: var(--umo-radius);
   background: var(--umo-content-node-selected-background);
+  line-height: 1.5 !important;
   //z-index: -1;
+}
+:deep( .umo-block-menu-hander ) {
+  margin-left: -156px;
+}
+:deep( .umo-show-toolbar ) {
+  cursor: pointer;
+  position: absolute;
+  top: -24px;
+  right: 0px;
+  font-size: 18px;
+  padding: 3px 6px;
+  z-index: 99;
+  background-color: var(--umo-color-white);
+  color: var(--umo-text-color-light);
+  border-bottom-left-radius: var(--umo-radius);
+  border-bottom-right-radius: var(--umo-radius);
+  border: solid 1px var(--umo-border-color);
+  border-top: none;
 }
 </style>
