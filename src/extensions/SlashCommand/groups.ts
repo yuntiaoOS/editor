@@ -128,7 +128,7 @@ export function renderGroups(editor: Editor) {
           label: t('insert.image'),
           iconName: 'image',
           action: ({ editor, range }) => {
-            editor.chain().focus().deleteRange(range).selectFiles('image', true).run()
+            editor.chain().focus().deleteRange(range).selectFiles('image').run()
           },
         },
         {
@@ -136,7 +136,7 @@ export function renderGroups(editor: Editor) {
           label: t('insert.video'),
           iconName: 'video',
           action: ({ editor, range }) => {
-            editor.chain().focus().deleteRange(range).selectFiles('video', true).run()
+            editor.chain().focus().deleteRange(range).selectFiles('video').run()
           },
         },
         {
@@ -144,7 +144,7 @@ export function renderGroups(editor: Editor) {
           label: t('insert.audio'),
           iconName: 'audio',
           action: ({ editor, range }) => {
-            editor.chain().focus().deleteRange(range).selectFiles('audio', true).run()
+            editor.chain().focus().deleteRange(range).selectFiles('audio').run()
           },
         },
         {
@@ -246,29 +246,5 @@ export function renderGroups(editor: Editor) {
       ],
     },
   ]
-  const hasAI = hasExtension(editor, 'Ai')
-  const hasIframes = hasExtension(editor, 'iframes')
-  if (hasAI) {
-    groups.unshift({
-      name: 'ai',
-      title: 'AI',
-      commands: [
-        {
-          name: 'aiWriter',
-          label: 'AI智能助手',
-          iconName: 'Sparkles',
-          description: 'Let AI finish your thoughts',
-          shouldBeHidden: editor => editor.isActive('columns'),
-          action: ({ editor, range }) => {
-            editor.chain().focus().deleteRange(range).activateMagic().run()
-          },
-        },
-      ],
-    })
-  }
-  if (hasIframes) {
-    
-    
-  }
   return groups
 }

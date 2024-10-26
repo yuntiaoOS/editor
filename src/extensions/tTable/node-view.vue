@@ -37,6 +37,8 @@ import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 // import { Button as TButton, EnhancedTable as TTable  } from 'tdesign-vue-next';
 import type { TableColumnController, TableProps } from 'tdesign-vue-next';
 
+import { getIngredient_dev_materialListFetch } from '@/api/material'
+import type { ingredient_dev_materialListResult } from '@/api/model/materialModel';
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
@@ -46,7 +48,7 @@ const tableRef = ref();
 const editableRowKeys = ref(['1']);
 const currentSaveId = ref('');
 // 保存变化过的行信息
-const editMap = {};
+const editMap :any = {};
 
 const data = ref([]) ;
 
@@ -74,13 +76,13 @@ const onEdit = (e: MouseEvent) => {
 // 更新 editableRowKeys
 const updateEditState = (id: string) => {
   console.log('--------updateEditState--------44--------',id)
-  const index = editableRowKeys.value.findIndex((t) => t === id);
+  const index = editableRowKeys.value.findIndex((t:string) => t === id);
   editableRowKeys.value.splice(index, 1);
 };
 const onCancel = (e: MouseEvent) => {
   console.log('--------onCancel--------44--------',e)
   const { id } = (e.currentTarget as HTMLElement).dataset;
-  updateEditState(id);
+  updateEditState(id as string);
   tableRef.value?.clearValidateData();
 };
 const onSave = (e: MouseEvent) => {
@@ -88,7 +90,7 @@ const onSave = (e: MouseEvent) => {
   const { id } = (e.currentTarget as HTMLElement).dataset;
   currentSaveId.value = id;
   // 触发内部校验，而后也可在 onRowValidate 中接收异步校验结果
-  tableRef.value.validateRowData(id).then((params) => {
+  tableRef.value.validateRowData(id).then((params:any) => {
     console.log('Event Table Promise Validate:', params);
     if (params.result.length) {
       const r = params.result[0];
@@ -176,7 +178,7 @@ const columnControllerConfig = computed(() => {
     // 列配置按钮位置
     placement: placement.value,
     // 用于设置允许用户对哪些列进行显示或隐藏的控制，默认为全部字段
-    fields: columns.value.map((item) => item.colKey),
+    fields: columns.value.map((item:any) => item.colKey),
     // 弹框组件属性透传
     dialogProps: { preventScrollThrough: true },
     // 列配置按钮组件属性透传
@@ -188,9 +190,9 @@ const columnControllerConfig = computed(() => {
 
 });
 
-const onRowEdit = (params) => {
+const onRowEdit = (params:any) => {
   const { row, col, value } = params;
-  const oldRowData = editMap[row.key]?.editedRow || row;
+  const oldRowData :any = editMap[row.key]?.editedRow || row;
   const editedRow = {
     ...oldRowData,
     [col.colKey]: value,
@@ -207,14 +209,17 @@ const onRowEdit = (params) => {
 };
 
 onMounted(() => {
+  getIngredient_dev_materialListFetch().then((res:ingredient_dev_materialListResult) => {
+    console.log('-------onMounted-----res-------', res)
+  });
   console.log('-------onMounted-----node-------', node.attrs.option)
   const optionAtt = node.attrs.option;
   if (optionAtt && optionAtt.fields) {
-    columns.value = optionAtt.fields.map((field) => ({
+    columns.value = optionAtt.fields.map((field:any) => ({
       colKey: field.key,
       title: field.title
     }));
-    displayColumns.value = optionAtt.fields.map((field) => field.key);
+    displayColumns.value = optionAtt.fields.map((field:any) => field.key);
   }
   if (optionAtt && optionAtt.data) {
     data.value = optionAtt.data

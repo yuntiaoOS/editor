@@ -193,6 +193,7 @@ export interface UmoEditorOptions {
   }
   toolbar?: ToolbarOptions
   page: PageOption
+  requestOptions?: Record<string, unknown>
   document?: DocumentOptions
   assistant?: AssistantOptions
   templates?: Template[]
@@ -220,3 +221,6 @@ export interface XmTitleModel {
 export interface XmTitlesModel {
   content: XmTitleModel[]
 }
+
+
+declare type Recordable<T = any> = Record<string, T>;

@@ -32,6 +32,10 @@ const options = $ref({
     // menus: ['base'],
     enableSourceEditor: true,
   },
+  requestOptions: {
+    domain: 'http://j.jcgf.com:8005/api',
+    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMDE1ODI1LCJpYXQiOjE3Mjk5Mjk0MjUsImp0aSI6IjRhOWQ3NThlYTE0ZTRmYWNiZTI2ZGViYzVkNTI1M2YwIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.7HsFVGwLTuWt9YSoNp2NAWiWfaQuf3xbD6ECKmPRcCc',
+  },
   document: {
     placeholder: '测试文档',
     content: localStorage.getItem('document.content') ?? "<p>请输入</p>",

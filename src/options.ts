@@ -362,6 +362,8 @@ const defaultOptions: UmoEditorOptions = {
     allowedMimeTypes: [],
     maxSize: 1024 * 1024 * 100, // 100M
   },
+  // http 请求配置
+  requestOptions: {},
   user: {},
   extensions: [],
   translations: {
@@ -647,6 +649,15 @@ const ojbectSchema = new ObjectSchema({
         required: false,
       },
     },
+  },
+  requestOptions: {
+    merge: 'replace',
+    validate(value) {
+      if (value && !isRecord(value)) {
+        throw new Error('Key "requestOptions" must be a object.')
+      }
+    },
+    required: false,
   },
   page: {
     merge: 'replace',

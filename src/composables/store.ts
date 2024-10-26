@@ -65,6 +65,13 @@ export const useStore = createGlobalState(() => {
     if (!$locale.value) {
       $locale.value = options.value.locale
     }
+
+    // 若有 requestOptions，则需要在此处存储 requestOptions domain 和 token 到 store 中
+    if (options.value.requestOptions) {
+      localStorage.setItem('domain', options.value.requestOptions.domain)
+      localStorage.setItem('token', options.value.requestOptions.token )
+    }
+
     return options.value
   }
 

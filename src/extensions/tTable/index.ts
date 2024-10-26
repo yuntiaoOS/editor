@@ -84,18 +84,18 @@ export default Node.create({
       ...this.parent?.()
     }
   },
-  onTransaction({ transaction ,editor}) {
+  onTransaction({ transaction ,editor}:any) {
     // 获取当前的选择
-    const selection = transaction.curSelection
+    const selection : any = transaction.curSelection
 
     // 检查选择的类型
     if (selection) {
-      const { $anchor, $head } = selection
+      const { $anchor, $head } :any = selection
 
       // 判断选择的类型
       if ($anchor.sameParent($head)) {
-        const parent = $anchor.parent
-        const type = parent.type.name
+        const parent :any = $anchor.parent
+        const type  :any= parent.type.name
 
         // console.log(`Current selection type: ${type}`,parent)
 

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, watch, nextTick } from 'vue'
+
 import type { MenuListProps } from './types'
 
 // 选中的索引
@@ -30,7 +30,7 @@ watch([() => selectedCommandIndex.value, () => selectedGroupIndex.value], async 
   }
 })
 
-function onKeyDown({ event }) {
+function onKeyDown({ event }:any) {
   if (event.key === 'ArrowUp') {
     upHandler()
     return true
@@ -124,7 +124,7 @@ function setActiveItemRef(groupIndex: number, commandIndex: number, el: any) {
           :style=" selectedGroupIndex === groupIndex && selectedCommandIndex === commandIndex
             ? 'background-color: #ffffff; color: #262626; ' :
             'background-color: #ffffff; color: #262626; transition: background-color 0.3s, color 0.3s;'"
-          :ref="el => setActiveItemRef(groupIndex, commandIndex, el)"
+          :ref="(el:any) => setActiveItemRef(groupIndex, commandIndex, el)"
           v-for="(command, commandIndex) in group.commands"
           :key="commandIndex"
           @click="createCommandClickHandler(groupIndex, commandIndex)"
