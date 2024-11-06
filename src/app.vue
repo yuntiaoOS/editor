@@ -1,7 +1,7 @@
 <template>
   <div class="box">
-    <UmoEditor ref="editorRef" v-bind="options" />
-    <!-- <UmoSimpleEditor ref="editorRef" v-bind="options" @change="changeEdit"/> -->
+    <!-- <UmoEditor ref="editorRef" v-bind="options" /> -->
+    <UmoSimpleEditor ref="editorRef" v-bind="options" @change="changeEdit"/>
   </div>
 </template>
 
@@ -33,8 +33,10 @@ const options = $ref({
     enableSourceEditor: true,
   },
   requestOptions: {
-    domain: 'http://j.jcgf.com:8005/api',
-    token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwMDE1ODI1LCJpYXQiOjE3Mjk5Mjk0MjUsImp0aSI6IjRhOWQ3NThlYTE0ZTRmYWNiZTI2ZGViYzVkNTI1M2YwIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.7HsFVGwLTuWt9YSoNp2NAWiWfaQuf3xbD6ECKmPRcCc',
+    experiment_theme: '67d221bc-9271-4844-9ed8-d9f387c8047e',
+    experiment_record: '6ee31887-bad3-4af7-a70d-c7831580e245',
+    umo_domain: 'http://id.zw.rzm.com',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwOTgwNjE0LCJpYXQiOjE3MzA4OTQyMTQsImp0aSI6Ijk3ODBiYjBkNjMwODRiM2E4Y2Q2MjAyNzEwODM5ZjY1IiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.3wYVyfiwR2fEZCZ_u2PTv205j5TWlSz2lyitYWvZYtA',
   },
   document: {
     placeholder: '测试文档',
@@ -623,11 +625,13 @@ const changeEdit = (data: any) => {
 
 onMounted(() => {
   // console.log('--------12------',editorRef.editorInstance.getJSON())
-  // editorRef.editorInstance.chain().focus().addXmTitle({key: 'erere', title: '试验背景：',content: '国内功效护肤成为美妆护肤的大趋势。在越来越多功效诉求的今天，越来越多消费者认可“功效护肤”理念，护肤品的成分与功效成为消费者在购买产品时的首要考虑因素' }).run()
+  editorRef.editorInstance.chain().focus().addXmTitle({key: 'erfsfere', title: '' }).run()
+  editorRef.editorInstance?.chain().focus().setColumns().focus(editorRef.editorInstance.state.selection.head - 1).run()
+  // editorRef.editorInstance.chain().focus().addXmTitleContent({key: 'erere', title: '试验背景：',content: '国内功效护肤成为美妆护肤的大趋势。在越来越多功效诉求的今天，越来越多消费者认可“功效护肤”理念，护肤品的成分与功效成为消费者在购买产品时的首要考虑因素' }).run()
 
-  // editorRef.editorInstance.chain().focus().addXmTitle({key: 'ewr', title: '试验目的：',content: '从传统医学和现代医学促进活性物吸收和效用的方法路径出发，开发一款物质清晰、机理明确、功效性强的促效方' }).run()
+  // editorRef.editorInstance.chain().focus().addXmTitleContent({key: 'ewr', title: '试验目的：',content: '从传统医学和现代医学促进活性物吸收和效用的方法路径出发，开发一款物质清晰、机理明确、功效性强的促效方' }).run()
 
-  // editorRef.editorInstance.chain().focus().addXmTitle({key: 'erfsfere', title: '试验内容：',content: '1、活性成分的筛选与提取' }).run()
+  // editorRef.editorInstance.chain().focus().addXmTitleContent({key: 'erfsfere', title: '试验内容：',content: '1、活性成分的筛选与提取' }).run()
  
 })
 

@@ -11,13 +11,15 @@ declare module '@tiptap/core' {
   }
 }
 
-export default Node.create({
+export default xmNode.create({
   name: 'atomUnselect',
   group: 'block',
   atom: true,
   selectable: false,
   addAttributes() {
+    const baseAttributes = xmNode.prototype.addAttributes.call(this);
     return {
+      ...baseAttributes,
       vnode: {
         default: true,
       },

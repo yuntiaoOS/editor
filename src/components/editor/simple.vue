@@ -75,7 +75,7 @@
 import Typography from '@tiptap/extension-typography'
 import { Editor, EditorContent, type Extension } from '@tiptap/vue-3'
 import type { Editor as CoreEditor } from '@tiptap/core'
-import Document from '@tiptap/extension-document'
+import { Document as TiptapDocument } from '@tiptap/extension-document'
 import Mathematics from '@tiptap-pro/extension-mathematics'
 import {
   isBoolean,
@@ -90,7 +90,15 @@ import type { GlobalConfigProvider } from 'tdesign-vue-next'
 import enConfig from 'tdesign-vue-next/esm/locale/en_US'
 import cnConfig from 'tdesign-vue-next/esm/locale/zh_CN'
 import { differenceBy, getCssUnitWithDefault, hasExtension, isEqual, throttle } from '@/utils/utils'
+import { get_experiment_theme_infoFetch,get_experiment_record_infoFetch } from '@/api/experiment'
+
+
 defineOptions({ name: 'UmoSimpleEditor' })
+
+const Document = TiptapDocument.extend({
+  content: '(block|columns)+',
+  // echo editor is a block editor
+})
 
 const props = defineProps(propsOptions)
 const emits = defineEmits([
@@ -128,12 +136,16 @@ const {
 setOptions(props)
 watch(
   () => props,
-  () => setOptions(props),
+  () => {
+    setOptions(props)
+  },
   { deep: true },
 )
 
 const $toolbar = useState('toolbar', props.editorKey)
 const $document = useState('document', props.editorKey)
+
+const $key_data = useState('key_data', props.editorKey)
 
 // i18n Setup
 // @ts-ignore
@@ -199,13 +211,74 @@ const editorInstance: Editor = new Editor({
   },
   onUpdate: throttle(({ editor }) => {
     let output = getOutput(editor, 'html')
-    emits('change')
+    emits('changed',{editor:editor,json: getOutput(editor, 'json') ,html: output})
     console.log('-------onUpdate---204-------', output,getOutput(editor, 'json'))
-  
-    isEmpty = editor.commands.setPlaceholder(options.value.document?.placeholder)
+    isEmpty = editor.commands.setPlaceholder('')
     isReady = true
     $document.value.content = editor.getHTML()
   }, 1000),
+  onTransaction: throttle(({ editor, transaction }:any) => {
+    // console.log(transaction, editor,'-------208---------transaction---------------')
+    const customTitleNode = editor.state.doc.nodeAt(0); // 假设标题是第一个节点
+   
+    if (transaction.docChanged) {
+      const interestedNodeTypes = ['xmTitle']
+      // 检查事务是否涉及到你感兴趣的节点
+      // 检查事务的步骤，判断是否有节点被删除
+      let nodeDeleted = false
+      let deletedNode :any = null
+      let deletedPosition :any = null
+
+      // 创建一个函数来检查变化
+      const checkChanges = (oldArr:any[], newArr:any[], interestedNodeTypes:string[])=> {
+        // 遍历 oldArr 和 newArr
+        for (let i = 0; i < oldArr.length; i++) {
+          if (interestedNodeTypes.includes(oldArr[i])) {
+            // 检查 newArr 中相同位置的项是否相同
+            if (oldArr[i] !== newArr[i]) {
+              console.log(`变化的是: ${oldArr[i]}`);
+              return oldArr[i];
+            }
+          }
+        }
+        console.log('没有变化');
+        return null;
+      }
+
+      transaction.steps.forEach((step:any) => {
+        // if (step instanceof ReplaceStep || step instanceof ReplaceAroundStep) {
+          const { from, to } = step
+          const oldNode = transaction.before.nodeAt(from)
+          const newNode = transaction.doc.nodeAt(from)
+          console.log('transaction from, to:',transaction.before,transaction.doc,from, to,newNode, oldNode)
+          const oldTypeArr = transaction.before.content.content.map((node:any) => node.type.name)
+          const newTypeArr = transaction.doc.content.content.map((node:any) => node.type.name)
+          const oldType = checkChanges(oldTypeArr, newTypeArr, interestedNodeTypes)
+          if ((oldNode && !newNode)  || (transaction.before.childCount > transaction.doc.childCount)
+            || (transaction.before.childCount === transaction.doc.childCount && oldNode?.type.name !== newNode?.type.name)
+            || oldType ) {
+            if (interestedNodeTypes.includes(oldNode?.type.name) || oldType) {
+              nodeDeleted = true
+              deletedNode = oldNode
+              deletedPosition = from
+              console.log('A node was deleted:', oldNode)
+              // 你可以在这里添加更多的逻辑来处理节点删除事件
+            }
+          }
+        // }
+      })
+
+      if (nodeDeleted) {
+        console.log('Transaction involved node deletion')
+        useMessage('warning', '该节点不能被删除')
+        // 创建一个新的交易来恢复被删除的节点
+        const tr :any = editor.state.tr
+        tr.insert(deletedPosition, deletedNode)
+        // 将新的交易分发到编辑器视图中，从而恢复被删除的节点。
+        editor.view.dispatch(tr)
+      }
+    }
+  },1000),
   // onUpdate({ editor }) {
   //   isEmpty = editor.commands.setPlaceholder('')
   //   isReady = true
@@ -243,20 +316,61 @@ const loadTatexStyle = () => {
     document.querySelector('head')?.append(style)
   }
 }
+const setToolbar = (params: { mode: 'classic' | 'ribbon'; show: boolean }) => {
+  if (!isRecord(params)) {
+    throw new Error('params must be an object.')
+  }
+  if (params.mode) {
+    if (!isString(params.mode)) {
+      throw new Error('"params.mode" must be a string.')
+    }
+    if (!['classic', 'ribbon'].includes(params.mode)) {
+      throw new Error('"params.mode" must be one of "classic" or "ribbon".')
+    }
+    $toolbar.value.mode = params.mode
+  }
+  if (isDefined(params.show)) {
+    if (!isBoolean(params.show)) {
+      throw new Error('"params.show" must be a boolean.')
+    }
+    $toolbar.value.show = params.show
+  }
+}
 
-onMounted(loadTatexStyle)
+onMounted(()=>{
+  loadTatexStyle()
+  if (options.value?.requestOptions) {
+    if (options.value.requestOptions.experiment_theme) {
+      get_experiment_theme_infoFetch(options.value.requestOptions.experiment_theme).then((res:any) => {
+        console.log('-----------------experiment_record--------------',res)
+        $key_data.value.experiment_theme = res
+      })
+    }
+    if (options.value.requestOptions.experiment_record) {
+      get_experiment_record_infoFetch(options.value.requestOptions.experiment_record).then((res:any) => {
+        console.log('-----------------experiment_record--------------',res)
+        $key_data.value.experiment_record = res
+
+      })
+    }
+  }
+})
 // 销毁编辑器实例
 onBeforeUnmount(() => {
   editorInstance.destroy()
 })
 defineExpose({
   editorInstance,
+  setToolbar
 })
 </script>
 
 <style lang="less" scoped>
 @import '@/assets/styles/editor.less';
 @import '@/assets/styles/drager.less';
+.umo-editor-container {
+  min-height: 100px;
+}
 .umo-zoomable-container {
   flex: 1;
   scroll-behavior: smooth;

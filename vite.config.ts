@@ -4,6 +4,7 @@ import type { RollupWarning } from 'rollup'
 import AutoImport from 'unplugin-auto-import/vite'
 import { TDesignResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
+import vueJsx from '@vitejs/plugin-vue-jsx';
 import VueMacros from 'unplugin-vue-macros/vite'
 import { defineConfig } from 'vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
@@ -83,6 +84,7 @@ const cssConfig = {
 export default defineConfig({
   base: '/umo-editor',
   plugins: [
+    vueJsx(),
     tsConfigPaths(),
     ReactivityTransform(),
     ...Object.values(vuePlugins),

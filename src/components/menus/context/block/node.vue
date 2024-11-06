@@ -30,6 +30,32 @@
         />
       </t-dropdown-item>
       <t-dropdown-item class="umo-block-menu-group-name" disabled>
+         插入数据表格 
+      </t-dropdown-item>
+      <t-dropdown-item >
+        <menus-button
+          ico="t-table"
+          text="原材料表格"
+          :tooltip="false"
+          @menu-click="editor?.chain().focus().addRaw_material_tables().run()"
+        />
+      </t-dropdown-item>
+      <t-dropdown-item  >
+        <menus-button
+          ico="t-table"
+          text="工艺表格"
+          :tooltip="false"
+          @menu-click="editor?.chain().focus().addTechnology_tables().run()"
+        />
+      </t-dropdown-item>
+      <t-dropdown-item divider >
+        <menus-button
+          ico="t-table"
+          :text="t('insert.tTable')"
+          :tooltip="false"
+        />
+      </t-dropdown-item>
+      <t-dropdown-item class="umo-block-menu-group-name" disabled>
         {{ t('blockMenu.insert') }}
       </t-dropdown-item>
       <t-dropdown-item :divider="options.templates?.length === 0">
@@ -323,10 +349,10 @@ const toggleNodeType = (
 }
 
 onMounted(() => {
-  options.value.getEntityFormMethod().then((res:any) =>{
-    console.log('----222-----getEntityFormMethod--------------',res)
-    formList.value = res
-  })
+  // options.value.getEntityFormMethod().then((res:any) =>{
+  //   console.log('----222-----getEntityFormMethod--------------',res)
+  //   formList.value = res
+  // })
 });
 
 defineExpose({

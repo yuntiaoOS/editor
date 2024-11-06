@@ -8,6 +8,8 @@
     "allowJs": true,
     "noEmit": true,
     "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
     "moduleResolution": "bundler",
     "experimentalDecorators": true,
     "resolveJsonModule": true,

@@ -49,9 +49,15 @@ import OrderedList from './ordered-list'
 import Placeholder from './placeholder'
 // 自定义数据表格
 import Ttable from './tTable'
+import raw_material_table from './ingredient_dev/raw_material_table'
+import technology_table from './ingredient_dev/technology_table'
 // 自定义不能选中移动的节点
 import atomUnselect from './atom-unselect'
+import xmTitleContent from './xm-title-content'
 import xmTitle from './xm-title'
+
+// 左右块布局
+import { Columns, Column } from './MultiColumn'
 // 其他
 import Selection from './selection'
 import TableCell from './table-cell'
@@ -87,8 +93,12 @@ export const extensions = [
   FormatPainter,
   FontFamily,
   Ttable,
+  raw_material_table,
+  technology_table,
   atomUnselect,
   xmTitle,
+  xmTitleContent,
+  Columns, Column,
   FontSize,
   Bold.extend({
     renderHTML: ({ HTMLAttributes }) => ['b', HTMLAttributes, 0],

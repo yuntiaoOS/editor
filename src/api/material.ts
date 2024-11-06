@@ -1,5 +1,5 @@
 import { request } from '@/utils/request';
-import type { ingredient_dev_materialListResult } from '@/api/model/materialModel';
+import type { IngredientDevMaterialListResult } from '@/api/model/materialModel';
 
 const Api = {
   'ingredient_dev_material': '/tenant/current/', // '/ingredient_dev/material/', // 原料
@@ -8,7 +8,7 @@ const Api = {
 };
 
 export function getIngredient_dev_materialListFetch() {
-  return request.get<ingredient_dev_materialListResult>({
+  return request.get<IngredientDevMaterialListResult>({
     url: Api.ingredient_dev_material,
   });
 }

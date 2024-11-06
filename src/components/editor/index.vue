@@ -85,6 +85,7 @@ const editorInstance: Editor = new Editor({
     isEmpty = editor.commands.setPlaceholder('')
   },
   onUpdate({ editor }) {
+    console.log('-----------------',editor.getJSON())
     isEmpty = editor.commands.setPlaceholder('')
     isReady = true
     $document.value.content = editor.getHTML()

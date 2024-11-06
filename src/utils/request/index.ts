@@ -14,8 +14,6 @@ enum ContentTypeEnum {
   FormData = 'multipart/form-data;charset=UTF-8',
 }
 
-const TOKEN_NAME = 'token';
-
 // 数据处理，方便区分多种处理方式
 const transform: AxiosTransform = {
   // 处理请求数据。如果数据不是预期格式，可直接抛出错误
@@ -69,7 +67,7 @@ const transform: AxiosTransform = {
     if (apiUrl && isString(apiUrl)) {
       config.url = `${apiUrl}${config.url}`;
     }else{
-      config.url = `${localStorage.getItem('domain')}${config.url}`;
+      config.url = `${localStorage.getItem('umo_domain')}${config.url}`;
     }
     const params = config.params || {};
     const data = config.data || false;
@@ -118,7 +116,7 @@ const transform: AxiosTransform = {
   requestInterceptors: (config, options) => {
     console.log('---------------requestInterceptors-----119-----', config,options);
     // 请求之前处理config
-    const token = localStorage.getItem(TOKEN_NAME);
+    const token = localStorage.getItem('umo_token');
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
       // jwt token
       (config as Recordable).headers.Authorization = options.authenticationScheme
@@ -172,13 +170,12 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         // 配置项，下面的选项都可以在独立的接口请求中覆盖
         requestOptions: {
           // 接口地址
-          apiUrl: localStorage.getItem('domain') ,
+          apiUrl: localStorage.getItem('umo_domain') ,
           // 是否自动添加接口前缀
           isJoinPrefix: true,
           // 接口前缀
           // 例如: https://www.baidu.com/api
-          // urlPrefix: '/api'
-          urlPrefix: import.meta.env.VITE_API_URL_PREFIX,
+          urlPrefix: '/api',
           // 是否返回原生响应头 比如：需要获取响应头时使用该属性
           isReturnNativeResponse: false,
           // 需要对返回数据进行处理

@@ -52,6 +52,11 @@
     />
     <menus-bubble-node-delete />
   </template>
+  <template v-else-if="editor?.isActive('columns') || editor?.isActive('column')">
+    <menus-bubble-columns-left />
+    <menus-bubble-columns-two />
+    <menus-bubble-columns-right />
+  </template>
   <template
     v-else-if="
       editor?.isActive('video') ||

@@ -95,6 +95,9 @@
           <menus-toolbar-insert-template />
           <menus-toolbar-insert-web-page />
         </div>
+        <div class="umo-virtual-group">
+          <menus-toolbar-insert-columns />
+        </div>
         <div class="virtual-group is-slot">
           <slot name="toolbar_insert" toolbar-mode="classic" />
         </div>

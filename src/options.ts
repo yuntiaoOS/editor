@@ -389,11 +389,11 @@ const defaultOptions: UmoEditorOptions = {
       'The file has been deleted. Please configure the onFileDelete to completely delete the file from the server.',
     )
   },
-  async getEntityFormMethod() {
-    return await new Promise((_, reject) => {
-      reject(new Error('Key "getEntityFormMethod": Please set the getEntityFormMethod method'))
-    })
-  },
+  // async getEntityFormMethod() {
+  //   return await new Promise((_, reject) => {
+  //     reject(new Error('Key "getEntityFormMethod": Please set the getEntityFormMethod method'))
+  //   })
+  // },
   async onAssistant() {
     return await new Promise((_, reject) => {
       reject(new Error('Key "onAssistant": Please set the onAssistant method'))
@@ -1027,15 +1027,15 @@ const ojbectSchema = new ObjectSchema({
     },
     required: false,
   },
-  getEntityFormMethod: {
-    merge: 'replace',
-    validate(value: AsyncFunction) {
-      if (!isAsyncFunction(value)) {
-        throw new Error('Key "getEntityFormMethod" must be a async function.')
-      }
-    },
-    required: false,
-  },
+  // getEntityFormMethod: {
+  //   merge: 'replace',
+  //   validate(value: AsyncFunction) {
+  //     if (!isAsyncFunction(value)) {
+  //       throw new Error('Key "getEntityFormMethod" must be a async function.')
+  //     }
+  //   },
+  //   required: false,
+  // },
   onFileDelete: {
     merge: 'replace',
     validate(value: any) {

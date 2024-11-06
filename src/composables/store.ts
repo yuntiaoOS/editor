@@ -66,10 +66,10 @@ export const useStore = createGlobalState(() => {
       $locale.value = options.value.locale
     }
 
-    // 若有 requestOptions，则需要在此处存储 requestOptions domain 和 token 到 store 中
+    // 若有 requestOptions，则需要在此处存储 requestOptions umo_domain 和 umo_token 到 store 中
     if (options.value.requestOptions) {
-      localStorage.setItem('domain', options.value.requestOptions.domain)
-      localStorage.setItem('token', options.value.requestOptions.token )
+      localStorage.setItem('umo_domain', options.value.requestOptions.umo_domain)
+      localStorage.setItem('umo_token', options.value.requestOptions.umo_token )
     }
 
     return options.value

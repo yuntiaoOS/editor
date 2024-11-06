@@ -105,6 +105,9 @@
             <menus-toolbar-insert-web-page />
           </div>
           <div class="umo-virtual-group">
+            <menus-toolbar-insert-columns />
+          </div>
+          <div class="umo-virtual-group">
             <menus-toolbar-insert-tTable />
           </div>
           <div class="virtual-group is-slot">

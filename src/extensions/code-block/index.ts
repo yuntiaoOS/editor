@@ -14,6 +14,7 @@ declare module '@tiptap/core' {
 export default Node.create({
   name: 'codeBlock',
   group: 'block',
+  // selectable: false,
   atom: true,
   addAttributes() {
     return {

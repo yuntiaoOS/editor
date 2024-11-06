@@ -213,14 +213,31 @@ export interface UmoEditorOptions {
   getEntityFormMethod?: (id: string) => Promise<unknown>
 }
 
-export interface XmTitleModel {
+export interface XmTitleContentModel {
   title: string
   content: string
 }
 
-export interface XmTitlesModel {
-  content: XmTitleModel[]
+export interface XmTitleContentsModel {
+  content: XmTitleContentModel[]
 }
 
 
 declare type Recordable<T = any> = Record<string, T>;
+
+export interface XmTableOptionModel<T> {
+  data_key: string
+  table_data?: T
+  option?: T
+}
+
+export interface GeneralOptions<T> {
+  /** Enabled divider */
+  divider: boolean
+  /** Enabled spacer */
+  spacer: boolean
+  /** Button view function */
+  button: ButtonView<T>
+  /** Show on Toolbar */
+  toolbar?: boolean
+}

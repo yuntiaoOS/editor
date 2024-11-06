@@ -1,7 +1,4 @@
-export interface ingredient_dev_materialListResult {
-  list: Array<ingredient_dev_materialListInfo>;
-}
-export interface ingredient_dev_materialListInfo {
+export interface IngredientDevMaterialListInfo {
   adminName: string;
   index: string;
   pdName: string;
@@ -9,5 +6,9 @@ export interface ingredient_dev_materialListInfo {
   pdType: string;
   purchaseNum: number;
   updateTime: Date;
+}
+
+export interface IngredientDevMaterialListResult {
+  list: IngredientDevMaterialListInfo[];
 }
 
