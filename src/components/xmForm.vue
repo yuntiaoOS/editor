@@ -1,6 +1,6 @@
 <template>
   <t-form
-    ref="form" :layout="_config.formConfig.layout"
+    ref="formRef" :layout="_config.formConfig.layout"
     :colon="_config.formConfig.colon"
     :label-align="_config.formConfig.labelPos"
     :label-width="_config.formConfig.labelWidth"
@@ -201,6 +201,8 @@ const errorMessage = {
   validator: '${name}有误',
 };
 
+const formRef = ref()
+
 const _formData = computed({
   get: () => props.formData,
   set: (val:any) => {
@@ -215,4 +217,7 @@ const _config = computed({
   }
 })
 
+defineExpose({
+  formRef
+})
 </script>

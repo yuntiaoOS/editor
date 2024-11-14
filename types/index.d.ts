@@ -230,6 +230,10 @@ export interface XmTableOptionModel<T> {
   table_data?: T
   option?: T
   title?: string
+  designParams?: T[]
+  designResult?: T[]
+  designParam: T
+  columns?: T[]
 }
 
 export interface GeneralOptions<T> {

@@ -8,19 +8,19 @@
       destroy-on-close 
       :close-on-overlay-click="false"
       header="选择原材料表及工艺表" :cancel-btn="null"
-      width="80%" attach="body"
+      width="600" attach="body"
       :confirm-on-enter="true"
       :on-confirm="on_select_designFunc"
     >
       <t-form ref="select_design_form" :rules="FORM_RULES" :data="selectTableForm" :colon="true" >
         <t-form-item label="原材料表" name="raw_material">
-          <t-select v-model="select_design_form.raw_material" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
-            <t-option v-for="item in raw_materialOptions" :key="item.value" :value="item.value" :label="item.label"></t-option>
+          <t-select v-model="selectTableForm.raw_material" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
+            <t-option v-for="item in raw_materialOptions" :key="item.id" :value="item.id" :label="item.title"></t-option>
           </t-select>
         </t-form-item>
         <t-form-item label="工艺表" name="technology">
-          <t-select v-model="select_design_form.technology" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
-            <t-option v-for="item in technologyOptions" :key="item.value" :value="item.value" :label="item.label"></t-option>
+          <t-select v-model="selectTableForm.technology" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
+            <t-option v-for="item in technologyOptions" :key="item.id" :value="item.id" :label="item.title"></t-option>
           </t-select>
         </t-form-item>
       </t-form>
@@ -41,7 +41,7 @@
 
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
-
+import { v4 as uuid } from 'uuid'
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
 const { options } = useStore()
@@ -62,66 +62,7 @@ const select_material = ref([])
 
 const _designParams = computed({
   get: () => {
-    const oldDesignParams = node.attrs.designParams
-    console.log('------116--------oldDesignParams------',oldDesignParams)
-    const docD = editor.getJSON()
-    let designParams = []
-    if (docD) {
-      // 原材料表
-      const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
-      // 工艺表
-      const technology_tables = docD.content.filter(ele=> ele.type === 'technology_table')
-      if (technology_tables.length > 0) {
-        const [technology_table] = technology_tables
-        const table_data  = technology_table.attrs.table_data.map(eleT => eleT.list)
-        console.log('--------_designParams--------123--------',table_data)
-        let material_options = []
-        if (raw_material_tables.length > 0) {
-          const [raw_material_table] = raw_material_tables
-          console.log('-------130-------raw_material_table----------',raw_material_table)
-          console.log('-------131-------raw_material_table----------',raw_material_table.attrs.table_data)
-          material_options = Object.assign([],raw_material_table.attrs.table_data).map(ele=> { return { ...ele,name: ele.material.name + '/' + ele.material.sn } }) 
-        }
-        if (table_data.length > 0) {
-          
-          designParams = table_data.reduce((a, b) => a.concat(b)).map(eleT => { 
-            if (eleT.key === XM_raw_material_key) {
-              return { 
-                ...eleT,step:'',check:true,
-                raw_material: raw_material_tables[0].attrs.key,
-                technology: technology_tables[0].attrs.key,
-                type: 'SelectPlus',
-                label: eleT.name,
-                value: eleT.id,
-                props: {
-                  ...eleT.props,
-                  labelKey: 'name',
-                  valueKey: 'id',
-                  options: material_options
-                },
-              }
-            } else {
-              return {...eleT,step:'',check:true}
-            }
-            
-          })
-          nextTick(()=>{
-            if (oldDesignParams && oldDesignParams.length > 0) {
-              // 遍历数组 b，查找并更新数组 a 中的对象
-              oldDesignParams.forEach(itemB => {
-                const itemA = designParams.find(itemA => itemA.id === itemB.id);
-                if (itemA) {
-                  itemA.step = itemB.step;
-                }
-              });
-            }
-          })
-        }
-      }
-    }else {
-      designParams = oldDesignParams
-    }
-    return designParams
+    return node.attrs.designParams
   },
   set(value) {
     console.log('------172--------updateAttributes({ designParams: value })------',value)
@@ -145,15 +86,58 @@ const table_data = computed({
   },
 })
 
+const getDesignParams = () => {
+  const oldDesignParams = [..._designParams.value]
+  console.log('------116--------oldDesignParams------',oldDesignParams)
+  let designParams = []
+  console.log('--------_designParams--------93--------',technologyOptions.value,raw_materialOptions.value)
+  const technology_table_data = technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).table_data.map(eleT => eleT.list).reduce((a, b) => a.concat(b)).filter(item => item.type && item.type.length > 0 )
+  const material_table_data = raw_materialOptions.value.find(ele=> ele.id === selectTableForm.value.raw_material).table_data.map(ele=> { return { ...ele,name:`${ele.material.name}/${ele.material.sn}` } }) 
+  console.log('--------_designParams--------123--------',technology_table_data,material_table_data)
+  if (technology_table_data && material_table_data) {
+    designParams = technology_table_data.map(eleT => { 
+      if (eleT.key === XM_raw_material_key) {
+        return { 
+          ...eleT,step:'',check:true,
+          raw_material: selectTableForm.value.raw_material,
+          technology: selectTableForm.value.technology,
+          type: 'SelectPlus',
+          label: eleT.name,
+          value: eleT.id,
+          props: {
+            ...eleT.props,
+            labelKey: 'name',
+            valueKey: 'id',
+            options: material_table_data
+          },
+        }
+      } else {
+        return {...eleT,step:'',check:true}
+      }
+      
+    })
+    if (oldDesignParams && oldDesignParams.length > 0) {
+      // 遍历数组 b，查找并更新数组 a 中的对象
+      oldDesignParams.forEach(itemB => {
+        const itemA = designParams.find(itemA => itemA.id === itemB.id);
+        if (itemA) {
+          itemA.step = itemB.step;
+        }
+      });
+    }
+  }
+  console.log('--------_designParams--------129--------',designParams)
+  return designParams
+}
+
 const on_select_designFunc = ()=>{
-  formRef.value?.validate({ showErrorMessage: true }).then((validateResult) => {
+  select_design_form.value?.validate({ showErrorMessage: true }).then((validateResult) => {
     if (validateResult && Object.keys(validateResult).length) {
       const firstError = Object.values(validateResult)[0]?.[0]?.message;
       useMessage('warning',firstError)
     }else{
-      add_dialog_visible.value = false;
-      const newData = { ...formData.value };
-      _designResult.value.push(newData);
+      _designParams.value = getDesignParams()
+      experimental_design_visible.value = true;
     }
   })
   select_design_visible.value = false
@@ -165,86 +149,53 @@ const onSelectChange = ({value, params} )=>{
 }
 
 const on_experimental_designFunc = ()=>{
-  
   const selectData = designResult.value.filter(ele=> ele.check)
   if (selectData.length > 0) {
-    
+    table_data.value = []
     selectData.forEach((ele ,index) => {
       const obj  = {
         ...ele,
+        id: uuid(),
+        raw_material: ele.id,
         sn: `S-00${index + 1}`,
         count: '0',
       }
       table_data.value.push(obj)
     });
+
+    editor.commands.setTextSelection(editor.state.doc.content.size)
+    editor.commands.addSample_tables({ table_data:table_data.value,designParams:[ ..._designParams.value]})
+
     experimental_design_visible.value = false
   }else{
     TMessagePlugin.warning('请选择需要添加的数据')
   }
-  nextTick(()=>{
-    updateAttributes({ designParams:[ ..._designParams.value] })
-  })
+  // nextTick(()=>{
+  //   updateAttributes({ designParams:[ ..._designParams.value] })
+  // })
   
   console.log('--------on_experimental_designFunc--------119--------',_designParams.value,designResult.value)
 }
 
 const initialize = () => {
   const docD = editor.getJSON()
-  let designParams = []
   if (docD) {
     // 原材料表
     const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
+    if (raw_material_tables.length === 0) {
+      TMessagePlugin.warning('请先创建原材料表')
+      return  // 原材料表不存在，返回
+    }
     // 工艺表
     const technology_tables = docD.content.filter(ele=> ele.type === 'technology_table')
-    if (technology_tables.length > 0) {
-      const technology_table = technology_tables[0]
-      const table_data  = technology_table.attrs.table_data.map(eleT => eleT.list)
-      console.log('--------_designParams--------123--------',table_data)
-      let material_options = []
-      if (raw_material_tables.length > 0) {
-        const raw_material_table = raw_material_tables[0]
-        console.log('-------130-------raw_material_table----------',raw_material_table)
-        console.log('-------131-------raw_material_table----------',raw_material_table.attrs.table_data)
-        material_options = Object.assign([],raw_material_table.attrs.table_data).map(ele=> { return { ...ele,name: ele.material.name + '/' + ele.material.sn } }) 
-      }
-      if (table_data.length > 0) {
-        
-        designParams = table_data.reduce((a, b) => a.concat(b)).map(eleT => { 
-          if (eleT.key === XM_raw_material_key) {
-            return { 
-              ...eleT,step:'',check:true,
-              raw_material: raw_material_tables[0].attrs.key,
-              technology: technology_tables[0].attrs.key,
-              type: 'SelectPlus',
-              label: eleT.name,
-              value: eleT.id,
-              props: {
-                ...eleT.props,
-                labelKey: 'name',
-                valueKey: 'id',
-                options: material_options
-              },
-            }
-          } else {
-            return {...eleT,step:'',check:true}
-          }
-          
-        })
-        nextTick(()=>{
-          if (oldDesignParams && oldDesignParams.length > 0) {
-            // 遍历数组 b，查找并更新数组 a 中的对象
-            oldDesignParams.forEach(itemB => {
-              const itemA = designParams.find(itemA => itemA.id === itemB.id);
-              if (itemA) {
-                itemA.step = itemB.step;
-              }
-            });
-          }
-        })
-      }
+    if (technology_tables.length === 0) {
+      TMessagePlugin.warning('请先创建工艺表')
+      return  // 工艺表不存在，返回
     }
+    raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
+    technologyOptions.value = technology_tables.map(ele=> ele.attrs)
   }else {
-    designParams = oldDesignParams
+    TMessagePlugin.warning('当前文档中没有数据错误')
   }
 }
 

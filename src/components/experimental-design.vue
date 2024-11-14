@@ -30,7 +30,7 @@
               </template>
             </t-list-item>
           </t-list>
-          <t-space style="line-height: 32px;">正交：{{_designParams.length}} x    <t-input v-model="cycleNumber" auto-width borderless  style="border-bottom: 1px solid var(--td-border-level-2-color);"/>     (前边{{_designParams.length}}是选择的因数数量，后边我是需要正交的次数需要手动填写) </t-space>
+          <t-space style="line-height: 32px;">正交：{{_designParams.length}} x    <t-input-number v-model="cycleNumber" theme="column" :max="100" :min="1" auto-width borderless  style="border-bottom: 1px solid var(--td-border-level-2-color);" @blur="blurCycleNumberFunc"/>     (前边{{_designParams.length}}是选择的因数数量，后边我是需要正交的次数需要手动填写) </t-space>
           <t-space v-if="current === 1" align="center">
             <t-button size="small" variant="text" @click="current--"> 上一步 </t-button>
             <t-button size="small" variant="base" @click="makeTableFunc"> 下一步 </t-button>
@@ -76,14 +76,6 @@
     :on-confirm="onSubmit"
   >
     <xm-form ref="xmformRef"  v-model:form-data="formData" :show-submit-btn="false" :config="form_config" :on-submit="onSubmit"/>
-
-    <!-- <t-form ref="formRef" :data="formData" :colon="true" @reset="onReset" @submit="onSubmit">
-      <template v-for="(item, index) in _designParams" :key="index">
-        <t-form-item :label="item.name" :name="item.key" :rules="[ { required: true, message: '必填', type: 'error' , trigger: 'blur'} ]">
-          <t-input v-model="formData[item.key]" placeholder="请输入" ></t-input>
-        </t-form-item>
-      </template>
-    </t-form> -->
   </t-dialog>
 </template>
 
@@ -164,15 +156,6 @@ const _designResult = computed({
 
 const _designParams = ref([])
 
-// computed({
-//   get() {
-//     return props.designParams;
-//   },
-//   set(value) {
-//     console.log('-------_designParams-------------',value);
-//     emits('update:designParams', value);
-//   },
-// });
 watch(_designParams.value, (val) => {
   if (val && val.length > 0) {
     console.log('-------_designParams-------------',val);
@@ -199,8 +182,13 @@ const onSelectChange = (value, params) => {
   });
 };
 
+const blurCycleNumberFunc = (val) => {
+  if (Number(val) > 100) cycleNumber.value = 100;
+  if (Number(val) < 1) cycleNumber.value = 1;
+}
+
 const onAdd = () => {
-  form_config.value.formItems = _designParams.value;
+  form_config.value.formItems = _designParams.value.map((item) => { return {...item, title: item.name } });
   for (const key in _designParams.value) {
     if (Object.prototype.hasOwnProperty.call(_designParams.value, key)) {
       const designItem = _designParams.value[key];
@@ -213,14 +201,16 @@ const onAdd = () => {
 }
 
 const onSubmit = () => {
-  formRef.value?.validate({ showErrorMessage: true }).then((validateResult) => {
+  console.log('-------formData----------', xmformRef.value);
+  xmformRef.value.formRef.validate({ showErrorMessage: true }).then((validateResult) => {
     if (validateResult && Object.keys(validateResult).length) {
       const firstError = Object.values(validateResult)[0]?.[0]?.message;
       useMessage('warning',firstError)
     }else{
       add_dialog_visible.value = false;
-      const newData = { ...formData.value };
+      const newData = { ...formData.value,id: uuid(), check: true };
       _designResult.value.push(newData);
+      selectedRowKeys.value = [...selectedRowKeys.value, newData.id]
     }
   })
 

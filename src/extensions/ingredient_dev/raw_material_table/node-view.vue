@@ -21,7 +21,7 @@
         <template #type-slot-sort="{ col, row , rowIndex}">
           <t-space>
             <t-icon v-if="rowIndex!==0" name="order-ascending" size="18px"></t-icon>
-            <div v-elae></div>
+            <div v-else></div>
             <t-icon v-if="rowIndex!==table_data.length-1" name="order-descending" size="18px"></t-icon>
           </t-space>
 

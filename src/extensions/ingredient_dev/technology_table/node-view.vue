@@ -24,22 +24,6 @@
       </t-enhanced-table>
       <node-view-content :node="node" ></node-view-content> 
     </div>
-    <t-dialog 
-      v-model:visible="workingProcedureVisible"
-      header="添加工序"
-      width="80%" attach="body"
-      :confirm-on-enter="true"
-      :on-confirm="onWorkingProcedureConfirmFunc">
-      <defaultSelect v-if="workingProcedureVisible" :columns="workingProcedureColumns" :fetchDataFunc="getMaterial_batchListFetch" @select-change="onWorkingProcedureSelectChange"/>
-    </t-dialog>
-    <t-dialog 
-      v-model:visible="operationVisible"
-      header="添加操作"
-      width="80%" attach="body"
-      :confirm-on-enter="true"
-      :on-confirm="onOperationConfirmFunc">
-      <defaultSelect v-if="operationVisible" @select-change="onOperationSelectChange"/>
-    </t-dialog>
     <t-dialog
       v-model:visible="dialog_visible"
       header="表格列配置"
@@ -94,28 +78,6 @@ const operationVisible = ref(false);
 const selectWorkingProcedure = ref([])
 const selectOperation = ref([])
 
-const workingProcedureColumns = [
-  {
-    colKey: 'row-select',
-    type: 'multiple',
-    width: 46,
-  },
-  {
-    colKey: 'material',
-    title: '名称',
-    render(h, { type, row: { material} }) {
-      return material ? `${material.name}` : '-';
-    },
-    minWidth: 120,
-  },
-  {
-    colKey: 'description',
-    title: '描述',
-    ellipsis: true,
-    minWidth: 140,
-  },
-];
-
 const operationOption = ref([])
 const searchTitle = ref('')
 
@@ -141,10 +103,10 @@ const renderOperationIcon = () => {
   return <t-icon name="adjustment" />;
 };
 const renderArrowUp = () => {
-  return <t-icon name="arrow-up" />;
+  return <t-icon name="arrow-left-up" />;
 };
 const renderArrowDown = () => {
-  return <t-icon name="arrow-down" />;
+  return <t-icon name="arrow-left-down" />;
 };
 const renderDelete = () => {
   return <t-icon name="delete" />;
@@ -155,7 +117,6 @@ const pagination = ref({
   total: 0,
   page: 1,
 });
-const selectLoading = ref(false);
 
 const columnsCheckboxs = ref([])
 
@@ -280,33 +241,6 @@ const getOperationOptionFunc = async (page=1) => {
 
 getOperationOptionFunc()
 
-function getFormattedIndex(index, row, prefix = "") {
-  const parentIndex = prefix ? `${prefix}.` : "";
-  const currentIndex = `${parentIndex}${index + 1}`;
-
-  // 如果有子节点，递归生成子节点的序号
-  if (row.list && row.list.length > 0) {
-    row.list.forEach((child, childIndex) => {
-      child.serial_index = getFormattedIndex(childIndex, child, currentIndex);
-    });
-  }
-  console.log('---------currentIndex---270------',currentIndex,row)
-  return currentIndex;
-}
-
-const handleScrollToBottom = () => {
-  if (loading.value) {
-    return;
-  }
-  loading.value = true;
-  const { page, limit, total } = pagination.value;
-  if (page * limit >= total) {
-    loading.value = false;
-    return;
-  }
-  pagination.value.page++;
-  getOperationOptionFunc(pagination.value.page);
-}
 
 function updateTableData(tableData, newRowData) {
   const data = tableData.map(item => {
@@ -533,43 +467,7 @@ function onAddWorkingProcedure(row=undefined) {
   })
 }
 
-const onWorkingProcedureSelectChange = ({value, params} )=>{
-  // console.log('--------onSelectChange--------44--------',value, params)
-  selectWorkingProcedure.value = params.selectedRowData
-}
 
-const onOperationSelectChange = ({value, params} )=>{
-  // console.log('--------onSelectChange--------44--------',value, params)
-  selectOperation.value = params.selectedRowData
-}
-
-const onWorkingProcedureConfirmFunc = ()=>{
-  selectWorkingProcedure.value.forEach((ele ) => {
-    const obj  = {
-      ...ele,
-      name: ele.material.name,
-      defaultValue:'',
-    }
-    tableRef.value.appendTo('', obj);
-    // if (table_data.value.length === 0) {
-    //   table_data.value.push(obj)
-    // }
-    getTreeNode()
-  });
-  workingProcedureVisible.value = false
-}
-
-const onOperationConfirmFunc = ()=>{
-  selectOperation.value.forEach((ele ) => {
-    const obj  = {
-      ...ele,
-      name: ele.material.name,
-      defaultValue:'',
-    }
-    table_data.value.push(obj)
-  });
-  operationVisible.value = false
-}
 const lazyLoadingData = ref(null);
 
 // 非必须，如果不传，表格有内置树形节点展开逻辑
@@ -675,17 +573,7 @@ const columnEditFunc = ()=>{
   displayColumnsC.value = [ ...displayColumns.value ]
   dialog_visible.value = true
 }
- 
-const onRowToggle= () => {
-  const rowIds = ['申请人 1_1 号', '申请人 2_1 号', '申请人 3_1 号', '申请人 4_1 号'];
-  rowIds.forEach((id) => {
-    // getData 参数为行唯一标识，lodash.get(row, rowKey)
-    const rowData = tableRef.value.getData(id);
-    tableRef.value.toggleExpandData(rowData);
-    // 或者
-    // tableRef.value.toggleExpandData({ rowIndex: rowData.rowIndex, row: rowData.row });
-  });
-};
+
 const customTreeExpandAndFoldIcon = ref(false);
 const treeExpandAndFoldIconRender = (h, { type, row }) => {
   if (lazyLoadingData.value && lazyLoadingData.value.id === row?.id) {

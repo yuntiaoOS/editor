@@ -21,7 +21,7 @@
         <template #type-slot-sort="{ col, row , rowIndex}">
           <t-space>
             <t-icon v-if="rowIndex!==0" name="order-ascending" size="18px"></t-icon>
-            <div v-elae></div>
+            <div v-else></div>
             <t-icon v-if="rowIndex!==table_data.length-1" name="order-descending" size="18px"></t-icon>
           </t-space>
 
@@ -84,7 +84,7 @@
 
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
-
+import { v4 as uuid } from 'uuid'
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
 const { options } = useStore()
@@ -113,12 +113,12 @@ const _designParams = computed({
       // 工艺表
       const technology_tables = docD.content.filter(ele=> ele.type === 'technology_table')
       if (technology_tables.length > 0) {
-        const technology_table = technology_tables[0]
+        const [technology_table] = technology_tables
         const table_data  = technology_table.attrs.table_data.map(eleT => eleT.list)
         console.log('--------_designParams--------123--------',table_data)
         let material_options = []
         if (raw_material_tables.length > 0) {
-          const raw_material_table = raw_material_tables[0]
+          const [raw_material_table] = raw_material_tables
           console.log('-------130-------raw_material_table----------',raw_material_table)
           console.log('-------131-------raw_material_table----------',raw_material_table.attrs.table_data)
           material_options = Object.assign([],raw_material_table.attrs.table_data).map(ele=> { return { ...ele,name: ele.material.name + '/' + ele.material.sn } }) 
@@ -192,6 +192,8 @@ const on_experimental_designFunc = ()=>{
     selectData.forEach((ele ,index) => {
       const obj  = {
         ...ele,
+        id: uuid(),
+        raw_material: ele.id,
         sn: `S-00${index + 1}`,
         count: '0',
       }
@@ -267,7 +269,7 @@ displayColumns.value = ['name','sn', 'count','description', 'operate']
 columns.value = [
   {
     colKey: 'name',
-    title: '原材料',
+    title: '名称',
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
       // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件

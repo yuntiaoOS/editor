@@ -16,7 +16,7 @@ export default xmNode.create({
   name: 'technology_table',
   group: 'block',
   content: 'block*',
-  atom: false,
+  atom: true,
   selectable: true,
  
   parseHTML() {
@@ -50,7 +50,7 @@ export default xmNode.create({
         },
       },
       title: {
-        default: '',
+        default: `工艺${timeFormat(null, 'yyyymmddhhMM')}`,
         parseHTML: (element) => element.getAttribute('data-title'),
         renderHTML: (attributes) => {
           return { 'data-title': attributes.title };

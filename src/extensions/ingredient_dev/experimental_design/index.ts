@@ -16,7 +16,7 @@ export default xmNode.create({
   name: 'experimental_design',
   group: 'block',
   content: 'block*',
-  atom: false,
+  atom: true,
   selectable: true,
  
   parseHTML() {
@@ -62,6 +62,13 @@ export default xmNode.create({
           return { 'data-designResult': JSON.stringify(attributes.designResult)  };
         },
       },
+      title: {
+        default: `试验设计${timeFormat(null, 'yyyymmddhhMM')}`,
+        parseHTML: (element) => element.getAttribute('data-title'),
+        renderHTML: (attributes) => {
+          return { 'data-title': attributes.title };
+        },
+      },
     }
   },
 
@@ -80,20 +87,15 @@ export default xmNode.create({
       addExperimental_designs:
         (option?:XmTableOptionModel<any>) =>
           ({ commands }) => {
+            const currentOption = mergeAttributes(this.options, option as XmTableOptionModel<any>)
             const content = {
               type: this.name,
               attrs: {
+                ...currentOption,
                 key: option?.key ? option?.key : Xm_Table_key['experimental_design']  + timeFormat(null,'yyyymmddhhMMss'),
                 table_data: option?.table_data,
               },
-              content: [
-                {
-                  type: 'paragraph',
-                  content: [
-                    { type: 'text', text: ' ' },
-                  ],
-                }
-              ],
+              content: [ ],
             };
             return commands.insertContent(content);
           },

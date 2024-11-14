@@ -56,6 +56,22 @@
           @menu-click="editor?.chain().focus().addExperimental_designs().run()"
         />
       </t-dropdown-item>  
+      <t-dropdown-item  >
+        <menus-button
+          ico="sample"
+          text="样品表格"
+          :tooltip="false"
+          @menu-click="editor?.chain().focus().addSample_tables().run()"
+        />
+      </t-dropdown-item>  
+      <t-dropdown-item  >
+        <menus-button
+          ico="evaluating"
+          text="评测表格"
+          :tooltip="false"
+          @menu-click="editor?.chain().focus().addEvaluating_tables().run()"
+        />
+      </t-dropdown-item>
       <t-dropdown-item divider >
         <menus-button
           ico="t-table"

@@ -16,7 +16,7 @@ export default xmNode.create({
   name: 'raw_material_table',
   group: 'block',
   content: 'block*',
-  atom: false,
+  atom: true,
   selectable: true,
  
   parseHTML() {
@@ -48,7 +48,14 @@ export default xmNode.create({
           }
           return { 'data-table_data': JSON.stringify(attributes.table_data)  };
         },
-      }
+      },
+      title: {
+        default: `原材料${timeFormat(null, 'yyyymmddhhMM')}`,
+        parseHTML: (element) => element.getAttribute('data-title'),
+        renderHTML: (attributes) => {
+          return { 'data-title': attributes.title };
+        },
+      },
     }
   },
 
@@ -67,9 +74,11 @@ export default xmNode.create({
       addRaw_material_tables:
         (option?:XmTableOptionModel<any>) =>
           ({ commands }) => {
+            const currentOption = mergeAttributes(this.options, option as XmTableOptionModel<any>)
             const content = {
               type: this.name,
               attrs: {
+                ...currentOption,
                 key: option?.key ? option?.key : Xm_Table_key['raw_material_table']  + timeFormat(null,'yyyymmddhhMMss'),
                 table_data: option?.table_data,
               },

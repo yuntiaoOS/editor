@@ -16,7 +16,7 @@ export default xmNode.create({
   name: 'sample_table',
   group: 'block',
   content: 'block*',
-  atom: false,
+  atom: true,
   selectable: true,
  
   parseHTML() {
@@ -62,6 +62,13 @@ export default xmNode.create({
           return { 'data-designParams': JSON.stringify(attributes.designParams)  };
         },
       },
+      title: {
+        default: `样品${timeFormat(null, 'yyyymmddhhMM')}`,
+        parseHTML: (element) => element.getAttribute('data-title'),
+        renderHTML: (attributes) => {
+          return { 'data-title': attributes.title };
+        },
+      },
     }
   },
 
@@ -80,9 +87,11 @@ export default xmNode.create({
       addSample_tables:
         (option?:XmTableOptionModel<any>) =>
           ({ commands }) => {
+            const currentOption = mergeAttributes(this.options, option as XmTableOptionModel<any>)
             const content = {
               type: this.name,
               attrs: {
+                ...currentOption,
                 key: option?.key ? option?.key : Xm_Table_key['sample_table']  + timeFormat(null,'yyyymmddhhMMss'),
                 table_data: option?.table_data,
               },

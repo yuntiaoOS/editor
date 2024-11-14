@@ -686,41 +686,13 @@ onMounted(() => {
     "type": "doc",
     "content": [
         {
-            "type": "paragraph",
-            "attrs": {
-                "indent": null,
-                "textAlign": "left",
-                "lineHeight": 1.5,
-                "margin": {}
-            }
-        },
-        {
             "type": "raw_material_table",
             "attrs": {
-                "id": "",
-                "key": "raw_material_table",
-                "name": "",
+                "id": "5099d7dc-bfdd-470b-ac80-db296819b70f",
+                "key": "raw_material_table20241114115041",
+                "name": "beee9b19-76e8-4c35-ae15-0502762f3642",
                 "isChanged": false,
                 "table_data": [
-                    {
-                        "id": "a060cb6e-23ea-4643-9c9b-22649eb58619",
-                        "material": {
-                            "id": "50831c42-06a1-407b-a14d-dde160a7db8b",
-                            "name": "YL10171643",
-                            "sn": "SN-1729154564209"
-                        },
-                        "state": "In-Progress",
-                        "batch": "BT-1729154564209",
-                        "price": "12.00",
-                        "production_date": "2024-10-17",
-                        "margin": "23.00",
-                        "goods": "为了",
-                        "supplier": "sadas",
-                        "place": "",
-                        "description": null,
-                        "create_datetime": "2024-10-17 16:43:17",
-                        "update_datetime": "2024-10-21 14:18:05"
-                    },
                     {
                         "id": "5622ae82-bf06-47ed-9db9-f66ee75d640d",
                         "material": {
@@ -729,16 +701,16 @@ onMounted(() => {
                             "sn": "SN-1729150535817"
                         },
                         "state": "Not-Started",
-                        "batch": "BT-1729150535818",
-                        "price": "2354.00",
-                        "production_date": "2024-10-17",
-                        "margin": "12.00",
-                        "goods": "货架位置",
-                        "supplier": "供应商",
-                        "place": "存放位置",
+                        "batch": "1",
+                        "price": null,
+                        "production_date": null,
+                        "margin": null,
+                        "goods": null,
+                        "supplier": null,
+                        "place": null,
                         "description": null,
-                        "create_datetime": "2024-10-17 15:36:27",
-                        "update_datetime": "2024-10-17 15:36:27"
+                        "create_datetime": null,
+                        "update_datetime": null
                     },
                     {
                         "id": "64886cd2-1b88-49aa-b7c1-a687a8ffbad4",
@@ -748,18 +720,38 @@ onMounted(() => {
                             "sn": "SN-1729150438237"
                         },
                         "state": "Not-Started",
-                        "batch": "BT-1729150438237",
-                        "price": "1243.00",
-                        "production_date": "2024-10-17",
+                        "batch": "1",
+                        "price": null,
+                        "production_date": null,
                         "margin": null,
-                        "goods": "",
-                        "supplier": "",
-                        "place": "",
+                        "goods": null,
+                        "supplier": null,
+                        "place": null,
                         "description": null,
-                        "create_datetime": "2024-10-17 15:34:26",
-                        "update_datetime": "2024-10-17 15:34:26"
+                        "create_datetime": null,
+                        "update_datetime": null
+                    },
+                    {
+                        "id": "a060cb6e-23ea-4643-9c9b-22649eb58619",
+                        "material": {
+                            "id": "50831c42-06a1-407b-a14d-dde160a7db8b",
+                            "name": "YL10171643",
+                            "sn": "SN-1729154564209"
+                        },
+                        "state": "Not-Started",
+                        "batch": "1",
+                        "price": null,
+                        "production_date": null,
+                        "margin": null,
+                        "goods": null,
+                        "supplier": null,
+                        "place": null,
+                        "description": null,
+                        "create_datetime": null,
+                        "update_datetime": null
                     }
-                ]
+                ],
+                "title": "原材料202411141150"
             },
             "content": [
                 {
@@ -782,95 +774,84 @@ onMounted(() => {
         {
             "type": "technology_table",
             "attrs": {
-                "id": "",
-                "key": "technology_table",
-                "name": "",
+                "id": "632621a9-c46b-4f46-9d19-59b8e2f087f1",
+                "key": "technology_table20241114115119",
+                "name": "2637888a-2a0c-4455-a100-bc8d5908c1bc",
                 "isChanged": false,
                 "table_data": [
                     {
-                        "id": "51d6f030-de74-45c0-b8d7-09a6837ea2f1",
-                        "name": "das",
+                        "id": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
+                        "name": "阿萨",
                         "typeCode": "processes",
                         "description": "",
                         "list": [
                             {
-                                "id": "7",
+                                "id": "14",
                                 "gourp": [],
-                                "name": "温度",
+                                "name": "test1",
                                 "props": {
                                     "abstract": false,
                                     "required": false,
                                     "enableScan": false,
-                                    "validation": "number",
                                     "enablePrint": true
                                 },
-                                "key": "temperature",
+                                "key": "test2",
                                 "type": "TextInput",
-                                "value": null,
+                                "value": "115",
                                 "unit": null,
                                 "attribute_type": "single",
                                 "typeCode": "operation",
-                                "defaultValue": "23",
-                                "data_id": 7,
-                                "parent": "51d6f030-de74-45c0-b8d7-09a6837ea2f1",
+                                "defaultValue": "115",
+                                "data_id": 14,
+                                "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
                                 "description": ""
                             },
                             {
-                                "id": "8",
+                                "id": "23",
                                 "gourp": [],
-                                "name": "压力",
+                                "name": "测试单个属性",
                                 "props": {
                                     "abstract": false,
                                     "required": false,
                                     "enableScan": false,
-                                    "validation": "number",
                                     "enablePrint": true
                                 },
-                                "key": "pressure",
+                                "key": "test11",
                                 "type": "TextInput",
-                                "value": null,
-                                "unit": null,
-                                "attribute_type": "single",
-                                "typeCode": "operation",
-                                "defaultValue": "24",
-                                "data_id": 8,
-                                "parent": "51d6f030-de74-45c0-b8d7-09a6837ea2f1",
-                                "description": "额我"
-                            },
-                            {
-                                "id": "9",
-                                "gourp": [],
-                                "name": "原材料",
-                                "props": {
-                                    "custom": false,
-                                    "options": [
-                                        "无"
-                                    ],
-                                    "abstract": false,
-                                    "required": true,
-                                    "expanding": false,
-                                    "enablePrint": true,
-                                    "customConfig": {
-                                        "name": "customerTreeSelect",
-                                        "label": "配方版本",
-                                        "value": "FormulaVersion"
-                                    }
-                                },
-                                "key": "xm_raw_material",
-                                "type": "MultipleSelect",
                                 "value": null,
                                 "unit": null,
                                 "attribute_type": "single",
                                 "typeCode": "operation",
                                 "defaultValue": null,
-                                "data_id": 9,
-                                "parent": "51d6f030-de74-45c0-b8d7-09a6837ea2f1",
+                                "data_id": 23,
+                                "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
+                                "description": ""
+                            },
+                            {
+                                "id": "24",
+                                "gourp": [],
+                                "name": "测测试",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "key": "测",
+                                "type": "TextInput",
+                                "value": null,
+                                "unit": null,
+                                "attribute_type": "single",
+                                "typeCode": "operation",
+                                "defaultValue": null,
+                                "data_id": 24,
+                                "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
                                 "description": ""
                             }
                         ]
                     }
                 ],
-                "title": ""
+                "title": "工艺202411141150"
             },
             "content": [
                 {
@@ -884,101 +865,244 @@ onMounted(() => {
                     "content": [
                         {
                             "type": "text",
-                            "text": "文档 "
+                            "text": " "
                         }
                     ]
-                },
+                }
             ]
         },
         {
-            "type": "paragraph",
+            "type": "experimental_design",
             "attrs": {
-                "indent": null,
-                "textAlign": "left",
-                "lineHeight": 1.5,
-                "margin": {}
+                "id": "c3f3f912-67a8-4e76-88b0-7449f694706d",
+                "key": "experimental_design20241114162153",
+                "name": "6d3f10dd-ae20-411c-a48a-06ac1770e3c0",
+                "isChanged": false,
+                "designParams": [
+                    {
+                        "id": "14",
+                        "gourp": [],
+                        "name": "test1",
+                        "props": {
+                            "abstract": false,
+                            "required": false,
+                            "enableScan": false,
+                            "enablePrint": true
+                        },
+                        "key": "test2",
+                        "type": "TextInput",
+                        "value": "115",
+                        "unit": null,
+                        "attribute_type": "single",
+                        "typeCode": "operation",
+                        "defaultValue": "115",
+                        "data_id": 14,
+                        "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
+                        "description": "",
+                        "step": "23",
+                        "check": true
+                    },
+                    {
+                        "id": "23",
+                        "gourp": [],
+                        "name": "测试单个属性",
+                        "props": {
+                            "abstract": false,
+                            "required": false,
+                            "enableScan": false,
+                            "enablePrint": true
+                        },
+                        "key": "test11",
+                        "type": "TextInput",
+                        "value": null,
+                        "unit": null,
+                        "attribute_type": "single",
+                        "typeCode": "operation",
+                        "defaultValue": null,
+                        "data_id": 23,
+                        "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
+                        "description": "",
+                        "step": "34",
+                        "check": true
+                    },
+                    {
+                        "id": "24",
+                        "gourp": [],
+                        "name": "测测试",
+                        "props": {
+                            "abstract": false,
+                            "required": false,
+                            "enableScan": false,
+                            "enablePrint": true
+                        },
+                        "key": "测",
+                        "type": "TextInput",
+                        "value": null,
+                        "unit": null,
+                        "attribute_type": "single",
+                        "typeCode": "operation",
+                        "defaultValue": null,
+                        "data_id": 24,
+                        "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
+                        "description": "",
+                        "step": "54",
+                        "check": true
+                    }
+                ],
+                "designResult": [
+                    {
+                        "check": true,
+                        "id": "f062f560-5890-4d00-bc85-f8245ecfc253",
+                        "test2": "115.0",
+                        "test11": "0",
+                        "测": "0"
+                    },
+                    {
+                        "check": true,
+                        "id": "0263dc7b-7c2c-4ac5-b03e-8abbbc494ca4",
+                        "test2": "138.0",
+                        "test11": "34",
+                        "测": "54"
+                    },
+                    {
+                        "check": true,
+                        "id": "d5d32957-8b63-470d-bd7d-47ce9ce2d838",
+                        "test2": "161.0",
+                        "test11": "68",
+                        "测": "108"
+                    },
+                    {
+                        "check": true,
+                        "id": "af1e7511-bf8f-413b-b815-92d603a2227b",
+                        "test2": "184.0",
+                        "test11": "102",
+                        "测": "162"
+                    }
+                ],
+                "title": "试验设计202411141621"
             }
         },
         {
             "type": "sample_table",
             "attrs": {
-                "id": "",
-                "key": "sample_table",
-                "name": "",
+                "id": "930791cd-1819-4f87-a412-53554c28f257",
+                "key": "sample_table20241114162207",
+                "name": "8f945b91-d32e-4fba-aa80-ac89d1ff570f",
                 "isChanged": false,
                 "table_data": [
                     {
                         "check": true,
-                        "id": "8b589d19-60dd-4e9e-b716-e490d8017baf",
-                        "temperature": "23.0",
-                        "pressure": "24.0",
-                        "xm_raw_material": [
-                            "a060cb6e-23ea-4643-9c9b-22649eb58619",
-                            "5622ae82-bf06-47ed-9db9-f66ee75d640d"
-                        ],
-                        "name": "YL10171643/SN-1729154564209;YL01171535/SN-1729150535817",
+                        "id": "f062f560-5890-4d00-bc85-f8245ecfc253",
+                        "test2": "115.0",
+                        "test11": "0",
+                        "测": "0",
                         "sn": "S-001",
                         "count": "0",
-                        "description": "风度书房"
+                        "name": "wqdwdqwdw"
                     },
                     {
                         "check": true,
-                        "id": "73fca46f-d0aa-45c7-b380-2b05341a5259",
-                        "temperature": "46.0",
-                        "pressure": "58.0",
-                        "xm_raw_material": [
-                            "a060cb6e-23ea-4643-9c9b-22649eb58619",
-                            "5622ae82-bf06-47ed-9db9-f66ee75d640d"
-                        ],
-                        "name": "YL10171643/SN-1729154564209;YL01171535/SN-1729150535817",
+                        "id": "0263dc7b-7c2c-4ac5-b03e-8abbbc494ca4",
+                        "test2": "138.0",
+                        "test11": "34",
+                        "测": "54",
                         "sn": "S-002",
                         "count": "0",
-                        "description": "发大水发大水"
+                        "name": "dwqdqwdqw"
                     },
                     {
                         "check": true,
-                        "id": "fd2342dd-fc51-4a2d-8b7f-3fbed97e578e",
-                        "temperature": "69.0",
-                        "pressure": "92.0",
-                        "xm_raw_material": [
-                            "a060cb6e-23ea-4643-9c9b-22649eb58619",
-                            "5622ae82-bf06-47ed-9db9-f66ee75d640d"
-                        ],
-                        "name": "YL10171643/SN-1729154564209;YL01171535/SN-1729150535817",
+                        "id": "d5d32957-8b63-470d-bd7d-47ce9ce2d838",
+                        "test2": "161.0",
+                        "test11": "68",
+                        "测": "108",
                         "sn": "S-003",
                         "count": "0",
-                        "description": "发大水发大水"
+                        "name": "dwqdwqdwq"
                     },
                     {
                         "check": true,
-                        "id": "146665ca-f340-4f82-829f-aba83687082d",
-                        "temperature": "92.0",
-                        "pressure": "126.0",
-                        "xm_raw_material": [
-                            "a060cb6e-23ea-4643-9c9b-22649eb58619",
-                            "5622ae82-bf06-47ed-9db9-f66ee75d640d"
-                        ],
-                        "name": "YL10171643/SN-1729154564209;YL01171535/SN-1729150535817",
+                        "id": "af1e7511-bf8f-413b-b815-92d603a2227b",
+                        "test2": "184.0",
+                        "test11": "102",
+                        "测": "162",
                         "sn": "S-004",
                         "count": "0",
-                        "description": "发生电话多少"
-                    },
-                    {
-                        "check": true,
-                        "id": "5172b139-b32a-4873-a038-6478ef9a9e75",
-                        "temperature": "115.0",
-                        "pressure": "160.0",
-                        "xm_raw_material": [
-                            "a060cb6e-23ea-4643-9c9b-22649eb58619",
-                            "5622ae82-bf06-47ed-9db9-f66ee75d640d"
-                        ],
-                        "name": "YL10171643/SN-1729154564209;YL01171535/SN-1729150535817",
-                        "sn": "S-005",
-                        "count": "0",
-                        "description": "发大水发大水"
+                        "name": "dwqdwqdqw"
                     }
                 ],
-                "designParams": []
+                "designParams": [
+                    {
+                        "id": "14",
+                        "gourp": [],
+                        "name": "test1",
+                        "props": {
+                            "abstract": false,
+                            "required": false,
+                            "enableScan": false,
+                            "enablePrint": true
+                        },
+                        "key": "test2",
+                        "type": "TextInput",
+                        "value": "115",
+                        "unit": null,
+                        "attribute_type": "single",
+                        "typeCode": "operation",
+                        "defaultValue": "115",
+                        "data_id": 14,
+                        "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
+                        "description": "",
+                        "step": "23",
+                        "check": true
+                    },
+                    {
+                        "id": "23",
+                        "gourp": [],
+                        "name": "测试单个属性",
+                        "props": {
+                            "abstract": false,
+                            "required": false,
+                            "enableScan": false,
+                            "enablePrint": true
+                        },
+                        "key": "test11",
+                        "type": "TextInput",
+                        "value": null,
+                        "unit": null,
+                        "attribute_type": "single",
+                        "typeCode": "operation",
+                        "defaultValue": null,
+                        "data_id": 23,
+                        "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
+                        "description": "",
+                        "step": "34",
+                        "check": true
+                    },
+                    {
+                        "id": "24",
+                        "gourp": [],
+                        "name": "测测试",
+                        "props": {
+                            "abstract": false,
+                            "required": false,
+                            "enableScan": false,
+                            "enablePrint": true
+                        },
+                        "key": "测",
+                        "type": "TextInput",
+                        "value": null,
+                        "unit": null,
+                        "attribute_type": "single",
+                        "typeCode": "operation",
+                        "defaultValue": null,
+                        "data_id": 24,
+                        "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
+                        "description": "",
+                        "step": "54",
+                        "check": true
+                    }
+                ],
+                "title": "样品202411141621"
             },
             "content": [
                 {
@@ -1009,7 +1133,7 @@ onMounted(() => {
         }
     ]
   }
-  // editorRef.editorInstance?.commands.setContent(jsonContent)
+  editorRef.editorInstance?.commands.setContent(jsonContent)
 
   // editorRef.editorInstance?.chain().focus().addSample_tables({key: 'sample_table',title:'试验方式使用面板'}).run()
 })

@@ -1,20 +1,22 @@
 import { mergeAttributes, Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import NodeView from './node-view.vue'
+import type { XmTableOptionModel } from '@/types'
+import { timeFormat } from '@/utils/time-ago'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     addEvaluating_tables: {
-      addEvaluating_tables: (options: any) => ReturnType
+      addEvaluating_tables: (options?: XmTableOptionModel<any>) => ReturnType
     }
   }
 }
 
-export default Node.create({
+export default xmNode.create({
   name: 'evaluating_table',
   group: 'block',
   content: 'block*',
-  atom: false,
+  atom: true,
   selectable: true,
  
   parseHTML() {
@@ -24,21 +26,55 @@ export default Node.create({
     return ['evaluating_table', mergeAttributes(HTMLAttributes), 0]
   },
   addAttributes() {
-    return {
-      typeE: {
-        type: Object,
-        default: ()=>{ return { type: 'operation' }},
+    const baseAttributes = xmNode.prototype.addAttributes.call(this);
+    return { 
+      ...baseAttributes,
+      key: {
+        default: ()=>{ return Xm_Table_key['evaluating_table']  + timeFormat(null,'yyyymmddhhMMss')  },
+        parseHTML: (element:any) => element.getAttribute('data-key'),
+        renderHTML: (attributes:any) => {
+          return { 'data-key': attributes.key };
+        },
       },
-      id: {
-        default: '111111111',
+      table_data: {
+        default: [],
+        parseHTML: (element) => {
+          const table_data = element.getAttribute('data-table_data');
+          return JSON.parse(table_data as string || '[]');
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.table_data) {
+            return [];
+          }
+          return { 'data-table_data': JSON.stringify(attributes.table_data)  };
+        },
       },
-      nameO: {
-        default: '22222222222',
+      columns: {
+        default: [],
+        parseHTML: (element) => {
+          const columns = element.getAttribute('data-columns');
+          return JSON.parse(columns as string || '[]');
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.columns) {
+            return [];
+          }
+          return { 'data-columns': JSON.stringify(attributes.columns)  };
+        }  
       },
-      option: {
-        type: Object,
-        default: ()=>{ return  {}},
-      },
+      designParam: {
+        default: {},
+        parseHTML: (element) => {
+          const designParam = element.getAttribute('data-designParam');
+          return JSON.parse(designParam as string || '{}');
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.designParam) {
+            return {};
+          }
+          return { 'data-designParam': JSON.stringify(attributes.designParam)  };
+        },
+      }
     }
   },
 
@@ -55,21 +91,21 @@ export default Node.create({
   addCommands() {
     return {
       addEvaluating_tables:
-        (option?:any) =>
+        (option?:XmTableOptionModel<any>) =>
           ({ commands }) => {
+            const currentOption = mergeAttributes(this.options, option as XmTableOptionModel<any>)
             const content = {
               type: this.name,
               attrs: {
-                typeE: { type: 'operation44444' },
-                id: 'operation2222225555555555555522',
-                nameO: '5opr1155',
-                option: option?option:[],
+                ...currentOption,
+                key: option?.key ? option?.key : Xm_Table_key['evaluating_table']  + timeFormat(null,'yyyymmddhhMMss'),
+                table_data: option?.table_data,
               },
               content: [
                 {
                   type: 'paragraph',
                   content: [
-                    { type: 'text', text: '图表1' },
+                    { type: 'text', text: ' ' },
                   ],
                 }
               ],
@@ -84,26 +120,5 @@ export default Node.create({
       ...this.parent?.()
     }
   },
-  onTransaction({ transaction ,editor}:any) {
-    // 获取当前的选择
-    const selection : any = transaction.curSelection
-
-    // 检查选择的类型
-    if (selection) {
-      const { $anchor, $head } :any = selection
-
-      // 判断选择的类型
-      if ($anchor.sameParent($head)) {
-        const parent :any = $anchor.parent
-        const type  :any= parent.type.name
-
-        // console.log(`Current selection type: ${type}`,parent)
-
-        
-      }
-    } 
-
-    
-  
-  },
+ 
 })
