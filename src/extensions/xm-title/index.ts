@@ -42,6 +42,19 @@ export default xmNode.create({
           return { 'data-title': attributes.title };
         },
       },
+      experiment_record:{
+        default: {},
+        parseHTML: (element) => {
+          const experiment_record = element.getAttribute('data-experiment_record');
+          return JSON.parse(experiment_record as string || '{}');
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.experiment_record) {
+            return {};
+          }
+          return { 'data-experiment_record': JSON.stringify(attributes.experiment_record)  };
+        },
+      },
       showSubTitle: false,
     };
   },
@@ -60,7 +73,7 @@ export default xmNode.create({
       (options) =>
       ({ commands,editor }) => {
         const currentOption = mergeAttributes(this.options, options) 
-        console.log('---------47--------------',currentOption)
+        console.log('---------63--------------',currentOption)
         const content = {
           type: 'xmTitle',
           attrs: {

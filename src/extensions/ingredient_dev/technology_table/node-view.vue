@@ -1,37 +1,45 @@
 <template>
   <node-view-wrapper :id="node.attrs.id" class="umo-node-view">
     <div style="width: 100%">
+      <!-- <h2>工艺</h2> -->
       <t-enhanced-table ref="tableRef" v-model:expandedTreeNodes="expandedTreeNodes" :tree-expand-and-fold-icon="treeExpandIcon" 
-        row-key="key" drag-sort="row-handler" :data="data" :columns="columns" resizable :tree="treeConfig" :pagination="pagination"
-        :before-drag-sort="beforeDragSort" @abnormal-drag-sort="onAbnormalDragSort" @drag-sort="onDragSort"
-        @page-change="onPageChange" @expanded-tree-nodes-change="onExpandedTreeNodesChange" >
-      </t-enhanced-table>
-      <!-- <t-enhanced-table
-        ref="tableRef"
-        v-model:expandedTreeNodes="expandedTreeNodes"
-        row-key="key"
-        drag-sort="row-handler"
-        :data="data"
-        :columns="columns"
-        :tree="treeConfig"
-        :tree-expand-and-fold-icon="treeExpandIcon"
-        :pagination="pagination"
-        :before-drag-sort="beforeDragSort"
-        lazy-load
-        @page-change="onPageChange"
-        @abnormal-drag-sort="onAbnormalDragSort"
-        @drag-sort="onDragSort"
-        @expanded-tree-nodes-change="onExpandedTreeNodesChange"
-      >
+        row-key="id" :data="table_data" :columns="columns" resizable :tree="treeConfig"
+         @expanded-tree-nodes-change="onExpandedTreeNodesChange" >
         <template #topContent>
-          <div style="padding: 6px 0;">
-            <t-input v-model="editableRowKeys" placeholder="请输入节点名称" />
-            <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="30px"></t-icon></template>列配置</t-button>
+          <div style="padding: 6px 0;display: block;">
+            <t-space>
+              <t-input v-model="_title" label="名称：" size="large" autofocus autoWidth borderless />
+              <t-space>
+                <t-input v-model="searchTitle" auto-width placeholder="请输入工艺步骤名称" />
+                <t-button variant="outline" @click="onAddWorkingProcedure">添加工艺步骤</t-button>
+                <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
+              </t-space>
+            </t-space>
           </div>
         </template>
-      </t-enhanced-table> -->
+        <template #defaultValueSlot="slotProps">
+          <div v-if="slotProps.row.typeCode === 'processes'" style="margin-bottom: -22px;position: absolute;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
+          <span v-else >{{slotProps.row.defaultValue}}</span>
+        </template>
+      </t-enhanced-table>
       <node-view-content :node="node" ></node-view-content> 
     </div>
+    <t-dialog 
+      v-model:visible="workingProcedureVisible"
+      header="添加工序"
+      width="80%" attach="body"
+      :confirm-on-enter="true"
+      :on-confirm="onWorkingProcedureConfirmFunc">
+      <defaultSelect v-if="workingProcedureVisible" :columns="workingProcedureColumns" :fetchDataFunc="getMaterial_batchListFetch" @select-change="onWorkingProcedureSelectChange"/>
+    </t-dialog>
+    <t-dialog 
+      v-model:visible="operationVisible"
+      header="添加操作"
+      width="80%" attach="body"
+      :confirm-on-enter="true"
+      :on-confirm="onOperationConfirmFunc">
+      <defaultSelect v-if="operationVisible" @select-change="onOperationSelectChange"/>
+    </t-dialog>
     <t-dialog
       v-model:visible="dialog_visible"
       header="表格列配置"
@@ -59,7 +67,9 @@
 
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
- 
+import { getMaterial_batchListFetch } from '@/api/material'
+import { getProcesses_attributeListFetch } from '@/api/experiment'
+
 import {
   ChevronRightIcon,
   ChevronDownIcon,
@@ -70,139 +80,527 @@ import {
  
 import { Loading } from 'tdesign-vue-next';
 import { getIngredient_dev_materialListFetch } from '@/api/material'
-
+import { v4 as uuid } from 'uuid'
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
 const { options } = useStore()
 const dialog_visible = ref(false);
+const dialog_input = ref('')
 const tableRef = ref();
-const editableRowKeys = ref(['1']);
-const currentSaveId = ref('');
-// 保存变化过的行信息
-const editMap  = {};
 
-const TOTAL = 5;
-function getObject(i, currentPage) {
-  const columns = {
-    id: i,
-    key: `申请人 ${i}_${currentPage} 号`,
-    platform: ['电子签署', '纸质签署', '纸质签署'][i % 3],
-    type: ['String', 'Number', 'Array', 'Object'][i % 4],
-    default: ['-', '0', '[]', '{}'][i % 4],
-    detail: {
-      position: `读取 ${i} 个数据的嵌套信息值`,
+const workingProcedureVisible = ref(false);
+const operationVisible = ref(false);
+
+const selectWorkingProcedure = ref([])
+const selectOperation = ref([])
+
+const workingProcedureColumns = [
+  {
+    colKey: 'row-select',
+    type: 'multiple',
+    width: 46,
+  },
+  {
+    colKey: 'material',
+    title: '名称',
+    render(h, { type, row: { material} }) {
+      return material ? `${material.name}` : '-';
     },
-    needed: i % 4 === 0 ? '是' : '否',
-    description: '数据源',
-  };
-  return columns;
+    minWidth: 120,
+  },
+  {
+    colKey: 'description',
+    title: '描述',
+    ellipsis: true,
+    minWidth: 140,
+  },
+];
+
+const operationOption = ref([])
+const searchTitle = ref('')
+
+const table_data = computed({
+  get: () => node.attrs.table_data,
+  set(value) {
+    updateAttributes({ table_data: value })
+  },
+})
+
+const _title = computed({
+  get: () => node.attrs.title,
+  set(value) {
+    updateAttributes({ title: value })
+  },
+})
+
+
+const renderStepIcon = () => {
+  return <t-icon name="map-connection" />;
+};
+const renderOperationIcon = () => {
+  return <t-icon name="adjustment" />;
+};
+const renderArrowUp = () => {
+  return <t-icon name="arrow-up" />;
+};
+const renderArrowDown = () => {
+  return <t-icon name="arrow-down" />;
+};
+const renderDelete = () => {
+  return <t-icon name="delete" />;
+};
+
+const pagination = ref({
+  limit: 20,
+  total: 0,
+  page: 1,
+});
+const selectLoading = ref(false);
+
+const columnsCheckboxs = ref([])
+
+const displayColumns = ref([]);
+const displayColumnsC = ref([]);
+displayColumns.value = ['serial-number', 'name', 'typeCode', 'defaultValue', 'description', 'operate']
+
+const checkAll = computed(() => displayColumns.value.length === displayColumnsC.value.length);
+const indeterminate = computed(() => !!(displayColumns.value.length > displayColumnsC.value.length && displayColumnsC.value.length));
+
+
+const operationConfirm = (callback,row)=>{
+  if (!row) {
+    return ;
+  }
+  const dialog = useConfirm({
+    theme: 'warning',
+    header: '操作',
+    body: () => {
+      return (
+        <div>
+          <t-select
+            value={dialog_input.value}
+            options={operationOption.value}
+            filterable
+            multiple
+            keys={ { label: 'name', value: 'id' } }
+            placeholder="请选择操作"
+            scroll={ {type: 'virtual'} }
+            popup-props={ { overlayInnerStyle: { height: '300px' } } }
+            status={ dialog_input.value !== '' ? 'success': 'error'}  tips={ dialog_input.value !== '' ? '校验通过': '操作不能为空'}
+            onChange={(e) => { console.log('------t-select-------183--------',e,dialog_input.value), dialog_input.value = e ; }}
+          />
+        </div>
+      );
+    },
+    confirmBtn: {
+      content: '确定',
+    },
+    async onConfirm(e) {
+      console.log('------------e: ', );
+      if (dialog_input.value !== '' && dialog_input.value.length > 0) {
+        const itemOs = operationOption.value.filter(item => dialog_input.value.includes(item.id) )
+        const parent = row.typeCode === 'processes' ? row.id : row.parent
+        let objS = []
+        itemOs.forEach(itemO =>{
+          const obj  = {
+            ...itemO,
+            id:  String(itemO.id), //uuid() ,
+            name: itemO.name,
+            typeCode: 'operation',
+            defaultValue: itemO.value,
+            data_id: itemO.id,
+            parent: parent,
+            description: ''
+          }
+          objS.push( obj )
+        })
+        
+        dialog_input.value = ''
+        dialog.destroy()
+        await nextTick()
+        callback( objS )
+
+        // tableRef.value.appendTo(row ? row.id: '', obj);
+        // getTreeNode()
+      }
+    },
+  })
 }
 
-function getData(currentPage = 1) {
-  const data = [];
-  // const pageInfo = `第 ${currentPage} 页`;
-  for (let i = 0; i < TOTAL; i++) {
-    const obj = getObject(i, currentPage);
-    // 第一行不设置子节点
-    obj.list = new Array(2).fill(null).map((t, j) => {
-      const secondIndex = 100 * j + (i + 1) * 10;
-      const secondObj = {
-        ...obj,
-        id: secondIndex,
-        key: `申请人 ${secondIndex}_${currentPage} 号`,
-      };
-      secondObj.list = new Array(3).fill(null).map((m, n) => {
-        const thirdIndex = secondIndex * 1000 + 100 * m + (n + 1) * 10;
-        return {
-          ...obj,
-          id: thirdIndex,
-          key: `申请人 ${thirdIndex}_${currentPage} 号`,
-          list: true,
-        };
-      });
-      return secondObj;
-    });
-    // 第一行不设置子节点
-    if (i === 0) {
-      obj.list = [];
+const processesConfirm = (callback,row=undefined,)=>{
+  const dialog = useConfirm({
+    theme: 'warning',
+    header: '工艺步骤',
+    body: () => {
+      return (
+        <div>
+          <t-input  value={dialog_input.value} placeholder="输入工艺步骤名称" status={ dialog_input.value.length > 0 ? 'success': 'error'}  tips={ dialog_input.value.length > 0 ? '校验通过': '名称不能为空'}
+            onInput={(e) => { dialog_input.value = e.target.value; }}/>
+        </div>
+      );
+    },
+    confirmBtn: {
+      content: '确定',
+    },
+    async onConfirm(e) {
+      console.log('------------e: ', );
+      if (dialog_input.value.length > 0) {
+        const obj  = {
+          id: uuid(),
+          name: dialog_input.value,
+          typeCode: 'processes',
+          defaultValue: undefined,
+          description: ''
+        }
+        dialog_input.value = ''
+        dialog.destroy()
+        await nextTick()
+        callback(obj)
+        // tableRef.value.appendTo( row ? row.id : '', obj);
+        // getTreeNode()
+      }
+      
+    },
+  })
+}
+
+const getOperationOptionFunc = async (page=1) => {
+  const res = await getProcesses_attributeListFetch({page,limit:20})
+  console.log(res, '-------------2243------------operationOption.value')
+  if (res.data.code === 2000) {
+    if (page === 1) {
+      operationOption.value = res.data.data
+    } else {
+      operationOption.value = [...operationOption.value, ...res.data.data]
     }
-    data.push(obj);
+    pagination.value.total = res.data.total
+    console.log(operationOption.value, '-------------250------------operationOption.value')
   }
-  // 懒加载1
-  data.push({
-    ...getObject(66666, currentPage),
-    /** 如果子节点为懒加载，则初始值设置为 true */
-    list: true,
-    key: '申请人懒加载节点 66666，点我体验',
+}
+
+getOperationOptionFunc()
+
+function getFormattedIndex(index, row, prefix = "") {
+  const parentIndex = prefix ? `${prefix}.` : "";
+  const currentIndex = `${parentIndex}${index + 1}`;
+
+  // 如果有子节点，递归生成子节点的序号
+  if (row.list && row.list.length > 0) {
+    row.list.forEach((child, childIndex) => {
+      child.serial_index = getFormattedIndex(childIndex, child, currentIndex);
+    });
+  }
+  console.log('---------currentIndex---270------',currentIndex,row)
+  return currentIndex;
+}
+
+const handleScrollToBottom = () => {
+  if (loading.value) {
+    return;
+  }
+  loading.value = true;
+  const { page, limit, total } = pagination.value;
+  if (page * limit >= total) {
+    loading.value = false;
+    return;
+  }
+  pagination.value.page++;
+  getOperationOptionFunc(pagination.value.page);
+}
+
+function updateTableData(tableData, newRowData) {
+  const data = tableData.map(item => {
+    let row = {...item}
+    console.log('---------tableData---303------',newRowData,row)
+    if (newRowData.typeCode === 'operation' && row.id === newRowData.parent) {
+      console.log('---------tableData---305------',row)
+      // 替换 list 属性中 id 相等的这一条数据
+      row.list = row.list.map(listItem => {
+        if (listItem.id === newRowData.id) {
+          return newRowData;
+        }
+        return listItem;
+      });
+      console.log('---------tableData---311------',row)
+    } else if (newRowData.typeCode === 'processes') {
+      // 直接替换 table_data 中 id 相等的这一条数据
+      if (row.id === newRowData.id) {
+        row = Object.assign(item, newRowData);
+      }
+    }
+    
+    return row;
   });
-  // 懒加载2
-  data.push({
-    ...getObject(88888, currentPage),
-    /** 如果子节点为懒加载，则初始值设置为 true */
-    list: true,
-    key: '申请人懒加载节点 88888，点我体验 ',
-  });
+  console.log('---------tableData---234------',data)
   return data;
 }
+const columns = ref([
+  {
+    title: '序号',
+    colKey: 'serial-number',
+    width: 40,
+    // render(h, { type, row ,rowIndex }) {
+    //   return  rowIndex===0 ? '序号': getFormattedIndex(rowIndex, row);
+    // },
+  },
+  {
+    width: 140,
+    colKey: 'name',
+    title: '名称',
+    ellipsis: true,
+    edit: {
+      // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+      // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+      component: TInput,
+      // props, 透传全部属性到 Input 组件
+      props: {
+        clearable: true,
+        autofocus: true,
+        // autoWidth: true,
+      },
+      // 校验规则，此处同 Form 表单
+      rules: [
+        {
+          required: false,
+          message: '不能为空',
+        },
+      ],
+      showEditIcon: true,
+      abortEditOnEvent: ['onEnter','onBlur'],
+      onEdited: (context ) => {
+        console.log(context);
+        table_data.value = updateTableData(table_data.value, context.newRowData)
+        console.log('Edit firstName:', context,table_data.value);
+        useMessage('success' ,'Success');
+      },
+      // 触发校验的时机（when to validate)
+      validateTrigger: 'change',
+      // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+      on: (editContext ) => ({
+        onBlur: (ctx ) => {
+          console.log('失去焦点', editContext);
+          ctx?.e?.preventDefault();
+        },
+        onEnter: (ctx ) => {
+          ctx?.e?.preventDefault();
+          console.log('onEnter', ctx);
+        },
+        // 默认是否为编辑状态
+        defaultEditable: false,
+      }),
+    }
 
-const data = ref(getData());
+  },
+  {
+    colKey: 'typeCode',
+    title: '类型',
+    width: 80,
+    cell: (h, { row:{ typeCode }, rowIndex }) => {
+      return (
+        <t-tag shape="round" icon={typeCode === 'processes' ? renderStepIcon: renderOperationIcon} theme={typeCode === 'processes' ? 'primary' : 'success' } variant="light-outline">
+          {typeCode === 'processes' ? '步骤' : '操作'}
+        </t-tag>
+      );
+    },
+  },
+  {
+    colKey: 'defaultValue',
+    title: '默认值',
+    minWidth: 160,
+    cell: 'defaultValueSlot',
+    edit: {
+      // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+      // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+      component: TInput,
+      // props, 透传全部属性到 Input 组件
+      props: {
+        clearable: true,
+        autofocus: true,
+        // autoWidth: true,
+      },
+      // 校验规则，此处同 Form 表单
+      rules: [
+        {
+          required: false,
+          message: '不能为空',
+        },
+      ],
+      showEditIcon: true,
+      abortEditOnEvent: ['onEnter','onBlur'],
+      onEdited: (context ) => {
+        console.log('------396--------onEdited------',context,table_data.value);
+        table_data.value = updateTableData(table_data.value, context.newRowData)
+        console.log('Edit firstName:', context);
+        useMessage('success' ,'Success');
+      },
+      // 触发校验的时机（when to validate)
+      validateTrigger: 'change',
+      // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+      on: (editContext ) => ({
+        onBlur: (ctx ) => {
+          console.log('失去焦点', editContext);
+          ctx?.e?.preventDefault();
+        },
+        onEnter: (ctx ) => {
+          ctx?.e?.preventDefault();
+          console.log('onEnter', ctx);
+        },
+        // 默认是否为编辑状态
+        defaultEditable: false,
+      }),
+    }
+  },
+  {
+    colKey: 'description',
+    title: '描述',
+    ellipsis: true,
+    minWidth: 200,
+    edit: {
+      // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+      // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+      component: TTextarea,
+      // props, 透传全部属性到 Input 组件
+      props: {
+        clearable: true,
+        autofocus: true,
+        // autoWidth: true,
+        autosize: true,
+      },
+      // 校验规则，此处同 Form 表单
+      rules: [
+        {
+          required: false,
+          message: '不能为空',
+        },
+      ],
+      showEditIcon: true,
+      abortEditOnEvent: ['onEnter','onBlur'],
+      onEdited: (context ) => {
+        console.log(context);
+        table_data.value = updateTableData(table_data.value, context.newRowData)
+        console.log('Edit firstName:', context);
+        useMessage('success' ,'Success');
+      },
+      // 触发校验的时机（when to validate)
+      validateTrigger: 'change',
+      // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+      on: (editContext ) => ({
+        onBlur: (ctx ) => {
+          console.log('失去焦点', editContext);
+          ctx?.e?.preventDefault();
+        },
+        onEnter: (ctx ) => {
+          ctx?.e?.preventDefault();
+          console.log('onEnter', ctx);
+        },
+        // 默认是否为编辑状态
+        defaultEditable: false,
+      }),
+    },
+  },
+  {
+    colKey: 'operate',
+    width: 120,
+    title: '操作',
+    // 增、删、改、查 等操作
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    cell: (h, { row }) => (
+      <div class="tdesign-table-demo__table-operations">
+        {row.typeCode === "processes" && (
+          <t-button title="插入操作" shape="square" variant="text" icon={renderOperationIcon}  onClick={(event) =>{event.stopPropagation();  appendTo(row)} }></t-button>
+        )}
+        <t-button title="前插步骤" shape="square" variant="text" icon={renderArrowUp}  onClick={(event) =>{event.stopPropagation();  insertBefore(row)} }></t-button>
+        <t-button title="后插步骤" shape="square" variant="text" icon={renderArrowDown}  onClick={(event) =>{event.stopPropagation();  insertAfter(row)} }></t-button>
+        <t-popconfirm content="确认删除吗" onConfirm={() => onDeleteConfirm(row) }>
+          <t-button title="删除" theme="danger" shape="square" variant="text" icon={renderDelete} ></t-button>
+        </t-popconfirm>
+      </div>
+    ),
+  },
+])
+
+function disableClick(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+function onAddWorkingProcedure(row=undefined) {
+  // workingProcedureVisible.value = true;
+  // table_data.value = getData();
+  processesConfirm((obj)=>{
+    tableRef.value.appendTo( row ? row.id : '', obj);
+    getTreeNode()
+  })
+}
+
+const onWorkingProcedureSelectChange = ({value, params} )=>{
+  // console.log('--------onSelectChange--------44--------',value, params)
+  selectWorkingProcedure.value = params.selectedRowData
+}
+
+const onOperationSelectChange = ({value, params} )=>{
+  // console.log('--------onSelectChange--------44--------',value, params)
+  selectOperation.value = params.selectedRowData
+}
+
+const onWorkingProcedureConfirmFunc = ()=>{
+  selectWorkingProcedure.value.forEach((ele ) => {
+    const obj  = {
+      ...ele,
+      name: ele.material.name,
+      defaultValue:'',
+    }
+    tableRef.value.appendTo('', obj);
+    // if (table_data.value.length === 0) {
+    //   table_data.value.push(obj)
+    // }
+    getTreeNode()
+  });
+  workingProcedureVisible.value = false
+}
+
+const onOperationConfirmFunc = ()=>{
+  selectOperation.value.forEach((ele ) => {
+    const obj  = {
+      ...ele,
+      name: ele.material.name,
+      defaultValue:'',
+    }
+    table_data.value.push(obj)
+  });
+  operationVisible.value = false
+}
 const lazyLoadingData = ref(null);
 
 // 非必须，如果不传，表格有内置树形节点展开逻辑
 const expandedTreeNodes = ref([]);
 const treeConfig = reactive({
   childrenKey: 'list',
-  treeNodeColumnIndex: 2,
+  treeNodeColumnIndex: 1,
   indent: 25,
   expandTreeNodeOnClick: true,
 });
 
-// 重置数据和展开节点
-const resetData= () => {
-  const newData = getData();
-  // 方式一
-  data.value = newData;
-  expandedTreeNodes.value = [];
-
-  // 方式二
-  // tableRef.value.resetData(newData);
-};
-const onEditClick = (row) => {
-  const newData = {
-    ...row,
-    platform: 'New',
-    type: 'Symbol',
-    default: 'undefined',
-  };
-  tableRef.value.setData(row.key, newData);
-  TMessagePlugin.success('数据已更新');
-};
 const onDeleteConfirm = (row) => {
   // 移除当前节点及其所有子节点
-  tableRef.value.remove(row.key);
+  tableRef.value.remove(row.id);
 
   // 仅移除所有子节点
-  // tableRef.value.removeChildren(row.key);
+  // tableRef.value.removeChildren(row.id);
   TMessagePlugin.success('删除成功');
 };
-const onLookUp = (row) => {
-  const allRowData = tableRef.value.getData(row.key);
-  const message = '当前行全部数据，包含节点路径、父节点、子节点、是否展开、是否禁用等';
-  TMessagePlugin.success(`打开控制台查看${message}`);
-  console.log(`${message}：`, allRowData);
-};
-const appendTo = (row) => {
-  const randomKey1 = Math.round(Math.random() * Math.random() * 1000) + 10000;
-  tableRef.value.appendTo(row.key, {
-    id: randomKey1,
-    key: `申请人 ${randomKey1} 号`,
-    platform: '电子签署',
-    type: 'Number',
-  });
-  TMessagePlugin.success(`已插入子节点申请人 ${randomKey1} 号，请展开查看`);
 
-  // 一次性添加多个子节点。示例代码有效，勿删！!!
-  // appendMultipleDataTo(row);
+const appendTo = (row=undefined) => {
+  operationConfirm((obj)=>{
+    tableRef.value.appendTo(row ? row.id: '', obj);
+    nextTick(()=>{
+      if (row && row.id) {
+        const rowData = tableRef.value.getData(row.id);
+        tableRef.value.toggleExpandData(rowData);
+      }
+    });
+    getTreeNode()
+  },row)
 };
 function appendMultipleDataTo(row) {
   const randomKey1 = Math.round(Math.random() * Math.random() * 1000) + 10000;
@@ -211,118 +609,57 @@ function appendMultipleDataTo(row) {
   const appendList = [
     {
       id: randomKey1,
-      key: `申请人 ${randomKey1} 号`,
+      name: `申请人 ${randomKey1} 号`,
       platform: '电子签署',
-      type: 'Number',
+      typeCode: 'Number',
     },
     {
       id: randomKey2,
-      key: `申请人 ${randomKey2} 号`,
+      name: `申请人 ${randomKey2} 号`,
       platform: '纸质签署',
-      type: 'Number',
+      typeCode: 'Number',
     },
     {
       id: randomKey3,
-      key: `申请人 ${randomKey3} 号`,
+      name: `申请人 ${randomKey3} 号`,
       platform: '纸质签署',
-      type: 'Number',
+      typeCode: 'Number',
       list: true,
     },
   ];
-  tableRef.value.appendTo(row?.key, appendList);
+  tableRef.value.appendTo(row?.id, appendList);
   TMessagePlugin.success(`已插入子节点申请人 ${randomKey1} 和 ${randomKey2} 号，请展开查看`);
+  getTreeNode()
 }
 // 当前节点之前，新增兄弟节前
 const insertBefore = (row) => {
-  const randomKey = Math.round(Math.random() * Math.random() * 1000) + 10000;
-  tableRef.value.insertBefore(row.key, {
-    id: randomKey,
-    key: `申请人 ${randomKey} 号`,
-    platform: '纸质签署',
-    type: 'Number',
-  });
-  TMessagePlugin.success(`已插入子节点申请人 ${randomKey} 号，请展开查看`);
+  if (row.typeCode !== 'processes') {
+    operationConfirm((obj)=>{
+      tableRef.value.insertBefore(row ? row.id: '', obj);
+      getTreeNode()
+    },row)
+  }else{
+    processesConfirm((obj)=>{
+      tableRef.value.insertBefore(row ? row.id: '', obj);
+      getTreeNode()
+    })
+  }
 };
 
 // 当前节点之后，新增兄弟节前
 const insertAfter = (row) => {
-  const randomKey = Math.round(Math.random() * Math.random() * 1000) + 10000;
-  tableRef.value.insertAfter(row.key, {
-    id: randomKey,
-    key: `申请人 ${randomKey} 号`,
-    platform: '纸质签署',
-    type: 'Number',
-  });
-  TMessagePlugin.success(`已插入子节点申请人 ${randomKey} 号，请展开查看`);
+  if (row.typeCode !== 'processes') {
+    operationConfirm((obj)=>{
+      tableRef.value.insertAfter(row ? row.id: '', obj);
+      getTreeNode()
+    },row)
+  }else{
+    processesConfirm((obj)=>{
+      tableRef.value.insertAfter(row ? row.id: '', obj);
+      getTreeNode()
+    })
+  }
 };
-
-const columns = [
-  {
-    // 列拖拽排序必要参数
-    colKey: 'drag',
-    title: '排序',
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cell: (h) => <MoveIcon />,
-    width: 46,
-  },
-  {
-    colKey: 'id',
-    title: '编号',
-    ellipsis: true,
-    width: 80,
-  },
-  {
-    width: 180,
-    colKey: 'key',
-    title: '申请人',
-    ellipsis: true,
-  },
-  {
-    colKey: 'platform',
-    title: '签署方式',
-    width: 100,
-  },
-  {
-    colKey: 'operate',
-    width: 280,
-    title: '操作',
-    // 增、删、改、查 等操作
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    cell: (h, { row }) => (
-      <div class="tdesign-table-demo__table-operations">
-        <t-link variant="text" hover="color" onClick={() => appendTo(row)}>
-          插入
-        </t-link>
-        <t-link variant="text" hover="color" onClick={() => insertBefore(row)}>
-          前插
-        </t-link>
-        <t-link variant="text" hover="color" onClick={() => insertAfter(row)}>
-          后插
-        </t-link>
-        <t-link variant="text" hover="color" onClick={() => onEditClick(row)}>
-          更新
-        </t-link>
-        <t-link variant="text" hover="color" onClick={() => onLookUp(row)}>
-          查看
-        </t-link>
-        <t-popconfirm content="确认删除吗" onConfirm={() => onDeleteConfirm(row)}>
-          <t-link variant="text" hover="color" theme="danger">
-            删除
-          </t-link>
-        </t-popconfirm>
-      </div>
-    ),
-  },
-]
-
-const columnsCheckboxs = ref([])
-
-const displayColumns = ref([]);
-const displayColumnsC = ref([]);
-displayColumns.value = ['applicant', 'status', 'matters', 'email', 'createTime', 'operate']
-
-const checkAll = computed(() => displayColumns.value.length === displayColumnsC.value.length);
-const indeterminate = computed(() => !!(displayColumns.value.length > displayColumnsC.value.length && displayColumnsC.value.length));
 
 const handleSelectAll = (checked) => {
   displayColumnsC.value = checked ? [ ...displayColumns.value ] : [];
@@ -334,32 +671,11 @@ const onConfirmFunc = ()=>{
 }
 
 const columnEditFunc = ()=>{
-  columnsCheckboxs.value = columns.map((col)=>{ return { label:col.title, value:col.colKey } })
+  columnsCheckboxs.value = columns.value.map((col)=>{ return { label:col.title, value:col.colKey } })
   displayColumnsC.value = [ ...displayColumns.value ]
   dialog_visible.value = true
 }
-
-const expandAll = ref(false);
-const pagination = reactive({
-  current: 1,
-  pageSize: TOTAL,
-  total: TOTAL,
-});
-
-// const defaultPagination = {
-//   defaultCurrent: 1,
-//   defaultPageSize: TOTAL,
-//   total: TOTAL,
-// };
-
-const onPageChange = (pageInfo) => {
-  if (!pagination) {
-    return
-  }
-  pagination.current = pageInfo.current;
-  pagination.pageSize = pageInfo.pageSize;
-  data.value = getData(pageInfo.current);
-};
+ 
 const onRowToggle= () => {
   const rowIds = ['申请人 1_1 号', '申请人 2_1 号', '申请人 3_1 号', '申请人 4_1 号'];
   rowIds.forEach((id) => {
@@ -372,7 +688,7 @@ const onRowToggle= () => {
 };
 const customTreeExpandAndFoldIcon = ref(false);
 const treeExpandAndFoldIconRender = (h, { type, row }) => {
-  if (lazyLoadingData.value && lazyLoadingData.value.key === row?.key) {
+  if (lazyLoadingData.value && lazyLoadingData.value.id === row?.id) {
     return <Loading size="14px" />;
   }
   return type === 'expand' ? <ChevronRightIcon /> : <ChevronDownIcon />;
@@ -381,7 +697,7 @@ const treeExpandAndFoldIconRender = (h, { type, row }) => {
 // 懒加载图标渲染
 const lazyLoadingTreeIconRender = (h, params) => {
   const { type, row } = params;
-  if (lazyLoadingData.value && lazyLoadingData.value.key === row?.key) {
+  if (lazyLoadingData.value && lazyLoadingData.value.id === row?.id) {
     return <Loading size="14px" />;
   }
   return type === 'expand' ? <AddRectangleIcon /> : <MinusRectangleIcon />;
@@ -396,48 +712,19 @@ const getTreeNode= () => {
   // 查看树形结构平铺数据
   // tableRef.value.dataSource
   const treeData = tableRef.value.getTreeNode();
-  console.log(treeData);
+  table_data.value = treeData
+  console.log('------457-------',treeData);
   TMessagePlugin.success('树形结构获取成功，请打开控制台查看');
 };
-const onExpandAllToggle= () => {
-  expandAll.value = !expandAll.value;
-  expandAll.value ? tableRef.value.expandAll() : tableRef.value.foldAll();
-};
-const appendToRoot= () => {
-  const key = Math.round(Math.random() * 10010);
-  const newData = {
-    id: key,
-    key: `申请人 ${key}_${1} 号`,
-    platform: key % 2 === 0 ? '共有' : '私有',
-    type: ['String', 'Number', 'Array', 'Object'][key % 4],
-    default: ['-', '0', '[]', '{}'][key % 4],
-    detail: {
-      position: `读取 ${key} 个数据的嵌套信息值`,
-    },
-    needed: key % 4 === 0 ? '是' : '否',
-    description: '数据源',
-  };
-  // data.value.push(newData);
-  tableRef.value.appendTo('', newData);
 
-  // 同时添加多个元素，示例代码有效勿删
-  // appendMultipleDataTo();
-};
-const onAbnormalDragSort = (params) => {
-  console.log(params);
-  // TMessagePlugin.warning(params.reason);
-  if (params.code === 1001) {
-    TMessagePlugin.warning('不同层级的元素，不允许调整顺序');
-  }
-};
 const onExpandedTreeNodesChange = (expandedTreeNodes, context) => {
-  console.log(expandedTreeNodes, context);
+  console.log('------485-------',expandedTreeNodes, context);
   // 全选不需要处理；仅处理懒加载
   if (!context.rowState) return;
   onTreeExpandChange(context);
 };
 const onTreeExpandChange = (context ) => {
-  console.log(context.rowState.expanded ? '展开' : '收起', context);
+  console.log('------491-------',context.rowState.expanded ? '展开' : '收起', context);
   /**
    * 如果是懒加载，请确认自己完成了以下几个步骤
    * 1. 提前设置 children 值为 true；
@@ -452,17 +739,7 @@ const onTreeExpandChange = (context ) => {
       clearTimeout(timer);
     }, 200);
   }
-};
-const onDragSort = (params) => {
-  console.log('onDragSort:', params);
-};
-
-// 应用于需要阻止拖拽排序的场景。如：当子节点存在时，则不允许调整顺序。
-// 返回值为 true，允许拖拽排序；返回值 为 false，则阻止拖拽排序
-const beforeDragSort = (params) => {
-  console.log('beforeDragSort:', params);
-  return true;
-};
+}; 
 const treeExpandIcon = computed(() => {
   // 自定义展开图标
   if (customTreeExpandAndFoldIcon.value) {
@@ -474,29 +751,17 @@ const treeExpandIcon = computed(() => {
 
 
 onMounted(() => {
-  // getIngredient_dev_materialListFetch().then((res:IngredientDevMaterialListResult) => {
-  //   console.log('-------onMounted-----res-------', res)
-  // });
-  // console.log('-------onMounted-----node-------', node.attrs.option)
-  // const optionAtt = node.attrs.option;
-  // if (optionAtt && optionAtt.fields) {
-  //   columns.value = optionAtt.fields.map((field) => ({
-  //     colKey: field.key,
-  //     title: field.title
-  //   }));
-  //   displayColumns.value = optionAtt.fields.map((field) => field.key);
-  // }
-  // if (optionAtt && optionAtt.data) {
-  //   data.value = optionAtt.data
-  // }
-  // console.log('-------onMounted-----node--22-----',columns.value,data.value )
+
 })
 
 </script>
 
 <style lang="scss" scoped>
-:deep(.tdesign-table-demo__table-operations .umo-link) {
-  padding: 0 8px;
+:deep(.tdesign-table-demo__table-operations) {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1px;
 }
 :deep(.umo-table__top-content) {
   div{

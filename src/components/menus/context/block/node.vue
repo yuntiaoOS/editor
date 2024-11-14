@@ -48,6 +48,14 @@
           @menu-click="editor?.chain().focus().addTechnology_tables().run()"
         />
       </t-dropdown-item>
+      <t-dropdown-item  >
+        <menus-button
+          ico="experimental_design"
+          text="试验方法设计"
+          :tooltip="false"
+          @menu-click="editor?.chain().focus().addExperimental_designs().run()"
+        />
+      </t-dropdown-item>  
       <t-dropdown-item divider >
         <menus-button
           ico="t-table"

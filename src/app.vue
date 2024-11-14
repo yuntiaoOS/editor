@@ -1,5 +1,6 @@
 <template>
   <div class="box">
+    <!-- <xm-form v-model:form-data="xmValue" /> -->
     <!-- <UmoEditor ref="editorRef" v-bind="options" /> -->
     <UmoSimpleEditor ref="editorRef" v-bind="options" @change="changeEdit"/>
   </div>
@@ -11,6 +12,49 @@ import { shortId } from '@/utils/short-id'
 // import UmoEdit from './components/editor/index.vue'
 const { editor } = useStore()
 const editorRef = $ref(null)
+const xmValue = ref({})
+const config = {
+  "id": "name",
+  "key": "name",
+  "icon": "iconamoon:edit",
+  "name": "SelectPlus",
+  "type": "SelectPlus",
+  "alias": "物料名称",
+  "props": {
+    "hidden": false,
+    "abstract": false,
+    "readOnly": false,
+    "required": true,
+    "enableScan": false,
+    "validation": null,
+    "enablePrint": true,
+    "textForSuffix": "",
+    "enableSuffixText": false,
+    "remote": true,
+    "options": [{ id: 11, name: '选项一1' }, { id: 22, name: '选项二2' }],
+    "valueKey": "id",
+    "labelKey": "name",
+    "remoteMethod": () => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            data: {
+              code: 2000,
+              data: [
+                { id: 1, name: '选项一' },
+                { id: 2, name: '选项二' }
+              ]
+            }
+          })
+        }, 500)
+      })
+    }
+  },
+  "title": "物料名称",
+  "valueType": "String"
+}
+
+
 const templates = [
   {
     title: '工作任务',
@@ -33,10 +77,10 @@ const options = $ref({
     enableSourceEditor: true,
   },
   requestOptions: {
-    experiment_theme: '67d221bc-9271-4844-9ed8-d9f387c8047e',
-    experiment_record: '6ee31887-bad3-4af7-a70d-c7831580e245',
+    experiment_theme: '9cabf47c-a9cb-4db6-bcc9-a4128ab4de66',
+    experiment_record: '1ee31b38-fe5c-4cc7-a17d-289531d8f7ac',
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwOTgwNjE0LCJpYXQiOjE3MzA4OTQyMTQsImp0aSI6Ijk3ODBiYjBkNjMwODRiM2E4Y2Q2MjAyNzEwODM5ZjY1IiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.3wYVyfiwR2fEZCZ_u2PTv205j5TWlSz2lyitYWvZYtA',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxNjQwNjE4LCJpYXQiOjE3MzE1NTQyMTgsImp0aSI6ImQ4OTljNGI1ZGI3ZjQ4MWI4NjM2NTc0M2ZmMWFmN2Y0IiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.7BkL2ME8cr8dITAwxVt6n1H0dkR_Y5TUuC6oEa2jFKo',
   },
   document: {
     placeholder: '测试文档',
@@ -617,6 +661,8 @@ const options = $ref({
   },
 })
 
+const inputstring = ref('测试导入word')
+
 const changeEdit = (data: any) => {
   if (editorRef && editorRef.editorInstance) {
     console.log('--------12------',editorRef.editorInstance.getJSON())
@@ -625,14 +671,347 @@ const changeEdit = (data: any) => {
 
 onMounted(() => {
   // console.log('--------12------',editorRef.editorInstance.getJSON())
-  editorRef.editorInstance.chain().focus().addXmTitle({key: 'erfsfere', title: '' }).run()
-  editorRef.editorInstance?.chain().focus().setColumns().focus(editorRef.editorInstance.state.selection.head - 1).run()
+  // editorRef.editorInstance.chain().focus().addXmTitle({key: 'erfsfere', title: '' }).run()
+  // editorRef.editorInstance.chain().focus().addXmForm().run()
+  // editorRef.editorInstance?.chain().focus().setColumns().focus(editorRef.editorInstance.state.selection.head - 1).run()
   // editorRef.editorInstance.chain().focus().addXmTitleContent({key: 'erere', title: '试验背景：',content: '国内功效护肤成为美妆护肤的大趋势。在越来越多功效诉求的今天，越来越多消费者认可“功效护肤”理念，护肤品的成分与功效成为消费者在购买产品时的首要考虑因素' }).run()
 
   // editorRef.editorInstance.chain().focus().addXmTitleContent({key: 'ewr', title: '试验目的：',content: '从传统医学和现代医学促进活性物吸收和效用的方法路径出发，开发一款物质清晰、机理明确、功效性强的促效方' }).run()
-
+  // editorRef.editorInstance.chain().focus().addRaw_material_tables({key: 'raw_material_table',title:'电子实验记录测试工艺'}).run()
   // editorRef.editorInstance.chain().focus().addXmTitleContent({key: 'erfsfere', title: '试验内容：',content: '1、活性成分的筛选与提取' }).run()
- 
+  // editorRef.editorInstance.chain().focus().addTechnology_tables({key: 'technology_table',title:'电子实验记录测试工艺'}).run()
+  // editorRef.editorInstance?.chain().focus().addExperimental_method_designs({key: 'experimental_method_designs',title:'试验方式使用面板'}).run()
+  // editorRef.editorInstance?.chain().focus().addSample_tables({key: 'sample_table',title:'试验方式使用面板'}).run()
+  const jsonContent = {
+    "type": "doc",
+    "content": [
+        {
+            "type": "paragraph",
+            "attrs": {
+                "indent": null,
+                "textAlign": "left",
+                "lineHeight": 1.5,
+                "margin": {}
+            }
+        },
+        {
+            "type": "raw_material_table",
+            "attrs": {
+                "id": "",
+                "key": "raw_material_table",
+                "name": "",
+                "isChanged": false,
+                "table_data": [
+                    {
+                        "id": "a060cb6e-23ea-4643-9c9b-22649eb58619",
+                        "material": {
+                            "id": "50831c42-06a1-407b-a14d-dde160a7db8b",
+                            "name": "YL10171643",
+                            "sn": "SN-1729154564209"
+                        },
+                        "state": "In-Progress",
+                        "batch": "BT-1729154564209",
+                        "price": "12.00",
+                        "production_date": "2024-10-17",
+                        "margin": "23.00",
+                        "goods": "为了",
+                        "supplier": "sadas",
+                        "place": "",
+                        "description": null,
+                        "create_datetime": "2024-10-17 16:43:17",
+                        "update_datetime": "2024-10-21 14:18:05"
+                    },
+                    {
+                        "id": "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                        "material": {
+                            "id": "4cb7c311-ab8f-4fdf-aef4-61167a78c48f",
+                            "name": "YL01171535",
+                            "sn": "SN-1729150535817"
+                        },
+                        "state": "Not-Started",
+                        "batch": "BT-1729150535818",
+                        "price": "2354.00",
+                        "production_date": "2024-10-17",
+                        "margin": "12.00",
+                        "goods": "货架位置",
+                        "supplier": "供应商",
+                        "place": "存放位置",
+                        "description": null,
+                        "create_datetime": "2024-10-17 15:36:27",
+                        "update_datetime": "2024-10-17 15:36:27"
+                    },
+                    {
+                        "id": "64886cd2-1b88-49aa-b7c1-a687a8ffbad4",
+                        "material": {
+                            "id": "7867a6e8-71a1-4ae3-afd5-f07f6ac0bb7a",
+                            "name": "YL10171534",
+                            "sn": "SN-1729150438237"
+                        },
+                        "state": "Not-Started",
+                        "batch": "BT-1729150438237",
+                        "price": "1243.00",
+                        "production_date": "2024-10-17",
+                        "margin": null,
+                        "goods": "",
+                        "supplier": "",
+                        "place": "",
+                        "description": null,
+                        "create_datetime": "2024-10-17 15:34:26",
+                        "update_datetime": "2024-10-17 15:34:26"
+                    }
+                ]
+            },
+            "content": [
+                {
+                    "type": "paragraph",
+                    "attrs": {
+                        "indent": null,
+                        "textAlign": "left",
+                        "lineHeight": 1.5,
+                        "margin": {}
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": " "
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "technology_table",
+            "attrs": {
+                "id": "",
+                "key": "technology_table",
+                "name": "",
+                "isChanged": false,
+                "table_data": [
+                    {
+                        "id": "51d6f030-de74-45c0-b8d7-09a6837ea2f1",
+                        "name": "das",
+                        "typeCode": "processes",
+                        "description": "",
+                        "list": [
+                            {
+                                "id": "7",
+                                "gourp": [],
+                                "name": "温度",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "validation": "number",
+                                    "enablePrint": true
+                                },
+                                "key": "temperature",
+                                "type": "TextInput",
+                                "value": null,
+                                "unit": null,
+                                "attribute_type": "single",
+                                "typeCode": "operation",
+                                "defaultValue": "23",
+                                "data_id": 7,
+                                "parent": "51d6f030-de74-45c0-b8d7-09a6837ea2f1",
+                                "description": ""
+                            },
+                            {
+                                "id": "8",
+                                "gourp": [],
+                                "name": "压力",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "validation": "number",
+                                    "enablePrint": true
+                                },
+                                "key": "pressure",
+                                "type": "TextInput",
+                                "value": null,
+                                "unit": null,
+                                "attribute_type": "single",
+                                "typeCode": "operation",
+                                "defaultValue": "24",
+                                "data_id": 8,
+                                "parent": "51d6f030-de74-45c0-b8d7-09a6837ea2f1",
+                                "description": "额我"
+                            },
+                            {
+                                "id": "9",
+                                "gourp": [],
+                                "name": "原材料",
+                                "props": {
+                                    "custom": false,
+                                    "options": [
+                                        "无"
+                                    ],
+                                    "abstract": false,
+                                    "required": true,
+                                    "expanding": false,
+                                    "enablePrint": true,
+                                    "customConfig": {
+                                        "name": "customerTreeSelect",
+                                        "label": "配方版本",
+                                        "value": "FormulaVersion"
+                                    }
+                                },
+                                "key": "xm_raw_material",
+                                "type": "MultipleSelect",
+                                "value": null,
+                                "unit": null,
+                                "attribute_type": "single",
+                                "typeCode": "operation",
+                                "defaultValue": null,
+                                "data_id": 9,
+                                "parent": "51d6f030-de74-45c0-b8d7-09a6837ea2f1",
+                                "description": ""
+                            }
+                        ]
+                    }
+                ],
+                "title": ""
+            },
+            "content": [
+                {
+                    "type": "paragraph",
+                    "attrs": {
+                        "indent": null,
+                        "textAlign": "left",
+                        "lineHeight": 1.5,
+                        "margin": {}
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "文档 "
+                        }
+                    ]
+                },
+            ]
+        },
+        {
+            "type": "paragraph",
+            "attrs": {
+                "indent": null,
+                "textAlign": "left",
+                "lineHeight": 1.5,
+                "margin": {}
+            }
+        },
+        {
+            "type": "sample_table",
+            "attrs": {
+                "id": "",
+                "key": "sample_table",
+                "name": "",
+                "isChanged": false,
+                "table_data": [
+                    {
+                        "check": true,
+                        "id": "8b589d19-60dd-4e9e-b716-e490d8017baf",
+                        "temperature": "23.0",
+                        "pressure": "24.0",
+                        "xm_raw_material": [
+                            "a060cb6e-23ea-4643-9c9b-22649eb58619",
+                            "5622ae82-bf06-47ed-9db9-f66ee75d640d"
+                        ],
+                        "name": "YL10171643/SN-1729154564209;YL01171535/SN-1729150535817",
+                        "sn": "S-001",
+                        "count": "0",
+                        "description": "风度书房"
+                    },
+                    {
+                        "check": true,
+                        "id": "73fca46f-d0aa-45c7-b380-2b05341a5259",
+                        "temperature": "46.0",
+                        "pressure": "58.0",
+                        "xm_raw_material": [
+                            "a060cb6e-23ea-4643-9c9b-22649eb58619",
+                            "5622ae82-bf06-47ed-9db9-f66ee75d640d"
+                        ],
+                        "name": "YL10171643/SN-1729154564209;YL01171535/SN-1729150535817",
+                        "sn": "S-002",
+                        "count": "0",
+                        "description": "发大水发大水"
+                    },
+                    {
+                        "check": true,
+                        "id": "fd2342dd-fc51-4a2d-8b7f-3fbed97e578e",
+                        "temperature": "69.0",
+                        "pressure": "92.0",
+                        "xm_raw_material": [
+                            "a060cb6e-23ea-4643-9c9b-22649eb58619",
+                            "5622ae82-bf06-47ed-9db9-f66ee75d640d"
+                        ],
+                        "name": "YL10171643/SN-1729154564209;YL01171535/SN-1729150535817",
+                        "sn": "S-003",
+                        "count": "0",
+                        "description": "发大水发大水"
+                    },
+                    {
+                        "check": true,
+                        "id": "146665ca-f340-4f82-829f-aba83687082d",
+                        "temperature": "92.0",
+                        "pressure": "126.0",
+                        "xm_raw_material": [
+                            "a060cb6e-23ea-4643-9c9b-22649eb58619",
+                            "5622ae82-bf06-47ed-9db9-f66ee75d640d"
+                        ],
+                        "name": "YL10171643/SN-1729154564209;YL01171535/SN-1729150535817",
+                        "sn": "S-004",
+                        "count": "0",
+                        "description": "发生电话多少"
+                    },
+                    {
+                        "check": true,
+                        "id": "5172b139-b32a-4873-a038-6478ef9a9e75",
+                        "temperature": "115.0",
+                        "pressure": "160.0",
+                        "xm_raw_material": [
+                            "a060cb6e-23ea-4643-9c9b-22649eb58619",
+                            "5622ae82-bf06-47ed-9db9-f66ee75d640d"
+                        ],
+                        "name": "YL10171643/SN-1729154564209;YL01171535/SN-1729150535817",
+                        "sn": "S-005",
+                        "count": "0",
+                        "description": "发大水发大水"
+                    }
+                ],
+                "designParams": []
+            },
+            "content": [
+                {
+                    "type": "paragraph",
+                    "attrs": {
+                        "indent": null,
+                        "textAlign": "left",
+                        "lineHeight": 1.5,
+                        "margin": {}
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": " "
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "paragraph",
+            "attrs": {
+                "indent": null,
+                "textAlign": "left",
+                "lineHeight": 1.5,
+                "margin": {}
+            }
+        }
+    ]
+  }
+  // editorRef.editorInstance?.commands.setContent(jsonContent)
+
+  // editorRef.editorInstance?.chain().focus().addSample_tables({key: 'sample_table',title:'试验方式使用面板'}).run()
 })
 
 
@@ -642,7 +1021,6 @@ onMounted(() => {
 .box {
   margin: 40px;
   height: calc(100vh - 80px);
-  //border: solid 1px #ddd;
   box-sizing: border-box;
   position: relative;
 }

@@ -1,34 +1,62 @@
 <template>
   <node-view-wrapper :id="node.attrs.id" class="umo-node-view">
     <div style="width: 100%">
-      <t-table ref="tableRef" :editable-row-keys="editableRowKeys"
-        row-key="key" :data="data" :columns="columns" resizable v-model:displayColumns="displayColumns"
-        @row-edit="onRowEdit">
+      <!-- <h2>试验原辅料</h2> -->
+      <t-table 
+        ref="tableRef"  
+        row-key="id" :data="table_data" :columns="columns" resizable v-model:displayColumns="displayColumns"
+        >
         <template #topContent>
-          <div style="padding: 6px 0;">
-            <t-input v-model="editableRowKeys" placeholder="请输入节点名称" />
-            <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="30px"></t-icon></template>列配置</t-button>
+          <div style="padding: 6px 0;display: block;">
+            <t-space>
+              <div></div>
+              <t-space>
+                <t-input v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
+                <t-button variant="outline" @click="add_dialog_visible = true;">新增</t-button>
+                <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
+              </t-space>
+            </t-space>
           </div>
         </template>
+        <template #type-slot-sort="{ col, row , rowIndex}">
+          <t-space>
+            <t-icon v-if="rowIndex!==0" name="order-ascending" size="18px"></t-icon>
+            <div v-elae></div>
+            <t-icon v-if="rowIndex!==table_data.length-1" name="order-descending" size="18px"></t-icon>
+          </t-space>
+
+        </template> 
         <template #type-slot-operate="{ col, row }">
           <div class="table-operations">
-            <t-link v-if="!editableRowKeys.includes(row.key)" theme="primary" hover="color" @click="onEdit">
+            <!-- <t-link v-if="!editableRowKeys.includes(row.id)" theme="primary" hover="color" @click.stop="onEdit(row)">
               编辑
             </t-link>
             <div v-else>
-              <t-link theme="primary" hover="color" @click="onSave">
+              <t-link theme="primary" hover="color" @click.stop="onSave(row)">
                 保存
               </t-link>
-              <t-link theme="primary" hover="color" @click="onCancel">
+              <t-link theme="primary" hover="color" @click.stop="onCancel(row)">
                 取消
               </t-link>
-            </div>
+            </div> -->
+            <t-link theme="danger" hover="color" @click.stop="onDelete(row)">
+              删除
+            </t-link>
           </div>
         </template>
       </t-table>
       <node-view-content :node="node" ></node-view-content> 
     </div>
-    <t-dialog
+    <t-dialog destroyOnClose 
+      v-model:visible="add_dialog_visible"
+      header="新增原材料"
+      width="80%" attach="body"
+      :confirm-on-enter="true"
+      :on-confirm="on_select_materialFunc"
+    >
+      <materialSelect v-if="add_dialog_visible" @select-change="onSelectChange"/>
+    </t-dialog>
+    <t-dialog destroyOnClose
       v-model:visible="dialog_visible"
       header="表格列配置"
       width="40%" attach="body"
@@ -53,64 +81,88 @@
   </node-view-wrapper>
 </template>
 
-<script setup lang="ts">
+<script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
-// import { Button as TButton, EnhancedTable as TTable  } from 'tdesign-vue-next';
-import type { CheckboxGroupProps, CheckboxProps, TableColumnController, TableProps } from 'tdesign-vue-next';
-import { getIngredient_dev_materialListFetch } from '@/api/material'
-import type { IngredientDevMaterialListResult } from '@/api/model/materialModel';
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
 const { options } = useStore()
 const dialog_visible = ref(false);
 const tableRef = ref();
-const editableRowKeys = ref(['1']);
+const editableRowKeys = ref([]);
 const currentSaveId = ref('');
 // 保存变化过的行信息
-const editMap :any = {};
+const editMap  = {};
 
-const data = ref([]) ;
+const searchTitle = ref('')
+const add_dialog_visible = ref(false);
 
-for (let i = 0; i < 5; i++) {
-  data.value.push({
-    index: i + 1,
-    applicant: ['贾明', '张三', '王芳'][i % 3],
-    status: i % 3,
-    channel: ['电子签署', '纸质签署', '纸质签署'][i % 3],
-    email: ['w.cezkdudy@lhll.au', 'r.nmgw@peurezgn.sl', 'p.cumx@rampblpa.ru'][i % 3],
-    matters: ['宣传物料制作费用', 'algolia 服务报销', '相关周边制作费', '激励奖品快递费'][i % 4],
-    time: [2, 3, 1, 4][i % 4],
-    createTime: ['2022-01-01', '2022-02-01', '2022-03-01', '2022-04-01', '2022-05-01'][i % 4],
-  });
+const select_material = ref([])
+
+const table_data = computed({
+  get: () => node.attrs.table_data,
+  set(value) {
+    updateAttributes({ table_data: value })
+  },
+})
+
+
+const onAdd = ()=>{
+  add_dialog_visible.value = true
 }
 
-const onEdit = (e: MouseEvent) => {
-  console.log('--------onEdit--------44--------',e)
-  const { id } = (e.currentTarget as HTMLElement).dataset;
-  if (!editableRowKeys.value.includes(id)) {
-    editableRowKeys.value.push(id);
+const onSelectChange = ({value, params} )=>{
+  // console.log('--------onSelectChange--------44--------',value, params)
+  select_material.value = params.selectedRowData
+}
+
+const on_select_materialFunc = ()=>{
+  select_material.value.forEach((ele ) => {
+    const obj  = {
+      ...ele,
+      // content: '0.0',
+    }
+    table_data.value.push(obj)
+  });
+  console.log('--------onSelectChange--------119--------',table_data.value)
+  add_dialog_visible.value = false
+}
+
+const onEdit = (row) => {
+  console.log('--------onEdit--------44--------',row)
+  if (!editableRowKeys.value.includes(row.id)) {
+    editableRowKeys.value.push(row.id);
   }
 };
 
+const onDelete = (row) => {
+  console.log('--------onDelete--------44--------',row)
+  const index = table_data.value.findIndex((t ) => t === row);
+  table_data.value.splice(index, 1);
+};
+
+const onDragSort = (params ) => {
+  console.log('交换行', params);
+  table_data.value = params.newData;
+};
 // 更新 editableRowKeys
-const updateEditState = (id: string) => {
+const updateEditState = (id) => {
   console.log('--------updateEditState--------44--------',id)
-  const index = editableRowKeys.value.findIndex((t:string) => t === id);
+  const index = editableRowKeys.value.findIndex((t) => t === id);
   editableRowKeys.value.splice(index, 1);
 };
-const onCancel = (e: MouseEvent) => {
-  console.log('--------onCancel--------44--------',e)
-  const { id } = (e.currentTarget as HTMLElement).dataset;
-  updateEditState(id as string);
+const onCancel = (row) => {
+  console.log('--------onSave--------44--------',row)
+  const { id } = row;
+  updateEditState(id );
   tableRef.value?.clearValidateData();
 };
-const onSave = (e: MouseEvent) => {
-  console.log('--------onSave--------44--------',e)
-  const { id } = (e.currentTarget as HTMLElement).dataset;
+const onSave = (row) => {
+  console.log('--------onSave--------44--------',row)
+  const { id } = row;
   currentSaveId.value = id;
   // 触发内部校验，而后也可在 onRowValidate 中接收异步校验结果
-  tableRef.value.validateRowData(id).then((params:any) => {
+  tableRef.value.validateRowData(id).then((params ) => {
     console.log('Event Table Promise Validate:', params);
     if (params.result.length) {
       const r = params.result[0];
@@ -121,7 +173,7 @@ const onSave = (e: MouseEvent) => {
     if (params.trigger === 'parent' && !params.result.length) {
       const current = editMap[currentSaveId.value];
       if (current) {
-        data.value.splice(current.rowIndex, 1, current.editedRow);
+        table_data.value.splice(current.rowIndex, 1, current.editedRow);
         TMessagePlugin.success('保存成功');
       }
       updateEditState(currentSaveId.value);
@@ -133,58 +185,110 @@ const columns = ref([])
 
 const columnsCheckboxs = ref([])
 
-const displayColumns = ref<TableProps['displayColumns']>([]);
-const displayColumnsC = ref<TableProps['displayColumns']>([]);
-displayColumns.value = ['applicant', 'status', 'matters', 'email', 'createTime', 'operate']
+const displayColumns = ref([]);
+const displayColumnsC = ref([]);
+displayColumns.value = ['material','batch', 'supplier', 'price', 'description', 'operate']
 columns.value = [
+  // {
+  //   title: '排序',
+  //   colKey: 'sort',
+  //   width: 80,
+  //   cell: 'type-slot-sort',
+  // },
+  // {
+  //   title: '序号',
+  //   colKey: 'serial-number',
+  //   width: 45,
+  // },
   {
-    colKey: 'applicant',
-    title: '申请人',
-    // type-slot-name 会被用于自定义单元格的插槽名称
-    cell: 'type-slot-name',
-    width: 80,
+    colKey: 'material',
+    title: '原材料',
+    cell: (h , { row: { material}, rowIndex } ) => {
+      const status = rowIndex % 3;
+      return (
+        <div>
+          <span>{material ? material.name : ''}</span>
+          <t-tag size="small">{material ? material.sn : ''}</t-tag>
+        </div>
+      );
+    },
+    minWidth: 120,
+  },
+  {
+    colKey: 'batch',
+    title: '批次',
+    width: 170,
+  },
+  // {
+  //   colKey: 'content',
+  //   title: '含量%',
+  //   width: 120,
+  // },
+  {
+    colKey: 'supplier',
+    title: '供应商',
+    width: 160,
+  },
+  {
+    colKey: 'price',
+    title: '价格',
+    width: 90,
+  },
+  // {
+  //   colKey: 'cas',
+  //   title: 'CAS号',
+  //   width: 120,
+  // },
+  {
+    colKey: 'description',
+    title: '描述',
+    ellipsis: true,
+    minWidth: 100,
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
       // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-      component: TInput,
+      component: TTextarea,
       // props, 透传全部属性到 Input 组件
       props: {
         clearable: true,
         autofocus: true,
-        autoWidth: true,
+        // autoWidth: true,
+        autosize: true,
       },
       // 校验规则，此处同 Form 表单
       rules: [
         {
-          required: true,
+          required: false,
           message: '不能为空',
         },
-        {
-          max: 10,
-          message: '字符数量不能超过 10',
-          type: 'warning',
-        },
       ],
-      showEditIcon: false,
+      showEditIcon: true,
+      abortEditOnEvent: ['onEnter','onBlur'],
+      onEdited: (context ) => {
+        console.log(context);
+        const newData = [...table_data.value];
+        newData.splice(context.rowIndex, 1, context.newRowData);
+        table_data.value = newData;
+        console.log('Edit firstName:', context);
+        useMessage('success' ,'Success');
+      },
+      // 触发校验的时机（when to validate)
+      validateTrigger: 'change',
+      // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+      on: (editContext ) => ({
+        onBlur: (ctx ) => {
+          console.log('失去焦点', editContext);
+          ctx?.e?.preventDefault();
+        },
+        onEnter: (ctx ) => {
+          ctx?.e?.preventDefault();
+          console.log('onEnter', ctx);
+        },
+        // 默认是否为编辑状态
+        defaultEditable: true,
+      }),
     },
   },
-  {
-    title: '审批状态',
-    // 没有 cell 的情况下， platform 会被用作自定义单元格的插槽名称
-    colKey: 'status',
-    cell: 'type-slot-status',
-    width: 80,
-  },
-  {
-    colKey: 'matters',
-    title: '申请事项',
-  },
-  {
-    title: '邮箱地址',
-    colKey: 'email',
-    // render 即可渲染表头，也可以渲染单元格。但 cell 只能渲染单元格，title 只能渲染表头
-  },
-  { colKey: 'createTime', title: '申请时间' },
   {
     title: '操作栏',
     colKey: 'operate',
@@ -196,7 +300,7 @@ columns.value = [
 const checkAll = computed(() => displayColumns.value.length === displayColumnsC.value.length);
 const indeterminate = computed(() => !!(displayColumns.value.length > displayColumnsC.value.length && displayColumnsC.value.length));
 
-const handleSelectAll: CheckboxProps['onChange'] = (checked:boolean) => {
+const handleSelectAll = (checked) => {
   displayColumnsC.value = checked ? [ ...displayColumns.value ] : [];
 }
 
@@ -206,66 +310,40 @@ const onConfirmFunc = ()=>{
 }
 
 const columnEditFunc = ()=>{
-  columnsCheckboxs.value = columns.value.map((col:any)=>{ return { label:col.title, value:col.colKey } })
+  columnsCheckboxs.value = columns.value.map((col )=>{ return { label:col.title, value:col.colKey } })
   displayColumnsC.value = [ ...displayColumns.value ]
   dialog_visible.value = true
 }
 
-const placement = ref('top-right');
-const customText = ref(false);
-const groupColumn = ref(false);
-const columnControllerConfig = computed(() => {
-  const config = {
-    // 列配置按钮位置
-    placement: placement.value,
-    // 用于设置允许用户对哪些列进行显示或隐藏的控制，默认为全部字段
-    fields: columns.value.map((item:any) => item.colKey),
-    // 弹框组件属性透传
-    dialogProps: { preventScrollThrough: true },
-    // 列配置按钮组件属性透传
-    buttonProps: customText.value ? { content: '显示列控制', theme: 'primary', variant: 'base' } : undefined,
-    hideTriggerButton: false,
+const onCellClick = ({row,col} ) => {
+  console.log('-------onCellClick-----row,col',col.colKey, row, col)
+  const editMapKey = ['content','description']
+  if (!editableRowKeys.value.includes(row.id)) {
+    editableRowKeys.value.push(row.id);
+  }else{
+    onCancel(row)
   }
-  console.log('-------onMounted-----config-----', config)
-  return config
+}
 
-});
-
-const onRowEdit = (params:any) => {
+const onRowEdit = (params ) => {
   const { row, col, value } = params;
-  const oldRowData :any = editMap[row.key]?.editedRow || row;
+  const oldRowData  = editMap[row.id]?.editedRow || row;
   const editedRow = {
     ...oldRowData,
     [col.colKey]: value,
   };
-  editMap[row.key] = {
+  editMap[row.id] = {
     ...params,
     editedRow,
   };
 
   // ⚠️ 重要：以下内容应用于全量数据校验（单独的行校验不需要）
-  // const newData = [...data.value];
+  // const newData = [...table_data.value];
   // newData[rowIndex] = editedRow;
-  // data.value = newData;
+  // table_data.value = newData;
 };
 
 onMounted(() => {
-  // getIngredient_dev_materialListFetch().then((res:IngredientDevMaterialListResult) => {
-  //   console.log('-------onMounted-----res-------', res)
-  // });
-  // console.log('-------onMounted-----node-------', node.attrs.option)
-  // const optionAtt = node.attrs.option;
-  // if (optionAtt && optionAtt.fields) {
-  //   columns.value = optionAtt.fields.map((field:any) => ({
-  //     colKey: field.key,
-  //     title: field.title
-  //   }));
-  //   displayColumns.value = optionAtt.fields.map((field:any) => field.key);
-  // }
-  // if (optionAtt && optionAtt.data) {
-  //   data.value = optionAtt.data
-  // }
-  // console.log('-------onMounted-----node--22-----',columns.value,data.value )
 })
 
 </script>

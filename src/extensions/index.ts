@@ -51,10 +51,21 @@ import Placeholder from './placeholder'
 import Ttable from './tTable'
 import raw_material_table from './ingredient_dev/raw_material_table'
 import technology_table from './ingredient_dev/technology_table'
+import sample_table from './ingredient_dev/sample_table'
+import experimental_design from './ingredient_dev/experimental_design'
+
 // 自定义不能选中移动的节点
 import atomUnselect from './atom-unselect'
 import xmTitleContent from './xm-title-content'
 import xmTitle from './xm-title'
+
+// 自定义formitem components 
+import formItemComponent from './form/item/component'
+// 自定义formitem 
+import formItem from './form/item'
+// 自定义form
+import xmForm from './form'
+
 
 // 左右块布局
 import { Columns, Column } from './MultiColumn'
@@ -94,10 +105,15 @@ export const extensions = [
   FontFamily,
   Ttable,
   raw_material_table,
+  sample_table,
   technology_table,
+  experimental_design,
   atomUnselect,
   xmTitle,
   xmTitleContent,
+  formItemComponent,
+  formItem,
+  xmForm,
   Columns, Column,
   FontSize,
   Bold.extend({

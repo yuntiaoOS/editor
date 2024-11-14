@@ -1,12 +1,12 @@
 import { Node } from '@tiptap/core'
-
+import { v4 as uuid } from 'uuid'
 export default class xmNode extends Node{
   addAttributes() {
     return {
       id: {
-        default: '',
-        parseHTML: (element) => element.getAttribute('data-id'),
-        renderHTML: (attributes) => {
+        default: uuid(),
+        parseHTML: (element:any) => element.getAttribute('data-id'),
+        renderHTML: (attributes:any) => {
           if (!attributes.id) {
             return {};
           }
@@ -14,9 +14,9 @@ export default class xmNode extends Node{
         },
       },
       key: {
-        default: '',
-        parseHTML: (element) => element.getAttribute('data-key'),
-        renderHTML: (attributes) => {
+        default: uuid(),
+        parseHTML: (element:any) => element.getAttribute('data-key'),
+        renderHTML: (attributes:any) => {
           if (!attributes.key) {
             return {};
           }
@@ -24,9 +24,9 @@ export default class xmNode extends Node{
         },
       },
       name: {
-        default: '',
-        parseHTML: (element) => element.getAttribute('data-name'),
-        renderHTML: (attributes) => {
+        default: uuid(),
+        parseHTML: (element:any) => element.getAttribute('data-name'),
+        renderHTML: (attributes:any) => {
           if (!attributes.name) {
             return {};
           }
@@ -34,13 +34,17 @@ export default class xmNode extends Node{
         },
       },
       value: {
-        default: '',
-        parseHTML: (element) => element.getAttribute('data-value'),
-        renderHTML: (attributes) => {
-          if (!attributes.value) {
-            return {};
-          }
+        default: undefined,
+        parseHTML: (element:any) => element.getAttribute('data-value'),
+        renderHTML: (attributes:any) => {
           return { 'data-value': attributes.value };
+        },
+      },
+      isChanged: {
+        default: false,
+        parseHTML: (element:any) => element.getAttribute('data-isChanged'),
+        renderHTML: (attributes:any) => {
+          return { 'data-isChanged': attributes.isChanged };
         },
       },
     }

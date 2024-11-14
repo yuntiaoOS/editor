@@ -18,7 +18,7 @@
       :style="{ height: options.height }"
     >
       <header class="umo-toolbar">
-        <toolbar defaultMode="hideToolbar"
+        <toolbar 
           :key="toolbarKey"
           @menu-change="(event: any) => emits('menuChange', event)"
         >
@@ -92,7 +92,12 @@ import cnConfig from 'tdesign-vue-next/esm/locale/zh_CN'
 import { differenceBy, getCssUnitWithDefault, hasExtension, isEqual, throttle } from '@/utils/utils'
 import { get_experiment_theme_infoFetch,get_experiment_record_infoFetch } from '@/api/experiment'
 
-
+import type {
+  AutoSaveOptions,
+  DocumentOptions,
+  SupportedLocale,
+  WatermarkOption,
+} from '@/types'
 defineOptions({ name: 'UmoSimpleEditor' })
 
 const Document = TiptapDocument.extend({
@@ -133,7 +138,7 @@ const {
   resetStore,
 } = useStore()
 
-setOptions(props)
+onBeforeMount(() => setOptions(props))
 watch(
   () => props,
   () => {
@@ -212,7 +217,7 @@ const editorInstance: Editor = new Editor({
   onUpdate: throttle(({ editor }) => {
     let output = getOutput(editor, 'html')
     emits('changed',{editor:editor,json: getOutput(editor, 'json') ,html: output})
-    console.log('-------onUpdate---204-------', output,getOutput(editor, 'json'))
+    console.log('-------onUpdate---204-------',getOutput(editor, 'json'))
     isEmpty = editor.commands.setPlaceholder('')
     isReady = true
     $document.value.content = editor.getHTML()
@@ -337,19 +342,118 @@ const setToolbar = (params: { mode: 'classic' | 'ribbon'; show: boolean }) => {
   }
 }
 
+// Content Saving Methods
+const saveContent = async () => {
+  console.log('------349--------',options.value)
+  if ($toolbar.value.mode === 'source' || options.value.document?.readOnly) {
+    return
+  }
+  try {
+    const message = await useMessage('loading', {
+      content: t('save.saving'),
+      placement: 'bottom',
+      closeBtn: true,
+      offset: [0, -20],
+    })
+    const success = await options.value?.onSave?.(
+      {
+        html: editor.value?.getHTML(),
+        json: editor.value?.getJSON(),
+        text: editor.value?.getHTML(),
+      },
+      page.value,
+      $document.value,
+    )
+    if (!success) {
+      message.close()
+      useMessage('error', {
+        content: t('save.failed'),
+        placement: 'bottom',
+        offset: [0, -20],
+      })
+      return
+    }
+    emits('saved')
+    message.close()
+    useMessage('success', {
+      content: t('save.success'),
+      placement: 'bottom',
+      offset: [0, -20],
+    })
+    const time = useTimestamp({ offset: 0 })
+    savedAt.value = time.value
+  } catch (e) {
+    console.error('------387--------',e)
+    useMessage('error', {
+      content: t('save.error'),
+      placement: 'bottom',
+      offset: [0, -20],
+    })
+    console.error((e as Error).message)
+  }
+}
+// Locale Methods
+const setLocale = (params: SupportedLocale) => {
+  if (!['zh-CN', 'en-US'].includes(params)) {
+    throw new Error('"params" must be one of "zh-CN" or "en-US".')
+  }
+  if (locale.value === params) {
+    return
+  }
+  const $locale = useState('locale')
+  $locale.value = params
+  location.reload()
+}
+
+const reset = (silent: boolean) => {
+  const resetFn = () => {
+    localStorage.clear()
+    location.reload()
+  }
+  if (silent) {
+    resetFn()
+    return
+  }
+  const dialog = useConfirm({
+    theme: 'warning',
+    header: t('resetAll.title'),
+    body: t('resetAll.message'),
+    confirmBtn: {
+      theme: 'warning',
+      content: t('resetAll.reset'),
+    },
+    onConfirm() {
+      dialog.destroy()
+      resetFn()
+    },
+  })
+}
+
+
+// Methods Exposed to Descendants
+provide('saveContent', saveContent)
+provide('setLocale', setLocale)
+provide('reset', reset)
+
 onMounted(()=>{
+  // setToolbar({ mode: 'classic', show: false })
   loadTatexStyle()
   if (options.value?.requestOptions) {
     if (options.value.requestOptions.experiment_theme) {
       get_experiment_theme_infoFetch(options.value.requestOptions.experiment_theme).then((res:any) => {
         console.log('-----------------experiment_record--------------',res)
-        $key_data.value.experiment_theme = res
+        if (res.data.code === 2000) {
+          $key_data.value.experiment_theme = res.data.data
+        }
       })
     }
     if (options.value.requestOptions.experiment_record) {
       get_experiment_record_infoFetch(options.value.requestOptions.experiment_record).then((res:any) => {
         console.log('-----------------experiment_record--------------',res)
-        $key_data.value.experiment_record = res
+        if (res.data.code === 2000) {
+          $key_data.value.experiment_record = res.data.data
+        }
+        
 
       })
     }
@@ -361,7 +465,10 @@ onBeforeUnmount(() => {
 })
 defineExpose({
   editorInstance,
-  setToolbar
+  setToolbar,
+  saveContent,
+  setLocale,
+  reset
 })
 </script>
 

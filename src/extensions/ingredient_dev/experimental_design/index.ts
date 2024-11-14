@@ -6,54 +6,60 @@ import { timeFormat } from '@/utils/time-ago'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    addTechnology_tables: {
-      addTechnology_tables: (options?: XmTableOptionModel<any>) => ReturnType
+    addExperimental_designs: {
+      addExperimental_designs: (options?: XmTableOptionModel<any>) => ReturnType
     }
   }
 }
 
 export default xmNode.create({
-  name: 'technology_table',
+  name: 'experimental_design',
   group: 'block',
   content: 'block*',
   atom: false,
   selectable: true,
  
   parseHTML() {
-    return [{ tag: 'technology_table' }]
+    return [{ tag: 'experimental_design' }]
   },
   renderHTML({ HTMLAttributes }) {
-    return ['technology_table', mergeAttributes(HTMLAttributes), 0]
+    return ['experimental_design', mergeAttributes(HTMLAttributes), 0]
   },
   addAttributes() {
     const baseAttributes = xmNode.prototype.addAttributes.call(this);
     return { 
       ...baseAttributes,
       key: {
-        default: ()=>{ return Xm_Table_key['technology_table'] + timeFormat(null,'yyyymmddhhMMss') },
+        default: ()=>{ return Xm_Table_key['experimental_design']  + timeFormat(null,'yyyymmddhhMMss') },
         parseHTML: (element:any) => element.getAttribute('data-key'),
         renderHTML: (attributes:any) => {
           return { 'data-key': attributes.key };
         },
       },
-      table_data: {
+      designParams: {
         default: [],
         parseHTML: (element) => {
-          const table_data = element.getAttribute('data-table_data');
-          return JSON.parse(table_data as string || '[]');
+          const designParams = element.getAttribute('data-designParams');
+          return JSON.parse(designParams as string || '[]');
         },
         renderHTML: (attributes) => {
-          if (!attributes.table_data) {
+          if (!attributes.designParams) {
             return [];
           }
-          return { 'data-table_data': JSON.stringify(attributes.table_data)  };
+          return { 'data-designParams': JSON.stringify(attributes.designParams)  };
         },
       },
-      title: {
-        default: '',
-        parseHTML: (element) => element.getAttribute('data-title'),
+      designResult: {
+        default: [],
+        parseHTML: (element) => {
+          const designResult = element.getAttribute('data-designResult');
+          return JSON.parse(designResult as string || '[]');
+        },
         renderHTML: (attributes) => {
-          return { 'data-title': attributes.title };
+          if (!attributes.designResult) {
+            return [];
+          }
+          return { 'data-designResult': JSON.stringify(attributes.designResult)  };
         },
       },
     }
@@ -71,15 +77,14 @@ export default xmNode.create({
   },
   addCommands() {
     return {
-      addTechnology_tables:
+      addExperimental_designs:
         (option?:XmTableOptionModel<any>) =>
           ({ commands }) => {
-            const currentOption = mergeAttributes(this.options, option as XmTableOptionModel<any>)
             const content = {
               type: this.name,
               attrs: {
-                ...currentOption,
-                key: currentOption?.key ? currentOption?.key : Xm_Table_key['technology_table']  + timeFormat(null,'yyyymmddhhMMss'),
+                key: option?.key ? option?.key : Xm_Table_key['experimental_design']  + timeFormat(null,'yyyymmddhhMMss'),
+                table_data: option?.table_data,
               },
               content: [
                 {

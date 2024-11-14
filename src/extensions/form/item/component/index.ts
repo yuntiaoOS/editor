@@ -4,41 +4,23 @@ import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import NodeView from './node-view.vue'
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
-    addFormItem: {
-      addFormItem: (options: any) => ReturnType
+    addFormItemComponent: {
+      addFormItemComponent: (options: any) => ReturnType
     }
   }
 }
 
 export default xmNode.create({
-  name: 'formItem',
+  name: 'formItemComponent',
   group: 'block',
-  content: 'block*',
   addAttributes() {
     // 调用 atomUnselect 的 addAttributes 方法并获取其返回的对象
     const baseAttributes = xmNode.prototype.addAttributes.call(this);
     // 合并新的属性
     return {
       ...baseAttributes,
-      title: {
-        default: '',
-        parseHTML: (element) => {
-          const title = element.getAttribute('data-title');
-          if (!title || title.length < 5) {
-            useMessage('error','Title must be at least 5 characters long');
-            throw new Error('Title must be at least 5 characters long');
-          }
-          return title;
-        },
-        renderHTML: (attributes) => {
-          if (!attributes.title) {
-            return {};
-          }
-          return { 'data-title': attributes.title };
-        },
-      },
       formData: {
-        default: {},
+        default: undefined,
         parseHTML: (element) => {
           const formData = element.getAttribute('data-formData');
           return JSON.parse(formData as string || '{}');
@@ -56,7 +38,7 @@ export default xmNode.create({
           "key": "name",
           "icon": "iconamoon:edit",
           "name": "TextInput",
-          "type": "TextInput",
+          "type": "DateTime",
           "alias": "物料名称",
           "props": {
               "hidden": false,
@@ -70,11 +52,7 @@ export default xmNode.create({
               "enableSuffixText": false
           },
           "title": "物料名称",
-          "valueType": "String",
-          rules: [
-            { required: true, message: '必填', type: 'error' },
-            { min: 2, message: '至少需要两个字', type: 'error', trigger: 'blur'},
-          ]
+          "valueType": "String"
         },
         parseHTML: (element) => {
           const config = element.getAttribute('data-config');
@@ -90,41 +68,29 @@ export default xmNode.create({
     };
   },
   parseHTML() {
-    return [{ tag: 'formItem' }]
+    return [{ tag: 'formItemComponent' }]
   },
   renderHTML({ HTMLAttributes }) {
-    return ['formItem', mergeAttributes(HTMLAttributes, { 'data-type': this.name })]
+    return ['formItemComponent', mergeAttributes(HTMLAttributes, { 'data-type': this.name })]
   },
   addNodeView() {
     return VueNodeViewRenderer(NodeView)
   },
   addCommands() {
     return {
-      addFormItem:
+      addFormItemComponent:
       (options) =>
       ({ commands,editor }) => {
-        const nodeType:any = this.type
-        const currentOption = mergeAttributes(nodeType.defaultAttrs,this.options, options) 
-        console.log('---------103--------------',this,currentOption)
+        const currentOption = mergeAttributes(this.options, options) 
+        console.log('---------85--------------',currentOption)
         const content = {
-          type: 'formItem',
+          type: 'formItemComponent',
           attrs: {
             ...currentOption,
-          },
-          content: [
-            {
-              type: 'formItemComponent',
-              attrs: {
-                config: currentOption.config,
-                formData: currentOption.formData,
-                title: currentOption.title
-              },
-            },
-          ]
+          }
         }
         return commands.insertContent(content)
       },
     }
   }
-
 })

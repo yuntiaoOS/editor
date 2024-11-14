@@ -2,6 +2,7 @@ import { mergeAttributes, Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import NodeView from './node-view.vue'
 import type { XmTableOptionModel } from '@/types'
+import { timeFormat } from '@/utils/time-ago'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -25,19 +26,29 @@ export default xmNode.create({
     return ['raw_material_table', mergeAttributes(HTMLAttributes), 0]
   },
   addAttributes() {
-    return {
-      id: { type: String },
-      data_key: {
-        type: String,
-        default: ()=>{ return Xm_Table_key['raw_material_table'] },
+    const baseAttributes = xmNode.prototype.addAttributes.call(this);
+    return { 
+      ...baseAttributes,
+      key: {
+        default: ()=>{ return Xm_Table_key['raw_material_table']  + timeFormat(null,'yyyymmddhhMMss')  },
+        parseHTML: (element:any) => element.getAttribute('data-key'),
+        renderHTML: (attributes:any) => {
+          return { 'data-key': attributes.key };
+        },
       },
       table_data: {
-        default: {},
-      },
-      option: {
-        type: Object,
-        default: ()=>{ return  {}},
-      },
+        default: [],
+        parseHTML: (element) => {
+          const table_data = element.getAttribute('data-table_data');
+          return JSON.parse(table_data as string || '[]');
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.table_data) {
+            return [];
+          }
+          return { 'data-table_data': JSON.stringify(attributes.table_data)  };
+        },
+      }
     }
   },
 
@@ -59,9 +70,8 @@ export default xmNode.create({
             const content = {
               type: this.name,
               attrs: {
-                data_key: option?.data_key ? option?.data_key : Xm_Table_key['raw_material_table'],
+                key: option?.key ? option?.key : Xm_Table_key['raw_material_table']  + timeFormat(null,'yyyymmddhhMMss'),
                 table_data: option?.table_data,
-                option: option?option.data_key:{},
               },
               content: [
                 {

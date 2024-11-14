@@ -57,7 +57,7 @@ const transform: AxiosTransform = {
   // 请求前处理配置
   beforeRequestHook: (config, options) => {
     const { apiUrl, isJoinPrefix, urlPrefix, joinParamsToUrl, formatDate, joinTime = true } = options;
-    console.log('---------------beforeRequestHook-----64-----', config,options);
+    // console.log('---------------beforeRequestHook-----64-----', config,options);
     // 添加接口前缀
     if (isJoinPrefix && urlPrefix && isString(urlPrefix)) {
       config.url = `${urlPrefix}${config.url}`;
@@ -108,13 +108,13 @@ const transform: AxiosTransform = {
       config.url += params;
       config.params = undefined;
     }
-    console.log('---------------beforeRequestHook-----115-----', config);
+    // console.log('---------------beforeRequestHook-----115-----', config);
     return config;
   },
 
   // 请求拦截器处理
   requestInterceptors: (config, options) => {
-    console.log('---------------requestInterceptors-----119-----', config,options);
+    // console.log('---------------requestInterceptors-----119-----', config,options);
     // 请求之前处理config
     const token = localStorage.getItem('umo_token');
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
@@ -177,7 +177,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           // 例如: https://www.baidu.com/api
           urlPrefix: '/api',
           // 是否返回原生响应头 比如：需要获取响应头时使用该属性
-          isReturnNativeResponse: false,
+          isReturnNativeResponse: true,
           // 需要对返回数据进行处理
           isTransformResponse: true,
           // post请求的时候添加参数到url
