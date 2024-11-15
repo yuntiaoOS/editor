@@ -48,7 +48,7 @@ import NodeAlign from './node-align'
 import OrderedList from './ordered-list'
 import Placeholder from './placeholder'
 // 自定义数据表格
-import Ttable from './tTable'
+
 import raw_material_table from './ingredient_dev/raw_material_table'
 import technology_table from './ingredient_dev/technology_table'
 import sample_table from './ingredient_dev/sample_table'
@@ -104,7 +104,6 @@ export const extensions = [
   SlashCommand,
   FormatPainter,
   FontFamily,
-  Ttable,
   raw_material_table,
   sample_table,
   technology_table,

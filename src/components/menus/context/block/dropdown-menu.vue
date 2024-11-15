@@ -27,9 +27,6 @@
         />
         <t-dropdown-menu overlay-class-name="umo-block-menu-dropdown">
           <t-dropdown-item>
-            <menus-toolbar-insert-tTable :huge="false" :tooltip="false" />
-          </t-dropdown-item>
-          <t-dropdown-item>
             <menus-button
               ico="table"
               :text="t('table.insert.text')"

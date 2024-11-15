@@ -64,19 +64,12 @@
           @menu-click="editor?.chain().focus().addSample_tables().run()"
         />
       </t-dropdown-item>  
-      <t-dropdown-item  >
+      <t-dropdown-item  divider>
         <menus-button
           ico="evaluating"
           text="评测表格"
           :tooltip="false"
           @menu-click="editor?.chain().focus().addEvaluating_tables().run()"
-        />
-      </t-dropdown-item>
-      <t-dropdown-item divider >
-        <menus-button
-          ico="t-table"
-          :text="t('insert.tTable')"
-          :tooltip="false"
         />
       </t-dropdown-item>
       <t-dropdown-item class="umo-block-menu-group-name" disabled>
@@ -89,22 +82,6 @@
           :tooltip="false"
         />
         <t-dropdown-menu overlay-class-name="umo-block-menu-dropdown">
-          <t-dropdown-item v-if="formList && formList.length > 0 ">
-            <menus-button
-              ico="t-table"
-              :text="t('insert.tTable')"
-              :tooltip="false"
-            />
-            <t-dropdown-menu overlay-class-name="umo-block-menu-dropdown">
-              <t-dropdown-item
-                v-for="form in formList"
-                :key="form.id"
-                :disabled="form.disabled"
-              >
-                <menus-toolbar-insert-tTable :huge="false" :tooltip="false" :formData="form" />
-              </t-dropdown-item>
-            </t-dropdown-menu>
-          </t-dropdown-item>
           <t-dropdown-item>
             <menus-button
               ico="table"
