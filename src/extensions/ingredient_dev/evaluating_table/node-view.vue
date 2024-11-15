@@ -62,6 +62,31 @@
             <t-option v-for="item in sample_table_options" :key="item.id" :value="item.id" :label="item.title"></t-option>
           </t-select>
         </t-form-item>
+        <t-form-item label="执行标准" name="index_type">
+          <t-select v-model="selectTableForm.index_type" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
+            <t-option v-for="item in eval_execute_standardList" :key="item.id" :value="item.id" :label="item.standard_name"></t-option>
+          </t-select>
+        </t-form-item>
+        <t-form-item label="条件" name="condition">
+          <t-select v-model="selectTableForm.condition" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
+            <t-option v-for="item in test_condition_options" :key="item.value" :value="item.value" :label="item.label"></t-option>
+          </t-select>
+        </t-form-item>
+        <t-form-item label="开始日期" name="start_datetime">
+          <t-date-picker v-model="selectTableForm.start_datetime" borderless format="YYYY-MM-DD" value-type="YYYY-MM-DD"/>
+        </t-form-item>
+        <t-form-item label="周期间隔" name="current_period">
+          <t-input v-model="selectTableForm.current_period" placeholder="周期间隔" clearable>
+            <template #suffix>
+              <t-select v-model="selectTableForm.test_period" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
+                <t-option v-for="item in evaluating_test_period_options" :key="item.value" :value="item.value" :label="item.label"></t-option>
+              </t-select>
+            </template>
+          </t-input>
+        </t-form-item>
+        <t-form-item label="周期数" name="period_num">
+          <t-input-number v-model="selectTableForm.period_num" theme="column" :max="100" :min="1" style="width: 100%;border:none;" borderless  @blur="blurCycleNumberFunc"/>
+        </t-form-item>
       </t-form>
     </t-dialog>
     <t-dialog destroyOnClose
@@ -91,7 +116,15 @@
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
+import { getEval_execute_standardListFetch,getExecute_standard_itemInfoFetch } from '@/api/experiment'
+
+
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
+const $dict_data = useState('dict_data')
+console.log('-----------113------------------',$dict_data);
+
+const test_condition_options = $dict_data.value['test_conditions'];
+const evaluating_test_period_options = $dict_data.value['evaluating_test_period'];
 
 const { options } = useStore()
 const dialog_visible = ref(false);
@@ -101,195 +134,200 @@ const editableRowKeys = ref([]);
 const columnsDefaultF = [
   {
     title: '样品名',
-    colKey: 'name',
+    colKey: 'sample_name',
     minWidth: 140,
-    edit: {
-      // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-      // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-      component: TInput,
-      // props, 透传全部属性到 Input 组件
-      props: {
-        clearable: true,
-        autofocus: true,
-        // autoWidth: true,
-      },
-      // 校验规则，此处同 Form 表单
-      rules: [
-        {
-          required: true,
-          message: '不能为空',
-        },
-      ],
-      showEditIcon: true,
-      abortEditOnEvent: ['onEnter','onBlur'],
-      onEdited: (context ) => {
-        console.log(context);
-        const newData = [..._table_data.value];
-        newData.splice(context.rowIndex, 1, context.newRowData);
-        _table_data.value = newData;
-        console.log('Edit firstName:', context);
-        useMessage('success' ,'Success');
-      },
-      // 触发校验的时机（when to validate)
-      validateTrigger: 'change',
-      // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-      on: (editContext ) => ({
-        onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
-          ctx?.e?.preventDefault();
-        },
-        onEnter: (ctx ) => {
-          ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
-        },
-        // 默认是否为编辑状态
-        defaultEditable: false,
-      }),
-    },
+    // edit: {
+    //   // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+    //   // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+    //   component: TInput,
+    //   // props, 透传全部属性到 Input 组件
+    //   props: {
+    //     clearable: true,
+    //     autofocus: true,
+    //     // autoWidth: true,
+    //   },
+    //   // 校验规则，此处同 Form 表单
+    //   rules: [
+    //     {
+    //       required: true,
+    //       message: '不能为空',
+    //     },
+    //   ],
+    //   showEditIcon: true,
+    //   abortEditOnEvent: ['onEnter','onBlur'],
+    //   onEdited: (context ) => {
+    //     console.log(context);
+    //     const newData = [..._table_data.value];
+    //     newData.splice(context.rowIndex, 1, context.newRowData);
+    //     _table_data.value = newData;
+    //     console.log('Edit firstName:', context);
+    //     useMessage('success' ,'Success');
+    //   },
+    //   // 触发校验的时机（when to validate)
+    //   validateTrigger: 'change',
+    //   // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+    //   on: (editContext ) => ({
+    //     onBlur: (ctx ) => {
+    //       console.log('失去焦点', editContext);
+    //       ctx?.e?.preventDefault();
+    //     },
+    //     onEnter: (ctx ) => {
+    //       ctx?.e?.preventDefault();
+    //       console.log('onEnter', ctx);
+    //     },
+    //     // 默认是否为编辑状态
+    //     defaultEditable: false,
+    //   }),
+    // },
   },
   {
     title: '编号',
-    colKey: 'sn',
-    minWidth: 140,
-    edit: {
-      // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-      // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-      component: TInput,
-      // props, 透传全部属性到 Input 组件
-      props: {
-        clearable: true,
-        autofocus: true,
-        // autoWidth: true,
-      },
-      // 校验规则，此处同 Form 表单
-      rules: [
-        {
-          required: true,
-          message: '不能为空',
-        },
-      ],
-      showEditIcon: true,
-      abortEditOnEvent: ['onEnter','onBlur'],
-      onEdited: (context ) => {
-        console.log(context);
-        const newData = [..._table_data.value];
-        newData.splice(context.rowIndex, 1, context.newRowData);
-        _table_data.value = newData;
-        console.log('Edit firstName:', context);
-        useMessage('success' ,'Success');
-      },
-      // 触发校验的时机（when to validate)
-      validateTrigger: 'change',
-      // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-      on: (editContext ) => ({
-        onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
-          ctx?.e?.preventDefault();
-        },
-        onEnter: (ctx ) => {
-          ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
-        },
-        // 默认是否为编辑状态
-        defaultEditable: false,
-      }),
-    },
+    colKey: 'sample_sn',
+    width: 140,
+    // edit: {
+    //   // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+    //   // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+    //   component: TInput,
+    //   // props, 透传全部属性到 Input 组件
+    //   props: {
+    //     clearable: true,
+    //     autofocus: true,
+    //     // autoWidth: true,
+    //   },
+    //   // 校验规则，此处同 Form 表单
+    //   rules: [
+    //     {
+    //       required: true,
+    //       message: '不能为空',
+    //     },
+    //   ],
+    //   showEditIcon: true,
+    //   abortEditOnEvent: ['onEnter','onBlur'],
+    //   onEdited: (context ) => {
+    //     console.log(context);
+    //     const newData = [..._table_data.value];
+    //     newData.splice(context.rowIndex, 1, context.newRowData);
+    //     _table_data.value = newData;
+    //     console.log('Edit firstName:', context);
+    //     useMessage('success' ,'Success');
+    //   },
+    //   // 触发校验的时机（when to validate)
+    //   validateTrigger: 'change',
+    //   // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+    //   on: (editContext ) => ({
+    //     onBlur: (ctx ) => {
+    //       console.log('失去焦点', editContext);
+    //       ctx?.e?.preventDefault();
+    //     },
+    //     onEnter: (ctx ) => {
+    //       ctx?.e?.preventDefault();
+    //       console.log('onEnter', ctx);
+    //     },
+    //     // 默认是否为编辑状态
+    //     defaultEditable: false,
+    //   }),
+    // },
   },
-  {
-    title: '类型',
-    colKey: 'type',
-    minWidth: 140,
-    edit: {
-      // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-      // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-      component: TInput,
-      // props, 透传全部属性到 Input 组件
-      props: {
-        clearable: true,
-        autofocus: true,
-        // autoWidth: true,
-      },
-      // 校验规则，此处同 Form 表单
-      rules: [
-        {
-          required: true,
-          message: '不能为空',
-        },
-      ],
-      showEditIcon: true,
-      abortEditOnEvent: ['onEnter','onBlur'],
-      onEdited: (context ) => {
-        console.log(context);
-        const newData = [..._table_data.value];
-        newData.splice(context.rowIndex, 1, context.newRowData);
-        _table_data.value = newData;
-        console.log('Edit firstName:', context);
-        useMessage('success' ,'Success');
-      },
-      // 触发校验的时机（when to validate)
-      validateTrigger: 'change',
-      // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-      on: (editContext ) => ({
-        onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
-          ctx?.e?.preventDefault();
-        },
-        onEnter: (ctx ) => {
-          ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
-        },
-        // 默认是否为编辑状态
-        defaultEditable: false,
-      }),
-    },
-  },
+  // {
+  //   title: '类型',
+  //   colKey: 'category',
+  //   minWidth: 140,
+  //   edit: {
+  //     // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+  //     // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+  //     component: TInput,
+  //     // props, 透传全部属性到 Input 组件
+  //     props: {
+  //       clearable: true,
+  //       autofocus: true,
+  //       // autoWidth: true,
+  //     },
+  //     // 校验规则，此处同 Form 表单
+  //     rules: [
+  //       {
+  //         required: true,
+  //         message: '不能为空',
+  //       },
+  //     ],
+  //     showEditIcon: true,
+  //     abortEditOnEvent: ['onEnter','onBlur'],
+  //     onEdited: (context ) => {
+  //       console.log(context);
+  //       const newData = [..._table_data.value];
+  //       newData.splice(context.rowIndex, 1, context.newRowData);
+  //       _table_data.value = newData;
+  //       console.log('Edit firstName:', context);
+  //       useMessage('success' ,'Success');
+  //     },
+  //     // 触发校验的时机（when to validate)
+  //     validateTrigger: 'change',
+  //     // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+  //     on: (editContext ) => ({
+  //       onBlur: (ctx ) => {
+  //         console.log('失去焦点', editContext);
+  //         ctx?.e?.preventDefault();
+  //       },
+  //       onEnter: (ctx ) => {
+  //         ctx?.e?.preventDefault();
+  //         console.log('onEnter', ctx);
+  //       },
+  //       // 默认是否为编辑状态
+  //       defaultEditable: false,
+  //     }),
+  //   },
+  // },
   {
     title: '周期',
     colKey: 'cycle',
-    minWidth: 140,
-    edit: {
-      // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-      // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-      component: TInput,
-      // props, 透传全部属性到 Input 组件
-      props: {
-        clearable: true,
-        autofocus: true,
-        // autoWidth: true,
-      },
-      // 校验规则，此处同 Form 表单
-      rules: [
-        {
-          required: true,
-          message: '不能为空',
-        },
-      ],
-      showEditIcon: true,
-      abortEditOnEvent: ['onEnter','onBlur'],
-      onEdited: (context ) => {
-        console.log(context);
-        const newData = [..._table_data.value];
-        newData.splice(context.rowIndex, 1, context.newRowData);
-        _table_data.value = newData;
-        console.log('Edit firstName:', context);
-        useMessage('success' ,'Success');
-      },
-      // 触发校验的时机（when to validate)
-      validateTrigger: 'change',
-      // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-      on: (editContext ) => ({
-        onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
-          ctx?.e?.preventDefault();
-        },
-        onEnter: (ctx ) => {
-          ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
-        },
-        // 默认是否为编辑状态
-        defaultEditable: false,
-      }),
-    },
+    width: 40,
+    // edit: {
+    //   // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+    //   // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+    //   component: TInput,
+    //   // props, 透传全部属性到 Input 组件
+    //   props: {
+    //     clearable: true,
+    //     autofocus: true,
+    //     // autoWidth: true,
+    //   },
+    //   // 校验规则，此处同 Form 表单
+    //   rules: [
+    //     {
+    //       required: true,
+    //       message: '不能为空',
+    //     },
+    //   ],
+    //   showEditIcon: true,
+    //   abortEditOnEvent: ['onEnter','onBlur'],
+    //   onEdited: (context ) => {
+    //     console.log(context);
+    //     const newData = [..._table_data.value];
+    //     newData.splice(context.rowIndex, 1, context.newRowData);
+    //     _table_data.value = newData;
+    //     console.log('Edit firstName:', context);
+    //     useMessage('success' ,'Success');
+    //   },
+    //   // 触发校验的时机（when to validate)
+    //   validateTrigger: 'change',
+    //   // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+    //   on: (editContext ) => ({
+    //     onBlur: (ctx ) => {
+    //       console.log('失去焦点', editContext);
+    //       ctx?.e?.preventDefault();
+    //     },
+    //     onEnter: (ctx ) => {
+    //       ctx?.e?.preventDefault();
+    //       console.log('onEnter', ctx);
+    //     },
+    //     // 默认是否为编辑状态
+    //     defaultEditable: false,
+    //   }),
+    // },
+  },
+  { 
+    title: '条件',
+    colKey:'condition',
+    width: 100,
   },
   {
     title: '评测人',
@@ -342,15 +380,17 @@ const columnsDefaultF = [
   {
     title: '时间',
     colKey: 'dateTime',
-    minWidth: 140,
+    width: 120,
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
       // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-      component: TInput,
+      component: TDatePicker,
       // props, 透传全部属性到 Input 组件
       props: {
         clearable: true,
         autofocus: true,
+        Format: "YYYY-MM-DD", 
+        valueType: "YYYY-MM-DD",
         // autoWidth: true,
       },
       // 校验规则，此处同 Form 表单
@@ -361,7 +401,7 @@ const columnsDefaultF = [
         },
       ],
       showEditIcon: true,
-      abortEditOnEvent: ['onEnter','onBlur'],
+      abortEditOnEvent: ['onEnter','onPick','onChange'],
       onEdited: (context ) => {
         console.log(context);
         const newData = [..._table_data.value];
@@ -453,11 +493,24 @@ const select_design_form = ref()
 const select_design_visible = ref(false)
 const selectTableForm = ref({
   sample_table: '',
+  index_type: '',
+  condition: '',
+  test_period: evaluating_test_period_options&&evaluating_test_period_options.length > 0 ? evaluating_test_period_options[0].value : '',
+  start_datetime: '',
+  current_period: '',
+  period_num: 1,
 })
 const sample_table_options = ref([]);
+const eval_execute_standardList = ref([]);
 
 const FORM_RULES = { 
-  sample_table: [{ required: true, message: '必填' ,trigger: ['change'] }]
+  sample_table: [{ required: true, message: '必填' ,trigger: ['blur'] }],
+  index_type: [{ required: true, message: '必填' ,trigger: ['blur'] }],
+  condition: [{ required: true, message: '必填' ,trigger: ['blur'] }],
+  test_period: [{ required: true, message: '必填' ,trigger: ['blur'] }],
+  start_datetime: [{ required: true, message: '必填' ,trigger: ['blur'] }],
+  current_period: [{ required: true, message: '必填' ,trigger: ['blur'] }],
+  period_num: [{ required: true, message: '必填' ,trigger: ['blur'] }],
 };
 
 const _table_data = computed({
@@ -492,109 +545,178 @@ displayColumns.value = [...columnsDefaultF,...columnsDefaultA].map(ele=> ele.col
 const checkAll = computed(() => displayColumns.value.length === displayColumnsC.value.length);
 const indeterminate = computed(() => !!(displayColumns.value.length > displayColumnsC.value.length && displayColumnsC.value.length));
 
-const makeTableDataAndColumnFunc = (designParam)=>{
-  console.log('-----478-----makeTableDataAndColumnFunc------------',designParam)
+const blurCycleNumberFunc = (val) => {
+  if (Number(val) > 100) selectTableForm.value.period_num = 100;
+  if (Number(val) < 1) selectTableForm.value.period_num = 1;
+}
+
+const makeTableDataAndColumnFunc = (designParam,selectTableForm,index_typeInfo)=>{
+  console.log('-----478-----makeTableDataAndColumnFunc------------',designParam,selectTableForm,index_typeInfo)
+  // 将开始日期转换为 Date 对象
+  const startDate = new Date(selectTableForm.start_datetime);
+
+  // 初始化结果数组
+  const result = [];
+
+  // 根据周期间隔单位计算每次增加的天数
+  const incrementDays = selectTableForm.test_period === '1' ? selectTableForm.current_period * 7 : selectTableForm.current_period;
+
+  // 生成日期数组
+  for (let i = 0; i < selectTableForm.period_num; i++) {
+      // 将当前日期转换为 YYYY-MM-DD 格式
+      const year = startDate.getFullYear();
+      const month = String(startDate.getMonth() + 1).padStart(2, '0');
+      const day = String(startDate.getDate()).padStart(2, '0');
+      result.push(`${year}-${month}-${day}`);
+
+      // 增加指定天数
+      startDate.setDate(startDate.getDate() + incrementDays);
+  }
+  console.log('-----478-----makeTableDataAndColumnFunc----result--------',result)
+
+
   const table_data = []
   const columns = []
   // 做表格数据
-  const designParamKeys = designParam.designParams.map(ele=> ele.key )
-  designParam.table_data.forEach(ele => {
-    let obj = { ...ele, id:uuid(), sample: ele.id,  type: '',cycle: '',description: '',reviewer: '',dateTime: '',}
-    designParamKeys.forEach(key => {
-      obj[key] = ''
+  const designParamKeys = index_typeInfo.map(ele=> ele.attribute ).map(ele=> ele.key )
+  result.forEach((date,index) => {
+    designParam.table_data.forEach(ele => {
+      const condition = test_condition_options.find( cond => cond.value === selectTableForm.condition ).label
+      const obj = { id:uuid(),sample_name:ele.name,sample_sn:ele.sn, sample: ele,condition:selectTableForm.condition,condition_name:condition , 
+         category: '',current_period:selectTableForm.current_period,test_period:selectTableForm.test_period,
+         cycle_name: `${(index)*selectTableForm.current_period}${selectTableForm.test_period==1?'W':'D'}` ,description: '',reviewer: '',dateTime: date,}
+      designParamKeys.forEach(key => {
+        obj[key] = ''
+      });
+      table_data.push(obj)
     });
-    table_data.push(obj)
-  });
-  // 做表格列
-  designParam.designParams.forEach(item=>{
-    const componentName = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? TInput : TSelect
-    const options = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? [] : item.props.options.map(ele=> ({ label: ele.name, value: ele.id }) )
-    if (item.key === XM_raw_material_key) {
-      columns.unshift({
-        title: item.name,
-        colKey: item.key,
-        width: 100,
-        render(h, { row }) {
-          const dataR =  row[item.key]
-          return dataR ? item.props.options?.filter(eleO => dataR.includes(eleO.id))?.map(eleO => eleO.name)?.join(";") : '' 
-        },
-      });
-    }else{
-      columns.push({
-        title: item.name,
-        colKey: item.key,
-        width: 100,
-        edit: {
-          // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-          // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-          component: componentName,
-          // props, 透传全部属性到 Input 组件
-          props: {
-            clearable: true,
-            autofocus: true,
-            multiply: true,
-            options
-            // autoWidth: true,
-          },
-          // 校验规则，此处同 Form 表单
-          rules: [
-            {
-              required: false,
-              message: '不能为空',
-            },
-          ],
-          showEditIcon: true,
-          abortEditOnEvent: ['onEnter','onBlur'],
-          onEdited: (context ) => {
-            console.log(context);
-            const newData = [..._table_data.value];
-            newData.splice(context.rowIndex, 1, context.newRowData);
-            _table_data.value = newData;
-            useMessage('success' ,'Success');
-          },
-          // 触发校验的时机（when to validate)
-          validateTrigger: 'change',
-          // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-          on: (editContext ) => ({
-            onBlur: (ctx ) => {
-              console.log('失去焦点', editContext);
-              ctx?.e?.preventDefault();
-            },
-            onEnter: (ctx ) => {
-              ctx?.e?.preventDefault();
-              console.log('onEnter', ctx);
-            },
-            // 默认是否为编辑状态
-            defaultEditable: true,
-          }),
-        }
-      });
-    }
   })
 
+  // 属性按category属性分组做两层表头
+  const groupedData = index_typeInfo.reduce((acc, item) => {
+    const categoryId = item.category.id;
+    const categoryName = item.category.category_name;
+
+    // 如果当前类别不存在，则创建一个新的类别对象
+    if (!acc[categoryId]) {
+      acc[categoryId] = {
+        id: categoryId,
+        category_name: categoryName,
+        children: []
+      };
+    }
+
+    // 将当前项添加到对应类别的 children 数组中
+    acc[categoryId].children.push(item);
+
+    return acc;
+  }, {});
+
+  // 将分组后的对象转换为数组
+  const group_Colums_result = Object.values(groupedData);
+  // 做表格列
+  group_Colums_result.forEach(ele => {
+    const { category_name } = ele;
+    const group_Colums = {
+      title: category_name,
+      colKey: 'category' + ele.id ,
+      children: [],
+    }
+    ele.children.map(ele=> ele.attribute ).forEach(item=>{
+      const componentName = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? TInput : TSelect
+      const options = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? [] : item.props.options.map(ele=> ({ label: ele.name, value: ele.id }) )
+      if (item.key === XM_raw_material_key) {
+        columns.unshift({
+          title: item.name,
+          colKey: item.key,
+          width: 100,
+          render(h, { row }) {
+            const dataR =  row[item.key]
+            return dataR ? item.props.options?.filter(eleO => dataR.includes(eleO.id))?.map(eleO => eleO.name)?.join(";") : '' 
+          },
+        });
+      }else{
+        group_Colums.children.push({
+          title: item.name,
+          colKey: item.key,
+          width: 100,
+          edit: {
+            // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+            // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+            component: componentName,
+            // props, 透传全部属性到 Input 组件
+            props: {
+              clearable: true,
+              autofocus: true,
+              multiply: true,
+              options
+              // autoWidth: true,
+            },
+            // 校验规则，此处同 Form 表单
+            rules: [
+              {
+                required: false,
+                message: '不能为空',
+              },
+            ],
+            showEditIcon: true,
+            abortEditOnEvent: ['onEnter','onBlur'],
+            onEdited: (context ) => {
+              console.log(context);
+              const newData = [..._table_data.value];
+              newData.splice(context.rowIndex, 1, context.newRowData);
+              _table_data.value = newData;
+              useMessage('success' ,'Success');
+            },
+            // 触发校验的时机（when to validate)
+            validateTrigger: 'change',
+            // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+            on: (editContext ) => ({
+              onBlur: (ctx ) => {
+                console.log('失去焦点', editContext);
+                ctx?.e?.preventDefault();
+              },
+              onEnter: (ctx ) => {
+                ctx?.e?.preventDefault();
+                console.log('onEnter', ctx);
+              },
+              // 默认是否为编辑状态
+              defaultEditable: true,
+            }),
+          }
+        });
+      }
+    })
+    columns.push(group_Colums)
+  })
   return { table_data , columns: [...columnsDefaultF,...columns,...columnsDefaultA] }
 }
 
 const on_select_designFunc = ()=>{
-  select_design_form.value?.validate({ showErrorMessage: true }).then((validateResult) => {
+  select_design_form.value?.validate({ showErrorMessage: true }).then(async (validateResult) => {
     if (validateResult && Object.keys(validateResult).length) {
       const firstError = Object.values(validateResult)[0]?.[0]?.message;
       useMessage('warning',firstError)
     }else{
       select_design_visible.value = false
+      const index_typeInfoRes = await getExecute_standard_itemInfoFetch({
+        execute_standard: selectTableForm.value.index_type
+      })
+      if (index_typeInfoRes && index_typeInfoRes.data.code === 2000) {
+        const selectTable = sample_table_options.value.find(ele=> ele.id === selectTableForm.value.sample_table)
+        updateAttributes({ designParam: selectTable })
+        const { table_data, columns } = makeTableDataAndColumnFunc(selectTable,selectTableForm.value,index_typeInfoRes.data.data)
 
-      const selectTable = sample_table_options.value.find(ele=> ele.id === selectTableForm.value.sample_table)
-      updateAttributes({ designParam: selectTable })
-      const { table_data, columns } = makeTableDataAndColumnFunc(selectTable)
+        setTimeout(() => {
+          _columns.value = [...columns]
+          _table_data.value = [...table_data]
+          displayColumns.value = columns.map(ele=> ele.colKey)
+          console.log('-------575-------table_data', _table_data.value,_columns.value)
+          tableRef.value.refreshTable()
 
-      setTimeout(() => {
-        _columns.value = [...columns]
-        _table_data.value = [...table_data]
-        displayColumns.value = columns.map(ele=> ele.colKey)
-        console.log('-------575-------table_data', _table_data.value,_columns.value)
-        tableRef.value.refreshTable()
-
-      }, 100);
+        }, 100);
+      }
+      
     }
   })
   
@@ -653,6 +775,16 @@ const initialize = () => {
       return  // 工艺表不存在，返回
     }
     sample_table_options.value = experimental_design_tables.concat(sample_tables).map((ele) => ele.attrs)
+
+    getEval_execute_standardListFetch().then((res) => {
+      if (res.data.code === 2000) {
+        eval_execute_standardList.value = res.data.data
+      }else{
+        TMessagePlugin.error(res.data.msg)
+      }
+    }).catch((err) => {
+      TMessagePlugin.error('获取标准列表失败')
+    })
     console.log('-----------initialize----317----------------',sample_table_options)
   }else {
     select_design_visible.value = false;
@@ -662,9 +794,24 @@ const initialize = () => {
 
 onMounted(() => {
   initialize()
-  setTimeout(() => {
-    select_design_visible.value = true;
-  }, 100);
+  console.log('-----------onMounted----680----------------',node.attrs.designParam)
+  if (node.attrs.designParam && Object.keys(node.attrs.designParam).length > 0) {
+    // const { table_data, columns } = makeTableDataAndColumnFunc(node.attrs.designParam)
+    // setTimeout(() => {
+    //   _columns.value = [...columns]
+    //   _table_data.value = [...table_data]
+    //   displayColumns.value = columns.map(ele=> ele.colKey)
+    //   console.log('-------575-------table_data', _table_data.value,_columns.value)
+    //   tableRef.value?.refreshTable()
+
+    // }, 100);
+    
+  }else{
+    setTimeout(() => {
+      select_design_visible.value = true;
+    }, 100);
+  }
+  
 })
 
 </script>

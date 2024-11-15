@@ -86,7 +86,7 @@ watch(() => page.value.pagination, updateMenuPostion)
   }
 }
 .umo-block-menu-dropdown {
-  max-height: 300px;
+  max-height: 700px;
   .umo-block-menu-group-name {
     // padding-top: 8px !important;
     // line-height: 1;

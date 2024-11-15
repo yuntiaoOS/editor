@@ -85,6 +85,9 @@
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
+import { getIngredient_dev_experimentListFetch } from '@/api/experiment'
+
+
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
 const { options } = useStore()
@@ -184,22 +187,32 @@ const onSelectChange = ({value, params} )=>{
   select_material.value = params.selectedRowData
 }
 
-const on_experimental_designFunc = ()=>{
+const on_experimental_designFunc = async()=>{
   
   const selectData = designResult.value.filter(ele=> ele.check)
   if (selectData.length > 0) {
-    
-    selectData.forEach((ele ,index) => {
-      const obj  = {
-        ...ele,
-        id: uuid(),
-        raw_material: ele.id,
-        sn: `S-00${index + 1}`,
-        count: '0',
-      }
-      table_data.value.push(obj)
-    });
-    experimental_design_visible.value = false
+    const res = await getIngredient_dev_experimentListFetch({type:'S',num:selectData.length})
+    if (res.data.code === 2000) {
+      console.log('--------on_experimental_designFunc--------105--------',selectData)
+      const table_data = []
+      selectData.forEach((ele ,index) => {
+        const obj  = {
+          ...ele,
+          id: uuid(),
+          raw_material: ele.id,
+          sn: res.data.data[index],
+          count: '0',
+        }
+        table_data.push(obj)
+      });
+      nextTick(()=>{
+        table_data.value = [...table_data]
+      })
+      updateAttributes({ table_data })
+      experimental_design_visible.value = false
+    }else{
+      TMessagePlugin.warning(res.data.msg)
+    }
   }else{
     TMessagePlugin.warning('请选择需要添加的数据')
   }

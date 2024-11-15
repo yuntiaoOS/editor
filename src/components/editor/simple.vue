@@ -152,6 +152,8 @@ const $document = useState('document', props.editorKey)
 
 const $key_data = useState('key_data', props.editorKey)
 
+const $dict_data = useState('dict_data', props.editorKey)
+
 // i18n Setup
 // @ts-ignore
 const { t, locale } = useI18n()
@@ -456,6 +458,9 @@ onMounted(()=>{
         
 
       })
+    }
+    if (options.value.requestOptions.dict_data) {
+      $dict_data.value = options.value.requestOptions.dict_data
     }
   }
 })

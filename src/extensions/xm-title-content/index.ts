@@ -21,7 +21,7 @@ export default atomUnselect.extend({
   name: 'xmTitleContent',
   content: 'block*',
   // selectable: true,
-  // atom: false,
+  atom: true,
   addAttributes() {
     const baseAttributes = super.addAttributes;
     return {
