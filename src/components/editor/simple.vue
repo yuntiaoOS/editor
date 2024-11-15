@@ -62,6 +62,13 @@
                 "
               />
             </div>
+            <div v-if="$key_data.experiment_theme&&$key_data.experiment_record">
+              <t-space direction="vertical" style="width: 100%;">
+                <t-divider dashed />
+                <comment-bottom  />
+              </t-space>
+              
+            </div>
             <!-- <container-comments /> -->
           </div>
         </div>

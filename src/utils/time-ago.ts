@@ -12,7 +12,7 @@ export const timeAgo = (timestamp: string | number | Date) => {
   const time = useTimeAgo(new Date(timestamp), {
     messages: messages as any,
   })
-  return time.value.replace(/"/gi, '')
+  return time.value? time.value.replace(/"/gi, '') : ''
 }
 
 

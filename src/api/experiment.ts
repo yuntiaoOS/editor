@@ -58,6 +58,35 @@ export function get_experiment_theme_infoFetch(id:string,params?: any) {
     params
   });
 }
+
+// 评论接口
+export function post_experiment_record_commentFetch(id:string,params?: any) {
+  return request.post<ExperimentInfo>({
+    url: `${Api.experiment_record}${id}/comment/`,
+    params
+  });
+}
+// 评论接口list
+export function get_experiment_record_commentListFetch(id:string,params?: any) {
+  return request.get<ExperimentInfo>({
+    url: `${Api.experiment_record}${id}/comment/`,
+    params
+  });
+}
+// 点赞接口
+export function post_experiment_record_likeFetch(id:string,params?: any) {
+  return request.post<ExperimentInfo>({
+    url: `${Api.experiment_record}${id}/like/`,
+    params
+  });
+}
+// 点赞接口list
+export function get_experiment_record_likeListFetch(id:string,params?: any) {
+  return request.get<ExperimentInfo>({
+    url: `${Api.experiment_record}${id}/like/`,
+    params
+  });
+}
 /*-------------------------------------记录--------------------------------------------*/
 export function get_experiment_record_infoFetch(id:string, params?: any) {
   return request.get<ExperimentInfo>({

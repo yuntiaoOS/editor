@@ -10657,8 +10657,8 @@ const options = $ref({
         }
       ]
     },
-    experiment_theme: '9cabf47c-a9cb-4db6-bcc9-a4128ab4de66',
-    experiment_record: '1ee31b38-fe5c-4cc7-a17d-289531d8f7ac',
+    experiment_theme: '0ed50212-3f77-4c98-bd9a-40499d77c984',
+    experiment_record: '2f716a40-f3a5-48a0-875a-b10695542ddd',
     umo_domain: 'http://id.zw.rzm.com',
     umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxNzI0NDQ2LCJpYXQiOjE3MzE2MzgwNDYsImp0aSI6IjM5YWNiNzc5M2ZiZjQ0YTY4M2FjYWU2NDFlNTFiMWI5IiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.DAKD55omTz08XAhmyyAP0-IQUvKQYbHjqEc7W5b9qXA',
   },
@@ -10681,9 +10681,9 @@ const options = $ref({
     enabled: true,
   },
   user: {
-    userId: 'umoeditor',
-    nickName: 'Umo Editor',
-    avatarUrl: 'https://tdesign.gtimg.com/site/avatar.jpg',
+    userId: '8218a663-e9a6-43d5-a0f1-d68a5509e366',
+    nickName: '赵紫文',
+    avatarUrl:  "http://192.168.2.11:8002/media/avatar/e615457e-5102-43b2-a46f-34c7686affa0.png",
   },
   async onSave(content: string, page: number, document: { content: string }) {
     localStorage.setItem('document.content', document.content)
