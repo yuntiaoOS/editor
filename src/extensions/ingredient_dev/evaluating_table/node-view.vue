@@ -12,7 +12,7 @@
               <div></div>
               <t-space>
                 <t-input v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
-                <t-button variant="outline" @click="add_dialog_visible = true;">新增</t-button>
+                <!-- <t-button variant="outline" @click="add_dialog_visible = true;">新增</t-button> -->
                 <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
               </t-space>
             </t-space>
@@ -120,11 +120,11 @@ import { getEval_execute_standardListFetch,getExecute_standard_itemInfoFetch } f
 
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
-const $dict_data = useState('dict_data')
+const $dict_data = JSON.parse( localStorage.getItem('dict_data') )
 console.log('-----------113------------------',$dict_data);
 
-const test_condition_options = $dict_data.value['test_conditions'];
-const evaluating_test_period_options = $dict_data.value['evaluating_test_period'];
+const test_condition_options = $dict_data['test_conditions'];
+const evaluating_test_period_options = $dict_data['evaluating_test_period'];
 
 const { options } = useStore()
 const dialog_visible = ref(false);
@@ -278,7 +278,7 @@ const columnsDefaultF = [
   // },
   {
     title: '周期',
-    colKey: 'cycle',
+    colKey: 'cycle_name',
     width: 40,
     // edit: {
     //   // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
@@ -529,7 +529,9 @@ const designParam = computed({
 
 
 const _columns = computed({
-  get: () => node.attrs.columns,
+  get: () => {
+    return node.attrs.columns
+  },
   set(value) {
     updateAttributes({ columns: value })
   },
@@ -539,8 +541,6 @@ const columnsCheckboxs = ref([])
 
 const displayColumns = ref([]);
 const displayColumnsC = ref([]);
-
-displayColumns.value = [...columnsDefaultF,...columnsDefaultA].map(ele=> ele.colKey)
 
 const checkAll = computed(() => displayColumns.value.length === displayColumnsC.value.length);
 const indeterminate = computed(() => !!(displayColumns.value.length > displayColumnsC.value.length && displayColumnsC.value.length));
@@ -794,17 +794,88 @@ const initialize = () => {
 
 onMounted(() => {
   initialize()
-  console.log('-----------onMounted----680----------------',node.attrs.designParam)
-  if (node.attrs.designParam && Object.keys(node.attrs.designParam).length > 0) {
-    // const { table_data, columns } = makeTableDataAndColumnFunc(node.attrs.designParam)
-    // setTimeout(() => {
-    //   _columns.value = [...columns]
-    //   _table_data.value = [...table_data]
-    //   displayColumns.value = columns.map(ele=> ele.colKey)
-    //   console.log('-------575-------table_data', _table_data.value,_columns.value)
-    //   tableRef.value?.refreshTable()
+  console.log('-----------onMounted----680----------------',node.attrs)
+  if (node.attrs.columns && Object.keys(node.attrs.columns).length > 0) {
+    const columns = []
+    // 做表格列
+    node.attrs.columns.forEach(ele => {
+      const group_Colums = {
+        ...ele ,
+        children: [],
+      }
+      if (ele.children) {
+        ele.children.forEach(item=>{
+          const componentName = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? TInput : TSelect
+          const options = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? [] : item.props.options.map(ele=> ({ label: ele.name, value: ele.id }) )
+          if (item.key === XM_raw_material_key) {
+            columns.unshift({
+              ...item,
+              width: 100,
+              render(h, { row }) {
+                const dataR =  row[item.key]
+                return dataR ? item.props.options?.filter(eleO => dataR.includes(eleO.id))?.map(eleO => eleO.name)?.join(";") : '' 
+              },
+            });
+          }else{
+            group_Colums.children.push({
+              ...item,
+              edit: {
+                // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+                // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+                component: componentName,
+                // props, 透传全部属性到 Input 组件
+                props: {
+                  clearable: true,
+                  autofocus: true,
+                  multiply: true,
+                  options
+                  // autoWidth: true,
+                },
+                // 校验规则，此处同 Form 表单
+                rules: [
+                  {
+                    required: false,
+                    message: '不能为空',
+                  },
+                ],
+                showEditIcon: true,
+                abortEditOnEvent: ['onEnter','onBlur'],
+                onEdited: (context ) => {
+                  console.log(context);
+                  const newData = [..._table_data.value];
+                  newData.splice(context.rowIndex, 1, context.newRowData);
+                  _table_data.value = newData;
+                  useMessage('success' ,'Success');
+                },
+                // 触发校验的时机（when to validate)
+                validateTrigger: 'change',
+                // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+                on: (editContext ) => ({
+                  onBlur: (ctx ) => {
+                    console.log('失去焦点', editContext);
+                    ctx?.e?.preventDefault();
+                  },
+                  onEnter: (ctx ) => {
+                    ctx?.e?.preventDefault();
+                    console.log('onEnter', ctx);
+                  },
+                  // 默认是否为编辑状态
+                  defaultEditable: true,
+                }),
+              }
+            });
+          }
+        })
+      }
+      columns.push(group_Colums)
+    })
 
-    // }, 100);
+    console.log('-----------onMounted----820----------------',columns)
+    setTimeout(() => {
+      _columns.value = [...columnsDefaultF,...columns,...columnsDefaultA]
+      displayColumns.value = columns.map(ele=> ele.colKey)
+      tableRef.value.refreshTable()
+    }, 100);
     
   }else{
     setTimeout(() => {

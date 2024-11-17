@@ -10660,7 +10660,7 @@ const options = $ref({
     experiment_theme: '0ed50212-3f77-4c98-bd9a-40499d77c984',
     experiment_record: '2f716a40-f3a5-48a0-875a-b10695542ddd',
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxNzI0NDQ2LCJpYXQiOjE3MzE2MzgwNDYsImp0aSI6IjM5YWNiNzc5M2ZiZjQ0YTY4M2FjYWU2NDFlNTFiMWI5IiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.DAKD55omTz08XAhmyyAP0-IQUvKQYbHjqEc7W5b9qXA',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxOTEyMDUzLCJpYXQiOjE3MzE4MjU2NTMsImp0aSI6IjMxNzcwNGNhNDYzYzRkODA4NjZjN2VlMTAyZmJjMmU0IiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.CIUPoQpjsX6v6UWKx4fLsnHpq5rtMSYgclCvBWw49fQ',
   },
   document: {
     placeholder: '测试文档',
@@ -11266,72 +11266,397 @@ onMounted(() => {
     "type": "doc",
     "content": [
         {
+            "type": "xmTitle",
+            "attrs": {
+                "id": "428d573b-1438-41ec-b5a6-0704defae5f1",
+                "key": "baseTitle",
+                "name": "a7b2afad-01ec-43ef-a9b8-70c2236cec16",
+                "isChanged": false,
+                "title": "Test 1",
+                "experiment_record": {
+                    "id": "428d573b-1438-41ec-b5a6-0704defae5f1",
+                    "sn": null,
+                    "liked": false,
+                    "title": "Test 1",
+                    "catalog": null,
+                    "creator": "zzw",
+                    "version": 1,
+                    "end_time": null,
+                    "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                    "start_time": null,
+                    "custom_data": {},
+                    "description": null,
+                    "creator_name": null,
+                    "experimenter": [],
+                    "modifier_name": "赵紫文",
+                    "sample_number": null,
+                    "dept_belong_id": null,
+                    "create_datetime": "2024-11-14 14:26:19",
+                    "previous_record": null,
+                    "update_datetime": "2024-11-14 14:26:19",
+                    "experiment_theme": "0ed50212-3f77-4c98-bd9a-40499d77c984",
+                    "experiment_design": null,
+                    "document_attachments": null
+                },
+                "showSubTitle": true
+            }
+        },
+        {
+            "type": "xmForm",
+            "attrs": {
+                "id": "428d573b-1438-41ec-b5a6-0704defae5f1",
+                "key": "baseInfo",
+                "name": "c05bd061-b07a-4e3e-baa2-da59e2e4e1e5",
+                "isChanged": false,
+                "formData": {
+                    "sn": null,
+                    "title": "Test 1",
+                    "end_time": null,
+                    "start_time": null,
+                    "experimenter": []
+                },
+                "config": {
+                    "formItems": [
+                        {
+                            "id": "sn",
+                            "key": "sn",
+                            "icon": "iconamoon:edit",
+                            "name": "TextInput",
+                            "type": "TextInput",
+                            "alias": "实验编号",
+                            "props": {
+                                "hidden": false,
+                                "abstract": false,
+                                "readOnly": false,
+                                "required": true,
+                                "enableScan": false,
+                                "validation": null,
+                                "enablePrint": true,
+                                "textForSuffix": "",
+                                "enableSuffixText": false
+                            },
+                            "title": "实验编号",
+                            "valueType": "String"
+                        },
+                        {
+                            "id": "experimenter",
+                            "key": "experimenter",
+                            "icon": "iconamoon:edit",
+                            "name": "TextInput",
+                            "type": "TextInput",
+                            "alias": "实验参与人",
+                            "props": {
+                                "hidden": false,
+                                "abstract": false,
+                                "readOnly": false,
+                                "required": false,
+                                "enableScan": false,
+                                "validation": null,
+                                "enablePrint": true,
+                                "textForSuffix": "",
+                                "enableSuffixText": false
+                            },
+                            "title": "实验参与人",
+                            "valueType": "String"
+                        },
+                        {
+                            "id": "start_time",
+                            "key": "start_time",
+                            "icon": "iconamoon:edit",
+                            "name": "DateTime",
+                            "type": "DateTime",
+                            "alias": "开始时间",
+                            "props": {
+                                "hidden": false,
+                                "abstract": false,
+                                "readOnly": false,
+                                "required": false,
+                                "enableScan": false,
+                                "validation": null,
+                                "enablePrint": true,
+                                "enableTimePicker": false
+                            },
+                            "title": "开始时间",
+                            "valueType": "String"
+                        },
+                        {
+                            "id": "end_time",
+                            "key": "end_time",
+                            "icon": "iconamoon:edit",
+                            "name": "DateTime",
+                            "type": "DateTime",
+                            "alias": "结束时间",
+                            "props": {
+                                "hidden": false,
+                                "abstract": false,
+                                "readOnly": false,
+                                "required": false,
+                                "enableScan": false,
+                                "validation": null,
+                                "enablePrint": true,
+                                "enableTimePicker": false
+                            },
+                            "title": "结束时间",
+                            "valueType": "String"
+                        }
+                    ],
+                    "formConfig": {
+                        "colon": true,
+                        "rules": {
+                            "name": [
+                                {
+                                    "type": "error",
+                                    "message": "必填",
+                                    "required": true
+                                },
+                                {
+                                    "min": 2,
+                                    "type": "error",
+                                    "message": "至少需要两个字",
+                                    "trigger": "blur"
+                                }
+                            ],
+                            "description": [
+                                {
+                                    "type": "error",
+                                    "message": "必填",
+                                    "required": true
+                                },
+                                {
+                                    "min": 12,
+                                    "type": "error",
+                                    "message": "至少需要11两个字",
+                                    "trigger": "blur"
+                                }
+                            ]
+                        },
+                        "layout": "vertical",
+                        "ruleJs": "//formData: 表单数据  formMap: 表单字段id -> 字段json配置\r\nfunction doChange(formData, formMap){\r\n\t\r\n}",
+                        "columns": 2,
+                        "labelPos": "left",
+                        "ruleType": "SIMPLE",
+                        "labelWidth": "80px",
+                        "showSubmitBtn": false
+                    }
+                }
+            }
+        },
+        {
+            "type": "paragraph",
+            "attrs": {
+                "indent": null,
+                "textAlign": "left",
+                "lineHeight": 1.5,
+                "margin": {}
+            }
+        },
+        {
+            "type": "xmTitleContent",
+            "attrs": {
+                "content": "目的",
+                "title": "试验目的："
+            },
+            "content": [
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "indent": null,
+                        "textAlign": "left",
+                        "lineHeight": 1.5,
+                        "margin": {},
+                        "id": "elm5s8",
+                        "data-toc-id": "elm5s8",
+                        "level": 2
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "试验目的："
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "attrs": {
+                        "indent": null,
+                        "textAlign": "left",
+                        "lineHeight": 1.5,
+                        "margin": {}
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "目的"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "paragraph",
+            "attrs": {
+                "indent": null,
+                "textAlign": "left",
+                "lineHeight": 1.5,
+                "margin": {}
+            }
+        },
+        {
+            "type": "xmTitleContent",
+            "attrs": {
+                "content": "背景",
+                "title": "试验背景："
+            },
+            "content": [
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "indent": null,
+                        "textAlign": "left",
+                        "lineHeight": 1.5,
+                        "margin": {},
+                        "id": "h1tica",
+                        "data-toc-id": "h1tica",
+                        "level": 2
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "试验背景："
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "attrs": {
+                        "indent": null,
+                        "textAlign": "left",
+                        "lineHeight": 1.5,
+                        "margin": {}
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "背景"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "paragraph",
+            "attrs": {
+                "indent": null,
+                "textAlign": "left",
+                "lineHeight": 1.5,
+                "margin": {}
+            }
+        },
+        {
+            "type": "xmTitleContent",
+            "attrs": {
+                "content": "计划",
+                "title": "试验计划："
+            },
+            "content": [
+                {
+                    "type": "heading",
+                    "attrs": {
+                        "indent": null,
+                        "textAlign": "left",
+                        "lineHeight": 1.5,
+                        "margin": {},
+                        "id": "fsmq94",
+                        "data-toc-id": "fsmq94",
+                        "level": 2
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "试验计划："
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "attrs": {
+                        "indent": null,
+                        "textAlign": "left",
+                        "lineHeight": 1.5,
+                        "margin": {}
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": "计划"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "type": "paragraph",
+            "attrs": {
+                "indent": null,
+                "textAlign": "left",
+                "lineHeight": 1.5,
+                "margin": {}
+            },
+            "content": [
+                {
+                    "type": "text",
+                    "text": " "
+                }
+            ]
+        },
+        {
             "type": "raw_material_table",
             "attrs": {
-                "id": "5099d7dc-bfdd-470b-ac80-db296819b70f",
-                "key": "raw_material_table20241114115041",
-                "name": "beee9b19-76e8-4c35-ae15-0502762f3642",
+                "id": "419700ea-9c3b-4113-ba35-6c794659e1b6",
+                "key": "raw_material_table20241117182120",
+                "name": "44ea9b52-e86f-4273-9423-81b743092573",
                 "isChanged": false,
                 "table_data": [
                     {
                         "id": "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                        "batch": "1",
+                        "goods": null,
+                        "place": null,
+                        "price": null,
+                        "state": "Not-Started",
+                        "margin": null,
                         "material": {
                             "id": "4cb7c311-ab8f-4fdf-aef4-61167a78c48f",
-                            "name": "YL01171535",
-                            "sn": "SN-1729150535817"
+                            "sn": "SN-1729150535817",
+                            "name": "YL01171535"
                         },
-                        "state": "Not-Started",
-                        "batch": "1",
-                        "price": null,
-                        "production_date": null,
-                        "margin": null,
-                        "goods": null,
                         "supplier": null,
-                        "place": null,
                         "description": null,
                         "create_datetime": null,
+                        "production_date": null,
                         "update_datetime": null
                     },
                     {
                         "id": "64886cd2-1b88-49aa-b7c1-a687a8ffbad4",
+                        "batch": "1",
+                        "goods": null,
+                        "place": null,
+                        "price": null,
+                        "state": "Not-Started",
+                        "margin": null,
                         "material": {
                             "id": "7867a6e8-71a1-4ae3-afd5-f07f6ac0bb7a",
-                            "name": "YL10171534",
-                            "sn": "SN-1729150438237"
+                            "sn": "SN-1729150438237",
+                            "name": "YL10171534"
                         },
-                        "state": "Not-Started",
-                        "batch": "1",
-                        "price": null,
-                        "production_date": null,
-                        "margin": null,
-                        "goods": null,
                         "supplier": null,
-                        "place": null,
                         "description": null,
                         "create_datetime": null,
-                        "update_datetime": null
-                    },
-                    {
-                        "id": "a060cb6e-23ea-4643-9c9b-22649eb58619",
-                        "material": {
-                            "id": "50831c42-06a1-407b-a14d-dde160a7db8b",
-                            "name": "YL10171643",
-                            "sn": "SN-1729154564209"
-                        },
-                        "state": "Not-Started",
-                        "batch": "1",
-                        "price": null,
                         "production_date": null,
-                        "margin": null,
-                        "goods": null,
-                        "supplier": null,
-                        "place": null,
-                        "description": null,
-                        "create_datetime": null,
                         "update_datetime": null
                     }
                 ],
-                "title": "原材料202411141150"
+                "title": "原材料202411171821"
             },
             "content": [
                 {
@@ -11354,84 +11679,92 @@ onMounted(() => {
         {
             "type": "technology_table",
             "attrs": {
-                "id": "632621a9-c46b-4f46-9d19-59b8e2f087f1",
-                "key": "technology_table20241114115119",
-                "name": "2637888a-2a0c-4455-a100-bc8d5908c1bc",
+                "id": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                "key": "technology_table20241117182120",
+                "name": "2f7857d2-84ac-432f-af2d-16a8ac01e95c",
                 "isChanged": false,
                 "table_data": [
                     {
-                        "id": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
-                        "name": "阿萨",
-                        "typeCode": "processes",
-                        "description": "",
+                        "id": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
                         "list": [
                             {
                                 "id": "14",
-                                "gourp": [],
-                                "name": "test1",
-                                "props": {
-                                    "abstract": false,
-                                    "required": false,
-                                    "enableScan": false,
-                                    "enablePrint": true
-                                },
                                 "key": "test2",
+                                "name": "test1",
                                 "type": "TextInput",
+                                "unit": null,
+                                "gourp": [],
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
                                 "value": "115",
-                                "unit": null,
-                                "attribute_type": "single",
-                                "typeCode": "operation",
-                                "defaultValue": "115",
+                                "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
                                 "data_id": 14,
-                                "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
-                                "description": ""
+                                "typeCode": "operation",
+                                "description": "",
+                                "defaultValue": "115",
+                                "attribute_type": "single"
                             },
                             {
-                                "id": "23",
+                                "id": "15",
+                                "key": "test2",
+                                "name": "test2",
+                                "type": "TextInput",
+                                "unit": null,
                                 "gourp": [],
-                                "name": "测试单个属性",
                                 "props": {
                                     "abstract": false,
                                     "required": false,
                                     "enableScan": false,
                                     "enablePrint": true
                                 },
-                                "key": "test11",
-                                "type": "TextInput",
                                 "value": null,
-                                "unit": null,
-                                "attribute_type": "single",
+                                "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
+                                "data_id": 15,
                                 "typeCode": "operation",
+                                "description": "",
                                 "defaultValue": null,
-                                "data_id": 23,
-                                "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
-                                "description": ""
-                            },
-                            {
-                                "id": "24",
-                                "gourp": [],
-                                "name": "测测试",
-                                "props": {
-                                    "abstract": false,
-                                    "required": false,
-                                    "enableScan": false,
-                                    "enablePrint": true
-                                },
-                                "key": "测",
-                                "type": "TextInput",
-                                "value": null,
-                                "unit": null,
-                                "attribute_type": "single",
-                                "typeCode": "operation",
-                                "defaultValue": null,
-                                "data_id": 24,
-                                "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
-                                "description": ""
+                                "attribute_type": "single"
                             }
-                        ]
+                        ],
+                        "name": "搞活动吧",
+                        "typeCode": "processes",
+                        "description": ""
+                    },
+                    {
+                        "id": "c202e573-913b-4c1d-be68-087fad444664",
+                        "list": [
+                            {
+                                "id": "27",
+                                "key": "xm_raw_material",
+                                "name": "原材料",
+                                "type": "TextInput",
+                                "unit": null,
+                                "gourp": [],
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "parent": "c202e573-913b-4c1d-be68-087fad444664",
+                                "data_id": 27,
+                                "typeCode": "operation",
+                                "description": "",
+                                "defaultValue": null,
+                                "attribute_type": "single"
+                            }
+                        ],
+                        "name": "刚发的",
+                        "typeCode": "processes",
+                        "description": ""
                     }
                 ],
-                "title": "工艺202411141150"
+                "title": "工艺202411171821"
             },
             "content": [
                 {
@@ -11454,235 +11787,320 @@ onMounted(() => {
         {
             "type": "experimental_design",
             "attrs": {
-                "id": "c3f3f912-67a8-4e76-88b0-7449f694706d",
-                "key": "experimental_design20241114162153",
-                "name": "6d3f10dd-ae20-411c-a48a-06ac1770e3c0",
+                "id": "a71c39b8-c68c-4660-ab47-2a95a67ce205",
+                "key": "experimental_design20241117182207",
+                "name": "09658fa5-6431-4f6d-93c9-e2a20d43ae96",
                 "isChanged": false,
                 "designParams": [
                     {
                         "id": "14",
-                        "gourp": [],
-                        "name": "test1",
-                        "props": {
-                            "abstract": false,
-                            "required": false,
-                            "enableScan": false,
-                            "enablePrint": true
-                        },
                         "key": "test2",
+                        "name": "test1",
+                        "step": "32",
                         "type": "TextInput",
+                        "unit": null,
+                        "check": true,
+                        "gourp": [],
+                        "props": {
+                            "abstract": false,
+                            "required": false,
+                            "enableScan": false,
+                            "enablePrint": true
+                        },
                         "value": "115",
-                        "unit": null,
-                        "attribute_type": "single",
-                        "typeCode": "operation",
-                        "defaultValue": "115",
+                        "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
                         "data_id": 14,
-                        "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
+                        "typeCode": "operation",
                         "description": "",
-                        "step": "23",
-                        "check": true
+                        "defaultValue": "115",
+                        "attribute_type": "single"
                     },
                     {
-                        "id": "23",
+                        "id": "15",
+                        "key": "test2",
+                        "name": "test2",
+                        "step": "43",
+                        "type": "TextInput",
+                        "unit": null,
+                        "check": true,
                         "gourp": [],
-                        "name": "测试单个属性",
                         "props": {
                             "abstract": false,
                             "required": false,
                             "enableScan": false,
                             "enablePrint": true
                         },
-                        "key": "test11",
-                        "type": "TextInput",
                         "value": null,
-                        "unit": null,
-                        "attribute_type": "single",
+                        "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
+                        "data_id": 15,
                         "typeCode": "operation",
-                        "defaultValue": null,
-                        "data_id": 23,
-                        "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
                         "description": "",
-                        "step": "34",
-                        "check": true
+                        "defaultValue": null,
+                        "attribute_type": "single"
                     },
                     {
-                        "id": "24",
+                        "id": "27",
+                        "key": "xm_raw_material",
+                        "name": "原材料",
+                        "step": [
+                            "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                            "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                        ],
+                        "type": "SelectPlus",
+                        "unit": null,
+                        "check": true,
                         "gourp": [],
-                        "name": "测测试",
+                        "label": "原材料",
                         "props": {
+                            "options": [
+                                {
+                                    "id": "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                                    "name": "YL01171535/SN-1729150535817",
+                                    "batch": "1",
+                                    "goods": null,
+                                    "place": null,
+                                    "price": null,
+                                    "state": "Not-Started",
+                                    "margin": null,
+                                    "material": {
+                                        "id": "4cb7c311-ab8f-4fdf-aef4-61167a78c48f",
+                                        "sn": "SN-1729150535817",
+                                        "name": "YL01171535"
+                                    },
+                                    "supplier": null,
+                                    "description": null,
+                                    "create_datetime": null,
+                                    "production_date": null,
+                                    "update_datetime": null
+                                },
+                                {
+                                    "id": "64886cd2-1b88-49aa-b7c1-a687a8ffbad4",
+                                    "name": "YL10171534/SN-1729150438237",
+                                    "batch": "1",
+                                    "goods": null,
+                                    "place": null,
+                                    "price": null,
+                                    "state": "Not-Started",
+                                    "margin": null,
+                                    "material": {
+                                        "id": "7867a6e8-71a1-4ae3-afd5-f07f6ac0bb7a",
+                                        "sn": "SN-1729150438237",
+                                        "name": "YL10171534"
+                                    },
+                                    "supplier": null,
+                                    "description": null,
+                                    "create_datetime": null,
+                                    "production_date": null,
+                                    "update_datetime": null
+                                }
+                            ],
                             "abstract": false,
+                            "labelKey": "name",
                             "required": false,
+                            "valueKey": "id",
                             "enableScan": false,
                             "enablePrint": true
                         },
-                        "key": "测",
-                        "type": "TextInput",
-                        "value": null,
-                        "unit": null,
-                        "attribute_type": "single",
+                        "value": "27",
+                        "parent": "c202e573-913b-4c1d-be68-087fad444664",
+                        "data_id": 27,
                         "typeCode": "operation",
-                        "defaultValue": null,
-                        "data_id": 24,
-                        "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
+                        "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
                         "description": "",
-                        "step": "54",
-                        "check": true
+                        "defaultValue": null,
+                        "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
+                        "attribute_type": "single"
                     }
                 ],
                 "designResult": [
                     {
+                        "id": "653cf967-656e-4642-8d62-29172840e982",
+                        "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
                         "check": true,
-                        "id": "f062f560-5890-4d00-bc85-f8245ecfc253",
-                        "test2": "115.0",
-                        "test11": "0",
-                        "测": "0"
+                        "test2": "0",
+                        "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                        "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
+                        "xm_raw_material": [
+                            "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                            "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                        ]
                     },
                     {
+                        "id": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
+                        "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
                         "check": true,
-                        "id": "0263dc7b-7c2c-4ac5-b03e-8abbbc494ca4",
-                        "test2": "138.0",
-                        "test11": "34",
-                        "测": "54"
-                    },
-                    {
-                        "check": true,
-                        "id": "d5d32957-8b63-470d-bd7d-47ce9ce2d838",
-                        "test2": "161.0",
-                        "test11": "68",
-                        "测": "108"
-                    },
-                    {
-                        "check": true,
-                        "id": "af1e7511-bf8f-413b-b815-92d603a2227b",
-                        "test2": "184.0",
-                        "test11": "102",
-                        "测": "162"
+                        "test2": "43",
+                        "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                        "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
+                        "xm_raw_material": [
+                            "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                            "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                        ]
                     }
                 ],
-                "title": "试验设计202411141621"
+                "title": "试验设计202411171821"
             }
         },
         {
             "type": "sample_table",
             "attrs": {
-                "id": "930791cd-1819-4f87-a412-53554c28f257",
-                "key": "sample_table20241114162207",
-                "name": "8f945b91-d32e-4fba-aa80-ac89d1ff570f",
+                "id": "2275087c-26f3-4b61-8021-218d2d120202",
+                "key": "sample_table20241117182221",
+                "name": "2eea865a-3daf-4efc-ade8-d1c56d7c6df7",
                 "isChanged": false,
                 "table_data": [
                     {
+                        "id": "ba4a3f44-6465-4ea4-aa16-629a7f96eea4",
+                        "sn": "S202411178",
+                        "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
                         "check": true,
-                        "id": "f062f560-5890-4d00-bc85-f8245ecfc253",
-                        "test2": "115.0",
-                        "test11": "0",
-                        "测": "0",
-                        "sn": "S-001",
-                        "count": "0",
-                        "name": "wqdwdqwdw"
+                        "count": "12",
+                        "test2": "0",
+                        "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                        "description": "大撒旦",
+                        "raw_material": "653cf967-656e-4642-8d62-29172840e982",
+                        "xm_raw_material": [
+                            "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                            "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                        ]
                     },
                     {
+                        "id": "f7aa2636-bc3e-44f0-87a8-cee4fb95dce2",
+                        "sn": "S202411179",
+                        "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
                         "check": true,
-                        "id": "0263dc7b-7c2c-4ac5-b03e-8abbbc494ca4",
-                        "test2": "138.0",
-                        "test11": "34",
-                        "测": "54",
-                        "sn": "S-002",
                         "count": "0",
-                        "name": "dwqdqwdqw"
-                    },
-                    {
-                        "check": true,
-                        "id": "d5d32957-8b63-470d-bd7d-47ce9ce2d838",
-                        "test2": "161.0",
-                        "test11": "68",
-                        "测": "108",
-                        "sn": "S-003",
-                        "count": "0",
-                        "name": "dwqdwqdwq"
-                    },
-                    {
-                        "check": true,
-                        "id": "af1e7511-bf8f-413b-b815-92d603a2227b",
-                        "test2": "184.0",
-                        "test11": "102",
-                        "测": "162",
-                        "sn": "S-004",
-                        "count": "0",
-                        "name": "dwqdwqdqw"
+                        "test2": "43",
+                        "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                        "raw_material": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
+                        "xm_raw_material": [
+                            "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                            "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                        ]
                     }
                 ],
                 "designParams": [
                     {
                         "id": "14",
-                        "gourp": [],
-                        "name": "test1",
-                        "props": {
-                            "abstract": false,
-                            "required": false,
-                            "enableScan": false,
-                            "enablePrint": true
-                        },
                         "key": "test2",
+                        "name": "test1",
+                        "step": "32",
                         "type": "TextInput",
+                        "unit": null,
+                        "check": true,
+                        "gourp": [],
+                        "props": {
+                            "abstract": false,
+                            "required": false,
+                            "enableScan": false,
+                            "enablePrint": true
+                        },
                         "value": "115",
-                        "unit": null,
-                        "attribute_type": "single",
-                        "typeCode": "operation",
-                        "defaultValue": "115",
+                        "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
                         "data_id": 14,
-                        "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
+                        "typeCode": "operation",
                         "description": "",
-                        "step": "23",
-                        "check": true
+                        "defaultValue": "115",
+                        "attribute_type": "single"
                     },
                     {
-                        "id": "23",
+                        "id": "15",
+                        "key": "test2",
+                        "name": "test2",
+                        "step": "43",
+                        "type": "TextInput",
+                        "unit": null,
+                        "check": true,
                         "gourp": [],
-                        "name": "测试单个属性",
                         "props": {
                             "abstract": false,
                             "required": false,
                             "enableScan": false,
                             "enablePrint": true
                         },
-                        "key": "test11",
-                        "type": "TextInput",
                         "value": null,
-                        "unit": null,
-                        "attribute_type": "single",
+                        "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
+                        "data_id": 15,
                         "typeCode": "operation",
-                        "defaultValue": null,
-                        "data_id": 23,
-                        "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
                         "description": "",
-                        "step": "34",
-                        "check": true
+                        "defaultValue": null,
+                        "attribute_type": "single"
                     },
                     {
-                        "id": "24",
+                        "id": "27",
+                        "key": "xm_raw_material",
+                        "name": "原材料",
+                        "step": [
+                            "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                            "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                        ],
+                        "type": "SelectPlus",
+                        "unit": null,
+                        "check": true,
                         "gourp": [],
-                        "name": "测测试",
+                        "label": "原材料",
                         "props": {
+                            "options": [
+                                {
+                                    "id": "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                                    "name": "YL01171535/SN-1729150535817",
+                                    "batch": "1",
+                                    "goods": null,
+                                    "place": null,
+                                    "price": null,
+                                    "state": "Not-Started",
+                                    "margin": null,
+                                    "material": {
+                                        "id": "4cb7c311-ab8f-4fdf-aef4-61167a78c48f",
+                                        "sn": "SN-1729150535817",
+                                        "name": "YL01171535"
+                                    },
+                                    "supplier": null,
+                                    "description": null,
+                                    "create_datetime": null,
+                                    "production_date": null,
+                                    "update_datetime": null
+                                },
+                                {
+                                    "id": "64886cd2-1b88-49aa-b7c1-a687a8ffbad4",
+                                    "name": "YL10171534/SN-1729150438237",
+                                    "batch": "1",
+                                    "goods": null,
+                                    "place": null,
+                                    "price": null,
+                                    "state": "Not-Started",
+                                    "margin": null,
+                                    "material": {
+                                        "id": "7867a6e8-71a1-4ae3-afd5-f07f6ac0bb7a",
+                                        "sn": "SN-1729150438237",
+                                        "name": "YL10171534"
+                                    },
+                                    "supplier": null,
+                                    "description": null,
+                                    "create_datetime": null,
+                                    "production_date": null,
+                                    "update_datetime": null
+                                }
+                            ],
                             "abstract": false,
+                            "labelKey": "name",
                             "required": false,
+                            "valueKey": "id",
                             "enableScan": false,
                             "enablePrint": true
                         },
-                        "key": "测",
-                        "type": "TextInput",
-                        "value": null,
-                        "unit": null,
-                        "attribute_type": "single",
+                        "value": "27",
+                        "parent": "c202e573-913b-4c1d-be68-087fad444664",
+                        "data_id": 27,
                         "typeCode": "operation",
-                        "defaultValue": null,
-                        "data_id": 24,
-                        "parent": "303adb19-1dd9-4bfa-9dd2-52b778b8a8db",
+                        "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
                         "description": "",
-                        "step": "54",
-                        "check": true
+                        "defaultValue": null,
+                        "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
+                        "attribute_type": "single"
                     }
                 ],
-                "title": "样品202411141621"
+                "title": "样品202411171821"
             },
             "content": [
                 {
@@ -11703,13 +12121,1046 @@ onMounted(() => {
             ]
         },
         {
-            "type": "paragraph",
+            "type": "evaluating_table",
             "attrs": {
-                "indent": null,
-                "textAlign": "left",
-                "lineHeight": 1.5,
-                "margin": {}
-            }
+                "id": "55b2fe53-26e8-4846-b176-4464965cbbe9",
+                "key": "evaluating_table20241117182706",
+                "name": "66f871ff-cdb6-4870-8bfc-d1ec6000f774",
+                "isChanged": false,
+                "table_data": [
+                    {
+                        "id": "6b19bd82-5710-437a-90d8-f7d80eb0fc81",
+                        "sample": {
+                            "id": "ba4a3f44-6465-4ea4-aa16-629a7f96eea4",
+                            "sn": "S202411178",
+                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                            "check": true,
+                            "count": "12",
+                            "test2": "0",
+                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                            "description": "大撒旦",
+                            "raw_material": "653cf967-656e-4642-8d62-29172840e982",
+                            "xm_raw_material": [
+                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                            ]
+                        },
+                        "category": "",
+                        "dateTime": "2024-11-17",
+                        "reviewer": "",
+                        "condition": "4",
+                        "sample_sn": "S202411178",
+                        "cycle_name": "0W",
+                        "xingzhuang": "好过分好过分",
+                        "description": "",
+                        "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                        "test_period": "1",
+                        "lixingkaoyan": "刚发的",
+                        "condition_name": "冷冻 -15±1℃",
+                        "current_period": "2",
+                        "xiusuanhanliang": "干豆腐"
+                    },
+                    {
+                        "id": "3709cfef-dff9-45f3-8773-328675cddd2d",
+                        "sample": {
+                            "id": "f7aa2636-bc3e-44f0-87a8-cee4fb95dce2",
+                            "sn": "S202411179",
+                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                            "check": true,
+                            "count": "0",
+                            "test2": "43",
+                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                            "raw_material": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
+                            "xm_raw_material": [
+                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                            ]
+                        },
+                        "category": "",
+                        "dateTime": "2024-11-17",
+                        "reviewer": "",
+                        "condition": "4",
+                        "sample_sn": "S202411179",
+                        "cycle_name": "0W",
+                        "xingzhuang": "",
+                        "description": "",
+                        "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                        "test_period": "1",
+                        "lixingkaoyan": "",
+                        "condition_name": "冷冻 -15±1℃",
+                        "current_period": "2",
+                        "xiusuanhanliang": ""
+                    },
+                    {
+                        "id": "f9c2413e-3bbe-412d-8499-cac978a8d1af",
+                        "sample": {
+                            "id": "ba4a3f44-6465-4ea4-aa16-629a7f96eea4",
+                            "sn": "S202411178",
+                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                            "check": true,
+                            "count": "12",
+                            "test2": "0",
+                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                            "description": "大撒旦",
+                            "raw_material": "653cf967-656e-4642-8d62-29172840e982",
+                            "xm_raw_material": [
+                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                            ]
+                        },
+                        "category": "",
+                        "dateTime": "2024-12-01",
+                        "reviewer": "",
+                        "condition": "4",
+                        "sample_sn": "S202411178",
+                        "cycle_name": "2W",
+                        "xingzhuang": "",
+                        "description": "",
+                        "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                        "test_period": "1",
+                        "lixingkaoyan": "",
+                        "condition_name": "冷冻 -15±1℃",
+                        "current_period": "2",
+                        "xiusuanhanliang": ""
+                    },
+                    {
+                        "id": "968a69f6-f7e8-4670-b13f-045c59d0a928",
+                        "sample": {
+                            "id": "f7aa2636-bc3e-44f0-87a8-cee4fb95dce2",
+                            "sn": "S202411179",
+                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                            "check": true,
+                            "count": "0",
+                            "test2": "43",
+                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                            "raw_material": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
+                            "xm_raw_material": [
+                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                            ]
+                        },
+                        "category": "",
+                        "dateTime": "2024-12-01",
+                        "reviewer": "",
+                        "condition": "4",
+                        "sample_sn": "S202411179",
+                        "cycle_name": "2W",
+                        "xingzhuang": "",
+                        "description": "",
+                        "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                        "test_period": "1",
+                        "lixingkaoyan": "",
+                        "condition_name": "冷冻 -15±1℃",
+                        "current_period": "2",
+                        "xiusuanhanliang": ""
+                    },
+                    {
+                        "id": "b68451e4-bf75-4e3a-b78a-d82e4d15ce6c",
+                        "sample": {
+                            "id": "ba4a3f44-6465-4ea4-aa16-629a7f96eea4",
+                            "sn": "S202411178",
+                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                            "check": true,
+                            "count": "12",
+                            "test2": "0",
+                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                            "description": "大撒旦",
+                            "raw_material": "653cf967-656e-4642-8d62-29172840e982",
+                            "xm_raw_material": [
+                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                            ]
+                        },
+                        "category": "",
+                        "dateTime": "2024-12-15",
+                        "reviewer": "",
+                        "condition": "4",
+                        "sample_sn": "S202411178",
+                        "cycle_name": "4W",
+                        "xingzhuang": "好的",
+                        "description": "",
+                        "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                        "test_period": "1",
+                        "lixingkaoyan": "发的啥",
+                        "condition_name": "冷冻 -15±1℃",
+                        "current_period": "2",
+                        "xiusuanhanliang": ""
+                    },
+                    {
+                        "id": "b444d560-be47-491e-abf4-3b9c39800abb",
+                        "sample": {
+                            "id": "f7aa2636-bc3e-44f0-87a8-cee4fb95dce2",
+                            "sn": "S202411179",
+                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                            "check": true,
+                            "count": "0",
+                            "test2": "43",
+                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                            "raw_material": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
+                            "xm_raw_material": [
+                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                            ]
+                        },
+                        "category": "",
+                        "dateTime": "2024-12-15",
+                        "reviewer": "",
+                        "condition": "4",
+                        "sample_sn": "S202411179",
+                        "cycle_name": "4W",
+                        "xingzhuang": "",
+                        "description": "",
+                        "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                        "test_period": "1",
+                        "lixingkaoyan": "",
+                        "condition_name": "冷冻 -15±1℃",
+                        "current_period": "2",
+                        "xiusuanhanliang": ""
+                    }
+                ],
+                "columns": [
+                    {
+                        "title": "样品名",
+                        "colKey": "sample_name",
+                        "minWidth": 140
+                    },
+                    {
+                        "title": "编号",
+                        "width": 140,
+                        "colKey": "sample_sn"
+                    },
+                    {
+                        "title": "周期",
+                        "width": 40,
+                        "colKey": "cycle_name"
+                    },
+                    {
+                        "title": "条件",
+                        "width": 100,
+                        "colKey": "condition"
+                    },
+                    {
+                        "edit": {
+                            "props": {
+                                "autofocus": true,
+                                "clearable": true
+                            },
+                            "rules": [
+                                {
+                                    "message": "不能为空",
+                                    "required": true
+                                }
+                            ],
+                            "component": {
+                                "name": "TInput",
+                                "props": {
+                                    "name": {
+                                        "default": ""
+                                    },
+                                    "size": {
+                                        "default": "medium"
+                                    },
+                                    "tips": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "type": {
+                                        "default": "text"
+                                    },
+                                    "align": {
+                                        "default": "left"
+                                    },
+                                    "label": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "value": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "format": {},
+                                    "status": {
+                                        "default": "default"
+                                    },
+                                    "suffix": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "disabled": {},
+                                    "readonly": {},
+                                    "maxlength": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "showInput": {
+                                        "default": true
+                                    },
+                                    "inputClass": {
+                                        "type": [
+                                            null,
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "modelValue": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "prefixIcon": {},
+                                    "suffixIcon": {},
+                                    "placeholder": {},
+                                    "autocomplete": {},
+                                    "defaultValue": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "maxcharacter": {},
+                                    "keepWrapperWidth": {
+                                        "default": false
+                                    }
+                                }
+                            },
+                            "showEditIcon": true,
+                            "validateTrigger": "change",
+                            "abortEditOnEvent": [
+                                "onEnter",
+                                "onBlur"
+                            ]
+                        },
+                        "title": "评测人",
+                        "colKey": "reviewer",
+                        "minWidth": 140
+                    },
+                    {
+                        "edit": {
+                            "props": {
+                                "Format": "YYYY-MM-DD",
+                                "autofocus": true,
+                                "clearable": true,
+                                "valueType": "YYYY-MM-DD"
+                            },
+                            "rules": [
+                                {
+                                    "message": "不能为空",
+                                    "required": true
+                                }
+                            ],
+                            "component": {
+                                "name": "TDatePicker",
+                                "props": {
+                                    "mode": {
+                                        "default": "date"
+                                    },
+                                    "size": {
+                                        "default": "medium"
+                                    },
+                                    "tips": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "label": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "value": {
+                                        "type": [
+                                            null,
+                                            null,
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "format": {},
+                                    "status": {
+                                        "default": "default"
+                                    },
+                                    "presets": {},
+                                    "disabled": {},
+                                    "valueType": {
+                                        "default": ""
+                                    },
+                                    "inputProps": {},
+                                    "modelValue": {
+                                        "type": [
+                                            null,
+                                            null,
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "popupProps": {},
+                                    "prefixIcon": {},
+                                    "suffixIcon": {},
+                                    "defaultTime": {
+                                        "default": "00:00:00"
+                                    },
+                                    "disableDate": {
+                                        "type": [
+                                            null,
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "needConfirm": {
+                                        "default": true
+                                    },
+                                    "placeholder": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "defaultValue": {
+                                        "type": [
+                                            null,
+                                            null,
+                                            null,
+                                            null
+                                        ],
+                                        "default": ""
+                                    },
+                                    "valueDisplay": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "firstDayOfWeek": {},
+                                    "timePickerProps": {},
+                                    "presetsPlacement": {
+                                        "default": "bottom"
+                                    },
+                                    "selectInputProps": {}
+                                }
+                            },
+                            "showEditIcon": true,
+                            "validateTrigger": "change",
+                            "abortEditOnEvent": [
+                                "onEnter",
+                                "onPick",
+                                "onChange"
+                            ]
+                        },
+                        "title": "时间",
+                        "width": 120,
+                        "colKey": "dateTime"
+                    },
+                    {
+                        "title": "感官指标",
+                        "colKey": "category1",
+                        "children": [
+                            {
+                                "edit": {
+                                    "props": {
+                                        "options": [],
+                                        "multiply": true,
+                                        "autofocus": true,
+                                        "clearable": true
+                                    },
+                                    "rules": [
+                                        {
+                                            "message": "不能为空",
+                                            "required": false
+                                        }
+                                    ],
+                                    "component": {
+                                        "name": "TInput",
+                                        "props": {
+                                            "name": {
+                                                "default": ""
+                                            },
+                                            "size": {
+                                                "default": "medium"
+                                            },
+                                            "tips": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "type": {
+                                                "default": "text"
+                                            },
+                                            "align": {
+                                                "default": "left"
+                                            },
+                                            "label": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "value": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "format": {},
+                                            "status": {
+                                                "default": "default"
+                                            },
+                                            "suffix": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "disabled": {},
+                                            "readonly": {},
+                                            "maxlength": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "showInput": {
+                                                "default": true
+                                            },
+                                            "inputClass": {
+                                                "type": [
+                                                    null,
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "modelValue": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "prefixIcon": {},
+                                            "suffixIcon": {},
+                                            "placeholder": {},
+                                            "autocomplete": {},
+                                            "defaultValue": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "maxcharacter": {},
+                                            "keepWrapperWidth": {
+                                                "default": false
+                                            }
+                                        }
+                                    },
+                                    "showEditIcon": true,
+                                    "validateTrigger": "change",
+                                    "abortEditOnEvent": [
+                                        "onEnter",
+                                        "onBlur"
+                                    ]
+                                },
+                                "title": "性状",
+                                "width": 100,
+                                "colKey": "xingzhuang"
+                            }
+                        ]
+                    },
+                    {
+                        "title": "理化指标",
+                        "colKey": "category2",
+                        "children": [
+                            {
+                                "edit": {
+                                    "props": {
+                                        "options": [],
+                                        "multiply": true,
+                                        "autofocus": true,
+                                        "clearable": true
+                                    },
+                                    "rules": [
+                                        {
+                                            "message": "不能为空",
+                                            "required": false
+                                        }
+                                    ],
+                                    "component": {
+                                        "name": "TInput",
+                                        "props": {
+                                            "name": {
+                                                "default": ""
+                                            },
+                                            "size": {
+                                                "default": "medium"
+                                            },
+                                            "tips": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "type": {
+                                                "default": "text"
+                                            },
+                                            "align": {
+                                                "default": "left"
+                                            },
+                                            "label": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "value": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "format": {},
+                                            "status": {
+                                                "default": "default"
+                                            },
+                                            "suffix": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "disabled": {},
+                                            "readonly": {},
+                                            "maxlength": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "showInput": {
+                                                "default": true
+                                            },
+                                            "inputClass": {
+                                                "type": [
+                                                    null,
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "modelValue": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "prefixIcon": {},
+                                            "suffixIcon": {},
+                                            "placeholder": {},
+                                            "autocomplete": {},
+                                            "defaultValue": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "maxcharacter": {},
+                                            "keepWrapperWidth": {
+                                                "default": false
+                                            }
+                                        }
+                                    },
+                                    "showEditIcon": true,
+                                    "validateTrigger": "change",
+                                    "abortEditOnEvent": [
+                                        "onEnter",
+                                        "onBlur"
+                                    ]
+                                },
+                                "title": "离心考验",
+                                "width": 100,
+                                "colKey": "lixingkaoyan"
+                            },
+                            {
+                                "edit": {
+                                    "props": {
+                                        "options": [],
+                                        "multiply": true,
+                                        "autofocus": true,
+                                        "clearable": true
+                                    },
+                                    "rules": [
+                                        {
+                                            "message": "不能为空",
+                                            "required": false
+                                        }
+                                    ],
+                                    "component": {
+                                        "name": "TInput",
+                                        "props": {
+                                            "name": {
+                                                "default": ""
+                                            },
+                                            "size": {
+                                                "default": "medium"
+                                            },
+                                            "tips": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "type": {
+                                                "default": "text"
+                                            },
+                                            "align": {
+                                                "default": "left"
+                                            },
+                                            "label": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "value": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "format": {},
+                                            "status": {
+                                                "default": "default"
+                                            },
+                                            "suffix": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "disabled": {},
+                                            "readonly": {},
+                                            "maxlength": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "showInput": {
+                                                "default": true
+                                            },
+                                            "inputClass": {
+                                                "type": [
+                                                    null,
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "modelValue": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "prefixIcon": {},
+                                            "suffixIcon": {},
+                                            "placeholder": {},
+                                            "autocomplete": {},
+                                            "defaultValue": {
+                                                "type": [
+                                                    null,
+                                                    null
+                                                ]
+                                            },
+                                            "maxcharacter": {},
+                                            "keepWrapperWidth": {
+                                                "default": false
+                                            }
+                                        }
+                                    },
+                                    "showEditIcon": true,
+                                    "validateTrigger": "change",
+                                    "abortEditOnEvent": [
+                                        "onEnter",
+                                        "onBlur"
+                                    ]
+                                },
+                                "title": "溴酸钠含量 %",
+                                "width": 100,
+                                "colKey": "xiusuanhanliang"
+                            }
+                        ]
+                    },
+                    {
+                        "edit": {
+                            "props": {
+                                "autosize": true,
+                                "autofocus": true,
+                                "clearable": true
+                            },
+                            "rules": [
+                                {
+                                    "message": "不能为空",
+                                    "required": false
+                                }
+                            ],
+                            "component": {
+                                "name": "TTextarea",
+                                "props": {
+                                    "name": {
+                                        "default": ""
+                                    },
+                                    "tips": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "value": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "status": {},
+                                    "autosize": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ],
+                                        "default": false
+                                    },
+                                    "disabled": {},
+                                    "maxlength": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "modelValue": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "placeholder": {},
+                                    "defaultValue": {
+                                        "type": [
+                                            null,
+                                            null
+                                        ]
+                                    },
+                                    "maxcharacter": {},
+                                    "allowInputOverMax": {
+                                        "default": false
+                                    }
+                                },
+                                "inheritAttrs": false
+                            },
+                            "showEditIcon": true,
+                            "validateTrigger": "change",
+                            "abortEditOnEvent": [
+                                "onEnter",
+                                "onBlur"
+                            ]
+                        },
+                        "title": "评论",
+                        "colKey": "description",
+                        "ellipsis": true,
+                        "minWidth": 100
+                    },
+                    {
+                        "cell": "type-slot-operate",
+                        "title": "操作栏",
+                        "width": 80,
+                        "colKey": "operate"
+                    }
+                ],
+                "designParam": {
+                    "id": "2275087c-26f3-4b61-8021-218d2d120202",
+                    "key": "sample_table20241117182221",
+                    "name": "2eea865a-3daf-4efc-ade8-d1c56d7c6df7",
+                    "title": "样品202411171821",
+                    "isChanged": false,
+                    "table_data": [
+                        {
+                            "id": "ba4a3f44-6465-4ea4-aa16-629a7f96eea4",
+                            "sn": "S202411178",
+                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                            "check": true,
+                            "count": "12",
+                            "test2": "0",
+                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                            "description": "大撒旦",
+                            "raw_material": "653cf967-656e-4642-8d62-29172840e982",
+                            "xm_raw_material": [
+                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                            ]
+                        },
+                        {
+                            "id": "f7aa2636-bc3e-44f0-87a8-cee4fb95dce2",
+                            "sn": "S202411179",
+                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                            "check": true,
+                            "count": "0",
+                            "test2": "43",
+                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                            "raw_material": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
+                            "xm_raw_material": [
+                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                            ]
+                        }
+                    ],
+                    "designParams": [
+                        {
+                            "id": "14",
+                            "key": "test2",
+                            "name": "test1",
+                            "step": "32",
+                            "type": "TextInput",
+                            "unit": null,
+                            "check": true,
+                            "gourp": [],
+                            "props": {
+                                "abstract": false,
+                                "required": false,
+                                "enableScan": false,
+                                "enablePrint": true
+                            },
+                            "value": "115",
+                            "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
+                            "data_id": 14,
+                            "typeCode": "operation",
+                            "description": "",
+                            "defaultValue": "115",
+                            "attribute_type": "single"
+                        },
+                        {
+                            "id": "15",
+                            "key": "test2",
+                            "name": "test2",
+                            "step": "43",
+                            "type": "TextInput",
+                            "unit": null,
+                            "check": true,
+                            "gourp": [],
+                            "props": {
+                                "abstract": false,
+                                "required": false,
+                                "enableScan": false,
+                                "enablePrint": true
+                            },
+                            "value": null,
+                            "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
+                            "data_id": 15,
+                            "typeCode": "operation",
+                            "description": "",
+                            "defaultValue": null,
+                            "attribute_type": "single"
+                        },
+                        {
+                            "id": "27",
+                            "key": "xm_raw_material",
+                            "name": "原材料",
+                            "step": [
+                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                            ],
+                            "type": "SelectPlus",
+                            "unit": null,
+                            "check": true,
+                            "gourp": [],
+                            "label": "原材料",
+                            "props": {
+                                "options": [
+                                    {
+                                        "id": "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                                        "name": "YL01171535/SN-1729150535817",
+                                        "batch": "1",
+                                        "goods": null,
+                                        "place": null,
+                                        "price": null,
+                                        "state": "Not-Started",
+                                        "margin": null,
+                                        "material": {
+                                            "id": "4cb7c311-ab8f-4fdf-aef4-61167a78c48f",
+                                            "sn": "SN-1729150535817",
+                                            "name": "YL01171535"
+                                        },
+                                        "supplier": null,
+                                        "description": null,
+                                        "create_datetime": null,
+                                        "production_date": null,
+                                        "update_datetime": null
+                                    },
+                                    {
+                                        "id": "64886cd2-1b88-49aa-b7c1-a687a8ffbad4",
+                                        "name": "YL10171534/SN-1729150438237",
+                                        "batch": "1",
+                                        "goods": null,
+                                        "place": null,
+                                        "price": null,
+                                        "state": "Not-Started",
+                                        "margin": null,
+                                        "material": {
+                                            "id": "7867a6e8-71a1-4ae3-afd5-f07f6ac0bb7a",
+                                            "sn": "SN-1729150438237",
+                                            "name": "YL10171534"
+                                        },
+                                        "supplier": null,
+                                        "description": null,
+                                        "create_datetime": null,
+                                        "production_date": null,
+                                        "update_datetime": null
+                                    }
+                                ],
+                                "abstract": false,
+                                "labelKey": "name",
+                                "required": false,
+                                "valueKey": "id",
+                                "enableScan": false,
+                                "enablePrint": true
+                            },
+                            "value": "27",
+                            "parent": "c202e573-913b-4c1d-be68-087fad444664",
+                            "data_id": 27,
+                            "typeCode": "operation",
+                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                            "description": "",
+                            "defaultValue": null,
+                            "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
+                            "attribute_type": "single"
+                        }
+                    ]
+                }
+            },
+            "content": [
+                {
+                    "type": "paragraph",
+                    "attrs": {
+                        "indent": null,
+                        "textAlign": "left",
+                        "lineHeight": 1.5,
+                        "margin": {}
+                    },
+                    "content": [
+                        {
+                            "type": "text",
+                            "text": " "
+                        }
+                    ]
+                }
+            ]
         }
     ]
   }

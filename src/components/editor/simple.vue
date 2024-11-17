@@ -159,8 +159,6 @@ const $document = useState('document', props.editorKey)
 
 const $key_data = useState('key_data', props.editorKey)
 
-const $dict_data = useState('dict_data', props.editorKey)
-
 // i18n Setup
 // @ts-ignore
 const { t, locale } = useI18n()
@@ -462,12 +460,10 @@ onMounted(()=>{
         if (res.data.code === 2000) {
           $key_data.value.experiment_record = res.data.data
         }
-        
-
       })
     }
     if (options.value.requestOptions.dict_data) {
-      $dict_data.value = options.value.requestOptions.dict_data
+      localStorage.setItem('dict_data', JSON.stringify(options.value.requestOptions.dict_data)  )
     }
   }
 })

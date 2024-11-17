@@ -10,8 +10,12 @@ const Api = {
   ingredient_dev_experiment_sn : '/ingredient_dev/experiment/sn/' , //实验编号创建
   eval_execute_standard: '/evaluation_metric/eval_execute_standard/', //评估执行标准
   execute_standard_item: '/evaluation_metric/execute_standard_item/', //评估执行标准里面的指标项
+  experiment_data: '/ingredient_dev/experiment/data/', //实验数据暂存
 };
-
+/*-------------------------------------实验数据暂存--------------------------------------------*/
+export function post_experiment_data_fetch(params: any) {
+  return request.post({ url: Api.experiment_data, data: params });
+}
 /*-------------------------------------评估执行标准--------------------------------------------*/
 export function getEval_execute_standardListFetch(params?: any) {
   return request.get<ExperimentInfo>({

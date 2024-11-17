@@ -25,6 +25,39 @@
       <node-view-content :node="node" ></node-view-content> 
     </div>
     <t-dialog
+      v-model:visible="operationVisible"
+      header="操作配置"
+      width="40%" attach="body"
+      :confirm-on-enter="true"
+      :on-confirm="onOperationConfirmFunc"
+    >
+      <t-select
+        v-model="dialog_select"
+        :options="operationOption"
+        filterable
+        multiple
+        :keys="{ label: 'name', value: 'id' }"  
+        placeholder="请选择操作"
+        :scroll="{type: 'virtual'}"  
+        :popup-props="{ overlayInnerStyle: { height: '300px' } }"  
+        :status=" dialog_select !== '' ? 'success': 'error' "
+        :tips="dialog_select !== '' ? '校验通过': '操作不能为空'"
+      />
+      
+    </t-dialog>
+    <t-dialog
+      v-model:visible="procedureVisible"
+      header="工艺步骤配置"
+      width="40%" attach="body"
+      :confirm-on-enter="true"
+      :on-confirm="onProcedureConfirmFunc"
+    >
+      <t-input  v-model="dialog_input" placeholder="输入工艺步骤名称" 
+        :status=" dialog_input.length > 0 ? 'success': 'error' " 
+        :tips=" dialog_input.length > 0 ? '校验通过': '名称不能为空'"
+        />
+    </t-dialog>
+    <t-dialog
       v-model:visible="dialog_visible"
       header="表格列配置"
       width="40%" attach="body"
@@ -70,13 +103,12 @@ const { node, updateAttributes } = defineProps(nodeViewProps)
 const { options } = useStore()
 const dialog_visible = ref(false);
 const dialog_input = ref('')
+const dialog_select = ref('')
 const tableRef = ref();
 
-const workingProcedureVisible = ref(false);
+const procedureVisible = ref(false);
 const operationVisible = ref(false);
 
-const selectWorkingProcedure = ref([])
-const selectOperation = ref([])
 
 const operationOption = ref([])
 const searchTitle = ref('')
@@ -124,10 +156,77 @@ const displayColumns = ref([]);
 const displayColumnsC = ref([]);
 displayColumns.value = ['serial-number', 'name', 'typeCode', 'defaultValue', 'description', 'operate']
 
+const selectOperationRow = ref(null)
+const selectProcedureRow = ref(null)
+
+const selectOperationType = ref('append')
+const selectProcedureType = ref('append')
+
 const checkAll = computed(() => displayColumns.value.length === displayColumnsC.value.length);
 const indeterminate = computed(() => !!(displayColumns.value.length > displayColumnsC.value.length && displayColumnsC.value.length));
 
+const onProcedureConfirmFunc = async () => {
+  if (dialog_input.value.length > 0) {
+    const obj  = {
+      id: uuid(),
+      name: dialog_input.value,
+      typeCode: 'processes',
+      list: [],
+      defaultValue: undefined,
+      description: ''
+    }
+    await nextTick()
+    if (selectProcedureType.value === 'append') {
+      tableRef.value.appendTo( selectProcedureRow.value ? selectProcedureRow.value.id : '', obj);
+    }else if (selectProcedureType.value === 'insertBefore') {
+      tableRef.value.insertBefore(selectProcedureRow.value ? selectProcedureRow.value.id: '', obj);
+    }else if (selectProcedureType.value === 'insertAfter') {
+      tableRef.value.insertAfter(selectProcedureRow.value ? selectProcedureRow.value.id: '', obj);
+    }
+    procedureVisible.value = false
+    getTreeNode()
+    dialog_input.value = ''
+  }
 
+}
+const onOperationConfirmFunc = async () => {
+  if (dialog_select.value !== '' && dialog_select.value.length > 0) {
+    const listArr = table_data.value.map(ele => ele.list ? ele.list.map(eleL=>eleL.id) : [] )
+    let keysArr = []
+    if (listArr && listArr.length > 0) {
+      keysArr = listArr.reduce((a, b) => a.concat(b))
+    }
+    const itemOs = operationOption.value.filter(item => dialog_select.value.includes(item.id) && !keysArr.includes(item.id))
+    const parent = selectOperationRow.value.typeCode === 'processes' ? selectOperationRow.value.id : selectOperationRow.value.parent
+    
+    console.log('--------197---------keys: ', keysArr)
+    let objS = []
+    itemOs.forEach(itemO =>{
+      const obj  = {
+        ...itemO,
+        id:  String(itemO.id), //uuid() ,
+        name: itemO.name,
+        typeCode: 'operation',
+        defaultValue: itemO.value,
+        data_id: itemO.id,
+        parent: parent,
+        description: ''
+      }
+      objS.push( obj )
+    })
+    await nextTick()
+    if (selectOperationType.value === 'append') {
+      tableRef.value.appendTo( parent, objS);
+    }else if (selectOperationType.value === 'insertBefore') {
+      tableRef.value.insertBefore( parent, objS);
+    }else if (selectOperationType.value === 'insertAfter') {
+      tableRef.value.insertAfter( parent, objS);
+    }
+    operationVisible.value = false
+    getTreeNode()
+    dialog_select.value = []
+  }
+};
 const operationConfirm = (callback,row)=>{
   if (!row) {
     return ;
@@ -459,12 +558,13 @@ function disableClick(e) {
 }
 
 function onAddWorkingProcedure(row=undefined) {
-  // workingProcedureVisible.value = true;
-  // table_data.value = getData();
-  processesConfirm((obj)=>{
-    tableRef.value.appendTo( row ? row.id : '', obj);
-    getTreeNode()
-  })
+  procedureVisible.value = true;
+  selectProcedureRow.value = row;
+  selectProcedureType.value = 'append';
+  // processesConfirm((obj)=>{
+  //   tableRef.value.appendTo( row ? row.id : '', obj);
+  //   getTreeNode()
+  // })
 }
 
 
@@ -489,16 +589,19 @@ const onDeleteConfirm = (row) => {
 };
 
 const appendTo = (row=undefined) => {
-  operationConfirm((obj)=>{
-    tableRef.value.appendTo(row ? row.id: '', obj);
-    nextTick(()=>{
-      if (row && row.id) {
-        const rowData = tableRef.value.getData(row.id);
-        tableRef.value.toggleExpandData(rowData);
-      }
-    });
-    getTreeNode()
-  },row)
+  operationVisible.value = true;
+  selectOperationRow.value = row;
+  selectOperationType.value = 'append';
+  // operationConfirm((obj)=>{
+  //   tableRef.value.appendTo(row ? row.id: '', obj);
+  //   nextTick(()=>{
+  //     if (row && row.id) {
+  //       const rowData = tableRef.value.getData(row.id);
+  //       tableRef.value.toggleExpandData(rowData);
+  //     }
+  //   });
+  //   getTreeNode()
+  // },row)
 };
 function appendMultipleDataTo(row) {
   const randomKey1 = Math.round(Math.random() * Math.random() * 1000) + 10000;
@@ -532,30 +635,42 @@ function appendMultipleDataTo(row) {
 // 当前节点之前，新增兄弟节前
 const insertBefore = (row) => {
   if (row.typeCode !== 'processes') {
-    operationConfirm((obj)=>{
-      tableRef.value.insertBefore(row ? row.id: '', obj);
-      getTreeNode()
-    },row)
+    operationVisible.value = true;
+    selectOperationRow.value = row;
+    selectOperationType.value = 'insertBefore';
+    // operationConfirm((obj)=>{
+    //   tableRef.value.insertBefore(row ? row.id: '', obj);
+    //   getTreeNode()
+    // },row)
   }else{
-    processesConfirm((obj)=>{
-      tableRef.value.insertBefore(row ? row.id: '', obj);
-      getTreeNode()
-    })
+    procedureVisible.value = true;
+    selectProcedureRow.value = row;
+    selectProcedureType.value = 'insertBefore';
+    // processesConfirm((obj)=>{
+    //   tableRef.value.insertBefore(row ? row.id: '', obj);
+    //   getTreeNode()
+    // })
   }
 };
 
 // 当前节点之后，新增兄弟节前
 const insertAfter = (row) => {
   if (row.typeCode !== 'processes') {
-    operationConfirm((obj)=>{
-      tableRef.value.insertAfter(row ? row.id: '', obj);
-      getTreeNode()
-    },row)
+    operationVisible.value = true;
+    selectOperationRow.value = row;
+    selectOperationType.value = 'insertAfter';
+    // operationConfirm((obj)=>{
+    //   tableRef.value.insertAfter(row ? row.id: '', obj);
+    //   getTreeNode()
+    // },row)
   }else{
-    processesConfirm((obj)=>{
-      tableRef.value.insertAfter(row ? row.id: '', obj);
-      getTreeNode()
-    })
+    procedureVisible.value = true;
+    selectProcedureRow.value = row;
+    selectProcedureType.value = 'insertAfter';
+    // processesConfirm((obj)=>{
+    //   tableRef.value.insertAfter(row ? row.id: '', obj);
+    //   getTreeNode()
+    // })
   }
 };
 
