@@ -1,7 +1,7 @@
 <template>
   <t-form
     ref="formRef" :layout="_config.formConfig.layout"
-    :colon="_config.formConfig.colon"
+    :colon="_config.formConfig.colon" :disabled="disabled"
     :label-align="_config.formConfig.labelPos"
     :label-width="_config.formConfig.labelWidth"
     :data="_formData"
@@ -187,6 +187,10 @@ const props = defineProps({
   onSubmit: {
     type: Function,
     default: () => {},
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
   },
 
 })

@@ -86,13 +86,10 @@ import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
-const { options } = useStore()
+const { options ,editedComponentType} = useStore()
 const dialog_visible = ref(false);
 const tableRef = ref();
-const editableRowKeys = ref([]);
-const currentSaveId = ref('');
-// 保存变化过的行信息
-const editMap  = {};
+
 
 const searchTitle = ref('')
 const add_dialog_visible = ref(false);
@@ -106,10 +103,6 @@ const table_data = computed({
   },
 })
 
-
-const onAdd = ()=>{
-  add_dialog_visible.value = true
-}
 
 const onSelectChange = ({value, params} )=>{
   // console.log('--------onSelectChange--------44--------',value, params)
@@ -125,60 +118,15 @@ const on_select_materialFunc = ()=>{
     table_data.value.push(obj)
   });
   console.log('--------onSelectChange--------119--------',table_data.value)
+  setReadOnly()
   add_dialog_visible.value = false
 }
-
-const onEdit = (row) => {
-  console.log('--------onEdit--------44--------',row)
-  if (!editableRowKeys.value.includes(row.id)) {
-    editableRowKeys.value.push(row.id);
-  }
-};
 
 const onDelete = (row) => {
   console.log('--------onDelete--------44--------',row)
   const index = table_data.value.findIndex((t ) => t === row);
   table_data.value.splice(index, 1);
-};
-
-const onDragSort = (params ) => {
-  console.log('交换行', params);
-  table_data.value = params.newData;
-};
-// 更新 editableRowKeys
-const updateEditState = (id) => {
-  console.log('--------updateEditState--------44--------',id)
-  const index = editableRowKeys.value.findIndex((t) => t === id);
-  editableRowKeys.value.splice(index, 1);
-};
-const onCancel = (row) => {
-  console.log('--------onSave--------44--------',row)
-  const { id } = row;
-  updateEditState(id );
-  tableRef.value?.clearValidateData();
-};
-const onSave = (row) => {
-  console.log('--------onSave--------44--------',row)
-  const { id } = row;
-  currentSaveId.value = id;
-  // 触发内部校验，而后也可在 onRowValidate 中接收异步校验结果
-  tableRef.value.validateRowData(id).then((params ) => {
-    console.log('Event Table Promise Validate:', params);
-    if (params.result.length) {
-      const r = params.result[0];
-      TMessagePlugin.error(`${r.col.title} ${r.errorList[0].message}`);
-      return;
-    }
-    // 如果是 table 的父组件主动触发校验
-    if (params.trigger === 'parent' && !params.result.length) {
-      const current = editMap[currentSaveId.value];
-      if (current) {
-        table_data.value.splice(current.rowIndex, 1, current.editedRow);
-        TMessagePlugin.success('保存成功');
-      }
-      updateEditState(currentSaveId.value);
-    }
-  });
+  setReadOnly(false)
 };
 
 const columns = ref([])
@@ -271,6 +219,7 @@ columns.value = [
         table_data.value = newData;
         console.log('Edit firstName:', context);
         useMessage('success' ,'Success');
+        setReadOnly()
       },
       // 触发校验的时机（when to validate)
       validateTrigger: 'change',
@@ -315,33 +264,12 @@ const columnEditFunc = ()=>{
   dialog_visible.value = true
 }
 
-const onCellClick = ({row,col} ) => {
-  console.log('-------onCellClick-----row,col',col.colKey, row, col)
-  const editMapKey = ['content','description']
-  if (!editableRowKeys.value.includes(row.id)) {
-    editableRowKeys.value.push(row.id);
-  }else{
-    onCancel(row)
+const setReadOnly = (readOnly = true) => {
+  if (options.value.document) {
+    options.value.document.readOnly = readOnly
+    editedComponentType.value = node.type.name
   }
 }
-
-const onRowEdit = (params ) => {
-  const { row, col, value } = params;
-  const oldRowData  = editMap[row.id]?.editedRow || row;
-  const editedRow = {
-    ...oldRowData,
-    [col.colKey]: value,
-  };
-  editMap[row.id] = {
-    ...params,
-    editedRow,
-  };
-
-  // ⚠️ 重要：以下内容应用于全量数据校验（单独的行校验不需要）
-  // const newData = [...table_data.value];
-  // newData[rowIndex] = editedRow;
-  // table_data.value = newData;
-};
 
 onMounted(() => {
 })

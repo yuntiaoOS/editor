@@ -1,5 +1,5 @@
 <template>
-  <node-view-wrapper :id="node.attrs.id" class="umo-node-view">
+  <node-view-wrapper :id="node.attrs.id" class="umo-node-view" :class=" { 't-is-disabled':readOnly,'umo-is-disabled':readOnly } ">
     <div
       ref="containerRef"
       class="umo-node-container umo-hover-shadow umo-select-outline "
@@ -17,7 +17,7 @@ import { nodeViewProps, NodeViewWrapper ,NodeViewContent} from '@tiptap/vue-3'
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
 const { options } = useStore()
-
+const readOnly = computed(() => options.value.document?.readOnly)
 const title = computed(() => node.attrs.title)
 const content = computed(() => node.attrs.content)
 

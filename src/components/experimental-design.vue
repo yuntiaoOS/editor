@@ -268,12 +268,18 @@ const makeTableFunc = ()=> {
           // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
           component: componentName,
           // props, 透传全部属性到 Input 组件
-          props: {
-            clearable: true,
-            autofocus: true,
-            multiply: true,
-            options
-            // autoWidth: true,
+          props: ({col,row})=> {
+            console.log('--------272---------props',col,row);
+            return  {
+                      // modelValue: row[col.colKey],
+                      // config: item,
+                      clearable: true,
+                      autofocus: true,
+                      multiply: true,
+                      options
+                      // autoWidth: true,
+                    };
+
           },
           // 校验规则，此处同 Form 表单
           rules: [
@@ -313,7 +319,7 @@ const makeTableFunc = ()=> {
   })
   columns.value = [...columnsDefault, ...paramsColumns];
   
-  console.log('--------151----_desinParams.value----------',_designResult.value)
+  console.log('--------151----_desinParams.value----------',_designResult.value,paramsColumns)
   current.value++
   
   _designResult.value = [];

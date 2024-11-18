@@ -1,5 +1,5 @@
 <template>
-  <node-view-wrapper :id="node.attrs.id" class="umo-node-view">
+  <node-view-wrapper :id="node.attrs.id" class="umo-node-view" :class=" { 't-is-disabled':readOnly,'umo-is-disabled':readOnly } ">
     <div
       ref="containerRef"
       class="umo-node-container "
@@ -8,7 +8,8 @@
     >
       <h1 v-if="!isEdit && title && title.length>0" @click="HeditFunc">{{ title }}</h1>
       <t-input 
-        v-else ref="xmTitleRef" v-model="title" autofocus borderless placeholder="标题" size="large" :inputClass="['xmTitleClass']" 
+        v-else ref="xmTitleRef" v-model="title" 
+        :readonly="readOnly" autofocus borderless placeholder="标题" size="large" :inputClass="['xmTitleClass']" 
         @blur="tInputBlur" />
       <div style="padding:7px;" > </div>
       <div v-if="showSubTitle && experiment_record && experiment_record.id" style=" display: flex; align-items: center; justify-content: space-between; ">
@@ -92,6 +93,8 @@ const isEdit = ref(false)
 const xmTitleRef = ref()
 
 const showSubTitle = ref(true)
+
+const readOnly = computed(() => options.value.document?.readOnly)
 
 const title = computed({
   get: () => node.attrs.title,

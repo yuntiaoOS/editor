@@ -436,6 +436,11 @@ const reset = (silent: boolean) => {
   })
 }
 
+const setReadOnly = (readOnly = true) => {
+  if (options.value.document) {
+    options.value.document.readOnly = readOnly
+  }
+}
 
 // Methods Exposed to Descendants
 provide('saveContent', saveContent)
@@ -476,6 +481,7 @@ defineExpose({
   setToolbar,
   saveContent,
   setLocale,
+  setReadOnly,
   reset
 })
 </script>

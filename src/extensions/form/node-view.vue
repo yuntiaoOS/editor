@@ -1,7 +1,7 @@
 <template>
   <node-view-wrapper :id="node.attrs.id" class="umo-node-view">
     <div style="padding: 10px 0">
-      <xm-form v-model:form-data="_formData" :show-submit-btn="showSubmitBtn" :config="_config" :on-submit="_onSubmit"/>
+      <xm-form v-model:form-data="_formData" :disabled="readOnly" :show-submit-btn="showSubmitBtn" :config="_config" :on-submit="_onSubmit"/>
     </div>
   </node-view-wrapper>
 </template>
@@ -17,7 +17,7 @@ const { options } = useStore()
 const showSubmitBtn = computed(() => {
   return _config.value?.formConfig?.showSubmitBtn
 })
-
+const readOnly = computed(() => options.value.document?.readOnly)
 const _formData = computed({
   get: () => node.attrs.formData,
   set: (val:any) => {

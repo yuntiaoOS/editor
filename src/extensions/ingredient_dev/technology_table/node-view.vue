@@ -1,9 +1,9 @@
 <template>
-  <node-view-wrapper :id="node.attrs.id" class="umo-node-view">
+  <node-view-wrapper :id="node.attrs.id" class="umo-node-view" :class=" { 't-is-disabled':readOnly,'umo-is-disabled':readOnly } ">
     <div style="width: 100%">
       <!-- <h2>工艺</h2> -->
       <t-enhanced-table ref="tableRef" v-model:expandedTreeNodes="expandedTreeNodes" :tree-expand-and-fold-icon="treeExpandIcon" 
-        row-key="id" :data="table_data" :columns="columns" resizable :tree="treeConfig"
+        row-key="id" :data="table_data" :columns="columns" resizable :tree="treeConfig" :editable-cell-state="editableCellStateFunc"
          @expanded-tree-nodes-change="onExpandedTreeNodesChange" >
         <template #topContent>
           <div style="padding: 6px 0;display: block;">
@@ -18,7 +18,7 @@
           </div>
         </template>
         <template #defaultValueSlot="slotProps">
-          <div v-if="slotProps.row.typeCode === 'processes'" style="margin-bottom: -22px;position: absolute;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
+          <div v-if="slotProps.row.typeCode === 'processes'" style="bottom: 0px;position: absolute;line-height: 38px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
           <span v-else >{{slotProps.row.defaultValue}}</span>
         </template>
       </t-enhanced-table>
@@ -100,7 +100,7 @@ import { getIngredient_dev_materialListFetch } from '@/api/material'
 import { v4 as uuid } from 'uuid'
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
-const { options } = useStore()
+const { options,editedComponentType } = useStore()
 const dialog_visible = ref(false);
 const dialog_input = ref('')
 const dialog_select = ref('')
@@ -112,6 +112,9 @@ const operationVisible = ref(false);
 
 const operationOption = ref([])
 const searchTitle = ref('')
+
+const readOnly = computed(() => options.value.document?.readOnly)
+const _editedComponentType = computed(() => editedComponentType.value)
 
 const table_data = computed({
   get: () => node.attrs.table_data,
@@ -164,6 +167,10 @@ const selectProcedureType = ref('append')
 
 const checkAll = computed(() => displayColumns.value.length === displayColumnsC.value.length);
 const indeterminate = computed(() => !!(displayColumns.value.length > displayColumnsC.value.length && displayColumnsC.value.length));
+
+const editableCellStateFunc = ()=> {
+  return !(_editedComponentType !== node.type.name  && readOnly.value);
+}
 
 const onProcedureConfirmFunc = async () => {
   if (dialog_input.value.length > 0) {
@@ -760,6 +767,12 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.t-is-disabled {
+  cursor: not-allowed;
+  color: var(--td-text-color-disabled);
+  background-color: var(--td-bg-color-component-disabled);
+  border-color: var(--td-border-level-2-color);
+}
 :deep(.tdesign-table-demo__table-operations) {
   display: flex;
   justify-content: flex-end;

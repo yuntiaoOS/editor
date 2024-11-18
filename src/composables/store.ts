@@ -42,6 +42,9 @@ export const useStore = createGlobalState(() => {
   const hidePageFooter = ref(true)
   const editorDestroyed = ref(false)
 
+  // 编辑组件类型
+  const editedComponentType = ref<string>('')
+
   const setOptions = (value: unknown) => {
     const opts =
       isRecord(value) && Object.keys(value).includes('value')
@@ -177,5 +180,6 @@ export const useStore = createGlobalState(() => {
     setEditor,
     setPainter,
     resetStore,
+    editedComponentType,
   }
 })

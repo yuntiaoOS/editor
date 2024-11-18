@@ -48,7 +48,7 @@
 const emits = defineEmits(['update:modelValue'])
 const props = defineProps({
   modelValue: {
-    type: [String, Array, Object],
+    type: [String, Number, Array, Object],
     default: undefined,
     required: true,
   },
@@ -108,6 +108,10 @@ const props = defineProps({
   autoWidth: {
     type: Boolean,
     default: false
+  },
+  onChange: {
+    type: Function,
+    default: () => {}
   }
 })
  
@@ -129,6 +133,7 @@ const _value = computed({
     }
   },
   set: (val) => {
+    props.onChange(val)
     emits('update:modelValue', val)
   }
 }) 

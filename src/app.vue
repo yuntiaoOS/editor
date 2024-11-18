@@ -10660,7 +10660,7 @@ const options = $ref({
     experiment_theme: '0ed50212-3f77-4c98-bd9a-40499d77c984',
     experiment_record: '2f716a40-f3a5-48a0-875a-b10695542ddd',
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxOTEyMDUzLCJpYXQiOjE3MzE4MjU2NTMsImp0aSI6IjMxNzcwNGNhNDYzYzRkODA4NjZjN2VlMTAyZmJjMmU0IiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.CIUPoQpjsX6v6UWKx4fLsnHpq5rtMSYgclCvBWw49fQ',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxOTk5NzUyLCJpYXQiOjE3MzE5MTMzNTIsImp0aSI6IjE0NDcwZmVhNzQ4YjRhNWVhZGJjNGU2MDM2NTliZWIwIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.RLGG4cpaXCbaMN9IuiliTew1T2Xl-3d_eyL0nyWMRV4',
   },
   document: {
     placeholder: '测试文档',
