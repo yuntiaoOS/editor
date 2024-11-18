@@ -75,7 +75,7 @@ const transform: AxiosTransform = {
     if (formatDate && data && !isString(data)) {
       formatRequestDate(data);
     }
-    if (config.method?.toUpperCase() === 'GET') {
+    if (config.method?.toUpperCase() === 'GET' || config.method?.toUpperCase() === 'DELETE') {
       if (!isString(params)) {
         // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
         config.params = Object.assign(params || {}, joinTimestamp(joinTime, false));

@@ -3,7 +3,7 @@
     <div style="width: 100%">
       <!-- <h2>试验原辅料</h2> -->
       <t-table 
-        ref="tableRef"  
+        ref="tableRef" :loading="loading"
         row-key="id" :data="table_data" :columns="columns" resizable v-model:displayColumns="displayColumns"
         >
         <template #topContent>
@@ -83,50 +83,84 @@
 
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
+import { post_experiment_material_fetch,put_experiment_material_fetch,delete_material_multiple_deleteFetch ,get_experiment_material_fetch} from '@/api/experiment'
+
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
 const { options ,editedComponentType} = useStore()
+const $key_data = useState('key_data')
+
 const dialog_visible = ref(false);
 const tableRef = ref();
 
-
+const loading = ref(false)
 const searchTitle = ref('')
 const add_dialog_visible = ref(false);
 
 const select_material = ref([])
 
-const table_data = computed({
-  get: () => node.attrs.table_data,
+const table_data = ref([])
+// computed({
+//   get: () => node.attrs.table_data,
+//   set(value) {
+//     updateAttributes({ table_data: value })
+//   },
+// })
+const experiment_record = computed(() => $key_data.value?.experiment_record)
+const experiment_theme = computed(() => $key_data.value?.experiment_theme)
+
+const change_log = computed({
+  get: () => node.attrs.change_log,
   set(value) {
-    updateAttributes({ table_data: value })
+    updateAttributes({ change_log: value })
   },
 })
-
 
 const onSelectChange = ({value, params} )=>{
   // console.log('--------onSelectChange--------44--------',value, params)
   select_material.value = params.selectedRowData
 }
 
-const on_select_materialFunc = ()=>{
+const on_select_materialFunc = async ()=>{
+  const params = {
+    experiment_theme: experiment_theme.value?.id,
+    record: experiment_record.value?.id,
+    identifier: null,  // 标识 非必填
+    last_record: null, //上一次标识的ID，有则传，没有就空
+    experiment_materials: select_material.value.map(ele=>{ return { material: ele.material.id ,material_batch: ele.id} })
+  }
   select_material.value.forEach((ele ) => {
     const obj  = {
       ...ele,
       // content: '0.0',
     }
-    table_data.value.push(obj)
+    // table_data.value.push(obj)
   });
+  const res = await post_experiment_material_fetch(params)
+  if (res.data.code === 2000) {
+    await initData()
+  }
   console.log('--------onSelectChange--------119--------',table_data.value)
   setReadOnly()
   add_dialog_visible.value = false
 }
 
-const onDelete = (row) => {
+const onDelete = async (row) => {
   console.log('--------onDelete--------44--------',row)
-  const index = table_data.value.findIndex((t ) => t === row);
-  table_data.value.splice(index, 1);
-  setReadOnly(false)
+  const params = {
+    experiment_theme: experiment_theme.value?.id,
+    record: experiment_record.value?.id,
+    change_log: row.change_log,  // 标识 非必填
+    id: row.id
+  }
+  const res = await delete_material_multiple_deleteFetch(params)
+  if (res.data.code === 2000) {
+    await initData()
+  }
+  // const index = table_data.value.findIndex((t ) => t === row);
+  // table_data.value.splice(index, 1);
+  // setReadOnly(false)
 };
 
 const columns = ref([])
@@ -135,52 +169,45 @@ const columnsCheckboxs = ref([])
 
 const displayColumns = ref([]);
 const displayColumnsC = ref([]);
-displayColumns.value = ['material','batch', 'supplier', 'price', 'description', 'operate']
+displayColumns.value = ['experiment_material_name','batch', 'supplier', 'price', 'description', 'operate']
 columns.value = [
-  // {
-  //   title: '排序',
-  //   colKey: 'sort',
-  //   width: 80,
-  //   cell: 'type-slot-sort',
-  // },
-  // {
-  //   title: '序号',
-  //   colKey: 'serial-number',
-  //   width: 45,
-  // },
   {
-    colKey: 'material',
+    colKey: 'experiment_material_name',
     title: '原材料',
-    cell: (h , { row: { material}, rowIndex } ) => {
-      const status = rowIndex % 3;
-      return (
-        <div>
-          <span>{material ? material.name : ''}</span>
-          <t-tag size="small">{material ? material.sn : ''}</t-tag>
-        </div>
-      );
-    },
+    // cell: (h , { row: { material}, rowIndex } ) => {
+    //   const status = rowIndex % 3;
+    //   return (
+    //     <div>
+    //       <span>{material ? material.name : ''}</span>
+    //       <t-tag size="small">{material ? material.sn : ''}</t-tag>
+    //     </div>
+    //   );
+    // },
     minWidth: 120,
   },
   {
     colKey: 'batch',
     title: '批次',
     width: 170,
+    render: (h , { row: { experiment_material_batch}, rowIndex } ) => {
+      return  experiment_material_batch ? experiment_material_batch.batch : ''
+    }
   },
-  // {
-  //   colKey: 'content',
-  //   title: '含量%',
-  //   width: 120,
-  // },
   {
     colKey: 'supplier',
     title: '供应商',
     width: 160,
+    render: (h , { row: { experiment_material_batch}, rowIndex } ) => {
+      return  experiment_material_batch ? experiment_material_batch.supplier : ''
+    }
   },
   {
     colKey: 'price',
     title: '价格',
     width: 90,
+    render: (h , { row: { experiment_material_batch}, rowIndex } ) => {
+      return  experiment_material_batch ? experiment_material_batch.price : ''
+    }
   },
   // {
   //   colKey: 'cas',
@@ -271,7 +298,22 @@ const setReadOnly = (readOnly = true) => {
   }
 }
 
-onMounted(() => {
+const initData = async () => {
+  loading.value = true
+  const params = {
+    experiment_theme: experiment_theme.value?.id,
+    record: experiment_record.value?.id
+  }
+  console.log('----------initData-----297---------',params)
+  const res = await get_experiment_material_fetch(params)
+  if (res.data.code === 2000) {
+    table_data.value = res.data.data
+  }
+  loading.value = false
+}
+
+onMounted(async () => {
+  await initData()
 })
 
 </script>

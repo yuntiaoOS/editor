@@ -36,17 +36,18 @@ export default xmNode.create({
           return { 'data-key': attributes.key };
         },
       },
-      table_data: {
+      // 变更日志,版本信息
+      change_log: {
         default: [],
         parseHTML: (element) => {
-          const table_data = element.getAttribute('data-table_data');
-          return JSON.parse(table_data as string || '[]');
+          const change_log = element.getAttribute('data-change_log');
+          return JSON.parse(change_log as string || '[]');
         },
         renderHTML: (attributes) => {
-          if (!attributes.table_data) {
+          if (!attributes.change_log) {
             return [];
           }
-          return { 'data-table_data': JSON.stringify(attributes.table_data)  };
+          return { 'data-change_log': JSON.stringify(attributes.change_log)  };
         },
       },
       title: {

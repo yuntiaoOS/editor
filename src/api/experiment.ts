@@ -11,6 +11,9 @@ const Api = {
   eval_execute_standard: '/evaluation_metric/eval_execute_standard/', //评估执行标准
   execute_standard_item: '/evaluation_metric/execute_standard_item/', //评估执行标准里面的指标项
   experiment_data: '/ingredient_dev/experiment/data/', //实验数据暂存
+  material_change_logs: '/ingredient_dev/experiment/material/change_logs/', //'试验原料版本列表
+  material_multiple_delete: '/ingredient_dev/experiment/material/multiple_delete/', //'试验原料版本列表-批量删除
+
 };
 /*-------------------------------------实验数据暂存--------------------------------------------*/
 export function post_experiment_data_fetch(params: any) {
@@ -46,14 +49,21 @@ export function getProcesses_attributeListFetch(params?: any) {
 }
 
 /*-------------------------------------记录-原材料--------------------------------------------*/
+export function delete_material_multiple_deleteFetch(params: any) {
+  return request.delete({ url: Api.material_multiple_delete, params });
+}
+
+export function get_material_change_logs_fetch(params: any) {
+  return request.get({ url: Api.material_change_logs, params });
+}
+export function get_experiment_material_fetch(params: any) {
+  return request.get({ url: Api.experiment_material, params });
+}
 export function post_experiment_material_fetch(params: any) {
   return request.post({ url: Api.experiment_material, data: params });
 }
 export function put_experiment_material_fetch(id:string,params: any) {
   return request.put({ url:`${Api.experiment_material}${id}/`, data: params });
-}
-export function delete_experiment_material_fetch(id:string ) {
-  return request.delete({ url:`${Api.experiment_material}${id}/` });
 }
 /*-------------------------------------实验------------------------------------------*/
 export function get_experiment_theme_infoFetch(id:string,params?: any) {
