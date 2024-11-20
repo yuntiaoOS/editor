@@ -11704,7 +11704,7 @@ onMounted(() => {
                               "key": "test2",
                               "type": "TextInput",
                               "unit": null,
-                              "gourp": []
+                              "group": []
                           },
                           {
                               "id": "16c2175d-5bc3-4855-9709-153fb6119698",
@@ -11726,7 +11726,7 @@ onMounted(() => {
                               "key": "Lab_B",
                               "type": "TextInput",
                               "unit": null,
-                              "gourp": []
+                              "group": []
                           },
                           {
                               "id": "2b6dbdb7-24e3-4b2e-9c58-946da5e7cee1",
@@ -11747,7 +11747,7 @@ onMounted(() => {
                               "key": "LAB",
                               "type": "",
                               "unit": null,
-                              "gourp": [
+                              "group": [
                                   {
                                       "id": 28,
                                       "name": "Lab_L",
@@ -11834,7 +11834,7 @@ onMounted(() => {
                         "type": "TextInput",
                         "unit": null,
                         "check": true,
-                        "gourp": [],
+                        "group": [],
                         "props": {
                             "abstract": false,
                             "required": false,
@@ -11857,7 +11857,7 @@ onMounted(() => {
                         "type": "TextInput",
                         "unit": null,
                         "check": true,
-                        "gourp": [],
+                        "group": [],
                         "props": {
                             "abstract": false,
                             "required": false,
@@ -11883,7 +11883,7 @@ onMounted(() => {
                         "type": "SelectPlus",
                         "unit": null,
                         "check": true,
-                        "gourp": [],
+                        "group": [],
                         "label": "原材料",
                         "props": {
                             "options": [
@@ -12022,7 +12022,7 @@ onMounted(() => {
                         "type": "TextInput",
                         "unit": null,
                         "check": true,
-                        "gourp": [],
+                        "group": [],
                         "props": {
                             "abstract": false,
                             "required": false,
@@ -12045,7 +12045,7 @@ onMounted(() => {
                         "type": "TextInput",
                         "unit": null,
                         "check": true,
-                        "gourp": [],
+                        "group": [],
                         "props": {
                             "abstract": false,
                             "required": false,
@@ -12071,7 +12071,7 @@ onMounted(() => {
                         "type": "SelectPlus",
                         "unit": null,
                         "check": true,
-                        "gourp": [],
+                        "group": [],
                         "label": "原材料",
                         "props": {
                             "options": [

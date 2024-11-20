@@ -209,8 +209,8 @@ const getConfig = (type,row) => {
       showSubmitBtn: false,
     }
   }
-  if (row.attribute_type === 'compound' && row.gourp) {
-    config.formItems = row.gourp
+  if (row.attribute_type === 'compound' && row.group) {
+    config.formItems = row.group
   }
 
   return config

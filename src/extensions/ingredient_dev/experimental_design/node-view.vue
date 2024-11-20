@@ -90,7 +90,7 @@ const getDesignParams = () => {
   console.log('------116--------oldDesignParams------',oldDesignParams)
   let designParams = []
   console.log('--------_designParams--------93--------',technologyOptions.value,raw_materialOptions.value)
-  const technology_table_data = technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).table_data.map(eleT => eleT.children).reduce((a, b) => a.concat(b)).filter(item => item.type || item.gourp )
+  const technology_table_data = technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).table_data.map(eleT => eleT.children).reduce((a, b) => a.concat(b)).filter(item => item.type || item.group )
   const material_table_data = raw_materialOptions.value.find(ele=> ele.id === selectTableForm.value.raw_material).table_data.map(ele=> { return { ...ele,name:`${ele.experiment_material_name }/${ele.experiment_material_sn}` } }) 
   console.log('--------_designParams--------123--------',technology_table_data,material_table_data)
   if (technology_table_data && material_table_data) {
