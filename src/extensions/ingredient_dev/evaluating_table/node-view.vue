@@ -13,7 +13,8 @@
               <t-space>
                 <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
                 <!-- <t-button variant="outline" @click="add_dialog_visible = true;">新增</t-button> -->
-                <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
+                <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
+                <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
               </t-space>
             </t-space>
           </div>
@@ -514,6 +515,13 @@ const FORM_RULES = {
   current_period: [{ required: true, message: '必填' ,trigger: ['blur'] }],
   period_num: [{ required: true, message: '必填' ,trigger: ['blur'] }],
 };
+
+const updateTime = computed({
+  get: () => node.attrs.updateTime,
+  set(value) {
+    updateAttributes({ updateTime: value })
+  },
+})
 
 const _table_data = computed({
   get: () => node.attrs.table_data,

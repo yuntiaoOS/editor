@@ -22,7 +22,13 @@
                 <t-space >
                   <span v-if="['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 " style="line-height: 32px;">步进： </span>
                   <div style="width: 300px">
-                    <xm-input v-model="item.step" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
+                    <div v-if="item.attribute_type === 'single'" >
+                      <xm-input v-model="item.step" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
+                    </div>
+                    <div v-else>
+                      <xm-form ref="xmformRef" v-model:form-data="item.step" :config="getConfig('form',item)" :show-submit-btn="false" />
+                    </div>
+                    <!-- <xm-input v-model="item.step" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/> -->
                   </div>
                   
                   <!-- <t-input v-model="item.step" auto-width borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/> -->
@@ -30,10 +36,10 @@
               </template>
             </t-list-item>
           </t-list>
-          <t-space style="line-height: 32px;">正交：{{_designParams.length}} x    <t-input-number v-model="cycleNumber" theme="column" :max="100" :min="1" auto-width borderless  style="border-bottom: 1px solid var(--td-border-level-2-color);" @blur="blurCycleNumberFunc"/>     (前边{{_designParams.length}}是选择的因数数量，后边我是需要正交的次数需要手动填写) </t-space>
+          <t-space style="line-height: 32px;">正交：{{_designParams.filter(ele=>ele.check).length}} x    <t-input-number v-model="cycleNumber" theme="column" :max="100" :min="1" auto-width borderless  style="border-bottom: 1px solid var(--td-border-level-2-color);" @blur="blurCycleNumberFunc"/>     (前边{{_designParams.filter(ele=>ele.check).length}}是选择的因数数量，后边我是需要正交的次数需要手动填写) </t-space>
           <t-space v-if="current === 1" align="center">
             <t-button size="small" variant="text" @click="current--"> 上一步 </t-button>
-            <t-button size="small" variant="base" @click="makeTableFunc"> 下一步 </t-button>
+            <t-button v-if="_designParams.filter(ele=>ele.check).length>0" size="small" variant="base" @click="makeTableFunc"> 下一步 </t-button>
           </t-space>
         </t-space>
       </template>
@@ -166,13 +172,42 @@ watch(_designParams.value, (val) => {
 console.log('-------78-----props----',props);
 
 const designTypeOptions = [
-  { label: '自定义', value: '自定义' , disabled: true },
-  { label: '正交设计', value: '正交设计' , disabled: true},
+  { label: '自定义', value: '自定义' , disabled: false },
+  { label: '正交设计', value: '正交设计' , disabled: false},
   { label: '响应面法', value: '响应面法' , disabled: true},
   { label: '中心复合', value: '中心复合' , disabled: true},
 ]
 
 const designType = ref('正交设计');
+
+const getConfig = (type,row) => {
+  const config = {
+    formItems: [],
+    formConfig: {
+      rules: {
+        name: [
+          { required: true, message: '必填', type: 'error', trigger: 'blur' },
+        ],
+        description: [
+          { required: false, message: '必填', type: 'error', trigger: ['blur'] },
+        ]
+      },
+      ruleJs: "//formData: 表单数据  formMap: 表单字段id -> 字段json配置\r\nfunction doChange(formData, formMap){\r\n\t\r\n}",
+      labelPos: "left",
+      ruleType: "SIMPLE",
+      layout: "vertical",
+      columns: 1,
+      colon: true,
+      labelWidth: "80px",
+      showSubmitBtn: false,
+    }
+  }
+  if (row.attribute_type === 'compound' && row.gourp) {
+    config.formItems = row.gourp
+  }
+
+  return config
+}
 
 const onSelectChange = (value, params) => {
   selectedRowKeys.value = value;
@@ -216,22 +251,35 @@ const onSubmit = () => {
 
 }
 
-function addDecimals(str1, str2) {
-  if (( !str1 || str1.length === 0) && ( !str2 || str2.length === 0) ) return '0';
-  if ( !str1 || str1.length === 0) return str2;
-  if ( !str2 || str2.length === 0) return str1;
-  // 将小数转换为整数
-  const factor = 10 ** Math.max(str1.split('.')[1]?.length || 0, str2.split('.')[1]?.length || 0);
-  const num1 = BigInt(str1.replace('.', '')) * BigInt(factor);
-  const num2 = BigInt(str2.replace('.', '')) * BigInt(factor);
+function addDecimals(str1, str2,index,attribute_type) {
+  const addresult = (str1, str2) => { 
+    if (( !str1 || str1.length === 0) && ( !str2 || str2.length === 0) ) return '0';
+    if ( !str1 || str1.length === 0) return str2;
+    if ( !str2 || str2.length === 0) return str1;
+    // 将小数转换为整数
+    const factor = 10 ** Math.max(str1.split('.')[1]?.length || 0, str2.split('.')[1]?.length || 0);
+    const num1 = BigInt(str1.replace('.', '')) * BigInt(factor);
+    const num2 = BigInt(str2.replace('.', '')) * BigInt(factor);
 
-  // 相加
-  const sum = num1 + num2;
+    // 相加
+    const sum = num1 + num2;
 
-  // 将结果转换回小数
-  const result = (sum / BigInt(factor)).toString() + '.' + (sum % BigInt(factor)).toString().padStart(Math.log10(factor), '0');
+    // 将结果转换回小数
+    const result = `${(sum / BigInt(factor)).toString()  }.${  (sum % BigInt(factor)).toString().padStart(Math.log10(factor), '0')}`;
 
-  return result;
+    return result;
+  }
+  console.log('-------140-----addDecimals----------',str1, str2,attribute_type);
+  if (attribute_type === 'compound'){ 
+    const resD = {};
+    for (const key in str1) {
+      resD[key] = addresult(str1[key], String(index * str2[key]) )
+    }
+    return resD
+  }else{
+    return addresult(str1, String(index * str2))
+  }
+  
 }
 
 function isNumber(value) {
@@ -243,11 +291,12 @@ function isNumber(value) {
 }
 
 const makeTableFunc = ()=> {
+  console.log('-------260-----makeTableFunc----------',_designParams.value);
   const selectedRK = [];
   const paramsColumns = [];
-  _designParams.value.forEach((item) => {
+  _designParams.value.filter(ele=>ele.check).forEach((item) => {
     const componentName = xmInput
-    const options = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? [] : item.props.options.map(ele=> ({ label: ele.name, value: ele.id }) )
+    const options = !['SelectPlusRadio','SelectPlus'].includes(item.type) ? [] : item.props.options.map(ele=> ({ label: ele.name, value: ele.id }) )
     if (item.key === XM_raw_material_key) {
       paramsColumns.unshift({
         title: item.name,
@@ -259,60 +308,126 @@ const makeTableFunc = ()=> {
         },
       });
     }else{
-      paramsColumns.push({
-        title: item.name,
-        colKey: item.key,
-        width: 100,
-        edit: {
-          // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-          // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-          component: componentName,
-          // props, 透传全部属性到 Input 组件
-          props: ({col,row})=> {
-            return  {
-              modelValue: row[item.key],
-              config: item,
-              clearable: true,
-              autofocus: true,
-              multiply: true,
-              options
-              // autoWidth: true,
-            };
-
-          },
-          // 校验规则，此处同 Form 表单
-          rules: [
-            {
-              required: false,
-              message: '不能为空',
-            },
-          ],
-          showEditIcon: true,
-          abortEditOnEvent: ['onEnter','onBlur'],
-          onEdited: (context ) => {
-            console.log(context);
-            const newData = [..._designResult.value];
-            newData.splice(context.rowIndex, 1, context.newRowData);
-            _designResult.value = newData;
-            useMessage('success' ,'Success');
-          },
-          // 触发校验的时机（when to validate)
-          validateTrigger: 'change',
-          // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-          on: (editContext ) => ({
-            onBlur: (ctx ) => {
-              console.log('失去焦点', editContext);
-              ctx?.e?.preventDefault();
-            },
-            onEnter: (ctx ) => {
-              ctx?.e?.preventDefault();
-              console.log('onEnter', ctx);
-            },
-            // 默认是否为编辑状态
-            defaultEditable: true,
-          }),
+      if (item.attribute_type === 'compound') {
+        const colG = {
+          title: item.name,
+          colKey: item.key,
+          children: []
         }
-      });
+        item.gourp.forEach((eleC) => {
+          colG.children.push({
+            title: eleC.name,
+            colKey: `${item.key}.${eleC.key}`,
+            width: 100,
+            edit: {
+              // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+              // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+              component: componentName,
+              // props, 透传全部属性到 Input 组件
+              props: ({col,row})=> {
+                return  {
+                  modelValue: row[item.key][eleC.key],
+                  config: eleC,
+                  clearable: true,
+                  autofocus: true,
+                  multiply: true,
+                  options
+                  // autoWidth: true,
+                };
+
+              },
+              // 校验规则，此处同 Form 表单
+              rules: [
+                {
+                  required: false,
+                  message: '不能为空',
+                },
+              ],
+              showEditIcon: true,
+              abortEditOnEvent: ['onEnter','onBlur'],
+              onEdited: (context ) => {
+                console.log(context);
+                const newData = [..._designResult.value];
+                newData.splice(context.rowIndex, 1, context.newRowData);
+                _designResult.value = newData;
+                useMessage('success' ,'Success');
+              },
+              // 触发校验的时机（when to validate)
+              validateTrigger: 'change',
+              // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+              on: (editContext ) => ({
+                onBlur: (ctx ) => {
+                  console.log('失去焦点', editContext);
+                  ctx?.e?.preventDefault();
+                },
+                onEnter: (ctx ) => {
+                  ctx?.e?.preventDefault();
+                  console.log('onEnter', ctx);
+                },
+                // 默认是否为编辑状态
+                defaultEditable: true,
+              }),
+            }
+          })
+        })
+        paramsColumns.push( colG );
+      }else{
+        paramsColumns.push({
+          title: item.name,
+          colKey: item.key,
+          width: 100,
+          edit: {
+            // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+            // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+            component: componentName,
+            // props, 透传全部属性到 Input 组件
+            props: ({col,row})=> {
+              return  {
+                modelValue: row[item.key],
+                config: item,
+                clearable: true,
+                autofocus: true,
+                multiply: true,
+                options
+                // autoWidth: true,
+              };
+
+            },
+            // 校验规则，此处同 Form 表单
+            rules: [
+              {
+                required: false,
+                message: '不能为空',
+              },
+            ],
+            showEditIcon: true,
+            abortEditOnEvent: ['onEnter','onBlur'],
+            onEdited: (context ) => {
+              console.log(context);
+              const newData = [..._designResult.value];
+              newData.splice(context.rowIndex, 1, context.newRowData);
+              _designResult.value = newData;
+              useMessage('success' ,'Success');
+            },
+            // 触发校验的时机（when to validate)
+            validateTrigger: 'change',
+            // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+            on: (editContext ) => ({
+              onBlur: (ctx ) => {
+                console.log('失去焦点', editContext);
+                ctx?.e?.preventDefault();
+              },
+              onEnter: (ctx ) => {
+                ctx?.e?.preventDefault();
+                console.log('onEnter', ctx);
+              },
+              // 默认是否为编辑状态
+              defaultEditable: true,
+            }),
+          }
+        });
+      }
+      
     }
     
   })
@@ -327,11 +442,13 @@ const makeTableFunc = ()=> {
     const obj = {check:true};
     obj.id = uuid();
     _designParams.value.forEach((item) => {
-      console.log('-------310----item----------',item,isNumber( item.defaultValue),isNumber( item.step ))
-      if (( !item.defaultValue || item.defaultValue === '' || isNumber( item.defaultValue) ) && (item.step && isNumber( item.step )) ){
-        obj[item.key] = addDecimals(item.defaultValue, String(i * item.step))  ;
+      console.log('-------310----item----------',item,item.step)
+      if ( item.step ){
+        obj[item.key] = addDecimals(item.value, item.step,i,item.attribute_type)  ;
+        obj[`${item.key }_id`] = item.id
       }else{
         obj[item.key] = item.step ;
+        obj[`${item.key }_id`] = item.id
         obj['name'] = item.props.options?.filter(eleO => item.step.includes(eleO.id))?.map(eleO => eleO.name)?.join(";") 
       }
       obj['raw_material'] = item.raw_material 

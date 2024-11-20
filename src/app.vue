@@ -10660,7 +10660,7 @@ const options = $ref({
     experiment_theme: '0ed50212-3f77-4c98-bd9a-40499d77c984',
     experiment_record: '2f716a40-f3a5-48a0-875a-b10695542ddd',
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMDg2NjI1LCJpYXQiOjE3MzIwMDAyMjUsImp0aSI6ImY5ZDNmOWI5NDEyYTRlMzNhODYxNTU5YTQ1MDAyZDBkIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.pjmw1TFdJHOUDyoe5QtDQe2IEcp92xLnMj9TSjIT1kY',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMTczMTQ1LCJpYXQiOjE3MzIwODY3NDUsImp0aSI6IjBhNzQyNDRhODU2ZTQ5MjU4N2E1MzY3Y2RhZTBlN2ZhIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.qtPM-pYx0NxVpIOHE4mFsr8GPUOVp3qFsiYTIkkvG3s',
   },
   document: {
     placeholder: '测试文档',
@@ -11476,172 +11476,247 @@ onMounted(() => {
                 "margin": {}
             }
         },
+        // {
+        //     "type": "xmTitleContent",
+        //     "attrs": {
+        //         "content": "背景",
+        //         "title": "试验背景："
+        //     },
+        //     "content": [
+        //         {
+        //             "type": "heading",
+        //             "attrs": {
+        //                 "indent": null,
+        //                 "textAlign": "left",
+        //                 "lineHeight": 1.5,
+        //                 "margin": {},
+        //                 "id": "h1tica",
+        //                 "data-toc-id": "h1tica",
+        //                 "level": 2
+        //             },
+        //             "content": [
+        //                 {
+        //                     "type": "text",
+        //                     "text": "试验背景："
+        //                 }
+        //             ]
+        //         },
+        //         {
+        //             "type": "paragraph",
+        //             "attrs": {
+        //                 "indent": null,
+        //                 "textAlign": "left",
+        //                 "lineHeight": 1.5,
+        //                 "margin": {}
+        //             },
+        //             "content": [
+        //                 {
+        //                     "type": "text",
+        //                     "text": "背景"
+        //                 }
+        //             ]
+        //         }
+        //     ]
+        // },
+        // {
+        //     "type": "paragraph",
+        //     "attrs": {
+        //         "indent": null,
+        //         "textAlign": "left",
+        //         "lineHeight": 1.5,
+        //         "margin": {}
+        //     }
+        // },
+        // {
+        //     "type": "xmTitleContent",
+        //     "attrs": {
+        //         "content": "计划",
+        //         "title": "试验计划："
+        //     },
+        //     "content": [
+        //         {
+        //             "type": "heading",
+        //             "attrs": {
+        //                 "indent": null,
+        //                 "textAlign": "left",
+        //                 "lineHeight": 1.5,
+        //                 "margin": {},
+        //                 "id": "fsmq94",
+        //                 "data-toc-id": "fsmq94",
+        //                 "level": 2
+        //             },
+        //             "content": [
+        //                 {
+        //                     "type": "text",
+        //                     "text": "试验计划："
+        //                 }
+        //             ]
+        //         },
+        //         {
+        //             "type": "paragraph",
+        //             "attrs": {
+        //                 "indent": null,
+        //                 "textAlign": "left",
+        //                 "lineHeight": 1.5,
+        //                 "margin": {}
+        //             },
+        //             "content": [
+        //                 {
+        //                     "type": "text",
+        //                     "text": "计划"
+        //                 }
+        //             ]
+        //         }
+        //     ]
+        // },
+        // {
+        //     "type": "paragraph",
+        //     "attrs": {
+        //         "indent": null,
+        //         "textAlign": "left",
+        //         "lineHeight": 1.5,
+        //         "margin": {}
+        //     },
+        //     "content": [
+        //         {
+        //             "type": "text",
+        //             "text": " "
+        //         }
+        //     ]
+        // },
         {
-            "type": "xmTitleContent",
-            "attrs": {
-                "content": "背景",
-                "title": "试验背景："
-            },
-            "content": [
-                {
-                    "type": "heading",
-                    "attrs": {
-                        "indent": null,
-                        "textAlign": "left",
-                        "lineHeight": 1.5,
-                        "margin": {},
-                        "id": "h1tica",
-                        "data-toc-id": "h1tica",
-                        "level": 2
-                    },
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "试验背景："
-                        }
-                    ]
-                },
-                {
-                    "type": "paragraph",
-                    "attrs": {
-                        "indent": null,
-                        "textAlign": "left",
-                        "lineHeight": 1.5,
-                        "margin": {}
-                    },
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "背景"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "type": "paragraph",
-            "attrs": {
-                "indent": null,
-                "textAlign": "left",
-                "lineHeight": 1.5,
-                "margin": {}
-            }
-        },
-        {
-            "type": "xmTitleContent",
-            "attrs": {
-                "content": "计划",
-                "title": "试验计划："
-            },
-            "content": [
-                {
-                    "type": "heading",
-                    "attrs": {
-                        "indent": null,
-                        "textAlign": "left",
-                        "lineHeight": 1.5,
-                        "margin": {},
-                        "id": "fsmq94",
-                        "data-toc-id": "fsmq94",
-                        "level": 2
-                    },
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "试验计划："
-                        }
-                    ]
-                },
-                {
-                    "type": "paragraph",
-                    "attrs": {
-                        "indent": null,
-                        "textAlign": "left",
-                        "lineHeight": 1.5,
-                        "margin": {}
-                    },
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": "计划"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "type": "paragraph",
-            "attrs": {
-                "indent": null,
-                "textAlign": "left",
-                "lineHeight": 1.5,
-                "margin": {}
-            },
-            "content": [
-                {
-                    "type": "text",
-                    "text": " "
-                }
-            ]
-        },
-        {
-            "type": "raw_material_table",
-            "attrs": {
-                "id": "419700ea-9c3b-4113-ba35-6c794659e1b6",
-                "key": "raw_material_table20241117182120",
-                "name": "44ea9b52-e86f-4273-9423-81b743092573",
-                "isChanged": false,
-                "table_data": [ ],
-                "title": "原材料202411171821"
-            },
-            "content": [
-                {
-                    "type": "paragraph",
-                    "attrs": {
-                        "indent": null,
-                        "textAlign": "left",
-                        "lineHeight": 1.5,
-                        "margin": {}
-                    },
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": " "
-                        }
-                    ]
-                }
-            ]
+          "type": "raw_material_table",
+          "attrs": {
+              "id": "419700ea-9c3b-4113-ba35-6c794659e1b6",
+              "updateTime": "2024-11-20 14:36:48",
+              "key": "raw_material_table20241117182120",
+              "name": "44ea9b52-e86f-4273-9423-81b743092573",
+              "isChanged": false,
+              "change_log": {
+                  "change_log": "d151c6ea-5eeb-4240-8b44-c763323a7ab8"
+              },
+              "is_integration": false,
+              "table_data": [
+                  {
+                      "id": "824b0d92-849d-460c-bad3-ec86301c15cb",
+                      "experiment_material": "50831c42-06a1-407b-a14d-dde160a7db8b",
+                      "experiment_material_name": "YL10171643",
+                      "experiment_material_batch": {
+                          "id": "a060cb6e-23ea-4643-9c9b-22649eb58619",
+                          "state": "Not-Started",
+                          "batch": "1",
+                          "price": null,
+                          "supplier": null
+                      },
+                      "description": null,
+                      "change_log": "d151c6ea-5eeb-4240-8b44-c763323a7ab8",
+                      "experiment_material_sn": "SN-1729154564209"
+                  },
+                  {
+                      "id": "146b2abe-486d-4f07-9e5e-63b19b31f3e6",
+                      "experiment_material": "7867a6e8-71a1-4ae3-afd5-f07f6ac0bb7a",
+                      "experiment_material_name": "YL10171534",
+                      "experiment_material_batch": {
+                          "id": "64886cd2-1b88-49aa-b7c1-a687a8ffbad4",
+                          "state": "Not-Started",
+                          "batch": "1",
+                          "price": null,
+                          "supplier": null
+                      },
+                      "description": null,
+                      "change_log": "d151c6ea-5eeb-4240-8b44-c763323a7ab8",
+                      "experiment_material_sn": "SN-1729150438237"
+                  },
+                  {
+                      "id": "27488dd3-625b-4496-8278-b0b869f61450",
+                      "experiment_material": "4cb7c311-ab8f-4fdf-aef4-61167a78c48f",
+                      "experiment_material_name": "YL01171535",
+                      "experiment_material_batch": {
+                          "id": "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                          "state": "Not-Started",
+                          "batch": "1",
+                          "price": 12,
+                          "supplier": "地方撒大厦"
+                      },
+                      "description": null,
+                      "change_log": "d151c6ea-5eeb-4240-8b44-c763323a7ab8",
+                      "experiment_material_sn": "SN-1729150535817"
+                  }
+              ],
+              "title": "原材料202411171821"
+          },
+          "content": [
+              {
+                  "type": "paragraph",
+                  "attrs": {
+                      "indent": null,
+                      "textAlign": "left",
+                      "lineHeight": 1.5,
+                      "margin": {}
+                  },
+                  "content": [
+                      {
+                          "type": "text",
+                          "text": " "
+                      }
+                  ]
+              }
+          ]
         },
         {
           "type": "technology_table",
           "attrs": {
               "id": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+              "updateTime": "2024-11-20 14:46:48",
               "key": "technology_table20241117182120",
               "name": "2f7857d2-84ac-432f-af2d-16a8ac01e95c",
               "isChanged": false,
               "change_log": {
-                  "change_log": "e756b2f9-0ee0-4c0e-981e-306825470f05"
+                  "change_log": "38be7b87-687f-4575-9638-ae2f648227e1"
               },
               "is_integration": false,
               "table_data": [
                   {
-                      "id": "c8d43e00-142b-44fa-9246-0cb508814fc7",
-                      "step_name": "都是v",
+                      "id": "5b8c6ac7-ca84-4145-b247-31cf806b038c",
+                      "step_name": "搞活动房间号",
                       "description": "",
                       "step_type": "processes",
                       "sequence": 0,
                       "duration": null,
                       "children": [
                           {
-                              "id": 30,
-                              "value": "43",
+                              "id": "d0fe41b9-3b60-45f1-8568-48ab569c500f",
+                              "attribute": 14,
+                              "value": "23",
+                              "attribute_type": "single",
+                              "name": "test1",
+                              "step_name": "test1",
+                              "description": "",
+                              "step_type": "operation",
+                              "duration": null,
+                              "parent": "5b8c6ac7-ca84-4145-b247-31cf806b038c",
+                              "props": {
+                                  "abstract": false,
+                                  "required": false,
+                                  "enableScan": false,
+                                  "enablePrint": true
+                              },
+                              "key": "test2",
+                              "type": "TextInput",
+                              "unit": null,
+                              "gourp": []
+                          },
+                          {
+                              "id": "16c2175d-5bc3-4855-9709-153fb6119698",
+                              "attribute": 30,
+                              "value": "34",
                               "attribute_type": "single",
                               "name": "Lab_B",
                               "step_name": "Lab_B",
                               "description": "",
                               "step_type": "operation",
                               "duration": null,
-                              "parent": "c8d43e00-142b-44fa-9246-0cb508814fc7",
+                              "parent": "5b8c6ac7-ca84-4145-b247-31cf806b038c",
                               "props": {
                                   "abstract": false,
                                   "required": false,
@@ -11654,11 +11729,12 @@ onMounted(() => {
                               "gourp": []
                           },
                           {
-                              "id": 31,
+                              "id": "2b6dbdb7-24e3-4b2e-9c58-946da5e7cee1",
+                              "attribute": 31,
                               "value": {
-                                  "Lab_L": "23",
-                                  "Lab_B": "32",
-                                  "Lab_A": "21"
+                                  "Lab_L": "22",
+                                  "Lab_A": "45",
+                                  "Lab_B": "55"
                               },
                               "attribute_type": "compound",
                               "name": "LAB",
@@ -11666,7 +11742,7 @@ onMounted(() => {
                               "description": "",
                               "step_type": "operation",
                               "duration": null,
-                              "parent": "c8d43e00-142b-44fa-9246-0cb508814fc7",
+                              "parent": "5b8c6ac7-ca84-4145-b247-31cf806b038c",
                               "props": {},
                               "key": "LAB",
                               "type": "",

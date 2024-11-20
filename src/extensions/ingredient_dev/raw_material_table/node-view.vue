@@ -13,8 +13,8 @@
               <t-space>
                 <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
                 <t-button variant="outline" @click="addFunc">新增</t-button>
-                <div title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
-                <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
+                <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
+                <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
               </t-space>
             </t-space>
           </div>
@@ -105,7 +105,7 @@
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { post_experiment_material_fetch,put_experiment_material_fetch,delete_material_multiple_deleteFetch ,get_experiment_material_fetch} from '@/api/experiment'
-
+import { timeFormat } from '@/utils/time-ago'
 
 const { node, editor, updateAttributes } = defineProps(nodeViewProps)
 
@@ -198,6 +198,7 @@ const on_select_materialFunc = async ()=>{
     change_log.value = {
       change_log: res.data.data.change_log
     }
+    updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
     // table_data.value = res.data.data.data
     await initData()
   }
@@ -218,6 +219,7 @@ const onDelete = async (row) => {
     change_log.value = {
       change_log: res.data.data.change_log
     }
+    updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
     await initData()
   }
   // const index = table_data.value.findIndex((t ) => t === row);
@@ -236,15 +238,15 @@ columns.value = [
   {
     colKey: 'experiment_material_name',
     title: '原材料',
-    // cell: (h , { row: { material}, rowIndex } ) => {
-    //   const status = rowIndex % 3;
-    //   return (
-    //     <div>
-    //       <span>{material ? material.name : ''}</span>
-    //       <t-tag size="small">{material ? material.sn : ''}</t-tag>
-    //     </div>
-    //   );
-    // },
+    cell: (h , { row, rowIndex } ) => {
+      const status = rowIndex % 3;
+      return (
+        <div>
+          <span>{row.experiment_material_name ? row.experiment_material_name : ''}</span>
+          <t-tag size="small">{row.experiment_material_sn ? row.experiment_material_sn : ''}</t-tag>
+        </div>
+      );
+    },
     minWidth: 120,
   },
   {
@@ -320,6 +322,7 @@ columns.value = [
           change_log.value = {
             change_log: res.data.data.change_log
           }
+          updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
           await initData()
         }
         // setReadOnly()
@@ -388,8 +391,8 @@ const initData = async () => {
 }
 
 onMounted(async () => {
-  if (change_log.value?.change_log) {
-    console.log('----------change_log.value22222222222222222222222222---------',change_log.value);
+  if (change_log.value?.change_log && table_data.value?.length === 0) {
+    console.log('----------change_log.value22222395---------',change_log.value);
     await initData()
   }else if(is_integration.value) {
     

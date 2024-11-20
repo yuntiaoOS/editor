@@ -1,6 +1,6 @@
 <template>
   <t-form
-    ref="formRef" :layout="_config.formConfig.layout"
+    ref="formRef" :layout="_config.formConfig.layout" :readonly="readonly" 
     :colon="_config.formConfig.colon" :disabled="disabled"
     :label-align="_config.formConfig.labelPos"
     :label-width="_config.formConfig.labelWidth"
@@ -20,7 +20,7 @@
           :name="formItem.key" 
           :label="formItem.title?formItem.title:formItem.name"
           :rules="formItem.rules" >
-            <xm-input v-model="_formData[formItem.key]" :config="formItem" @change="itemChange"></xm-input>
+            <xm-input :readonly="readonly" v-model="_formData[formItem.key]" :config="formItem" @change="itemChange"></xm-input>
         </t-form-item>
       </t-col>
     </t-row>
@@ -191,6 +191,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false,
+  },
+  readonly: {
+    type: Boolean,
+    default: false
   },
 
 })

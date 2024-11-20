@@ -292,7 +292,7 @@ const onOperationConfirmFunc = async () => {
 };
 
 const getOperationOptionFunc = async (page=1) => {
-  const res = await getProcesses_attributeListFetch({page,limit:20})
+  const res = await getProcesses_attributeListFetch({page,limit:9999})
   console.log(res, '-------------2243------------operationOption.value')
   if (res.data.code === 2000) {
     if (page === 1) {

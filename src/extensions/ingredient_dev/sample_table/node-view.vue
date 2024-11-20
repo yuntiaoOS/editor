@@ -13,7 +13,8 @@
               <t-space>
                 <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入样品名称" />
                 <t-button theme="warning" variant="outline" @click="experimental_design_visible = true;">试验方法设计</t-button>
-                <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
+                <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
+                <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
               </t-space>
             </t-space>
           </div>
@@ -104,6 +105,13 @@ const experimental_design_visible = ref(false);
 
 const select_material = ref([])
 
+const updateTime = computed({
+  get: () => node.attrs.updateTime,
+  set(value) {
+    updateAttributes({ updateTime: value })
+  },
+})
+
 const _designParams = computed({
   get: () => {
     const oldDesignParams = node.attrs.designParams
@@ -117,17 +125,17 @@ const _designParams = computed({
       const technology_tables = docD.content.filter(ele=> ele.type === 'technology_table')
       if (technology_tables.length > 0) {
         const [technology_table] = technology_tables
-        const table_data  = technology_table.attrs.table_data.map(eleT => eleT.list)
+        const table_data  = technology_table.attrs.table_data.map(eleT => eleT.children)
         console.log('--------_designParams--------123--------',table_data)
         let material_options = []
         if (raw_material_tables.length > 0) {
           const [raw_material_table] = raw_material_tables
           console.log('-------130-------raw_material_table----------',raw_material_table)
           console.log('-------131-------raw_material_table----------',raw_material_table.attrs.table_data)
-          material_options = Object.assign([],raw_material_table.attrs.table_data).map(ele=> { return { ...ele,name: ele.material.name + '/' + ele.material.sn } }) 
+          material_options = Object.assign([],raw_material_table.attrs.table_data).map(ele=> { return { ...ele,name: ele.experiment_material_name + '/' + ele.experiment_material_sn } }) 
         }
         if (table_data.length > 0) {
-          
+          console.log('--------_designParams--------138--------',table_data,table_data.reduce((a, b) => a.concat(b)))
           designParams = table_data.reduce((a, b) => a.concat(b)).map(eleT => { 
             if (eleT.key === XM_raw_material_key) {
               return { 

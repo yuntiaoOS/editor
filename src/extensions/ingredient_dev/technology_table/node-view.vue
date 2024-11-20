@@ -12,7 +12,8 @@
               <t-space>
                 <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入工艺步骤名称" />
                 <t-button variant="outline" @click="onAddWorkingProcedure">工艺配置</t-button>
-                <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
+                <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
+                <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
               </t-space>
             </t-space>
           </div>
@@ -21,10 +22,10 @@
           <div v-if="slotProps.row.step_type === 'processes'" style="bottom: 0px;position: absolute;line-height: 30px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
           <span v-else-if="slotProps.row.attribute_type ">
             <div v-if="slotProps.row.attribute_type === 'single'" >
-              <xm-input v-model="slotProps.row.value" :config="slotProps.row" borderless @change="rowEditFunc($event,slotProps.row)"/>
+              <xm-input v-model="slotProps.row.value" :config="slotProps.row" readonly borderless @change="rowEditFunc($event,slotProps.row)"/>
             </div>
             <div v-else>
-              <xm-form ref="xmformRef" v-model:form-data="slotProps.row.value" :config="getConfig('form',slotProps.row)" :showSubmitBtn="false" @change="rowEditFunc($event,slotProps.row)"/>
+              <xm-form ref="xmformRef" v-model:form-data="slotProps.row.value" :readonly="true" :config="getConfig('form',slotProps.row)" :showSubmitBtn="false" @change="rowEditFunc($event,slotProps.row)"/>
             </div>
           </span>
         </template>
@@ -86,7 +87,7 @@ import { Loading } from 'tdesign-vue-next';
 import { getIngredient_dev_materialListFetch } from '@/api/material'
 import { v4 as uuid } from 'uuid'
 const { node, editor, updateAttributes } = defineProps(nodeViewProps)
-
+import { timeFormat } from '@/utils/time-ago'
 const { options ,editedComponentType} = useStore()
 const $key_data = useState('key_data')
 
@@ -108,6 +109,13 @@ const _editedComponentType = computed(() => editedComponentType.value)
 
 const experiment_record = computed(() => $key_data.value?.experiment_record)
 const experiment_theme = computed(() => $key_data.value?.experiment_theme)
+
+const updateTime = computed({
+  get: () => node.attrs.updateTime,
+  set(value) {
+    updateAttributes({ updateTime: value })
+  },
+})
 
 const change_log = computed({
   get: () => node.attrs.change_log,
@@ -240,13 +248,14 @@ const onProcedureConfirmFunc = async () => {
     if (res.data.code === 2000) {
       change_log.value = { change_log: res.data.data.change_log }
       procedureVisible.value = false
+      updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
       initData()
     }
   }
 };
 
 const getOperationOptionFunc = async (page=1) => {
-  const res = await getProcesses_attributeListFetch({page,limit:20})
+  const res = await getProcesses_attributeListFetch({page,limit:9999})
   console.log(res, '-------------2243------------operationOption.value')
   if (res.data.code === 2000) {
     if (page === 1) {
@@ -302,47 +311,47 @@ const columns = ref([
     colKey: 'step_name',
     title: '名称',
     ellipsis: true,
-    edit: {
-      // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-      // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-      component: TInput,
-      // props, 透传全部属性到 Input 组件
-      props: {
-        clearable: true,
-        autofocus: true,
-        // autoWidth: true,
-      },
-      // 校验规则，此处同 Form 表单
-      rules: [
-        {
-          required: false,
-          message: '不能为空',
-        },
-      ],
-      showEditIcon: true,
-      abortEditOnEvent: ['onEnter','onBlur'],
-      onEdited: (context ) => {
-        console.log(context);
-        table_data.value = updateTableData(table_data.value, context.newRowData)
-        console.log('Edit firstName:', context,table_data.value);
-        useMessage('success' ,'Success');
-      },
-      // 触发校验的时机（when to validate)
-      validateTrigger: 'change',
-      // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-      on: (editContext ) => ({
-        onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
-          ctx?.e?.preventDefault();
-        },
-        onEnter: (ctx ) => {
-          ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
-        },
-        // 默认是否为编辑状态
-        defaultEditable: false,
-      }),
-    }
+    // edit: {
+    //   // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+    //   // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+    //   component: TInput,
+    //   // props, 透传全部属性到 Input 组件
+    //   props: {
+    //     clearable: true,
+    //     autofocus: true,
+    //     // autoWidth: true,
+    //   },
+    //   // 校验规则，此处同 Form 表单
+    //   rules: [
+    //     {
+    //       required: false,
+    //       message: '不能为空',
+    //     },
+    //   ],
+    //   showEditIcon: true,
+    //   abortEditOnEvent: ['onEnter','onBlur'],
+    //   onEdited: (context ) => {
+    //     console.log(context);
+    //     table_data.value = updateTableData(table_data.value, context.newRowData)
+    //     console.log('Edit firstName:', context,table_data.value);
+    //     useMessage('success' ,'Success');
+    //   },
+    //   // 触发校验的时机（when to validate)
+    //   validateTrigger: 'change',
+    //   // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+    //   on: (editContext ) => ({
+    //     onBlur: (ctx ) => {
+    //       console.log('失去焦点', editContext);
+    //       ctx?.e?.preventDefault();
+    //     },
+    //     onEnter: (ctx ) => {
+    //       ctx?.e?.preventDefault();
+    //       console.log('onEnter', ctx);
+    //     },
+    //     // 默认是否为编辑状态
+    //     defaultEditable: false,
+    //   }),
+    // }
 
   },
   {
@@ -409,48 +418,48 @@ const columns = ref([
     title: '描述',
     ellipsis: true,
     minWidth: 200,
-    edit: {
-      // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-      // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-      component: TTextarea,
-      // props, 透传全部属性到 Input 组件
-      props: {
-        clearable: true,
-        autofocus: true,
-        // autoWidth: true,
-        autosize: true,
-      },
-      // 校验规则，此处同 Form 表单
-      rules: [
-        {
-          required: false,
-          message: '不能为空',
-        },
-      ],
-      showEditIcon: true,
-      abortEditOnEvent: ['onEnter','onBlur'],
-      onEdited: (context ) => {
-        console.log(context);
-        table_data.value = updateTableData(table_data.value, context.newRowData)
-        console.log('Edit firstName:', context);
-        useMessage('success' ,'Success');
-      },
-      // 触发校验的时机（when to validate)
-      validateTrigger: 'change',
-      // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-      on: (editContext ) => ({
-        onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
-          ctx?.e?.preventDefault();
-        },
-        onEnter: (ctx ) => {
-          ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
-        },
-        // 默认是否为编辑状态
-        defaultEditable: false,
-      }),
-    },
+    // edit: {
+    //   // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+    //   // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+    //   component: TTextarea,
+    //   // props, 透传全部属性到 Input 组件
+    //   props: {
+    //     clearable: true,
+    //     autofocus: true,
+    //     // autoWidth: true,
+    //     autosize: true,
+    //   },
+    //   // 校验规则，此处同 Form 表单
+    //   rules: [
+    //     {
+    //       required: false,
+    //       message: '不能为空',
+    //     },
+    //   ],
+    //   showEditIcon: true,
+    //   abortEditOnEvent: ['onEnter','onBlur'],
+    //   onEdited: (context ) => {
+    //     console.log(context);
+    //     table_data.value = updateTableData(table_data.value, context.newRowData)
+    //     console.log('Edit firstName:', context);
+    //     useMessage('success' ,'Success');
+    //   },
+    //   // 触发校验的时机（when to validate)
+    //   validateTrigger: 'change',
+    //   // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+    //   on: (editContext ) => ({
+    //     onBlur: (ctx ) => {
+    //       console.log('失去焦点', editContext);
+    //       ctx?.e?.preventDefault();
+    //     },
+    //     onEnter: (ctx ) => {
+    //       ctx?.e?.preventDefault();
+    //       console.log('onEnter', ctx);
+    //     },
+    //     // 默认是否为编辑状态
+    //     defaultEditable: false,
+    //   }),
+    // },
   },
 ])
 

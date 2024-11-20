@@ -16,11 +16,11 @@ export default class xmNode extends Node{
         },
       },
       updateTime: {
-        default: timeFormat(null,'yyyy-mm-dd hh:MM:ss'),
+        default: '',//timeFormat(null,'yyyy-mm-dd hh:MM:ss'),
         parseHTML: (element:any) => element.getAttribute('data-updateTime'),
         renderHTML: (attributes:any) => {
           if (!attributes.updateTime) {
-            return timeFormat(null,'yyyy-mm-dd hh:MM:ss');//timeFormat(null,'yyyymmddhhMMss')
+            return '';//timeFormat(null,'yyyy-mm-dd hh:MM:ss');
           }
           return { 'data-updateTime': attributes.updateTime };
         }

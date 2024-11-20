@@ -2,7 +2,7 @@
   <div v-if="_config && _config[props.props.componentKey]">
     <template v-if="_config[props.props.componentKey] === 'TextareaInput'" >
       <t-textarea
-        v-model="_value" autofocus
+        v-model="_value" autofocus :readonly="readonly"
         placeholder="请输入"
         name="textarea"
         :autosize="{ minRows: 3, maxRows: 5 }"
@@ -11,37 +11,37 @@
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'NumberInput'" >
       <t-input-number 
-        v-model="_value" autofocus :borderless="borderless"  :auto-width="autoWidth" theme="column" 
+        v-model="_value" autofocus :borderless="borderless"  :auto-width="autoWidth" theme="column" :readonly="readonly" 
         placeholder="请输入" @change="changeFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'TimePicker'" >
-      <t-time-picker v-model="_value" :borderless="borderless" autofocus :auto-width="autoWidth"  placeholder="请输入" @change="changeFunc"/>
+      <t-time-picker v-model="_value" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请输入" @change="changeFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'DateTime'" >
-      <t-date-picker v-model="_value" :borderless="borderless" autofocus :auto-width="autoWidth"  enable-time-picker placeholder="请输入" @change="changeFunc"/>
+      <t-date-picker v-model="_value" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  enable-time-picker placeholder="请输入" @change="changeFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'SelectPlusRadio'" >
       <t-select 
-        v-model="_value" :borderless="borderless" autofocus :auto-width="autoWidth"  placeholder="请选择"  style="width: 100%;" clearable
+        v-model="_value" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择"  style="width: 100%;" clearable
         :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc">
         <t-option v-for="item in selectOptions" :key="item.value" :value="item.value" :label="item.label"></t-option>
       </t-select>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'SelectPlus'" >
       <t-select 
-        v-model="_value" multiple :borderless="borderless" autofocus :auto-width="autoWidth"  placeholder="请选择" style="width: 100%;" clearable
+        v-model="_value" multiple :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择" style="width: 100%;" clearable
         :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc">
         <t-option v-for="item in selectOptions" :key="item.value" :value="item.value" :label="item.label"></t-option>
       </t-select>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'Score'" >
-      <t-rate v-model="_value" show-text :default-value="4" @change="changeFunc"/>
+      <t-rate v-model="_value" show-text :default-value="4" :disabled="readonly" @change="changeFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'VueContainer'" >
 
     </template>
     <template v-else >
-      <t-input v-model="_value" autofocus :borderless="borderless" :auto-width="autoWidth" placeholder="请输入" @change="changeFunc"/>
+      <t-input v-model="_value" autofocus :borderless="borderless" :readonly="readonly" :auto-width="autoWidth" placeholder="请输入" @change="changeFunc"/>
     </template>
 
   </div>
@@ -54,6 +54,10 @@ const props = defineProps({
     type: [String, Number, Array, Object],
     default: undefined,
     required: true,
+  },
+  readonly: {
+    type: Boolean,
+    default: false
   },
   config: {
     type: Object,

@@ -49,6 +49,9 @@ const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
 const { options } = useStore()
 const select_design_visible = ref(false);
+const $key_data = useState('key_data')
+const experiment_record = computed(() => $key_data.value?.experiment_record)
+const experiment_theme = computed(() => $key_data.value?.experiment_theme)
 
 const experimental_design_visible = ref(false);
 const select_design_form = ref();
@@ -82,20 +85,13 @@ const designResult = computed({
   }
 })
 
-const table_data = computed({
-  get: () => node.attrs.table_data,
-  set(value) {
-    updateAttributes({ table_data: value })
-  },
-})
-
 const getDesignParams = () => {
   const oldDesignParams = [..._designParams.value]
   console.log('------116--------oldDesignParams------',oldDesignParams)
   let designParams = []
   console.log('--------_designParams--------93--------',technologyOptions.value,raw_materialOptions.value)
-  const technology_table_data = technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).table_data.map(eleT => eleT.list).reduce((a, b) => a.concat(b)).filter(item => item.type && item.type.length > 0 )
-  const material_table_data = raw_materialOptions.value.find(ele=> ele.id === selectTableForm.value.raw_material).table_data.map(ele=> { return { ...ele,name:`${ele.material.name}/${ele.material.sn}` } }) 
+  const technology_table_data = technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).table_data.map(eleT => eleT.children).reduce((a, b) => a.concat(b)).filter(item => item.type || item.gourp )
+  const material_table_data = raw_materialOptions.value.find(ele=> ele.id === selectTableForm.value.raw_material).table_data.map(ele=> { return { ...ele,name:`${ele.experiment_material_name }/${ele.experiment_material_sn}` } }) 
   console.log('--------_designParams--------123--------',technology_table_data,material_table_data)
   if (technology_table_data && material_table_data) {
     designParams = technology_table_data.map(eleT => { 
@@ -115,7 +111,12 @@ const getDesignParams = () => {
           },
         }
       } else {
-        return {...eleT,step:'',check:true}
+        if ( eleT.attribute_type === "compound"){
+          return {...eleT,step:{},check:true}
+        }else{
+          return {...eleT,step:'',check:true}
+        }
+        
       }
       
     })
@@ -156,7 +157,7 @@ const on_experimental_designFunc = async ()=>{
   if (selectData.length > 0) {
     const res = await getIngredient_dev_experimentListFetch({type:'S',num:selectData.length})
     if (res.data.code === 2000) {
-      console.log('--------on_experimental_designFunc--------105--------',selectData)
+      console.log('--------on_experimental_designFunc--------157--------',selectData,_designParams.value,designResult.value)
       const table_data = []
       selectData.forEach((ele ,index) => {
         const obj  = {
@@ -173,6 +174,17 @@ const on_experimental_designFunc = async ()=>{
       editor.commands.addSample_tables({ table_data,designParams:[ ..._designParams.value]})
       table_data.value = [...table_data]
       experimental_design_visible.value = false
+
+      const params = {
+        experiment_theme: experiment_theme.value?.id,
+        record: experiment_record.value?.id,
+        keys: _designParams.value.filter(ele=> ele.check).map(ele=> `${ele.key }_id`),
+        values: _designParams.value.filter(ele=> ele.check).map(ele=> ele.key),
+        data: table_data
+      }
+
+      console.log('--------on_experimental_designFunc--------180--------',params)
+
     }else{
       TMessagePlugin.warning(res.data.msg)
     }
