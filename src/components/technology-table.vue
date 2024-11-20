@@ -1,78 +1,94 @@
 <template>
-  <node-view-wrapper :id="node.attrs.id" class="umo-node-view" :class=" { 't-is-disabled':readOnly,'umo-is-disabled':readOnly } ">
-    <div style="width: 100%">
-      <!-- <h2>工艺</h2> -->
-      <t-enhanced-table ref="tableRef" v-model:expandedTreeNodes="expandedTreeNodes" :tree-expand-and-fold-icon="treeExpandIcon" 
-        row-key="id" :data="table_data" :columns="columns" resizable :tree="treeConfig" :editable-cell-state="editableCellStateFunc"
-         @expanded-tree-nodes-change="onExpandedTreeNodesChange" >
-        <template #topContent>
-          <div style="padding: 6px 0;display: block;">
+  <div style="width: 100%">
+    <!-- <h2>工艺</h2> -->
+    <t-enhanced-table ref="tableRef" v-model:expandedTreeNodes="expandedTreeNodes" :tree-expand-and-fold-icon="treeExpandIcon" 
+      row-key="id" :data="table_data" :columns="columns" resizable :tree="treeConfig" :editable-cell-state="editableCellStateFunc"
+       @expanded-tree-nodes-change="onExpandedTreeNodesChange" >
+      <template #topContent>
+        <div style="padding: 6px 0;display: block;">
+          <t-space>
+            <t-input v-model="_title" label="名称：" size="large" autofocus autoWidth borderless />
             <t-space>
-              <t-input v-model="_title" label="名称：" size="large" autofocus autoWidth borderless />
-              <t-space>
-                <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入工艺步骤名称" />
-                <t-button variant="outline" @click="onAddWorkingProcedure">工艺配置</t-button>
-                <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
-              </t-space>
+              <!-- <t-input  v-if="false" v-model="searchTitle" auto-width placeholder="请输入工艺步骤名称" /> -->
+              <t-button variant="outline" @click="onAddWorkingProcedure">添加工艺步骤</t-button>
+              <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
             </t-space>
-          </div>
-        </template>
-        <template #defaultValueSlot="slotProps">
-          <div v-if="slotProps.row.step_type === 'processes'" style="bottom: 0px;position: absolute;line-height: 30px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
-          <span v-else-if="slotProps.row.attribute_type ">
-            <div v-if="slotProps.row.attribute_type === 'single'" >
-              <xm-input v-model="slotProps.row.value" :config="slotProps.row" borderless @change="rowEditFunc($event,slotProps.row)"/>
-            </div>
-            <div v-else>
-              <xm-form ref="xmformRef" v-model:form-data="slotProps.row.value" :config="getConfig('form',slotProps.row)" :showSubmitBtn="false" @change="rowEditFunc($event,slotProps.row)"/>
-            </div>
-          </span>
-        </template>
-      </t-enhanced-table>
-      <node-view-content :node="node" ></node-view-content> 
-    </div>
-    <t-dialog
-      v-model:visible="procedureVisible"
-      header="工艺配置"
-      width="80%" attach="body"
-      :confirm-on-enter="true"
-      :on-confirm="onProcedureConfirmFunc"
-    >
-      <!-- <t-input  v-model="dialog_input" placeholder="输入工艺步骤名称" 
-        :status=" dialog_input.length > 0 ? 'success': 'error' " 
-        :tips=" dialog_input.length > 0 ? '校验通过': '名称不能为空'"
-        /> -->
-        <technology-table v-model="table_data" v-model:title="_title" @change=""/>
-    </t-dialog>
-    <t-dialog
-      v-model:visible="dialog_visible"
-      header="表格列配置"
-      width="40%" attach="body"
-      :confirm-on-enter="true"
-      :on-confirm="onConfirmFunc"
-    >
-      <t-space direction="vertical" style="width: 100%">
-        <div>
-          <p>请选择需要在表格中显示的数据列</p>
+          </t-space>
         </div>
-        <t-card header-bordered :style="{ width: '400px' }">
-          <template #header>
-            <t-checkbox :checked="checkAll" :indeterminate="indeterminate" :on-change="handleSelectAll">全选</t-checkbox>
-          </template>
-          <template #content>
-            <t-checkbox-group v-model="displayColumnsC" label="title" value="colKey" :options="columnsCheckboxs" />
-          </template>
+      </template>
+      <template #defaultValueSlot="slotProps">
+        <div v-if="slotProps.row.step_type === 'processes'" style="bottom: 0px;position: absolute;line-height: 38px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
+        <span v-else-if="slotProps.row.attribute_type ">
+          <div v-if="slotProps.row.attribute_type === 'single'" >
+            <xm-input v-model="slotProps.row.value" :config="slotProps.row" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
+          </div>
+          <div v-else>
+            <xm-form ref="xmformRef" v-model:form-data="slotProps.row.value" :config="getConfig('form',slotProps.row)" :showSubmitBtn="false"/>
+          </div>
+        </span>
+      </template>
+    </t-enhanced-table>
+  </div>
+  <t-dialog
+    v-model:visible="operationVisible"
+    header="操作配置"
+    width="40%" attach="body"
+    :confirm-on-enter="true"
+    :on-confirm="onOperationConfirmFunc"
+  >
+    <t-select
+      v-model="dialog_select"
+      :options="operationOption"
+      filterable
+      multiple
+      :keys="{ label: 'name', value: 'id' }"  
+      placeholder="请选择操作"
+      :scroll="{type: 'virtual'}"  
+      :popup-props="{ overlayInnerStyle: { height: '300px' } }"  
+      :status=" dialog_select !== '' ? 'success': 'error' "
+      :tips="dialog_select !== '' ? '校验通过': '操作不能为空'"
+    />
+    
+  </t-dialog>
+  <t-dialog
+    v-model:visible="procedureVisible"
+    header="工艺步骤配置"
+    width="40%" attach="body"
+    :confirm-on-enter="true"
+    :on-confirm="onProcedureConfirmFunc"
+  >
+    <t-input  v-model="dialog_input" placeholder="输入工艺步骤名称" 
+      :status=" dialog_input.length > 0 ? 'success': 'error' " 
+      :tips=" dialog_input.length > 0 ? '校验通过': '名称不能为空'"
+      />
+  </t-dialog>
+  <t-dialog
+    v-model:visible="dialog_visible"
+    header="表格列配置"
+    width="40%" attach="body"
+    :confirm-on-enter="true"
+    :on-confirm="onConfirmFunc"
+  >
+    <t-space direction="vertical" style="width: 100%">
+      <div>
+        <p>请选择需要在表格中显示的数据列</p>
+      </div>
+      <t-card header-bordered :style="{ width: '400px' }">
+        <template #header>
+          <t-checkbox :checked="checkAll" :indeterminate="indeterminate" :on-change="handleSelectAll">全选</t-checkbox>
+        </template>
+        <template #content>
+          <t-checkbox-group v-model="displayColumnsC" label="title" value="colKey" :options="columnsCheckboxs" />
+        </template>
 
-        </t-card>
-      </t-space>
-    </t-dialog>
-  </node-view-wrapper>
+      </t-card>
+    </t-space>
+  </t-dialog>
 </template>
 
 <script setup lang="jsx">
-import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { getMaterial_batchListFetch } from '@/api/material'
-import { get_assign_record_process_dataFetch,getProcesses_attributeListFetch,get_experiment_processListFetch,post_experiment_process_fetch } from '@/api/experiment'
+import { getProcesses_attributeListFetch,get_experiment_processListFetch,post_experiment_process_fetch } from '@/api/experiment'
 
 import {
   ChevronRightIcon,
@@ -85,7 +101,37 @@ import {
 import { Loading } from 'tdesign-vue-next';
 import { getIngredient_dev_materialListFetch } from '@/api/material'
 import { v4 as uuid } from 'uuid'
-const { node, editor, updateAttributes } = defineProps(nodeViewProps)
+
+const emits = defineEmits(['update:modelValue', 'update:title'])
+
+const props = defineProps({
+  modelValue: {
+    type: Array,
+    default: () => ([]),
+  }, 
+  title: {
+    type: String,
+    default: () => '',
+  }
+});
+
+const table_data = computed({
+  get() {
+    return props.modelValue || []
+  },
+  set(val) {
+    emits('update:modelValue',val )
+  },
+})
+
+const _title = computed({
+  get() {
+    return props.title;
+  },
+  set(val) {
+    emits('update:title', val);
+  },
+});
 
 const { options ,editedComponentType} = useStore()
 const $key_data = useState('key_data')
@@ -109,33 +155,6 @@ const _editedComponentType = computed(() => editedComponentType.value)
 const experiment_record = computed(() => $key_data.value?.experiment_record)
 const experiment_theme = computed(() => $key_data.value?.experiment_theme)
 
-const change_log = computed({
-  get: () => node.attrs.change_log,
-  set(value) {
-    updateAttributes({ change_log: value })
-  },
-})
-
-const is_integration = computed({
-  get: () => node.attrs.is_integration,
-  set(value) {
-    updateAttributes({ is_integration: value })
-  },
-})
-
-const table_data = computed({
-  get: () => node.attrs.table_data,
-  set(value) {
-    updateAttributes({ table_data: value })
-  },
-})
-
-const _title = computed({
-  get: () => node.attrs.title,
-  set(value) {
-    updateAttributes({ title: value })
-  },
-})
 
 
 const renderStepIcon = () => {
@@ -176,7 +195,7 @@ const checkAll = computed(() => displayColumns.value.length === displayColumnsC.
 const indeterminate = computed(() => !!(displayColumns.value.length > displayColumnsC.value.length && displayColumnsC.value.length));
 
 const editableCellStateFunc = ()=> {
-  return !(_editedComponentType !== node.type.name  && readOnly.value);
+  return !(_editedComponentType !== 'technology_table'  && readOnly.value);
 }
 
 const getConfig = (type,row) => {
@@ -208,40 +227,67 @@ const getConfig = (type,row) => {
   return config
 }
 
-const rowEditFunc = (val,row)=>{
-  console.log('--------212---------rowEditFunc: ', val, row)
+const onProcedureConfirmFunc = async () => {
+  if (dialog_input.value.length > 0) {
+    const obj  = {
+      id: uuid(),
+      step_name: dialog_input.value,
+      step_type: 'processes',
+      children: [],
+      description: '',
+      sequence: table_data.value.length
+    }
+
+    await nextTick()
+    if (selectProcedureType.value === 'append') {
+      tableRef.value.appendTo( selectProcedureRow.value ? selectProcedureRow.value.id : '', obj);
+    }else if (selectProcedureType.value === 'insertBefore') {
+      tableRef.value.insertBefore(selectProcedureRow.value ? selectProcedureRow.value.id: '', obj);
+    }else if (selectProcedureType.value === 'insertAfter') {
+      tableRef.value.insertAfter(selectProcedureRow.value ? selectProcedureRow.value.id: '', obj);
+    }
+    procedureVisible.value = false
+    getTreeNode()
+    dialog_input.value = ''
+
+  }
 
 }
-
-const onProcedureConfirmFunc = async () => {
-  console.log('--------210---------onProcedureConfirmFunc: ', table_data.value)
-  if (table_data.value && table_data.value.length > 0) {
-    const steps = table_data.value.map(ele => {
-      let obj = {...ele}
-      delete obj.id
-      obj.children = obj.children.map(eleC=>{
-        let objC = {...eleC}
-        objC.value = objC.value ? objC.attribute_type === "compound" ? JSON.stringify(objC.value) : objC.value : ''
-        return objC
-      })
-      return obj
-    })
-
-    const params = {
-      experiment_theme: experiment_theme.value.id,
-      record: experiment_record.value.id,
-      parent: change_log.value.change_log,
-      process: {
-        name: _title.value,
-        step:steps
-      }
-    }   
-    const res = await post_experiment_process_fetch(params)
-    if (res.data.code === 2000) {
-      change_log.value = { change_log: res.data.data.change_log }
-      procedureVisible.value = false
-      initData()
+const onOperationConfirmFunc = async () => {
+  if (dialog_select.value !== '' && dialog_select.value.length > 0) {
+    const listArr = table_data.value.map(ele => ele.children ? ele.children.map(eleL=>eleL.id) : [] )
+    let keysArr = []
+    if (listArr && listArr.length > 0) {
+      keysArr = listArr.reduce((a, b) => a.concat(b))
     }
+    const itemOs = operationOption.value.filter(item => dialog_select.value.includes(item.id) && !keysArr.includes(item.id))
+    const parent = selectOperationRow.value.step_type === 'processes' ? selectOperationRow.value.id : selectOperationRow.value.parent
+    
+    console.log('--------197---------keys: ',parent, itemOs,keysArr)
+    let objS = []
+    itemOs.forEach(itemO =>{
+      const obj  = {
+        ...itemO,
+        step_name: itemO.name,
+        step_type: 'operation',
+        parent: parent,
+        value: itemO.attribute_type === "compound" ? {} : '',
+        description: ''
+      }
+      objS.push( obj )
+    })
+    console.log('--------197---------keys: ', parent, objS)
+    if (selectOperationType.value === 'append') {
+      tableRef.value.appendTo( parent, objS);
+    }else if (selectOperationType.value === 'insertBefore') {
+      tableRef.value.insertBefore( parent, objS);
+    }else if (selectOperationType.value === 'insertAfter') {
+      tableRef.value.insertAfter( parent, objS);
+    }
+    operationVisible.value = false
+    getTreeNode()
+    dialog_select.value = []
+
   }
 };
 
@@ -452,6 +498,25 @@ const columns = ref([
       }),
     },
   },
+  {
+    colKey: 'operate',
+    width: 120,
+    title: '操作',
+    // 增、删、改、查 等操作
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    cell: (h, { row }) => (
+      <div class="tdesign-table-demo__table-operations">
+        {row.step_type === "processes" && (
+          <t-button title="插入操作" shape="square" variant="text" icon={renderOperationIcon}  onClick={(event) =>{event.stopPropagation();  appendTo(row)} }></t-button>
+        )}
+        <t-button title="前插步骤" shape="square" variant="text" icon={renderArrowUp}  onClick={(event) =>{event.stopPropagation();  insertBefore(row)} }></t-button>
+        <t-button title="后插步骤" shape="square" variant="text" icon={renderArrowDown}  onClick={(event) =>{event.stopPropagation();  insertAfter(row)} }></t-button>
+        <t-popconfirm content="确认删除吗" onConfirm={() => onDeleteConfirm(row) }>
+          <t-button title="删除" theme="danger" shape="square" variant="text" icon={renderDelete} ></t-button>
+        </t-popconfirm>
+      </div>
+    ),
+  },
 ])
 
 function disableClick(e) {
@@ -481,6 +546,30 @@ const treeConfig = reactive({
   expandTreeNodeOnClick: true,
 });
 
+const onDeleteConfirm = (row) => {
+  // 移除当前节点及其所有子节点
+  tableRef.value.remove(row.id);
+
+  // 仅移除所有子节点
+  // tableRef.value.removeChildren(row.id);
+  TMessagePlugin.success('删除成功');
+};
+
+const appendTo = (row=undefined) => {
+  operationVisible.value = true;
+  selectOperationRow.value = row;
+  selectOperationType.value = 'append';
+  // operationConfirm((obj)=>{
+  //   tableRef.value.appendTo(row ? row.id: '', obj);
+  //   nextTick(()=>{
+  //     if (row && row.id) {
+  //       const rowData = tableRef.value.getData(row.id);
+  //       tableRef.value.toggleExpandData(rowData);
+  //     }
+  //   });
+  //   getTreeNode()
+  // },row)
+};
 function appendMultipleDataTo(row) {
   const randomKey1 = Math.round(Math.random() * Math.random() * 1000) + 10000;
   const randomKey2 = Math.round(Math.random() * Math.random() * 1000) + 10000;
@@ -510,7 +599,47 @@ function appendMultipleDataTo(row) {
   TMessagePlugin.success(`已插入子节点申请人 ${randomKey1} 和 ${randomKey2} 号，请展开查看`);
   getTreeNode()
 }
+// 当前节点之前，新增兄弟节前
+const insertBefore = (row) => {
+  if (row.step_type !== 'processes') {
+    operationVisible.value = true;
+    selectOperationRow.value = row;
+    selectOperationType.value = 'insertBefore';
+    // operationConfirm((obj)=>{
+    //   tableRef.value.insertBefore(row ? row.id: '', obj);
+    //   getTreeNode()
+    // },row)
+  }else{
+    procedureVisible.value = true;
+    selectProcedureRow.value = row;
+    selectProcedureType.value = 'insertBefore';
+    // processesConfirm((obj)=>{
+    //   tableRef.value.insertBefore(row ? row.id: '', obj);
+    //   getTreeNode()
+    // })
+  }
+};
 
+// 当前节点之后，新增兄弟节前
+const insertAfter = (row) => {
+  if (row.step_type !== 'processes') {
+    operationVisible.value = true;
+    selectOperationRow.value = row;
+    selectOperationType.value = 'insertAfter';
+    // operationConfirm((obj)=>{
+    //   tableRef.value.insertAfter(row ? row.id: '', obj);
+    //   getTreeNode()
+    // },row)
+  }else{
+    procedureVisible.value = true;
+    selectProcedureRow.value = row;
+    selectProcedureType.value = 'insertAfter';
+    // processesConfirm((obj)=>{
+    //   tableRef.value.insertAfter(row ? row.id: '', obj);
+    //   getTreeNode()
+    // })
+  }
+};
 
 const handleSelectAll = (checked) => {
   displayColumnsC.value = checked ? [ ...displayColumns.value ] : [];
@@ -588,69 +717,9 @@ const treeExpandIcon = computed(() => {
   }
   return lazyLoadingTreeIconRender;
 });
-
-
-const initData = async () => {
-  loading.value = true
-  const params = {
-    change_log: change_log.value?.change_log,
-  }
-  console.log('----------initData-----297---------',params)
-  const res = await get_assign_record_process_dataFetch(params)
-  loading.value = false
-  if (res.data.code === 2000) {
-    const tableD = res.data.data.process.step.map(ele => {
-      let obj = {...ele}
-      obj.children = obj.children.map(eleC=>{
-        let objC = {...eleC}
-        objC.value = objC.value ? objC.attribute_type === "compound" ? JSON.parse(objC.value) : objC.value : ''
-        return objC
-      })
-      return obj
-    })
-    table_data.value = tableD
-    console.log('----------initData-----607---------',table_data.value)
-  }else {
-    table_data.value = []
-    TMessagePlugin.error(res.data.msg)
-  }
-}
-
+ 
 onMounted(async () => {
-  if (change_log.value?.change_log && (table_data.value && table_data.value.length === 0) ) {
-    console.log('----------change_log.value22222222222222222222222222---------',change_log.value);
-    await initData()
-  }else if(is_integration.value) {
-    
-    const docD = editor.getJSON()
-    if (docD ) {
-      // 原材料表
-      const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
-      if (raw_material_tables.length === 0) {
-        TMessagePlugin.warning('请先创建原材料表')
-        return  // 原材料表不存在，返回
-      }
-      raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
-      const dialog = useConfirm({
-        theme: 'info',
-        header: '提示',
-        body: '检测到当前文档中存在原材料表，是否使用该原材料表进行初始化？',
-        confirmBtn: '确定',
-        onConfirm() {
-          dialog.destroy()
-          setTimeout(() => {
-            add_parent_visible.value = true
-          }, 300)
-        },
-        onClosed() {
-          
-        },
-      })
-      
-    }else {
-      TMessagePlugin.warning('当前文档中没有数据')
-    }
-  }
+   
   
 })
 

@@ -11,7 +11,7 @@
             <t-space>
               <div></div>
               <t-space>
-                <t-input v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
+                <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
                 <t-button variant="outline" @click="add_dialog_visible = true;">新增</t-button>
                 <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
               </t-space>

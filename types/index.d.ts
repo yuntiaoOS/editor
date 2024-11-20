@@ -234,6 +234,9 @@ export interface XmTableOptionModel<T> {
   designResult?: T[]
   designParam: T
   columns?: T[]
+  // 修改日志
+  change_log: T
+
 }
 
 export interface GeneralOptions<T> {

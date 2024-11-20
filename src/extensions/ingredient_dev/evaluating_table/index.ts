@@ -62,17 +62,17 @@ export default xmNode.create({
           return { 'data-columns': JSON.stringify(attributes.columns)  };
         }  
       },
-      designParam: {
+      designParams: {
         default: {},
         parseHTML: (element) => {
-          const designParam = element.getAttribute('data-designParam');
-          return JSON.parse(designParam as string || '{}');
+          const designParams = element.getAttribute('data-designParams');
+          return JSON.parse(designParams as string || '{}');
         },
         renderHTML: (attributes) => {
-          if (!attributes.designParam) {
+          if (!attributes.designParams) {
             return {};
           }
-          return { 'data-designParam': JSON.stringify(attributes.designParam)  };
+          return { 'data-designParams': JSON.stringify(attributes.designParams)  };
         },
       }
     }
@@ -99,7 +99,6 @@ export default xmNode.create({
               attrs: {
                 ...currentOption,
                 key: option?.key ? option?.key : Xm_Table_key['evaluating_table']  + timeFormat(null,'yyyymmddhhMMss'),
-                table_data: option?.table_data,
               },
               content: [
                 {

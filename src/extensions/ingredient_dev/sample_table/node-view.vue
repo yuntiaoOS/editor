@@ -11,7 +11,7 @@
             <t-space>
               <div></div>
               <t-space>
-                <t-input v-model="searchTitle" auto-width placeholder="请输入样品名称" />
+                <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入样品名称" />
                 <t-button theme="warning" variant="outline" @click="experimental_design_visible = true;">试验方法设计</t-button>
                 <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
               </t-space>

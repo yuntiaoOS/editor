@@ -11,8 +11,9 @@
             <t-space>
               <div></div>
               <t-space>
-                <t-input v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
-                <t-button variant="outline" @click="add_dialog_visible = true;">新增</t-button>
+                <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
+                <t-button variant="outline" @click="addFunc">新增</t-button>
+                <div title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
                 <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
               </t-space>
             </t-space>
@@ -47,14 +48,34 @@
       </t-table>
       <node-view-content :node="node" ></node-view-content> 
     </div>
-    <t-dialog destroyOnClose 
+    <t-dialog destroyOnClose
       v-model:visible="add_dialog_visible"
       header="新增原材料"
       width="80%" attach="body"
       :confirm-on-enter="true"
       :on-confirm="on_select_materialFunc"
     >
-      <materialSelect v-if="add_dialog_visible" @select-change="onSelectChange"/>
+      <materialSelect @select-change="onSelectChange"/>
+    </t-dialog>
+    <t-dialog destroyOnClose 
+      v-model:visible="add_parent_visible"
+      header="选择原材料表"
+      width="40%" attach="body"
+      :confirm-on-enter="true"
+      :on-confirm="on_select_parent_materialFunc"
+    >
+      <t-select
+        v-model="dialog_select"
+        :options="raw_materialOptions"
+        filterable
+        multiple
+        :keys="{ label: 'title', value: 'id' }"  
+        placeholder="请选择操作"
+        :scroll="{type: 'virtual'}"  
+        :popup-props="{ overlayInnerStyle: { height: '300px' } }"  
+        :status=" dialog_select !== '' ? 'success': 'error' "
+        :tips="dialog_select !== '' ? '校验通过': '操作不能为空'"
+      />
     </t-dialog>
     <t-dialog destroyOnClose
       v-model:visible="dialog_visible"
@@ -86,7 +107,7 @@ import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { post_experiment_material_fetch,put_experiment_material_fetch,delete_material_multiple_deleteFetch ,get_experiment_material_fetch} from '@/api/experiment'
 
 
-const { node, updateAttributes } = defineProps(nodeViewProps)
+const { node, editor, updateAttributes } = defineProps(nodeViewProps)
 
 const { options ,editedComponentType} = useStore()
 const $key_data = useState('key_data')
@@ -97,16 +118,24 @@ const tableRef = ref();
 const loading = ref(false)
 const searchTitle = ref('')
 const add_dialog_visible = ref(false);
-
+const add_parent_visible = ref(false);
+const raw_materialOptions = ref([])
 const select_material = ref([])
+const dialog_select = ref('')
 
-const table_data = ref([])
-// computed({
-//   get: () => node.attrs.table_data,
-//   set(value) {
-//     updateAttributes({ table_data: value })
-//   },
-// })
+const updateTime = computed({
+  get: () => node.attrs.updateTime,
+  set(value) {
+    updateAttributes({ updateTime: value })
+  },
+})
+
+const table_data = computed({
+  get: () => node.attrs.table_data,
+  set(value) {
+    updateAttributes({ table_data: value })
+  },
+})
 const experiment_record = computed(() => $key_data.value?.experiment_record)
 const experiment_theme = computed(() => $key_data.value?.experiment_theme)
 
@@ -117,18 +146,43 @@ const change_log = computed({
   },
 })
 
+const is_integration = computed({
+  get: () => node.attrs.is_integration,
+  set(value) {
+    updateAttributes({ is_integration: value })
+  },
+})
+
+const  addFunc = () => {
+
+  add_dialog_visible.value = true
+}
+
 const onSelectChange = ({value, params} )=>{
-  // console.log('--------onSelectChange--------44--------',value, params)
+  console.log('--------onSelectChange--------44--------',value, params,change_log.value)
   select_material.value = params.selectedRowData
 }
 
+const on_select_parent_materialFunc = async ()=>{
+  const params = {
+    parent: dialog_select.value
+  }
+  const res = await post_experiment_material_fetch(params)
+  if (res.data.code === 2000) {
+    useMessage('success' ,res.data.msg);
+    await initData()
+  }
+  add_parent_visible.value = false
+}
+
 const on_select_materialFunc = async ()=>{
+  console.log('--------on_select_materialFunc--------161--------',change_log.value)
   const params = {
     experiment_theme: experiment_theme.value?.id,
     record: experiment_record.value?.id,
-    identifier: null,  // 标识 非必填
-    last_record: null, //上一次标识的ID，有则传，没有就空
-    experiment_materials: select_material.value.map(ele=>{ return { material: ele.material.id ,material_batch: ele.id} })
+    parent: change_log.value?.change_log,
+    identifier: undefined,  // 标识 非必填
+    experiment_materials: select_material.value.map(ele=>{ return { experiment_material: ele.material.id ,experiment_material_batch: ele.id} })
   }
   select_material.value.forEach((ele ) => {
     const obj  = {
@@ -138,24 +192,32 @@ const on_select_materialFunc = async ()=>{
     // table_data.value.push(obj)
   });
   const res = await post_experiment_material_fetch(params)
+  add_dialog_visible.value = false
   if (res.data.code === 2000) {
+    useMessage('success' ,res.data.msg);
+    change_log.value = {
+      change_log: res.data.data.change_log
+    }
+    // table_data.value = res.data.data.data
     await initData()
   }
   console.log('--------onSelectChange--------119--------',table_data.value)
-  setReadOnly()
-  add_dialog_visible.value = false
+  // setReadOnly()
 }
 
 const onDelete = async (row) => {
   console.log('--------onDelete--------44--------',row)
   const params = {
-    experiment_theme: experiment_theme.value?.id,
-    record: experiment_record.value?.id,
-    change_log: row.change_log,  // 标识 非必填
-    id: row.id
+    change_log: change_log.value?.change_log,
+    // change_log: row.change_log,  // 标识 非必填
+    ids: row.id
   }
   const res = await delete_material_multiple_deleteFetch(params)
   if (res.data.code === 2000) {
+    useMessage('success' ,res.data.msg);
+    change_log.value = {
+      change_log: res.data.data.change_log
+    }
     await initData()
   }
   // const index = table_data.value.findIndex((t ) => t === row);
@@ -239,14 +301,28 @@ columns.value = [
       ],
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
-      onEdited: (context ) => {
+      onEdited: async (context ) => {
         console.log(context);
-        const newData = [...table_data.value];
-        newData.splice(context.rowIndex, 1, context.newRowData);
-        table_data.value = newData;
-        console.log('Edit firstName:', context);
-        useMessage('success' ,'Success');
-        setReadOnly()
+        // const newData = [...table_data.value];
+        // newData.splice(context.rowIndex, 1, context.newRowData);
+        // table_data.value = newData;
+        // console.log('Edit firstName:', context);
+        const params = {
+          change_log: change_log.value?.change_log,
+          id: context.row.id,
+          description: context.newRowData.description,
+          experiment_material: context.row.experiment_material,
+          experiment_material_batch: context.row.experiment_material_batch?.id,
+        }
+        const res = await put_experiment_material_fetch(context.row.id,params)
+        if (res.data.code === 2000) {
+          useMessage('success' ,res.data.msg);
+          change_log.value = {
+            change_log: res.data.data.change_log
+          }
+          await initData()
+        }
+        // setReadOnly()
       },
       // 触发校验的时机（when to validate)
       validateTrigger: 'change',
@@ -301,19 +377,52 @@ const setReadOnly = (readOnly = true) => {
 const initData = async () => {
   loading.value = true
   const params = {
-    experiment_theme: experiment_theme.value?.id,
-    record: experiment_record.value?.id
+    change_log: change_log.value?.change_log,
   }
   console.log('----------initData-----297---------',params)
   const res = await get_experiment_material_fetch(params)
+  loading.value = false
   if (res.data.code === 2000) {
     table_data.value = res.data.data
   }
-  loading.value = false
 }
 
 onMounted(async () => {
-  await initData()
+  if (change_log.value?.change_log) {
+    console.log('----------change_log.value22222222222222222222222222---------',change_log.value);
+    await initData()
+  }else if(is_integration.value) {
+    
+    const docD = editor.getJSON()
+    if (docD ) {
+      // 原材料表
+      const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
+      if (raw_material_tables.length === 0) {
+        TMessagePlugin.warning('请先创建原材料表')
+        return  // 原材料表不存在，返回
+      }
+      raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
+      const dialog = useConfirm({
+        theme: 'info',
+        header: '提示',
+        body: '检测到当前文档中存在原材料表，是否使用该原材料表进行初始化？',
+        confirmBtn: '确定',
+        onConfirm() {
+          dialog.destroy()
+          setTimeout(() => {
+            add_parent_visible.value = true
+          }, 300)
+        },
+        onClosed() {
+          
+        },
+      })
+      
+    }else {
+      TMessagePlugin.warning('当前文档中没有数据')
+    }
+  }
+  
 })
 
 </script>

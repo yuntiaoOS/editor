@@ -2,50 +2,53 @@
   <div v-if="_config && _config[props.props.componentKey]">
     <template v-if="_config[props.props.componentKey] === 'TextareaInput'" >
       <t-textarea
-        v-model="_value"
+        v-model="_value" autofocus
         placeholder="请输入"
         name="textarea"
         :autosize="{ minRows: 3, maxRows: 5 }"
+        @change="changeFunc"
       />
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'NumberInput'" >
-      <t-input-number v-model="_value" :borderless="borderless"  :auto-width="autoWidth" theme="column" placeholder="请输入"/>
+      <t-input-number 
+        v-model="_value" autofocus :borderless="borderless"  :auto-width="autoWidth" theme="column" 
+        placeholder="请输入" @change="changeFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'TimePicker'" >
-      <t-time-picker v-model="_value" :borderless="borderless"  :auto-width="autoWidth"  placeholder="请输入"/>
+      <t-time-picker v-model="_value" :borderless="borderless" autofocus :auto-width="autoWidth"  placeholder="请输入" @change="changeFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'DateTime'" >
-      <t-date-picker v-model="_value" :borderless="borderless"  :auto-width="autoWidth"  enable-time-picker placeholder="请输入" />
+      <t-date-picker v-model="_value" :borderless="borderless" autofocus :auto-width="autoWidth"  enable-time-picker placeholder="请输入" @change="changeFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'SelectPlusRadio'" >
       <t-select 
-        v-model="_value" :borderless="borderless"  :auto-width="autoWidth"  placeholder="请选择"  style="width: 100%;" clearable
-        :loading="selectLoading" filterable @focus="selectFocusMethod(_config)">
+        v-model="_value" :borderless="borderless" autofocus :auto-width="autoWidth"  placeholder="请选择"  style="width: 100%;" clearable
+        :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc">
         <t-option v-for="item in selectOptions" :key="item.value" :value="item.value" :label="item.label"></t-option>
       </t-select>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'SelectPlus'" >
       <t-select 
-        v-model="_value" multiple :borderless="borderless"  :auto-width="autoWidth"  placeholder="请选择" style="width: 100%;" clearable
-        :loading="selectLoading" filterable @focus="selectFocusMethod(_config)">
+        v-model="_value" multiple :borderless="borderless" autofocus :auto-width="autoWidth"  placeholder="请选择" style="width: 100%;" clearable
+        :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc">
         <t-option v-for="item in selectOptions" :key="item.value" :value="item.value" :label="item.label"></t-option>
       </t-select>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'Score'" >
-      <t-rate v-model="_value" show-text :default-value="4" />
+      <t-rate v-model="_value" show-text :default-value="4" @change="changeFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'VueContainer'" >
 
     </template>
     <template v-else >
-      <t-input v-model="_value" :borderless="borderless" :auto-width="autoWidth" placeholder="请输入"/>
+      <t-input v-model="_value" autofocus :borderless="borderless" :auto-width="autoWidth" placeholder="请输入" @change="changeFunc"/>
     </template>
 
   </div>
 </template>
 
 <script setup lang="jsx">
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'change'])
 const props = defineProps({
   modelValue: {
     type: [String, Number, Array, Object],
@@ -115,34 +118,32 @@ const props = defineProps({
   }
 })
  
-const _value = computed({
-  get: () => {
-    const value = props.modelValue
-    if (value) {
-      return value
-    }else{
-      if (props.config[props.props.componentKey] === 'SelectPlusRadio') {
-        return {}
-      }else if (props.config[props.props.componentKey] === 'SelectPlus') {
-        return []
-      }else if (props.config[props.props.componentKey]=== 'Score') {
-        return 0
-      }else{
-        return ''
-      }
-    }
-  },
-  set: (val) => {
-    props.onChange(val)
-    emits('update:modelValue', val)
+const _value = ref()
+if (props.modelValue) {
+  _value.value = props.modelValue
+} else {
+  if (props.config[props.props.componentKey] === 'SelectPlusRadio') {
+    _value.value = {}
+  }else if (props.config[props.props.componentKey] === 'SelectPlus') {
+    _value.value = []
+  }else if (props.config[props.props.componentKey]=== 'Score') {
+    _value.value = 0
+  }else{
+  _value.value = ''
   }
-}) 
+}
 
 const selectOptions = ref([])
 
 const _config = computed( () => props.config )
 
 const selectLoading = ref(false)
+
+const changeFunc = (val) => {
+  emits('update:modelValue', val)
+  emits('change', val)
+  props.onChange(val)
+}
 
 
 const selectFocusMethod = async (formItem) => {

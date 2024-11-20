@@ -10660,7 +10660,7 @@ const options = $ref({
     experiment_theme: '0ed50212-3f77-4c98-bd9a-40499d77c984',
     experiment_record: '2f716a40-f3a5-48a0-875a-b10695542ddd',
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMxOTk5NzUyLCJpYXQiOjE3MzE5MTMzNTIsImp0aSI6IjE0NDcwZmVhNzQ4YjRhNWVhZGJjNGU2MDM2NTliZWIwIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.RLGG4cpaXCbaMN9IuiliTew1T2Xl-3d_eyL0nyWMRV4',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMDg2NjI1LCJpYXQiOjE3MzIwMDAyMjUsImp0aSI6ImY5ZDNmOWI5NDEyYTRlMzNhODYxNTU5YTQ1MDAyZDBkIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.pjmw1TFdJHOUDyoe5QtDQe2IEcp92xLnMj9TSjIT1kY',
   },
   document: {
     placeholder: '测试文档',
@@ -11273,31 +11273,6 @@ onMounted(() => {
                 "name": "a7b2afad-01ec-43ef-a9b8-70c2236cec16",
                 "isChanged": false,
                 "title": "Test 1",
-                "experiment_record": {
-                    "id": "428d573b-1438-41ec-b5a6-0704defae5f1",
-                    "sn": null,
-                    "liked": false,
-                    "title": "Test 1",
-                    "catalog": null,
-                    "creator": "zzw",
-                    "version": 1,
-                    "end_time": null,
-                    "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-                    "start_time": null,
-                    "custom_data": {},
-                    "description": null,
-                    "creator_name": null,
-                    "experimenter": [],
-                    "modifier_name": "赵紫文",
-                    "sample_number": null,
-                    "dept_belong_id": null,
-                    "create_datetime": "2024-11-14 14:26:19",
-                    "previous_record": null,
-                    "update_datetime": "2024-11-14 14:26:19",
-                    "experiment_theme": "0ed50212-3f77-4c98-bd9a-40499d77c984",
-                    "experiment_design": null,
-                    "document_attachments": null
-                },
                 "showSubTitle": true
             }
         },
@@ -11616,46 +11591,7 @@ onMounted(() => {
                 "key": "raw_material_table20241117182120",
                 "name": "44ea9b52-e86f-4273-9423-81b743092573",
                 "isChanged": false,
-                "table_data": [
-                    {
-                        "id": "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                        "batch": "1",
-                        "goods": null,
-                        "place": null,
-                        "price": null,
-                        "state": "Not-Started",
-                        "margin": null,
-                        "material": {
-                            "id": "4cb7c311-ab8f-4fdf-aef4-61167a78c48f",
-                            "sn": "SN-1729150535817",
-                            "name": "YL01171535"
-                        },
-                        "supplier": null,
-                        "description": null,
-                        "create_datetime": null,
-                        "production_date": null,
-                        "update_datetime": null
-                    },
-                    {
-                        "id": "64886cd2-1b88-49aa-b7c1-a687a8ffbad4",
-                        "batch": "1",
-                        "goods": null,
-                        "place": null,
-                        "price": null,
-                        "state": "Not-Started",
-                        "margin": null,
-                        "material": {
-                            "id": "7867a6e8-71a1-4ae3-afd5-f07f6ac0bb7a",
-                            "sn": "SN-1729150438237",
-                            "name": "YL10171534"
-                        },
-                        "supplier": null,
-                        "description": null,
-                        "create_datetime": null,
-                        "production_date": null,
-                        "update_datetime": null
-                    }
-                ],
+                "table_data": [ ],
                 "title": "原材料202411171821"
             },
             "content": [
@@ -11677,112 +11613,134 @@ onMounted(() => {
             ]
         },
         {
-            "type": "technology_table",
-            "attrs": {
-                "id": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                "key": "technology_table20241117182120",
-                "name": "2f7857d2-84ac-432f-af2d-16a8ac01e95c",
-                "isChanged": false,
-                "table_data": [
-                    {
-                        "id": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
-                        "list": [
-                            {
-                                "id": "14",
-                                "key": "test2",
-                                "name": "test1",
-                                "type": "TextInput",
-                                "unit": null,
-                                "gourp": [],
-                                "props": {
-                                    "abstract": false,
-                                    "required": false,
-                                    "enableScan": false,
-                                    "enablePrint": true
-                                },
-                                "value": "115",
-                                "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
-                                "data_id": 14,
-                                "typeCode": "operation",
-                                "description": "",
-                                "defaultValue": "115",
-                                "attribute_type": "single"
-                            },
-                            {
-                                "id": "15",
-                                "key": "test2",
-                                "name": "test2",
-                                "type": "TextInput",
-                                "unit": null,
-                                "gourp": [],
-                                "props": {
-                                    "abstract": false,
-                                    "required": false,
-                                    "enableScan": false,
-                                    "enablePrint": true
-                                },
-                                "value": null,
-                                "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
-                                "data_id": 15,
-                                "typeCode": "operation",
-                                "description": "",
-                                "defaultValue": null,
-                                "attribute_type": "single"
-                            }
-                        ],
-                        "name": "搞活动吧",
-                        "typeCode": "processes",
-                        "description": ""
-                    },
-                    {
-                        "id": "c202e573-913b-4c1d-be68-087fad444664",
-                        "list": [
-                            {
-                                "id": "27",
-                                "key": "xm_raw_material",
-                                "name": "原材料",
-                                "type": "TextInput",
-                                "unit": null,
-                                "gourp": [],
-                                "props": {
-                                    "abstract": false,
-                                    "required": false,
-                                    "enableScan": false,
-                                    "enablePrint": true
-                                },
-                                "value": null,
-                                "parent": "c202e573-913b-4c1d-be68-087fad444664",
-                                "data_id": 27,
-                                "typeCode": "operation",
-                                "description": "",
-                                "defaultValue": null,
-                                "attribute_type": "single"
-                            }
-                        ],
-                        "name": "刚发的",
-                        "typeCode": "processes",
-                        "description": ""
-                    }
-                ],
-                "title": "工艺202411171821"
-            },
-            "content": [
-                {
-                    "type": "paragraph",
-                    "attrs": {
-                        "indent": null,
-                        "textAlign": "left",
-                        "lineHeight": 1.5,
-                        "margin": {}
-                    },
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": " "
-                        }
-                    ]
-                }
-            ]
+          "type": "technology_table",
+          "attrs": {
+              "id": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+              "key": "technology_table20241117182120",
+              "name": "2f7857d2-84ac-432f-af2d-16a8ac01e95c",
+              "isChanged": false,
+              "change_log": {
+                  "change_log": "e756b2f9-0ee0-4c0e-981e-306825470f05"
+              },
+              "is_integration": false,
+              "table_data": [
+                  {
+                      "id": "c8d43e00-142b-44fa-9246-0cb508814fc7",
+                      "step_name": "都是v",
+                      "description": "",
+                      "step_type": "processes",
+                      "sequence": 0,
+                      "duration": null,
+                      "children": [
+                          {
+                              "id": 30,
+                              "value": "43",
+                              "attribute_type": "single",
+                              "name": "Lab_B",
+                              "step_name": "Lab_B",
+                              "description": "",
+                              "step_type": "operation",
+                              "duration": null,
+                              "parent": "c8d43e00-142b-44fa-9246-0cb508814fc7",
+                              "props": {
+                                  "abstract": false,
+                                  "required": false,
+                                  "enableScan": false,
+                                  "enablePrint": true
+                              },
+                              "key": "Lab_B",
+                              "type": "TextInput",
+                              "unit": null,
+                              "gourp": []
+                          },
+                          {
+                              "id": 31,
+                              "value": {
+                                  "Lab_L": "23",
+                                  "Lab_B": "32",
+                                  "Lab_A": "21"
+                              },
+                              "attribute_type": "compound",
+                              "name": "LAB",
+                              "step_name": "LAB",
+                              "description": "",
+                              "step_type": "operation",
+                              "duration": null,
+                              "parent": "c8d43e00-142b-44fa-9246-0cb508814fc7",
+                              "props": {},
+                              "key": "LAB",
+                              "type": "",
+                              "unit": null,
+                              "gourp": [
+                                  {
+                                      "id": 28,
+                                      "name": "Lab_L",
+                                      "type": "TextInput",
+                                      "props": {
+                                          "abstract": false,
+                                          "required": false,
+                                          "enableScan": false,
+                                          "enablePrint": true
+                                      },
+                                      "key": "Lab_L",
+                                      "value": null,
+                                      "unit": null,
+                                      "attribute_type": "single"
+                                  },
+                                  {
+                                      "id": 29,
+                                      "name": "Lab_A",
+                                      "type": "TextInput",
+                                      "props": {
+                                          "abstract": false,
+                                          "required": false,
+                                          "enableScan": false,
+                                          "enablePrint": true
+                                      },
+                                      "key": "Lab_A",
+                                      "value": null,
+                                      "unit": null,
+                                      "attribute_type": "single"
+                                  },
+                                  {
+                                      "id": 30,
+                                      "name": "Lab_B",
+                                      "type": "TextInput",
+                                      "props": {
+                                          "abstract": false,
+                                          "required": false,
+                                          "enableScan": false,
+                                          "enablePrint": true
+                                      },
+                                      "key": "Lab_B",
+                                      "value": null,
+                                      "unit": null,
+                                      "attribute_type": "single"
+                                  }
+                              ]
+                          }
+                      ]
+                  }
+              ],
+              "title": "工艺202411171821"
+          },
+          "content": [
+              {
+                  "type": "paragraph",
+                  "attrs": {
+                      "indent": null,
+                      "textAlign": "left",
+                      "lineHeight": 1.5,
+                      "margin": {}
+                  },
+                  "content": [
+                      {
+                          "type": "text",
+                          "text": " "
+                      }
+                  ]
+              }
+          ]
         },
         {
             "type": "experimental_design",
@@ -12121,1046 +12079,597 @@ onMounted(() => {
             ]
         },
         {
-            "type": "evaluating_table",
-            "attrs": {
-                "id": "55b2fe53-26e8-4846-b176-4464965cbbe9",
-                "key": "evaluating_table20241117182706",
-                "name": "66f871ff-cdb6-4870-8bfc-d1ec6000f774",
-                "isChanged": false,
-                "table_data": [
-                    {
-                        "id": "6b19bd82-5710-437a-90d8-f7d80eb0fc81",
-                        "sample": {
-                            "id": "ba4a3f44-6465-4ea4-aa16-629a7f96eea4",
-                            "sn": "S202411178",
-                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                            "check": true,
-                            "count": "12",
-                            "test2": "0",
-                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                            "description": "大撒旦",
-                            "raw_material": "653cf967-656e-4642-8d62-29172840e982",
-                            "xm_raw_material": [
-                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                            ]
-                        },
-                        "category": "",
-                        "dateTime": "2024-11-17",
-                        "reviewer": "",
-                        "condition": "4",
-                        "sample_sn": "S202411178",
-                        "cycle_name": "0W",
-                        "xingzhuang": "好过分好过分",
-                        "description": "",
-                        "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                        "test_period": "1",
-                        "lixingkaoyan": "刚发的",
-                        "condition_name": "冷冻 -15±1℃",
-                        "current_period": "2",
-                        "xiusuanhanliang": "干豆腐"
-                    },
-                    {
-                        "id": "3709cfef-dff9-45f3-8773-328675cddd2d",
-                        "sample": {
-                            "id": "f7aa2636-bc3e-44f0-87a8-cee4fb95dce2",
-                            "sn": "S202411179",
-                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                            "check": true,
-                            "count": "0",
-                            "test2": "43",
-                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                            "raw_material": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
-                            "xm_raw_material": [
-                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                            ]
-                        },
-                        "category": "",
-                        "dateTime": "2024-11-17",
-                        "reviewer": "",
-                        "condition": "4",
-                        "sample_sn": "S202411179",
-                        "cycle_name": "0W",
-                        "xingzhuang": "",
-                        "description": "",
-                        "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                        "test_period": "1",
-                        "lixingkaoyan": "",
-                        "condition_name": "冷冻 -15±1℃",
-                        "current_period": "2",
-                        "xiusuanhanliang": ""
-                    },
-                    {
-                        "id": "f9c2413e-3bbe-412d-8499-cac978a8d1af",
-                        "sample": {
-                            "id": "ba4a3f44-6465-4ea4-aa16-629a7f96eea4",
-                            "sn": "S202411178",
-                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                            "check": true,
-                            "count": "12",
-                            "test2": "0",
-                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                            "description": "大撒旦",
-                            "raw_material": "653cf967-656e-4642-8d62-29172840e982",
-                            "xm_raw_material": [
-                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                            ]
-                        },
-                        "category": "",
-                        "dateTime": "2024-12-01",
-                        "reviewer": "",
-                        "condition": "4",
-                        "sample_sn": "S202411178",
-                        "cycle_name": "2W",
-                        "xingzhuang": "",
-                        "description": "",
-                        "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                        "test_period": "1",
-                        "lixingkaoyan": "",
-                        "condition_name": "冷冻 -15±1℃",
-                        "current_period": "2",
-                        "xiusuanhanliang": ""
-                    },
-                    {
-                        "id": "968a69f6-f7e8-4670-b13f-045c59d0a928",
-                        "sample": {
-                            "id": "f7aa2636-bc3e-44f0-87a8-cee4fb95dce2",
-                            "sn": "S202411179",
-                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                            "check": true,
-                            "count": "0",
-                            "test2": "43",
-                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                            "raw_material": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
-                            "xm_raw_material": [
-                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                            ]
-                        },
-                        "category": "",
-                        "dateTime": "2024-12-01",
-                        "reviewer": "",
-                        "condition": "4",
-                        "sample_sn": "S202411179",
-                        "cycle_name": "2W",
-                        "xingzhuang": "",
-                        "description": "",
-                        "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                        "test_period": "1",
-                        "lixingkaoyan": "",
-                        "condition_name": "冷冻 -15±1℃",
-                        "current_period": "2",
-                        "xiusuanhanliang": ""
-                    },
-                    {
-                        "id": "b68451e4-bf75-4e3a-b78a-d82e4d15ce6c",
-                        "sample": {
-                            "id": "ba4a3f44-6465-4ea4-aa16-629a7f96eea4",
-                            "sn": "S202411178",
-                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                            "check": true,
-                            "count": "12",
-                            "test2": "0",
-                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                            "description": "大撒旦",
-                            "raw_material": "653cf967-656e-4642-8d62-29172840e982",
-                            "xm_raw_material": [
-                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                            ]
-                        },
-                        "category": "",
-                        "dateTime": "2024-12-15",
-                        "reviewer": "",
-                        "condition": "4",
-                        "sample_sn": "S202411178",
-                        "cycle_name": "4W",
-                        "xingzhuang": "好的",
-                        "description": "",
-                        "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                        "test_period": "1",
-                        "lixingkaoyan": "发的啥",
-                        "condition_name": "冷冻 -15±1℃",
-                        "current_period": "2",
-                        "xiusuanhanliang": ""
-                    },
-                    {
-                        "id": "b444d560-be47-491e-abf4-3b9c39800abb",
-                        "sample": {
-                            "id": "f7aa2636-bc3e-44f0-87a8-cee4fb95dce2",
-                            "sn": "S202411179",
-                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                            "check": true,
-                            "count": "0",
-                            "test2": "43",
-                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                            "raw_material": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
-                            "xm_raw_material": [
-                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                            ]
-                        },
-                        "category": "",
-                        "dateTime": "2024-12-15",
-                        "reviewer": "",
-                        "condition": "4",
-                        "sample_sn": "S202411179",
-                        "cycle_name": "4W",
-                        "xingzhuang": "",
-                        "description": "",
-                        "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                        "test_period": "1",
-                        "lixingkaoyan": "",
-                        "condition_name": "冷冻 -15±1℃",
-                        "current_period": "2",
-                        "xiusuanhanliang": ""
-                    }
-                ],
-                "columns": [
-                    {
-                        "title": "样品名",
-                        "colKey": "sample_name",
-                        "minWidth": 140
-                    },
-                    {
-                        "title": "编号",
-                        "width": 140,
-                        "colKey": "sample_sn"
-                    },
-                    {
-                        "title": "周期",
-                        "width": 40,
-                        "colKey": "cycle_name"
-                    },
-                    {
-                        "title": "条件",
-                        "width": 100,
-                        "colKey": "condition"
-                    },
-                    {
-                        "edit": {
-                            "props": {
-                                "autofocus": true,
-                                "clearable": true
-                            },
-                            "rules": [
-                                {
-                                    "message": "不能为空",
-                                    "required": true
-                                }
-                            ],
-                            "component": {
-                                "name": "TInput",
-                                "props": {
-                                    "name": {
-                                        "default": ""
-                                    },
-                                    "size": {
-                                        "default": "medium"
-                                    },
-                                    "tips": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "type": {
-                                        "default": "text"
-                                    },
-                                    "align": {
-                                        "default": "left"
-                                    },
-                                    "label": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "value": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "format": {},
-                                    "status": {
-                                        "default": "default"
-                                    },
-                                    "suffix": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "disabled": {},
-                                    "readonly": {},
-                                    "maxlength": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "showInput": {
-                                        "default": true
-                                    },
-                                    "inputClass": {
-                                        "type": [
-                                            null,
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "modelValue": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "prefixIcon": {},
-                                    "suffixIcon": {},
-                                    "placeholder": {},
-                                    "autocomplete": {},
-                                    "defaultValue": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "maxcharacter": {},
-                                    "keepWrapperWidth": {
-                                        "default": false
-                                    }
-                                }
-                            },
-                            "showEditIcon": true,
-                            "validateTrigger": "change",
-                            "abortEditOnEvent": [
-                                "onEnter",
-                                "onBlur"
-                            ]
-                        },
-                        "title": "评测人",
-                        "colKey": "reviewer",
-                        "minWidth": 140
-                    },
-                    {
-                        "edit": {
-                            "props": {
-                                "Format": "YYYY-MM-DD",
-                                "autofocus": true,
-                                "clearable": true,
-                                "valueType": "YYYY-MM-DD"
-                            },
-                            "rules": [
-                                {
-                                    "message": "不能为空",
-                                    "required": true
-                                }
-                            ],
-                            "component": {
-                                "name": "TDatePicker",
-                                "props": {
-                                    "mode": {
-                                        "default": "date"
-                                    },
-                                    "size": {
-                                        "default": "medium"
-                                    },
-                                    "tips": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "label": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "value": {
-                                        "type": [
-                                            null,
-                                            null,
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "format": {},
-                                    "status": {
-                                        "default": "default"
-                                    },
-                                    "presets": {},
-                                    "disabled": {},
-                                    "valueType": {
-                                        "default": ""
-                                    },
-                                    "inputProps": {},
-                                    "modelValue": {
-                                        "type": [
-                                            null,
-                                            null,
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "popupProps": {},
-                                    "prefixIcon": {},
-                                    "suffixIcon": {},
-                                    "defaultTime": {
-                                        "default": "00:00:00"
-                                    },
-                                    "disableDate": {
-                                        "type": [
-                                            null,
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "needConfirm": {
-                                        "default": true
-                                    },
-                                    "placeholder": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "defaultValue": {
-                                        "type": [
-                                            null,
-                                            null,
-                                            null,
-                                            null
-                                        ],
-                                        "default": ""
-                                    },
-                                    "valueDisplay": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "firstDayOfWeek": {},
-                                    "timePickerProps": {},
-                                    "presetsPlacement": {
-                                        "default": "bottom"
-                                    },
-                                    "selectInputProps": {}
-                                }
-                            },
-                            "showEditIcon": true,
-                            "validateTrigger": "change",
-                            "abortEditOnEvent": [
-                                "onEnter",
-                                "onPick",
-                                "onChange"
-                            ]
-                        },
-                        "title": "时间",
-                        "width": 120,
-                        "colKey": "dateTime"
-                    },
-                    {
-                        "title": "感官指标",
-                        "colKey": "category1",
-                        "children": [
-                            {
-                                "edit": {
-                                    "props": {
-                                        "options": [],
-                                        "multiply": true,
-                                        "autofocus": true,
-                                        "clearable": true
-                                    },
-                                    "rules": [
-                                        {
-                                            "message": "不能为空",
-                                            "required": false
-                                        }
-                                    ],
-                                    "component": {
-                                        "name": "TInput",
-                                        "props": {
-                                            "name": {
-                                                "default": ""
-                                            },
-                                            "size": {
-                                                "default": "medium"
-                                            },
-                                            "tips": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "type": {
-                                                "default": "text"
-                                            },
-                                            "align": {
-                                                "default": "left"
-                                            },
-                                            "label": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "value": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "format": {},
-                                            "status": {
-                                                "default": "default"
-                                            },
-                                            "suffix": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "disabled": {},
-                                            "readonly": {},
-                                            "maxlength": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "showInput": {
-                                                "default": true
-                                            },
-                                            "inputClass": {
-                                                "type": [
-                                                    null,
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "modelValue": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "prefixIcon": {},
-                                            "suffixIcon": {},
-                                            "placeholder": {},
-                                            "autocomplete": {},
-                                            "defaultValue": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "maxcharacter": {},
-                                            "keepWrapperWidth": {
-                                                "default": false
-                                            }
-                                        }
-                                    },
-                                    "showEditIcon": true,
-                                    "validateTrigger": "change",
-                                    "abortEditOnEvent": [
-                                        "onEnter",
-                                        "onBlur"
-                                    ]
-                                },
-                                "title": "性状",
-                                "width": 100,
-                                "colKey": "xingzhuang"
-                            }
-                        ]
-                    },
-                    {
-                        "title": "理化指标",
-                        "colKey": "category2",
-                        "children": [
-                            {
-                                "edit": {
-                                    "props": {
-                                        "options": [],
-                                        "multiply": true,
-                                        "autofocus": true,
-                                        "clearable": true
-                                    },
-                                    "rules": [
-                                        {
-                                            "message": "不能为空",
-                                            "required": false
-                                        }
-                                    ],
-                                    "component": {
-                                        "name": "TInput",
-                                        "props": {
-                                            "name": {
-                                                "default": ""
-                                            },
-                                            "size": {
-                                                "default": "medium"
-                                            },
-                                            "tips": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "type": {
-                                                "default": "text"
-                                            },
-                                            "align": {
-                                                "default": "left"
-                                            },
-                                            "label": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "value": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "format": {},
-                                            "status": {
-                                                "default": "default"
-                                            },
-                                            "suffix": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "disabled": {},
-                                            "readonly": {},
-                                            "maxlength": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "showInput": {
-                                                "default": true
-                                            },
-                                            "inputClass": {
-                                                "type": [
-                                                    null,
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "modelValue": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "prefixIcon": {},
-                                            "suffixIcon": {},
-                                            "placeholder": {},
-                                            "autocomplete": {},
-                                            "defaultValue": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "maxcharacter": {},
-                                            "keepWrapperWidth": {
-                                                "default": false
-                                            }
-                                        }
-                                    },
-                                    "showEditIcon": true,
-                                    "validateTrigger": "change",
-                                    "abortEditOnEvent": [
-                                        "onEnter",
-                                        "onBlur"
-                                    ]
-                                },
-                                "title": "离心考验",
-                                "width": 100,
-                                "colKey": "lixingkaoyan"
-                            },
-                            {
-                                "edit": {
-                                    "props": {
-                                        "options": [],
-                                        "multiply": true,
-                                        "autofocus": true,
-                                        "clearable": true
-                                    },
-                                    "rules": [
-                                        {
-                                            "message": "不能为空",
-                                            "required": false
-                                        }
-                                    ],
-                                    "component": {
-                                        "name": "TInput",
-                                        "props": {
-                                            "name": {
-                                                "default": ""
-                                            },
-                                            "size": {
-                                                "default": "medium"
-                                            },
-                                            "tips": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "type": {
-                                                "default": "text"
-                                            },
-                                            "align": {
-                                                "default": "left"
-                                            },
-                                            "label": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "value": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "format": {},
-                                            "status": {
-                                                "default": "default"
-                                            },
-                                            "suffix": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "disabled": {},
-                                            "readonly": {},
-                                            "maxlength": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "showInput": {
-                                                "default": true
-                                            },
-                                            "inputClass": {
-                                                "type": [
-                                                    null,
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "modelValue": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "prefixIcon": {},
-                                            "suffixIcon": {},
-                                            "placeholder": {},
-                                            "autocomplete": {},
-                                            "defaultValue": {
-                                                "type": [
-                                                    null,
-                                                    null
-                                                ]
-                                            },
-                                            "maxcharacter": {},
-                                            "keepWrapperWidth": {
-                                                "default": false
-                                            }
-                                        }
-                                    },
-                                    "showEditIcon": true,
-                                    "validateTrigger": "change",
-                                    "abortEditOnEvent": [
-                                        "onEnter",
-                                        "onBlur"
-                                    ]
-                                },
-                                "title": "溴酸钠含量 %",
-                                "width": 100,
-                                "colKey": "xiusuanhanliang"
-                            }
-                        ]
-                    },
-                    {
-                        "edit": {
-                            "props": {
-                                "autosize": true,
-                                "autofocus": true,
-                                "clearable": true
-                            },
-                            "rules": [
-                                {
-                                    "message": "不能为空",
-                                    "required": false
-                                }
-                            ],
-                            "component": {
-                                "name": "TTextarea",
-                                "props": {
-                                    "name": {
-                                        "default": ""
-                                    },
-                                    "tips": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "value": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "status": {},
-                                    "autosize": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ],
-                                        "default": false
-                                    },
-                                    "disabled": {},
-                                    "maxlength": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "modelValue": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "placeholder": {},
-                                    "defaultValue": {
-                                        "type": [
-                                            null,
-                                            null
-                                        ]
-                                    },
-                                    "maxcharacter": {},
-                                    "allowInputOverMax": {
-                                        "default": false
-                                    }
-                                },
-                                "inheritAttrs": false
-                            },
-                            "showEditIcon": true,
-                            "validateTrigger": "change",
-                            "abortEditOnEvent": [
-                                "onEnter",
-                                "onBlur"
-                            ]
-                        },
-                        "title": "评论",
-                        "colKey": "description",
-                        "ellipsis": true,
-                        "minWidth": 100
-                    },
-                    {
-                        "cell": "type-slot-operate",
-                        "title": "操作栏",
-                        "width": 80,
-                        "colKey": "operate"
-                    }
-                ],
-                "designParam": {
-                    "id": "2275087c-26f3-4b61-8021-218d2d120202",
-                    "key": "sample_table20241117182221",
-                    "name": "2eea865a-3daf-4efc-ade8-d1c56d7c6df7",
-                    "title": "样品202411171821",
-                    "isChanged": false,
-                    "table_data": [
-                        {
-                            "id": "ba4a3f44-6465-4ea4-aa16-629a7f96eea4",
-                            "sn": "S202411178",
-                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                            "check": true,
-                            "count": "12",
-                            "test2": "0",
-                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                            "description": "大撒旦",
-                            "raw_material": "653cf967-656e-4642-8d62-29172840e982",
-                            "xm_raw_material": [
-                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                            ]
-                        },
-                        {
-                            "id": "f7aa2636-bc3e-44f0-87a8-cee4fb95dce2",
-                            "sn": "S202411179",
-                            "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                            "check": true,
-                            "count": "0",
-                            "test2": "43",
-                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                            "raw_material": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
-                            "xm_raw_material": [
-                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                            ]
-                        }
-                    ],
-                    "designParams": [
-                        {
-                            "id": "14",
-                            "key": "test2",
-                            "name": "test1",
-                            "step": "32",
-                            "type": "TextInput",
-                            "unit": null,
-                            "check": true,
-                            "gourp": [],
-                            "props": {
-                                "abstract": false,
-                                "required": false,
-                                "enableScan": false,
-                                "enablePrint": true
-                            },
-                            "value": "115",
-                            "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
-                            "data_id": 14,
-                            "typeCode": "operation",
-                            "description": "",
-                            "defaultValue": "115",
-                            "attribute_type": "single"
-                        },
-                        {
-                            "id": "15",
-                            "key": "test2",
-                            "name": "test2",
-                            "step": "43",
-                            "type": "TextInput",
-                            "unit": null,
-                            "check": true,
-                            "gourp": [],
-                            "props": {
-                                "abstract": false,
-                                "required": false,
-                                "enableScan": false,
-                                "enablePrint": true
-                            },
-                            "value": null,
-                            "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
-                            "data_id": 15,
-                            "typeCode": "operation",
-                            "description": "",
-                            "defaultValue": null,
-                            "attribute_type": "single"
-                        },
-                        {
-                            "id": "27",
-                            "key": "xm_raw_material",
-                            "name": "原材料",
-                            "step": [
-                                "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                                "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                            ],
-                            "type": "SelectPlus",
-                            "unit": null,
-                            "check": true,
-                            "gourp": [],
-                            "label": "原材料",
-                            "props": {
-                                "options": [
-                                    {
-                                        "id": "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                                        "name": "YL01171535/SN-1729150535817",
-                                        "batch": "1",
-                                        "goods": null,
-                                        "place": null,
-                                        "price": null,
-                                        "state": "Not-Started",
-                                        "margin": null,
-                                        "material": {
-                                            "id": "4cb7c311-ab8f-4fdf-aef4-61167a78c48f",
-                                            "sn": "SN-1729150535817",
-                                            "name": "YL01171535"
-                                        },
-                                        "supplier": null,
-                                        "description": null,
-                                        "create_datetime": null,
-                                        "production_date": null,
-                                        "update_datetime": null
-                                    },
-                                    {
-                                        "id": "64886cd2-1b88-49aa-b7c1-a687a8ffbad4",
-                                        "name": "YL10171534/SN-1729150438237",
-                                        "batch": "1",
-                                        "goods": null,
-                                        "place": null,
-                                        "price": null,
-                                        "state": "Not-Started",
-                                        "margin": null,
-                                        "material": {
-                                            "id": "7867a6e8-71a1-4ae3-afd5-f07f6ac0bb7a",
-                                            "sn": "SN-1729150438237",
-                                            "name": "YL10171534"
-                                        },
-                                        "supplier": null,
-                                        "description": null,
-                                        "create_datetime": null,
-                                        "production_date": null,
-                                        "update_datetime": null
-                                    }
-                                ],
-                                "abstract": false,
-                                "labelKey": "name",
-                                "required": false,
-                                "valueKey": "id",
-                                "enableScan": false,
-                                "enablePrint": true
-                            },
-                            "value": "27",
-                            "parent": "c202e573-913b-4c1d-be68-087fad444664",
-                            "data_id": 27,
-                            "typeCode": "operation",
-                            "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                            "description": "",
-                            "defaultValue": null,
-                            "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
-                            "attribute_type": "single"
-                        }
-                    ]
-                }
-            },
-            "content": [
-                {
-                    "type": "paragraph",
-                    "attrs": {
-                        "indent": null,
-                        "textAlign": "left",
-                        "lineHeight": 1.5,
-                        "margin": {}
-                    },
-                    "content": [
-                        {
-                            "type": "text",
-                            "text": " "
-                        }
-                    ]
-                }
-            ]
+          "type": "evaluating_table",
+          "attrs": {
+              "id": "257760fd-5b53-4609-b8b9-5d037854bc0e",
+              "updateTime": "2024-11-20 11:44:41",
+              "key": "evaluating_table20241120114451",
+              "name": "d676e13f-f54d-40cf-99fb-8c106f8c1cfa",
+              "isChanged": false,
+              "table_data": [
+                  {
+                      "id": "4778c797-687b-4e30-bf11-5c3346d47046",
+                      "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                      "sample_sn": "S202411178",
+                      "sample": {
+                          "id": "ba4a3f44-6465-4ea4-aa16-629a7f96eea4",
+                          "sn": "S202411178",
+                          "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                          "check": true,
+                          "count": "12",
+                          "test2": "0",
+                          "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                          "description": "大撒旦",
+                          "raw_material": "653cf967-656e-4642-8d62-29172840e982",
+                          "xm_raw_material": [
+                              "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                              "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                          ]
+                      },
+                      "condition": "3",
+                      "condition_name": "45±1℃",
+                      "category": "",
+                      "current_period": "3",
+                      "test_period": "2",
+                      "cycle_name": "0D",
+                      "description": "",
+                      "reviewer": "",
+                      "dateTime": "2024-11-30",
+                      "xingzhuang": "",
+                      "lixingkaoyan": "6",
+                      "xiusuanhanliang": 2,
+                      "LAB": "",
+                      "LAB_L": "3",
+                      "LAB_A": "4",
+                      "LAB_B": "5"
+                  },
+                  {
+                      "id": "9dd7c9aa-db16-498b-a1e6-286d67485846",
+                      "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                      "sample_sn": "S202411179",
+                      "sample": {
+                          "id": "f7aa2636-bc3e-44f0-87a8-cee4fb95dce2",
+                          "sn": "S202411179",
+                          "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                          "check": true,
+                          "count": "0",
+                          "test2": "43",
+                          "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                          "raw_material": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
+                          "xm_raw_material": [
+                              "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                              "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                          ]
+                      },
+                      "condition": "3",
+                      "condition_name": "45±1℃",
+                      "category": "",
+                      "current_period": "3",
+                      "test_period": "2",
+                      "cycle_name": "0D",
+                      "description": "",
+                      "reviewer": "",
+                      "dateTime": "2024-11-30",
+                      "xingzhuang": "12",
+                      "lixingkaoyan": "5",
+                      "xiusuanhanliang": 4,
+                      "LAB": "",
+                      "LAB_B": "5",
+                      "LAB_A": "56",
+                      "LAB_L": "23"
+                  },
+                  {
+                      "id": "2c65fdbe-adfd-4f88-9b24-6d5f30247adb",
+                      "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                      "sample_sn": "S202411178",
+                      "sample": {
+                          "id": "ba4a3f44-6465-4ea4-aa16-629a7f96eea4",
+                          "sn": "S202411178",
+                          "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                          "check": true,
+                          "count": "12",
+                          "test2": "0",
+                          "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                          "description": "大撒旦",
+                          "raw_material": "653cf967-656e-4642-8d62-29172840e982",
+                          "xm_raw_material": [
+                              "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                              "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                          ]
+                      },
+                      "condition": "3",
+                      "condition_name": "45±1℃",
+                      "category": "",
+                      "current_period": "3",
+                      "test_period": "2",
+                      "cycle_name": "3D",
+                      "description": "",
+                      "reviewer": "",
+                      "dateTime": "2025-08-30",
+                      "xingzhuang": "23",
+                      "lixingkaoyan": "文",
+                      "xiusuanhanliang": "",
+                      "LAB": "",
+                      "LAB_L": "45",
+                      "LAB_A": "65"
+                  },
+                  {
+                      "id": "9a92f317-38d3-41de-9238-1125854b5fd2",
+                      "sample_name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                      "sample_sn": "S202411179",
+                      "sample": {
+                          "id": "f7aa2636-bc3e-44f0-87a8-cee4fb95dce2",
+                          "sn": "S202411179",
+                          "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
+                          "check": true,
+                          "count": "0",
+                          "test2": "43",
+                          "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                          "raw_material": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
+                          "xm_raw_material": [
+                              "5622ae82-bf06-47ed-9db9-f66ee75d640d",
+                              "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
+                          ]
+                      },
+                      "condition": "3",
+                      "condition_name": "45±1℃",
+                      "category": "",
+                      "current_period": "3",
+                      "test_period": "2",
+                      "cycle_name": "3D",
+                      "description": "",
+                      "reviewer": "",
+                      "dateTime": "2025-08-30",
+                      "xingzhuang": "",
+                      "lixingkaoyan": "收到",
+                      "xiusuanhanliang": "",
+                      "LAB": "",
+                      "LAB_A": "34"
+                  }
+              ],
+              "columns": [
+                  {
+                      "title": "感官指标",
+                      "colKey": "category1",
+                      "children": [
+                          {
+                              "title": "性状",
+                              "colKey": "xingzhuang",
+                              "width": 100,
+                              "edit": {
+                                  "component": {
+                                      "__name": "xm-input",
+                                      "props": {
+                                          "modelValue": {
+                                              "type": [
+                                                  null,
+                                                  null,
+                                                  null,
+                                                  null
+                                              ],
+                                              "required": true
+                                          },
+                                          "config": {
+                                              "required": true
+                                          },
+                                          "props": {},
+                                          "borderless": {
+                                              "default": true
+                                          },
+                                          "autoWidth": {
+                                              "default": false
+                                          },
+                                          "onChange": {}
+                                      },
+                                      "emits": [
+                                          "update:modelValue",
+                                          "change"
+                                      ],
+                                      "__hmrId": "777b0a84",
+                                      "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                  },
+                                  "customProps": {
+                                      "componentName": "xmInput",
+                                      "config": {
+                                          "id": 1,
+                                          "name": "性状",
+                                          "type": "TextInput",
+                                          "key": "xingzhuang",
+                                          "props": {
+                                              "abstract": false,
+                                              "required": false,
+                                              "enableScan": false,
+                                              "enablePrint": true
+                                          },
+                                          "value": null,
+                                          "group": []
+                                      },
+                                      "options": []
+                                  },
+                                  "rules": [
+                                      {
+                                          "required": false,
+                                          "message": "不能为空"
+                                      }
+                                  ],
+                                  "showEditIcon": true,
+                                  "abortEditOnEvent": [
+                                      "onEnter",
+                                      "onBlur"
+                                  ],
+                                  "validateTrigger": "change"
+                              }
+                          },
+                          {
+                              "title": "LAB",
+                              "colKey": "LAB",
+                              "children": [
+                                  {
+                                      "title": "LAB_L",
+                                      "colKey": "LAB_L",
+                                      "width": 100,
+                                      "edit": {
+                                          "component": {
+                                              "__name": "xm-input",
+                                              "props": {
+                                                  "modelValue": {
+                                                      "type": [
+                                                          null,
+                                                          null,
+                                                          null,
+                                                          null
+                                                      ],
+                                                      "required": true
+                                                  },
+                                                  "config": {
+                                                      "required": true
+                                                  },
+                                                  "props": {},
+                                                  "borderless": {
+                                                      "default": true
+                                                  },
+                                                  "autoWidth": {
+                                                      "default": false
+                                                  },
+                                                  "onChange": {}
+                                              },
+                                              "emits": [
+                                                  "update:modelValue",
+                                                  "change"
+                                              ],
+                                              "__hmrId": "777b0a84",
+                                              "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                          },
+                                          "customProps": {
+                                              "componentName": "xmInput",
+                                              "config": {
+                                                  "id": 4,
+                                                  "name": "LAB_L",
+                                                  "type": "TextInput",
+                                                  "key": "LAB_L",
+                                                  "props": {
+                                                      "abstract": false,
+                                                      "required": false,
+                                                      "enableScan": false,
+                                                      "enablePrint": true
+                                                  },
+                                                  "value": null
+                                              },
+                                              "options": []
+                                          },
+                                          "rules": [
+                                              {
+                                                  "required": false,
+                                                  "message": "不能为空"
+                                              }
+                                          ],
+                                          "showEditIcon": true,
+                                          "abortEditOnEvent": [
+                                              "onEnter",
+                                              "onBlur"
+                                          ],
+                                          "validateTrigger": "change"
+                                      }
+                                  },
+                                  {
+                                      "title": "LAB_A",
+                                      "colKey": "LAB_A",
+                                      "width": 100,
+                                      "edit": {
+                                          "component": {
+                                              "__name": "xm-input",
+                                              "props": {
+                                                  "modelValue": {
+                                                      "type": [
+                                                          null,
+                                                          null,
+                                                          null,
+                                                          null
+                                                      ],
+                                                      "required": true
+                                                  },
+                                                  "config": {
+                                                      "required": true
+                                                  },
+                                                  "props": {},
+                                                  "borderless": {
+                                                      "default": true
+                                                  },
+                                                  "autoWidth": {
+                                                      "default": false
+                                                  },
+                                                  "onChange": {}
+                                              },
+                                              "emits": [
+                                                  "update:modelValue",
+                                                  "change"
+                                              ],
+                                              "__hmrId": "777b0a84",
+                                              "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                          },
+                                          "customProps": {
+                                              "componentName": "xmInput",
+                                              "config": {
+                                                  "id": 5,
+                                                  "name": "LAB_A",
+                                                  "type": "TextInput",
+                                                  "key": "LAB_A",
+                                                  "props": {
+                                                      "abstract": false,
+                                                      "required": false,
+                                                      "enableScan": false,
+                                                      "enablePrint": true
+                                                  },
+                                                  "value": null
+                                              },
+                                              "options": []
+                                          },
+                                          "rules": [
+                                              {
+                                                  "required": false,
+                                                  "message": "不能为空"
+                                              }
+                                          ],
+                                          "showEditIcon": true,
+                                          "abortEditOnEvent": [
+                                              "onEnter",
+                                              "onBlur"
+                                          ],
+                                          "validateTrigger": "change"
+                                      }
+                                  },
+                                  {
+                                      "title": "LAB_B",
+                                      "colKey": "LAB_B",
+                                      "width": 100,
+                                      "edit": {
+                                          "component": {
+                                              "__name": "xm-input",
+                                              "props": {
+                                                  "modelValue": {
+                                                      "type": [
+                                                          null,
+                                                          null,
+                                                          null,
+                                                          null
+                                                      ],
+                                                      "required": true
+                                                  },
+                                                  "config": {
+                                                      "required": true
+                                                  },
+                                                  "props": {},
+                                                  "borderless": {
+                                                      "default": true
+                                                  },
+                                                  "autoWidth": {
+                                                      "default": false
+                                                  },
+                                                  "onChange": {}
+                                              },
+                                              "emits": [
+                                                  "update:modelValue",
+                                                  "change"
+                                              ],
+                                              "__hmrId": "777b0a84",
+                                              "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                          },
+                                          "customProps": {
+                                              "componentName": "xmInput",
+                                              "config": {
+                                                  "id": 6,
+                                                  "name": "LAB_B",
+                                                  "type": "TextInput",
+                                                  "key": "LAB_B",
+                                                  "props": {
+                                                      "abstract": false,
+                                                      "required": false,
+                                                      "enableScan": false,
+                                                      "enablePrint": true
+                                                  },
+                                                  "value": null
+                                              },
+                                              "options": []
+                                          },
+                                          "rules": [
+                                              {
+                                                  "required": false,
+                                                  "message": "不能为空"
+                                              }
+                                          ],
+                                          "showEditIcon": true,
+                                          "abortEditOnEvent": [
+                                              "onEnter",
+                                              "onBlur"
+                                          ],
+                                          "validateTrigger": "change"
+                                      }
+                                  }
+                              ]
+                          }
+                      ]
+                  },
+                  {
+                      "title": "理化指标",
+                      "colKey": "category2",
+                      "children": [
+                          {
+                              "title": "离心考验",
+                              "colKey": "lixingkaoyan",
+                              "width": 100,
+                              "edit": {
+                                  "component": {
+                                      "__name": "xm-input",
+                                      "props": {
+                                          "modelValue": {
+                                              "type": [
+                                                  null,
+                                                  null,
+                                                  null,
+                                                  null
+                                              ],
+                                              "required": true
+                                          },
+                                          "config": {
+                                              "required": true
+                                          },
+                                          "props": {},
+                                          "borderless": {
+                                              "default": true
+                                          },
+                                          "autoWidth": {
+                                              "default": false
+                                          },
+                                          "onChange": {}
+                                      },
+                                      "emits": [
+                                          "update:modelValue",
+                                          "change"
+                                      ],
+                                      "__hmrId": "777b0a84",
+                                      "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                  },
+                                  "customProps": {
+                                      "componentName": "xmInput",
+                                      "config": {
+                                          "id": 2,
+                                          "name": "离心考验",
+                                          "type": "TextInput",
+                                          "key": "lixingkaoyan",
+                                          "props": {
+                                              "abstract": false,
+                                              "required": false,
+                                              "enableScan": false,
+                                              "enablePrint": true
+                                          },
+                                          "value": null,
+                                          "group": []
+                                      },
+                                      "options": []
+                                  },
+                                  "rules": [
+                                      {
+                                          "required": false,
+                                          "message": "不能为空"
+                                      }
+                                  ],
+                                  "showEditIcon": true,
+                                  "abortEditOnEvent": [
+                                      "onEnter",
+                                      "onBlur"
+                                  ],
+                                  "validateTrigger": "change"
+                              }
+                          },
+                          {
+                              "title": "溴酸钠含量 %",
+                              "colKey": "xiusuanhanliang",
+                              "width": 100,
+                              "edit": {
+                                  "component": {
+                                      "__name": "xm-input",
+                                      "props": {
+                                          "modelValue": {
+                                              "type": [
+                                                  null,
+                                                  null,
+                                                  null,
+                                                  null
+                                              ],
+                                              "required": true
+                                          },
+                                          "config": {
+                                              "required": true
+                                          },
+                                          "props": {},
+                                          "borderless": {
+                                              "default": true
+                                          },
+                                          "autoWidth": {
+                                              "default": false
+                                          },
+                                          "onChange": {}
+                                      },
+                                      "emits": [
+                                          "update:modelValue",
+                                          "change"
+                                      ],
+                                      "__hmrId": "777b0a84",
+                                      "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                  },
+                                  "customProps": {
+                                      "componentName": "xmInput",
+                                      "config": {
+                                          "id": 3,
+                                          "name": "溴酸钠含量 %",
+                                          "type": "NumberInput",
+                                          "key": "xiusuanhanliang",
+                                          "props": {
+                                              "abstract": false,
+                                              "required": false,
+                                              "enablePrint": true
+                                          },
+                                          "value": null,
+                                          "group": []
+                                      },
+                                      "options": []
+                                  },
+                                  "rules": [
+                                      {
+                                          "required": false,
+                                          "message": "不能为空"
+                                      }
+                                  ],
+                                  "showEditIcon": true,
+                                  "abortEditOnEvent": [
+                                      "onEnter",
+                                      "onBlur"
+                                  ],
+                                  "validateTrigger": "change"
+                              }
+                          }
+                      ]
+                  }
+              ],
+              "designParams": {}
+          },
+          "content": [
+              {
+                  "type": "paragraph",
+                  "attrs": {
+                      "indent": null,
+                      "textAlign": "left",
+                      "lineHeight": 1.5,
+                      "margin": {}
+                  },
+                  "content": [
+                      {
+                          "type": "text",
+                          "text": " "
+                      }
+                  ]
+              }
+          ]
         }
     ]
   }

@@ -36,6 +36,28 @@ export default xmNode.create({
           return { 'data-key': attributes.key };
         },
       },
+      // 变更日志,版本信息
+      change_log: {
+        default: {},
+        parseHTML: (element) => {
+          const change_log = element.getAttribute('data-change_log');
+          return JSON.parse(change_log as string || '{}');
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.change_log) {
+            return {};
+          }
+          return { 'data-change_log': JSON.stringify(attributes.change_log)  };
+        },
+      },
+      // 是否选择集成已有表单数据
+      is_integration: {
+        default: false,
+        parseHTML: (element) => element.getAttribute('data-is_integration') === 'true',
+        renderHTML: (attributes) => {
+          return { 'data-is_integration': attributes.is_integration };
+        }
+      },
       table_data: {
         default: [],
         parseHTML: (element) => {

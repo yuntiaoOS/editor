@@ -93,7 +93,6 @@ export default xmNode.create({
               attrs: {
                 ...currentOption,
                 key: option?.key ? option?.key : Xm_Table_key['sample_table']  + timeFormat(null,'yyyymmddhhMMss'),
-                table_data: option?.table_data,
               },
               content: [
                 {

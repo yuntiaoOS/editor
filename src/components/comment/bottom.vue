@@ -224,6 +224,11 @@ get_experiment_record_commentListFetch,get_experiment_record_likeListFetch,
 
 
 <style lang="scss" scoped> 
+:deep(.umo-comment__avatar-image){
+  width: var(--td-comp-size-xl);
+  height: var(--td-comp-size-xl);
+  border-radius: var(--td-radius-circle);
+}
 .comment-body {
   width: 100%;
 }

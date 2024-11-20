@@ -33,19 +33,21 @@
          插入数据表格 
       </t-dropdown-item>
       <t-dropdown-item >
+        <!-- <menus-toolbar-insert-ingredient_dev-table table-type="raw_material_table" /> -->
         <menus-button
           ico="t-table"
           text="原材料表格"
           :tooltip="false"
-          @menu-click="editor?.chain().focus().addRaw_material_tables().run()"
+          @menu-click="editor?.chain().focus().addRaw_material_tables({is_integration:true}).run()"
         />
       </t-dropdown-item>
       <t-dropdown-item  >
+        <!-- <menus-toolbar-insert-ingredient_dev-table table-type="technology_table" /> -->
         <menus-button
           ico="t-table"
           text="工艺表格"
           :tooltip="false"
-          @menu-click="editor?.chain().focus().addTechnology_tables().run()"
+          @menu-click="editor?.chain().focus().addTechnology_tables({is_integration:true}).run()"
         />
       </t-dropdown-item>
       <t-dropdown-item  >
@@ -57,11 +59,12 @@
         />
       </t-dropdown-item>  
       <t-dropdown-item  >
+        <!-- <menus-toolbar-insert-ingredient_dev-table table-type="sample_table" /> -->
         <menus-button
           ico="sample"
           text="样品表格"
           :tooltip="false"
-          @menu-click="editor?.chain().focus().addSample_tables().run()"
+          @menu-click="editor?.chain().focus().addSample_tables({is_integration:true}).run()"
         />
       </t-dropdown-item>  
       <t-dropdown-item  divider>

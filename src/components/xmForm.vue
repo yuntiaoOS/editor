@@ -18,9 +18,9 @@
         >
         <t-form-item 
           :name="formItem.key" 
-          :label="formItem.title"
+          :label="formItem.title?formItem.title:formItem.name"
           :rules="formItem.rules" >
-            <xm-input v-model="_formData[formItem.key]" :config="formItem" ></xm-input>
+            <xm-input v-model="_formData[formItem.key]" :config="formItem" @change="itemChange"></xm-input>
         </t-form-item>
       </t-col>
     </t-row>
@@ -31,7 +31,7 @@
   </t-form>
 </template>
 <script setup lang="ts">
-const emits = defineEmits(['submit', 'reset', 'update:formData', 'update:config'])
+const emits = defineEmits(['submit', 'reset', 'update:formData', 'update:config','change'])
 const props = defineProps({
   config: {
     type: Object,
@@ -220,6 +220,10 @@ const _config = computed({
     emits('update:config', val)
   }
 })
+
+const itemChange = ()=> {
+  emits('change', _formData.value)
+}
 
 defineExpose({
   formRef

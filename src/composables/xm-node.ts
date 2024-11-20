@@ -1,5 +1,7 @@
 import { Node } from '@tiptap/core'
+import { update } from 'lodash-unified';
 import { v4 as uuid } from 'uuid'
+import { timeFormat } from '@/utils/time-ago'
 export default class xmNode extends Node{
   addAttributes() {
     return {
@@ -12,6 +14,16 @@ export default class xmNode extends Node{
           }
           return { 'data-id': attributes.id };
         },
+      },
+      updateTime: {
+        default: timeFormat(null,'yyyy-mm-dd hh:MM:ss'),
+        parseHTML: (element:any) => element.getAttribute('data-updateTime'),
+        renderHTML: (attributes:any) => {
+          if (!attributes.updateTime) {
+            return timeFormat(null,'yyyy-mm-dd hh:MM:ss');//timeFormat(null,'yyyymmddhhMMss')
+          }
+          return { 'data-updateTime': attributes.updateTime };
+        }
       },
       key: {
         default: uuid(),

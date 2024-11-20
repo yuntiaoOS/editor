@@ -4,14 +4,14 @@
       <!-- <h2>试验原辅料</h2> -->
       <t-table 
         ref="tableRef"  
-        row-key="id" :data="_table_data" :columns="_columns" resizable v-model:displayColumns="displayColumns"
+        v-model:display-columns="displayColumns" row-key="id" :data="_table_data" :columns="_columns" resizable
         >
         <template #topContent>
           <div style="padding: 6px 0;display: block;">
             <t-space>
               <div></div>
               <t-space>
-                <t-input v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
+                <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
                 <!-- <t-button variant="outline" @click="add_dialog_visible = true;">新增</t-button> -->
                 <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
               </t-space>
@@ -89,8 +89,9 @@
         </t-form-item>
       </t-form>
     </t-dialog>
-    <t-dialog destroyOnClose
+    <t-dialog
       v-model:visible="dialog_visible"
+      destroy-on-close
       header="表格列配置"
       width="40%" attach="body"
       :confirm-on-enter="true"
@@ -114,10 +115,11 @@
 </template>
 
 <script setup lang="jsx">
-import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
+import { NodeViewContent,nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
-import { getEval_execute_standardListFetch,getExecute_standard_itemInfoFetch } from '@/api/experiment'
 
+import { getEval_execute_standardListFetch,getExecute_standard_itemInfoFetch } from '@/api/experiment'
+import xmInput from '@/components/xm-input.vue';
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 const $dict_data = JSON.parse( localStorage.getItem('dict_data') )
@@ -520,15 +522,16 @@ const _table_data = computed({
   },
 })
 
-const designParam = computed({
+const designParams = computed({
   get: () => node.attrs.designParam,
   set(value) {
     updateAttributes({ designParam: value })
   },
 })
 
+const _columns = ref([])
 
-const _columns = computed({
+const columns = computed({
   get: () => {
     return node.attrs.columns
   },
@@ -551,7 +554,7 @@ const blurCycleNumberFunc = (val) => {
 }
 
 const makeTableDataAndColumnFunc = (designParam,selectTableForm,index_typeInfo)=>{
-  console.log('-----478-----makeTableDataAndColumnFunc------------',designParam,selectTableForm,index_typeInfo)
+  console.log('-----478-----makeTableDataAndColumnFunc------------',selectTableForm,index_typeInfo)
   // 将开始日期转换为 Date 对象
   const startDate = new Date(selectTableForm.start_datetime);
 
@@ -615,80 +618,94 @@ const makeTableDataAndColumnFunc = (designParam,selectTableForm,index_typeInfo)=
   // 将分组后的对象转换为数组
   const group_Colums_result = Object.values(groupedData);
   // 做表格列
+  const makeColumns = (item,children) => {
+    const componentName = xmInput
+    const options = !['SelectPlusRadio','SelectPlus'].includes(item.type) ? [] : item.props.options.map(ele=> ({ label: ele.name, value: ele.id }) )
+    children.push({
+      title: item.name,
+      colKey: item.key,
+      width: 100,
+      edit: {
+        // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+        // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+        component: componentName,
+        // props, 透传全部属性到 Input 组件
+        customProps: {
+          componentName: 'xmInput',
+          config: item,
+          options
+        },
+        props:({col,row})=> {
+          return {
+            modelValue: row[item.key],
+            config: item,
+            clearable: true,
+            autofocus: true,
+            multiply: true,
+            options
+            // autoWidth: true,
+          }
+        },
+        // 校验规则，此处同 Form 表单
+        rules: [
+          {
+            required: false,
+            message: '不能为空',
+          },
+        ],
+        showEditIcon: true,
+        abortEditOnEvent: ['onEnter','onBlur'],
+        onEdited: (context ) => {
+          console.log(context);
+          const newData = [..._table_data.value];
+          newData.splice(context.rowIndex, 1, context.newRowData);
+          _table_data.value = newData;
+          useMessage('success' ,'Success');
+        },
+        // 触发校验的时机（when to validate)
+        validateTrigger: 'change',
+        // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+        on: (editContext ) => ({
+          onBlur: (ctx ) => {
+            console.log('失去焦点', editContext);
+            ctx?.e?.preventDefault();
+          },
+          onEnter: (ctx ) => {
+            ctx?.e?.preventDefault();
+            console.log('onEnter', ctx);
+          },
+          // 默认是否为编辑状态
+          defaultEditable: true,
+        }),
+      }
+    });
+  }
   group_Colums_result.forEach(ele => {
     const { category_name } = ele;
     const group_Colums = {
       title: category_name,
-      colKey: 'category' + ele.id ,
+      colKey: `category${  ele.id}` ,
       children: [],
     }
     ele.children.map(ele=> ele.attribute ).forEach(item=>{
-      const componentName = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? TInput : TSelect
-      const options = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? [] : item.props.options.map(ele=> ({ label: ele.name, value: ele.id }) )
-      if (item.key === XM_raw_material_key) {
-        columns.unshift({
+      if (item.group && item.group.length > 0){
+        const sub_col = {
           title: item.name,
-          colKey: item.key,
-          width: 100,
-          render(h, { row }) {
-            const dataR =  row[item.key]
-            return dataR ? item.props.options?.filter(eleO => dataR.includes(eleO.id))?.map(eleO => eleO.name)?.join(";") : '' 
-          },
-        });
+          colKey: item.key ,
+        }
+        sub_col.children = []
+        item.group.forEach(sub_item => {
+          makeColumns(sub_item,sub_col.children)
+        })
+        group_Colums.children.push(sub_col)
       }else{
-        group_Colums.children.push({
-          title: item.name,
-          colKey: item.key,
-          width: 100,
-          edit: {
-            // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-            // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-            component: componentName,
-            // props, 透传全部属性到 Input 组件
-            props: {
-              clearable: true,
-              autofocus: true,
-              multiply: true,
-              options
-              // autoWidth: true,
-            },
-            // 校验规则，此处同 Form 表单
-            rules: [
-              {
-                required: false,
-                message: '不能为空',
-              },
-            ],
-            showEditIcon: true,
-            abortEditOnEvent: ['onEnter','onBlur'],
-            onEdited: (context ) => {
-              console.log(context);
-              const newData = [..._table_data.value];
-              newData.splice(context.rowIndex, 1, context.newRowData);
-              _table_data.value = newData;
-              useMessage('success' ,'Success');
-            },
-            // 触发校验的时机（when to validate)
-            validateTrigger: 'change',
-            // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-            on: (editContext ) => ({
-              onBlur: (ctx ) => {
-                console.log('失去焦点', editContext);
-                ctx?.e?.preventDefault();
-              },
-              onEnter: (ctx ) => {
-                ctx?.e?.preventDefault();
-                console.log('onEnter', ctx);
-              },
-              // 默认是否为编辑状态
-              defaultEditable: true,
-            }),
-          }
-        });
+        makeColumns(item,group_Colums.children)
       }
     })
     columns.push(group_Colums)
   })
+  updateAttributes({ columns: [...columns] }) 
+  console.log('-----700-----makeTableDataAndColumnFunc----columns--------',columns)
   return { table_data , columns: [...columnsDefaultF,...columns,...columnsDefaultA] }
 }
 
@@ -705,16 +722,12 @@ const on_select_designFunc = ()=>{
       if (index_typeInfoRes && index_typeInfoRes.data.code === 2000) {
         const selectTable = sample_table_options.value.find(ele=> ele.id === selectTableForm.value.sample_table)
         updateAttributes({ designParam: selectTable })
-        const { table_data, columns } = makeTableDataAndColumnFunc(selectTable,selectTableForm.value,index_typeInfoRes.data.data)
-
-        setTimeout(() => {
-          _columns.value = [...columns]
-          _table_data.value = [...table_data]
-          displayColumns.value = columns.map(ele=> ele.colKey)
-          console.log('-------575-------table_data', _table_data.value,_columns.value)
-          tableRef.value.refreshTable()
-
-        }, 100);
+        const { table_data, columns } = makeTableDataAndColumnFunc(selectTable,selectTableForm.value,index_typeInfoRes.data.data) 
+        _columns.value = [...columns]
+        _table_data.value = [...table_data]
+        displayColumns.value = columns.map(ele=> ele.colKey)
+        console.log('-------575-------table_data', _table_data.value,_columns.value)
+        tableRef.value.refreshTable()
       }
       
     }
@@ -796,50 +809,54 @@ onMounted(() => {
   initialize()
   console.log('-----------onMounted----680----------------',node.attrs)
   if (node.attrs.columns && Object.keys(node.attrs.columns).length > 0) {
-    const columns = []
-    // 做表格列
-    node.attrs.columns.forEach(ele => {
-      const group_Colums = {
-        ...ele ,
-        children: [],
-      }
-      if (ele.children) {
-        ele.children.forEach(item=>{
-          const componentName = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? TInput : TSelect
-          const options = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? [] : item.props.options.map(ele=> ({ label: ele.name, value: ele.id }) )
-          if (item.key === XM_raw_material_key) {
-            columns.unshift({
-              ...item,
-              width: 100,
-              render(h, { row }) {
-                const dataR =  row[item.key]
-                return dataR ? item.props.options?.filter(eleO => dataR.includes(eleO.id))?.map(eleO => eleO.name)?.join(";") : '' 
-              },
-            });
-          }else{
-            group_Colums.children.push({
-              ...item,
-              edit: {
-                // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-                // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-                component: componentName,
-                // props, 透传全部属性到 Input 组件
-                props: {
-                  clearable: true,
-                  autofocus: true,
-                  multiply: true,
-                  options
-                  // autoWidth: true,
-                },
-                // 校验规则，此处同 Form 表单
-                rules: [
-                  {
-                    required: false,
-                    message: '不能为空',
+    const columns = node.attrs.columns.map((col) => {
+      if (col.children && col.children.length > 0) {
+        return { ...col, children: col.children.map((ele) => {
+          if (ele.children && ele.children.length > 0) {
+            return { ...ele, children: ele.children.map((eleC) => {
+              return { 
+                ...eleC, 
+                edit:{
+                  ...eleC.edit, 
+                  component: xmInput,
+                  props:({row})=> {
+                    return {
+                      modelValue: row[eleC.colKey],
+                      config: eleC.edit.customProps?.config,
+                      clearable: true,
+                      autofocus: true,
+                      multiply: true,
+                      options: eleC.edit.customProps?.options,
+                      // autoWidth: true,
+                    }
                   },
-                ],
-                showEditIcon: true,
-                abortEditOnEvent: ['onEnter','onBlur'],
+                  onEdited: (context ) => {
+                    console.log(context);
+                    const newData = [..._table_data.value];
+                    newData.splice(context.rowIndex, 1, context.newRowData);
+                    _table_data.value = newData;
+                    useMessage('success' ,'Success');
+                  },
+                } 
+              };
+            })}
+          }else{
+            return { 
+              ...ele, 
+              edit:{
+                ...ele.edit, 
+                component: xmInput,
+                props:({row})=> {
+                  return {
+                    modelValue: row[ele.colKey],
+                    config: ele.edit.customProps?.config,
+                    clearable: true,
+                    autofocus: true,
+                    multiply: true,
+                    options: ele.edit.customProps?.options,
+                    // autoWidth: true,
+                  }
+                },
                 onEdited: (context ) => {
                   console.log(context);
                   const newData = [..._table_data.value];
@@ -847,33 +864,43 @@ onMounted(() => {
                   _table_data.value = newData;
                   useMessage('success' ,'Success');
                 },
-                // 触发校验的时机（when to validate)
-                validateTrigger: 'change',
-                // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-                on: (editContext ) => ({
-                  onBlur: (ctx ) => {
-                    console.log('失去焦点', editContext);
-                    ctx?.e?.preventDefault();
-                  },
-                  onEnter: (ctx ) => {
-                    ctx?.e?.preventDefault();
-                    console.log('onEnter', ctx);
-                  },
-                  // 默认是否为编辑状态
-                  defaultEditable: true,
-                }),
-              }
-            });
+              } 
+            };
           }
-        })
+        })}
+      }else{
+        return {
+          ...col,
+          edit:{
+            ...col.edit, 
+            component:xmInput,
+            props:({row})=> {
+              return {
+                modelValue: row[col.colKey],
+                config: col.edit.customProps?.config,
+                clearable: true,
+                autofocus: true,
+                multiply: true,
+                options: col.edit.customProps?.options,
+                // autoWidth: true,
+              }
+            },
+            onEdited: (context ) => {
+              console.log(context);
+              const newData = [..._table_data.value];
+              newData.splice(context.rowIndex, 1, context.newRowData);
+              _table_data.value = newData;
+              useMessage('success' ,'Success');
+            },
+          },
+        };
       }
-      columns.push(group_Colums)
-    })
-
-    console.log('-----------onMounted----820----------------',columns)
+      
+    });
+    console.log('-----------onMounted---822----------------',columns)
     setTimeout(() => {
-      _columns.value = [...columnsDefaultF,...columns,...columnsDefaultA]
-      displayColumns.value = columns.map(ele=> ele.colKey)
+      _columns.value = [...columnsDefaultF,...columns,...columnsDefaultA ]
+      displayColumns.value = _columns.value.map(ele=> ele.colKey)
       tableRef.value.refreshTable()
     }, 100);
     

@@ -38,6 +38,28 @@ export default xmNode.create({
       },
       // 变更日志,版本信息
       change_log: {
+        default: {},
+        parseHTML: (element) => {
+          const change_log = element.getAttribute('data-change_log');
+          return JSON.parse(change_log as string || '{}');
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.change_log) {
+            return {};
+          }
+          return { 'data-change_log': JSON.stringify(attributes.change_log)  };
+        },
+      },
+      // 是否选择集成已有表单数据
+      is_integration: {
+        default: false,
+        parseHTML: (element) => element.getAttribute('data-is_integration') === 'true',
+        renderHTML: (attributes) => {
+          return { 'data-is_integration': attributes.is_integration };
+        }
+      },
+      // 表格数据
+      table_data: {
         default: [],
         parseHTML: (element) => {
           const change_log = element.getAttribute('data-change_log');
@@ -76,12 +98,12 @@ export default xmNode.create({
         (option?:XmTableOptionModel<any>) =>
           ({ commands }) => {
             const currentOption = mergeAttributes(this.options, option as XmTableOptionModel<any>)
+            console.log('------------101-----------option', option, currentOption)
             const content = {
               type: this.name,
               attrs: {
                 ...currentOption,
                 key: option?.key ? option?.key : Xm_Table_key['raw_material_table']  + timeFormat(null,'yyyymmddhhMMss'),
-                table_data: option?.table_data,
               },
               content: [
                 {

@@ -13,8 +13,32 @@ const Api = {
   experiment_data: '/ingredient_dev/experiment/data/', //实验数据暂存
   material_change_logs: '/ingredient_dev/experiment/material/change_logs/', //'试验原料版本列表
   material_multiple_delete: '/ingredient_dev/experiment/material/multiple_delete/', //'试验原料版本列表-批量删除
+  experiment_process: '/ingredient_dev/experiment/process/', //工艺、操作属性
+  get_assign_record_process_data: '/ingredient_dev/experiment/process/get_assign_record_process_data/', //工艺详情get接口
 
 };
+/*-------------------------------------实验工艺--------------------------------------------*/
+export function get_assign_record_process_dataFetch(params?: any) {
+  return request.get<ExperimentInfoList>({
+    url: Api.get_assign_record_process_data,
+    params
+  });
+}
+export function get_experiment_processListFetch(params?: any) {
+  return request.get<ExperimentInfoList>({
+    url: Api.experiment_process,
+    params
+  });
+}
+export function post_experiment_process_fetch(params: any) {
+  return request.post({ url: Api.experiment_process, data: params });
+}
+export function put_experiment_process_fetch(id:string,params: any) {
+  return request.put({ url:`${Api.experiment_process}${id}/`, data: params });
+}
+export function delete_process_multiple_deleteFetch(params: any) {
+  return request.delete({ url: Api.experiment_process, params });
+}
 /*-------------------------------------实验数据暂存--------------------------------------------*/
 export function post_experiment_data_fetch(params: any) {
   return request.post({ url: Api.experiment_data, data: params });

@@ -22,7 +22,7 @@
                 <t-space >
                   <span v-if="['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 " style="line-height: 32px;">步进： </span>
                   <div style="width: 300px">
-                    <xm-input v-model="item.step" :config="item" auto-width borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
+                    <xm-input v-model="item.step" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
                   </div>
                   
                   <!-- <t-input v-model="item.step" auto-width borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/> -->
@@ -246,7 +246,7 @@ const makeTableFunc = ()=> {
   const selectedRK = [];
   const paramsColumns = [];
   _designParams.value.forEach((item) => {
-    const componentName = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? TInput : TSelect
+    const componentName = xmInput
     const options = ['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 ? [] : item.props.options.map(ele=> ({ label: ele.name, value: ele.id }) )
     if (item.key === XM_raw_material_key) {
       paramsColumns.unshift({
@@ -269,16 +269,15 @@ const makeTableFunc = ()=> {
           component: componentName,
           // props, 透传全部属性到 Input 组件
           props: ({col,row})=> {
-            console.log('--------272---------props',col,row);
             return  {
-                      // modelValue: row[col.colKey],
-                      // config: item,
-                      clearable: true,
-                      autofocus: true,
-                      multiply: true,
-                      options
-                      // autoWidth: true,
-                    };
+              modelValue: row[item.key],
+              config: item,
+              clearable: true,
+              autofocus: true,
+              multiply: true,
+              options
+              // autoWidth: true,
+            };
 
           },
           // 校验规则，此处同 Form 表单
