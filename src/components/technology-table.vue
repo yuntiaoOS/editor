@@ -38,15 +38,15 @@
   >
     <t-select
       v-model="dialog_select"
-      :options="operationOption"
+      :options="operationOptionSelect"
       filterable
       multiple
       :keys="{ label: 'name', value: 'id' }"  
       placeholder="请选择操作"
       :scroll="{type: 'virtual'}"  
       :popup-props="{ overlayInnerStyle: { height: '300px' } }"  
-      :status=" dialog_select !== '' ? 'success': 'error' "
-      :tips="dialog_select !== '' ? '校验通过': '操作不能为空'"
+      :status=" dialog_select.length > 0 ? 'success': 'error' "
+      :tips="dialog_select.length > 0 ? '校验通过': '操作不能为空'"
     />
     
   </t-dialog>
@@ -147,6 +147,7 @@ const operationVisible = ref(false);
 
 
 const operationOption = ref([])
+const operationOptionSelect = ref([])
 const searchTitle = ref('')
 
 const readOnly = computed(() => options.value.document?.readOnly)
@@ -297,16 +298,17 @@ const getOperationOptionFunc = async (page=1) => {
   if (res.data.code === 2000) {
     if (page === 1) {
       operationOption.value = res.data.data
+      operationOptionSelect.value = res.data.data.map(item => ({id: item.id, name: item.name}))
     } else {
       operationOption.value = [...operationOption.value, ...res.data.data]
+      operationOptionSelect.value = [...operationOption.value, ...res.data.data].map(item => ({id: item.id, name: item.name}))
     }
     pagination.value.total = res.data.total
+    
     console.log(operationOption.value, '-------------250------------operationOption.value')
   }
 }
-
 getOperationOptionFunc()
-
 
 function updateTableData(tableData, newRowData) {
   const data = tableData.map(item => {
@@ -720,7 +722,6 @@ const treeExpandIcon = computed(() => {
  
 onMounted(async () => {
    
-  
 })
 
 </script>

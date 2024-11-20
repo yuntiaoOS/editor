@@ -7,7 +7,7 @@
           <t-space align="center">
             <t-check-tag-group v-model="designType" style="margin-right: 32px" :options="designTypeOptions">选中/未选态</t-check-tag-group>
           </t-space>
-          <t-button v-if="current === 0" size="small" variant="base" @click="current++"> 下一步 </t-button>
+          <t-button v-if="current === 0" size="small" variant="base" @click="typeSelectNext"> 下一步 </t-button>
         </t-space>
       </template>
     </t-step-item>
@@ -207,6 +207,13 @@ const getConfig = (type,row) => {
   }
 
   return config
+}
+
+const typeSelectNext = ()=>{
+  if (designType.value) {
+    
+  }
+  current.value++
 }
 
 const onSelectChange = (value, params) => {
@@ -443,7 +450,7 @@ const makeTableFunc = ()=> {
     obj.id = uuid();
     _designParams.value.forEach((item) => {
       console.log('-------310----item----------',item,item.step)
-      if ( item.step ){
+      if ( item.step && item.key !== XM_raw_material_key  ){
         obj[item.key] = addDecimals(item.value, item.step,i,item.attribute_type)  ;
         obj[`${item.key }_id`] = item.id
       }else{

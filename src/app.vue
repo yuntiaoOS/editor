@@ -10657,8 +10657,8 @@ const options = $ref({
         }
       ]
     },
-    experiment_theme: '0ed50212-3f77-4c98-bd9a-40499d77c984',
-    experiment_record: '2f716a40-f3a5-48a0-875a-b10695542ddd',
+    experiment_theme: '8f79cc62-bf22-428d-9c98-4e3b3e81c6c3',
+    experiment_record: '6e252907-4fa3-4e50-a97c-6d8a33bbb579',
     umo_domain: 'http://id.zw.rzm.com',
     umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMTczMTQ1LCJpYXQiOjE3MzIwODY3NDUsImp0aSI6IjBhNzQyNDRhODU2ZTQ5MjU4N2E1MzY3Y2RhZTBlN2ZhIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.qtPM-pYx0NxVpIOHE4mFsr8GPUOVp3qFsiYTIkkvG3s',
   },
@@ -11593,56 +11593,10 @@ onMounted(() => {
               "name": "44ea9b52-e86f-4273-9423-81b743092573",
               "isChanged": false,
               "change_log": {
-                  "change_log": "d151c6ea-5eeb-4240-8b44-c763323a7ab8"
+                  "change_log":"231a9a73-3a8a-4fac-9c1f-6d73aa89b0e7"
               },
               "is_integration": false,
-              "table_data": [
-                  {
-                      "id": "824b0d92-849d-460c-bad3-ec86301c15cb",
-                      "experiment_material": "50831c42-06a1-407b-a14d-dde160a7db8b",
-                      "experiment_material_name": "YL10171643",
-                      "experiment_material_batch": {
-                          "id": "a060cb6e-23ea-4643-9c9b-22649eb58619",
-                          "state": "Not-Started",
-                          "batch": "1",
-                          "price": null,
-                          "supplier": null
-                      },
-                      "description": null,
-                      "change_log": "d151c6ea-5eeb-4240-8b44-c763323a7ab8",
-                      "experiment_material_sn": "SN-1729154564209"
-                  },
-                  {
-                      "id": "146b2abe-486d-4f07-9e5e-63b19b31f3e6",
-                      "experiment_material": "7867a6e8-71a1-4ae3-afd5-f07f6ac0bb7a",
-                      "experiment_material_name": "YL10171534",
-                      "experiment_material_batch": {
-                          "id": "64886cd2-1b88-49aa-b7c1-a687a8ffbad4",
-                          "state": "Not-Started",
-                          "batch": "1",
-                          "price": null,
-                          "supplier": null
-                      },
-                      "description": null,
-                      "change_log": "d151c6ea-5eeb-4240-8b44-c763323a7ab8",
-                      "experiment_material_sn": "SN-1729150438237"
-                  },
-                  {
-                      "id": "27488dd3-625b-4496-8278-b0b869f61450",
-                      "experiment_material": "4cb7c311-ab8f-4fdf-aef4-61167a78c48f",
-                      "experiment_material_name": "YL01171535",
-                      "experiment_material_batch": {
-                          "id": "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                          "state": "Not-Started",
-                          "batch": "1",
-                          "price": 12,
-                          "supplier": "地方撒大厦"
-                      },
-                      "description": null,
-                      "change_log": "d151c6ea-5eeb-4240-8b44-c763323a7ab8",
-                      "experiment_material_sn": "SN-1729150535817"
-                  }
-              ],
+              "table_data": [],
               "title": "原材料202411171821"
           },
           "content": [
@@ -11672,132 +11626,10 @@ onMounted(() => {
               "name": "2f7857d2-84ac-432f-af2d-16a8ac01e95c",
               "isChanged": false,
               "change_log": {
-                  "change_log": "38be7b87-687f-4575-9638-ae2f648227e1"
+                  "change_log": "89ecf430-db55-4a01-bf3f-bcf3efcf14b1"
               },
               "is_integration": false,
-              "table_data": [
-                  {
-                      "id": "5b8c6ac7-ca84-4145-b247-31cf806b038c",
-                      "step_name": "搞活动房间号",
-                      "description": "",
-                      "step_type": "processes",
-                      "sequence": 0,
-                      "duration": null,
-                      "children": [
-                          {
-                              "id": "d0fe41b9-3b60-45f1-8568-48ab569c500f",
-                              "attribute": 14,
-                              "value": "23",
-                              "attribute_type": "single",
-                              "name": "test1",
-                              "step_name": "test1",
-                              "description": "",
-                              "step_type": "operation",
-                              "duration": null,
-                              "parent": "5b8c6ac7-ca84-4145-b247-31cf806b038c",
-                              "props": {
-                                  "abstract": false,
-                                  "required": false,
-                                  "enableScan": false,
-                                  "enablePrint": true
-                              },
-                              "key": "test2",
-                              "type": "TextInput",
-                              "unit": null,
-                              "group": []
-                          },
-                          {
-                              "id": "16c2175d-5bc3-4855-9709-153fb6119698",
-                              "attribute": 30,
-                              "value": "34",
-                              "attribute_type": "single",
-                              "name": "Lab_B",
-                              "step_name": "Lab_B",
-                              "description": "",
-                              "step_type": "operation",
-                              "duration": null,
-                              "parent": "5b8c6ac7-ca84-4145-b247-31cf806b038c",
-                              "props": {
-                                  "abstract": false,
-                                  "required": false,
-                                  "enableScan": false,
-                                  "enablePrint": true
-                              },
-                              "key": "Lab_B",
-                              "type": "TextInput",
-                              "unit": null,
-                              "group": []
-                          },
-                          {
-                              "id": "2b6dbdb7-24e3-4b2e-9c58-946da5e7cee1",
-                              "attribute": 31,
-                              "value": {
-                                  "Lab_L": "22",
-                                  "Lab_A": "45",
-                                  "Lab_B": "55"
-                              },
-                              "attribute_type": "compound",
-                              "name": "LAB",
-                              "step_name": "LAB",
-                              "description": "",
-                              "step_type": "operation",
-                              "duration": null,
-                              "parent": "5b8c6ac7-ca84-4145-b247-31cf806b038c",
-                              "props": {},
-                              "key": "LAB",
-                              "type": "",
-                              "unit": null,
-                              "group": [
-                                  {
-                                      "id": 28,
-                                      "name": "Lab_L",
-                                      "type": "TextInput",
-                                      "props": {
-                                          "abstract": false,
-                                          "required": false,
-                                          "enableScan": false,
-                                          "enablePrint": true
-                                      },
-                                      "key": "Lab_L",
-                                      "value": null,
-                                      "unit": null,
-                                      "attribute_type": "single"
-                                  },
-                                  {
-                                      "id": 29,
-                                      "name": "Lab_A",
-                                      "type": "TextInput",
-                                      "props": {
-                                          "abstract": false,
-                                          "required": false,
-                                          "enableScan": false,
-                                          "enablePrint": true
-                                      },
-                                      "key": "Lab_A",
-                                      "value": null,
-                                      "unit": null,
-                                      "attribute_type": "single"
-                                  },
-                                  {
-                                      "id": 30,
-                                      "name": "Lab_B",
-                                      "type": "TextInput",
-                                      "props": {
-                                          "abstract": false,
-                                          "required": false,
-                                          "enableScan": false,
-                                          "enablePrint": true
-                                      },
-                                      "key": "Lab_B",
-                                      "value": null,
-                                      "unit": null,
-                                      "attribute_type": "single"
-                                  }
-                              ]
-                          }
-                      ]
-                  }
-              ],
+              "table_data": [ ],
               "title": "工艺202411171821"
           },
           "content": [
@@ -11983,156 +11815,201 @@ onMounted(() => {
                 "name": "2eea865a-3daf-4efc-ade8-d1c56d7c6df7",
                 "isChanged": false,
                 "table_data": [
-                    {
-                        "id": "ba4a3f44-6465-4ea4-aa16-629a7f96eea4",
-                        "sn": "S202411178",
-                        "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                        "check": true,
-                        "count": "12",
-                        "test2": "0",
-                        "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                        "description": "大撒旦",
-                        "raw_material": "653cf967-656e-4642-8d62-29172840e982",
-                        "xm_raw_material": [
-                            "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                            "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                        ]
-                    },
-                    {
-                        "id": "f7aa2636-bc3e-44f0-87a8-cee4fb95dce2",
-                        "sn": "S202411179",
-                        "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                        "check": true,
-                        "count": "0",
-                        "test2": "43",
-                        "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                        "raw_material": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
-                        "xm_raw_material": [
-                            "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                            "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                        ]
-                    }
+                  {
+                      "check": true,
+                      "name": "样品00001",
+                      "id": "a147da76-5414-4931-8196-9cae695197f8",
+                      "test2": "23.0",
+                      "test2_id": "d0fe41b9-3b60-45f1-8568-48ab569c500f",
+                      "raw_material": "c42611b2-b5bd-40d4-90c5-0835fb957608",
+                      "Lab_B": "34.0",
+                      "Lab_B_id": "16c2175d-5bc3-4855-9709-153fb6119698",
+                      "LAB": {
+                          "Lab_L": "42.0",
+                          "Lab_A": "45.0",
+                          "Lab_B": "55.0"
+                      },
+                      "LAB_id": "2b6dbdb7-24e3-4b2e-9c58-946da5e7cee1",
+                      "sn": "S2024112026",
+                      "count": "0"
+                  },
+                  {
+                      "check": true,
+                      "name": "样品00002",
+                      "id": "837d6be0-3b04-426b-a103-c0d39cf76d95",
+                      "test2": "26.0",
+                      "test2_id": "d0fe41b9-3b60-45f1-8568-48ab569c500f",
+                      "raw_material": "1e23e2af-1c7c-49ee-b5d8-6b8a22d87853",
+                      "Lab_B": "38.0",
+                      "Lab_B_id": "16c2175d-5bc3-4855-9709-153fb6119698",
+                      "LAB": {
+                          "Lab_L": "47.0",
+                          "Lab_A": "51.0",
+                          "Lab_B": "62.0"
+                      },
+                      "LAB_id": "2b6dbdb7-24e3-4b2e-9c58-946da5e7cee1",
+                      "sn": "S2024112027",
+                      "count": "0"
+                  },
+                  {
+                      "check": true,
+                      "name": "样品00003",
+                      "id": "0c43a2c0-1b7c-44af-b0ae-42d40711196c",
+                      "test2": "29.0",
+                      "test2_id": "d0fe41b9-3b60-45f1-8568-48ab569c500f",
+                      "raw_material": "3b4c8b9f-91a9-4a2a-89b0-19699042111b",
+                      "Lab_B": "42.0",
+                      "Lab_B_id": "16c2175d-5bc3-4855-9709-153fb6119698",
+                      "LAB": {
+                          "Lab_L": "42.0",
+                          "Lab_A": "57.0",
+                          "Lab_B": "69.0"
+                      },
+                      "LAB_id": "2b6dbdb7-24e3-4b2e-9c58-946da5e7cee1",
+                      "sn": "S2024112028",
+                      "count": "0"
+                  },
+                  {
+                      "check": true,
+                      "name": "样品00004",
+                      "id": "7a4f1ce4-1dc2-4582-826a-34d82c0d2dad",
+                      "test2": "32.0",
+                      "test2_id": "d0fe41b9-3b60-45f1-8568-48ab569c500f",
+                      "raw_material": "551f6497-fac5-4764-a39b-0f866d629915",
+                      "Lab_B": "46.0",
+                      "Lab_B_id": "16c2175d-5bc3-4855-9709-153fb6119698",
+                      "LAB": {
+                          "Lab_L": "47.0",
+                          "Lab_A": "63.0",
+                          "Lab_B": "76.0"
+                      },
+                      "LAB_id": "2b6dbdb7-24e3-4b2e-9c58-946da5e7cee1",
+                      "sn": "S2024112029",
+                      "count": "0"
+                  }
                 ],
                 "designParams": [
-                    {
-                        "id": "14",
-                        "key": "test2",
-                        "name": "test1",
-                        "step": "32",
-                        "type": "TextInput",
-                        "unit": null,
-                        "check": true,
-                        "group": [],
-                        "props": {
-                            "abstract": false,
-                            "required": false,
-                            "enableScan": false,
-                            "enablePrint": true
-                        },
-                        "value": "115",
-                        "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
-                        "data_id": 14,
-                        "typeCode": "operation",
-                        "description": "",
-                        "defaultValue": "115",
-                        "attribute_type": "single"
-                    },
-                    {
-                        "id": "15",
-                        "key": "test2",
-                        "name": "test2",
-                        "step": "43",
-                        "type": "TextInput",
-                        "unit": null,
-                        "check": true,
-                        "group": [],
-                        "props": {
-                            "abstract": false,
-                            "required": false,
-                            "enableScan": false,
-                            "enablePrint": true
-                        },
-                        "value": null,
-                        "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
-                        "data_id": 15,
-                        "typeCode": "operation",
-                        "description": "",
-                        "defaultValue": null,
-                        "attribute_type": "single"
-                    },
-                    {
-                        "id": "27",
-                        "key": "xm_raw_material",
-                        "name": "原材料",
-                        "step": [
-                            "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                            "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                        ],
-                        "type": "SelectPlus",
-                        "unit": null,
-                        "check": true,
-                        "group": [],
-                        "label": "原材料",
-                        "props": {
-                            "options": [
-                                {
-                                    "id": "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                                    "name": "YL01171535/SN-1729150535817",
-                                    "batch": "1",
-                                    "goods": null,
-                                    "place": null,
-                                    "price": null,
-                                    "state": "Not-Started",
-                                    "margin": null,
-                                    "material": {
-                                        "id": "4cb7c311-ab8f-4fdf-aef4-61167a78c48f",
-                                        "sn": "SN-1729150535817",
-                                        "name": "YL01171535"
-                                    },
-                                    "supplier": null,
-                                    "description": null,
-                                    "create_datetime": null,
-                                    "production_date": null,
-                                    "update_datetime": null
-                                },
-                                {
-                                    "id": "64886cd2-1b88-49aa-b7c1-a687a8ffbad4",
-                                    "name": "YL10171534/SN-1729150438237",
-                                    "batch": "1",
-                                    "goods": null,
-                                    "place": null,
-                                    "price": null,
-                                    "state": "Not-Started",
-                                    "margin": null,
-                                    "material": {
-                                        "id": "7867a6e8-71a1-4ae3-afd5-f07f6ac0bb7a",
-                                        "sn": "SN-1729150438237",
-                                        "name": "YL10171534"
-                                    },
-                                    "supplier": null,
-                                    "description": null,
-                                    "create_datetime": null,
-                                    "production_date": null,
-                                    "update_datetime": null
-                                }
-                            ],
-                            "abstract": false,
-                            "labelKey": "name",
-                            "required": false,
-                            "valueKey": "id",
-                            "enableScan": false,
-                            "enablePrint": true
-                        },
-                        "value": "27",
-                        "parent": "c202e573-913b-4c1d-be68-087fad444664",
-                        "data_id": 27,
-                        "typeCode": "operation",
-                        "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                        "description": "",
-                        "defaultValue": null,
-                        "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
-                        "attribute_type": "single"
-                    }
+                  {
+                      "id": "d0fe41b9-3b60-45f1-8568-48ab569c500f",
+                      "attribute": 14,
+                      "value": "23",
+                      "attribute_type": "single",
+                      "name": "test1",
+                      "step_name": "test1",
+                      "description": "",
+                      "step_type": "operation",
+                      "duration": null,
+                      "parent": "5b8c6ac7-ca84-4145-b247-31cf806b038c",
+                      "props": {
+                          "abstract": false,
+                          "required": false,
+                          "enableScan": false,
+                          "enablePrint": true
+                      },
+                      "key": "test2",
+                      "type": "TextInput",
+                      "unit": null,
+                      "group": [],
+                      "step": "3",
+                      "check": true
+                  },
+                  {
+                      "id": "16c2175d-5bc3-4855-9709-153fb6119698",
+                      "attribute": 30,
+                      "value": "34",
+                      "attribute_type": "single",
+                      "name": "Lab_B",
+                      "step_name": "Lab_B",
+                      "description": "",
+                      "step_type": "operation",
+                      "duration": null,
+                      "parent": "5b8c6ac7-ca84-4145-b247-31cf806b038c",
+                      "props": {
+                          "abstract": false,
+                          "required": false,
+                          "enableScan": false,
+                          "enablePrint": true
+                      },
+                      "key": "Lab_B",
+                      "type": "TextInput",
+                      "unit": null,
+                      "group": [],
+                      "step": "4",
+                      "check": true
+                  },
+                  {
+                      "id": "2b6dbdb7-24e3-4b2e-9c58-946da5e7cee1",
+                      "attribute": 31,
+                      "value": {
+                          "Lab_L": "22",
+                          "Lab_A": "45",
+                          "Lab_B": "55"
+                      },
+                      "attribute_type": "compound",
+                      "name": "LAB",
+                      "step_name": "LAB",
+                      "description": "",
+                      "step_type": "operation",
+                      "duration": null,
+                      "parent": "5b8c6ac7-ca84-4145-b247-31cf806b038c",
+                      "props": {},
+                      "key": "LAB",
+                      "type": "",
+                      "unit": null,
+                      "group": [
+                          {
+                              "id": 28,
+                              "name": "Lab_L",
+                              "type": "TextInput",
+                              "props": {
+                                  "abstract": false,
+                                  "required": false,
+                                  "enableScan": false,
+                                  "enablePrint": true
+                              },
+                              "key": "Lab_L",
+                              "value": null,
+                              "unit": null,
+                              "attribute_type": "single"
+                          },
+                          {
+                              "id": 29,
+                              "name": "Lab_A",
+                              "type": "TextInput",
+                              "props": {
+                                  "abstract": false,
+                                  "required": false,
+                                  "enableScan": false,
+                                  "enablePrint": true
+                              },
+                              "key": "Lab_A",
+                              "value": null,
+                              "unit": null,
+                              "attribute_type": "single"
+                          },
+                          {
+                              "id": 30,
+                              "name": "Lab_B",
+                              "type": "TextInput",
+                              "props": {
+                                  "abstract": false,
+                                  "required": false,
+                                  "enableScan": false,
+                                  "enablePrint": true
+                              },
+                              "key": "Lab_B",
+                              "value": null,
+                              "unit": null,
+                              "attribute_type": "single"
+                          }
+                      ],
+                      "step": {
+                          "Lab_L": "5",
+                          "Lab_A": "6",
+                          "Lab_B": "7"
+                      },
+                      "check": true
+                  }
                 ],
                 "title": "样品202411171821"
             },
