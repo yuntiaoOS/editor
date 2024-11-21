@@ -37,6 +37,16 @@
     <template v-else-if="_config[props.props.componentKey] === 'Score'" >
       <t-rate v-model="_value" show-text :default-value="4" :disabled="readonly" @change="changeFunc"/>
     </template>
+    <template v-else-if="_config[props.props.componentKey] === 'ImageUpload'" >
+      <t-switch v-model="_value" :readonly="readonly" @change="changeFunc"/>
+    </template>
+    <template v-else-if="_config[props.props.componentKey] === 'UserPicker'" >
+      <t-select 
+        v-model="_value" :multiple="_config.props.multiple" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择" style="width: 100%;" clearable
+        :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc">
+        <t-option v-for="item in selectOptions" :key="item.value" :value="item" :label="item.label"></t-option>
+      </t-select>
+    </template>
     <template v-else-if="_config[props.props.componentKey] === 'VueContainer'" >
 
     </template>
@@ -75,6 +85,7 @@ const props = defineProps({
         "readOnly": false,
         "required": true,
         "enableScan": false,
+        "multiple": false,
         "validation": null,
         "enablePrint": true,
         "textForSuffix": "",
@@ -128,10 +139,16 @@ if (props.modelValue) {
 } else {
   if (props.config[props.props.componentKey] === 'SelectPlusRadio') {
     _value.value = {}
-  }else if (props.config[props.props.componentKey] === 'SelectPlus') {
+  }else if (props.config[props.props.componentKey] === 'SelectPlus' || props.config[props.props.componentKey] === 'ImageUpload') {
     _value.value = []
   }else if (props.config[props.props.componentKey]=== 'Score') {
     _value.value = 0
+  }else if (props.config[props.props.componentKey]=== 'UserPicker') {
+    if (props.config.props.multiple) {
+      _value.value = []
+    }else{
+      _value.value = {}
+    }
   }else{
   _value.value = ''
   }

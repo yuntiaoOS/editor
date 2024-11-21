@@ -15,8 +15,25 @@ const Api = {
   material_multiple_delete: '/ingredient_dev/experiment/material/multiple_delete/', //'试验原料版本列表-批量删除
   experiment_process: '/ingredient_dev/experiment/process/', //工艺、操作属性
   get_assign_record_process_data: '/ingredient_dev/experiment/process/get_assign_record_process_data/', //工艺详情get接口
+  experiment_samples:'/ingredient_dev/experiment/samples/', //样品
 
 };
+/*-------------------------------------实验-样品--------------------------------------------*/
+export function get_experiment_samples_infoFetch(id:string,params?: any) {
+  return request.get({url: `${Api.experiment_samples}${id}/`,params});
+}
+export function get_experiment_samplesListFetch(params?: any) {
+  return request.get({url: Api.experiment_samples,params});
+}
+export function post_experiment_samples_fetch(params: any) {
+  return request.post({ url: Api.experiment_samples, data: params });
+}
+export function put_experiment_samples_fetch(id:string,params: any) {
+  return request.put({ url:`${Api.experiment_samples}${id}/`, data: params });
+}
+export function delete_experiment_samplesFetch(id:string,params: any) {
+  return request.delete( { url:`${Api.experiment_samples}${id}/`, params });
+}
 /*-------------------------------------实验工艺--------------------------------------------*/
 export function get_assign_record_process_dataFetch(params?: any) {
   return request.get<ExperimentInfoList>({

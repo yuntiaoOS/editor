@@ -443,21 +443,24 @@ const makeTableFunc = ()=> {
   console.log('--------151----_desinParams.value----------',_designResult.value,paramsColumns)
   current.value++
   
-  _designResult.value = [];
+  
   const designResult = [];
   for(let i = 0;i<cycleNumber.value;i++) {
-    const obj = {check:true};
+    const obj = {check:true,name:''};
     obj.id = uuid();
     _designParams.value.forEach((item) => {
       console.log('-------310----item----------',item,item.step)
-      if ( item.step && item.key !== XM_raw_material_key  ){
-        obj[item.key] = addDecimals(item.value, item.step,i,item.attribute_type)  ;
-        obj[`${item.key }_id`] = item.id
-      }else{
-        obj[item.key] = item.step ;
-        obj[`${item.key }_id`] = item.id
-        obj['name'] = item.props.options?.filter(eleO => item.step.includes(eleO.id))?.map(eleO => eleO.name)?.join(";") 
+      if (item.step ) {
+        if ( item.key !== XM_raw_material_key  ){
+          obj[item.key] = addDecimals(item.value, item.step,i,item.attribute_type)  ;
+          obj[`${item.key }_id`] = item.id
+        }else{
+          obj[item.key] = item.step ;
+          obj[`${item.key }_id`] = item.id
+          obj['name'] = item.props.options?.filter(eleO => item.step.includes(eleO.id))?.map(eleO => eleO.name)?.join("/") 
+        }
       }
+      
       obj['raw_material'] = item.raw_material 
       obj['technology'] = item.technology 
     })
@@ -465,13 +468,9 @@ const makeTableFunc = ()=> {
     designResult.push(obj);
     selectedRK.push(obj.id)
   }
-  nextTick(()=>{
-    _designResult.value = [...designResult];
-    tableRef.value.refreshTable()
-    selectedRowKeys.value = [...selectedRK]
-    console.log('------155------_desinParams.value----------',selectedRK,selectedRowKeys.value,_designResult.value)
-  })
-  
+  _designResult.value = Object.assign([],[...designResult]) ;
+  selectedRowKeys.value = [...selectedRK]
+  console.log('------155------_desinParams.value----------',selectedRK,selectedRowKeys.value,designResult,_designResult.value)
 }
 
 onMounted(() => {

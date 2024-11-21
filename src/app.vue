@@ -8,6 +8,8 @@
 
 <script setup lang="ts">
 import { shortId } from '@/utils/short-id'
+import { multiply } from 'lodash-unified';
+import { getOrg_memberFetch } from '@/api/index'
 // import { UmoSimpleEditor,UmoEditor } from './components/index.ts'
 // import UmoEdit from './components/editor/index.vue'
 const { editor } = useStore()
@@ -10660,7 +10662,7 @@ const options = $ref({
     experiment_theme: '8f79cc62-bf22-428d-9c98-4e3b3e81c6c3',
     experiment_record: '6e252907-4fa3-4e50-a97c-6d8a33bbb579',
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMTczMTQ1LCJpYXQiOjE3MzIwODY3NDUsImp0aSI6IjBhNzQyNDRhODU2ZTQ5MjU4N2E1MzY3Y2RhZTBlN2ZhIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.qtPM-pYx0NxVpIOHE4mFsr8GPUOVp3qFsiYTIkkvG3s',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMTg5MzYyLCJpYXQiOjE3MzIxMDI5NjIsImp0aSI6IjM0ZjI0NDRjMGVmMzRhZDZiZDRmNTYyOTRlODY0ZDAxIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.9HCwAX71fm4phsksJ1xq64_rMCBU0oSZtsBlI5NUdd4',
   },
   document: {
     placeholder: '测试文档',
@@ -11317,8 +11319,8 @@ onMounted(() => {
                             "id": "experimenter",
                             "key": "experimenter",
                             "icon": "iconamoon:edit",
-                            "name": "TextInput",
-                            "type": "TextInput",
+                            "name": "UserPicker",
+                            "type": "UserPicker",
                             "alias": "实验参与人",
                             "props": {
                                 "hidden": false,
@@ -11329,7 +11331,14 @@ onMounted(() => {
                                 "validation": null,
                                 "enablePrint": true,
                                 "textForSuffix": "",
-                                "enableSuffixText": false
+                                "enableSuffixText": false,
+                                "multiply":false,
+                                "remote": true,
+                                "valueKey": "id",
+                                "labelKey": "name",
+                                "remoteMethod": () => {
+                                  return getOrg_memberFetch({limit:9999})
+                                }
                             },
                             "title": "实验参与人",
                             "valueType": "String"
@@ -11649,163 +11658,6 @@ onMounted(() => {
                   ]
               }
           ]
-        },
-        {
-            "type": "experimental_design",
-            "attrs": {
-                "id": "a71c39b8-c68c-4660-ab47-2a95a67ce205",
-                "key": "experimental_design20241117182207",
-                "name": "09658fa5-6431-4f6d-93c9-e2a20d43ae96",
-                "isChanged": false,
-                "designParams": [
-                    {
-                        "id": "14",
-                        "key": "test2",
-                        "name": "test1",
-                        "step": "32",
-                        "type": "TextInput",
-                        "unit": null,
-                        "check": true,
-                        "group": [],
-                        "props": {
-                            "abstract": false,
-                            "required": false,
-                            "enableScan": false,
-                            "enablePrint": true
-                        },
-                        "value": "115",
-                        "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
-                        "data_id": 14,
-                        "typeCode": "operation",
-                        "description": "",
-                        "defaultValue": "115",
-                        "attribute_type": "single"
-                    },
-                    {
-                        "id": "15",
-                        "key": "test2",
-                        "name": "test2",
-                        "step": "43",
-                        "type": "TextInput",
-                        "unit": null,
-                        "check": true,
-                        "group": [],
-                        "props": {
-                            "abstract": false,
-                            "required": false,
-                            "enableScan": false,
-                            "enablePrint": true
-                        },
-                        "value": null,
-                        "parent": "6d1c9264-0d90-4bd0-a2a5-7a5f01ff0ad6",
-                        "data_id": 15,
-                        "typeCode": "operation",
-                        "description": "",
-                        "defaultValue": null,
-                        "attribute_type": "single"
-                    },
-                    {
-                        "id": "27",
-                        "key": "xm_raw_material",
-                        "name": "原材料",
-                        "step": [
-                            "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                            "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                        ],
-                        "type": "SelectPlus",
-                        "unit": null,
-                        "check": true,
-                        "group": [],
-                        "label": "原材料",
-                        "props": {
-                            "options": [
-                                {
-                                    "id": "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                                    "name": "YL01171535/SN-1729150535817",
-                                    "batch": "1",
-                                    "goods": null,
-                                    "place": null,
-                                    "price": null,
-                                    "state": "Not-Started",
-                                    "margin": null,
-                                    "material": {
-                                        "id": "4cb7c311-ab8f-4fdf-aef4-61167a78c48f",
-                                        "sn": "SN-1729150535817",
-                                        "name": "YL01171535"
-                                    },
-                                    "supplier": null,
-                                    "description": null,
-                                    "create_datetime": null,
-                                    "production_date": null,
-                                    "update_datetime": null
-                                },
-                                {
-                                    "id": "64886cd2-1b88-49aa-b7c1-a687a8ffbad4",
-                                    "name": "YL10171534/SN-1729150438237",
-                                    "batch": "1",
-                                    "goods": null,
-                                    "place": null,
-                                    "price": null,
-                                    "state": "Not-Started",
-                                    "margin": null,
-                                    "material": {
-                                        "id": "7867a6e8-71a1-4ae3-afd5-f07f6ac0bb7a",
-                                        "sn": "SN-1729150438237",
-                                        "name": "YL10171534"
-                                    },
-                                    "supplier": null,
-                                    "description": null,
-                                    "create_datetime": null,
-                                    "production_date": null,
-                                    "update_datetime": null
-                                }
-                            ],
-                            "abstract": false,
-                            "labelKey": "name",
-                            "required": false,
-                            "valueKey": "id",
-                            "enableScan": false,
-                            "enablePrint": true
-                        },
-                        "value": "27",
-                        "parent": "c202e573-913b-4c1d-be68-087fad444664",
-                        "data_id": 27,
-                        "typeCode": "operation",
-                        "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                        "description": "",
-                        "defaultValue": null,
-                        "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
-                        "attribute_type": "single"
-                    }
-                ],
-                "designResult": [
-                    {
-                        "id": "653cf967-656e-4642-8d62-29172840e982",
-                        "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                        "check": true,
-                        "test2": "0",
-                        "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                        "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
-                        "xm_raw_material": [
-                            "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                            "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                        ]
-                    },
-                    {
-                        "id": "f3439e49-81bc-4e4a-ba7b-0e4474b281df",
-                        "name": "YL01171535/SN-1729150535817;YL10171534/SN-1729150438237",
-                        "check": true,
-                        "test2": "43",
-                        "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-                        "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
-                        "xm_raw_material": [
-                            "5622ae82-bf06-47ed-9db9-f66ee75d640d",
-                            "64886cd2-1b88-49aa-b7c1-a687a8ffbad4"
-                        ]
-                    }
-                ],
-                "title": "试验设计202411171821"
-            }
         },
         {
             "type": "sample_table",

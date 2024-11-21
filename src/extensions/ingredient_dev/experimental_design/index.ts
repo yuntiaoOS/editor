@@ -18,7 +18,7 @@ export default xmNode.create({
   content: 'block*',
   atom: true,
   selectable: true,
- 
+  
   parseHTML() {
     return [{ tag: 'experimental_design' }]
   },
@@ -95,7 +95,14 @@ export default xmNode.create({
                 key: option?.key ? option?.key : Xm_Table_key['experimental_design']  + timeFormat(null,'yyyymmddhhMMss'),
                 table_data: option?.table_data,
               },
-              content: [ ],
+              content: [
+                {
+                  type: 'paragraph',
+                  content: [
+                    { type: 'text', text: ' ' },
+                  ],
+                }
+              ],
             };
             return commands.insertContent(content);
           },

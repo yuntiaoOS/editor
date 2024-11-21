@@ -42,8 +42,8 @@
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
-import { getIngredient_dev_experimentListFetch } from '@/api/experiment'
-
+import { getIngredient_dev_experimentListFetch,post_experiment_samples_fetch } from '@/api/experiment'
+import { timeFormat } from '@/utils/time-ago'
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
@@ -153,38 +153,45 @@ const onSelectChange = ({value, params} )=>{
 }
 
 const on_experimental_designFunc = async ()=>{
+  console.log('--------on_experimental_designFunc--------156--------',designResult.value,_designParams.value)
+  const designParamsC =  Object.assign([],_designParams.value)
   const selectData = designResult.value.filter(ele=> ele.check)
   if (selectData.length > 0) {
-    const res = await getIngredient_dev_experimentListFetch({type:'S',num:selectData.length})
+    const table_data = []
+    selectData.forEach((ele ,index) => {
+      const obj  = {
+        ...ele,
+        name: ele.name&&ele.name.length>0 ? ele.name : `SF-${timeFormat(null,'yyyymmddhhMMss')}`,
+        id: uuid(),
+        raw_material: ele.id,
+        count: '0',
+      }
+      table_data.push(obj)
+    });
+    const params = {
+      experiment_theme: experiment_theme.value?.id,
+      record: experiment_record.value?.id,
+      keys: _designParams.value.filter(ele=> ele.check).map(ele=> `${ele.key }_id`),
+      values: _designParams.value.filter(ele=> ele.check).map(ele=> ele.key),
+      data: table_data
+    }
+    const res = await post_experiment_samples_fetch(params)
+    console.log('--------on_experimental_designFunc--------180--------',params,selectData,_designParams.value,designResult.value)
     if (res.data.code === 2000) {
-      console.log('--------on_experimental_designFunc--------157--------',selectData,_designParams.value,designResult.value)
-      const table_data = []
-      selectData.forEach((ele ,index) => {
-        const obj  = {
-          ...ele,
-          id: uuid(),
-          raw_material: ele.id,
-          sn: res.data.data[index],
-          count: '0',
-        }
-        table_data.push(obj)
-      });
+      console.log('--------on_experimental_designFunc--------183--------',editor.state)
+      // editor.commands.setTextSelection(editor.state.doc.content.size)
+      // const { from0, to0 } = editor.state.selection ?? {}
+      // editor.commands.setTextSelection({ from:from0 , to :to0  })
+      // console.log('--------on_experimental_designFunc--------184--------',from0, to0)
+      editor.chain().focus().insertContent('<p></p>').run();
 
-      editor.commands.setTextSelection(editor.state.doc.content.size)
-      editor.commands.addSample_tables({ table_data,designParams:[ ..._designParams.value]})
+      const { from, to } = editor.state.selection ?? {}
+      console.log('--------on_experimental_designFunc--------189--------',from, to)
+      editor.commands.setTextSelection({ from , to: to + 1  })
+      editor.commands.addSample_tables({ table_data:res.data.data,designParams:designParamsC})
+      // editor.view.updateState(editor.state)
       table_data.value = [...table_data]
       experimental_design_visible.value = false
-
-      const params = {
-        experiment_theme: experiment_theme.value?.id,
-        record: experiment_record.value?.id,
-        keys: _designParams.value.filter(ele=> ele.check).map(ele=> `${ele.key }_id`),
-        values: _designParams.value.filter(ele=> ele.check).map(ele=> ele.key),
-        data: table_data
-      }
-
-      console.log('--------on_experimental_designFunc--------180--------',params)
-
     }else{
       TMessagePlugin.warning(res.data.msg)
     }
