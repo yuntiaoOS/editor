@@ -475,13 +475,25 @@ const columnsDefaultF = [
       ],
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onPick','onChange'],
-      onEdited: (context ) => {
+      onEdited: async (context ) => {
         console.log(context);
-        const newData = [..._table_data.value];
-        newData.splice(context.rowIndex, 1, context.newRowData);
-        _table_data.value = newData;
-        console.log('Edit firstName:', context);
-        useMessage('success' ,'Success');
+        const params = {
+          start_time:context.newRowData.start_time,
+          group: group.value
+        }
+        const res = await put_experiment_evaluation_fetch(context.row.id,params)
+        if (res.data.code === 2000) {
+          useMessage('success' ,res.data.msg);
+          group.value =  res.data.data.group
+          updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+          await initData()
+          console.log('Edit firstName:', context);
+        }
+        // const newData = [..._table_data.value];
+        // newData.splice(context.rowIndex, 1, context.newRowData);
+        // _table_data.value = newData;
+        // console.log('Edit firstName:', context);
+        // useMessage('success' ,'Success');
       },
       // 触发校验的时机（when to validate)
       validateTrigger: 'change',
@@ -527,13 +539,25 @@ const columnsDefaultA = [
       ],
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
-      onEdited: (context ) => {
+      onEdited: async (context ) => {
         console.log(context);
-        const newData = [..._table_data.value];
-        newData.splice(context.rowIndex, 1, context.newRowData);
-        _table_data.value = newData;
-        console.log('Edit firstName:', context);
-        useMessage('success' ,'Success');
+        const params = {
+          description:context.newRowData.description,
+          group: group.value
+        }
+        const res = await put_experiment_evaluation_fetch(context.row.id,params)
+        if (res.data.code === 2000) {
+          useMessage('success' ,res.data.msg);
+          group.value =  res.data.data.group
+          updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+          await initData()
+          console.log('Edit firstName:', context);
+        }
+        // const newData = [..._table_data.value];
+        // newData.splice(context.rowIndex, 1, context.newRowData);
+        // _table_data.value = newData;
+        // console.log('Edit firstName:', context);
+        // useMessage('success' ,'Success');
       },
       // 触发校验的时机（when to validate)
       validateTrigger: 'change',
@@ -714,7 +738,7 @@ const makeTableDataAndColumnFunc = (tableData,selectTableForm,index_typeInfo)=>{
     const options = !['SelectPlusRadio','SelectPlus'].includes(item.type) ? [] : item.props.options.map(ele=> ({ label: ele.name, value: ele.id }) )
     sub_col.children.push({
       title: item.name,
-      colKey: type ==='group'? `value.${sub_col.colKey}.${item.key}`: `value.${item.key}`,
+      colKey: type ==='group'? `${sub_col.colKey}.${item.key}`: `value.${item.key}`,
       width: 100,
       edit: {
         // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
@@ -727,8 +751,23 @@ const makeTableDataAndColumnFunc = (tableData,selectTableForm,index_typeInfo)=>{
           options
         },
         props:({col,row})=> {
+          if (!row.value) {
+            row.value = {}
+          }
+          if(type ==='group'){
+            if (!row.value[resultKey(sub_col.colKey)]) {
+              row.value[resultKey(sub_col.colKey)] = {}
+              row.value[resultKey(sub_col.colKey)][resultKey(col.colKey)] = ''
+            }else if (!row.value[resultKey(sub_col.colKey)][resultKey(col.colKey)]) {
+              row.value[resultKey(sub_col.colKey)][resultKey(col.colKey)] = ''
+            }
+          }else{
+            if (!row.value[resultKey(col.colKey)]) {
+              row.value[resultKey(col.colKey)] = {}
+            }
+          }
           return {
-            modelValue: type ==='group'? row[sub_col.colKey][col.colKey] : row[col.colKey],
+            modelValue: type ==='group'? row.value[resultKey(sub_col.colKey)][resultKey(col.colKey)] : row.value[resultKey(col.colKey)],
             config: item,
             clearable: true,
             autofocus: true,
@@ -746,12 +785,20 @@ const makeTableDataAndColumnFunc = (tableData,selectTableForm,index_typeInfo)=>{
         ],
         showEditIcon: true,
         abortEditOnEvent: ['onEnter','onBlur'],
-        onEdited: (context ) => {
+        onEdited: async (context ) => {
           console.log(context);
-          const newData = [..._table_data.value];
-          newData.splice(context.rowIndex, 1, context.newRowData);
-          _table_data.value = newData;
-          useMessage('success' ,'Success');
+          const params = {
+            value:context.newRowData.value,
+            group: group.value
+          }
+          const res = await put_experiment_evaluation_fetch(context.row.id,params)
+          if (res.data.code === 2000) {
+            useMessage('success' ,res.data.msg);
+            group.value =  res.data.data.group
+            updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+            await initData()
+            console.log('Edit firstName:', context);
+          }
         },
         // 触发校验的时机（when to validate)
         validateTrigger: 'change',
@@ -896,7 +943,11 @@ const initData = async () => {
   }
   
 }
-
+// 取字符串用. 分割的最后一位 value.lab.lab_l 得到lab_l
+const resultKey = (str) => {
+  const parts = str.split('.');
+  return parts[parts.length - 1];
+}
 onMounted(async () => {
   if (node.attrs.columns && Object.keys(node.attrs.columns).length > 0) {
     const columns = node.attrs.columns.map((col) => {
@@ -911,8 +962,18 @@ onMounted(async () => {
                   component: xmInput,
                   props:({row})=> {
                     console.log('---------888----children---children---',eleC)
+                    if (!row.value) {
+                      row.value = {}
+                      row.value[resultKey(ele.colKey)] = {}
+                      row.value[resultKey(ele.colKey)][resultKey(eleC.colKey)] = ''
+                    }else if (!row.value[resultKey(ele.colKey)]) {
+                      row.value[resultKey(ele.colKey)] = {}
+                      row.value[resultKey(ele.colKey)][resultKey(eleC.colKey)] = ''
+                    }else if (!row.value[resultKey(ele.colKey)][resultKey(eleC.colKey)]) {
+                      row.value[resultKey(ele.colKey)][resultKey(eleC.colKey)] = ''
+                    }
                     return {
-                      modelValue: row.value? row.value[ele.colKey][eleC.colKey] : '',
+                      modelValue: row.value? row.value[resultKey(ele.colKey)][resultKey(eleC.colKey)] : '',
                       config: eleC.edit.customProps?.config,
                       clearable: true,
                       autofocus: true,
@@ -921,12 +982,20 @@ onMounted(async () => {
                       // autoWidth: true,
                     }
                   },
-                  onEdited: (context ) => {
-                    console.log(context);
-                    const newData = [..._table_data.value];
-                    newData.splice(context.rowIndex, 1, context.newRowData);
-                    _table_data.value = newData;
-                    useMessage('success' ,'Success');
+                  onEdited: async (context ) => {
+                    console.log('---------925-------------',context);
+                    const params = {
+                      value:context.newRowData.value,
+                      group: group.value
+                    }
+                    const res = await put_experiment_evaluation_fetch(context.row.id,params)
+                    if (res.data.code === 2000) {
+                      useMessage('success' ,res.data.msg);
+                      group.value =  res.data.data.group
+                      updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+                      await initData()
+                      console.log('Edit firstName:', context);
+                    }
                   },
                 } 
               };
@@ -938,8 +1007,14 @@ onMounted(async () => {
                 ...ele.edit, 
                 component: xmInput,
                 props:({row})=> {
+                  if (!row.value) {
+                    row.value = {}
+                    row.value[resultKey(ele.colKey)] = {}
+                  }else if (!row.value[resultKey(ele.colKey)]) {
+                    row.value[resultKey(ele.colKey)] = {}
+                  }
                   return {
-                    modelValue: row.value? row.vlaue[ele.colKey] : '',
+                    modelValue: row.value? row.value[resultKey(ele.colKey)] : '',
                     config: ele.edit.customProps?.config,
                     clearable: true,
                     autofocus: true,
@@ -948,12 +1023,20 @@ onMounted(async () => {
                     // autoWidth: true,
                   }
                 },
-                onEdited: (context ) => {
-                  console.log(context);
-                  const newData = [..._table_data.value];
-                  newData.splice(context.rowIndex, 1, context.newRowData);
-                  _table_data.value = newData;
-                  useMessage('success' ,'Success');
+                onEdited: async (context ) => {
+                  console.log('---------952-------------',context);
+                  const params = {
+                    value:context.newRowData.value,
+                    group: group.value
+                  }
+                  const res = await put_experiment_evaluation_fetch(context.row.id,params)
+                  if (res.data.code === 2000) {
+                    useMessage('success' ,res.data.msg);
+                    group.value =  res.data.data.group
+                    updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+                    await initData()
+                    console.log('Edit firstName:', context);
+                  }
                 },
               } 
             };
@@ -966,8 +1049,14 @@ onMounted(async () => {
             ...col.edit, 
             component:xmInput,
             props:({row})=> {
+              if (!row.value) {
+                row.value = {}
+                row.value[resultKey(col.colKey)] = {}
+              }else if (!row.value[resultKey(col.colKey)]) {
+                row.value[resultKey(col.colKey)] = {}
+              }
               return {
-                modelValue: row.value? row[col.colKey] : '',
+                modelValue: row.value? row.value[resultKey(col.colKey)] : '',
                 config: col.edit.customProps?.config,
                 clearable: true,
                 autofocus: true,
@@ -976,12 +1065,20 @@ onMounted(async () => {
                 // autoWidth: true,
               }
             },
-            onEdited: (context ) => {
-              console.log(context);
-              const newData = [..._table_data.value];
-              newData.splice(context.rowIndex, 1, context.newRowData);
-              _table_data.value = newData;
-              useMessage('success' ,'Success');
+            onEdited: async (context ) => {
+              console.log('---------980-------------',context);
+              const params = {
+                value:context.newRowData.value,
+                group: group.value
+              }
+              const res = await put_experiment_evaluation_fetch(context.row.id,params)
+              if (res.data.code === 2000) {
+                useMessage('success' ,res.data.msg);
+                group.value =  res.data.data.group
+                updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+                await initData()
+                console.log('Edit firstName:', context);
+              }
             },
           },
         };
