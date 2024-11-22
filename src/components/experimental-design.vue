@@ -210,6 +210,18 @@ const getConfig = (type,row) => {
 }
 
 const typeSelectNext = ()=>{
+  // designType.value === '自定义' 时 current.value跳到下下步
+  if (designType.value === '自定义' && current.value === 2) {
+    current.value++;
+  } else if (designType.value === '正交设计' && current.value === 2) {
+    
+  } else if (designType.value === '响应面法' && current.value === 2) {
+    
+  } else if (designType.value === '中心复合' && current.value === 2) {
+    
+  } else {
+     
+  }
   if (designType.value) {
     
   }

@@ -3,7 +3,7 @@
     <div style="width: 100%">
       <!-- <h2>样品</h2> -->
       <t-table 
-        ref="tableRef"  
+        ref="tableRef"  :loading="loading"
         row-key="id" :data="table_data" :columns="columns" resizable v-model:displayColumns="displayColumns"
          >
         <template #topContent>
@@ -40,9 +40,9 @@
                 取消
               </t-link>
             </div> -->
-            <t-link theme="danger" hover="color" @click.stop="onDelete(row)">
-              删除
-            </t-link>
+            <t-popconfirm content="确认删除吗" @confirm="() => onDelete(row)" >
+              <t-button title="删除" theme="danger" shape="square" variant="text" >删除</t-button>
+            </t-popconfirm>
           </div>
         </template>
       </t-table>
@@ -55,7 +55,7 @@
       :confirm-on-enter="true"
       :on-confirm="on_experimental_designFunc"
     >
-      <experimental-design v-if="experimental_design_visible" v-model:designParams="_designParams" v-model:designResult="designResult" @select-change="onSelectChange"/>
+      <experimental-design v-if="experimental_design_visible" v-model:design-params="_designParams" v-model:design-result="designResult" @select-change="onSelectChange"/>
     </t-dialog>
     
     <t-dialog destroyOnClose
@@ -86,8 +86,8 @@
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
-import { getIngredient_dev_experimentListFetch } from '@/api/experiment'
-
+import { getIngredient_dev_experimentListFetch,delete_experiment_samplesFetch,get_experiment_samplesListFetch ,put_experiment_samples_fetch } from '@/api/experiment'
+import { timeFormat } from '@/utils/time-ago'
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
@@ -98,8 +98,12 @@ const editableRowKeys = ref([]);
 const currentSaveId = ref('');
 // 保存变化过的行信息
 const editMap  = {};
-
+const loading = ref(false);
 const searchTitle = ref('')
+
+const $key_data = useState('key_data')
+const experiment_record = computed(() => $key_data.value?.experiment_record)
+const experiment_theme = computed(() => $key_data.value?.experiment_theme)
 
 const experimental_design_visible = ref(false);
 
@@ -109,6 +113,18 @@ const updateTime = computed({
   get: () => node.attrs.updateTime,
   set(value) {
     updateAttributes({ updateTime: value })
+  },
+})
+const is_integration = computed({
+  get: () => node.attrs.is_integration,
+  set(value) {
+    updateAttributes({ is_integration: value })
+  },
+})
+const group = computed({
+  get: () => node.attrs.group,
+  set(value) {
+    updateAttributes({ group: value })
   },
 })
 
@@ -196,27 +212,34 @@ const onSelectChange = ({value, params} )=>{
 }
 
 const on_experimental_designFunc = async()=>{
-  
+  console.log('--------on_experimental_designFunc--------156--------',designResult.value,_designParams.value)
+  const designParamsC =  Object.assign([],_designParams.value)
   const selectData = designResult.value.filter(ele=> ele.check)
   if (selectData.length > 0) {
-    const res = await getIngredient_dev_experimentListFetch({type:'S',num:selectData.length})
+    const table_data = []
+    selectData.forEach((ele ,index) => {
+      const obj  = {
+        ...ele,
+        name: ele.name&&ele.name.length>0 ? ele.name : `SF-${timeFormat(null,'yyyymmddhhMMss')}`,
+        id: uuid(),
+        raw_material: ele.id,
+        count: '0',
+      }
+      table_data.push(obj)
+    });
+    const params = {
+      experiment_theme: experiment_theme.value?.id,
+      record: experiment_record.value?.id,
+      keys: _designParams.value.filter(ele=> ele.check).map(ele=> `${ele.key }_id`),
+      values: _designParams.value.filter(ele=> ele.check).map(ele=> ele.key),
+      data: table_data
+    }
+    const res = await post_experiment_samples_fetch(params)
+    console.log('--------on_experimental_designFunc--------180--------',params,selectData,_designParams.value,designResult.value)
     if (res.data.code === 2000) {
-      console.log('--------on_experimental_designFunc--------105--------',selectData)
-      const table_data = []
-      selectData.forEach((ele ,index) => {
-        const obj  = {
-          ...ele,
-          id: uuid(),
-          raw_material: ele.id,
-          sn: res.data.data[index],
-          count: '0',
-        }
-        table_data.push(obj)
-      });
-      nextTick(()=>{
-        table_data.value = [...table_data]
-      })
-      updateAttributes({ table_data })
+      console.log('--------on_experimental_designFunc--------183--------',editor.state)
+    
+      table_data.value = [...table_data]
       experimental_design_visible.value = false
     }else{
       TMessagePlugin.warning(res.data.msg)
@@ -227,14 +250,23 @@ const on_experimental_designFunc = async()=>{
   nextTick(()=>{
     updateAttributes({ designParams:[ ..._designParams.value] })
   })
-  
-  console.log('--------on_experimental_designFunc--------119--------',_designParams.value,designResult.value)
 }
 
-const onDelete = (row) => {
+const onDelete = async(row) => {
   console.log('--------onDelete--------44--------',row)
-  const index = table_data.value.findIndex((t ) => t === row);
-  table_data.value.splice(index, 1);
+  const params = {
+    group: group.value,
+  }
+  const res = await delete_experiment_samplesFetch(row.id,params)
+  if (res.data.code === 2000) {
+    useMessage('success' ,res.data.msg);
+    // group.value =  res.data.data.group
+    updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+    await initData()
+  }
+
+  // const index = table_data.value.findIndex((t ) => t === row);
+  // table_data.value.splice(index, 1);
 };
 
 const columns = ref([])
@@ -267,13 +299,24 @@ columns.value = [
       ],
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
-      onEdited: (context ) => {
+      onEdited: async (context ) => {
         console.log(context);
-        const newData = [...table_data.value];
-        newData.splice(context.rowIndex, 1, context.newRowData);
-        table_data.value = newData;
-        console.log('Edit firstName:', context);
-        useMessage('success' ,'Success');
+        const params = {
+          name:context.newRowData.name,
+          group: group.value
+        }
+        const res = await put_experiment_samples_fetch(context.row.id,params)
+        if (res.data.code === 2000) {
+          useMessage('success' ,res.data.msg);
+          group.value =  res.data.data.group
+          updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+          // const newData = [...table_data.value];
+          // newData.splice(context.rowIndex, 1, context.newRowData);
+          // table_data.value = newData;
+          await initData()
+          console.log('Edit firstName:', context);
+        }
+        
       },
       // 触发校验的时机（when to validate)
       validateTrigger: 'change',
@@ -321,13 +364,20 @@ columns.value = [
       ],
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
-      onEdited: (context ) => {
+      onEdited: async (context ) => {
         console.log(context);
-        const newData = [...table_data.value];
-        newData.splice(context.rowIndex, 1, context.newRowData);
-        table_data.value = newData;
-        console.log('Edit firstName:', context);
-        useMessage('success' ,'Success');
+        const params = {
+          count:context.newRowData.count,
+          group: group.value
+        }
+        const res = await put_experiment_samples_fetch(context.row.id,params)
+        if (res.data.code === 2000) {
+          useMessage('success' ,res.data.msg);
+          group.value =  res.data.data.group
+          updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+          await initData()
+          console.log('Edit firstName:', context);
+        }
       },
       // 触发校验的时机（when to validate)
       validateTrigger: 'change',
@@ -371,13 +421,20 @@ columns.value = [
       ],
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
-      onEdited: (context ) => {
+      onEdited:async (context ) => {
         console.log(context);
-        const newData = [...table_data.value];
-        newData.splice(context.rowIndex, 1, context.newRowData);
-        table_data.value = newData;
-        console.log('Edit firstName:', context);
-        useMessage('success' ,'Success');
+        const params = {
+          description:context.newRowData.description,
+          group: group.value
+        }
+        const res = await put_experiment_samples_fetch(context.row.id,params)
+        if (res.data.code === 2000) {
+          useMessage('success' ,res.data.msg);
+          group.value =  res.data.data.group
+          updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+          await initData()
+          console.log('Edit firstName:', context);
+        }
       },
       // 触发校验的时机（when to validate)
       validateTrigger: 'change',
@@ -422,8 +479,56 @@ const columnEditFunc = ()=>{
   dialog_visible.value = true
 }
 
-onMounted(() => {
+const initData = async () => {
+  loading.value = true
+  const params = {
+    experiment_theme: experiment_theme.value?.id,
+    record: experiment_record.value?.id,
+    group: group.value,
+  }
+  console.log('----------initData-----297---------',params)
+  const res = await get_experiment_samplesListFetch(params)
+  loading.value = false
+  if (res.data.code === 2000) {
+    table_data.value = res.data.data
+  }
+}
 
+onMounted(async () => {
+  if (group.value && group.value.length > 0 && table_data.value?.length === 0) {
+    console.log('----------change_log.value22222395---------',group.value);
+    await initData()
+  }else if(is_integration.value) {
+    
+    const docD = editor.getJSON()
+    if (docD ) {
+      // 原材料表
+      const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
+      if (raw_material_tables.length === 0) {
+        TMessagePlugin.warning('请先创建原材料表')
+        return  // 原材料表不存在，返回
+      }
+      raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
+      const dialog = useConfirm({
+        theme: 'info',
+        header: '提示',
+        body: '检测到当前文档中存在原材料表，是否使用该原材料表进行初始化？',
+        confirmBtn: '确定',
+        onConfirm() {
+          dialog.destroy()
+          setTimeout(() => {
+            add_parent_visible.value = true
+          }, 300)
+        },
+        onClosed() {
+          
+        },
+      })
+      
+    }else {
+      TMessagePlugin.warning('当前文档中没有数据')
+    }
+  }
 })
 
 </script>

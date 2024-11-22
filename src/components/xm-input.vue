@@ -24,14 +24,14 @@
       <t-select 
         v-model="_value" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择"  style="width: 100%;" clearable
         :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc">
-        <t-option v-for="item in selectOptions" :key="item.value" :value="item.value" :label="item.label"></t-option>
+        <t-option v-for="item in selectOptions" :key="item[_config.props.valueKey]" :value="item[_config.props.valueKey]" :label="item[_config.props.labelKey]"></t-option>
       </t-select>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'SelectPlus'" >
       <t-select 
         v-model="_value" multiple :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择" style="width: 100%;" clearable
         :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc">
-        <t-option v-for="item in selectOptions" :key="item.value" :value="item.value" :label="item.label"></t-option>
+        <t-option v-for="item in selectOptions" :key="item[_config.props.valueKey]" :value="item[_config.props.valueKey]" :label="item[_config.props.labelKey]"></t-option>
       </t-select>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'Score'" >
@@ -44,7 +44,7 @@
       <t-select 
         v-model="_value" :multiple="_config.props.multiple" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择" style="width: 100%;" clearable
         :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc">
-        <t-option v-for="item in selectOptions" :key="item.value" :value="item" :label="item.label"></t-option>
+        <t-option v-for="item in selectOptions" :key="item[_config.props.valueKey]" :value="item" :label="item[_config.props.labelKey]"></t-option>
       </t-select>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'VueContainer'" >
@@ -175,8 +175,8 @@ const selectFocusMethod = async (formItem) => {
     console.log('-------selectFocusMethod----------------',res)
     if (res.data.code === 2000) {
       formItem.props.options = res.data.data.map((item) => ({
-        value: item[formItem.props.valueKey],
-        label: item[formItem.props.labelKey],
+        [formItem.props.valueKey]: item[formItem.props.valueKey],
+        [formItem.props.labelKey]: item[formItem.props.labelKey],
       }))
     }
     _config.value = {...formItem}
@@ -185,13 +185,15 @@ const selectFocusMethod = async (formItem) => {
   selectLoading.value = false
 }
 
-onMounted(() => {
+onMounted( async () => {
   if (props.config[props.props.componentKey] === 'SelectPlusRadio' || props.config[props.props.componentKey] === 'SelectPlus') {
     if (!props.config.props.remote) {
       selectOptions.value = props.config.props.options.map((item) => ({
-        value: item[props.config.props.valueKey],
-        label: item[props.config.props.labelKey]
+        [props.config.props.valueKey]: item[props.config.props.valueKey],
+        [props.config.props.labelKey]: item[props.config.props.labelKey]
       }))
+    }else{
+      await selectFocusMethod(_config.value)
     }
   }
 })

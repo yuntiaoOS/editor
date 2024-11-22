@@ -39,9 +39,9 @@
                 取消
               </t-link>
             </div> -->
-            <t-link theme="danger" hover="color" @click.stop="onDelete(row)">
-              删除
-            </t-link>
+            <t-popconfirm content="确认删除吗" @confirm="() => onDelete(row)" >
+              <t-button title="删除" theme="danger" shape="square" variant="text" >删除</t-button>
+            </t-popconfirm>
           </div>
         </template>
       </t-table>

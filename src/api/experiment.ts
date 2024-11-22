@@ -16,8 +16,30 @@ const Api = {
   experiment_process: '/ingredient_dev/experiment/process/', //工艺、操作属性
   get_assign_record_process_data: '/ingredient_dev/experiment/process/get_assign_record_process_data/', //工艺详情get接口
   experiment_samples:'/ingredient_dev/experiment/samples/', //样品
+  experiment_evaluation: '/ingredient_dev/experiment/evaluation/', //实验数据
+  experiment_samples_groups: '/ingredient_dev/experiment/samples/groups/', //样品表组接口
 
 };
+/*-------------------------------------样品表组接口------------------------------------------*/
+export function get_experiment_samples_groupsFetch(params?: any) {
+  return request.get({url: `${Api.experiment_samples_groups}`,params});
+}
+/*-------------------------------------实验-数据--------------------------------------------*/
+export function get_experiment_evaluation_infoFetch(id:string,params?: any) {
+  return request.get({url: `${Api.experiment_evaluation}${id}/`,params});
+}
+export function get_experiment_evaluationListFetch(params?: any) {
+  return request.get({url: Api.experiment_evaluation,params});
+}
+export function post_experiment_evaluation_fetch(params: any) {
+  return request.post({ url: Api.experiment_evaluation, data: params });
+}
+export function put_experiment_evaluation_fetch(id:string,params: any) {
+  return request.put({ url:`${Api.experiment_evaluation}${id}/`, data: params });
+}
+export function delete_experiment_evaluationFetch(id:string,params: any) {
+  return request.delete( { url:`${Api.experiment_evaluation}${id}/`, params });
+}
 /*-------------------------------------实验-样品--------------------------------------------*/
 export function get_experiment_samples_infoFetch(id:string,params?: any) {
   return request.get({url: `${Api.experiment_samples}${id}/`,params});
@@ -148,4 +170,8 @@ export function get_experiment_record_infoFetch(id:string, params?: any) {
     url: `${Api.experiment_record}${id}/` ,
     params
   });
+}
+
+export function put_experiment_record_fetch(id: any, params = {}) {
+  return request.put({ url: `${Api.experiment_record}${id}/`, data: params });
 }

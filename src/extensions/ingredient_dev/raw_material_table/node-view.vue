@@ -40,9 +40,9 @@
                 取消
               </t-link>
             </div> -->
-            <t-link theme="danger" hover="color" @click.stop="onDelete(row)">
-              删除
-            </t-link>
+            <t-popconfirm content="确认删除吗" @confirm="() => onDelete(row)" >
+              <t-button title="删除" theme="danger" shape="square" variant="text" >删除</t-button>
+            </t-popconfirm>
           </div>
         </template>
       </t-table>
@@ -111,6 +111,8 @@ const { node, editor, updateAttributes } = defineProps(nodeViewProps)
 
 const { options ,editedComponentType} = useStore()
 const $key_data = useState('key_data')
+const experiment_record = computed(() => $key_data.value?.experiment_record)
+const experiment_theme = computed(() => $key_data.value?.experiment_theme)
 
 const dialog_visible = ref(false);
 const tableRef = ref();
@@ -136,8 +138,6 @@ const table_data = computed({
     updateAttributes({ table_data: value })
   },
 })
-const experiment_record = computed(() => $key_data.value?.experiment_record)
-const experiment_theme = computed(() => $key_data.value?.experiment_theme)
 
 const change_log = computed({
   get: () => node.attrs.change_log,

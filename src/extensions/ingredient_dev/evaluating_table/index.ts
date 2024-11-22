@@ -62,6 +62,14 @@ export default xmNode.create({
           return { 'data-columns': JSON.stringify(attributes.columns)  };
         }  
       },
+      // 组信息
+      group: {
+        default: '',
+        parseHTML: (element) => element.getAttribute('data-group'),
+        renderHTML: (attributes) => {
+          return { 'data-group': attributes.group };
+        },
+      },
       designParams: {
         default: {},
         parseHTML: (element) => {

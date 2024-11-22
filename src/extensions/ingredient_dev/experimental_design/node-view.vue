@@ -87,7 +87,7 @@ const designResult = computed({
 
 const getDesignParams = () => {
   const oldDesignParams = [..._designParams.value]
-  console.log('------116--------oldDesignParams------',oldDesignParams)
+  console.log('------90--------oldDesignParams------',oldDesignParams)
   let designParams = []
   console.log('--------_designParams--------93--------',technologyOptions.value,raw_materialOptions.value)
   const technology_table_data = technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).table_data.map(eleT => eleT.children).reduce((a, b) => a.concat(b)).filter(item => item.type || item.group )
@@ -188,7 +188,7 @@ const on_experimental_designFunc = async ()=>{
       const { from, to } = editor.state.selection ?? {}
       console.log('--------on_experimental_designFunc--------189--------',from, to)
       editor.commands.setTextSelection({ from , to: to + 1  })
-      editor.commands.addSample_tables({ table_data:res.data.data,designParams:designParamsC})
+      editor.commands.addSample_tables({ group:res.data.data.group, table_data:res.data.data.data,designParams:designParamsC})
       // editor.view.updateState(editor.state)
       table_data.value = [...table_data]
       experimental_design_visible.value = false

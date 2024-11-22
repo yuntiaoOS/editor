@@ -235,7 +235,8 @@ export interface XmTableOptionModel<T> {
   designParam: T
   columns?: T[]
   // 修改日志
-  change_log: T
+  change_log?: T
+  group?: string
 
 }
 
