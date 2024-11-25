@@ -74,6 +74,10 @@ export const useStore = createGlobalState(() => {
       localStorage.setItem('umo_domain', options.value.requestOptions.umo_domain)
       localStorage.setItem('umo_token', options.value.requestOptions.umo_token )
       localStorage.setItem('dict_data', JSON.stringify(options.value.requestOptions.dict_data)  )
+      localStorage.setItem('key_data', JSON.stringify({
+        experiment_theme: options.value.requestOptions.experiment_theme,
+        experiment_record: options.value.requestOptions.experiment_record
+      }))
     }
 
     return options.value

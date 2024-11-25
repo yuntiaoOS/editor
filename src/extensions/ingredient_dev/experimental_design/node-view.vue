@@ -49,9 +49,9 @@ const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
 const { options } = useStore()
 const select_design_visible = ref(false);
-const $key_data = useState('key_data')
-const experiment_record = computed(() => $key_data.value?.experiment_record)
-const experiment_theme = computed(() => $key_data.value?.experiment_theme)
+const $key_data = JSON.parse( localStorage.getItem('key_data'))
+const experiment_record = computed(() => $key_data?.experiment_record)
+const experiment_theme = computed(() => $key_data?.experiment_theme)
 
 const experimental_design_visible = ref(false);
 const select_design_form = ref();
@@ -92,7 +92,7 @@ const getDesignParams = () => {
   console.log('--------_designParams--------93--------',technologyOptions.value,raw_materialOptions.value)
   const technology_table_data = technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).table_data.map(eleT => eleT.children).reduce((a, b) => a.concat(b)).filter(item => item.type || item.group )
   const material_table_data = raw_materialOptions.value.find(ele=> ele.id === selectTableForm.value.raw_material).table_data.map(ele=> { return { ...ele,name:`${ele.experiment_material_name }/${ele.experiment_material_sn}` } }) 
-  console.log('--------_designParams--------123--------',technology_table_data,material_table_data)
+  console.log('--------_designParams--------95--------',technology_table_data,material_table_data)
   if (technology_table_data && material_table_data) {
     designParams = technology_table_data.map(eleT => { 
       if (eleT.key === XM_raw_material_key) {

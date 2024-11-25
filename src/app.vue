@@ -15,9 +15,9 @@ import { put_experiment_record_fetch } from '@/api/experiment'
 // import UmoEdit from './components/editor/index.vue'
 const { editor } = useStore()
 const editorRef = $ref(null)
-const $key_data = useState('key_data')
-const experiment_record = computed(() => $key_data.value?.experiment_record)
-const experiment_theme = computed(() => $key_data.value?.experiment_theme)
+const $key_data = JSON.parse(localStorage.getItem('key_data') ?? '{}')
+const experiment_record = computed(() => $key_data?.experiment_record)
+const experiment_theme = computed(() => $key_data?.experiment_theme)
 const xmValue = ref({})
 const config = {
   "id": "name",
@@ -10663,10 +10663,241 @@ const options = $ref({
         }
       ]
     },
-    experiment_theme: '8f79cc62-bf22-428d-9c98-4e3b3e81c6c3',
-    experiment_record: '6e252907-4fa3-4e50-a97c-6d8a33bbb579',
+    experiment_theme: {
+        "id": "53aea91d-8cdc-4b8b-9e99-4ffd190bf44b",
+        "modifier_name": "赵紫文",
+        "dept_belong_id": null,
+        "creator_name": null,
+        "create_datetime": "2024-11-25 10:13:11",
+        "update_datetime": "2024-11-25 10:13:11",
+        "is_collect": false,
+        "person_in_charge": {
+            "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+            "user_id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+            "name": "赵紫文",
+            "is_owner": true,
+            "avatar": "http://192.168.2.11:8002/media/avatar/e615457e-5102-43b2-a46f-34c7686affa0.png"
+        },
+        "participants": [
+            {
+                "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+                "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+                "name": "白欣力",
+                "is_owner": true,
+                "avatar": "http://192.168.2.11:8002/media/avatar/abf0f9c664c6c4b3e4b0fbaf054c1db7_r9xK2Nq.png"
+            },
+            {
+                "id": "d56402a2-9c9a-4674-a682-e4086e884ac1",
+                "user_id": "d56402a2-9c9a-4674-a682-e4086e884ac1",
+                "name": "董鑫龙",
+                "is_owner": true,
+                "avatar": "http://192.168.2.11:8002/media/avatar/fd5195c8-96a4-4eae-b992-f69da4c8cb9f.png"
+            }
+        ],
+        "description": "",
+        "creator": "zzw",
+        "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+        "name": "ghhjhjgfhjgfhgfhjfjhg",
+        "sn": "SN-1732500729743",
+        "icon": "/experiment/picture1.png",
+        "label": null,
+        "experiment_template": null,
+        "start_time": null,
+        "end_time": null,
+        "experiment_design": {
+            "type": "doc",
+            "content": [
+                {
+                    "type": "xmTitleContent",
+                    "attrs": {
+                        "title": "试验目的：",
+                        "content": "目的"
+                    },
+                    "content": [
+                        {
+                            "type": "heading",
+                            "attrs": {
+                                "id": "elm5s8",
+                                "level": 2,
+                                "indent": null,
+                                "margin": {},
+                                "textAlign": "left",
+                                "lineHeight": 1.5,
+                                "data-toc-id": "elm5s8"
+                            },
+                            "content": [
+                                {
+                                    "text": "试验目的：",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "paragraph",
+                            "attrs": {
+                                "indent": null,
+                                "margin": {},
+                                "textAlign": "left",
+                                "lineHeight": 1.5
+                            },
+                            "content": [
+                                {
+                                    "text": "目的",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "attrs": {
+                        "indent": null,
+                        "margin": {},
+                        "textAlign": "left",
+                        "lineHeight": 1.5
+                    }
+                },
+                {
+                    "type": "xmTitleContent",
+                    "attrs": {
+                        "title": "试验背景：",
+                        "content": "背景"
+                    },
+                    "content": [
+                        {
+                            "type": "heading",
+                            "attrs": {
+                                "id": "h1tica",
+                                "level": 2,
+                                "indent": null,
+                                "margin": {},
+                                "textAlign": "left",
+                                "lineHeight": 1.5,
+                                "data-toc-id": "h1tica"
+                            },
+                            "content": [
+                                {
+                                    "text": "试验背景：",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "paragraph",
+                            "attrs": {
+                                "indent": null,
+                                "margin": {},
+                                "textAlign": "left",
+                                "lineHeight": 1.5
+                            },
+                            "content": [
+                                {
+                                    "text": "背景",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "attrs": {
+                        "indent": null,
+                        "margin": {},
+                        "textAlign": "left",
+                        "lineHeight": 1.5
+                    }
+                },
+                {
+                    "type": "xmTitleContent",
+                    "attrs": {
+                        "title": "试验计划：",
+                        "content": "计划"
+                    },
+                    "content": [
+                        {
+                            "type": "heading",
+                            "attrs": {
+                                "id": "fsmq94",
+                                "level": 2,
+                                "indent": null,
+                                "margin": {},
+                                "textAlign": "left",
+                                "lineHeight": 1.5,
+                                "data-toc-id": "fsmq94"
+                            },
+                            "content": [
+                                {
+                                    "text": "试验计划：",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "paragraph",
+                            "attrs": {
+                                "indent": null,
+                                "margin": {},
+                                "textAlign": "left",
+                                "lineHeight": 1.5
+                            },
+                            "content": [
+                                {
+                                    "text": "计划mnb,,m,bmn",
+                                    "type": "text"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "paragraph",
+                    "attrs": {
+                        "indent": null,
+                        "margin": {},
+                        "textAlign": "left",
+                        "lineHeight": 1.5
+                    },
+                    "content": [
+                        {
+                            "text": " ",
+                            "type": "text"
+                        }
+                    ]
+                }
+            ]
+        },
+        "attachment": [],
+        "publish": false
+    },
+    experiment_record: {
+        "id": "3599d6da-78a2-45de-8c5b-e4a6ef9162aa",
+        "modifier_name": "赵紫文",
+        "dept_belong_id": null,
+        "creator_name": null,
+        "create_datetime": "2024-11-25 11:56:58",
+        "update_datetime": "2024-11-25 11:56:58",
+        "liked": false,
+        "description": null,
+        "creator": "zzw",
+        "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+        "title": "刮胡刀刮",
+        "sn": null,
+        "start_time": null,
+        "end_time": null,
+        "experiment_design": null,
+        "sample_number": null,
+        "version": 1,
+        "document_attachments": null,
+        "json_data": null,
+        "experiment_theme": "53aea91d-8cdc-4b8b-9e99-4ffd190bf44b",
+        "previous_record": null,
+        "catalog": null,
+        "experimenter": []
+    },
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyMjc4MTg3LCJpYXQiOjE3MzIxOTE3ODcsImp0aSI6Ijk2YThjOTFkNzhhNzRiNTY5YTAzZWU2N2NhMDMzMjNlIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.vYDCgUDoixh8IKpk1CZCgeJZkKeLNs88q7yzdoDP6lk',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyNTg2MzYzLCJpYXQiOjE3MzI0OTk5NjMsImp0aSI6ImIwODRmNGMyZTJjMDQ1MGVhZjM0MzMzYzc5MWQ4NDVjIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.mkQJFQgZwURJwJXO7NymVFmWtiCiDEqonXYgGjXwVbw',
   },
   document: {
     placeholder: '测试文档',

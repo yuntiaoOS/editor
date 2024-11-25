@@ -42,8 +42,8 @@
       >
         <t-button
           class="umo-toolbar-actions-button"
-          variant="text"
           size="small"
+          :theme="savedAt?'success':'warning' "
           :class="{ active: statusPopup }"
         >
           <span class="umo-status">
@@ -51,12 +51,12 @@
               class="umo-status-online"
               :class="{ offline: !online }"
             ></span>
-            <span class="umo-status-saved button-text">
+            <span class="umo-status-saved1 button-text" style="margin-left:6px;">
               <span
                 v-if="savedAt"
                 v-text="t('save.savedAtText', { time: timeAgo(savedAt) })"
               ></span>
-              <span v-else class="unsaved" v-text="t('save.unsaved')"></span>
+              <span v-else class="unsaved1" v-text="t('save.unsaved')"></span>
             </span>
           </span>
         </t-button>
@@ -92,6 +92,7 @@
         </template>
       </t-popup>
       <t-dropdown
+        v-if="false"
         trigger="click"
         size="small"
         placement="bottom-right"

@@ -157,7 +157,7 @@ watch(
 const $toolbar = useState('toolbar', props.editorKey)
 const $document = useState('document', props.editorKey)
 
-const $key_data = useState('key_data', props.editorKey)
+const $key_data = JSON.parse( localStorage.getItem('key_data') ?? '{}')
 
 // i18n Setup
 // @ts-ignore
@@ -448,28 +448,19 @@ provide('setLocale', setLocale)
 provide('reset', reset)
 
 onMounted(()=>{
+  console.log('-----------------experiment_record-----451---------',options.value)
   // setToolbar({ mode: 'classic', show: false })
   loadTatexStyle()
   if (options.value?.requestOptions) {
-    if (options.value.requestOptions.experiment_theme) {
-      get_experiment_theme_infoFetch(options.value.requestOptions.experiment_theme).then((res:any) => {
-        console.log('-----------------experiment_record--------------',res)
-        if (res.data.code === 2000) {
-          $key_data.value.experiment_theme = res.data.data
-        }
-      })
-    }
-    if (options.value.requestOptions.experiment_record) {
-      get_experiment_record_infoFetch(options.value.requestOptions.experiment_record).then((res:any) => {
-        console.log('-----------------experiment_record--------------',res)
-        if (res.data.code === 2000) {
-          $key_data.value.experiment_record = res.data.data
-        }
-      })
-    }
+    localStorage.setItem('key_data',JSON.stringify({
+      experiment_theme: options.value.requestOptions.experiment_theme,
+      experiment_record: options.value.requestOptions.experiment_record
+    })) 
+    
     if (options.value.requestOptions.dict_data) {
       localStorage.setItem('dict_data', JSON.stringify(options.value.requestOptions.dict_data)  )
     }
+    console.log('-----------------experiment_record------479--------',$key_data)
   }
 })
 // 销毁编辑器实例

@@ -118,7 +118,7 @@ get_experiment_record_commentListFetch,get_experiment_record_likeListFetch,
   const { options } = useStore();
   const {user}  =  options.value;
   const savedAt = ref()
-  const $key_data = useState('key_data')
+  const $key_data = JSON.parse( localStorage.getItem('key_data'))
   const commentsData = ref([])
   const replyData = ref('')
 
@@ -134,7 +134,7 @@ get_experiment_record_commentListFetch,get_experiment_record_likeListFetch,
   const record_likeList = ref([])
 
   const getCommentLikeList = () => {
-    get_experiment_record_likeListFetch($key_data.value.experiment_record.id).then((res) => {
+    get_experiment_record_likeListFetch($key_data.experiment_record?.id).then((res) => {
       if (res.data.code === 2000) {
         record_likeList.value = res.data.data
       }else{
@@ -148,15 +148,15 @@ get_experiment_record_commentListFetch,get_experiment_record_likeListFetch,
   
 
   const submitLike = () => {
-    post_experiment_record_likeFetch($key_data.value.experiment_record.id).then((res) => {
+    post_experiment_record_likeFetch($key_data.experiment_record?.id).then((res) => {
       if (res.data.code === 2000) {
         nextTick(() => {
-          const {experiment_record} = $key_data.value
+          const {experiment_record} = $key_data
           experiment_record.liked = !experiment_record.liked
-          $key_data.value.experiment_record = experiment_record
+          // $key_data.experiment_record = experiment_record
           replyTipInfo.value = ''
           getCommentLikeList()
-          console.log('--------------submitLike-----------', $key_data.value.experiment_record);
+          console.log('--------------submitLike-----------', $key_data.experiment_record);
         })
         console.log('点赞成功');
       }
@@ -167,7 +167,7 @@ get_experiment_record_commentListFetch,get_experiment_record_likeListFetch,
   }
 
   const getCommentList = () => {
-    get_experiment_record_commentListFetch($key_data.value.experiment_record.id).then((res) => {
+    get_experiment_record_commentListFetch($key_data.experiment_record?.id).then((res) => {
       if (res.data.code === 2000) {
         commentsData.value = res.data.data
       }else{
@@ -197,7 +197,7 @@ get_experiment_record_commentListFetch,get_experiment_record_likeListFetch,
       content: replyData.value,
       parent
     }
-    post_experiment_record_commentFetch($key_data.value.experiment_record.id,params).then((res) => {
+    post_experiment_record_commentFetch($key_data.experiment_record.id,params).then((res) => {
       if (res.data.code === 2000) {
         nextTick(() => {
           if (parent) {
@@ -214,7 +214,7 @@ get_experiment_record_commentListFetch,get_experiment_record_likeListFetch,
       console.log(err);
     })
   };
-  console.log('----------comment-body----18----------',user,options,props,$key_data.value );
+  console.log('----------comment-body----18----------',user,options,props,$key_data );
 
   onMounted(() => {
     getCommentLikeList()

@@ -134,7 +134,7 @@ const _title = computed({
 });
 
 const { options ,editedComponentType} = useStore()
-const $key_data = useState('key_data')
+const $key_data = JSON.parse( localStorage.getItem('key_data'))
 
 const loading = ref(false)
 const dialog_visible = ref(false);
@@ -153,8 +153,8 @@ const searchTitle = ref('')
 const readOnly = computed(() => options.value.document?.readOnly)
 const _editedComponentType = computed(() => editedComponentType.value)
 
-const experiment_record = computed(() => $key_data.value?.experiment_record)
-const experiment_theme = computed(() => $key_data.value?.experiment_theme)
+const experiment_record = computed(() => $key_data?.experiment_record)
+const experiment_theme = computed(() => $key_data?.experiment_theme)
 
 
 

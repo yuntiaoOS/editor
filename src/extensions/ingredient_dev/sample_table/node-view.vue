@@ -101,9 +101,9 @@ const editMap  = {};
 const loading = ref(false);
 const searchTitle = ref('')
 
-const $key_data = useState('key_data')
-const experiment_record = computed(() => $key_data.value?.experiment_record)
-const experiment_theme = computed(() => $key_data.value?.experiment_theme)
+const $key_data = JSON.parse( localStorage.getItem('key_data'))
+const experiment_record = computed(() => $key_data?.experiment_record)
+const experiment_theme = computed(() => $key_data?.experiment_theme)
 
 const experimental_design_visible = ref(false);
 
@@ -142,7 +142,7 @@ const _designParams = computed({
       if (technology_tables.length > 0) {
         const [technology_table] = technology_tables
         const table_data  = technology_table.attrs.table_data.map(eleT => eleT.children)
-        console.log('--------_designParams--------123--------',table_data)
+        console.log('--------_designParams--------145--------',table_data)
         let material_options = []
         if (raw_material_tables.length > 0) {
           const [raw_material_table] = raw_material_tables
@@ -189,6 +189,7 @@ const _designParams = computed({
     }else {
       designParams = oldDesignParams
     }
+    console.log('-------192-------designParams----------',designParams)
     return designParams
   },
   set(value) {
@@ -496,7 +497,7 @@ const initData = async () => {
 
 onMounted(async () => {
   if (group.value && group.value.length > 0 && table_data.value?.length === 0) {
-    console.log('----------change_log.value22222395---------',group.value);
+    console.log('----------change_log.value499---------',group.value);
     await initData()
   }else if(is_integration.value) {
     

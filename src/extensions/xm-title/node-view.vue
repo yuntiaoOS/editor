@@ -87,7 +87,7 @@ import { nodeViewProps, NodeViewWrapper ,NodeViewContent} from '@tiptap/vue-3'
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
 const { options } = useStore()
-const $key_data = useState('key_data')
+const $key_data = JSON.parse( localStorage.getItem('key_data') ?? '{}')
 const isEdit = ref(false)
 
 const xmTitleRef = ref()
@@ -103,7 +103,7 @@ const title = computed({
   },
 })
 
-const experiment_record = computed(() => $key_data.value?.experiment_record)
+const experiment_record = computed(() => $key_data?.experiment_record)
 
 const formatParticipants = (participants:any[]) => {
   const names = participants.map(participant => participant.name);

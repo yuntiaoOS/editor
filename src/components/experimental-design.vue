@@ -5,7 +5,7 @@
       <template #extra>
         <t-space direction="vertical">
           <t-space align="center">
-            <t-check-tag-group v-model="designType" style="margin-right: 32px" :options="designTypeOptions">选中/未选态</t-check-tag-group>
+            <t-check-tag-group v-model="designType" style="margin-right: 32px" :options="designTypeOptions" @change="current = 0;">选中/未选态</t-check-tag-group>
           </t-space>
           <t-button v-if="current === 0" size="small" variant="base" @click="typeSelectNext"> 下一步 </t-button>
         </t-space>
@@ -15,7 +15,7 @@
       <template #extra>
         <t-space direction="vertical" >
           <t-checkbox disabled>为设定的默认显示上一次实验参数（也可以选择来源于某个样品）</t-checkbox>
-          <t-list :split="true">
+          <t-list v-if="current === 1" :split="true">
             <t-list-item v-for=" (item,index) in _designParams " :key="index">
               <t-checkbox v-model="item.check" style="min-width: 200px;">因数{{index+1}}： {{item.name}}</t-checkbox>
               <template #action>
@@ -36,7 +36,7 @@
               </template>
             </t-list-item>
           </t-list>
-          <t-space style="line-height: 32px;">正交：{{_designParams.filter(ele=>ele.check).length}} x    <t-input-number v-model="cycleNumber" theme="column" :max="100" :min="1" auto-width borderless  style="border-bottom: 1px solid var(--td-border-level-2-color);" @blur="blurCycleNumberFunc"/>     (前边{{_designParams.filter(ele=>ele.check).length}}是选择的因数数量，后边我是需要正交的次数需要手动填写) </t-space>
+          <t-space v-if="current === 1" style="line-height: 32px;">正交：{{_designParams.filter(ele=>ele.check).length}} x    <t-input-number v-model="cycleNumber" theme="column" :max="100" :min="1" auto-width borderless  style="border-bottom: 1px solid var(--td-border-level-2-color);" @blur="blurCycleNumberFunc"/>     (前边{{_designParams.filter(ele=>ele.check).length}}是选择的因数数量，后边我是需要正交的次数需要手动填写) </t-space>
           <t-space v-if="current === 1" align="center">
             <t-button size="small" variant="text" @click="current--"> 上一步 </t-button>
             <t-button v-if="_designParams.filter(ele=>ele.check).length>0" size="small" variant="base" @click="makeTableFunc"> 下一步 </t-button>
@@ -210,20 +210,19 @@ const getConfig = (type,row) => {
 }
 
 const typeSelectNext = ()=>{
+  console.log("typeSelectNext----------------------",current.value,designType.value)
   // designType.value === '自定义' 时 current.value跳到下下步
-  if (designType.value === '自定义' && current.value === 2) {
-    current.value++;
-  } else if (designType.value === '正交设计' && current.value === 2) {
+  if (designType.value.includes('自定义')  && current.value === 0) {
+    current.value++
+    makeTableFunc()
+  } else if (designType.value.includes('正交设计') && current.value === 0) {
     
-  } else if (designType.value === '响应面法' && current.value === 2) {
+  } else if (designType.value.includes('响应面法') && current.value === 0) {
     
-  } else if (designType.value === '中心复合' && current.value === 2) {
+  } else if (designType.value.includes('中心复合') && current.value === 0) {
     
   } else {
      
-  }
-  if (designType.value) {
-    
   }
   current.value++
 }

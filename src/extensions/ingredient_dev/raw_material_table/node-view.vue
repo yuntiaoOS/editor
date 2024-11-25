@@ -110,9 +110,9 @@ import { timeFormat } from '@/utils/time-ago'
 const { node, editor, updateAttributes } = defineProps(nodeViewProps)
 
 const { options ,editedComponentType} = useStore()
-const $key_data = useState('key_data')
-const experiment_record = computed(() => $key_data.value?.experiment_record)
-const experiment_theme = computed(() => $key_data.value?.experiment_theme)
+const $key_data = JSON.parse( localStorage.getItem('key_data'))
+const experiment_record = computed(() => $key_data?.experiment_record)
+const experiment_theme = computed(() => $key_data?.experiment_theme)
 
 const dialog_visible = ref(false);
 const tableRef = ref();
@@ -392,7 +392,7 @@ const initData = async () => {
 
 onMounted(async () => {
   if (change_log.value?.change_log && table_data.value?.length === 0) {
-    console.log('----------change_log.value22222395---------',change_log.value);
+    console.log('----------change_log.value395---------',table_data.value,change_log.value);
     await initData()
   }else if(is_integration.value) {
     

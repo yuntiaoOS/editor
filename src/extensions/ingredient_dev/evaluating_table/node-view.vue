@@ -129,9 +129,9 @@ const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 const $dict_data = JSON.parse( localStorage.getItem('dict_data') )
 console.log('-----------113------------------',$dict_data);
 
-const $key_data = useState('key_data')
-const experiment_record = computed(() => $key_data.value?.experiment_record)
-const experiment_theme = computed(() => $key_data.value?.experiment_theme)
+const $key_data = JSON.parse( localStorage.getItem('key_data'))
+const experiment_record = computed(() => $key_data?.experiment_record)
+const experiment_theme = computed(() => $key_data?.experiment_theme)
 
 const test_condition_options = $dict_data['test_conditions'];
 const evaluating_test_period_options = $dict_data['evaluating_test_period'];
@@ -1092,7 +1092,7 @@ onMounted(async () => {
       tableRef.value.refreshTable()
     }, 100);
     if (group.value && group.value.length > 0 && _table_data.value?.length === 0) {
-      console.log('----------change_log.value22222395---------',group.value);
+      console.log('----------change_log.value1095---------',group.value);
       await initData()
       
     }else if(is_integration.value) {
