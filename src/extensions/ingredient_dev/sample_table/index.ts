@@ -71,7 +71,7 @@ export default xmNode.create({
         },
       },
       title: {
-        default: `样品${timeFormat(null, 'yyyymmddhhMM')}`,
+        default: '',
         parseHTML: (element) => element.getAttribute('data-title'),
         renderHTML: (attributes) => {
           return { 'data-title': attributes.title };
@@ -100,6 +100,7 @@ export default xmNode.create({
               type: this.name,
               attrs: {
                 ...currentOption,
+                title: currentOption?.title && currentOption.title.length > 0 ? currentOption.title : `样品${timeFormat(null, 'yyyymmddhhMM')}`,
                 key: option?.key ? option?.key : Xm_Table_key['sample_table']  + timeFormat(null,'yyyymmddhhMMss'),
               },
               content: [

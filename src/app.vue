@@ -10897,7 +10897,7 @@ const options = $ref({
         "experimenter": []
     },
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyNTg2MzYzLCJpYXQiOjE3MzI0OTk5NjMsImp0aSI6ImIwODRmNGMyZTJjMDQ1MGVhZjM0MzMzYzc5MWQ4NDVjIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.mkQJFQgZwURJwJXO7NymVFmWtiCiDEqonXYgGjXwVbw',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyNjA2NTU3LCJpYXQiOjE3MzI1MjAxNTcsImp0aSI6ImMzZTE1NTdmODNhODQ4ODJiYTNhZTE5Y2IzZjRkMDFlIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.YTtv3cGMUCcjv_ib4dhc_upeNEFOm0qh5sKW61nbBNE',
   },
   document: {
     placeholder: '测试文档',
@@ -11939,2597 +11939,2067 @@ onMounted(() => {
       {
         "type": "sample_table",
         "attrs": {
-          "id": "63dadace-df64-4aba-91d9-0f17584e8b7d",
-          "updateTime": "",
-          "key": "sample_table20241121180103",
-          "name": "c53aa994-e2b1-4a48-9766-95d2a1b7a743",
-          "isChanged": false,
-          "group": "03bee0a1-b6f3-4c8b-b20d-840311a58f9d",
-          "table_data": [
-            // {
-            //     "id": "9d6221f6-f581-4f5f-abd2-d288cd59a765",
-            //     "modifier_name": "赵紫文",
-            //     "dept_belong_id": null,
-            //     "creator_name": null,
-            //     "create_datetime": "2024-11-21 18:01:02",
-            //     "update_datetime": "2024-11-21 18:01:02",
-            //     "description": null,
-            //     "creator": "zzw",
-            //     "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-            //     "name": "Test 1/SN-1732100722921/Test 2/SN-1732102167742",
-            //     "sn": "S20241121288",
-            //     "batch": "20241121288",
-            //     "count": 1,
-            //     "group": "03bee0a1-b6f3-4c8b-b20d-840311a58f9d",
-            //     "experiment_theme": "8f79cc62-bf22-428d-9c98-4e3b3e81c6c3",
-            //     "record": "6e252907-4fa3-4e50-a97c-6d8a33bbb579",
-            //     "param": [
-            //         "132daf36-726e-46f9-b12d-de704e869f6d",
-            //         "216730f0-da0a-4d6c-8130-737c739f7fd2",
-            //         "e668692c-2e3e-4185-b19d-ea3b0cf12c3c",
-            //         "ce366679-2f05-449f-8925-e956deb2893b",
-            //         "dff67ed1-5178-431f-9d68-2acb2e7b1f08"
-            //     ]
-            // },
-            // {
-            //     "id": "4310efd1-fd4a-4f69-b300-4c17d9f6bc0b",
-            //     "modifier_name": "赵紫文",
-            //     "dept_belong_id": null,
-            //     "creator_name": null,
-            //     "create_datetime": "2024-11-21 18:01:02",
-            //     "update_datetime": "2024-11-21 18:01:02",
-            //     "description": null,
-            //     "creator": "zzw",
-            //     "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-            //     "name": "Test 1/SN-1732100722921/Test 2/SN-1732102167742",
-            //     "sn": "S20241121289",
-            //     "batch": "20241121289",
-            //     "count": 1,
-            //     "group": "03bee0a1-b6f3-4c8b-b20d-840311a58f9d",
-            //     "experiment_theme": "8f79cc62-bf22-428d-9c98-4e3b3e81c6c3",
-            //     "record": "6e252907-4fa3-4e50-a97c-6d8a33bbb579",
-            //     "param": [
-            //         "33c89343-323c-4236-a04f-9ca5697038d5",
-            //         "959de390-3e01-4e0f-9e47-9ea537c95589",
-            //         "b1a1f9b2-e7a3-4104-a9e8-9a1725b592a0",
-            //         "b7e70392-ea16-40e5-b3fe-12103769a340",
-            //         "199b8891-0138-4778-a760-dd0e66f7c97c"
-            //     ]
-            // },
-            // {
-            //     "id": "53f1d092-49c4-442d-aa2b-f57e13229d11",
-            //     "modifier_name": "赵紫文",
-            //     "dept_belong_id": null,
-            //     "creator_name": null,
-            //     "create_datetime": "2024-11-21 18:01:02",
-            //     "update_datetime": "2024-11-21 18:01:02",
-            //     "description": null,
-            //     "creator": "zzw",
-            //     "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-            //     "name": "Test 1/SN-1732100722921/Test 2/SN-1732102167742",
-            //     "sn": "S20241121290",
-            //     "batch": "20241121290",
-            //     "count": 1,
-            //     "group": "03bee0a1-b6f3-4c8b-b20d-840311a58f9d",
-            //     "experiment_theme": "8f79cc62-bf22-428d-9c98-4e3b3e81c6c3",
-            //     "record": "6e252907-4fa3-4e50-a97c-6d8a33bbb579",
-            //     "param": [
-            //         "15a75f2a-77b1-4f48-b698-c43de37c0fdf",
-            //         "42c8782a-e30e-4449-a56d-9c6993dd4804",
-            //         "60f29572-659f-4cb6-9b92-a393c185366a",
-            //         "ba2d493a-f0d5-4139-888d-dbcbdbff3150",
-            //         "f9442438-96ff-459c-b90b-4da3f72fd137"
-            //     ]
-            // }
-          ],
-          "designParams": [
-            {
-              "id": "455d1fe2-bd86-4eb8-a981-51fc1b171825",
-              "attribute": 1,
-              "value": "455d1fe2-bd86-4eb8-a981-51fc1b171825",
-              "attribute_type": "single",
-              "name": "原材料",
-              "step_name": "原材料",
-              "description": "",
-              "step_type": "operation",
-              "duration": null,
-              "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
-              "props": {
-                "abstract": false,
-                "required": false,
-                "enableScan": false,
-                "enablePrint": true,
-                "labelKey": "name",
-                "valueKey": "id",
-                "options": [
-                  {
-                    "id": "ddb22235-be4b-4b8b-aa34-29e671e998e8",
-                    "experiment_material": "df0c9736-229a-44d9-8147-da851c29eb8d",
-                    "experiment_material_name": "Test 1",
-                    "experiment_material_batch": {
-                      "id": "7e54fa8a-18dc-4136-9419-5caa0fb4e21d",
-                      "state": "Not-Started",
-                      "batch": "BT-1732100722921",
-                      "price": 100,
-                      "supplier": ""
-                    },
-                    "description": null,
-                    "change_log": "231a9a73-3a8a-4fac-9c1f-6d73aa89b0e7",
-                    "experiment_material_sn": "SN-1732100722921",
-                    "name": "Test 1/SN-1732100722921"
-                  },
-                  {
-                    "id": "f0919f28-ee0a-4ccf-9419-d626b4b36b15",
-                    "experiment_material": "28d17d5b-3f8a-4612-b12b-0310f1b773ff",
-                    "experiment_material_name": "Test 2",
-                    "experiment_material_batch": {
-                      "id": "ae0a300a-7866-4d8b-90e4-1650d0beaacf",
-                      "state": "Not-Started",
-                      "batch": "BT-1732102167742",
-                      "price": 100,
-                      "supplier": ""
-                    },
-                    "description": null,
-                    "change_log": "231a9a73-3a8a-4fac-9c1f-6d73aa89b0e7",
-                    "experiment_material_sn": "SN-1732102167742",
-                    "name": "Test 2/SN-1732102167742"
-                  },
-                  {
-                    "id": "71ff4190-1402-440c-bfbe-2941774c10b1",
-                    "experiment_material": "45cf4ade-6aca-4990-a4df-3868cb5025c9",
-                    "experiment_material_name": "Test 3",
-                    "experiment_material_batch": {
-                      "id": "a87e040c-c158-4b09-ae25-5e3a7bd79cae",
-                      "state": "Not-Started",
-                      "batch": "BT-1732102179190",
-                      "price": 500,
-                      "supplier": ""
-                    },
-                    "description": null,
-                    "change_log": "231a9a73-3a8a-4fac-9c1f-6d73aa89b0e7",
-                    "experiment_material_sn": "SN-1732102179190",
-                    "name": "Test 3/SN-1732102179190"
-                  }
-                ]
-              },
-              "key": "xm_raw_material",
-              "type": "SelectPlus",
-              "unit": null,
-              "group": [],
-              "step": [
-                "ddb22235-be4b-4b8b-aa34-29e671e998e8",
-                "f0919f28-ee0a-4ccf-9419-d626b4b36b15"
-              ],
-              "check": true,
-              "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
-              "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-              "label": "原材料"
-            },
-            {
-              "id": "be77470f-f302-47fa-bf40-87823a66afa7",
-              "attribute": 2,
-              "value": "23",
-              "attribute_type": "single",
-              "name": "温度",
-              "step_name": "温度",
-              "description": "",
-              "step_type": "operation",
-              "duration": null,
-              "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
-              "props": {
-                "abstract": false,
-                "required": false,
-                "enableScan": false,
-                "enablePrint": true,
-                "textForSuffix": ""
-              },
-              "key": "wendu",
-              "type": "TextInput",
-              "unit": "",
-              "group": [],
-              "step": "3",
-              "check": true
-            },
-            {
-              "id": "acbcfb00-9b18-4506-a698-2c05f3c07d24",
-              "attribute": 3,
-              "value": "34",
-              "attribute_type": "single",
-              "name": "转速",
-              "step_name": "转速",
-              "description": "",
-              "step_type": "operation",
-              "duration": null,
-              "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
-              "props": {
-                "abstract": false,
-                "required": false,
-                "enableScan": false,
-                "enablePrint": true
-              },
-              "key": "zhuanshu",
-              "type": "TextInput",
-              "unit": null,
-              "group": [],
-              "step": "3",
-              "check": true
-            },
-            {
-              "id": "ade2cca8-18f7-408d-a6b2-a39e85b5cb83",
-              "attribute": 4,
-              "value": "45",
-              "attribute_type": "single",
-              "name": "湿度",
-              "step_name": "湿度",
-              "description": "",
-              "step_type": "operation",
-              "duration": null,
-              "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
-              "props": {
-                "abstract": false,
-                "required": false,
-                "enableScan": false,
-                "enablePrint": true
-              },
-              "key": "shidu",
-              "type": "TextInput",
-              "unit": null,
-              "group": [],
-              "step": "3",
-              "check": true
-            },
-            {
-              "id": "a5c2a470-758d-41c9-8b3d-1d82eef4696b",
-              "attribute": 5,
-              "value": {
-                "wendu": "5",
-                "shidu": "5"
-              },
-              "attribute_type": "compound",
-              "name": "温湿度",
-              "step_name": "温湿度",
-              "description": "",
-              "step_type": "operation",
-              "duration": null,
-              "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
-              "props": {},
-              "key": "wenshidu",
-              "type": "",
-              "unit": null,
-              "group": [
+            "id": "45e0e5e0-489e-4f8d-9e0f-2a70c0b9d787",
+            "updateTime": "",
+            "key": "sample_table20241125195019",
+            "name": "a303b764-07d9-48b8-a5f8-6dd7ba2920d5",
+            "isChanged": false,
+            "group": "e10cbdaf-26f3-4174-ad1f-5561cd09d4ed",
+            "table_data": [
                 {
-                  "id": 2,
-                  "name": "温度",
-                  "type": "TextInput",
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true,
-                    "textForSuffix": ""
-                  },
-                  "key": "wendu",
-                  "value": null,
-                  "unit": "",
-                  "attribute_type": "single"
+                    "id": "623a4b1c-07c1-4166-934b-d87dac47f34e",
+                    "modifier_name": "赵紫文",
+                    "dept_belong_id": null,
+                    "creator_name": null,
+                    "create_datetime": "2024-11-25 19:50:18",
+                    "update_datetime": "2024-11-25 19:50:18",
+                    "description": null,
+                    "creator": "zzw",
+                    "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                    "name": "Test 2/SN-1732102167742",
+                    "sn": "S202411251",
+                    "batch": "202411251",
+                    "count": 1,
+                    "group": "e10cbdaf-26f3-4174-ad1f-5561cd09d4ed",
+                    "experiment_theme": "53aea91d-8cdc-4b8b-9e99-4ffd190bf44b",
+                    "record": "3599d6da-78a2-45de-8c5b-e4a6ef9162aa",
+                    "param": [
+                        "6b18c18a-01e8-4945-b251-f3bb2d77e92d",
+                        "75c6aea3-938e-4132-88e5-ba4dbf3c3c24",
+                        "bab9b2d8-942c-4249-98ec-7e68931d676f",
+                        "c5e3245b-f038-48eb-b83e-c38b8913b828",
+                        "e1f129f2-4732-4cb7-bf5d-cb8adff5d2fd"
+                    ]
                 },
                 {
-                  "id": 4,
-                  "name": "湿度",
-                  "type": "TextInput",
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true
-                  },
-                  "key": "shidu",
-                  "value": null,
-                  "unit": null,
-                  "attribute_type": "single"
-                }
-              ],
-              "step": {
-                "wendu": "3",
-                "shidu": "3"
-              },
-              "check": true
-            }
-          ],
-          "title": "样品202411211800"
-        },
-        "content": [
-          {
-            "type": "paragraph",
-            "attrs": {
-              "indent": null,
-              "textAlign": "left",
-              "lineHeight": 1.5,
-              "margin": {}
-            },
-            "content": [
-              {
-                "type": "text",
-                "text": " "
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "type": "paragraph",
-        "attrs": {
-          "indent": null,
-          "textAlign": "left",
-          "lineHeight": 1.5,
-          "margin": {}
-        }
-      },
-      {
-        "type": "sample_table",
-        "attrs": {
-          "id": "55ad1b75-3610-4643-acbc-74e7fd57634d",
-          "updateTime": "",
-          "key": "sample_table20241121191808",
-          "name": "12fe84bd-5e82-4eeb-97f5-dff67abd9aed",
-          "isChanged": false,
-          "group": "1c04a325-255c-47bc-a93a-26f3c3afc198",
-          "table_data": [
-            {
-              "id": "e6c4a0e8-0482-4bf4-86a9-0c74df911f7e",
-              "modifier_name": "赵紫文",
-              "dept_belong_id": null,
-              "creator_name": null,
-              "create_datetime": "2024-11-21 19:18:07",
-              "update_datetime": "2024-11-21 19:18:07",
-              "description": null,
-              "creator": "zzw",
-              "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-              "name": "Test 1/SN-1732100722921/Test 3/SN-1732102179190",
-              "sn": "S20241121291",
-              "batch": "20241121291",
-              "count": 1,
-              "group": "1c04a325-255c-47bc-a93a-26f3c3afc198",
-              "experiment_theme": "8f79cc62-bf22-428d-9c98-4e3b3e81c6c3",
-              "record": "6e252907-4fa3-4e50-a97c-6d8a33bbb579",
-              "param": [
-                "6d6d3f7c-3083-458d-97d3-96f970b6b223",
-                "83b58307-958d-4295-8425-2b54d829623b",
-                "93a590ea-f6be-4834-b6ab-3ed7c0f01a9f",
-                "efef6c56-96bf-4f12-8939-1be23a448fc7",
-                "f9a0a15f-f6e6-468a-9990-41b946a30b3f"
-              ]
-            },
-            {
-              "id": "25155569-2fa3-4258-8e41-fa5cdd3f5884",
-              "modifier_name": "赵紫文",
-              "dept_belong_id": null,
-              "creator_name": null,
-              "create_datetime": "2024-11-21 19:18:07",
-              "update_datetime": "2024-11-21 19:18:07",
-              "description": null,
-              "creator": "zzw",
-              "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-              "name": "Test 1/SN-1732100722921/Test 3/SN-1732102179190",
-              "sn": "S20241121292",
-              "batch": "20241121292",
-              "count": 1,
-              "group": "1c04a325-255c-47bc-a93a-26f3c3afc198",
-              "experiment_theme": "8f79cc62-bf22-428d-9c98-4e3b3e81c6c3",
-              "record": "6e252907-4fa3-4e50-a97c-6d8a33bbb579",
-              "param": [
-                "007851b5-40b9-40cc-89ea-99cf5e22698f",
-                "41f723ab-eb02-4fa3-bb43-1cfa3c5c381d",
-                "6d8d6717-67b4-4b00-8f17-9d825b5dc691",
-                "7b6e0466-b34a-4c19-bcb9-15093f0acd2d",
-                "96d61145-4322-40fe-aea2-75f2d1418054"
-              ]
-            },
-            {
-              "id": "494edb9a-0601-4118-af78-7a5135acd1fd",
-              "modifier_name": "赵紫文",
-              "dept_belong_id": null,
-              "creator_name": null,
-              "create_datetime": "2024-11-21 19:18:07",
-              "update_datetime": "2024-11-21 19:18:07",
-              "description": null,
-              "creator": "zzw",
-              "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-              "name": "Test 1/SN-1732100722921/Test 3/SN-1732102179190",
-              "sn": "S20241121293",
-              "batch": "20241121293",
-              "count": 1,
-              "group": "1c04a325-255c-47bc-a93a-26f3c3afc198",
-              "experiment_theme": "8f79cc62-bf22-428d-9c98-4e3b3e81c6c3",
-              "record": "6e252907-4fa3-4e50-a97c-6d8a33bbb579",
-              "param": [
-                "5918bb4e-0f76-4001-8866-067af0bfbf8a",
-                "61258a2b-f815-47a2-8eb2-b19f07385089",
-                "80bf3d44-f763-4382-b878-b3cb0b086e7c",
-                "96c03ada-c92f-46b6-8da8-ca15d834904d",
-                "f73ac0f5-95d4-45b6-8b6e-f1be6beb806e"
-              ]
-            }
-          ],
-          "designParams": [
-            {
-              "id": "455d1fe2-bd86-4eb8-a981-51fc1b171825",
-              "attribute": 1,
-              "value": "455d1fe2-bd86-4eb8-a981-51fc1b171825",
-              "attribute_type": "single",
-              "name": "原材料",
-              "step_name": "原材料",
-              "description": "",
-              "step_type": "operation",
-              "duration": null,
-              "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
-              "props": {
-                "abstract": false,
-                "required": false,
-                "enableScan": false,
-                "enablePrint": true,
-                "labelKey": "name",
-                "valueKey": "id",
-                "options": [
-                  {
-                    "id": "ddb22235-be4b-4b8b-aa34-29e671e998e8",
-                    "experiment_material": "df0c9736-229a-44d9-8147-da851c29eb8d",
-                    "experiment_material_name": "Test 1",
-                    "experiment_material_batch": {
-                      "id": "7e54fa8a-18dc-4136-9419-5caa0fb4e21d",
-                      "state": "Not-Started",
-                      "batch": "BT-1732100722921",
-                      "price": 100,
-                      "supplier": ""
-                    },
+                    "id": "4df69439-43a7-4d66-9aea-1d341bb3d7a5",
+                    "modifier_name": "赵紫文",
+                    "dept_belong_id": null,
+                    "creator_name": null,
+                    "create_datetime": "2024-11-25 19:50:18",
+                    "update_datetime": "2024-11-25 19:50:18",
                     "description": null,
-                    "change_log": "231a9a73-3a8a-4fac-9c1f-6d73aa89b0e7",
-                    "experiment_material_sn": "SN-1732100722921",
-                    "name": "Test 1/SN-1732100722921"
-                  },
-                  {
-                    "id": "f0919f28-ee0a-4ccf-9419-d626b4b36b15",
-                    "experiment_material": "28d17d5b-3f8a-4612-b12b-0310f1b773ff",
-                    "experiment_material_name": "Test 2",
-                    "experiment_material_batch": {
-                      "id": "ae0a300a-7866-4d8b-90e4-1650d0beaacf",
-                      "state": "Not-Started",
-                      "batch": "BT-1732102167742",
-                      "price": 100,
-                      "supplier": ""
-                    },
-                    "description": null,
-                    "change_log": "231a9a73-3a8a-4fac-9c1f-6d73aa89b0e7",
-                    "experiment_material_sn": "SN-1732102167742",
-                    "name": "Test 2/SN-1732102167742"
-                  },
-                  {
-                    "id": "71ff4190-1402-440c-bfbe-2941774c10b1",
-                    "experiment_material": "45cf4ade-6aca-4990-a4df-3868cb5025c9",
-                    "experiment_material_name": "Test 3",
-                    "experiment_material_batch": {
-                      "id": "a87e040c-c158-4b09-ae25-5e3a7bd79cae",
-                      "state": "Not-Started",
-                      "batch": "BT-1732102179190",
-                      "price": 500,
-                      "supplier": ""
-                    },
-                    "description": null,
-                    "change_log": "231a9a73-3a8a-4fac-9c1f-6d73aa89b0e7",
-                    "experiment_material_sn": "SN-1732102179190",
-                    "name": "Test 3/SN-1732102179190"
-                  }
-                ]
-              },
-              "key": "xm_raw_material",
-              "type": "SelectPlus",
-              "unit": null,
-              "group": [],
-              "step": [
-                "71ff4190-1402-440c-bfbe-2941774c10b1",
-                "ddb22235-be4b-4b8b-aa34-29e671e998e8"
-              ],
-              "check": true,
-              "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
-              "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
-              "label": "原材料"
-            },
-            {
-              "id": "be77470f-f302-47fa-bf40-87823a66afa7",
-              "attribute": 2,
-              "value": "23",
-              "attribute_type": "single",
-              "name": "温度",
-              "step_name": "温度",
-              "description": "",
-              "step_type": "operation",
-              "duration": null,
-              "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
-              "props": {
-                "abstract": false,
-                "required": false,
-                "enableScan": false,
-                "enablePrint": true,
-                "textForSuffix": ""
-              },
-              "key": "wendu",
-              "type": "TextInput",
-              "unit": "",
-              "group": [],
-              "step": "4",
-              "check": true
-            },
-            {
-              "id": "acbcfb00-9b18-4506-a698-2c05f3c07d24",
-              "attribute": 3,
-              "value": "34",
-              "attribute_type": "single",
-              "name": "转速",
-              "step_name": "转速",
-              "description": "",
-              "step_type": "operation",
-              "duration": null,
-              "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
-              "props": {
-                "abstract": false,
-                "required": false,
-                "enableScan": false,
-                "enablePrint": true
-              },
-              "key": "zhuanshu",
-              "type": "TextInput",
-              "unit": null,
-              "group": [],
-              "step": "4",
-              "check": true
-            },
-            {
-              "id": "ade2cca8-18f7-408d-a6b2-a39e85b5cb83",
-              "attribute": 4,
-              "value": "45",
-              "attribute_type": "single",
-              "name": "湿度",
-              "step_name": "湿度",
-              "description": "",
-              "step_type": "operation",
-              "duration": null,
-              "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
-              "props": {
-                "abstract": false,
-                "required": false,
-                "enableScan": false,
-                "enablePrint": true
-              },
-              "key": "shidu",
-              "type": "TextInput",
-              "unit": null,
-              "group": [],
-              "step": "4",
-              "check": true
-            },
-            {
-              "id": "a5c2a470-758d-41c9-8b3d-1d82eef4696b",
-              "attribute": 5,
-              "value": {
-                "wendu": "5",
-                "shidu": "5"
-              },
-              "attribute_type": "compound",
-              "name": "温湿度",
-              "step_name": "温湿度",
-              "description": "",
-              "step_type": "operation",
-              "duration": null,
-              "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
-              "props": {},
-              "key": "wenshidu",
-              "type": "",
-              "unit": null,
-              "group": [
-                {
-                  "id": 2,
-                  "name": "温度",
-                  "type": "TextInput",
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true,
-                    "textForSuffix": ""
-                  },
-                  "key": "wendu",
-                  "value": null,
-                  "unit": "",
-                  "attribute_type": "single"
+                    "creator": "zzw",
+                    "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                    "name": "Test 2/SN-1732102167742",
+                    "sn": "S202411252",
+                    "batch": "202411252",
+                    "count": 1,
+                    "group": "e10cbdaf-26f3-4174-ad1f-5561cd09d4ed",
+                    "experiment_theme": "53aea91d-8cdc-4b8b-9e99-4ffd190bf44b",
+                    "record": "3599d6da-78a2-45de-8c5b-e4a6ef9162aa",
+                    "param": [
+                        "3dd47be0-9406-4257-9b30-c1c363785419",
+                        "63f3015f-d141-4e3c-8d5f-cad57701d65f",
+                        "cf3c8997-3b52-493c-91db-d7c675791cf4",
+                        "d0e37375-c902-4b3c-b797-8fd5be614f95",
+                        "f35ac526-c9aa-4083-bd41-e483dc33d14c"
+                    ]
                 },
                 {
-                  "id": 4,
-                  "name": "湿度",
-                  "type": "TextInput",
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true
-                  },
-                  "key": "shidu",
-                  "value": null,
-                  "unit": null,
-                  "attribute_type": "single"
+                    "id": "02939fe5-a4e4-4caf-867f-856c5ff6827f",
+                    "modifier_name": "赵紫文",
+                    "dept_belong_id": null,
+                    "creator_name": null,
+                    "create_datetime": "2024-11-25 19:50:18",
+                    "update_datetime": "2024-11-25 19:50:18",
+                    "description": null,
+                    "creator": "zzw",
+                    "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                    "name": "Test 2/SN-1732102167742",
+                    "sn": "S202411253",
+                    "batch": "202411253",
+                    "count": 1,
+                    "group": "e10cbdaf-26f3-4174-ad1f-5561cd09d4ed",
+                    "experiment_theme": "53aea91d-8cdc-4b8b-9e99-4ffd190bf44b",
+                    "record": "3599d6da-78a2-45de-8c5b-e4a6ef9162aa",
+                    "param": [
+                        "5ab4ea6e-e942-42a5-b185-95a2ba6f4513",
+                        "7d8db5f7-e6a3-4598-8903-7639f3791554",
+                        "91325ee4-369a-4f39-a55f-bc4341bc73a1",
+                        "9bd8a2db-f087-4746-a35f-b890f10c03f7",
+                        "ffd8adcd-1cdd-4277-bce7-3071983534d0"
+                    ]
                 }
-              ],
-              "step": {
-                "wendu": "4",
-                "shidu": "4"
-              },
-              "check": true
-            }
-          ],
-          "title": "样品202411211917"
+            ],
+            "designParams": [
+                {
+                    "id": "455d1fe2-bd86-4eb8-a981-51fc1b171825",
+                    "attribute": 1,
+                    "value": "455d1fe2-bd86-4eb8-a981-51fc1b171825",
+                    "attribute_type": "single",
+                    "name": "原材料",
+                    "step_name": "原材料",
+                    "description": "",
+                    "step_type": "operation",
+                    "duration": null,
+                    "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
+                    "props": {
+                        "abstract": false,
+                        "required": false,
+                        "enableScan": false,
+                        "enablePrint": true,
+                        "labelKey": "name",
+                        "valueKey": "id",
+                        "options": [
+                            {
+                                "id": "ddb22235-be4b-4b8b-aa34-29e671e998e8",
+                                "experiment_material": "df0c9736-229a-44d9-8147-da851c29eb8d",
+                                "experiment_material_name": "Test 1",
+                                "experiment_material_batch": {
+                                    "id": "7e54fa8a-18dc-4136-9419-5caa0fb4e21d",
+                                    "state": "Not-Started",
+                                    "batch": "BT-1732100722921",
+                                    "price": 100,
+                                    "supplier": ""
+                                },
+                                "description": null,
+                                "change_log": "231a9a73-3a8a-4fac-9c1f-6d73aa89b0e7",
+                                "experiment_material_sn": "SN-1732100722921",
+                                "name": "Test 1/SN-1732100722921"
+                            },
+                            {
+                                "id": "f0919f28-ee0a-4ccf-9419-d626b4b36b15",
+                                "experiment_material": "28d17d5b-3f8a-4612-b12b-0310f1b773ff",
+                                "experiment_material_name": "Test 2",
+                                "experiment_material_batch": {
+                                    "id": "ae0a300a-7866-4d8b-90e4-1650d0beaacf",
+                                    "state": "Not-Started",
+                                    "batch": "BT-1732102167742",
+                                    "price": 100,
+                                    "supplier": ""
+                                },
+                                "description": null,
+                                "change_log": "231a9a73-3a8a-4fac-9c1f-6d73aa89b0e7",
+                                "experiment_material_sn": "SN-1732102167742",
+                                "name": "Test 2/SN-1732102167742"
+                            },
+                            {
+                                "id": "71ff4190-1402-440c-bfbe-2941774c10b1",
+                                "experiment_material": "45cf4ade-6aca-4990-a4df-3868cb5025c9",
+                                "experiment_material_name": "Test 3",
+                                "experiment_material_batch": {
+                                    "id": "a87e040c-c158-4b09-ae25-5e3a7bd79cae",
+                                    "state": "Not-Started",
+                                    "batch": "BT-1732102179190",
+                                    "price": 500,
+                                    "supplier": ""
+                                },
+                                "description": null,
+                                "change_log": "231a9a73-3a8a-4fac-9c1f-6d73aa89b0e7",
+                                "experiment_material_sn": "SN-1732102179190",
+                                "name": "Test 3/SN-1732102179190"
+                            }
+                        ]
+                    },
+                    "key": "xm_raw_material",
+                    "type": "SelectPlus",
+                    "unit": null,
+                    "group": [],
+                    "step": [
+                        "f0919f28-ee0a-4ccf-9419-d626b4b36b15"
+                    ],
+                    "check": true,
+                    "raw_material": "419700ea-9c3b-4113-ba35-6c794659e1b6",
+                    "technology": "814733f6-04ec-414f-8f6a-6ff3e274be37",
+                    "label": "原材料"
+                },
+                {
+                    "id": "be77470f-f302-47fa-bf40-87823a66afa7",
+                    "attribute": 2,
+                    "value": "23",
+                    "attribute_type": "single",
+                    "name": "温度",
+                    "step_name": "温度",
+                    "description": "",
+                    "step_type": "operation",
+                    "duration": null,
+                    "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
+                    "props": {
+                        "abstract": false,
+                        "required": false,
+                        "enableScan": false,
+                        "enablePrint": true,
+                        "textForSuffix": ""
+                    },
+                    "key": "wendu",
+                    "type": "TextInput",
+                    "unit": "",
+                    "group": [],
+                    "step": "12",
+                    "check": true
+                },
+                {
+                    "id": "acbcfb00-9b18-4506-a698-2c05f3c07d24",
+                    "attribute": 3,
+                    "value": "34",
+                    "attribute_type": "single",
+                    "name": "转速",
+                    "step_name": "转速",
+                    "description": "",
+                    "step_type": "operation",
+                    "duration": null,
+                    "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
+                    "props": {
+                        "abstract": false,
+                        "required": false,
+                        "enableScan": false,
+                        "enablePrint": true
+                    },
+                    "key": "zhuanshu",
+                    "type": "TextInput",
+                    "unit": null,
+                    "group": [],
+                    "step": "11",
+                    "check": true
+                },
+                {
+                    "id": "ade2cca8-18f7-408d-a6b2-a39e85b5cb83",
+                    "attribute": 4,
+                    "value": "45",
+                    "attribute_type": "single",
+                    "name": "湿度",
+                    "step_name": "湿度",
+                    "description": "",
+                    "step_type": "operation",
+                    "duration": null,
+                    "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
+                    "props": {
+                        "abstract": false,
+                        "required": false,
+                        "enableScan": false,
+                        "enablePrint": true
+                    },
+                    "key": "shidu",
+                    "type": "TextInput",
+                    "unit": null,
+                    "group": [],
+                    "step": "22",
+                    "check": true
+                },
+                {
+                    "id": "a5c2a470-758d-41c9-8b3d-1d82eef4696b",
+                    "attribute": 5,
+                    "value": {
+                        "wendu": "5",
+                        "shidu": "5"
+                    },
+                    "attribute_type": "compound",
+                    "name": "温湿度",
+                    "step_name": "温湿度",
+                    "description": "",
+                    "step_type": "operation",
+                    "duration": null,
+                    "parent": "9fca99b0-05ed-410c-808f-786abfa225e2",
+                    "props": {},
+                    "key": "wenshidu",
+                    "type": "",
+                    "unit": null,
+                    "group": [
+                        {
+                            "id": 2,
+                            "name": "温度",
+                            "type": "TextInput",
+                            "props": {
+                                "abstract": false,
+                                "required": false,
+                                "enableScan": false,
+                                "enablePrint": true,
+                                "textForSuffix": ""
+                            },
+                            "key": "wendu",
+                            "value": null,
+                            "unit": "",
+                            "attribute_type": "single"
+                        },
+                        {
+                            "id": 4,
+                            "name": "湿度",
+                            "type": "TextInput",
+                            "props": {
+                                "abstract": false,
+                                "required": false,
+                                "enableScan": false,
+                                "enablePrint": true
+                            },
+                            "key": "shidu",
+                            "value": null,
+                            "unit": null,
+                            "attribute_type": "single"
+                        }
+                    ],
+                    "step": {
+                        "wendu": "4",
+                        "shidu": "5"
+                    },
+                    "check": true
+                }
+            ],
+            "title": "样品202411251950"
         },
         "content": [
-          {
-            "type": "paragraph",
-            "attrs": {
-              "indent": null,
-              "textAlign": "left",
-              "lineHeight": 1.5,
-              "margin": {}
-            },
-            "content": [
-              {
-                "type": "text",
-                "text": " "
-              }
-            ]
-          }
+            {
+                "type": "paragraph",
+                "attrs": {
+                    "indent": null,
+                    "textAlign": "left",
+                    "lineHeight": 1.5,
+                    "margin": {}
+                },
+                "content": [
+                    {
+                        "type": "text",
+                        "text": " "
+                    }
+                ]
+            }
         ]
       },
       {
         "type": "evaluating_table",
         "attrs": {
-          "id": "45ecd50c-92b7-4e5f-8250-f19b2e0f25a0",
-          "updateTime": "2024-11-22 17:56:11",
-          "key": "evaluating_table20241122175558",
-          "name": "5c6e90e8-403a-4986-bbd7-8e744ccd4eb3",
-          "isChanged": false,
-          "table_data": [
-            {
-              "id": "42a752e8-1cac-4ff3-a9f8-18c26ea8c657",
-              "modifier_name": "赵紫文",
-              "dept_belong_id": null,
-              "creator_name": null,
-              "create_datetime": "2024-11-22 17:56:09",
-              "update_datetime": "2024-11-22 17:56:09",
-              "eval_standard": [
+            "id": "d76049cf-42ba-4c98-ad85-6cfc2d9f30a8",
+            "updateTime": "2024-11-25 20:05:40",
+            "key": "evaluating_table20241125200417",
+            "name": "dec4601c-f1fb-4367-a7ef-05ba522c73e8",
+            "isChanged": false,
+            "table_data": [
                 {
-                  "id": 1,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "dsf",
-                  "internal_description": "地方",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 1,
-                    "name": "Lab_l",
-                    "type": "TextInput",
-                    "key": "Lab_l",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 2,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 2,
-                    "name": "Lab_a",
-                    "type": "TextInput",
-                    "key": "Lab_a",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 3,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 3,
-                    "name": "Lab_b",
-                    "type": "TextInput",
-                    "key": "Lab_b",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 5,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 4,
-                    "name": "LAB",
-                    "type": "TextInput",
-                    "key": "LAB",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 2,
-                    "category_name": "理化指标"
-                  }
-                },
-                {
-                  "id": 6,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 5,
-                    "name": "Lab",
-                    "type": "",
-                    "key": "Lab",
-                    "props": {},
-                    "value": null,
-                    "group": [
-                      {
-                        "id": 1,
-                        "name": "Lab_l",
-                        "type": "TextInput",
-                        "key": "Lab_l",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
+                    "id": "8a09dd21-70d9-4e29-9d5d-3a54957981e1",
+                    "modifier_name": "赵紫文",
+                    "dept_belong_id": null,
+                    "creator_name": null,
+                    "create_datetime": "2024-11-25 20:04:30",
+                    "update_datetime": "2024-11-25 20:04:53",
+                    "eval_standard": [
+                        {
+                            "id": 1,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "dsf",
+                            "internal_description": "地方",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 1,
+                                "name": "Lab_l",
+                                "type": "TextInput",
+                                "key": "Lab_l",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-20 19:50:14",
+                            "create_datetime": "2024-11-20 19:50:14",
+                            "category": {
+                                "id": 1,
+                                "category_name": "感官指标"
+                            }
                         },
-                        "value": null
-                      },
-                      {
-                        "id": 2,
-                        "name": "Lab_a",
-                        "type": "TextInput",
-                        "key": "Lab_a",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
+                        {
+                            "id": 2,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 2,
+                                "name": "Lab_a",
+                                "type": "TextInput",
+                                "key": "Lab_a",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-20 19:50:14",
+                            "create_datetime": "2024-11-20 19:50:14",
+                            "category": {
+                                "id": 1,
+                                "category_name": "感官指标"
+                            }
                         },
-                        "value": null
-                      },
-                      {
-                        "id": 3,
-                        "name": "Lab_b",
-                        "type": "TextInput",
-                        "key": "Lab_b",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
+                        {
+                            "id": 3,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 3,
+                                "name": "Lab_b",
+                                "type": "TextInput",
+                                "key": "Lab_b",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-20 19:50:14",
+                            "create_datetime": "2024-11-20 19:50:14",
+                            "category": {
+                                "id": 1,
+                                "category_name": "感官指标"
+                            }
                         },
-                        "value": null
-                      }
-                    ]
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-21 21:11:56",
-                  "create_datetime": "2024-11-21 21:11:56",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
+                        {
+                            "id": 5,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 4,
+                                "name": "LAB",
+                                "type": "TextInput",
+                                "key": "LAB",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-20 19:50:14",
+                            "create_datetime": "2024-11-20 19:50:14",
+                            "category": {
+                                "id": 2,
+                                "category_name": "理化指标"
+                            }
+                        },
+                        {
+                            "id": 6,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 5,
+                                "name": "Lab",
+                                "type": "",
+                                "key": "Lab",
+                                "props": {},
+                                "value": null,
+                                "group": [
+                                    {
+                                        "id": 1,
+                                        "name": "Lab_l",
+                                        "type": "TextInput",
+                                        "key": "Lab_l",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null
+                                    },
+                                    {
+                                        "id": 2,
+                                        "name": "Lab_a",
+                                        "type": "TextInput",
+                                        "key": "Lab_a",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null
+                                    },
+                                    {
+                                        "id": 3,
+                                        "name": "Lab_b",
+                                        "type": "TextInput",
+                                        "key": "Lab_b",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null
+                                    }
+                                ]
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-21 21:11:56",
+                            "create_datetime": "2024-11-21 21:11:56",
+                            "category": {
+                                "id": 1,
+                                "category_name": "感官指标"
+                            }
+                        },
+                        {
+                            "id": 7,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 6,
+                                "name": "肌肤图片",
+                                "type": "ImageUpload",
+                                "key": "labPic",
+                                "props": {
+                                    "maxSize": 5,
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableZip": true,
+                                    "maxNumber": 10,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-25 19:39:07",
+                            "create_datetime": "2024-11-25 19:39:07",
+                            "category": {
+                                "id": 2,
+                                "category_name": "理化指标"
+                            }
+                        }
+                    ],
+                    "samples": {
+                        "group": "e10cbdaf-26f3-4174-ad1f-5561cd09d4ed",
+                        "name": "Test 2/SN-1732102167742",
+                        "sn": "S202411253",
+                        "batch": "202411253"
+                    },
+                    "eval_user": {
+                        "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                        "name": "赵紫文",
+                        "user_id": "8218a663-e9a6-43d5-a0f1-d68a5509e366"
+                    },
+                    "description": null,
+                    "creator": "zzw",
+                    "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                    "condition": "2",
+                    "test_period": "2",
+                    "current_period": "3",
+                    "period_num": "3",
+                    "start_time": "2024-11-28",
+                    "value": {
+                        "labPic": [
+                            {
+                                "id": "f6a1ddab-d302-4152-8c8c-23ffe1675fd9",
+                                "url": "files/ingredient_dev/f/8/f8ad7d42134846f02eb4cb4cefcefa7d_9euwqYx.svg",
+                                "name": null,
+                                "size": "767",
+                                "engine": "local",
+                                "md5sum": "f8ad7d42134846f02eb4cb4cefcefa7d",
+                                "creator": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                                "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                                "mime_type": "",
+                                "description": null,
+                                "creator_name": null,
+                                "modifier_name": "赵紫文",
+                                "dept_belong_id": null,
+                                "create_datetime": "2024-11-25 20:04:50",
+                                "update_datetime": "2024-11-25 20:04:50"
+                            },
+                            {
+                                "id": "f6a1ddab-d302-4152-8c8c-23ffe1675fd9",
+                                "url": "files/ingredient_dev/f/8/f8ad7d42134846f02eb4cb4cefcefa7d_9euwqYx.svg",
+                                "name": null,
+                                "size": "767",
+                                "engine": "local",
+                                "md5sum": "f8ad7d42134846f02eb4cb4cefcefa7d",
+                                "creator": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                                "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                                "mime_type": "",
+                                "description": null,
+                                "creator_name": null,
+                                "modifier_name": "赵紫文",
+                                "dept_belong_id": null,
+                                "create_datetime": "2024-11-25 20:04:50",
+                                "update_datetime": "2024-11-25 20:04:50"
+                            }
+                        ]
+                    },
+                    "group": "df9a1557-5444-46c0-85b3-0593aa2de686",
+                    "sample_group": "e10cbdaf-26f3-4174-ad1f-5561cd09d4ed"
+                },
+                {
+                    "id": "f9c58baa-9a32-471d-a141-5f02b9fd0d72",
+                    "modifier_name": "赵紫文",
+                    "dept_belong_id": null,
+                    "creator_name": null,
+                    "create_datetime": "2024-11-25 20:04:30",
+                    "update_datetime": "2024-11-25 20:05:39",
+                    "eval_standard": [
+                        {
+                            "id": 1,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "dsf",
+                            "internal_description": "地方",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 1,
+                                "name": "Lab_l",
+                                "type": "TextInput",
+                                "key": "Lab_l",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-20 19:50:14",
+                            "create_datetime": "2024-11-20 19:50:14",
+                            "category": {
+                                "id": 1,
+                                "category_name": "感官指标"
+                            }
+                        },
+                        {
+                            "id": 2,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 2,
+                                "name": "Lab_a",
+                                "type": "TextInput",
+                                "key": "Lab_a",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-20 19:50:14",
+                            "create_datetime": "2024-11-20 19:50:14",
+                            "category": {
+                                "id": 1,
+                                "category_name": "感官指标"
+                            }
+                        },
+                        {
+                            "id": 3,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 3,
+                                "name": "Lab_b",
+                                "type": "TextInput",
+                                "key": "Lab_b",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-20 19:50:14",
+                            "create_datetime": "2024-11-20 19:50:14",
+                            "category": {
+                                "id": 1,
+                                "category_name": "感官指标"
+                            }
+                        },
+                        {
+                            "id": 5,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 4,
+                                "name": "LAB",
+                                "type": "TextInput",
+                                "key": "LAB",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-20 19:50:14",
+                            "create_datetime": "2024-11-20 19:50:14",
+                            "category": {
+                                "id": 2,
+                                "category_name": "理化指标"
+                            }
+                        },
+                        {
+                            "id": 6,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 5,
+                                "name": "Lab",
+                                "type": "",
+                                "key": "Lab",
+                                "props": {},
+                                "value": null,
+                                "group": [
+                                    {
+                                        "id": 1,
+                                        "name": "Lab_l",
+                                        "type": "TextInput",
+                                        "key": "Lab_l",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null
+                                    },
+                                    {
+                                        "id": 2,
+                                        "name": "Lab_a",
+                                        "type": "TextInput",
+                                        "key": "Lab_a",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null
+                                    },
+                                    {
+                                        "id": 3,
+                                        "name": "Lab_b",
+                                        "type": "TextInput",
+                                        "key": "Lab_b",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null
+                                    }
+                                ]
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-21 21:11:56",
+                            "create_datetime": "2024-11-21 21:11:56",
+                            "category": {
+                                "id": 1,
+                                "category_name": "感官指标"
+                            }
+                        },
+                        {
+                            "id": 7,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 6,
+                                "name": "肌肤图片",
+                                "type": "ImageUpload",
+                                "key": "labPic",
+                                "props": {
+                                    "maxSize": 5,
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableZip": true,
+                                    "maxNumber": 10,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-25 19:39:07",
+                            "create_datetime": "2024-11-25 19:39:07",
+                            "category": {
+                                "id": 2,
+                                "category_name": "理化指标"
+                            }
+                        }
+                    ],
+                    "samples": {
+                        "group": "e10cbdaf-26f3-4174-ad1f-5561cd09d4ed",
+                        "name": "Test 2/SN-1732102167742",
+                        "sn": "S202411253",
+                        "batch": "202411253"
+                    },
+                    "eval_user": {
+                        "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                        "name": "赵紫文",
+                        "user_id": "8218a663-e9a6-43d5-a0f1-d68a5509e366"
+                    },
+                    "description": null,
+                    "creator": "zzw",
+                    "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                    "condition": "2",
+                    "test_period": "2",
+                    "current_period": "3",
+                    "period_num": "2",
+                    "start_time": "2024-11-25",
+                    "value": {
+                        "labPic": [
+                            {
+                                "id": "1ce96eb4-3dd2-4a3e-ba17-11cb87ba385f",
+                                "url": "files/ingredient_dev/f/8/f8ad7d42134846f02eb4cb4cefcefa7d_fQJ372r.svg",
+                                "name": null,
+                                "size": "767",
+                                "engine": "local",
+                                "md5sum": "f8ad7d42134846f02eb4cb4cefcefa7d",
+                                "creator": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                                "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                                "mime_type": "",
+                                "description": null,
+                                "creator_name": null,
+                                "modifier_name": "赵紫文",
+                                "dept_belong_id": null,
+                                "create_datetime": "2024-11-25 20:05:37",
+                                "update_datetime": "2024-11-25 20:05:37"
+                            }
+                        ]
+                    },
+                    "group": "df9a1557-5444-46c0-85b3-0593aa2de686",
+                    "sample_group": "e10cbdaf-26f3-4174-ad1f-5561cd09d4ed"
+                },
+                {
+                    "id": "4f1aabdb-676d-43ed-b1aa-b6cc80530ba8",
+                    "modifier_name": "赵紫文",
+                    "dept_belong_id": null,
+                    "creator_name": null,
+                    "create_datetime": "2024-11-25 20:04:30",
+                    "update_datetime": "2024-11-25 20:04:30",
+                    "eval_standard": [
+                        {
+                            "id": 1,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "dsf",
+                            "internal_description": "地方",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 1,
+                                "name": "Lab_l",
+                                "type": "TextInput",
+                                "key": "Lab_l",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-20 19:50:14",
+                            "create_datetime": "2024-11-20 19:50:14",
+                            "category": {
+                                "id": 1,
+                                "category_name": "感官指标"
+                            }
+                        },
+                        {
+                            "id": 2,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 2,
+                                "name": "Lab_a",
+                                "type": "TextInput",
+                                "key": "Lab_a",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-20 19:50:14",
+                            "create_datetime": "2024-11-20 19:50:14",
+                            "category": {
+                                "id": 1,
+                                "category_name": "感官指标"
+                            }
+                        },
+                        {
+                            "id": 3,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 3,
+                                "name": "Lab_b",
+                                "type": "TextInput",
+                                "key": "Lab_b",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-20 19:50:14",
+                            "create_datetime": "2024-11-20 19:50:14",
+                            "category": {
+                                "id": 1,
+                                "category_name": "感官指标"
+                            }
+                        },
+                        {
+                            "id": 5,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 4,
+                                "name": "LAB",
+                                "type": "TextInput",
+                                "key": "LAB",
+                                "props": {
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableScan": false,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-20 19:50:14",
+                            "create_datetime": "2024-11-20 19:50:14",
+                            "category": {
+                                "id": 2,
+                                "category_name": "理化指标"
+                            }
+                        },
+                        {
+                            "id": 6,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 5,
+                                "name": "Lab",
+                                "type": "",
+                                "key": "Lab",
+                                "props": {},
+                                "value": null,
+                                "group": [
+                                    {
+                                        "id": 1,
+                                        "name": "Lab_l",
+                                        "type": "TextInput",
+                                        "key": "Lab_l",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null
+                                    },
+                                    {
+                                        "id": 2,
+                                        "name": "Lab_a",
+                                        "type": "TextInput",
+                                        "key": "Lab_a",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null
+                                    },
+                                    {
+                                        "id": 3,
+                                        "name": "Lab_b",
+                                        "type": "TextInput",
+                                        "key": "Lab_b",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null
+                                    }
+                                ]
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-21 21:11:56",
+                            "create_datetime": "2024-11-21 21:11:56",
+                            "category": {
+                                "id": 1,
+                                "category_name": "感官指标"
+                            }
+                        },
+                        {
+                            "id": 7,
+                            "execute_standard": {
+                                "id": 1,
+                                "standard_code": "sd54656546854",
+                                "standard_name": "实验指标0001",
+                                "standard_type": "industry"
+                            },
+                            "description": "",
+                            "internal_description": "",
+                            "reference_value": "",
+                            "attribute": {
+                                "id": 6,
+                                "name": "肌肤图片",
+                                "type": "ImageUpload",
+                                "key": "labPic",
+                                "props": {
+                                    "maxSize": 5,
+                                    "abstract": false,
+                                    "required": false,
+                                    "enableZip": true,
+                                    "maxNumber": 10,
+                                    "enablePrint": true
+                                },
+                                "value": null,
+                                "group": []
+                            },
+                            "value": "",
+                            "unit": "",
+                            "update_datetime": "2024-11-25 19:39:07",
+                            "create_datetime": "2024-11-25 19:39:07",
+                            "category": {
+                                "id": 2,
+                                "category_name": "理化指标"
+                            }
+                        }
+                    ],
+                    "samples": {
+                        "group": "e10cbdaf-26f3-4174-ad1f-5561cd09d4ed",
+                        "name": "Test 2/SN-1732102167742",
+                        "sn": "S202411253",
+                        "batch": "202411253"
+                    },
+                    "eval_user": {
+                        "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                        "name": "赵紫文",
+                        "user_id": "8218a663-e9a6-43d5-a0f1-d68a5509e366"
+                    },
+                    "description": null,
+                    "creator": "zzw",
+                    "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                    "condition": "2",
+                    "test_period": "2",
+                    "current_period": "3",
+                    "period_num": "1",
+                    "start_time": "2024-11-22",
+                    "value": null,
+                    "group": "df9a1557-5444-46c0-85b3-0593aa2de686",
+                    "sample_group": "e10cbdaf-26f3-4174-ad1f-5561cd09d4ed"
                 }
-              ],
-              "samples": {
-                "group": "1c04a325-255c-47bc-a93a-26f3c3afc198",
-                "name": "Test 1/SN-1732100722921/Test 3/SN-1732102179190",
-                "sn": "S20241121293",
-                "batch": "20241121293"
-              },
-              "eval_user": {
-                "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-                "name": "赵紫文",
-                "user_id": "8218a663-e9a6-43d5-a0f1-d68a5509e366"
-              },
-              "description": null,
-              "creator": "zzw",
-              "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-              "condition": "5",
-              "test_period": "1",
-              "current_period": "3",
-              "period_num": "5",
-              "start_time": "2025-02-15",
-              "value": null,
-              "group": "feb31ab7-2e75-4a71-a800-5b653be50e9a",
-              "sample_group": "1c04a325-255c-47bc-a93a-26f3c3afc198"
-            },
-            {
-              "id": "fb5bdfaf-5437-40b4-b76e-3741cea6c333",
-              "modifier_name": "赵紫文",
-              "dept_belong_id": null,
-              "creator_name": null,
-              "create_datetime": "2024-11-22 17:56:09",
-              "update_datetime": "2024-11-22 17:56:09",
-              "eval_standard": [
+            ],
+            "columns": [
                 {
-                  "id": 1,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "dsf",
-                  "internal_description": "地方",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 1,
-                    "name": "Lab_l",
-                    "type": "TextInput",
-                    "key": "Lab_l",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 2,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 2,
-                    "name": "Lab_a",
-                    "type": "TextInput",
-                    "key": "Lab_a",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 3,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 3,
-                    "name": "Lab_b",
-                    "type": "TextInput",
-                    "key": "Lab_b",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 5,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 4,
-                    "name": "LAB",
-                    "type": "TextInput",
-                    "key": "LAB",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 2,
-                    "category_name": "理化指标"
-                  }
-                },
-                {
-                  "id": 6,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 5,
-                    "name": "Lab",
-                    "type": "",
-                    "key": "Lab",
-                    "props": {},
-                    "value": null,
-                    "group": [
-                      {
-                        "id": 1,
-                        "name": "Lab_l",
-                        "type": "TextInput",
-                        "key": "Lab_l",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
+                    "title": "感官指标",
+                    "colKey": "category1",
+                    "children": [
+                        {
+                            "title": "Lab_l",
+                            "colKey": "value.Lab_l",
+                            "width": 100,
+                            "edit": {
+                                "component": {
+                                    "__name": "xm-input",
+                                    "props": {
+                                        "modelValue": {
+                                            "type": [
+                                                null,
+                                                null,
+                                                null,
+                                                null
+                                            ],
+                                            "required": true
+                                        },
+                                        "readonly": {
+                                            "default": false
+                                        },
+                                        "config": {
+                                            "required": true
+                                        },
+                                        "props": {},
+                                        "borderless": {
+                                            "default": true
+                                        },
+                                        "autoWidth": {
+                                            "default": false
+                                        },
+                                        "onChange": {}
+                                    },
+                                    "emits": [
+                                        "update:modelValue",
+                                        "change"
+                                    ],
+                                    "__hmrId": "777b0a84",
+                                    "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                },
+                                "customProps": {
+                                    "componentName": "xmInput",
+                                    "config": {
+                                        "id": 1,
+                                        "name": "Lab_l",
+                                        "type": "TextInput",
+                                        "key": "Lab_l",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null,
+                                        "group": []
+                                    },
+                                    "options": []
+                                },
+                                "rules": [
+                                    {
+                                        "required": false,
+                                        "message": "不能为空"
+                                    }
+                                ],
+                                "showEditIcon": true,
+                                "abortEditOnEvent": [
+                                    "onEnter",
+                                    "onBlur"
+                                ],
+                                "validateTrigger": "change"
+                            }
                         },
-                        "value": null
-                      },
-                      {
-                        "id": 2,
-                        "name": "Lab_a",
-                        "type": "TextInput",
-                        "key": "Lab_a",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
+                        {
+                            "title": "Lab_a",
+                            "colKey": "value.Lab_a",
+                            "width": 100,
+                            "edit": {
+                                "component": {
+                                    "__name": "xm-input",
+                                    "props": {
+                                        "modelValue": {
+                                            "type": [
+                                                null,
+                                                null,
+                                                null,
+                                                null
+                                            ],
+                                            "required": true
+                                        },
+                                        "readonly": {
+                                            "default": false
+                                        },
+                                        "config": {
+                                            "required": true
+                                        },
+                                        "props": {},
+                                        "borderless": {
+                                            "default": true
+                                        },
+                                        "autoWidth": {
+                                            "default": false
+                                        },
+                                        "onChange": {}
+                                    },
+                                    "emits": [
+                                        "update:modelValue",
+                                        "change"
+                                    ],
+                                    "__hmrId": "777b0a84",
+                                    "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                },
+                                "customProps": {
+                                    "componentName": "xmInput",
+                                    "config": {
+                                        "id": 2,
+                                        "name": "Lab_a",
+                                        "type": "TextInput",
+                                        "key": "Lab_a",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null,
+                                        "group": []
+                                    },
+                                    "options": []
+                                },
+                                "rules": [
+                                    {
+                                        "required": false,
+                                        "message": "不能为空"
+                                    }
+                                ],
+                                "showEditIcon": true,
+                                "abortEditOnEvent": [
+                                    "onEnter",
+                                    "onBlur"
+                                ],
+                                "validateTrigger": "change"
+                            }
                         },
-                        "value": null
-                      },
-                      {
-                        "id": 3,
-                        "name": "Lab_b",
-                        "type": "TextInput",
-                        "key": "Lab_b",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
+                        {
+                            "title": "Lab_b",
+                            "colKey": "value.Lab_b",
+                            "width": 100,
+                            "edit": {
+                                "component": {
+                                    "__name": "xm-input",
+                                    "props": {
+                                        "modelValue": {
+                                            "type": [
+                                                null,
+                                                null,
+                                                null,
+                                                null
+                                            ],
+                                            "required": true
+                                        },
+                                        "readonly": {
+                                            "default": false
+                                        },
+                                        "config": {
+                                            "required": true
+                                        },
+                                        "props": {},
+                                        "borderless": {
+                                            "default": true
+                                        },
+                                        "autoWidth": {
+                                            "default": false
+                                        },
+                                        "onChange": {}
+                                    },
+                                    "emits": [
+                                        "update:modelValue",
+                                        "change"
+                                    ],
+                                    "__hmrId": "777b0a84",
+                                    "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                },
+                                "customProps": {
+                                    "componentName": "xmInput",
+                                    "config": {
+                                        "id": 3,
+                                        "name": "Lab_b",
+                                        "type": "TextInput",
+                                        "key": "Lab_b",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null,
+                                        "group": []
+                                    },
+                                    "options": []
+                                },
+                                "rules": [
+                                    {
+                                        "required": false,
+                                        "message": "不能为空"
+                                    }
+                                ],
+                                "showEditIcon": true,
+                                "abortEditOnEvent": [
+                                    "onEnter",
+                                    "onBlur"
+                                ],
+                                "validateTrigger": "change"
+                            }
                         },
-                        "value": null
-                      }
+                        {
+                            "title": "Lab",
+                            "colKey": "value.Lab",
+                            "children": [
+                                {
+                                    "title": "Lab_l",
+                                    "colKey": "value.Lab.Lab_l",
+                                    "width": 100,
+                                    "edit": {
+                                        "component": {
+                                            "__name": "xm-input",
+                                            "props": {
+                                                "modelValue": {
+                                                    "type": [
+                                                        null,
+                                                        null,
+                                                        null,
+                                                        null
+                                                    ],
+                                                    "required": true
+                                                },
+                                                "readonly": {
+                                                    "default": false
+                                                },
+                                                "config": {
+                                                    "required": true
+                                                },
+                                                "props": {},
+                                                "borderless": {
+                                                    "default": true
+                                                },
+                                                "autoWidth": {
+                                                    "default": false
+                                                },
+                                                "onChange": {}
+                                            },
+                                            "emits": [
+                                                "update:modelValue",
+                                                "change"
+                                            ],
+                                            "__hmrId": "777b0a84",
+                                            "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                        },
+                                        "customProps": {
+                                            "componentName": "xmInput",
+                                            "config": {
+                                                "id": 1,
+                                                "name": "Lab_l",
+                                                "type": "TextInput",
+                                                "key": "Lab_l",
+                                                "props": {
+                                                    "abstract": false,
+                                                    "required": false,
+                                                    "enableScan": false,
+                                                    "enablePrint": true
+                                                },
+                                                "value": null
+                                            },
+                                            "options": []
+                                        },
+                                        "rules": [
+                                            {
+                                                "required": false,
+                                                "message": "不能为空"
+                                            }
+                                        ],
+                                        "showEditIcon": true,
+                                        "abortEditOnEvent": [
+                                            "onEnter",
+                                            "onBlur"
+                                        ],
+                                        "validateTrigger": "change"
+                                    }
+                                },
+                                {
+                                    "title": "Lab_a",
+                                    "colKey": "value.Lab.Lab_a",
+                                    "width": 100,
+                                    "edit": {
+                                        "component": {
+                                            "__name": "xm-input",
+                                            "props": {
+                                                "modelValue": {
+                                                    "type": [
+                                                        null,
+                                                        null,
+                                                        null,
+                                                        null
+                                                    ],
+                                                    "required": true
+                                                },
+                                                "readonly": {
+                                                    "default": false
+                                                },
+                                                "config": {
+                                                    "required": true
+                                                },
+                                                "props": {},
+                                                "borderless": {
+                                                    "default": true
+                                                },
+                                                "autoWidth": {
+                                                    "default": false
+                                                },
+                                                "onChange": {}
+                                            },
+                                            "emits": [
+                                                "update:modelValue",
+                                                "change"
+                                            ],
+                                            "__hmrId": "777b0a84",
+                                            "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                        },
+                                        "customProps": {
+                                            "componentName": "xmInput",
+                                            "config": {
+                                                "id": 2,
+                                                "name": "Lab_a",
+                                                "type": "TextInput",
+                                                "key": "Lab_a",
+                                                "props": {
+                                                    "abstract": false,
+                                                    "required": false,
+                                                    "enableScan": false,
+                                                    "enablePrint": true
+                                                },
+                                                "value": null
+                                            },
+                                            "options": []
+                                        },
+                                        "rules": [
+                                            {
+                                                "required": false,
+                                                "message": "不能为空"
+                                            }
+                                        ],
+                                        "showEditIcon": true,
+                                        "abortEditOnEvent": [
+                                            "onEnter",
+                                            "onBlur"
+                                        ],
+                                        "validateTrigger": "change"
+                                    }
+                                },
+                                {
+                                    "title": "Lab_b",
+                                    "colKey": "value.Lab.Lab_b",
+                                    "width": 100,
+                                    "edit": {
+                                        "component": {
+                                            "__name": "xm-input",
+                                            "props": {
+                                                "modelValue": {
+                                                    "type": [
+                                                        null,
+                                                        null,
+                                                        null,
+                                                        null
+                                                    ],
+                                                    "required": true
+                                                },
+                                                "readonly": {
+                                                    "default": false
+                                                },
+                                                "config": {
+                                                    "required": true
+                                                },
+                                                "props": {},
+                                                "borderless": {
+                                                    "default": true
+                                                },
+                                                "autoWidth": {
+                                                    "default": false
+                                                },
+                                                "onChange": {}
+                                            },
+                                            "emits": [
+                                                "update:modelValue",
+                                                "change"
+                                            ],
+                                            "__hmrId": "777b0a84",
+                                            "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                        },
+                                        "customProps": {
+                                            "componentName": "xmInput",
+                                            "config": {
+                                                "id": 3,
+                                                "name": "Lab_b",
+                                                "type": "TextInput",
+                                                "key": "Lab_b",
+                                                "props": {
+                                                    "abstract": false,
+                                                    "required": false,
+                                                    "enableScan": false,
+                                                    "enablePrint": true
+                                                },
+                                                "value": null
+                                            },
+                                            "options": []
+                                        },
+                                        "rules": [
+                                            {
+                                                "required": false,
+                                                "message": "不能为空"
+                                            }
+                                        ],
+                                        "showEditIcon": true,
+                                        "abortEditOnEvent": [
+                                            "onEnter",
+                                            "onBlur"
+                                        ],
+                                        "validateTrigger": "change"
+                                    }
+                                }
+                            ]
+                        }
                     ]
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-21 21:11:56",
-                  "create_datetime": "2024-11-21 21:11:56",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                }
-              ],
-              "samples": {
-                "group": "1c04a325-255c-47bc-a93a-26f3c3afc198",
-                "name": "Test 1/SN-1732100722921/Test 3/SN-1732102179190",
-                "sn": "S20241121293",
-                "batch": "20241121293"
-              },
-              "eval_user": {
-                "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-                "name": "赵紫文",
-                "user_id": "8218a663-e9a6-43d5-a0f1-d68a5509e366"
-              },
-              "description": null,
-              "creator": "zzw",
-              "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-              "condition": "5",
-              "test_period": "1",
-              "current_period": "3",
-              "period_num": "4",
-              "start_time": "2025-01-25",
-              "value": null,
-              "group": "feb31ab7-2e75-4a71-a800-5b653be50e9a",
-              "sample_group": "1c04a325-255c-47bc-a93a-26f3c3afc198"
-            },
-            {
-              "id": "0f0a2d4e-917d-4ba3-896a-b589a892b575",
-              "modifier_name": "赵紫文",
-              "dept_belong_id": null,
-              "creator_name": null,
-              "create_datetime": "2024-11-22 17:56:09",
-              "update_datetime": "2024-11-22 17:56:09",
-              "eval_standard": [
-                {
-                  "id": 1,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "dsf",
-                  "internal_description": "地方",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 1,
-                    "name": "Lab_l",
-                    "type": "TextInput",
-                    "key": "Lab_l",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
                 },
                 {
-                  "id": 2,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 2,
-                    "name": "Lab_a",
-                    "type": "TextInput",
-                    "key": "Lab_a",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 3,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 3,
-                    "name": "Lab_b",
-                    "type": "TextInput",
-                    "key": "Lab_b",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 5,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 4,
-                    "name": "LAB",
-                    "type": "TextInput",
-                    "key": "LAB",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 2,
-                    "category_name": "理化指标"
-                  }
-                },
-                {
-                  "id": 6,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 5,
-                    "name": "Lab",
-                    "type": "",
-                    "key": "Lab",
-                    "props": {},
-                    "value": null,
-                    "group": [
-                      {
-                        "id": 1,
-                        "name": "Lab_l",
-                        "type": "TextInput",
-                        "key": "Lab_l",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
+                    "title": "理化指标",
+                    "colKey": "category2",
+                    "children": [
+                        {
+                            "title": "LAB",
+                            "colKey": "value.LAB",
+                            "width": 100,
+                            "edit": {
+                                "component": {
+                                    "__name": "xm-input",
+                                    "props": {
+                                        "modelValue": {
+                                            "type": [
+                                                null,
+                                                null,
+                                                null,
+                                                null
+                                            ],
+                                            "required": true
+                                        },
+                                        "readonly": {
+                                            "default": false
+                                        },
+                                        "config": {
+                                            "required": true
+                                        },
+                                        "props": {},
+                                        "borderless": {
+                                            "default": true
+                                        },
+                                        "autoWidth": {
+                                            "default": false
+                                        },
+                                        "onChange": {}
+                                    },
+                                    "emits": [
+                                        "update:modelValue",
+                                        "change"
+                                    ],
+                                    "__hmrId": "777b0a84",
+                                    "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                },
+                                "customProps": {
+                                    "componentName": "xmInput",
+                                    "config": {
+                                        "id": 4,
+                                        "name": "LAB",
+                                        "type": "TextInput",
+                                        "key": "LAB",
+                                        "props": {
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableScan": false,
+                                            "enablePrint": true
+                                        },
+                                        "value": null,
+                                        "group": []
+                                    },
+                                    "options": []
+                                },
+                                "rules": [
+                                    {
+                                        "required": false,
+                                        "message": "不能为空"
+                                    }
+                                ],
+                                "showEditIcon": true,
+                                "abortEditOnEvent": [
+                                    "onEnter",
+                                    "onBlur"
+                                ],
+                                "validateTrigger": "change"
+                            }
                         },
-                        "value": null
-                      },
-                      {
-                        "id": 2,
-                        "name": "Lab_a",
-                        "type": "TextInput",
-                        "key": "Lab_a",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
-                        },
-                        "value": null
-                      },
-                      {
-                        "id": 3,
-                        "name": "Lab_b",
-                        "type": "TextInput",
-                        "key": "Lab_b",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
-                        },
-                        "value": null
-                      }
+                        {
+                            "title": "肌肤图片",
+                            "colKey": "value.labPic",
+                            "width": 100,
+                            "edit": {
+                                "component": {
+                                    "__name": "xm-input",
+                                    "props": {
+                                        "modelValue": {
+                                            "type": [
+                                                null,
+                                                null,
+                                                null,
+                                                null
+                                            ],
+                                            "required": true
+                                        },
+                                        "readonly": {
+                                            "default": false
+                                        },
+                                        "config": {
+                                            "required": true
+                                        },
+                                        "props": {},
+                                        "borderless": {
+                                            "default": true
+                                        },
+                                        "autoWidth": {
+                                            "default": false
+                                        },
+                                        "onChange": {}
+                                    },
+                                    "emits": [
+                                        "update:modelValue",
+                                        "change"
+                                    ],
+                                    "__hmrId": "777b0a84",
+                                    "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                                },
+                                "customProps": {
+                                    "componentName": "xmInput",
+                                    "config": {
+                                        "id": 6,
+                                        "name": "肌肤图片",
+                                        "type": "ImageUpload",
+                                        "key": "labPic",
+                                        "props": {
+                                            "maxSize": 5,
+                                            "abstract": false,
+                                            "required": false,
+                                            "enableZip": true,
+                                            "maxNumber": 10,
+                                            "enablePrint": true
+                                        },
+                                        "value": null,
+                                        "group": []
+                                    },
+                                    "options": []
+                                },
+                                "rules": [
+                                    {
+                                        "required": false,
+                                        "message": "不能为空"
+                                    }
+                                ],
+                                "showEditIcon": true,
+                                "abortEditOnEvent": [
+                                    "onEnter",
+                                    "onBlur"
+                                ],
+                                "validateTrigger": "change"
+                            }
+                        }
                     ]
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-21 21:11:56",
-                  "create_datetime": "2024-11-21 21:11:56",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
                 }
-              ],
-              "samples": {
-                "group": "1c04a325-255c-47bc-a93a-26f3c3afc198",
-                "name": "Test 1/SN-1732100722921/Test 3/SN-1732102179190",
-                "sn": "S20241121293",
-                "batch": "20241121293"
-              },
-              "eval_user": {
-                "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-                "name": "赵紫文",
-                "user_id": "8218a663-e9a6-43d5-a0f1-d68a5509e366"
-              },
-              "description": null,
-              "creator": "zzw",
-              "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-              "condition": "5",
-              "test_period": "1",
-              "current_period": "3",
-              "period_num": "3",
-              "start_time": "2025-01-04",
-              "value": null,
-              "group": "feb31ab7-2e75-4a71-a800-5b653be50e9a",
-              "sample_group": "1c04a325-255c-47bc-a93a-26f3c3afc198"
-            },
-            {
-              "id": "8e7ab1b5-94a9-4fdd-9277-478f2c80374a",
-              "modifier_name": "赵紫文",
-              "dept_belong_id": null,
-              "creator_name": null,
-              "create_datetime": "2024-11-22 17:56:09",
-              "update_datetime": "2024-11-22 17:56:09",
-              "eval_standard": [
-                {
-                  "id": 1,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "dsf",
-                  "internal_description": "地方",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 1,
-                    "name": "Lab_l",
-                    "type": "TextInput",
-                    "key": "Lab_l",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
+            ],
+            "group": "df9a1557-5444-46c0-85b3-0593aa2de686",
+            "designParams": {
+                "form": {
+                    "sample_group": "e10cbdaf-26f3-4174-ad1f-5561cd09d4ed",
+                    "index_type": 1,
+                    "condition": "2",
+                    "test_period": "2",
+                    "start_datetime": "2024-11-22",
+                    "current_period": "3",
+                    "period_num": 3
                 },
-                {
-                  "id": 2,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 2,
-                    "name": "Lab_a",
-                    "type": "TextInput",
-                    "key": "Lab_a",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 3,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 3,
-                    "name": "Lab_b",
-                    "type": "TextInput",
-                    "key": "Lab_b",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 5,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 4,
-                    "name": "LAB",
-                    "type": "TextInput",
-                    "key": "LAB",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 2,
-                    "category_name": "理化指标"
-                  }
-                },
-                {
-                  "id": 6,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 5,
-                    "name": "Lab",
-                    "type": "",
-                    "key": "Lab",
-                    "props": {},
-                    "value": null,
-                    "group": [
-                      {
-                        "id": 1,
-                        "name": "Lab_l",
-                        "type": "TextInput",
-                        "key": "Lab_l",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
-                        },
-                        "value": null
-                      },
-                      {
-                        "id": 2,
-                        "name": "Lab_a",
-                        "type": "TextInput",
-                        "key": "Lab_a",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
-                        },
-                        "value": null
-                      },
-                      {
-                        "id": 3,
-                        "name": "Lab_b",
-                        "type": "TextInput",
-                        "key": "Lab_b",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
-                        },
-                        "value": null
-                      }
-                    ]
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-21 21:11:56",
-                  "create_datetime": "2024-11-21 21:11:56",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                }
-              ],
-              "samples": {
-                "group": "1c04a325-255c-47bc-a93a-26f3c3afc198",
-                "name": "Test 1/SN-1732100722921/Test 3/SN-1732102179190",
-                "sn": "S20241121293",
-                "batch": "20241121293"
-              },
-              "eval_user": {
-                "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-                "name": "赵紫文",
-                "user_id": "8218a663-e9a6-43d5-a0f1-d68a5509e366"
-              },
-              "description": null,
-              "creator": "zzw",
-              "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-              "condition": "5",
-              "test_period": "1",
-              "current_period": "3",
-              "period_num": "2",
-              "start_time": "2024-12-14",
-              "value": null,
-              "group": "feb31ab7-2e75-4a71-a800-5b653be50e9a",
-              "sample_group": "1c04a325-255c-47bc-a93a-26f3c3afc198"
-            },
-            {
-              "id": "5c6c0961-fc0f-4306-8dc8-0920108877b7",
-              "modifier_name": "赵紫文",
-              "dept_belong_id": null,
-              "creator_name": null,
-              "create_datetime": "2024-11-22 17:56:09",
-              "update_datetime": "2024-11-22 17:56:09",
-              "eval_standard": [
-                {
-                  "id": 1,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "dsf",
-                  "internal_description": "地方",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 1,
-                    "name": "Lab_l",
-                    "type": "TextInput",
-                    "key": "Lab_l",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 2,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 2,
-                    "name": "Lab_a",
-                    "type": "TextInput",
-                    "key": "Lab_a",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 3,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 3,
-                    "name": "Lab_b",
-                    "type": "TextInput",
-                    "key": "Lab_b",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                },
-                {
-                  "id": 5,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 4,
-                    "name": "LAB",
-                    "type": "TextInput",
-                    "key": "LAB",
-                    "props": {
-                      "abstract": false,
-                      "required": false,
-                      "enableScan": false,
-                      "enablePrint": true
-                    },
-                    "value": null,
-                    "group": []
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-20 19:50:14",
-                  "create_datetime": "2024-11-20 19:50:14",
-                  "category": {
-                    "id": 2,
-                    "category_name": "理化指标"
-                  }
-                },
-                {
-                  "id": 6,
-                  "execute_standard": {
-                    "id": 1,
-                    "standard_code": "sd54656546854",
-                    "standard_name": "实验指标0001",
-                    "standard_type": "industry"
-                  },
-                  "description": "",
-                  "internal_description": "",
-                  "reference_value": "",
-                  "attribute": {
-                    "id": 5,
-                    "name": "Lab",
-                    "type": "",
-                    "key": "Lab",
-                    "props": {},
-                    "value": null,
-                    "group": [
-                      {
-                        "id": 1,
-                        "name": "Lab_l",
-                        "type": "TextInput",
-                        "key": "Lab_l",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
-                        },
-                        "value": null
-                      },
-                      {
-                        "id": 2,
-                        "name": "Lab_a",
-                        "type": "TextInput",
-                        "key": "Lab_a",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
-                        },
-                        "value": null
-                      },
-                      {
-                        "id": 3,
-                        "name": "Lab_b",
-                        "type": "TextInput",
-                        "key": "Lab_b",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
-                        },
-                        "value": null
-                      }
-                    ]
-                  },
-                  "value": "",
-                  "unit": "",
-                  "update_datetime": "2024-11-21 21:11:56",
-                  "create_datetime": "2024-11-21 21:11:56",
-                  "category": {
-                    "id": 1,
-                    "category_name": "感官指标"
-                  }
-                }
-              ],
-              "samples": {
-                "group": "1c04a325-255c-47bc-a93a-26f3c3afc198",
-                "name": "Test 1/SN-1732100722921/Test 3/SN-1732102179190",
-                "sn": "S20241121293",
-                "batch": "20241121293"
-              },
-              "eval_user": {
-                "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-                "name": "赵紫文",
-                "user_id": "8218a663-e9a6-43d5-a0f1-d68a5509e366"
-              },
-              "description": null,
-              "creator": "zzw",
-              "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-              "condition": "5",
-              "test_period": "1",
-              "current_period": "3",
-              "period_num": "1",
-              "start_time": "2024-11-23",
-              "value": null,
-              "group": "feb31ab7-2e75-4a71-a800-5b653be50e9a",
-              "sample_group": "1c04a325-255c-47bc-a93a-26f3c3afc198"
-            }
-          ],
-          "columns": [
-            {
-              "title": "感官指标",
-              "colKey": "category1",
-              "children": [
-                {
-                  "title": "Lab_l",
-                  "colKey": "value.Lab_l",
-                  "width": 100,
-                  "edit": {
-                    "component": {
-                      "__name": "xm-input",
-                      "props": {
-                        "modelValue": {
-                          "type": [
-                            null,
-                            null,
-                            null,
-                            null
-                          ],
-                          "required": true
-                        },
-                        "readonly": {
-                          "default": false
-                        },
-                        "config": {
-                          "required": true
-                        },
-                        "props": {},
-                        "borderless": {
-                          "default": true
-                        },
-                        "autoWidth": {
-                          "default": false
-                        },
-                        "onChange": {}
-                      },
-                      "emits": [
-                        "update:modelValue",
-                        "change"
-                      ],
-                      "__hmrId": "777b0a84",
-                      "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
-                    },
-                    "customProps": {
-                      "componentName": "xmInput",
-                      "config": {
-                        "id": 1,
-                        "name": "Lab_l",
-                        "type": "TextInput",
-                        "key": "Lab_l",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
-                        },
-                        "value": null,
-                        "group": []
-                      },
-                      "options": []
-                    },
-                    "rules": [
-                      {
-                        "required": false,
-                        "message": "不能为空"
-                      }
-                    ],
-                    "showEditIcon": true,
-                    "abortEditOnEvent": [
-                      "onEnter",
-                      "onBlur"
-                    ],
-                    "validateTrigger": "change"
-                  }
-                },
-                {
-                  "title": "Lab_a",
-                  "colKey": "value.Lab_a",
-                  "width": 100,
-                  "edit": {
-                    "component": {
-                      "__name": "xm-input",
-                      "props": {
-                        "modelValue": {
-                          "type": [
-                            null,
-                            null,
-                            null,
-                            null
-                          ],
-                          "required": true
-                        },
-                        "readonly": {
-                          "default": false
-                        },
-                        "config": {
-                          "required": true
-                        },
-                        "props": {},
-                        "borderless": {
-                          "default": true
-                        },
-                        "autoWidth": {
-                          "default": false
-                        },
-                        "onChange": {}
-                      },
-                      "emits": [
-                        "update:modelValue",
-                        "change"
-                      ],
-                      "__hmrId": "777b0a84",
-                      "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
-                    },
-                    "customProps": {
-                      "componentName": "xmInput",
-                      "config": {
-                        "id": 2,
-                        "name": "Lab_a",
-                        "type": "TextInput",
-                        "key": "Lab_a",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
-                        },
-                        "value": null,
-                        "group": []
-                      },
-                      "options": []
-                    },
-                    "rules": [
-                      {
-                        "required": false,
-                        "message": "不能为空"
-                      }
-                    ],
-                    "showEditIcon": true,
-                    "abortEditOnEvent": [
-                      "onEnter",
-                      "onBlur"
-                    ],
-                    "validateTrigger": "change"
-                  }
-                },
-                {
-                  "title": "Lab_b",
-                  "colKey": "value.Lab_b",
-                  "width": 100,
-                  "edit": {
-                    "component": {
-                      "__name": "xm-input",
-                      "props": {
-                        "modelValue": {
-                          "type": [
-                            null,
-                            null,
-                            null,
-                            null
-                          ],
-                          "required": true
-                        },
-                        "readonly": {
-                          "default": false
-                        },
-                        "config": {
-                          "required": true
-                        },
-                        "props": {},
-                        "borderless": {
-                          "default": true
-                        },
-                        "autoWidth": {
-                          "default": false
-                        },
-                        "onChange": {}
-                      },
-                      "emits": [
-                        "update:modelValue",
-                        "change"
-                      ],
-                      "__hmrId": "777b0a84",
-                      "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
-                    },
-                    "customProps": {
-                      "componentName": "xmInput",
-                      "config": {
-                        "id": 3,
-                        "name": "Lab_b",
-                        "type": "TextInput",
-                        "key": "Lab_b",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
-                        },
-                        "value": null,
-                        "group": []
-                      },
-                      "options": []
-                    },
-                    "rules": [
-                      {
-                        "required": false,
-                        "message": "不能为空"
-                      }
-                    ],
-                    "showEditIcon": true,
-                    "abortEditOnEvent": [
-                      "onEnter",
-                      "onBlur"
-                    ],
-                    "validateTrigger": "change"
-                  }
-                },
-                {
-                  "title": "Lab",
-                  "colKey": "value.Lab",
-                  "children": [
+                "index_typeInfo": [
                     {
-                      "title": "Lab_l",
-                      "colKey": "value.Lab.Lab_l",
-                      "width": 100,
-                      "edit": {
-                        "component": {
-                          "__name": "xm-input",
-                          "props": {
-                            "modelValue": {
-                              "type": [
-                                null,
-                                null,
-                                null,
-                                null
-                              ],
-                              "required": true
-                            },
-                            "readonly": {
-                              "default": false
-                            },
-                            "config": {
-                              "required": true
-                            },
-                            "props": {},
-                            "borderless": {
-                              "default": true
-                            },
-                            "autoWidth": {
-                              "default": false
-                            },
-                            "onChange": {}
-                          },
-                          "emits": [
-                            "update:modelValue",
-                            "change"
-                          ],
-                          "__hmrId": "777b0a84",
-                          "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                        "id": 1,
+                        "execute_standard": {
+                            "id": 1,
+                            "standard_code": "sd54656546854",
+                            "standard_name": "实验指标0001",
+                            "standard_type": "industry"
                         },
-                        "customProps": {
-                          "componentName": "xmInput",
-                          "config": {
+                        "description": "dsf",
+                        "internal_description": "地方",
+                        "reference_value": "",
+                        "attribute": {
                             "id": 1,
                             "name": "Lab_l",
                             "type": "TextInput",
                             "key": "Lab_l",
                             "props": {
-                              "abstract": false,
-                              "required": false,
-                              "enableScan": false,
-                              "enablePrint": true
+                                "abstract": false,
+                                "required": false,
+                                "enableScan": false,
+                                "enablePrint": true
                             },
-                            "value": null
-                          },
-                          "options": []
+                            "value": null,
+                            "group": []
                         },
-                        "rules": [
-                          {
-                            "required": false,
-                            "message": "不能为空"
-                          }
-                        ],
-                        "showEditIcon": true,
-                        "abortEditOnEvent": [
-                          "onEnter",
-                          "onBlur"
-                        ],
-                        "validateTrigger": "change"
-                      }
+                        "value": "",
+                        "unit": "",
+                        "update_datetime": "2024-11-20 19:50:14",
+                        "create_datetime": "2024-11-20 19:50:14",
+                        "category": {
+                            "id": 1,
+                            "category_name": "感官指标"
+                        }
                     },
                     {
-                      "title": "Lab_a",
-                      "colKey": "value.Lab.Lab_a",
-                      "width": 100,
-                      "edit": {
-                        "component": {
-                          "__name": "xm-input",
-                          "props": {
-                            "modelValue": {
-                              "type": [
-                                null,
-                                null,
-                                null,
-                                null
-                              ],
-                              "required": true
-                            },
-                            "readonly": {
-                              "default": false
-                            },
-                            "config": {
-                              "required": true
-                            },
-                            "props": {},
-                            "borderless": {
-                              "default": true
-                            },
-                            "autoWidth": {
-                              "default": false
-                            },
-                            "onChange": {}
-                          },
-                          "emits": [
-                            "update:modelValue",
-                            "change"
-                          ],
-                          "__hmrId": "777b0a84",
-                          "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                        "id": 2,
+                        "execute_standard": {
+                            "id": 1,
+                            "standard_code": "sd54656546854",
+                            "standard_name": "实验指标0001",
+                            "standard_type": "industry"
                         },
-                        "customProps": {
-                          "componentName": "xmInput",
-                          "config": {
+                        "description": "",
+                        "internal_description": "",
+                        "reference_value": "",
+                        "attribute": {
                             "id": 2,
                             "name": "Lab_a",
                             "type": "TextInput",
                             "key": "Lab_a",
                             "props": {
-                              "abstract": false,
-                              "required": false,
-                              "enableScan": false,
-                              "enablePrint": true
+                                "abstract": false,
+                                "required": false,
+                                "enableScan": false,
+                                "enablePrint": true
                             },
-                            "value": null
-                          },
-                          "options": []
+                            "value": null,
+                            "group": []
                         },
-                        "rules": [
-                          {
-                            "required": false,
-                            "message": "不能为空"
-                          }
-                        ],
-                        "showEditIcon": true,
-                        "abortEditOnEvent": [
-                          "onEnter",
-                          "onBlur"
-                        ],
-                        "validateTrigger": "change"
-                      }
+                        "value": "",
+                        "unit": "",
+                        "update_datetime": "2024-11-20 19:50:14",
+                        "create_datetime": "2024-11-20 19:50:14",
+                        "category": {
+                            "id": 1,
+                            "category_name": "感官指标"
+                        }
                     },
                     {
-                      "title": "Lab_b",
-                      "colKey": "value.Lab.Lab_b",
-                      "width": 100,
-                      "edit": {
-                        "component": {
-                          "__name": "xm-input",
-                          "props": {
-                            "modelValue": {
-                              "type": [
-                                null,
-                                null,
-                                null,
-                                null
-                              ],
-                              "required": true
-                            },
-                            "readonly": {
-                              "default": false
-                            },
-                            "config": {
-                              "required": true
-                            },
-                            "props": {},
-                            "borderless": {
-                              "default": true
-                            },
-                            "autoWidth": {
-                              "default": false
-                            },
-                            "onChange": {}
-                          },
-                          "emits": [
-                            "update:modelValue",
-                            "change"
-                          ],
-                          "__hmrId": "777b0a84",
-                          "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
+                        "id": 3,
+                        "execute_standard": {
+                            "id": 1,
+                            "standard_code": "sd54656546854",
+                            "standard_name": "实验指标0001",
+                            "standard_type": "industry"
                         },
-                        "customProps": {
-                          "componentName": "xmInput",
-                          "config": {
+                        "description": "",
+                        "internal_description": "",
+                        "reference_value": "",
+                        "attribute": {
                             "id": 3,
                             "name": "Lab_b",
                             "type": "TextInput",
                             "key": "Lab_b",
                             "props": {
-                              "abstract": false,
-                              "required": false,
-                              "enableScan": false,
-                              "enablePrint": true
+                                "abstract": false,
+                                "required": false,
+                                "enableScan": false,
+                                "enablePrint": true
                             },
-                            "value": null
-                          },
-                          "options": []
+                            "value": null,
+                            "group": []
                         },
-                        "rules": [
-                          {
-                            "required": false,
-                            "message": "不能为空"
-                          }
-                        ],
-                        "showEditIcon": true,
-                        "abortEditOnEvent": [
-                          "onEnter",
-                          "onBlur"
-                        ],
-                        "validateTrigger": "change"
-                      }
+                        "value": "",
+                        "unit": "",
+                        "update_datetime": "2024-11-20 19:50:14",
+                        "create_datetime": "2024-11-20 19:50:14",
+                        "category": {
+                            "id": 1,
+                            "category_name": "感官指标"
+                        }
+                    },
+                    {
+                        "id": 5,
+                        "execute_standard": {
+                            "id": 1,
+                            "standard_code": "sd54656546854",
+                            "standard_name": "实验指标0001",
+                            "standard_type": "industry"
+                        },
+                        "description": "",
+                        "internal_description": "",
+                        "reference_value": "",
+                        "attribute": {
+                            "id": 4,
+                            "name": "LAB",
+                            "type": "TextInput",
+                            "key": "LAB",
+                            "props": {
+                                "abstract": false,
+                                "required": false,
+                                "enableScan": false,
+                                "enablePrint": true
+                            },
+                            "value": null,
+                            "group": []
+                        },
+                        "value": "",
+                        "unit": "",
+                        "update_datetime": "2024-11-20 19:50:14",
+                        "create_datetime": "2024-11-20 19:50:14",
+                        "category": {
+                            "id": 2,
+                            "category_name": "理化指标"
+                        }
+                    },
+                    {
+                        "id": 6,
+                        "execute_standard": {
+                            "id": 1,
+                            "standard_code": "sd54656546854",
+                            "standard_name": "实验指标0001",
+                            "standard_type": "industry"
+                        },
+                        "description": "",
+                        "internal_description": "",
+                        "reference_value": "",
+                        "attribute": {
+                            "id": 5,
+                            "name": "Lab",
+                            "type": "",
+                            "key": "Lab",
+                            "props": {},
+                            "value": null,
+                            "group": [
+                                {
+                                    "id": 1,
+                                    "name": "Lab_l",
+                                    "type": "TextInput",
+                                    "key": "Lab_l",
+                                    "props": {
+                                        "abstract": false,
+                                        "required": false,
+                                        "enableScan": false,
+                                        "enablePrint": true
+                                    },
+                                    "value": null
+                                },
+                                {
+                                    "id": 2,
+                                    "name": "Lab_a",
+                                    "type": "TextInput",
+                                    "key": "Lab_a",
+                                    "props": {
+                                        "abstract": false,
+                                        "required": false,
+                                        "enableScan": false,
+                                        "enablePrint": true
+                                    },
+                                    "value": null
+                                },
+                                {
+                                    "id": 3,
+                                    "name": "Lab_b",
+                                    "type": "TextInput",
+                                    "key": "Lab_b",
+                                    "props": {
+                                        "abstract": false,
+                                        "required": false,
+                                        "enableScan": false,
+                                        "enablePrint": true
+                                    },
+                                    "value": null
+                                }
+                            ]
+                        },
+                        "value": "",
+                        "unit": "",
+                        "update_datetime": "2024-11-21 21:11:56",
+                        "create_datetime": "2024-11-21 21:11:56",
+                        "category": {
+                            "id": 1,
+                            "category_name": "感官指标"
+                        }
+                    },
+                    {
+                        "id": 7,
+                        "execute_standard": {
+                            "id": 1,
+                            "standard_code": "sd54656546854",
+                            "standard_name": "实验指标0001",
+                            "standard_type": "industry"
+                        },
+                        "description": "",
+                        "internal_description": "",
+                        "reference_value": "",
+                        "attribute": {
+                            "id": 6,
+                            "name": "肌肤图片",
+                            "type": "ImageUpload",
+                            "key": "labPic",
+                            "props": {
+                                "maxSize": 5,
+                                "abstract": false,
+                                "required": false,
+                                "enableZip": true,
+                                "maxNumber": 10,
+                                "enablePrint": true
+                            },
+                            "value": null,
+                            "group": []
+                        },
+                        "value": "",
+                        "unit": "",
+                        "update_datetime": "2024-11-25 19:39:07",
+                        "create_datetime": "2024-11-25 19:39:07",
+                        "category": {
+                            "id": 2,
+                            "category_name": "理化指标"
+                        }
                     }
-                  ]
-                }
-              ]
-            },
-            {
-              "title": "理化指标",
-              "colKey": "category2",
-              "children": [
-                {
-                  "title": "LAB",
-                  "colKey": "value.LAB",
-                  "width": 100,
-                  "edit": {
-                    "component": {
-                      "__name": "xm-input",
-                      "props": {
-                        "modelValue": {
-                          "type": [
-                            null,
-                            null,
-                            null,
-                            null
-                          ],
-                          "required": true
-                        },
-                        "readonly": {
-                          "default": false
-                        },
-                        "config": {
-                          "required": true
-                        },
-                        "props": {},
-                        "borderless": {
-                          "default": true
-                        },
-                        "autoWidth": {
-                          "default": false
-                        },
-                        "onChange": {}
-                      },
-                      "emits": [
-                        "update:modelValue",
-                        "change"
-                      ],
-                      "__hmrId": "777b0a84",
-                      "__file": "D:/workspace/mzyc-web/libs/UmoEditor/editor/src/components/xm-input.vue"
-                    },
-                    "customProps": {
-                      "componentName": "xmInput",
-                      "config": {
-                        "id": 4,
-                        "name": "LAB",
-                        "type": "TextInput",
-                        "key": "LAB",
-                        "props": {
-                          "abstract": false,
-                          "required": false,
-                          "enableScan": false,
-                          "enablePrint": true
-                        },
-                        "value": null,
-                        "group": []
-                      },
-                      "options": []
-                    },
-                    "rules": [
-                      {
-                        "required": false,
-                        "message": "不能为空"
-                      }
-                    ],
-                    "showEditIcon": true,
-                    "abortEditOnEvent": [
-                      "onEnter",
-                      "onBlur"
-                    ],
-                    "validateTrigger": "change"
-                  }
-                }
-              ]
+                ]
             }
-          ],
-          "group": "feb31ab7-2e75-4a71-a800-5b653be50e9a",
-          "designParams": {
-            "form": {
-              "sample_group": "1c04a325-255c-47bc-a93a-26f3c3afc198",
-              "index_type": 1,
-              "condition": "5",
-              "test_period": "1",
-              "start_datetime": "2024-11-23",
-              "current_period": "3",
-              "period_num": 5
-            },
-            "index_typeInfo": [
-              {
-                "id": 1,
-                "execute_standard": {
-                  "id": 1,
-                  "standard_code": "sd54656546854",
-                  "standard_name": "实验指标0001",
-                  "standard_type": "industry"
-                },
-                "description": "dsf",
-                "internal_description": "地方",
-                "reference_value": "",
-                "attribute": {
-                  "id": 1,
-                  "name": "Lab_l",
-                  "type": "TextInput",
-                  "key": "Lab_l",
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true
-                  },
-                  "value": null,
-                  "group": []
-                },
-                "value": "",
-                "unit": "",
-                "update_datetime": "2024-11-20 19:50:14",
-                "create_datetime": "2024-11-20 19:50:14",
-                "category": {
-                  "id": 1,
-                  "category_name": "感官指标"
-                }
-              },
-              {
-                "id": 2,
-                "execute_standard": {
-                  "id": 1,
-                  "standard_code": "sd54656546854",
-                  "standard_name": "实验指标0001",
-                  "standard_type": "industry"
-                },
-                "description": "",
-                "internal_description": "",
-                "reference_value": "",
-                "attribute": {
-                  "id": 2,
-                  "name": "Lab_a",
-                  "type": "TextInput",
-                  "key": "Lab_a",
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true
-                  },
-                  "value": null,
-                  "group": []
-                },
-                "value": "",
-                "unit": "",
-                "update_datetime": "2024-11-20 19:50:14",
-                "create_datetime": "2024-11-20 19:50:14",
-                "category": {
-                  "id": 1,
-                  "category_name": "感官指标"
-                }
-              },
-              {
-                "id": 3,
-                "execute_standard": {
-                  "id": 1,
-                  "standard_code": "sd54656546854",
-                  "standard_name": "实验指标0001",
-                  "standard_type": "industry"
-                },
-                "description": "",
-                "internal_description": "",
-                "reference_value": "",
-                "attribute": {
-                  "id": 3,
-                  "name": "Lab_b",
-                  "type": "TextInput",
-                  "key": "Lab_b",
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true
-                  },
-                  "value": null,
-                  "group": []
-                },
-                "value": "",
-                "unit": "",
-                "update_datetime": "2024-11-20 19:50:14",
-                "create_datetime": "2024-11-20 19:50:14",
-                "category": {
-                  "id": 1,
-                  "category_name": "感官指标"
-                }
-              },
-              {
-                "id": 5,
-                "execute_standard": {
-                  "id": 1,
-                  "standard_code": "sd54656546854",
-                  "standard_name": "实验指标0001",
-                  "standard_type": "industry"
-                },
-                "description": "",
-                "internal_description": "",
-                "reference_value": "",
-                "attribute": {
-                  "id": 4,
-                  "name": "LAB",
-                  "type": "TextInput",
-                  "key": "LAB",
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true
-                  },
-                  "value": null,
-                  "group": []
-                },
-                "value": "",
-                "unit": "",
-                "update_datetime": "2024-11-20 19:50:14",
-                "create_datetime": "2024-11-20 19:50:14",
-                "category": {
-                  "id": 2,
-                  "category_name": "理化指标"
-                }
-              },
-              {
-                "id": 6,
-                "execute_standard": {
-                  "id": 1,
-                  "standard_code": "sd54656546854",
-                  "standard_name": "实验指标0001",
-                  "standard_type": "industry"
-                },
-                "description": "",
-                "internal_description": "",
-                "reference_value": "",
-                "attribute": {
-                  "id": 5,
-                  "name": "Lab",
-                  "type": "",
-                  "key": "Lab",
-                  "props": {},
-                  "value": null,
-                  "group": [
-                    {
-                      "id": 1,
-                      "name": "Lab_l",
-                      "type": "TextInput",
-                      "key": "Lab_l",
-                      "props": {
-                        "abstract": false,
-                        "required": false,
-                        "enableScan": false,
-                        "enablePrint": true
-                      },
-                      "value": null
-                    },
-                    {
-                      "id": 2,
-                      "name": "Lab_a",
-                      "type": "TextInput",
-                      "key": "Lab_a",
-                      "props": {
-                        "abstract": false,
-                        "required": false,
-                        "enableScan": false,
-                        "enablePrint": true
-                      },
-                      "value": null
-                    },
-                    {
-                      "id": 3,
-                      "name": "Lab_b",
-                      "type": "TextInput",
-                      "key": "Lab_b",
-                      "props": {
-                        "abstract": false,
-                        "required": false,
-                        "enableScan": false,
-                        "enablePrint": true
-                      },
-                      "value": null
-                    }
-                  ]
-                },
-                "value": "",
-                "unit": "",
-                "update_datetime": "2024-11-21 21:11:56",
-                "create_datetime": "2024-11-21 21:11:56",
-                "category": {
-                  "id": 1,
-                  "category_name": "感官指标"
-                }
-              }
-            ]
-          }
         },
         "content": [
-          {
-            "type": "paragraph",
-            "attrs": {
-              "indent": null,
-              "textAlign": "left",
-              "lineHeight": 1.5,
-              "margin": {}
-            },
-            "content": [
-              {
-                "type": "text",
-                "text": " "
-              }
-            ]
-          }
+            {
+                "type": "paragraph",
+                "attrs": {
+                    "indent": null,
+                    "textAlign": "left",
+                    "lineHeight": 1.5,
+                    "margin": {}
+                },
+                "content": [
+                    {
+                        "type": "text",
+                        "text": " "
+                    }
+                ]
+            }
         ]
       }
 

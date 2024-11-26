@@ -118,12 +118,10 @@
 <script setup lang="jsx">
 import { NodeViewContent,nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
-
 import { getEval_execute_standardListFetch,get_experiment_samples_groupsFetch,put_experiment_evaluation_fetch,delete_experiment_evaluationFetch, get_experiment_evaluationListFetch,post_experiment_evaluation_fetch } from '@/api/experiment'
 import xmInput from '@/components/xm-input.vue';
 import { timeFormat } from '@/utils/time-ago'
 import { getOrg_memberFetch } from '@/api/index'
-import sample_table from '../sample_table';
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 const $dict_data = JSON.parse( localStorage.getItem('dict_data') )
@@ -142,6 +140,58 @@ const tableRef = ref();
 const editableRowKeys = ref([]);
  
 const loading = ref(false);
+// 取字符串用. 分割的最后一位 value.lab.lab_l 得到lab_l
+const resultKey = (str) => {
+  const parts = str.split('.');
+  return parts[parts.length - 1];
+}
+const fixedImageUrl = (url) => {
+  const regex = /^(http:\/\/|https:\/\/)/i;
+  return regex.test(url) ? url : 'http://192.168.2.11:8003/media/' + url //  localStorage.getItem('umo_domain') + '/' + url;
+}
+const fixedImageUrls = (urls) => {
+  return urls.map(ele=> (ele.url? fixedImageUrl(ele.url) : ele.raw) )
+}
+const cellMake = (h, { row, rowIndex,col }) => {
+  console.log('------147----cellMake---------',row, rowIndex,col)
+  const res = col.colKey.split('.').reduce((obj, k) => obj && obj[k], row);
+  console.log('------153----cellMake---res------',res)
+  if (col.edit && col.edit.customProps && col.edit.customProps.config ) {
+    if (col.edit.customProps.config.type === 'ImageUpload' && res && res.length > 0) {
+      return ( 
+        <div class="tdesign-demo-image-viewer__base">
+          <t-image-viewer images={fixedImageUrls(res)}>
+            {{
+              trigger: ({ open }) => (
+                <div class="tdesign-demo-image-viewer__ui-image">
+                  <img alt="test" src={fixedImageUrl(res[0].url)} class="tdesign-demo-image-viewer__ui-image--img" />
+                  <div 
+                    class="tdesign-demo-image-viewer__ui-image--hover" 
+                    onClick={(e) => { e.stopPropagation(); open() }}
+                  >
+                    <span>
+                      <BrowseIcon size="1.4em" /> 预览
+                    </span>
+                  </div>
+                  <div class="tdesign-demo-image-viewer__ui-image--footer">
+                    <span class="tdesign-demo-image-viewer__ui-image--title">
+                      1/{res.length}
+                    </span>
+                  </div>
+                </div>
+              )
+            }}
+          </t-image-viewer>
+        </div>
+       )
+    }else{
+      return ( <span>{res}</span> );
+    }
+  }else{
+    return ( <span>{res}</span> );
+  }
+  
+}
 const columnsDefaultF = [
   {
     title: '样品名',
@@ -358,7 +408,7 @@ const columnsDefaultF = [
   {
     title: '评测人',
     colKey: 'eval_user',
-    minWidth: 140,
+    minWidth: 100,
     cell:(h, { row })=> {
       const dataR =  row.eval_user
       return dataR ? row.eval_user.name : '-' 
@@ -739,7 +789,8 @@ const makeTableDataAndColumnFunc = (tableData,selectTableForm,index_typeInfo)=>{
     sub_col.children.push({
       title: item.name,
       colKey: type ==='group'? `${sub_col.colKey}.${item.key}`: `value.${item.key}`,
-      width: 100,
+      minWidth: 100,
+      cell: cellMake,
       edit: {
         // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
         // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
@@ -770,7 +821,7 @@ const makeTableDataAndColumnFunc = (tableData,selectTableForm,index_typeInfo)=>{
             modelValue: type ==='group'? row.value[resultKey(sub_col.colKey)][resultKey(col.colKey)] : row.value[resultKey(col.colKey)],
             config: item,
             clearable: true,
-            autofocus: true,
+            autofocus: false,
             multiply: true,
             options
             // autoWidth: true,
@@ -938,16 +989,12 @@ const initData = async () => {
   console.log('----------initData-----297---------',params)
   const res = await get_experiment_evaluationListFetch(params)
   loading.value = false
-  if (res.data.code === 2000) {
+  if (res.data.code === 2000 && res.data.data.length > 0) {
     _table_data.value = res.data.data
   }
   
 }
-// 取字符串用. 分割的最后一位 value.lab.lab_l 得到lab_l
-const resultKey = (str) => {
-  const parts = str.split('.');
-  return parts[parts.length - 1];
-}
+
 onMounted(async () => {
   if (node.attrs.columns && Object.keys(node.attrs.columns).length > 0) {
     const columns = node.attrs.columns.map((col) => {
@@ -957,6 +1004,7 @@ onMounted(async () => {
             return { ...ele, children: ele.children.map((eleC) => {
               return { 
                 ...eleC, 
+                cell: cellMake,
                 edit:{
                   ...eleC.edit, 
                   component: xmInput,
@@ -1003,6 +1051,7 @@ onMounted(async () => {
           }else{
             return { 
               ...ele, 
+              cell: cellMake,
               edit:{
                 ...ele.edit, 
                 component: xmInput,
@@ -1045,6 +1094,7 @@ onMounted(async () => {
       }else{
         return {
           ...col,
+          cell: cellMake,
           edit:{
             ...col.edit, 
             component:xmInput,
@@ -1172,6 +1222,82 @@ onMounted(async () => {
 }
 :deep(.umo-table--column-resizable:not(.umo-table--bordered) th) {
   border-top: 1px solid #333;
+}
+
+
+:deep(.tdesign-demo-image-viewer__ui-image) {
+  width: 80px;
+  height: 80px;
+  display: inline-flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--td-radius-small);
+  overflow: hidden;
+  //margin: 2px;
+  //border: 4px solid var(--td-bg-color-secondarycontainer);
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image--hover) {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  gap: 4px;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: var(--td-text-color-anti);
+  line-height: 22px;
+  transition: 0.2s;
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image:hover .tdesign-demo-image-viewer__ui-image--hover) {
+  opacity: 1;
+  cursor: pointer;
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image--img) {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  position: absolute;
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image--footer) {
+  padding: 0 16px;
+  height: 36px;
+  width: 100%;
+  text-align: center;
+  line-height: 36px;
+  font-size: 16px;
+  position: absolute;
+  bottom: 0;
+  color: var(--td-text-color-anti);
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
+  display: flex;
+  box-sizing: border-box;
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image--title) {
+  flex: 1;
+}
+
+:deep(.tdesign-demo-popup__reference) {
+  margin-left: 16px;
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image--icons .tdesign-demo-icon) {
+  cursor: pointer;
+}
+
+:deep(.tdesign-demo-image-viewer__base) {
+  width: 100%;
+  min-width: 80px;
+  height: auto;
 }
 
 </style>

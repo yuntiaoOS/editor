@@ -385,7 +385,7 @@ const initData = async () => {
   console.log('----------initData-----297---------',params)
   const res = await get_experiment_material_fetch(params)
   loading.value = false
-  if (res.data.code === 2000) {
+  if (res.data.code === 2000 && res.data.data.length > 0) {
     table_data.value = res.data.data
   }
 }

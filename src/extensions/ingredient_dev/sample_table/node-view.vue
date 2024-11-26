@@ -12,7 +12,7 @@
               <div></div>
               <t-space>
                 <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入样品名称" />
-                <t-button theme="warning" variant="outline" @click="experimental_design_visible = true;">试验方法设计</t-button>
+                <t-button v-if="false" theme="warning" variant="outline" @click="experimental_design_visible = true;">试验方法设计</t-button>
                 <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
                 <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
               </t-space>
@@ -490,7 +490,7 @@ const initData = async () => {
   console.log('----------initData-----297---------',params)
   const res = await get_experiment_samplesListFetch(params)
   loading.value = false
-  if (res.data.code === 2000) {
+  if (res.data.code === 2000 && res.data.data.length > 0) {
     table_data.value = res.data.data
   }
 }

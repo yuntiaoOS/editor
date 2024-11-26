@@ -135,7 +135,7 @@ defineExpose({
     }
   }
   .umo-scrollable-content {
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: hidden;
     scroll-behavior: smooth;
     flex: 1;

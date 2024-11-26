@@ -78,6 +78,26 @@ const props = defineProps({
               },
               "title": "描述",
               "valueType": "String"
+          },{
+              "id": "fileASIID",
+              "key": "fileASIID",
+              "icon": "iconamoon:edit",
+              "name": "ImageUpload",
+              "type": "ImageUpload",
+              "alias": "文件上传",
+              "props": {
+                  "hidden": false,
+                  "abstract": false,
+                  "readOnly": false,
+                  "required": false,
+                  "enableScan": false,
+                  "validation": null,
+                  "enablePrint": true,
+                  "textForSuffix": "",
+                  "enableSuffixText": false
+              },
+              "title": "文件上传",
+              "valueType": "String"
           },
           {
             "id": "price",

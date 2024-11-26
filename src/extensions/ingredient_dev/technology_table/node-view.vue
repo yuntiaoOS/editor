@@ -617,7 +617,7 @@ const initData = async () => {
       })
       return obj
     })
-    table_data.value = tableD
+    if ( tableD.length > 0 ) { table_data.value = tableD }
     console.log('----------initData-----607---------',table_data.value)
   }else {
     table_data.value = []

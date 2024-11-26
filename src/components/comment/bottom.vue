@@ -107,9 +107,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup>  
   import { 
-get_experiment_record_commentListFetch,get_experiment_record_likeListFetch,
+    get_experiment_record_commentListFetch,get_experiment_record_likeListFetch,
     post_experiment_record_commentFetch,post_experiment_record_likeFetch,  } from '@/api/experiment'
   import { timeAgo } from '@/utils/time-ago'
   const props = defineProps({

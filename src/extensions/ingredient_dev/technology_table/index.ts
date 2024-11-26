@@ -72,7 +72,7 @@ export default xmNode.create({
         },
       },
       title: {
-        default: `工艺${timeFormat(null, 'yyyymmddhhMM')}`,
+        default: '',
         parseHTML: (element) => element.getAttribute('data-title'),
         renderHTML: (attributes) => {
           return { 'data-title': attributes.title };
@@ -101,6 +101,7 @@ export default xmNode.create({
               type: this.name,
               attrs: {
                 ...currentOption,
+                title: currentOption?.title && currentOption.title.length > 0 ? currentOption.title : `工艺${timeFormat(null, 'yyyymmddhhMM')}`,
                 key: currentOption?.key ? currentOption?.key : Xm_Table_key['technology_table']  + timeFormat(null,'yyyymmddhhMMss'),
               },
               content: [

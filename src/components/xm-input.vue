@@ -38,7 +38,35 @@
       <t-rate v-model="_value" show-text :default-value="4" :disabled="readonly" @change="changeFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'ImageUpload'" >
-      <t-switch v-model="_value" :readonly="readonly" @change="changeFunc"/>
+      <t-upload
+        v-model="_value"
+        :action="uploadAction"
+        :headers="uploadHeaders"
+        name="url"
+        multiple
+        with-credentials
+        theme="image-flow"
+        @success="uploadSuccess"
+        @fail="uploadFail"
+      >
+      <!-- 自定义文件列表，示例代码有效，勿删 -->
+        <template #fileListDisplay>
+          <div class="tdesign-demo-image-viewer__base">
+            <t-image-viewer v-for="(imgUrl , index) in _value" :key="index" :images="fixedImageUrls(_value) ">
+              <template #trigger="{ open }">
+                <div class="tdesign-demo-image-viewer__ui-image">
+                  <img alt="test" :src="fixedImageUrl(imgUrl.url ? imgUrl.url : imgUrl.response.data.url )" class="tdesign-demo-image-viewer__ui-image--img" />
+                  <div class="tdesign-demo-image-viewer__ui-image--hover" >
+                    <span @click="open"><t-icon name="browse" size="1.4em" /></span> 
+                    <t-divider layout="vertical" />
+                    <span @click="deleteFunc(imgUrl)"><t-icon name="delete" size="1.4em" /></span>
+                  </div>
+                </div>
+              </template>
+            </t-image-viewer>
+          </div>
+        </template>
+      </t-upload>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'UserPicker'" >
       <t-select 
@@ -58,6 +86,7 @@
 </template>
 
 <script setup lang="jsx">
+import { getOrg_memberFetch } from '@/api/index'
 const emits = defineEmits(['update:modelValue', 'change'])
 const props = defineProps({
   modelValue: {
@@ -136,6 +165,9 @@ const props = defineProps({
 const _value = ref()
 if (props.modelValue) {
   _value.value = props.modelValue
+  if ( (props.config[props.props.componentKey] === 'SelectPlus' || props.config[props.props.componentKey] === 'ImageUpload') &&  !Array.isArray(props.modelValue) ) {
+    _value.value = []
+  }
 } else {
   if (props.config[props.props.componentKey] === 'SelectPlusRadio') {
     _value.value = {}
@@ -153,12 +185,30 @@ if (props.modelValue) {
   _value.value = ''
   }
 }
-
+const uploadAction = ref('') 
+const uploadHeaders = ref({})
 const selectOptions = ref([])
+
+const fileList = ref('')
 
 const _config = computed( () => props.config )
 
 const selectLoading = ref(false)
+
+
+const fixedImageUrl = (url) => {
+  const regex = /^(http:\/\/|https:\/\/)/i;
+  return regex.test(url) ? url : 'http://192.168.2.11:8003/media/' + url //  localStorage.getItem('umo_domain') + '/' + url;
+}
+const fixedImageUrls = (urls) => {
+  return urls.map(ele=> (ele.url? fixedImageUrl(ele.url) : fixedImageUrl(ele.response.data.url)  ) )
+}
+
+const deleteFunc = (imgUrl) => {
+  const index = _value.value.findIndex(ele => ele.url === imgUrl.url)
+  _value.value.splice(index, 1)
+  changeFunc(_value.value)
+}
 
 const changeFunc = (val) => {
   emits('update:modelValue', val)
@@ -166,6 +216,16 @@ const changeFunc = (val) => {
   props.onChange(val)
 }
 
+const uploadFail = ({ file }) => {
+  MessagePlugin.error(`文件 ${file.name} 上传失败`);
+};
+
+const uploadSuccess = ({response}) => {
+  console.log('success', response,_value.value);
+  const files = _value.value.filter(file=> !file.response || ( file.response && file.response.code === 2000 ) ).map(file =>{ return file.response? file.response.data : file });
+  changeFunc(files)
+  MessagePlugin.success('上传成功');
+};
 
 const selectFocusMethod = async (formItem) => {
   selectLoading.value = true
@@ -193,13 +253,107 @@ onMounted( async () => {
         [props.config.props.labelKey]: item[props.config.props.labelKey]
       }))
     }else{
+      if (props.config[props.props.componentKey] === 'UserPicker' && _config.value.props.remote && !_config.value.props.remoteMethod) {
+        _config.value.props.remoteMethod = getOrg_memberFetch
+      }
       await selectFocusMethod(_config.value)
     }
   }
+  uploadAction.value = `${localStorage.getItem('umo_domain')}/api/attachments/file/`
+
+  const token = localStorage.getItem('umo_token');
+  uploadHeaders.value = { Authorization: `JWT ${token}` }
+
 })
 
 </script>
 
 <style lang="less" scoped>
+:deep(.umo-upload__flow){
+  min-width: 90px;
+  width: 100%;
+}
+:deep(.umo-upload__card-content){
+  width: 100%;
+  min-width: 80px;
+}
 
+:deep(.umo-upload__flow-card-area){
+  padding: 0;
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image) {
+  width: 80px;
+  height: 80px;
+  display: inline-flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--td-radius-small);
+  overflow: hidden;
+  //margin: 2px;
+  //border: 4px solid var(--td-bg-color-secondarycontainer);
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image--hover) {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  gap: 4px;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: var(--td-text-color-anti);
+  line-height: 22px;
+  transition: 0.2s;
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image:hover .tdesign-demo-image-viewer__ui-image--hover) {
+  opacity: 1;
+  cursor: pointer;
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image--img) {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  position: absolute;
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image--footer) {
+  padding: 0 16px;
+  height: 36px;
+  width: 100%;
+  text-align: center;
+  line-height: 36px;
+  font-size: 16px;
+  position: absolute;
+  bottom: 0;
+  color: var(--td-text-color-anti);
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
+  display: flex;
+  box-sizing: border-box;
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image--title) {
+  flex: 1;
+}
+
+:deep(.tdesign-demo-popup__reference) {
+  margin-left: 16px;
+}
+
+:deep(.tdesign-demo-image-viewer__ui-image--icons .tdesign-demo-icon) {
+  cursor: pointer;
+}
+
+:deep(.tdesign-demo-image-viewer__base) {
+  width: 100%;
+  min-width: 80px;
+  height: auto;
+}
 </style>

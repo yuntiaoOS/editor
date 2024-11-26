@@ -52,10 +52,9 @@
                   options.document?.enableSpellcheck && $document.enableSpellcheck
                 "
               />
-              <menus-bubble v-if="true || editor && !page.preview?.enabled && !editorDestroyed" />
+              <menus-bubble v-if=" editor && !page.preview?.enabled && !editorDestroyed" />
               <menus-context-block 
-                v-if="true ||
-                  options.document?.enableBlockMenu &&
+                v-if="options.document?.enableBlockMenu &&
                   !page.preview?.enabled &&
                   editor &&
                   !editorDestroyed
@@ -157,7 +156,7 @@ watch(
 const $toolbar = useState('toolbar', props.editorKey)
 const $document = useState('document', props.editorKey)
 
-const $key_data = JSON.parse( localStorage.getItem('key_data') ?? '{}')
+const $key_data = ref({})
 
 // i18n Setup
 // @ts-ignore
@@ -460,7 +459,8 @@ onMounted(()=>{
     if (options.value.requestOptions.dict_data) {
       localStorage.setItem('dict_data', JSON.stringify(options.value.requestOptions.dict_data)  )
     }
-    console.log('-----------------experiment_record------479--------',$key_data)
+    $key_data.value = JSON.parse( localStorage.getItem('key_data') ?? '{}')
+    console.log('-----------------experiment_record------479--------',$key_data.value)
   }
 })
 // 销毁编辑器实例

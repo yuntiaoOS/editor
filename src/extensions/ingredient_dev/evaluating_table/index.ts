@@ -17,7 +17,7 @@ export default xmNode.create({
   group: 'block',
   content: 'block*',
   atom: true,
-  selectable: true,
+  selectable: false,
  
   parseHTML() {
     return [{ tag: 'evaluating_table' }]
