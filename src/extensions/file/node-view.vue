@@ -51,7 +51,7 @@
             <icon name="view" />
           </div>
           <a
-            :href="node.attrs.url"
+            :href="fixedImageUrl(node.attrs.url)"
             :download="node.attrs.name"
             target="_blank"
             class="umo-action-item"
@@ -68,6 +68,7 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import prettyBytes from 'pretty-bytes'
+import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
 
 import { getFileIcon } from '@/utils/file'
 

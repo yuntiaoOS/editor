@@ -3,12 +3,15 @@
     <div style="width: 100%">
       <!-- <h2>工艺</h2> -->
       <t-enhanced-table ref="tableRef" v-model:expandedTreeNodes="expandedTreeNodes" :tree-expand-and-fold-icon="treeExpandIcon" 
-        row-key="id" :data="table_data" :columns="columns" resizable :tree="treeConfig" :editable-cell-state="editableCellStateFunc"
+        row-key="id" :loading="loading" :data="table_data" :columns="columns" resizable :tree="treeConfig" :editable-cell-state="editableCellStateFunc"
          @expanded-tree-nodes-change="onExpandedTreeNodesChange" >
         <template #topContent>
           <div style="padding: 6px 0;display: block;">
             <t-space>
-              <t-input v-model="_title" label="名称：" size="large" autofocus autoWidth borderless />
+              <div>
+                <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
+                <t-input v-model="_title" label="名称：" size="large" autofocus autoWidth borderless />
+              </div>
               <t-space>
                 <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入工艺步骤名称" />
                 <t-button variant="outline" @click="onAddWorkingProcedure">工艺配置</t-button>
@@ -34,7 +37,7 @@
     </div>
     <t-dialog
       v-model:visible="procedureVisible"
-      header="工艺配置"
+      header="工艺配置" destroyOnClose
       width="80%" attach="body"
       :confirm-on-enter="true"
       :on-confirm="onProcedureConfirmFunc"
@@ -43,11 +46,11 @@
         :status=" dialog_input.length > 0 ? 'success': 'error' " 
         :tips=" dialog_input.length > 0 ? '校验通过': '名称不能为空'"
         /> -->
-        <technology-table v-model="table_data" v-model:title="_title" @change=""/>
+        <technology-table v-model="table_data_edit" v-model:title="_title" @change=""/>
     </t-dialog>
     <t-dialog
       v-model:visible="dialog_visible"
-      header="表格列配置"
+      header="表格列配置" destroyOnClose
       width="40%" attach="body"
       :confirm-on-enter="true"
       :on-confirm="onConfirmFunc"
@@ -88,6 +91,7 @@ import { getIngredient_dev_materialListFetch } from '@/api/material'
 import { v4 as uuid } from 'uuid'
 const { node, editor, updateAttributes } = defineProps(nodeViewProps)
 import { timeFormat } from '@/utils/time-ago'
+import { cloneDeep } from 'lodash-unified';
 const { options ,editedComponentType} = useStore()
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
 
@@ -117,6 +121,13 @@ const updateTime = computed({
   },
 })
 
+const isChanged = computed({
+  get: () => node.attrs.isChanged,
+  set(value) {
+    updateAttributes({ isChanged: value })
+  },
+})
+
 const change_log = computed({
   get: () => node.attrs.change_log,
   set(value) {
@@ -137,6 +148,8 @@ const table_data = computed({
     updateAttributes({ table_data: value })
   },
 })
+
+const table_data_edit = ref([])
 
 const _title = computed({
   get: () => node.attrs.title,
@@ -222,19 +235,19 @@ const rowEditFunc = (val,row)=>{
 }
 
 const onProcedureConfirmFunc = async () => {
-  console.log('--------210---------onProcedureConfirmFunc: ', table_data.value)
-  if (table_data.value && table_data.value.length > 0) {
-    const steps = table_data.value.map(ele => {
+  console.log('--------210---------onProcedureConfirmFunc: ', table_data.value,table_data_edit.value)
+  if (table_data_edit.value && table_data_edit.value.length > 0) {
+    const steps = table_data_edit.value.map(ele => {
       let obj = {...ele}
       delete obj.id
       obj.children = obj.children.map(eleC=>{
-        let objC = {...eleC}
+        let objC = {...eleC, id:eleC.attribute ? eleC.attribute : eleC.id }
         objC.value = objC.value ? objC.attribute_type === "compound" ? JSON.stringify(objC.value) : objC.value : ''
         return objC
       })
       return obj
     })
-
+    console.log('--------240---------onProcedureConfirmFunc', steps)
     const params = {
       experiment_theme: experiment_theme.value.id,
       record: experiment_record.value.id,
@@ -244,6 +257,7 @@ const onProcedureConfirmFunc = async () => {
         step:steps
       }
     }   
+    isChanged.value = true
     const res = await post_experiment_process_fetch(params)
     if (res.data.code === 2000) {
       change_log.value = { change_log: res.data.data.change_log }
@@ -469,6 +483,7 @@ function disableClick(e) {
 }
 
 function onAddWorkingProcedure(row=undefined) {
+  table_data_edit.value = Object.assign([],cloneDeep([...table_data.value]) ) 
   procedureVisible.value = true;
   selectProcedureRow.value = row;
   selectProcedureType.value = 'append';
@@ -564,7 +579,7 @@ const getTreeNode= () => {
   const treeData = tableRef.value.getTreeNode();
   table_data.value = treeData
   console.log('------457-------',treeData);
-  TMessagePlugin.success('树形结构获取成功，请打开控制台查看');
+  // TMessagePlugin.success('树形结构获取成功，请打开控制台查看');
 };
 
 const onExpandedTreeNodesChange = (expandedTreeNodes, context) => {
@@ -608,6 +623,7 @@ const initData = async () => {
   const res = await get_assign_record_process_dataFetch(params)
   loading.value = false
   if (res.data.code === 2000) {
+    if (isChanged.value) { isChanged.value = false } 
     const tableD = res.data.data.process.step.map(ele => {
       let obj = {...ele}
       obj.children = obj.children.map(eleC=>{

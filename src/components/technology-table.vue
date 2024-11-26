@@ -31,7 +31,7 @@
   </div>
   <t-dialog
     v-model:visible="operationVisible"
-    header="操作配置"
+    header="操作配置" destroyOnClose
     width="40%" attach="body"
     :confirm-on-enter="true"
     :on-confirm="onOperationConfirmFunc"
@@ -39,9 +39,9 @@
     <t-select
       v-model="dialog_select"
       :options="operationOptionSelect"
-      filterable
+      filterable destroyOnClose
       multiple
-      :keys="{ label: 'name', value: 'id' }"  
+      :keys="{ label: 'name', value: 'id',disabled: 'disabled'}"  
       placeholder="请选择操作"
       :scroll="{type: 'virtual'}"  
       :popup-props="{ overlayInnerStyle: { height: '300px' } }"  
@@ -52,7 +52,7 @@
   </t-dialog>
   <t-dialog
     v-model:visible="procedureVisible"
-    header="工艺步骤配置"
+    header="工艺步骤配置" destroyOnClose
     width="40%" attach="body"
     :confirm-on-enter="true"
     :on-confirm="onProcedureConfirmFunc"
@@ -117,6 +117,13 @@ const props = defineProps({
 
 const table_data = computed({
   get() {
+    if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
+      const operations = table_data.value.filter(ele=> ele.children&& ele.children.length > 0 ).map(ele=> ele.children).reduce((a, b) => a.concat(b))
+      if (operations.length > 0) {
+        const ids = operations.map(ele=> ele.attribute)
+        operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
+      }
+    }
     return props.modelValue || []
   },
   set(val) {
@@ -297,15 +304,24 @@ const getOperationOptionFunc = async (page=1) => {
   console.log(res, '-------------2243------------operationOption.value')
   if (res.data.code === 2000) {
     if (page === 1) {
-      operationOption.value = res.data.data
-      operationOptionSelect.value = res.data.data.map(item => ({id: item.id, name: item.name}))
+      const res_data = res.data.data.filter(ele=> ele.type !== "ImageUpload")
+      operationOption.value = res_data.map(item => ({...item, attribute: item.id}))
+      operationOptionSelect.value = res_data.map(item => ({id: item.id, name: item.name}))
     } else {
-      operationOption.value = [...operationOption.value, ...res.data.data]
-      operationOptionSelect.value = [...operationOption.value, ...res.data.data].map(item => ({id: item.id, name: item.name}))
+      operationOption.value = [...operationOption.value, ...res_data].map(item => ({...item, attribute: item.id}))
+      operationOptionSelect.value = [...operationOption.value, ...res_data].map(item => ({id: item.id, name: item.name}))
     }
     pagination.value.total = res.data.total
     
-    console.log(operationOption.value, '-------------250------------operationOption.value')
+    console.log(operationOption.value, '-------------250------------operationOption.value',table_data.value)
+    
+    if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
+      const operations = table_data.value.filter(ele=> ele.children&& ele.children.length > 0 ).map(ele=> ele.children).reduce((a, b) => a.concat(b))
+      if (operations.length > 0) {
+        const ids = operations.map(ele=> ele.attribute)
+        operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
+      }
+    }
   }
 }
 getOperationOptionFunc()
@@ -721,7 +737,6 @@ const treeExpandIcon = computed(() => {
 });
  
 onMounted(async () => {
-   
 })
 
 </script>

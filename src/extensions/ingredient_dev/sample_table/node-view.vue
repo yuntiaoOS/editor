@@ -9,7 +9,9 @@
         <template #topContent>
           <div style="padding: 6px 0;display: block;">
             <t-space>
-              <div></div>
+              <div>
+                <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
+              </div>
               <t-space>
                 <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入样品名称" />
                 <t-button v-if="false" theme="warning" variant="outline" @click="experimental_design_visible = true;">试验方法设计</t-button>
@@ -113,6 +115,13 @@ const updateTime = computed({
   get: () => node.attrs.updateTime,
   set(value) {
     updateAttributes({ updateTime: value })
+  },
+})
+
+const isChanged = computed({
+  get: () => node.attrs.isChanged,
+  set(value) {
+    updateAttributes({ isChanged: value })
   },
 })
 const is_integration = computed({
@@ -258,6 +267,7 @@ const onDelete = async(row) => {
   const params = {
     group: group.value,
   }
+  isChanged.value = true
   const res = await delete_experiment_samplesFetch(row.id,params)
   if (res.data.code === 2000) {
     useMessage('success' ,res.data.msg);
@@ -306,6 +316,7 @@ columns.value = [
           name:context.newRowData.name,
           group: group.value
         }
+        isChanged.value = true
         const res = await put_experiment_samples_fetch(context.row.id,params)
         if (res.data.code === 2000) {
           useMessage('success' ,res.data.msg);
@@ -371,6 +382,7 @@ columns.value = [
           count:context.newRowData.count,
           group: group.value
         }
+        isChanged.value = true
         const res = await put_experiment_samples_fetch(context.row.id,params)
         if (res.data.code === 2000) {
           useMessage('success' ,res.data.msg);
@@ -428,6 +440,7 @@ columns.value = [
           description:context.newRowData.description,
           group: group.value
         }
+        isChanged.value = true
         const res = await put_experiment_samples_fetch(context.row.id,params)
         if (res.data.code === 2000) {
           useMessage('success' ,res.data.msg);
@@ -492,6 +505,7 @@ const initData = async () => {
   loading.value = false
   if (res.data.code === 2000 && res.data.data.length > 0) {
     table_data.value = res.data.data
+    if (isChanged.value) { isChanged.value = false }
   }
 }
 

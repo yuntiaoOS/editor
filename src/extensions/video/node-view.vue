@@ -24,7 +24,7 @@
       >
         <video
           ref="videoRef"
-          :src="node.attrs.src"
+          :src="fixedImageUrl(node.attrs.src)"
           preload="metadata"
           controls
           crossorigin="anonymous"
@@ -42,6 +42,7 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Drager from 'es-drager'
+import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
 
 import { mediaPlayer } from '@/utils/player'
 

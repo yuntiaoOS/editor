@@ -71,7 +71,12 @@
             <!-- <container-comments /> -->
           </div>
         </div>
-        
+        <t-image-viewer
+          v-model:visible="imageViewer.visible"
+          v-model:index="currentImageIndex"
+          :images="previewImages"
+          @close="imageViewer.visible = false"
+        />
       </main>
     </div>
   </t-config-provider>
@@ -97,7 +102,7 @@ import enConfig from 'tdesign-vue-next/esm/locale/en_US'
 import cnConfig from 'tdesign-vue-next/esm/locale/zh_CN'
 import { differenceBy, getCssUnitWithDefault, hasExtension, isEqual, throttle } from '@/utils/utils'
 import { get_experiment_theme_infoFetch,get_experiment_record_infoFetch } from '@/api/experiment'
-
+import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
 import type {
   AutoSaveOptions,
   DocumentOptions,
@@ -440,6 +445,33 @@ const setReadOnly = (readOnly = true) => {
     options.value.document.readOnly = readOnly
   }
 }
+
+// 图片预览
+let previewImages = $ref<string[]>([])
+let currentImageIndex = $ref<number>(0)
+
+watch(
+  () => imageViewer.value.visible,
+  async (visible: boolean) => {
+    if (!visible) {
+      previewImages = []
+      currentImageIndex = 0
+      return
+    }
+    await nextTick()
+    const images = document.querySelectorAll(
+      `${container} .umo-page-content img:not(.umo-icon)`,
+    )
+    Array.from(images).forEach((image, index) => {
+      const src = image.getAttribute('src')
+      const nodeId = image.getAttribute('data-id')
+      previewImages.push( fixedImageUrl(src) )
+      if (nodeId === imageViewer.value.current) {
+        currentImageIndex = index
+      }
+    })
+  },
+)
 
 // Methods Exposed to Descendants
 provide('saveContent', saveContent)

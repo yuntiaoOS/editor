@@ -9,7 +9,9 @@
         <template #topContent>
           <div style="padding: 6px 0;display: block;">
             <t-space>
-              <div></div>
+              <div>
+                <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
+              </div>
               <t-space>
                 <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
                 <!-- <t-button variant="outline" @click="add_dialog_visible = true;">新增</t-button> -->
@@ -122,6 +124,7 @@ import { getEval_execute_standardListFetch,get_experiment_samples_groupsFetch,pu
 import xmInput from '@/components/xm-input.vue';
 import { timeFormat } from '@/utils/time-ago'
 import { getOrg_memberFetch } from '@/api/index'
+import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 const $dict_data = JSON.parse( localStorage.getItem('dict_data') )
@@ -145,13 +148,7 @@ const resultKey = (str) => {
   const parts = str.split('.');
   return parts[parts.length - 1];
 }
-const fixedImageUrl = (url) => {
-  const regex = /^(http:\/\/|https:\/\/)/i;
-  return regex.test(url) ? url : 'http://192.168.2.11:8003/media/' + url //  localStorage.getItem('umo_domain') + '/' + url;
-}
-const fixedImageUrls = (urls) => {
-  return urls.map(ele=> (ele.url? fixedImageUrl(ele.url) : ele.raw) )
-}
+
 const cellMake = (h, { row, rowIndex,col }) => {
   console.log('------147----cellMake---------',row, rowIndex,col)
   const res = col.colKey.split('.').reduce((obj, k) => obj && obj[k], row);
@@ -466,6 +463,7 @@ const columnsDefaultF = [
           eval_user:context.newRowData.eval_user.id,
           group: group.value
         }
+        isChanged.value = true
         const res = await put_experiment_evaluation_fetch(context.row.id,params)
         if (res.data.code === 2000) {
           useMessage('success' ,res.data.msg);
@@ -531,6 +529,7 @@ const columnsDefaultF = [
           start_time:context.newRowData.start_time,
           group: group.value
         }
+        isChanged.value = true
         const res = await put_experiment_evaluation_fetch(context.row.id,params)
         if (res.data.code === 2000) {
           useMessage('success' ,res.data.msg);
@@ -595,6 +594,7 @@ const columnsDefaultA = [
           description:context.newRowData.description,
           group: group.value
         }
+        isChanged.value = true
         const res = await put_experiment_evaluation_fetch(context.row.id,params)
         if (res.data.code === 2000) {
           useMessage('success' ,res.data.msg);
@@ -671,6 +671,13 @@ const group = computed({
   get: () => node.attrs.group,
   set(value) {
     updateAttributes({ group: value })
+  },
+})
+
+const isChanged = computed({
+  get: () => node.attrs.isChanged,
+  set(value) {
+    updateAttributes({ isChanged: value })
   },
 })
 
@@ -842,6 +849,7 @@ const makeTableDataAndColumnFunc = (tableData,selectTableForm,index_typeInfo)=>{
             value:context.newRowData.value,
             group: group.value
           }
+          isChanged.value = true
           const res = await put_experiment_evaluation_fetch(context.row.id,params)
           if (res.data.code === 2000) {
             useMessage('success' ,res.data.msg);
@@ -909,6 +917,7 @@ const on_select_designFunc = ()=>{
         experiment_theme: experiment_theme.value?.id,
         record: experiment_record.value?.id,
       }
+      isChanged.value = true
       const res = await post_experiment_evaluation_fetch(params)
       if (res && res.data.code === 2000) {
         group.value = res.data.data.group
@@ -940,6 +949,7 @@ const onDelete = async (row) => {
   const params = {
     group: group.value,
   }
+  isChanged.value = true
   const res = await delete_experiment_evaluationFetch(row.id,params)
   if (res.data.code === 2000) {
     useMessage('success' ,res.data.msg);
@@ -991,6 +1001,7 @@ const initData = async () => {
   loading.value = false
   if (res.data.code === 2000 && res.data.data.length > 0) {
     _table_data.value = res.data.data
+    if (isChanged.value) { isChanged.value = false }
   }
   
 }
@@ -1036,6 +1047,7 @@ onMounted(async () => {
                       value:context.newRowData.value,
                       group: group.value
                     }
+                    isChanged.value = true
                     const res = await put_experiment_evaluation_fetch(context.row.id,params)
                     if (res.data.code === 2000) {
                       useMessage('success' ,res.data.msg);
@@ -1078,6 +1090,7 @@ onMounted(async () => {
                     value:context.newRowData.value,
                     group: group.value
                   }
+                  isChanged.value = true
                   const res = await put_experiment_evaluation_fetch(context.row.id,params)
                   if (res.data.code === 2000) {
                     useMessage('success' ,res.data.msg);
@@ -1121,6 +1134,7 @@ onMounted(async () => {
                 value:context.newRowData.value,
                 group: group.value
               }
+              isChanged.value = true
               const res = await put_experiment_evaluation_fetch(context.row.id,params)
               if (res.data.code === 2000) {
                 useMessage('success' ,res.data.msg);

@@ -13,3 +13,11 @@ export function getOrg_memberFetch(params?: any) {
   });
 }
 
+export function attachments_fileFetch(params: any) {
+  return request.post( {
+    url: Api.attachments_file,
+    headers: { 'Content-Type': 'multipart/form-data;charset=UTF-8' },
+    data: params
+  });
+
+}

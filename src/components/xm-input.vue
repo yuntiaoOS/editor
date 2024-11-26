@@ -87,6 +87,8 @@
 
 <script setup lang="jsx">
 import { getOrg_memberFetch } from '@/api/index'
+import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
+
 const emits = defineEmits(['update:modelValue', 'change'])
 const props = defineProps({
   modelValue: {
@@ -194,15 +196,6 @@ const fileList = ref('')
 const _config = computed( () => props.config )
 
 const selectLoading = ref(false)
-
-
-const fixedImageUrl = (url) => {
-  const regex = /^(http:\/\/|https:\/\/)/i;
-  return regex.test(url) ? url : 'http://192.168.2.11:8003/media/' + url //  localStorage.getItem('umo_domain') + '/' + url;
-}
-const fixedImageUrls = (urls) => {
-  return urls.map(ele=> (ele.url? fixedImageUrl(ele.url) : fixedImageUrl(ele.response.data.url)  ) )
-}
 
 const deleteFunc = (imgUrl) => {
   const index = _value.value.findIndex(ele => ele.url === imgUrl.url)

@@ -64,7 +64,7 @@
       >
         <img
           ref="imageRef"
-          :src="node.attrs.src"
+          :src="fixedImageUrl(node.attrs.src)"
           :style="{
             transform:
               node.attrs.flipX || node.attrs.flipY
@@ -90,6 +90,7 @@
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Drager from 'es-drager'
 import { base64ToFile } from 'file64'
+import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
 
 import { shortId } from '@/utils/short-id'
 
@@ -156,10 +157,10 @@ const onResize = ({ width, height }: { width: number; height: number }) => {
   })
 }
 const onResizeStart = () => {
-  editor.value?.commands.autoPaging(false)
+  if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging(false)
 }
 const onResizeEnd = () => {
-  editor.value?.commands.autoPaging(true)
+  if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging(true)
 }
 
 const onDrag = ({ left, top }: { left: number; top: number }) => {

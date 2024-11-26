@@ -64,10 +64,10 @@ const onResize = ({ width, height }: { width: number; height: number }) => {
   updateAttributes({ width, height })
 }
 const onResizeStart = () => {
-  editor.value?.commands.autoPaging(false)
+  if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging(false)
 }
 const onResizeEnd = () => {
-  editor.value?.commands.autoPaging(true)
+  if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging(true)
 }
 onClickOutside(containerRef, () => {
   selected = false

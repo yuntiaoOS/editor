@@ -76,7 +76,7 @@
   </t-steps>
   <t-dialog 
     v-model:visible="add_dialog_visible"
-    header="新增"
+    header="新增" destroy-on-close
     width="50%" attach="body"
     :confirm-on-enter="true"
     :on-confirm="onSubmit"

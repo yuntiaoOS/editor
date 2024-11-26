@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { shortId } from '@/utils/short-id'
 import { multiply } from 'lodash-unified';
-import { getOrg_memberFetch } from '@/api/index'
+import { getOrg_memberFetch, attachments_fileFetch } from '@/api/index'
 import { put_experiment_record_fetch } from '@/api/experiment'
 // import { UmoSimpleEditor,UmoEditor } from './components/index.ts'
 // import UmoEdit from './components/editor/index.vue'
@@ -10897,15 +10897,15 @@ const options = $ref({
         "experimenter": []
     },
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyNjA2NTU3LCJpYXQiOjE3MzI1MjAxNTcsImp0aSI6ImMzZTE1NTdmODNhODQ4ODJiYTNhZTE5Y2IzZjRkMDFlIiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.YTtv3cGMUCcjv_ib4dhc_upeNEFOm0qh5sKW61nbBNE',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyNjk0NzAyLCJpYXQiOjE3MzI2MDgzMDIsImp0aSI6ImE3YjM3NDJiYzNkNjRkYWNiYmI1YjQyMzQ5NDljNDQ5IiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.kGPhn-8Ckx8xpmv1LTFAS-oiF6NwP4PHTCKZ-Khvlqs',
   },
   document: {
     placeholder: '测试文档',
     content: localStorage.getItem('document.content') ?? "<p>请输入</p>",
   },
   templates,
-  cdnUrl: 'https://cdn.umodoc.com',
-  shareUrl: 'https://umodoc.com',
+  cdnUrl: 'http://id.zw.rzm.com',
+  shareUrl: 'http://id.zw.rzm.com',
   file: {
     // allowedMimeTypes: [
     //   'application/pdf',
@@ -10979,14 +10979,20 @@ const options = $ref({
     if (!file) {
       throw new Error('没有找到要上传的文件')
     }
-    console.log('onUpload', file)
-    await new Promise((resolve) => setTimeout(resolve, 3000))
-    return {
-      id: shortId(),
-      url: file.url ?? URL.createObjectURL(file),
-      name: file.name,
-      type: file.type,
-      size: file.size,
+    console.log('-------1111111111----onUpload-----------', file)
+    const res = await attachments_fileFetch({ url: file})
+    console.log('-------res-----1111111111111----', res)
+    if (res.data.code === 2000) {
+      return res.data.data
+    } else {
+      throw new Error(res.data.msg)
+      // return {
+      //   id: shortId(),
+      //   url: file.url ?? URL.createObjectURL(file),
+      //   name: file.name,
+      //   type: file.type,
+      //   size: file.size,
+      // }
     }
   },
   async getEntityFormMethod() {

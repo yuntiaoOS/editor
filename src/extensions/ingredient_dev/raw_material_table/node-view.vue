@@ -9,7 +9,9 @@
         <template #topContent>
           <div style="padding: 6px 0;display: block;">
             <t-space>
-              <div></div>
+              <div>
+                <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
+              </div>
               <t-space>
                 <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
                 <t-button variant="outline" @click="addFunc">新增</t-button>
@@ -125,6 +127,13 @@ const raw_materialOptions = ref([])
 const select_material = ref([])
 const dialog_select = ref('')
 
+const isChanged = computed({
+  get: () => node.attrs.isChanged,
+  set(value) {
+    updateAttributes({ isChanged: value })
+  },
+})
+
 const updateTime = computed({
   get: () => node.attrs.updateTime,
   set(value) {
@@ -167,6 +176,7 @@ const on_select_parent_materialFunc = async ()=>{
   const params = {
     parent: dialog_select.value
   }
+  isChanged.value = true
   const res = await post_experiment_material_fetch(params)
   if (res.data.code === 2000) {
     useMessage('success' ,res.data.msg);
@@ -191,6 +201,7 @@ const on_select_materialFunc = async ()=>{
     }
     // table_data.value.push(obj)
   });
+  isChanged.value = true
   const res = await post_experiment_material_fetch(params)
   add_dialog_visible.value = false
   if (res.data.code === 2000) {
@@ -213,6 +224,7 @@ const onDelete = async (row) => {
     // change_log: row.change_log,  // 标识 非必填
     ids: row.id
   }
+  isChanged.value = true
   const res = await delete_material_multiple_deleteFetch(params)
   if (res.data.code === 2000) {
     useMessage('success' ,res.data.msg);
@@ -316,6 +328,7 @@ columns.value = [
           experiment_material: context.row.experiment_material,
           experiment_material_batch: context.row.experiment_material_batch?.id,
         }
+        isChanged.value = true
         const res = await put_experiment_material_fetch(context.row.id,params)
         if (res.data.code === 2000) {
           useMessage('success' ,res.data.msg);
@@ -387,6 +400,7 @@ const initData = async () => {
   loading.value = false
   if (res.data.code === 2000 && res.data.data.length > 0) {
     table_data.value = res.data.data
+    if (isChanged.value) { isChanged.value = false } 
   }
 }
 
