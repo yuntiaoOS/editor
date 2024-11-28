@@ -17,7 +17,7 @@
         </div>
       </template>
       <template #defaultValueSlot="slotProps">
-        <div v-if="slotProps.row.step_type === 'processes'" style="bottom: 0px;position: absolute;line-height: 38px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
+        <div v-if="slotProps.row.step_type === 'processes' || slotProps.row.key === 'xm_raw_material' " style="bottom: 0px;position: absolute;line-height: 38px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
         <span v-else-if="slotProps.row.attribute_type ">
           <div v-if="slotProps.row.attribute_type === 'single'" >
             <xm-input v-model="slotProps.row.value" :config="slotProps.row" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
@@ -87,7 +87,6 @@
 </template>
 
 <script setup lang="jsx">
-import { getMaterial_batchListFetch } from '@/api/material'
 import { getProcesses_attributeListFetch,get_experiment_processListFetch,post_experiment_process_fetch } from '@/api/experiment'
 
 import {
@@ -117,12 +116,14 @@ const props = defineProps({
 
 const table_data = computed({
   get() {
-    if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
-      const operations = table_data.value.filter(ele=> ele.children&& ele.children.length > 0 ).map(ele=> ele.children).reduce((a, b) => a.concat(b))
+    if (operationOptionSelect.value.length > 0 && props.modelValue.length > 0 ) {
+      const operations = props.modelValue.filter(ele=> ele.children&& ele.children.length > 0 ).map(ele=> ele.children)
       if (operations.length > 0) {
-        const ids = operations.map(ele=> ele.attribute)
+        const ids = operations.reduce((a, b) => a.concat(b)).map(ele=> ele.attribute)
         operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
       }
+    }else if (props.modelValue.length === 0) {
+      operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: false } ))
     }
     return props.modelValue || []
   },
@@ -316,11 +317,13 @@ const getOperationOptionFunc = async (page=1) => {
     console.log(operationOption.value, '-------------250------------operationOption.value',table_data.value)
     
     if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
-      const operations = table_data.value.filter(ele=> ele.children&& ele.children.length > 0 ).map(ele=> ele.children).reduce((a, b) => a.concat(b))
+      const operations = table_data.value.filter(ele=> ele.children&& ele.children.length > 0 ).map(ele=> ele.children)
       if (operations.length > 0) {
-        const ids = operations.map(ele=> ele.attribute)
+        const ids = operations.reduce((a, b) => a.concat(b)).map(ele=> ele.attribute)
         operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
       }
+    }else if (table_data.value.length === 0) {
+      operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: false } ))
     }
   }
 }
@@ -567,7 +570,7 @@ const treeConfig = reactive({
 const onDeleteConfirm = (row) => {
   // 移除当前节点及其所有子节点
   tableRef.value.remove(row.id);
-
+  getTreeNode()
   // 仅移除所有子节点
   // tableRef.value.removeChildren(row.id);
   TMessagePlugin.success('删除成功');
@@ -702,7 +705,19 @@ const getTreeNode= () => {
   const treeData = tableRef.value.getTreeNode();
   table_data.value = treeData
   console.log('------457-------',treeData);
-  TMessagePlugin.success('树形结构获取成功，请打开控制台查看');
+  setTimeout(() => {
+    console.log('---------575-----onDeleteConfirm-------',table_data.value,operationOptionSelect.value)
+    if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
+      const operations = table_data.value.filter(ele=> ele.children&& ele.children.length > 0 ).map(ele=> ele.children)
+      if (operations.length > 0) {
+        const ids = operations.reduce((a, b) => a.concat(b)).map(ele=> ele.attribute)
+        operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
+      }
+    }else if (table_data.value.length === 0) {
+      operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: false } ))
+    }
+  },100)
+  // TMessagePlugin.success('树形结构获取成功，请打开控制台查看');
 };
 
 const onExpandedTreeNodesChange = (expandedTreeNodes, context) => {

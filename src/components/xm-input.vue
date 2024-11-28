@@ -72,7 +72,7 @@
       <t-select 
         v-model="_value" :multiple="_config.props.multiple" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择" style="width: 100%;" clearable
         :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc">
-        <t-option v-for="item in selectOptions" :key="item[_config.props.valueKey]" :value="item" :label="item[_config.props.labelKey]"></t-option>
+        <t-option v-for="item in selectOptions" :key="item[_config.props.valueKey]" :value="item[_config.props.valueKey]" :label="item[_config.props.labelKey]"></t-option>
       </t-select>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'VueContainer'" >
@@ -181,7 +181,7 @@ if (props.modelValue) {
     if (props.config.props.multiple) {
       _value.value = []
     }else{
-      _value.value = {}
+      _value.value = ''
     }
   }else{
   _value.value = ''
@@ -224,9 +224,14 @@ const selectFocusMethod = async (formItem) => {
   selectLoading.value = true
   // 模拟请求，假设数据来自后台
   if (formItem.props.remote) {
-    const res  = await formItem.props.remoteMethod()
+    let res =  undefined
+    if (formItem.props.remoteMethod) {
+      res = await formItem.props.remoteMethod()
+    } else if ( props.config[props.props.componentKey] === 'UserPicker' ) {
+      res = await getOrg_memberFetch()
+    }
     console.log('-------selectFocusMethod----------------',res)
-    if (res.data.code === 2000) {
+    if (res && res.data.code === 2000) {
       formItem.props.options = res.data.data.map((item) => ({
         [formItem.props.valueKey]: item[formItem.props.valueKey],
         [formItem.props.labelKey]: item[formItem.props.labelKey],
@@ -239,7 +244,7 @@ const selectFocusMethod = async (formItem) => {
 }
 
 onMounted( async () => {
-  if (props.config[props.props.componentKey] === 'SelectPlusRadio' || props.config[props.props.componentKey] === 'SelectPlus') {
+  if (props.config[props.props.componentKey] === 'SelectPlusRadio' || props.config[props.props.componentKey] === 'SelectPlus' || props.config[props.props.componentKey] === 'UserPicker') {
     if (!props.config.props.remote) {
       selectOptions.value = props.config.props.options.map((item) => ({
         [props.config.props.valueKey]: item[props.config.props.valueKey],

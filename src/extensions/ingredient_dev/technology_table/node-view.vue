@@ -22,7 +22,7 @@
           </div>
         </template>
         <template #defaultValueSlot="slotProps">
-          <div v-if="slotProps.row.step_type === 'processes'" style="bottom: 0px;position: absolute;line-height: 30px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
+          <div v-if="slotProps.row.step_type === 'processes' || slotProps.row.key === 'xm_raw_material' " style="bottom: 0px;position: absolute;line-height: 30px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
           <span v-else-if="slotProps.row.attribute_type ">
             <div v-if="slotProps.row.attribute_type === 'single'" >
               <xm-input v-model="slotProps.row.value" :config="slotProps.row" readonly borderless @change="rowEditFunc($event,slotProps.row)"/>
@@ -75,7 +75,6 @@
 
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
-import { getMaterial_batchListFetch } from '@/api/material'
 import { get_assign_record_process_dataFetch,getProcesses_attributeListFetch,get_experiment_processListFetch,post_experiment_process_fetch } from '@/api/experiment'
 
 import {

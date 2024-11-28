@@ -16,7 +16,7 @@
 </template>
 <script setup lang="jsx">
 import { ref, onMounted } from 'vue';
-import { getMaterial_batchListFetch } from '@/api/material'
+import { getIngredient_dev_materialListFetch } from '@/api/material'
 const emits = defineEmits(['selectChange']);
 
 const columns = [
@@ -31,17 +31,14 @@ const columns = [
     width: 70,
   },
   {
-    colKey: 'material',
+    colKey: 'name',
     title: '原材料',
-    // render(h, { type, row: { material} }) {
-    //   return material ? `${material.name} / ${material.sn}` : '-';
-    // },
-    cell: (h, { row: { material}, rowIndex }) => {
+    cell: (h, { row, rowIndex }) => {
       const status = rowIndex % 3;
       return (
         <div>
-          <span>{material?.name || ''}</span>
-          <t-tag size="small">{material ? material.sn : ''}</t-tag>
+          <span>{row.name}</span>
+          <t-tag size="small">{row.sn}</t-tag>
         </div>
       );
     },
@@ -90,7 +87,7 @@ const fetchData = async (paginationInfo) => {
     isLoading.value = true;
     const { current, pageSize } = paginationInfo;
     // 请求可能存在跨域问题
-    const res = await getMaterial_batchListFetch({page: current,limit: pageSize});
+    const res = await getIngredient_dev_materialListFetch({page: current,limit: pageSize});
     console.log('--------------88-----------------',res);
     if ( res.data.code === 2000 ){
       data.value = res.data.data;

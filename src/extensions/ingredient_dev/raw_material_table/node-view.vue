@@ -192,7 +192,7 @@ const on_select_materialFunc = async ()=>{
     record: experiment_record.value?.id,
     parent: change_log.value?.change_log,
     identifier: undefined,  // 标识 非必填
-    experiment_materials: select_material.value.map(ele=>{ return { experiment_material: ele.material.id ,experiment_material_batch: ele.id} })
+    experiment_materials: select_material.value.map(ele=>{ return { experiment_material: ele.id } })
   }
   select_material.value.forEach((ele ) => {
     const obj  = {
@@ -245,7 +245,7 @@ const columnsCheckboxs = ref([])
 
 const displayColumns = ref([]);
 const displayColumnsC = ref([]);
-displayColumns.value = ['experiment_material_name','batch', 'supplier', 'price', 'description', 'operate']
+displayColumns.value = ['experiment_material_name','experiment_material_batch', 'experiment_material_supplier', 'experiment_material_price', 'description', 'operate']
 columns.value = [
   {
     colKey: 'experiment_material_name',
@@ -262,28 +262,19 @@ columns.value = [
     minWidth: 120,
   },
   {
-    colKey: 'batch',
+    colKey: 'experiment_material_batch',
     title: '批次',
     width: 170,
-    render: (h , { row: { experiment_material_batch}, rowIndex } ) => {
-      return  experiment_material_batch ? experiment_material_batch.batch : ''
-    }
   },
   {
-    colKey: 'supplier',
+    colKey: 'experiment_material_supplier',
     title: '供应商',
     width: 160,
-    render: (h , { row: { experiment_material_batch}, rowIndex } ) => {
-      return  experiment_material_batch ? experiment_material_batch.supplier : ''
-    }
   },
   {
-    colKey: 'price',
+    colKey: 'experiment_material_price',
     title: '价格',
     width: 90,
-    render: (h , { row: { experiment_material_batch}, rowIndex } ) => {
-      return  experiment_material_batch ? experiment_material_batch.price : ''
-    }
   },
   // {
   //   colKey: 'cas',
@@ -326,7 +317,7 @@ columns.value = [
           id: context.row.id,
           description: context.newRowData.description,
           experiment_material: context.row.experiment_material,
-          experiment_material_batch: context.row.experiment_material_batch?.id,
+          experiment_material_batch: context.row.experiment_material_batch,
         }
         isChanged.value = true
         const res = await put_experiment_material_fetch(context.row.id,params)

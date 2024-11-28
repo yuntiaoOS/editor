@@ -81,7 +81,36 @@
     :confirm-on-enter="true"
     :on-confirm="onSubmit"
   >
-    <xm-form ref="xmformRef"  v-model:form-data="formData" :show-submit-btn="false" :config="form_config" :on-submit="onSubmit"/>
+    <t-form
+      ref="xmformRef" 
+      :label-align="form_config.labelPos"
+      :label-width="form_config.labelWidth"
+      :data="formData"
+      :rules="form_config.rules"
+      :error-message="errorConfig === 'default' ? undefined : errorMessage"
+      scroll-to-first-error="smooth"
+      @submit="onSubmit"
+    >
+      <t-row :gutter="[16, 10]" justify="space-between">
+        <t-col 
+          v-for="formItem in form_config.formItems "  :key="formItem.key"
+          :xs="12" :sm="columns" :md="columns" :lg="columns" :xl="columns/2" 
+          >
+          <t-form-item 
+            :name="formItem.key" 
+            :label="formItem.title?formItem.title:formItem.name"
+            :rules="formItem.rules" >
+              <div v-if="formItem.attribute_type === 'single'" >
+                <xm-input v-model="formData[formItem.key]" :config="formItem" ></xm-input>
+              </div>
+              <div v-else>
+                <xm-form ref="xmformSubRef" v-model:form-data="formData[formItem.key]" :config="getConfig('form',formItem)" :show-submit-btn="false" />
+              </div>
+          </t-form-item>
+        </t-col>
+      </t-row>
+    </t-form>
+    <!-- <xm-form ref="xmformRef"  v-model:form-data="formData" :show-submit-btn="false" :config="form_config" :on-submit="onSubmit"/> -->
   </t-dialog>
 </template>
 
@@ -107,6 +136,7 @@ const props = defineProps({
 const current = ref(1);
 const tableRef = ref();
 const xmformRef = ref();
+const xmformSubRef = ref();
 const columns = ref([]);
 const add_dialog_visible = ref(false);
 const formData = ref({});
@@ -241,21 +271,28 @@ const blurCycleNumberFunc = (val) => {
 }
 
 const onAdd = () => {
+  formData.value = {}
   form_config.value.formItems = _designParams.value.map((item) => { return {...item, title: item.name } });
+  console.log('-------onAdd-----275-----', form_config.value.formItems,_designParams.value);
   for (const key in _designParams.value) {
     if (Object.prototype.hasOwnProperty.call(_designParams.value, key)) {
       const designItem = _designParams.value[key];
       form_config.value.formConfig.rules[designItem.key] = [
         { required: true, message: '必填', type: 'error', trigger: ['blur','change'] },
       ]
+      if (designItem.attribute_type === 'compound' && designItem.group) {
+        formData.value[designItem.key] = {}
+      }else{
+        formData.value[designItem.key] = ''
+      }
     }
   }
   add_dialog_visible.value = true;
 }
 
 const onSubmit = () => {
-  console.log('-------formData----------', xmformRef.value);
-  xmformRef.value.formRef.validate({ showErrorMessage: true }).then((validateResult) => {
+  console.log('-------formData----------', xmformRef.value,formData.value);
+  xmformRef.value.validate({ showErrorMessage: true }).then((validateResult) => {
     if (validateResult && Object.keys(validateResult).length) {
       const firstError = Object.values(validateResult)[0]?.[0]?.message;
       useMessage('warning',firstError)
@@ -271,9 +308,10 @@ const onSubmit = () => {
 
 function addDecimals(str1, str2,index,attribute_type) {
   const addresult = (str1, str2) => { 
-    if (( !str1 || str1.length === 0) && ( !str2 || str2.length === 0) ) return '0';
-    if ( !str1 || str1.length === 0) return str2;
-    if ( !str2 || str2.length === 0) return str1;
+    console.log('---------304----addresult------',str1, str2,)
+    if (( !str1 || str1.length === 0 || str1 === 'NaN') && ( !str2 || str2.length === 0 || str2 === 'NaN') ) return '0';
+    if ( !str1 || str1.length === 0 || str1 === 'NaN') return str2;
+    if ( !str2 || str2.length === 0 || str2 === 'NaN') return str1;
     // 将小数转换为整数
     const factor = 10 ** Math.max(str1.split('.')[1]?.length || 0, str2.split('.')[1]?.length || 0);
     const num1 = BigInt(str1.replace('.', '')) * BigInt(factor);

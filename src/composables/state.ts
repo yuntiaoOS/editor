@@ -37,38 +37,38 @@ export function useState<T extends StateKey>(
   if (key === 'document') {
     return useStorage<StateValue<T>>(
       storageKey,
-      (options.value.document ?? {}) as StateValue<T>,
+      (options.value.document ?? {}) as StateValue<T>,localStorage
     )
   }
   if (key === 'locale') {
     return useStorage<StateValue<T>>(
       storageKey,
-      options.value.locale as StateValue<T>,
+      options.value.locale as StateValue<T>,localStorage
     )
   }
   if (key === 'key_data') {
     return useStorage<StateValue<T>>(
       storageKey,
-      {} as StateValue<T>,
+      {} as StateValue<T>,localStorage
     )
   }
   if (key === 'recent') {
     return useStorage<StateValue<T>>(storageKey, {
       fonts: [] as string[],
       colors: [] as string[],
-    } as StateValue<T>)
+    } as StateValue<T>,localStorage)
   }
   if (key === 'print') {
     return useStorage<StateValue<T>>(storageKey, {
       singleColumn: true,
       showPageNumber: true,
-    } as StateValue<T>)
+    } as StateValue<T>,localStorage)
   }
   if (key === 'toolbar') {
     return useStorage<StateValue<T>>(storageKey, {
       mode: options.value.toolbar?.defaultMode ?? 'classic',
       show: true,
-    } as StateValue<T>)
+    } as StateValue<T>,localStorage)
   }
   throw new Error('[useStorage]', { cause: 'Key is not valid' })
 }

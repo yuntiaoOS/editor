@@ -25,10 +25,37 @@ export function removeNullKeys<T extends Record<string, any>>(obj: T): { [P in k
 }
 
 
-export const fixedImageUrl = (url:string) => {
+export const fixedImageUrl = (url:string | null) => {
+  if (!url) {
+    return '';
+  }
   const regex = /^(http:\/\/|https:\/\/)/i;
   return regex.test(url) ? url : 'http://192.168.2.11:8003/media/' + url //  localStorage.getItem('umo_domain') + '/' + url;
 }
+
 export const fixedImageUrls = (urls:any[]) => {
   return urls.map((ele:any)=> (ele.url? fixedImageUrl(ele.url) : fixedImageUrl(ele.response.data.url)  ) )
+}
+
+//统一提交前检测未保存数据并继续上传数据
+export function checkBeforeSaveDoc(content:any[],) {
+  const changeDatas = content.filter(ele=> ele.isChanged)
+  console.log('------------checkBeforeSaveDoc------43-------',changeDatas)
+  if (changeDatas.length > 0) {
+    const dialog = useConfirm({
+      theme: 'warning',
+      header: '提示',
+      body: '存在数据未保存，是否现在提交保存',
+      confirmBtn: {
+        theme: 'primary',
+        content: '保存',
+      },
+      onConfirm() {
+
+        dialog.destroy()
+
+        return
+      },
+    })
+  }
 }
