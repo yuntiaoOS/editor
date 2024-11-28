@@ -12029,6 +12029,286 @@ onMounted(() => {
           }
         ]
       },
+      {
+        "type": "sample_table",
+        "attrs": {
+          "id": "8e89f8a9-0f40-4328-9630-f6c6978d70e0",
+          "updateTime": "",
+          "key": "sample_table20241128142404",
+          "name": "9da81dd4-4ad3-41f7-aaf5-961b8f908531",
+          "isChanged": false,
+          "group": "c9918a54-fee3-4347-99b3-02e977c190df",
+          "table_data": [
+            {
+              "id": "09fa794c-db07-4036-b910-bcb9ebb0ad34",
+              "modifier_name": "赵紫文",
+              "dept_belong_id": null,
+              "creator_name": "赵紫文",
+              "create_datetime": "2024-11-28 14:24:03",
+              "update_datetime": "2024-11-28 14:24:03",
+              "description": null,
+              "creator": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+              "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+              "name": "SF-20241128142404",
+              "sn": "S202411281",
+              "batch": "202411281",
+              "count": 1,
+              "group": "c9918a54-fee3-4347-99b3-02e977c190df",
+              "experiment_theme": "d43cde79-361c-4fb8-8f13-c781f2b8c630",
+              "record": "b6be422d-defc-4b0f-b490-a321cb3c7aae",
+              "param": [
+                "17ff852b-451f-4f6f-ade7-f19f983edabe",
+                "19408e4c-abd1-4ca3-b704-a919a8420b02",
+                "489be08c-1dfe-4276-aa03-1439a9574c5d",
+                "5c5e2154-efe8-4736-bc62-5dc70eebf2c7",
+                "d42593e9-c39f-446d-8b3c-1baa5e4d5092"
+              ]
+            },
+            {
+              "id": "b68b7e5f-00b4-4902-acae-c9aa791ed293",
+              "modifier_name": "赵紫文",
+              "dept_belong_id": null,
+              "creator_name": "赵紫文",
+              "create_datetime": "2024-11-28 14:24:03",
+              "update_datetime": "2024-11-28 14:24:03",
+              "description": null,
+              "creator": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+              "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+              "name": "SF-20241128142404",
+              "sn": "S202411282",
+              "batch": "202411282",
+              "count": 1,
+              "group": "c9918a54-fee3-4347-99b3-02e977c190df",
+              "experiment_theme": "d43cde79-361c-4fb8-8f13-c781f2b8c630",
+              "record": "b6be422d-defc-4b0f-b490-a321cb3c7aae",
+              "param": [
+                "00b7aa51-b53d-4ca3-8d53-d50918e1ca2c",
+                "54a37831-f988-41e2-bdd6-71dbffcb3cfb",
+                "922d0991-cbc1-4ff4-ab39-339adadf3907",
+                "9dcea843-a0ec-4b62-bf1e-011d9f5123c9",
+                "ade13c86-6aeb-442b-958d-5dab78561d42"
+              ]
+            }
+          ],
+          "designParams": [
+            {
+              "id": "bedcc2e4-f216-4570-8ad0-66b14d6f6fda",
+              "attribute": 1,
+              "value": "bedcc2e4-f216-4570-8ad0-66b14d6f6fda",
+              "attribute_type": "single",
+              "name": "原材料",
+              "step_name": "原材料",
+              "description": "天越来越冷了",
+              "step_type": "operation",
+              "duration": null,
+              "parent": "736bc82b-1fe9-45e5-9b83-1cdde4a884a8",
+              "props": {
+                "abstract": false,
+                "required": false,
+                "enableScan": false,
+                "enablePrint": true,
+                "labelKey": "name",
+                "valueKey": "id",
+                "options": [
+                  {
+                    "id": "c536624a-b0e3-44fd-9a52-7d85fc2deca8",
+                    "experiment_material": "81b6bf3a-e78c-4d53-be90-0d085ddb77ee",
+                    "experiment_material_name": "YCL11271737",
+                    "description": "和鹅鹅鹅鹅鹅鹅鹅鹅呃呃呃呃",
+                    "experiment_material_state": "Not-Started",
+                    "change_log": "7359ec3b-940e-4bc6-ab68-a9f5473a2deb",
+                    "experiment_material_sn": "SN-1732700205432",
+                    "experiment_material_batch": "BT-1732700205433",
+                    "experiment_material_price": "23.00",
+                    "experiment_material_supplier": "工地上干活fewfew",
+                    "name": "YCL11271737/SN-1732700205432"
+                  },
+                  {
+                    "id": "fe0c773b-8f83-41c5-b39c-69b0d89b7c86",
+                    "experiment_material": "29fe4b98-8f29-42f2-86f7-ecea3ae02133",
+                    "experiment_material_name": "YCL11271707",
+                    "description": "和呜呜呜呜呜呜呜呜呜呜呜呜",
+                    "experiment_material_state": "",
+                    "change_log": "7359ec3b-940e-4bc6-ab68-a9f5473a2deb",
+                    "experiment_material_sn": "SN-1732698414654",
+                    "experiment_material_batch": "BT-1732698414655",
+                    "experiment_material_price": "23.00",
+                    "experiment_material_supplier": "大哥的风格",
+                    "name": "YCL11271707/SN-1732698414654"
+                  },
+                  {
+                    "id": "50718a48-9666-4e8e-85a5-b74d4d203ace",
+                    "experiment_material": "e2955df2-ce1c-4b99-a479-c42f243cbd1e",
+                    "experiment_material_name": "YCL11271706",
+                    "description": "飞飞飞飞飞飞飞飞飞飞飞飞飞飞",
+                    "experiment_material_state": "",
+                    "change_log": "7359ec3b-940e-4bc6-ab68-a9f5473a2deb",
+                    "experiment_material_sn": "SN-1732698345840",
+                    "experiment_material_batch": "BT-1732698345840",
+                    "experiment_material_price": "23.00",
+                    "experiment_material_supplier": "发生的",
+                    "name": "YCL11271706/SN-1732698345840"
+                  }
+                ]
+              },
+              "key": "xm_raw_material",
+              "type": "SelectPlus",
+              "unit": null,
+              "group": [],
+              "step": "",
+              "check": true,
+              "raw_material": "d7665568-7bc3-40b9-9692-34e062f1fc0f",
+              "technology": "42a8fc98-6577-4576-a0f9-4142c3b013f1",
+              "label": "原材料"
+            },
+            {
+              "id": "c498b353-f071-4ae7-b3df-d16470eb6e9f",
+              "attribute": 2,
+              "value": "23",
+              "attribute_type": "single",
+              "name": "温度",
+              "step_name": "温度",
+              "description": "更多的地对地导弹低调低调",
+              "step_type": "operation",
+              "duration": null,
+              "parent": "736bc82b-1fe9-45e5-9b83-1cdde4a884a8",
+              "props": {
+                "abstract": false,
+                "required": false,
+                "enableScan": false,
+                "enablePrint": true,
+                "textForSuffix": ""
+              },
+              "key": "wendu",
+              "type": "TextInput",
+              "unit": "",
+              "group": [],
+              "step": "",
+              "check": true
+            },
+            {
+              "id": "0134a70c-20f1-4ebc-bc18-36980427e686",
+              "attribute": 3,
+              "value": "34",
+              "attribute_type": "single",
+              "name": "转速",
+              "step_name": "转速",
+              "description": "发的多大的滴滴滴滴滴滴地方",
+              "step_type": "operation",
+              "duration": null,
+              "parent": "4516e219-814a-4708-ac1c-772347e9df5a",
+              "props": {
+                "abstract": false,
+                "required": false,
+                "enableScan": false,
+                "enablePrint": true
+              },
+              "key": "zhuanshu",
+              "type": "TextInput",
+              "unit": null,
+              "group": [],
+              "step": "",
+              "check": true
+            },
+            {
+              "id": "7259a669-2f50-4d3a-8f4b-ad0dad8bf508",
+              "attribute": 4,
+              "value": "23",
+              "attribute_type": "single",
+              "name": "湿度",
+              "step_name": "湿度",
+              "description": "放松放松放松放松放松放松放松放松放松放松",
+              "step_type": "operation",
+              "duration": null,
+              "parent": "4516e219-814a-4708-ac1c-772347e9df5a",
+              "props": {
+                "abstract": false,
+                "required": false,
+                "enableScan": false,
+                "enablePrint": true
+              },
+              "key": "shidu",
+              "type": "TextInput",
+              "unit": null,
+              "group": [],
+              "step": "",
+              "check": true
+            },
+            {
+              "id": "64d83da9-b0a4-4bcb-91ce-594a7e765f68",
+              "attribute": 5,
+              "value": {
+                "wendu": "23",
+                "shidu": "34"
+              },
+              "attribute_type": "compound",
+              "name": "温湿度",
+              "step_name": "温湿度",
+              "description": "发的是的是的是的是的是的是的是的是的是多少",
+              "step_type": "operation",
+              "duration": null,
+              "parent": "4516e219-814a-4708-ac1c-772347e9df5a",
+              "props": {},
+              "key": "wenshidu",
+              "type": "",
+              "unit": null,
+              "group": [
+                {
+                  "id": 2,
+                  "name": "温度",
+                  "type": "TextInput",
+                  "props": {
+                    "abstract": false,
+                    "required": false,
+                    "enableScan": false,
+                    "enablePrint": true,
+                    "textForSuffix": ""
+                  },
+                  "key": "wendu",
+                  "value": null,
+                  "unit": "",
+                  "attribute_type": "single"
+                },
+                {
+                  "id": 4,
+                  "name": "湿度",
+                  "type": "TextInput",
+                  "props": {
+                    "abstract": false,
+                    "required": false,
+                    "enableScan": false,
+                    "enablePrint": true
+                  },
+                  "key": "shidu",
+                  "value": null,
+                  "unit": null,
+                  "attribute_type": "single"
+                }
+              ],
+              "step": {},
+              "check": true
+            }
+          ],
+          "title": "样品202411281424"
+        },
+        "content": [
+          {
+            "type": "paragraph",
+            "attrs": {
+              "indent": null,
+              "textAlign": "left",
+              "lineHeight": 1.5,
+              "margin": {}
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": " "
+              }
+            ]
+          }
+        ]
+      }
     ]
   }
   editorRef.editorInstance?.commands.setContent(jsonContent)

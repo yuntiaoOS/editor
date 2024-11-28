@@ -183,7 +183,7 @@ const on_experimental_designFunc = async ()=>{
       // const { from0, to0 } = editor.state.selection ?? {}
       // editor.commands.setTextSelection({ from:from0 , to :to0  })
       // console.log('--------on_experimental_designFunc--------184--------',from0, to0)
-      editor.chain().focus().insertContent('<p></p>').run();
+      editor.chain().focus().insertContent('<p></p><p></p>').run();
 
       const { from, to } = editor.state.selection ?? {}
       console.log('--------on_experimental_designFunc--------189--------',from, to)
