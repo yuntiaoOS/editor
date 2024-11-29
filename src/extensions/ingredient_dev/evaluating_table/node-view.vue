@@ -152,7 +152,7 @@ const resultKey = (str) => {
 const cellMake = (h, { row, rowIndex,col }) => {
   console.log('------147----cellMake---------',row, rowIndex,col)
   const res = col.colKey.split('.').reduce((obj, k) => obj && obj[k], row);
-  console.log('------153----cellMake---res------',res)
+  console.log('------153----cellMake---res------',col.colKey,res)
   if (col.edit && col.edit.customProps && col.edit.customProps.config ) {
     if (col.edit.customProps.config.type === 'ImageUpload' && res && res.length > 0) {
       return ( 
@@ -399,7 +399,7 @@ const columnsDefaultF = [
     colKey:'condition',
     width: 100,
     cell:(h, { row })=> {
-      return row.condition ? test_condition_options.find(ele=> ele.value === row.condition) ? test_condition_options.find(ele=> ele.value === row.condition).label: '-' : '-'
+      return row.condition && test_condition_options ? test_condition_options.find(ele=> ele.value === row.condition) ? test_condition_options.find(ele=> ele.value === row.condition).label: '-' : '-'
     }
   },
   {
@@ -821,7 +821,7 @@ const makeTableDataAndColumnFunc = (tableData,selectTableForm,index_typeInfo)=>{
             }
           }else{
             if (!row.value[resultKey(col.colKey)]) {
-              row.value[resultKey(col.colKey)] = {}
+              row.value[resultKey(col.colKey)] = ''
             }
           }
           return {
@@ -1057,6 +1057,18 @@ onMounted(async () => {
                       console.log('Edit firstName:', context);
                     }
                   },
+                  // on: (editContext ) => ({
+                  //   onBlur: (ctx ) => {
+                  //     console.log('失去焦点', editContext);
+                  //     ctx?.e?.preventDefault();
+                  //   },
+                  //   onEnter: (ctx ) => {
+                  //     ctx?.e?.preventDefault();
+                  //     console.log('onEnter', ctx);
+                  //   },
+                  //   // 默认是否为编辑状态
+                  //   defaultEditable: false,
+                  // }),
                 } 
               };
             })}
@@ -1070,9 +1082,9 @@ onMounted(async () => {
                 props:({row})=> {
                   if (!row.value) {
                     row.value = {}
-                    row.value[resultKey(ele.colKey)] = {}
+                    row.value[resultKey(ele.colKey)] = ''
                   }else if (!row.value[resultKey(ele.colKey)]) {
-                    row.value[resultKey(ele.colKey)] = {}
+                    row.value[resultKey(ele.colKey)] = ''
                   }
                   return {
                     modelValue: row.value? row.value[resultKey(ele.colKey)] : '',
@@ -1100,6 +1112,18 @@ onMounted(async () => {
                     console.log('Edit firstName:', context);
                   }
                 },
+                // on: (editContext ) => ({
+                //   onBlur: (ctx ) => {
+                //     console.log('失去焦点', editContext);
+                //     ctx?.e?.preventDefault();
+                //   },
+                //   onEnter: (ctx ) => {
+                //     ctx?.e?.preventDefault();
+                //     console.log('onEnter', ctx);
+                //   },
+                //   // 默认是否为编辑状态
+                //   defaultEditable: false,
+                // }),
               } 
             };
           }
@@ -1114,9 +1138,9 @@ onMounted(async () => {
             props:({row})=> {
               if (!row.value) {
                 row.value = {}
-                row.value[resultKey(col.colKey)] = {}
+                row.value[resultKey(col.colKey)] = ''
               }else if (!row.value[resultKey(col.colKey)]) {
-                row.value[resultKey(col.colKey)] = {}
+                row.value[resultKey(col.colKey)] = ''
               }
               return {
                 modelValue: row.value? row.value[resultKey(col.colKey)] : '',
@@ -1144,6 +1168,18 @@ onMounted(async () => {
                 console.log('Edit firstName:', context);
               }
             },
+            // on: (editContext ) => ({
+            //   onBlur: (ctx ) => {
+            //     console.log('失去焦点', editContext);
+            //     ctx?.e?.preventDefault();
+            //   },
+            //   onEnter: (ctx ) => {
+            //     ctx?.e?.preventDefault();
+            //     console.log('onEnter', ctx);
+            //   },
+            //   // 默认是否为编辑状态
+            //   defaultEditable: false,
+            // }),
           },
         };
       }

@@ -7,6 +7,7 @@
         name="textarea"
         :autosize="{ minRows: 3, maxRows: 5 }"
         @change="changeFunc"
+        @blur="blurFunc"
       />
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'NumberInput'" >
@@ -15,22 +16,22 @@
         placeholder="请输入" @change="changeFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'TimePicker'" >
-      <t-time-picker v-model="_value" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请输入" @change="changeFunc"/>
+      <t-time-picker v-model="_value" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请输入" @change="changeFunc" @blur="blurFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'DateTime'" >
-      <t-date-picker v-model="_value" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  enable-time-picker placeholder="请输入" @change="changeFunc"/>
+      <t-date-picker v-model="_value" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  enable-time-picker placeholder="请输入" @change="changeFunc" @blur="blurFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'SelectPlusRadio'" >
       <t-select 
         v-model="_value" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择"  style="width: 100%;" clearable
-        :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc">
+        :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc" @blur="blurFunc">
         <t-option v-for="item in selectOptions" :key="item[_config.props.valueKey]" :value="item[_config.props.valueKey]" :label="item[_config.props.labelKey]"></t-option>
       </t-select>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'SelectPlus'" >
       <t-select 
         v-model="_value" multiple :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择" style="width: 100%;" clearable
-        :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc">
+        :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc" @blur="blurFunc">
         <t-option v-for="item in selectOptions" :key="item[_config.props.valueKey]" :value="item[_config.props.valueKey]" :label="item[_config.props.labelKey]"></t-option>
       </t-select>
     </template>
@@ -71,7 +72,7 @@
     <template v-else-if="_config[props.props.componentKey] === 'UserPicker'" >
       <t-select 
         v-model="_value" :multiple="_config.props.multiple" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择" style="width: 100%;" clearable
-        :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc">
+        :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc" @blur="blurFunc">
         <t-option v-for="item in selectOptions" :key="item[_config.props.valueKey]" :value="item[_config.props.valueKey]" :label="item[_config.props.labelKey]"></t-option>
       </t-select>
     </template>
@@ -79,7 +80,7 @@
 
     </template>
     <template v-else >
-      <t-input v-model="_value" autofocus :borderless="borderless" :readonly="readonly" :auto-width="autoWidth" placeholder="请输入" @change="changeFunc"/>
+      <t-input v-model="_value" autofocus :borderless="borderless" :readonly="readonly" :auto-width="autoWidth" placeholder="请输入" @change="changeFunc" @blur="blurFunc"/>
     </template>
 
   </div>
@@ -89,7 +90,7 @@
 import { getOrg_memberFetch } from '@/api/index'
 import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
 
-const emits = defineEmits(['update:modelValue', 'change'])
+const emits = defineEmits(['update:modelValue', 'change','blur','enter'])
 const props = defineProps({
   modelValue: {
     type: [String, Number, Array, Object],
@@ -207,6 +208,11 @@ const changeFunc = (val) => {
   emits('update:modelValue', val)
   emits('change', val)
   props.onChange(val)
+}
+
+const blurFunc = (val) => {
+  // emits('update:modelValue', val)
+  emits('blur', val)
 }
 
 const uploadFail = ({ file }) => {

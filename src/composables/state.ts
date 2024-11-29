@@ -2,7 +2,7 @@ import type { RemovableRef } from '@vueuse/core'
 
 import type { DocumentOptions, SupportedLocale } from '@/types'
 
-export type StateKey = 'toolbar' | 'document' | 'recent' | 'print' | 'locale' | 'key_data'
+export type StateKey = 'toolbar' | 'document' | 'recent' | 'print' | 'locale'
 export type StateValue<T extends StateKey> = T extends 'toolbar'
   ? {
       mode: string
@@ -22,9 +22,7 @@ export type StateValue<T extends StateKey> = T extends 'toolbar'
           }
         : T extends 'locale'
           ? SupportedLocale
-          : T extends 'key_data'
-            ? any
-            : never
+          : never
           
 
 export function useState<T extends StateKey>(
@@ -44,12 +42,6 @@ export function useState<T extends StateKey>(
     return useStorage<StateValue<T>>(
       storageKey,
       options.value.locale as StateValue<T>,localStorage
-    )
-  }
-  if (key === 'key_data') {
-    return useStorage<StateValue<T>>(
-      storageKey,
-      {} as StateValue<T>,localStorage
     )
   }
   if (key === 'recent') {

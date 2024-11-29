@@ -153,6 +153,7 @@ onBeforeMount(() => setOptions(props))
 watch(
   () => props,
   () => {
+    $key_data.value = JSON.parse( localStorage.getItem('key_data') ?? '{}')
     setOptions(props)
   },
   { deep: true },
@@ -491,13 +492,11 @@ onMounted(()=>{
     if (options.value.requestOptions.dict_data) {
       localStorage.setItem('dict_data', JSON.stringify(options.value.requestOptions.dict_data)  )
     }
-    $key_data.value = JSON.parse( localStorage.getItem('key_data') ?? '{}')
-    console.log('-----------------experiment_record------479--------',$key_data.value)
   }
 })
 // 销毁编辑器实例
-onBeforeUnmount(() => {
-  editorInstance.destroy()
+onUnmounted(() => {
+  editor.value?.destroy()
 })
 defineExpose({
   editorInstance,
