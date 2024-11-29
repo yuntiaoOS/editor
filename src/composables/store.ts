@@ -135,7 +135,7 @@ export const useStore = createGlobalState(() => {
       if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging(false)
       changeComputedHtml()
       setTimeout(() => {
-        editor.value?.commands.autoPaging(true)
+        if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging(true)
       }, 1000)
     },
     { deep: true },

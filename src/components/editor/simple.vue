@@ -32,51 +32,54 @@
         </toolbar>
       </header>
       <main class="umo-main">
-        <div class="umo-zoomable-container umo-scrollbar">
-          <div class="umo-zoomable-content" >
-            <div class="umo-page-content" >
-              <editor-content
-                class="umo-editor-container"
-                :class="{
-                  'is-empty': isEmpty,
-                  'show-line-number': page.showLineNumber,
-                  'format-painter': painter.enabled,
-                  'disable-page-break': !page.pagination,
-                }"
-                :editor="editor"
-                :style="{
-                  lineHeight: defaultLineHeight,
-                  '--umo-editor-placeholder': `'${l(options.document?.placeholder ?? {})}'`,
-                }"
-                :spellcheck="
-                  options.document?.enableSpellcheck && $document.enableSpellcheck
-                "
-              />
-              <menus-bubble v-if=" editor && !page.preview?.enabled && !editorDestroyed" />
-              <menus-context-block 
-                v-if="options.document?.enableBlockMenu &&
-                  !page.preview?.enabled &&
-                  editor &&
-                  !editorDestroyed
-                "
-              />
+        <div class="umo-page-container" >
+          <container-toc v-if="$key_data.experiment_record && page.showToc" @close="page.showToc = false" />
+          <div class="umo-zoomable-container umo-scrollbar">
+            <div class="umo-zoomable-content" >
+              <div class="umo-page-content" >
+                <editor-content
+                  class="umo-editor-container"
+                  :class="{
+                    'is-empty': isEmpty,
+                    'show-line-number': page.showLineNumber,
+                    'format-painter': painter.enabled,
+                    'disable-page-break': !page.pagination,
+                  }"
+                  :editor="editor"
+                  :style="{
+                    lineHeight: defaultLineHeight,
+                    '--umo-editor-placeholder': `'${l(options.document?.placeholder ?? {})}'`,
+                  }"
+                  :spellcheck="
+                    options.document?.enableSpellcheck && $document.enableSpellcheck
+                  "
+                />
+                <menus-bubble v-if=" editor && !page.preview?.enabled && !editorDestroyed" />
+                <menus-context-block 
+                  v-if="options.document?.enableBlockMenu &&
+                    !page.preview?.enabled &&
+                    editor &&
+                    !editorDestroyed
+                  "
+                />
+              </div>
+              <div v-if="$key_data.experiment_theme&&$key_data.experiment_record" style="background-color: #fff;">
+                <t-space direction="vertical" style="width: 100%;">
+                  <t-divider dashed />
+                  <comment-bottom  />
+                </t-space>
+                
+              </div>
+              <!-- <container-comments /> -->
             </div>
-            <div v-if="$key_data.experiment_theme&&$key_data.experiment_record">
-              <t-space direction="vertical" style="width: 100%;">
-                <t-divider dashed />
-                <comment-bottom  />
-              </t-space>
-              
-            </div>
-            <!-- <container-comments /> -->
           </div>
+          <t-image-viewer
+            v-model:visible="imageViewer.visible"
+            v-model:index="currentImageIndex"
+            :images="previewImages"
+            @close="imageViewer.visible = false"
+          />
         </div>
-        <t-image-viewer
-          v-model:visible="imageViewer.visible"
-          v-model:index="currentImageIndex"
-          :images="previewImages"
-          @close="imageViewer.visible = false"
-        />
       </main>
     </div>
   </t-config-provider>
@@ -480,6 +483,7 @@ provide('setLocale', setLocale)
 provide('reset', reset)
 
 onMounted(()=>{
+  page.value.showToc = true
   console.log('-----------------experiment_record-----451---------',options.value)
   // setToolbar({ mode: 'classic', show: false })
   loadTatexStyle()
@@ -511,17 +515,31 @@ defineExpose({
 <style lang="less" scoped>
 @import '@/assets/styles/editor.less';
 @import '@/assets/styles/drager.less';
+
+.umo-page-container {
+  height: 100%;
+  display: flex;
+  gap: 40px;
+  position: relative;
+}
+
 .umo-editor-container {
+  height: 100%;
   min-height: 100px;
+  background: #fff;
+}
+.umo-scrollbar {
+  overflow: auto;
 }
 .umo-zoomable-container {
   flex: 1;
+  padding: 20px 50px;
   scroll-behavior: smooth;
-  overflow: visible;
   .umo-zoomable-content {
     margin: 0 auto;
+    background-color: #fff;
     position: relative;
-    height: 100%;
+    //height: 100%;
     width: 100%;
     overflow: visible;
     .umo-page-content {
@@ -541,7 +559,9 @@ defineExpose({
 .umo-main {
   flex: 1;
   background-color: #fff;
+  //background-color: var(--umo-container-background);
   overflow: visible !important;
+  height: calc(100% - 60px);
 }
 :deep( .umo-menu-button-wrap:not(:last-child) ){
   margin-right: 1px ;

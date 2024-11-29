@@ -559,7 +559,7 @@ const setContent = (
     .focus(options.focusPosition as FocusPosition, options.focusOptions)
     .run()
   setTimeout(() => {
-    editor.value?.commands.autoPaging()
+    if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging()
   }, 200)
 }
 

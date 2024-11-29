@@ -119,7 +119,7 @@ const HeditFunc = () => {
     xmTitleRef.value.$el.focus()
   } else {
     setTimeout(() => {
-      xmTitleRef.value.$el.focus()
+      if (xmTitleRef.value) xmTitleRef.value.$el.focus()
     } , 10)
   }
 }
