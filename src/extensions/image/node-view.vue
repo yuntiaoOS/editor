@@ -96,7 +96,7 @@ import { shortId } from '@/utils/short-id'
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 const { options, editor, imageViewer } = useStore()
-const { isLoading, error } = useImage({ src: node.attrs.src })
+const { isLoading, error } = useImage({ src: fixedImageUrl(node.attrs.src) })
 
 const containerRef = ref(null)
 const imageRef = $ref<HTMLImageElement | null>(null)

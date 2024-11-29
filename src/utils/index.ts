@@ -30,7 +30,7 @@ export const fixedImageUrl = (url:string | null) => {
     return '';
   }
   const regex = /^(http:\/\/|https:\/\/)/i;
-  return regex.test(url) ? url : 'http://192.168.2.11:8003/media/' + url //  localStorage.getItem('umo_domain') + '/' + url;
+  return regex.test(url) ? url : localStorage.getItem('umo_domain') + '/media/' + url; //'http://192.168.2.11:8003/media/' + url //  
 }
 
 export const fixedImageUrls = (urls:any[]) => {
