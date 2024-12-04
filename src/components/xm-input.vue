@@ -77,7 +77,7 @@
       </t-select>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'VueContainer'" >
-
+      -
     </template>
     <template v-else >
       <t-input v-model="_value" autofocus :borderless="borderless" :readonly="readonly" :auto-width="autoWidth" placeholder="请输入" @change="changeFunc" @blur="blurFunc"/>
@@ -263,9 +263,9 @@ onMounted( async () => {
       await selectFocusMethod(_config.value)
     }
   }
-  uploadAction.value = `${localStorage.getItem('umo_domain')}/api/attachments/file/`
+  uploadAction.value = `${localStorage.getItem('rzm_domain')}/api/attachments/file/`
 
-  const token = localStorage.getItem('umo_token');
+  const token = localStorage.getItem('mzyc_token');
   uploadHeaders.value = { Authorization: `JWT ${token}` }
 
 })

@@ -328,9 +328,15 @@ function addDecimals(str1, str2,index,attribute_type) {
   console.log('-------140-----addDecimals----------',str1, str2,attribute_type);
   if (attribute_type === 'compound'){ 
     const resD = {};
-    for (const key in str1) {
-      resD[key] = addresult(str1[key], String(index * str2[key]) )
+    for (const key in str2) {
+      if (key === XM_raw_material_key ) {
+        resD[key] = str2[key]
+      }else{
+        resD[key] = addresult(str1[key], String(index * str2[key]) )
+      }
+      
     }
+    console.log('-------339-----addDecimals----------',str1, str2,attribute_type);
     return resD
   }else{
     return addresult(str1, String(index * str2))
@@ -371,60 +377,74 @@ const makeTableFunc = ()=> {
           children: []
         }
         item.group.forEach((eleC) => {
-          colG.children.push({
-            title: eleC.name,
-            colKey: `${item.key}.${eleC.key}`,
-            width: 100,
-            edit: {
-              // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-              // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-              component: componentName,
-              // props, 透传全部属性到 Input 组件
-              props: ({col,row})=> {
-                return  {
-                  modelValue: row[item.key][eleC.key],
-                  config: eleC,
-                  clearable: true,
-                  autofocus: true,
-                  multiply: true,
-                  options
-                  // autoWidth: true,
-                };
+          if (eleC.key === XM_raw_material_key) {
+            colG.children.push({
+              title: eleC.name,
+              colKey: `${item.key}.${eleC.key}`,
+              width: 100,
+              render(h, { row ,col}) {
+                console.log('---------------------0',row,item,col,eleC)
+                const dataR = row[item.key]? row[item.key][eleC.key] : []
+                return dataR ? eleC.props.options?.filter(eleO => dataR.includes(eleO.id))?.map(eleO => eleO.name)?.join(";") : '' 
+              },
+            })
+          }else {
+            colG.children.push({
+              title: eleC.name,
+              colKey: `${item.key}.${eleC.key}`,
+              width: 100,
+              edit: {
+                // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+                // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+                component: componentName,
+                // props, 透传全部属性到 Input 组件
+                props: ({col,row})=> {
+                  return  {
+                    modelValue: row[item.key][eleC.key],
+                    config: eleC,
+                    clearable: true,
+                    autofocus: true,
+                    multiply: true,
+                    options
+                    // autoWidth: true,
+                  };
 
-              },
-              // 校验规则，此处同 Form 表单
-              rules: [
-                {
-                  required: false,
-                  message: '不能为空',
                 },
-              ],
-              showEditIcon: true,
-              abortEditOnEvent: ['onEnter','onBlur'],
-              onEdited: (context ) => {
-                console.log(context);
-                const newData = [..._designResult.value];
-                newData.splice(context.rowIndex, 1, context.newRowData);
-                _designResult.value = newData;
-                useMessage('success' ,'Success');
-              },
-              // 触发校验的时机（when to validate)
-              validateTrigger: 'change',
-              // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-              on: (editContext ) => ({
-                onBlur: (ctx ) => {
-                  console.log('失去焦点', editContext);
-                  ctx?.e?.preventDefault();
+                // 校验规则，此处同 Form 表单
+                rules: [
+                  {
+                    required: false,
+                    message: '不能为空',
+                  },
+                ],
+                showEditIcon: true,
+                abortEditOnEvent: ['onEnter','onBlur'],
+                onEdited: (context ) => {
+                  console.log(context);
+                  const newData = [..._designResult.value];
+                  newData.splice(context.rowIndex, 1, context.newRowData);
+                  _designResult.value = newData;
+                  useMessage('success' ,'Success');
                 },
-                onEnter: (ctx ) => {
-                  ctx?.e?.preventDefault();
-                  console.log('onEnter', ctx);
-                },
-                // 默认是否为编辑状态
-                defaultEditable: true,
-              }),
-            }
-          })
+                // 触发校验的时机（when to validate)
+                validateTrigger: 'change',
+                // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+                on: (editContext ) => ({
+                  onBlur: (ctx ) => {
+                    console.log('失去焦点', editContext);
+                    ctx?.e?.preventDefault();
+                  },
+                  onEnter: (ctx ) => {
+                    ctx?.e?.preventDefault();
+                    console.log('onEnter', ctx);
+                  },
+                  // 默认是否为编辑状态
+                  defaultEditable: true,
+                }),
+              }
+            })
+          }
+          
         })
         paramsColumns.push( colG );
       }else{
@@ -503,6 +523,7 @@ const makeTableFunc = ()=> {
         if ( item.key !== XM_raw_material_key  ){
           obj[item.key] = addDecimals(item.value, item.step,i,item.attribute_type)  ;
           obj[`${item.key }_id`] = item.id
+          console.log('-------524----obj----------',item.key,obj)
         }else{
           obj[item.key] = item.step ;
           obj[`${item.key }_id`] = item.id
@@ -512,6 +533,7 @@ const makeTableFunc = ()=> {
       
       obj['raw_material'] = item.raw_material 
       obj['technology'] = item.technology 
+      console.log('-------533----obj----------',obj)
     })
     console.log('------315----item------obj----------',obj)
     designResult.push(obj);

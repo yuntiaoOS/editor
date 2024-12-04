@@ -57,7 +57,7 @@ const transform: AxiosTransform = {
   // 请求前处理配置
   beforeRequestHook: (config, options) => {
     const { apiUrl, isJoinPrefix, urlPrefix, joinParamsToUrl, formatDate, joinTime = true } = options;
-    // console.log('---------------beforeRequestHook-----64-----', config,options);
+    console.log('---------------beforeRequestHook-----64-----', config,options);
     // 添加接口前缀
     if (isJoinPrefix && urlPrefix && isString(urlPrefix)) {
       config.url = `${urlPrefix}${config.url}`;
@@ -67,7 +67,7 @@ const transform: AxiosTransform = {
     if (apiUrl && isString(apiUrl)) {
       config.url = `${apiUrl}${config.url}`;
     }else{
-      config.url = `${localStorage.getItem('umo_domain')}${config.url}`;
+      config.url = `${localStorage.getItem('rzm_domain')}${config.url}`;
     }
     const params = config.params || {};
     const data = config.data || false;
@@ -116,7 +116,7 @@ const transform: AxiosTransform = {
   requestInterceptors: (config, options) => {
     // console.log('---------------requestInterceptors-----119-----', config,options);
     // 请求之前处理config
-    const token = localStorage.getItem('umo_token');
+    const token = localStorage.getItem('mzyc_token');
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
       // jwt token
       (config as Recordable).headers.Authorization = options.authenticationScheme
@@ -170,7 +170,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         // 配置项，下面的选项都可以在独立的接口请求中覆盖
         requestOptions: {
           // 接口地址
-          apiUrl: localStorage.getItem('umo_domain') ,
+          apiUrl: localStorage.getItem('rzm_domain') ,
           // 是否自动添加接口前缀
           isJoinPrefix: true,
           // 接口前缀

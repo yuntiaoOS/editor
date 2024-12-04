@@ -60,6 +60,7 @@ const buildConfig = {
     ],
     external: [
       'vue',
+      'tdesign-vue-next',
       ...Object.keys(pkg.dependencies ?? {}),
       /^@vueuse\/.*/,
       /^@tiptap\/.*/,

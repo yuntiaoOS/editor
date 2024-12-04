@@ -112,7 +112,29 @@ const getDesignParams = () => {
         }
       } else {
         if ( eleT.attribute_type === "compound"){
-          return {...eleT,step:{},check:true}
+          const customItems = {...eleT,step:{},check:true}
+          customItems.group = customItems.group.map(eleG=>{
+            if (eleG.key === XM_raw_material_key) {
+              return { 
+                ...eleG,step:'',check:true,
+                raw_material: selectTableForm.value.raw_material,
+                technology: selectTableForm.value.technology,
+                type: 'SelectPlus',
+                label: eleG.name,
+                value: eleG.id,
+                props: {
+                  ...eleG.props,
+                  labelKey: 'name',
+                  valueKey: 'id',
+                  options: material_table_data
+                },
+              }
+            } else {
+              return {...eleG }
+            }
+          })
+
+          return customItems
         }else{
           return {...eleT,step:'',check:true}
         }

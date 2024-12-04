@@ -10665,232 +10665,17 @@ const options = $ref({
       ]
     },
     experiment_theme: {
-      "id": "d43cde79-361c-4fb8-8f13-c781f2b8c630",
-      "modifier_name": "赵紫文",
+      "id": "3d21a2d3-df52-46b8-a5d3-48200318c576",
+      "modifier_name": "zzw",
       "dept_belong_id": null,
-      "creator_name": "赵紫文",
-      "create_datetime": "2024-11-27 16:09:41",
-      "update_datetime": "2024-11-27 16:09:41",
-      "is_collect": false,
-      "person_in_charge": {
-        "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-        "user_id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-        "name": "赵紫文",
-        "is_owner": true,
-        "avatar": "http://192.168.2.11:8002/media/avatar/e615457e-5102-43b2-a46f-34c7686affa0.png"
-      },
-      "participants": [
-        {
-          "id": "63aed191-f093-4e9d-b4ef-4a159ffa39381",
-          "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa39381",
-          "name": "白欣力",
-          "is_owner": true,
-          "avatar": "http://192.168.2.11:8002/media/avatar/abf0f9c664c6c4b3e4b0fbaf054c1db7_r9xK2Nq.png"
-        },
-        {
-          "id": "d56402a2-9c9a-4674-a682-e4086e884ac1",
-          "user_id": "d56402a2-9c9a-4674-a682-e4086e884ac1",
-          "name": "董鑫龙",
-          "is_owner": true,
-          "avatar": "http://192.168.2.11:8002/media/avatar/fd5195c8-96a4-4eae-b992-f69da4c8cb9f.png"
-        },
-        {
-          "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-          "user_id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-          "name": "赵紫文",
-          "is_owner": true,
-          "avatar": "http://192.168.2.11:8002/media/avatar/e615457e-5102-43b2-a46f-34c7686affa0.png"
-        }
-      ],
-      "description": "发多大的滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴",
-      "creator": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-      "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-      "name": "SY11271609",
-      "sn": "SN-1732694930231",
-      "icon": "/experiment/picture1.png",
-      "label": null,
-      "experiment_template": null,
-      "start_time": null,
-      "end_time": null,
-      "experiment_design": {
-        "type": "doc",
-        "content": [
-          {
-            "type": "xmTitleContent",
-            "attrs": {
-              "title": "试验目的：",
-              "content": "目的"
-            },
-            "content": [
-              {
-                "type": "heading",
-                "attrs": {
-                  "id": "elm5s8",
-                  "level": 2,
-                  "indent": null,
-                  "margin": {},
-                  "textAlign": "left",
-                  "lineHeight": 1.5,
-                  "data-toc-id": "elm5s8"
-                },
-                "content": [
-                  {
-                    "text": "试验目的：",
-                    "type": "text"
-                  }
-                ]
-              },
-              {
-                "type": "paragraph",
-                "attrs": {
-                  "indent": null,
-                  "margin": {},
-                  "textAlign": "left",
-                  "lineHeight": 1.5
-                },
-                "content": [
-                  {
-                    "text": "目的发的发错地方反反复复方法反反复复方法反反复复",
-                    "type": "text"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "attrs": {
-              "indent": null,
-              "margin": {},
-              "textAlign": "left",
-              "lineHeight": 1.5
-            }
-          },
-          {
-            "type": "xmTitleContent",
-            "attrs": {
-              "title": "试验背景：",
-              "content": "背景"
-            },
-            "content": [
-              {
-                "type": "heading",
-                "attrs": {
-                  "id": "h1tica",
-                  "level": 2,
-                  "indent": null,
-                  "margin": {},
-                  "textAlign": "left",
-                  "lineHeight": 1.5,
-                  "data-toc-id": "h1tica"
-                },
-                "content": [
-                  {
-                    "text": "试验背景：",
-                    "type": "text"
-                  }
-                ]
-              },
-              {
-                "type": "paragraph",
-                "attrs": {
-                  "indent": null,
-                  "margin": {},
-                  "textAlign": "left",
-                  "lineHeight": 1.5
-                },
-                "content": [
-                  {
-                    "text": "背景肥嘟嘟滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴滴",
-                    "type": "text"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "attrs": {
-              "indent": null,
-              "margin": {},
-              "textAlign": "left",
-              "lineHeight": 1.5
-            }
-          },
-          {
-            "type": "xmTitleContent",
-            "attrs": {
-              "title": "试验计划：",
-              "content": "计划"
-            },
-            "content": [
-              {
-                "type": "heading",
-                "attrs": {
-                  "id": "fsmq94",
-                  "level": 2,
-                  "indent": null,
-                  "margin": {},
-                  "textAlign": "left",
-                  "lineHeight": 1.5,
-                  "data-toc-id": "fsmq94"
-                },
-                "content": [
-                  {
-                    "text": "试验计划：",
-                    "type": "text"
-                  }
-                ]
-              },
-              {
-                "type": "paragraph",
-                "attrs": {
-                  "indent": null,
-                  "margin": {},
-                  "textAlign": "left",
-                  "lineHeight": 1.5
-                },
-                "content": [
-                  {
-                    "text": "计划地方反反复复方法反反复复方法反反复复方法反反复复方法反反复复方法反反复复方法",
-                    "type": "text"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "attrs": {
-              "indent": null,
-              "margin": {},
-              "textAlign": "left",
-              "lineHeight": 1.5
-            },
-            "content": [
-              {
-                "text": " ",
-                "type": "text"
-              }
-            ]
-          }
-        ]
-      },
-      "attachment": [],
-      "publish": false
-    },
-    experiment_record: {
-      "id": "b6be422d-defc-4b0f-b490-a321cb3c7aae",
-      "modifier_name": "赵紫文",
-      "dept_belong_id": null,
-      "creator_name": "赵紫文",
-      "create_datetime": "2024-11-27 16:10:18",
-      "update_datetime": "2024-11-27 16:10:18",
+      "creator_name": "zzw",
+      "create_datetime": "2024-12-02 15:53:03",
+      "update_datetime": "2024-12-02 15:53:03",
       "liked": false,
       "description": null,
-      "creator": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-      "modifier": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-      "title": "JL11271610",
+      "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+      "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+      "title": "JL120215520002",
       "sn": null,
       "start_time": null,
       "end_time": null,
@@ -10899,13 +10684,37 @@ const options = $ref({
       "version": 1,
       "document_attachments": null,
       "json_data": {},
-      "experiment_theme": "d43cde79-361c-4fb8-8f13-c781f2b8c630",
+      "experiment_theme": "27cb4fd5-7c15-43e3-a240-9ae2950ee85d",
+      "previous_record": null,
+      "catalog": null,
+      "experimenter": []
+    },
+    experiment_record: {
+      "id": "0e88c161-2c22-408b-9ff2-a2bf420d32f5",
+      "modifier_name": "zzw",
+      "dept_belong_id": null,
+      "creator_name": "zzw",
+      "create_datetime": "2024-12-02 15:29:43",
+      "update_datetime": "2024-12-02 16:01:48",
+      "liked": true,
+      "description": null,
+      "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+      "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+      "title": "JL120215290001",
+      "sn": "as546654654",
+      "start_time": "2024-12-19 00:00:00",
+      "end_time": "2024-12-29 00:00:00",
+      "experiment_design": null,
+      "sample_number": null,
+      "version": 1,
+      "document_attachments": null,
+      "experiment_theme": "27cb4fd5-7c15-43e3-a240-9ae2950ee85d",
       "previous_record": null,
       "catalog": null,
       "experimenter": []
     },
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMyODgzNTk0LCJpYXQiOjE3MzI3OTcxOTQsImp0aSI6ImRmNTljMWY3NGZlYzQ3NmU4NjIzNzJhZjU2OGJiNzM3IiwidXNlcl9pZCI6IjgyMThhNjYzLWU5YTYtNDNkNS1hMGYxLWQ2OGE1NTA5ZTM2NiJ9.kfuR4YI6m3VPh5SdsjO3UYO8-18IHd5Q9G-RP-hUeyw',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzMjEwMDA0LCJpYXQiOjE3MzMxMjM2MDQsImp0aSI6ImNlNTJiMmMzMTdhNjQ3MGFiZDBiMmMyMDQ3YmRlMDEyIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.O6kdLDaen0Sio3voz7qzL8HtZ3nz8NoOc8RGujtugBA',
   },
   document: {
     placeholder: '测试文档',
@@ -11846,80 +11655,56 @@ onMounted(() => {
       {
         "type": "raw_material_table",
         "attrs": {
-          "id": "96e44578-4fbc-4c2f-b169-4dd21a956721",
-          "key": "raw_material_table20241128163229",
-          "name": "8daae4ee-667d-45f1-b654-5047cfb12df9",
-          "title": "原材料202411281632",
+          "id": "91fd7651-a99c-423b-b96b-c8009feca660",
+          "updateTime": "2024-12-02 15:57:40",
+          "key": "raw_material_table20241202155516",
+          "name": "54755038-c6ed-4296-aa13-1538f918abd3",
           "isChanged": false,
           "change_log": {
-            "change_log": "8f339ca2-055d-47bf-bcde-4a380aabdc22"
+            "change_log": "e28addc2-508e-4048-9a2d-9a7cdca6f3ca"
           },
+          "is_integration": false,
           "table_data": [
             {
-              "id": "2c2c014c-9921-4099-a9e6-e083b31d4807",
-              "change_log": "8f339ca2-055d-47bf-bcde-4a380aabdc22",
-              "description": "1111111111111",
-              "experiment_material": "1b283a38-e9ee-4200-a7b8-0f339784ac29",
-              "experiment_material_sn": "SN-1732697561888",
-              "experiment_material_name": "YCL11271654",
-              "experiment_material_batch": "BT-1732697561889",
-              "experiment_material_price": "121.00",
-              "experiment_material_state": "",
-              "experiment_material_supplier": "发大水发大水好打"
-            },
-            {
-              "id": "3ed60682-fc12-4ee6-ab53-0e491bf0d8e6",
-              "change_log": "8f339ca2-055d-47bf-bcde-4a380aabdc22",
+              "id": "69b3bc27-c973-4abf-9d42-19390c86ca9a",
+              "change_log": "e28addc2-508e-4048-9a2d-9a7cdca6f3ca",
               "description": null,
-              "experiment_material": "e2955df2-ce1c-4b99-a479-c42f243cbd1e",
-              "experiment_material_sn": "SN-1732698345840",
-              "experiment_material_name": "YCL11271706",
-              "experiment_material_batch": "BT-1732698345840",
-              "experiment_material_price": "23.00",
+              "experiment_material": "bc9f8fa3-9e8e-4715-963f-55021ccd6c5d",
+              "experiment_material_sn": "SN-1733124324232",
+              "experiment_material_name": "YCL10021525",
+              "experiment_material_batch": "BT-1733124324233",
+              "experiment_material_price": "12.00",
               "experiment_material_state": "",
-              "experiment_material_supplier": "发生的"
+              "experiment_material_supplier": "多大的v好"
             },
             {
-              "id": "d0b82b8c-d463-4faf-be4a-1a45061fd600",
-              "change_log": "8f339ca2-055d-47bf-bcde-4a380aabdc22",
-              "description": "22222222222",
-              "experiment_material": "29fe4b98-8f29-42f2-86f7-ecea3ae02133",
-              "experiment_material_sn": "SN-1732698414654",
-              "experiment_material_name": "YCL11271707",
-              "experiment_material_batch": "BT-1732698414655",
-              "experiment_material_price": "23.00",
-              "experiment_material_state": "",
-              "experiment_material_supplier": "大哥的风格"
-            },
-            {
-              "id": "3c71bcce-d52f-4c65-b8c2-05c723601099",
-              "change_log": "8f339ca2-055d-47bf-bcde-4a380aabdc22",
+              "id": "d842f3d1-7a1a-4a0d-b846-3e04ca3592f8",
+              "change_log": "e28addc2-508e-4048-9a2d-9a7cdca6f3ca",
               "description": null,
-              "experiment_material": "81b6bf3a-e78c-4d53-be90-0d085ddb77ee",
-              "experiment_material_sn": "SN-1732700205432",
-              "experiment_material_name": "YCL11271737",
-              "experiment_material_batch": "BT-1732700205433",
+              "experiment_material": "a12ca520-d4d0-41e3-a2bf-ba6a3daeb70c",
+              "experiment_material_sn": "SN-1733124379373",
+              "experiment_material_name": "YCL12021526",
+              "experiment_material_batch": "BT-1733124379373",
               "experiment_material_price": "23.00",
-              "experiment_material_state": "Not-Started",
-              "experiment_material_supplier": "工地上干活fewfew"
+              "experiment_material_state": "",
+              "experiment_material_supplier": "大锅饭的师傅"
             }
           ],
-          "updateTime": "2024-11-28 16:34:29",
-          "is_integration": false
+          "title": "原材料202412021555"
         },
         "content": [
           {
             "type": "paragraph",
             "attrs": {
               "indent": null,
-              "margin": {},
               "textAlign": "left",
-              "lineHeight": 1.5
+              "lineHeight": 1.5,
+              "margin": {}
             },
             "content": [
               {
-                "text": " ",
-                "type": "text"
+                "type": "text",
+                "text": " "
               }
             ]
           }
@@ -11946,193 +11731,174 @@ onMounted(() => {
       {
         "type": "technology_table",
         "attrs": {
-          "id": "d6a3c38d-75e0-4c12-9a93-6c3c70b3ffbc",
-          "key": "technology_table20241128163229",
-          "name": "1c56ddec-bbb1-4ee7-ae51-7e000b6b3c85",
-          "title": "工艺202411281632",
+          "id": "20d764e8-3456-495d-a971-4d2fed2659d8",
+          "updateTime": "2024-12-02 15:58:25",
+          "key": "technology_table20241202155516",
+          "name": "4858bbbe-eb4c-494a-96a8-77c69652931b",
           "isChanged": false,
           "change_log": {
-            "change_log": "2b1f94f3-ad59-49cf-993c-32e8084455cb"
+            "change_log": "1035f8bb-b999-4416-9642-df4afc1aae6b"
           },
+          "is_integration": false,
           "table_data": [
-            {
-              "id": "26ab07bd-0052-4252-a141-e9ead28c4b91",
-              "children": [
-                {
-                  "id": "850b33ba-6a0f-4829-974b-0fb7a94a59b3",
-                  "key": "xm_raw_material",
-                  "name": "原材料",
-                  "type": "TextInput",
-                  "unit": null,
-                  "group": [],
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true
-                  },
-                  "value": "",
-                  "parent": "26ab07bd-0052-4252-a141-e9ead28c4b91",
-                  "duration": null,
-                  "attribute": 1,
-                  "step_name": "原材料",
-                  "step_type": "operation",
-                  "description": "",
-                  "attribute_type": "single"
-                },
-                {
-                  "id": "33c3a62a-1f40-4262-a513-16e1619ca7e1",
-                  "key": "wendu",
-                  "name": "温度",
-                  "type": "TextInput",
-                  "unit": "",
-                  "group": [],
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true,
-                    "textForSuffix": ""
-                  },
-                  "value": "34",
-                  "parent": "26ab07bd-0052-4252-a141-e9ead28c4b91",
-                  "duration": null,
-                  "attribute": 2,
-                  "step_name": "温度",
-                  "step_type": "operation",
-                  "description": "",
-                  "attribute_type": "single"
-                },
-                {
-                  "id": "50f94fe8-07d8-4358-a263-4a9e099beec8",
-                  "key": "zhuanshu",
-                  "name": "转速",
-                  "type": "TextInput",
-                  "unit": null,
-                  "group": [],
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true
-                  },
-                  "value": "234",
-                  "parent": "26ab07bd-0052-4252-a141-e9ead28c4b91",
-                  "duration": null,
-                  "attribute": 3,
-                  "step_name": "转速",
-                  "step_type": "operation",
-                  "description": "",
-                  "attribute_type": "single"
-                }
-              ],
-              "duration": null,
-              "sequence": 0,
-              "step_name": "风度书房",
-              "step_type": "processes",
-              "description": ""
-            },
-            {
-              "id": "33cf6af8-de55-42d2-8f3c-78a99d223f09",
-              "children": [
-                {
-                  "id": "833694cd-ef1c-4b84-bc22-b06e6ed10d4b",
-                  "key": "shidu",
-                  "name": "湿度",
-                  "type": "TextInput",
-                  "unit": null,
-                  "group": [],
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true
-                  },
-                  "value": "34",
-                  "parent": "33cf6af8-de55-42d2-8f3c-78a99d223f09",
-                  "duration": null,
-                  "attribute": 4,
-                  "step_name": "湿度",
-                  "step_type": "operation",
-                  "description": "",
-                  "attribute_type": "single"
-                },
-                {
-                  "id": "194f0bbe-8f8f-410c-862e-787d02f98ce1",
-                  "key": "wenshidu",
-                  "name": "温湿度",
-                  "type": "",
-                  "unit": null,
-                  "group": [
-                    {
-                      "id": 2,
-                      "key": "wendu",
-                      "name": "温度",
-                      "type": "TextInput",
-                      "unit": "",
-                      "props": {
-                        "abstract": false,
-                        "required": false,
-                        "enableScan": false,
-                        "enablePrint": true,
-                        "textForSuffix": ""
-                      },
-                      "value": null,
-                      "attribute_type": "single"
-                    },
-                    {
-                      "id": 4,
-                      "key": "shidu",
-                      "name": "湿度",
-                      "type": "TextInput",
-                      "unit": null,
-                      "props": {
-                        "abstract": false,
-                        "required": false,
-                        "enableScan": false,
-                        "enablePrint": true
-                      },
-                      "value": null,
-                      "attribute_type": "single"
-                    }
-                  ],
-                  "props": {},
-                  "value": {
-                    "shidu": "56",
-                    "wendu": "23"
-                  },
-                  "parent": "33cf6af8-de55-42d2-8f3c-78a99d223f09",
-                  "duration": null,
-                  "attribute": 5,
-                  "step_name": "温湿度",
-                  "step_type": "operation",
-                  "description": "",
-                  "attribute_type": "compound"
-                }
-              ],
-              "duration": null,
-              "sequence": 1,
-              "step_name": "刮胡刀刮",
-              "step_type": "processes",
-              "description": ""
-            }
+            // {
+            //   "id": "9a2ca879-01e5-49be-a149-638df6a5141f",
+            //   "children": [
+            //     {
+            //       "id": "e77bb240-f335-440b-aecc-68e18bacb65f",
+            //       "key": "wendu",
+            //       "name": "温度",
+            //       "type": "TextInput",
+            //       "unit": "C",
+            //       "group": [],
+            //       "props": {
+            //         "abstract": false,
+            //         "required": false,
+            //         "enableScan": false,
+            //         "enablePrint": true,
+            //         "textForSuffix": "C"
+            //       },
+            //       "value": "32",
+            //       "parent": "9a2ca879-01e5-49be-a149-638df6a5141f",
+            //       "duration": null,
+            //       "attribute": 1,
+            //       "step_name": "温度",
+            //       "step_type": "operation",
+            //       "description": "",
+            //       "attribute_type": "single"
+            //     },
+            //     {
+            //       "id": "32606429-c501-46d6-b9b2-ec3fedec0a3d",
+            //       "key": "xm_raw_material",
+            //       "name": "原材料",
+            //       "type": "TextInput",
+            //       "unit": "g",
+            //       "group": [],
+            //       "props": {
+            //         "abstract": false,
+            //         "required": false,
+            //         "enableScan": false,
+            //         "enablePrint": true,
+            //         "textForSuffix": "g"
+            //       },
+            //       "value": "",
+            //       "parent": "9a2ca879-01e5-49be-a149-638df6a5141f",
+            //       "duration": null,
+            //       "attribute": 4,
+            //       "step_name": "原材料",
+            //       "step_type": "operation",
+            //       "description": "",
+            //       "attribute_type": "single"
+            //     }
+            //   ],
+            //   "duration": null,
+            //   "sequence": 0,
+            //   "step_name": "地方撒",
+            //   "step_type": "processes",
+            //   "description": ""
+            // },
+            // {
+            //   "id": "5e217796-a499-4f50-aec3-f862e326cf1e",
+            //   "children": [
+            //     {
+            //       "id": "edf7664d-0625-4fe6-9947-0792164b33ff",
+            //       "key": "sidu",
+            //       "name": "湿度",
+            //       "type": "TextInput",
+            //       "unit": "w",
+            //       "group": [],
+            //       "props": {
+            //         "abstract": false,
+            //         "required": false,
+            //         "enableScan": false,
+            //         "enablePrint": true,
+            //         "textForSuffix": "w"
+            //       },
+            //       "value": "34",
+            //       "parent": "5e217796-a499-4f50-aec3-f862e326cf1e",
+            //       "duration": null,
+            //       "attribute": 2,
+            //       "step_name": "湿度",
+            //       "step_type": "operation",
+            //       "description": "",
+            //       "attribute_type": "single"
+            //     },
+            //     {
+            //       "id": "fe37ce5f-39c6-475f-847b-2dea1eaeae61",
+            //       "key": "wensidu",
+            //       "name": "温湿度",
+            //       "type": "",
+            //       "unit": null,
+            //       "group": [
+            //         {
+            //           "id": 1,
+            //           "key": "wendu",
+            //           "name": "温度",
+            //           "type": "TextInput",
+            //           "unit": "C",
+            //           "props": {
+            //             "abstract": false,
+            //             "required": false,
+            //             "enableScan": false,
+            //             "enablePrint": true,
+            //             "textForSuffix": "C"
+            //           },
+            //           "value": null,
+            //           "attribute_type": "single"
+            //         },
+            //         {
+            //           "id": 2,
+            //           "key": "sidu",
+            //           "name": "湿度",
+            //           "type": "TextInput",
+            //           "unit": "w",
+            //           "props": {
+            //             "abstract": false,
+            //             "required": false,
+            //             "enableScan": false,
+            //             "enablePrint": true,
+            //             "textForSuffix": "w"
+            //           },
+            //           "value": null,
+            //           "attribute_type": "single"
+            //         }
+            //       ],
+            //       "props": {},
+            //       "value": {
+            //         "sidu": "34",
+            //         "wendu": "12"
+            //       },
+            //       "parent": "5e217796-a499-4f50-aec3-f862e326cf1e",
+            //       "duration": null,
+            //       "attribute": 3,
+            //       "step_name": "温湿度",
+            //       "step_type": "operation",
+            //       "description": "",
+            //       "attribute_type": "compound"
+            //     }
+            //   ],
+            //   "duration": null,
+            //   "sequence": 1,
+            //   "step_name": "刮胡刀刮",
+            //   "step_type": "processes",
+            //   "description": ""
+            // }
           ],
-          "updateTime": "2024-11-28 16:36:23",
-          "is_integration": false
+          "title": "工艺202412021555"
         },
         "content": [
           {
             "type": "paragraph",
             "attrs": {
               "indent": null,
-              "margin": {},
               "textAlign": "left",
-              "lineHeight": 1.5
+              "lineHeight": 1.5,
+              "margin": {}
             },
             "content": [
               {
-                "text": " ",
-                "type": "text"
+                "type": "text",
+                "text": " "
               }
             ]
           }
@@ -12148,6 +11914,34 @@ onMounted(() => {
         }
       },
       {
+        "type": "image",
+        "attrs": {
+            "nodeAlign": "center",
+            "margin": {},
+            "vnode": true,
+            "id": "f5b4ce40-77a8-482f-b19f-ac0c57ec21ce",
+            "type": "image/svg+xml",
+            "name": "carbon--chart-evaluation.svg",
+            "size": 308,
+            "file": null,
+            "src": "files/ingredient_dev/9/c/9c5a55821c8c2d2dc34cd1d130472eb5_7eqYdVc.svg",
+            "content": null,
+            "width": "794.00",
+            "height": 200,
+            "left": 0,
+            "top": 0,
+            "angle": null,
+            "draggable": false,
+            "rotatable": false,
+            "equalProportion": true,
+            "flipX": false,
+            "flipY": false,
+            "uploaded": true,
+            "error": true,
+            "previewType": "image"
+        }
+      },
+      {
         "type": "paragraph",
         "attrs": {
           "indent": null,
@@ -12155,6 +11949,266 @@ onMounted(() => {
           "textAlign": "left",
           "lineHeight": 1.5
         }
+      },
+      {
+        "type": "table",
+        "attrs": {
+          "margin": {}
+        },
+        "content": [
+          {
+            "type": "tableRow",
+            "content": [
+              {
+                "type": "tableHeader",
+                "attrs": {
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "colwidth": null,
+                  "align": null,
+                  "backgroundColor": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "attrs": {
+                      "indent": null,
+                      "textAlign": "left",
+                      "lineHeight": 1.5,
+                      "margin": {}
+                    },
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "vdsv"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tableHeader",
+                "attrs": {
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "colwidth": null,
+                  "align": null,
+                  "backgroundColor": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "attrs": {
+                      "indent": null,
+                      "textAlign": "left",
+                      "lineHeight": 1.5,
+                      "margin": {}
+                    },
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "vdsvds"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tableHeader",
+                "attrs": {
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "colwidth": null,
+                  "align": null,
+                  "backgroundColor": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "attrs": {
+                      "indent": null,
+                      "textAlign": "left",
+                      "lineHeight": 1.5,
+                      "margin": {}
+                    },
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "vdsvds"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "tableRow",
+            "content": [
+              {
+                "type": "tableCell",
+                "attrs": {
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "colwidth": null,
+                  "align": null,
+                  "backgroundColor": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "attrs": {
+                      "indent": null,
+                      "textAlign": "left",
+                      "lineHeight": 1.5,
+                      "margin": {}
+                    },
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "vdsvd"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tableCell",
+                "attrs": {
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "colwidth": null,
+                  "align": null,
+                  "backgroundColor": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "attrs": {
+                      "indent": null,
+                      "textAlign": "left",
+                      "lineHeight": 1.5,
+                      "margin": {}
+                    },
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "vds"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tableCell",
+                "attrs": {
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "colwidth": null,
+                  "align": null,
+                  "backgroundColor": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "attrs": {
+                      "indent": null,
+                      "textAlign": "left",
+                      "lineHeight": 1.5,
+                      "margin": {}
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "tableRow",
+            "content": [
+              {
+                "type": "tableCell",
+                "attrs": {
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "colwidth": null,
+                  "align": null,
+                  "backgroundColor": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "attrs": {
+                      "indent": null,
+                      "textAlign": "left",
+                      "lineHeight": 1.5,
+                      "margin": {}
+                    },
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "vdsvd"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tableCell",
+                "attrs": {
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "colwidth": null,
+                  "align": null,
+                  "backgroundColor": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "attrs": {
+                      "indent": null,
+                      "textAlign": "left",
+                      "lineHeight": 1.5,
+                      "margin": {}
+                    },
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "vdsvds"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tableCell",
+                "attrs": {
+                  "colspan": 1,
+                  "rowspan": 1,
+                  "colwidth": null,
+                  "align": null,
+                  "backgroundColor": null
+                },
+                "content": [
+                  {
+                    "type": "paragraph",
+                    "attrs": {
+                      "indent": null,
+                      "textAlign": "left",
+                      "lineHeight": 1.5,
+                      "margin": {}
+                    },
+                    "content": [
+                      {
+                        "type": "text",
+                        "text": "vdsvd"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       },
       {
         "type": "paragraph",
@@ -14706,10 +14760,9 @@ onMounted(() => {
 
 </script>
 
-<style>
+<style scoped>
 .box {
-  margin: 40px;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 0px);
   box-sizing: border-box;
   position: relative;
 }

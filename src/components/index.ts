@@ -9,6 +9,10 @@ import UmoTooltip from './tooltip.vue'
 
 import UmoSimpleEditor from './editor/simple.vue'
 
+import technologyTable from './technology-table.vue'
+
+import technologyTableNodeView from './technology-table-node-view.vue'
+
 const useUmoEditor = {
   install: (app: any, options: UmoEditorOptions) => {
     // 组件配置
@@ -17,6 +21,8 @@ const useUmoEditor = {
     // 使用组件
     app.component(UmoEditor.name ?? 'UmoEditor instance', UmoEditor)
     app.component(UmoSimpleEditor.name ?? 'UmoSimpleEditor', UmoSimpleEditor)
+    app.component('technologyTable', technologyTable)
+    app.component("technologyTableNodeView",technologyTableNodeView)
   },
 }
 
@@ -27,5 +33,7 @@ export {
   UmoMenuButton,
   UmoTooltip,
   useUmoEditor,
+  technologyTable,
   UmoSimpleEditor,
+  technologyTableNodeView
 }

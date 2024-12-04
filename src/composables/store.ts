@@ -68,11 +68,13 @@ export const useStore = createGlobalState(() => {
     if (!$locale.value) {
       $locale.value = options.value.locale
     }
-
-    // 若有 requestOptions，则需要在此处存储 requestOptions umo_domain 和 umo_token 到 store 中
+    const {editorKey} = options.value
+    localStorage.setItem('editorKey', editorKey)
+    // TODO: 数据存储改为 localStorage.setItem(`${editorKey}:rzm_domain`, options.value.requestOptions.rzm_domain)，便于区分不同编辑器
+    // 若有 requestOptions，则需要在此处存储 requestOptions rzm_domain 和 umo_token 到 store 中
     if (options.value.requestOptions) {
-      localStorage.setItem('umo_domain', options.value.requestOptions.umo_domain)
-      localStorage.setItem('umo_token', options.value.requestOptions.umo_token )
+      if (options.value.requestOptions.umo_domain) localStorage.setItem('rzm_domain', options.value.requestOptions.umo_domain)
+      if (options.value.requestOptions.umo_token) localStorage.setItem('mzyc_token', options.value.requestOptions.umo_token )
       localStorage.setItem('dict_data', JSON.stringify(options.value.requestOptions.dict_data)  )
       localStorage.setItem('key_data', JSON.stringify({
         experiment_theme: options.value.requestOptions.experiment_theme,

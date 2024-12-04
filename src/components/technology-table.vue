@@ -7,7 +7,7 @@
       <template #topContent>
         <div style="padding: 6px 0;display: block;">
           <t-space>
-            <t-input v-model="_title" label="名称：" size="large" autofocus autoWidth borderless />
+            <t-input v-model="_title" label="名称：" size="large" placeholder="请输入名称" autofocus autoWidth borderless style="min-width: 120px;" />
             <t-space>
               <!-- <t-input  v-if="false" v-model="searchTitle" auto-width placeholder="请输入工艺步骤名称" /> -->
               <t-button variant="outline" @click="onAddWorkingProcedure">添加工艺步骤</t-button>
@@ -87,8 +87,6 @@
 </template>
 
 <script setup lang="jsx">
-import { getProcesses_attributeListFetch,get_experiment_processListFetch,post_experiment_process_fetch } from '@/api/experiment'
-
 import {
   ChevronRightIcon,
   ChevronDownIcon,
@@ -98,9 +96,8 @@ import {
 } from 'tdesign-icons-vue-next';
  
 import { Loading } from 'tdesign-vue-next';
-import { getIngredient_dev_materialListFetch } from '@/api/material'
 import { v4 as uuid } from 'uuid'
-
+import { getProcesses_attributeListFetch } from '@/api/experiment'
 const emits = defineEmits(['update:modelValue', 'update:title'])
 
 const props = defineProps({
@@ -110,14 +107,26 @@ const props = defineProps({
   }, 
   title: {
     type: String,
-    default: () => '',
-  }
+    default: () => '请输入名称',
+  },
+  viewType: {
+    type: String,
+    default: 'nodeView',
+  },
+  childrenKey: {
+    type: String,
+    default: 'children',
+  },
+  getAttributesFunction: {
+    type: Function,
+    default: getProcesses_attributeListFetch,
+  },
 });
 
 const table_data = computed({
   get() {
     if (operationOptionSelect.value.length > 0 && props.modelValue.length > 0 ) {
-      const operations = props.modelValue.filter(ele=> ele.children&& ele.children.length > 0 ).map(ele=> ele.children)
+      const operations = props.modelValue.filter(ele=> ele[props.childrenKey]&& ele[props.childrenKey].length > 0 ).map(ele=> ele[props.childrenKey])
       if (operations.length > 0) {
         const ids = operations.reduce((a, b) => a.concat(b)).map(ele=> ele.attribute)
         operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
@@ -170,7 +179,7 @@ const renderStepIcon = () => {
   return <t-icon name="map-connection" />;
 };
 const renderOperationIcon = () => {
-  return <t-icon name="adjustment" />;
+  return <t-icon name="adjustment" size="30px" />;
 };
 const renderArrowUp = () => {
   return <t-icon name="arrow-left-up" />;
@@ -242,7 +251,7 @@ const onProcedureConfirmFunc = async () => {
       id: uuid(),
       step_name: dialog_input.value,
       step_type: 'processes',
-      children: [],
+      [props.childrenKey]: [],
       description: '',
       sequence: table_data.value.length
     }
@@ -264,7 +273,7 @@ const onProcedureConfirmFunc = async () => {
 }
 const onOperationConfirmFunc = async () => {
   if (dialog_select.value !== '' && dialog_select.value.length > 0) {
-    const listArr = table_data.value.map(ele => ele.children ? ele.children.map(eleL=>eleL.id) : [] )
+    const listArr = table_data.value.map(ele => ele[props.childrenKey] ? ele[props.childrenKey].map(eleL=>eleL.id) : [] )
     let keysArr = []
     if (listArr && listArr.length > 0) {
       keysArr = listArr.reduce((a, b) => a.concat(b))
@@ -279,9 +288,15 @@ const onOperationConfirmFunc = async () => {
         ...itemO,
         step_name: itemO.name,
         step_type: 'operation',
+        type: itemO.key === "xm_raw_material" ? 'VueContainer' :itemO.type,
         parent: parent,
         value: itemO.attribute_type === "compound" ? {} : '',
         description: ''
+      }
+      if (obj.attribute_type === "compound") {
+        obj.group = obj.group.map(ele=>{
+          return {...ele,type: ele.key === "xm_raw_material" ? 'VueContainer' :ele.type }
+        })
       }
       objS.push( obj )
     })
@@ -301,7 +316,7 @@ const onOperationConfirmFunc = async () => {
 };
 
 const getOperationOptionFunc = async (page=1) => {
-  const res = await getProcesses_attributeListFetch({page,limit:9999})
+  const res = await props.getAttributesFunction({page,limit:9999})
   console.log(res, '-------------2243------------operationOption.value')
   if (res.data.code === 2000) {
     if (page === 1) {
@@ -317,7 +332,7 @@ const getOperationOptionFunc = async (page=1) => {
     console.log(operationOption.value, '-------------250------------operationOption.value',table_data.value)
     
     if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
-      const operations = table_data.value.filter(ele=> ele.children&& ele.children.length > 0 ).map(ele=> ele.children)
+      const operations = table_data.value.filter(ele=> ele[props.childrenKey]&& ele[props.childrenKey].length > 0 ).map(ele=> ele[props.childrenKey])
       if (operations.length > 0) {
         const ids = operations.reduce((a, b) => a.concat(b)).map(ele=> ele.attribute)
         operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
@@ -336,7 +351,7 @@ function updateTableData(tableData, newRowData) {
     if (newRowData.step_type === 'operation' && row.id === newRowData.parent) {
       console.log('---------tableData---305------',row)
       // 替换 children 属性中 id 相等的这一条数据
-      row.children = row.children.map(listItem => {
+      row[props.childrenKey] = row[props.childrenKey].map(listItem => {
         if (listItem.id === newRowData.id) {
           return newRowData;
         }
@@ -521,17 +536,17 @@ const columns = ref([
   },
   {
     colKey: 'operate',
-    width: 120,
+    width: 180,
     title: '操作',
     // 增、删、改、查 等操作
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     cell: (h, { row }) => (
       <div class="tdesign-table-demo__table-operations">
         {row.step_type === "processes" && (
-          <t-button title="插入操作" shape="square" variant="text" icon={renderOperationIcon}  onClick={(event) =>{event.stopPropagation();  appendTo(row)} }></t-button>
+          <t-button title="插入操作" theme="primary" onClick={(event) =>{event.stopPropagation();  appendTo(row)} }>插入操作</t-button>
         )}
-        <t-button title="前插步骤" shape="square" variant="text" icon={renderArrowUp}  onClick={(event) =>{event.stopPropagation();  insertBefore(row)} }></t-button>
-        <t-button title="后插步骤" shape="square" variant="text" icon={renderArrowDown}  onClick={(event) =>{event.stopPropagation();  insertAfter(row)} }></t-button>
+        <t-button title="前插步骤" disabled shape="square" variant="text" icon={renderArrowUp}  onClick={(event) =>{event.stopPropagation();  insertBefore(row)} }></t-button>
+        <t-button title="后插步骤" disabled shape="square" variant="text" icon={renderArrowDown}  onClick={(event) =>{event.stopPropagation();  insertAfter(row)} }></t-button>
         <t-popconfirm content="确认删除吗" onConfirm={() => onDeleteConfirm(row) }>
           <t-button title="删除" theme="danger" shape="square" variant="text" icon={renderDelete} ></t-button>
         </t-popconfirm>
@@ -561,7 +576,7 @@ const lazyLoadingData = ref(null);
 // 非必须，如果不传，表格有内置树形节点展开逻辑
 const expandedTreeNodes = ref([]);
 const treeConfig = reactive({
-  childrenKey: 'children',
+  childrenKey: props.childrenKey,
   treeNodeColumnIndex: 1,
   indent: 25,
   expandTreeNodeOnClick: true,
@@ -708,7 +723,7 @@ const getTreeNode= () => {
   setTimeout(() => {
     console.log('---------575-----onDeleteConfirm-------',table_data.value,operationOptionSelect.value)
     if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
-      const operations = table_data.value.filter(ele=> ele.children&& ele.children.length > 0 ).map(ele=> ele.children)
+      const operations = table_data.value.filter(ele=> ele[props.childrenKey]&& ele[props.childrenKey].length > 0 ).map(ele=> ele[props.childrenKey])
       if (operations.length > 0) {
         const ids = operations.reduce((a, b) => a.concat(b)).map(ele=> ele.attribute)
         operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
@@ -718,6 +733,9 @@ const getTreeNode= () => {
     }
   },100)
   // TMessagePlugin.success('树形结构获取成功，请打开控制台查看');
+  setTimeout(() => {
+    tableRef.value.expandAll()
+  }, 100);
 };
 
 const onExpandedTreeNodesChange = (expandedTreeNodes, context) => {
@@ -728,20 +746,6 @@ const onExpandedTreeNodesChange = (expandedTreeNodes, context) => {
 };
 const onTreeExpandChange = (context ) => {
   console.log('------491-------',context.rowState.expanded ? '展开' : '收起', context);
-  /**
-   * 如果是懒加载，请确认自己完成了以下几个步骤
-   * 1. 提前设置 children 值为 true；
-   * 2. 在 onTreeExpandChange 事件中处理异步数据；
-   * 3. 自定义展开图标渲染 lazyLoadingTreeIconRender
-   */
-  if (context.row.children === true) {
-    lazyLoadingData.value = context.row;
-    const timer = setTimeout(() => {
-      appendMultipleDataTo(context.row);
-      lazyLoadingData.value = null;
-      clearTimeout(timer);
-    }, 200);
-  }
 }; 
 const treeExpandIcon = computed(() => {
   // 自定义展开图标
@@ -752,6 +756,7 @@ const treeExpandIcon = computed(() => {
 });
  
 onMounted(async () => {
+  tableRef.value.expandAll()
 })
 
 </script>
