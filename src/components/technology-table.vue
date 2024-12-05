@@ -2,12 +2,12 @@
   <div style="width: 100%">
     <!-- <h2>工艺</h2> -->
     <t-enhanced-table ref="tableRef" v-model:expandedTreeNodes="expandedTreeNodes" :tree-expand-and-fold-icon="treeExpandIcon" 
-      row-key="id" :data="table_data" :columns="columns" resizable :tree="treeConfig" :editable-cell-state="editableCellStateFunc"
+      :row-key="rowKey" :data="table_data" :columns="columns" resizable :tree="treeConfig" :editable-cell-state="editableCellStateFunc"
        @expanded-tree-nodes-change="onExpandedTreeNodesChange" >
       <template #topContent>
         <div style="padding: 6px 0;display: block;">
           <t-space>
-            <t-input v-model="_title" label="名称：" size="large" placeholder="请输入名称" autofocus autoWidth borderless style="min-width: 120px;" />
+            <t-input v-model="_title" label="名称：" size="large" placeholder="请输入名称" autofocus autoWidth borderless style="min-width: 250px;" />
             <t-space>
               <!-- <t-input  v-if="false" v-model="searchTitle" auto-width placeholder="请输入工艺步骤名称" /> -->
               <t-button variant="outline" @click="onAddWorkingProcedure">添加工艺步骤</t-button>
@@ -17,13 +17,21 @@
         </div>
       </template>
       <template #defaultValueSlot="slotProps">
-        <div v-if="slotProps.row.step_type === 'processes' || slotProps.row.key === 'xm_raw_material' " style="bottom: 0px;position: absolute;line-height: 38px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
+        <div v-if="slotProps.row.step_type === 'processes' || slotProps.row.key.includes( 'xm_raw_material') " style="bottom: 0px;position: absolute;line-height: 38px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
         <span v-else-if="slotProps.row.attribute_type ">
           <div v-if="slotProps.row.attribute_type === 'single'" >
             <xm-input v-model="slotProps.row.value" :config="slotProps.row" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
           </div>
           <div v-else>
-            <xm-form ref="xmformRef" v-model:form-data="slotProps.row.value" :config="getConfig('form',slotProps.row)" :showSubmitBtn="false"/>
+            <div v-if="slotProps.row.multiple">
+              <div v-for="(item, index) in slotProps.row.value" :key="index" style="margin-bottom: 8px;">
+                <xm-form :ref="(el) => setActiveItemRef(groupIndex, el)" v-model:form-data="slotProps.row.value[index]" :config="getConfig('form',slotProps.row)" :showSubmitBtn="false"/>
+              </div>
+              <t-button @click.stop="slotProps.row.value.push({})">添加</t-button>
+            </div>
+            <div v-else>
+              <xm-form :ref="(el) => setActiveItemRef(0, el)" v-model:form-data="slotProps.row.value" :config="getConfig('form',slotProps.row)" :showSubmitBtn="false"/>
+            </div>
           </div>
         </span>
       </template>
@@ -41,7 +49,7 @@
       :options="operationOptionSelect"
       filterable destroyOnClose
       multiple
-      :keys="{ label: 'name', value: 'id',disabled: 'disabled'}"  
+      :keys="{ label: 'name', value: 'id',disabled: 'disabled1'}"  
       placeholder="请选择操作"
       :scroll="{type: 'virtual'}"  
       :popup-props="{ overlayInnerStyle: { height: '300px' } }"  
@@ -94,7 +102,7 @@ import {
   AddRectangleIcon,
   MinusRectangleIcon,
 } from 'tdesign-icons-vue-next';
- 
+ import { shortId } from '@/utils/short-id'
 import { Loading } from 'tdesign-vue-next';
 import { v4 as uuid } from 'uuid'
 import { getProcesses_attributeListFetch } from '@/api/experiment'
@@ -108,6 +116,10 @@ const props = defineProps({
   title: {
     type: String,
     default: () => '请输入名称',
+  },
+  editor: {
+    type: Object,
+    default: () => {}
   },
   viewType: {
     type: String,
@@ -125,15 +137,15 @@ const props = defineProps({
 
 const table_data = computed({
   get() {
-    if (operationOptionSelect.value.length > 0 && props.modelValue.length > 0 ) {
-      const operations = props.modelValue.filter(ele=> ele[props.childrenKey]&& ele[props.childrenKey].length > 0 ).map(ele=> ele[props.childrenKey])
-      if (operations.length > 0) {
-        const ids = operations.reduce((a, b) => a.concat(b)).map(ele=> ele.attribute)
-        operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
-      }
-    }else if (props.modelValue.length === 0) {
-      operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: false } ))
-    }
+    // if (operationOptionSelect.value.length > 0 && props.modelValue.length > 0 ) {
+    //   const operations = props.modelValue.filter(ele=> ele[props.childrenKey]&& ele[props.childrenKey].length > 0 ).map(ele=> ele[props.childrenKey])
+    //   if (operations.length > 0) {
+    //     const ids = operations.reduce((a, b) => a.concat(b)).map(ele=> ele.attribute)
+    //     operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
+    //   }
+    // }else if (props.modelValue.length === 0) {
+    //   operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: false } ))
+    // }
     return props.modelValue || []
   },
   set(val) {
@@ -149,6 +161,27 @@ const _title = computed({
     emits('update:title', val);
   },
 });
+
+const raw_materialOptions = ref([])
+
+const contentRatioRefs = ref([])
+const setActiveItemRef = (index,el) => {
+  contentRatioRefs.value[index] = el
+}
+
+const get_raw_materialOptionsFunc = () => {
+  const docD = props.editor.getJSON()
+  if (docD) {
+    // 原材料表
+    const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
+    if (raw_material_tables.length === 0) {
+      TMessagePlugin.warning('请先创建原材料表')
+      return  // 原材料表不存在，返回
+    }
+    raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
+  }
+  console.log('-------------176---raw_materialOptions.value---------',raw_materialOptions.value)
+}
 
 const { options ,editedComponentType} = useStore()
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
@@ -201,7 +234,7 @@ const columnsCheckboxs = ref([])
 
 const displayColumns = ref([]);
 const displayColumnsC = ref([]);
-displayColumns.value = ['serial-number', 'step_name', 'step_type', 'attributes', 'description', 'operate']
+displayColumns.value = ['serial-number', 'name', 'step_type', 'attributes', 'description', 'operate']
 
 const selectOperationRow = ref(null)
 const selectProcedureRow = ref(null)
@@ -249,20 +282,21 @@ const onProcedureConfirmFunc = async () => {
   if (dialog_input.value.length > 0) {
     const obj  = {
       id: uuid(),
-      step_name: dialog_input.value,
+      name: dialog_input.value,
       step_type: 'processes',
       [props.childrenKey]: [],
+      key: uuid(),
       description: '',
       sequence: table_data.value.length
     }
 
     await nextTick()
     if (selectProcedureType.value === 'append') {
-      tableRef.value.appendTo( selectProcedureRow.value ? selectProcedureRow.value.id : '', obj);
+      tableRef.value.appendTo( selectProcedureRow.value ? selectProcedureRow.value[rowKey] : '', obj);
     }else if (selectProcedureType.value === 'insertBefore') {
-      tableRef.value.insertBefore(selectProcedureRow.value ? selectProcedureRow.value.id: '', obj);
+      tableRef.value.insertBefore(selectProcedureRow.value ? selectProcedureRow.value[rowKey]: '', obj);
     }else if (selectProcedureType.value === 'insertAfter') {
-      tableRef.value.insertAfter(selectProcedureRow.value ? selectProcedureRow.value.id: '', obj);
+      tableRef.value.insertAfter(selectProcedureRow.value ? selectProcedureRow.value[rowKey]: '', obj);
     }
     procedureVisible.value = false
     getTreeNode()
@@ -273,29 +307,37 @@ const onProcedureConfirmFunc = async () => {
 }
 const onOperationConfirmFunc = async () => {
   if (dialog_select.value !== '' && dialog_select.value.length > 0) {
-    const listArr = table_data.value.map(ele => ele[props.childrenKey] ? ele[props.childrenKey].map(eleL=>eleL.id) : [] )
+    const listArr = table_data.value.map(ele => ele[props.childrenKey] ? ele[props.childrenKey].map(eleL=>eleL[rowKey]) : [] )
     let keysArr = []
     if (listArr && listArr.length > 0) {
       keysArr = listArr.reduce((a, b) => a.concat(b))
     }
     const itemOs = operationOption.value.filter(item => dialog_select.value.includes(item.id) && !keysArr.includes(item.id))
-    const parent = selectOperationRow.value.step_type === 'processes' ? selectOperationRow.value.id : selectOperationRow.value.parent
+    const parent = selectOperationRow.value.step_type === 'processes' ? selectOperationRow.value.key : selectOperationRow.value.parent
     
     console.log('--------197---------keys: ',parent, itemOs,keysArr)
     let objS = []
     itemOs.forEach(itemO =>{
+      let valueC = ''
+      if (itemO.attribute_type === "compound") {
+        if (itemO.multiple) {
+          valueC = [{}]
+        } else {
+          valueC = {}
+        }
+      }
       const obj  = {
         ...itemO,
-        step_name: itemO.name,
         step_type: 'operation',
-        type: itemO.key === "xm_raw_material" ? 'VueContainer' :itemO.type,
+        type: itemO.key.includes( 'xm_raw_material') ? 'VueContainer' :itemO.type,
         parent: parent,
-        value: itemO.attribute_type === "compound" ? {} : '',
+        key: itemO.key + '-' + shortId(),
+        value: valueC,
         description: ''
       }
       if (obj.attribute_type === "compound") {
         obj.group = obj.group.map(ele=>{
-          return {...ele,type: ele.key === "xm_raw_material" ? 'VueContainer' :ele.type }
+          return {...ele,type: ele.key.includes( 'xm_raw_material') ? 'VueContainer' :ele.type }
         })
       }
       objS.push( obj )
@@ -331,15 +373,15 @@ const getOperationOptionFunc = async (page=1) => {
     
     console.log(operationOption.value, '-------------250------------operationOption.value',table_data.value)
     
-    if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
-      const operations = table_data.value.filter(ele=> ele[props.childrenKey]&& ele[props.childrenKey].length > 0 ).map(ele=> ele[props.childrenKey])
-      if (operations.length > 0) {
-        const ids = operations.reduce((a, b) => a.concat(b)).map(ele=> ele.attribute)
-        operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
-      }
-    }else if (table_data.value.length === 0) {
-      operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: false } ))
-    }
+    // if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
+    //   const operations = table_data.value.filter(ele=> ele[props.childrenKey]&& ele[props.childrenKey].length > 0 ).map(ele=> ele[props.childrenKey])
+    //   if (operations.length > 0) {
+    //     const ids = operations.reduce((a, b) => a.concat(b)).map(ele=> ele.attribute)
+    //     operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
+    //   }
+    // }else if (table_data.value.length === 0) {
+    //   operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: false } ))
+    // }
   }
 }
 getOperationOptionFunc()
@@ -348,11 +390,11 @@ function updateTableData(tableData, newRowData) {
   const data = tableData.map(item => {
     let row = {...item}
     console.log('---------tableData---303------',newRowData,row)
-    if (newRowData.step_type === 'operation' && row.id === newRowData.parent) {
+    if (newRowData.step_type === 'operation' && row[rowKey] === newRowData.parent) {
       console.log('---------tableData---305------',row)
       // 替换 children 属性中 id 相等的这一条数据
       row[props.childrenKey] = row[props.childrenKey].map(listItem => {
-        if (listItem.id === newRowData.id) {
+        if (listItem[rowKey] === newRowData[rowKey]) {
           return newRowData;
         }
         return listItem;
@@ -360,7 +402,7 @@ function updateTableData(tableData, newRowData) {
       console.log('---------tableData---311------',row)
     } else if (newRowData.step_type === 'processes') {
       // 直接替换 table_data 中 id 相等的这一条数据
-      if (row.id === newRowData.id) {
+      if (row[rowKey] === newRowData[rowKey]) {
         row = Object.assign(item, newRowData);
       }
     }
@@ -381,7 +423,7 @@ const columns = ref([
   },
   {
     width: 140,
-    colKey: 'step_name',
+    colKey: 'name',
     title: '名称',
     ellipsis: true,
     edit: {
@@ -555,6 +597,8 @@ const columns = ref([
   },
 ])
 
+const rowKey = "key"
+
 function disableClick(e) {
   e.preventDefault();
   e.stopPropagation();
@@ -584,7 +628,7 @@ const treeConfig = reactive({
 
 const onDeleteConfirm = (row) => {
   // 移除当前节点及其所有子节点
-  tableRef.value.remove(row.id);
+  tableRef.value.remove(row[rowKey]);
   getTreeNode()
   // 仅移除所有子节点
   // tableRef.value.removeChildren(row.id);
@@ -606,35 +650,7 @@ const appendTo = (row=undefined) => {
   //   getTreeNode()
   // },row)
 };
-function appendMultipleDataTo(row) {
-  const randomKey1 = Math.round(Math.random() * Math.random() * 1000) + 10000;
-  const randomKey2 = Math.round(Math.random() * Math.random() * 1000) + 10000;
-  const randomKey3 = Math.round(Math.random() * Math.random() * 1000) + 10000;
-  const appendList = [
-    {
-      id: randomKey1,
-      step_name: `申请人 ${randomKey1} 号`,
-      platform: '电子签署',
-      step_type: 'Number',
-    },
-    {
-      id: randomKey2,
-      step_name: `申请人 ${randomKey2} 号`,
-      platform: '纸质签署',
-      step_type: 'Number',
-    },
-    {
-      id: randomKey3,
-      step_name: `申请人 ${randomKey3} 号`,
-      platform: '纸质签署',
-      step_type: 'Number',
-      list: true,
-    },
-  ];
-  tableRef.value.appendTo(row?.id, appendList);
-  TMessagePlugin.success(`已插入子节点申请人 ${randomKey1} 和 ${randomKey2} 号，请展开查看`);
-  getTreeNode()
-}
+
 // 当前节点之前，新增兄弟节前
 const insertBefore = (row) => {
   if (row.step_type !== 'processes') {
@@ -694,7 +710,7 @@ const columnEditFunc = ()=>{
 
 const customTreeExpandAndFoldIcon = ref(false);
 const treeExpandAndFoldIconRender = (h, { type, row }) => {
-  if (lazyLoadingData.value && lazyLoadingData.value.id === row?.id) {
+  if (lazyLoadingData.value && lazyLoadingData.value[rowKey] === row[rowKey]) {
     return <Loading size="14px" />;
   }
   return type === 'expand' ? <ChevronRightIcon /> : <ChevronDownIcon />;
@@ -703,7 +719,7 @@ const treeExpandAndFoldIconRender = (h, { type, row }) => {
 // 懒加载图标渲染
 const lazyLoadingTreeIconRender = (h, params) => {
   const { type, row } = params;
-  if (lazyLoadingData.value && lazyLoadingData.value.id === row?.id) {
+  if (lazyLoadingData.value && lazyLoadingData.value[rowKey] === row[rowKey]) {
     return <Loading size="14px" />;
   }
   return type === 'expand' ? <AddRectangleIcon /> : <MinusRectangleIcon />;
@@ -720,18 +736,18 @@ const getTreeNode= () => {
   const treeData = tableRef.value.getTreeNode();
   table_data.value = treeData
   console.log('------457-------',treeData);
-  setTimeout(() => {
-    console.log('---------575-----onDeleteConfirm-------',table_data.value,operationOptionSelect.value)
-    if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
-      const operations = table_data.value.filter(ele=> ele[props.childrenKey]&& ele[props.childrenKey].length > 0 ).map(ele=> ele[props.childrenKey])
-      if (operations.length > 0) {
-        const ids = operations.reduce((a, b) => a.concat(b)).map(ele=> ele.attribute)
-        operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
-      }
-    }else if (table_data.value.length === 0) {
-      operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: false } ))
-    }
-  },100)
+  // setTimeout(() => {
+  //   console.log('---------575-----onDeleteConfirm-------',table_data.value,operationOptionSelect.value)
+  //   if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
+  //     const operations = table_data.value.filter(ele=> ele[props.childrenKey]&& ele[props.childrenKey].length > 0 ).map(ele=> ele[props.childrenKey])
+  //     if (operations.length > 0) {
+  //       const ids = operations.reduce((a, b) => a.concat(b)).map(ele=> ele.attribute)
+  //       operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: ids.includes(ele.id) } ))
+  //     }
+  //   }else if (table_data.value.length === 0) {
+  //     operationOptionSelect.value = operationOptionSelect.value.map(ele=> ( { ...ele,disabled: false } ))
+  //   }
+  // },100)
   // TMessagePlugin.success('树形结构获取成功，请打开控制台查看');
   setTimeout(() => {
     tableRef.value.expandAll()
@@ -757,6 +773,7 @@ const treeExpandIcon = computed(() => {
  
 onMounted(async () => {
   tableRef.value.expandAll()
+  get_raw_materialOptionsFunc()
 })
 
 </script>

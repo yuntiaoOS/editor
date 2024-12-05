@@ -305,7 +305,7 @@ const onSubmit = () => {
       add_dialog_visible.value = false;
       const newData = { ...formData.value,id: uuid(), check: true };
       _designParams.value.forEach((item) => {
-        if ( item.key !== XM_raw_material_key  ){
+        if ( !item.key.includes(XM_raw_material_key) ){
           newData[`${item.key }_id`] = item.id
         }else{
           newData[`${item.key }_id`] = item.id
@@ -345,7 +345,7 @@ function addDecimals(str1, str2,index,attribute_type) {
   if (attribute_type === 'compound'){ 
     const resD = {};
     for (const key in str2) {
-      if (key === XM_raw_material_key ) {
+      if (key.includes( XM_raw_material_key) ) {
         resD[key] = str2[key]
       }else{
         resD[key] = addresult(str1[key], String(index * str2[key]) )
@@ -375,7 +375,7 @@ const makeTableFunc = ()=> {
   _designParams.value.filter(ele=>ele.check).forEach((item) => {
     const componentName = xmInput
     const options = !['SelectPlusRadio','SelectPlus'].includes(item.type) ? [] : item.props.options.map(ele=> ({ label: ele.name, value: ele.id }) )
-    if (item.key === XM_raw_material_key) {
+    if (item.key.includes( XM_raw_material_key)) {
       paramsColumns.unshift({
         title: item.name,
         colKey: item.key,
@@ -393,7 +393,7 @@ const makeTableFunc = ()=> {
           children: []
         }
         item.group.forEach((eleC) => {
-          if (eleC.key === XM_raw_material_key) {
+          if (eleC.key.includes( XM_raw_material_key)) {
             colG.children.push({
               title: eleC.name,
               colKey: `${item.key}.${eleC.key}`,
@@ -536,7 +536,7 @@ const makeTableFunc = ()=> {
     _designParams.value.forEach((item) => {
       console.log('-------310----item----------',item,item.step)
       if (item.step ) {
-        if ( item.key !== XM_raw_material_key  ){
+        if ( !item.key.includes( XM_raw_material_key)  ){
           obj[item.key] = addDecimals(item.value, item.step,i,item.attribute_type)  ;
           obj[`${item.key }_id`] = item.id
           console.log('-------524----obj----------',item.key,obj)

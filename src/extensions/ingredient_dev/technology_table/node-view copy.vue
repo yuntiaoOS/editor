@@ -22,7 +22,7 @@
           </div>
         </template>
         <template #defaultValueSlot="slotProps">
-          <div v-if="slotProps.row.step_type === 'processes' || slotProps.row.key === 'xm_raw_material' " style="bottom: 0px;position: absolute;line-height: 30px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
+          <div v-if="slotProps.row.step_type === 'processes' || slotProps.row.key.includes( 'xm_raw_material') " style="bottom: 0px;position: absolute;line-height: 30px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
           <span v-else-if="slotProps.row.attribute_type ">
             <div v-if="slotProps.row.attribute_type === 'single'" >
               <!-- <xm-input v-model="slotProps.row.value" :config="slotProps.row" readonly borderless @change="rowEditFunc($event,slotProps.row)"/> -->
@@ -185,7 +185,7 @@ const columnsCheckboxs = ref([])
 
 const displayColumns = ref([]);
 const displayColumnsC = ref([]);
-displayColumns.value = ['serial-number', 'step_name', 'step_type', 'attributes', 'description', 'operate']
+displayColumns.value = ['serial-number', 'name', 'step_type', 'attributes', 'description', 'operate']
 
 const selectOperationRow = ref(null)
 const selectProcedureRow = ref(null)
@@ -292,7 +292,7 @@ const columns = ref([
   },
   {
     width: 140,
-    colKey: 'step_name',
+    colKey: 'name',
     title: '名称',
     ellipsis: true,
   },

@@ -95,7 +95,7 @@ const getDesignParams = () => {
   console.log('--------_designParams--------95--------',technology_table_data,material_table_data)
   if (technology_table_data && material_table_data) {
     designParams = technology_table_data.map(eleT => { 
-      if (eleT.key === XM_raw_material_key) {
+      if (eleT.key.includes( XM_raw_material_key)) {
         return { 
           ...eleT,step:'',check:true,
           raw_material: selectTableForm.value.raw_material,
@@ -114,7 +114,7 @@ const getDesignParams = () => {
         if ( eleT.attribute_type === "compound"){
           const customItems = {...eleT,step:{},check:true}
           customItems.group = customItems.group.map(eleG=>{
-            if (eleG.key === XM_raw_material_key) {
+            if (eleG.key.includes( XM_raw_material_key)) {
               return { 
                 ...eleG,step:'',check:true,
                 raw_material: selectTableForm.value.raw_material,

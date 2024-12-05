@@ -162,7 +162,7 @@ const _designParams = computed({
         if (table_data.length > 0) {
           console.log('--------_designParams--------138--------',table_data,table_data.reduce((a, b) => a.concat(b)))
           designParams = table_data.reduce((a, b) => a.concat(b)).map(eleT => { 
-            if (eleT.key === XM_raw_material_key) {
+            if (eleT.key.includes( XM_raw_material_key)) {
               return { 
                 ...eleT,step:'',check:true,
                 raw_material: raw_material_tables[0].attrs.key,

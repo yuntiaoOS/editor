@@ -21,14 +21,21 @@
         </div>
       </template>
       <template #defaultValueSlot="slotProps">
-        <div v-if="slotProps.row.step_type === 'processes' || slotProps.row.key === 'xm_raw_material' " style="bottom: 0px;position: absolute;line-height: 30px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
+        <div v-if="slotProps.row.step_type === 'processes' || slotProps.row.key.includes( 'xm_raw_material') " style="bottom: 0px;position: absolute;line-height: 30px;width: 95%;z-index: 99;background-color: #fff;;" @click.stop="disableClick">-</div>
         <span v-else-if="slotProps.row.attribute_type ">
           <div v-if="slotProps.row.attribute_type === 'single'" >
             <!-- <xm-input v-model="slotProps.row.value" :config="slotProps.row" readonly borderless @change="rowEditFunc($event,slotProps.row)"/> -->
             <div>{{slotProps.row.value}}</div>
           </div>
           <div v-else>
-            <xm-form ref="xmformRef" v-model:form-data="slotProps.row.value" :readonly="true" :config="getConfig('form',slotProps.row)" :showSubmitBtn="false" @change="rowEditFunc($event,slotProps.row)"/>
+            <div v-if="slotProps.row.multiple">
+              <div v-for="(item, index) in slotProps.row.value" :key="index" style="margin-bottom: 8px;">
+                <xm-form ref="xmformRef" :form-data="item" :readonly="true" :config="getConfig('form',slotProps.row)" :showSubmitBtn="false" @change="rowEditFunc($event,slotProps.row)"/>
+              </div>
+            </div>
+            <div v-else>
+              <xm-form ref="xmformRef" :form-data="slotProps.row.value" :readonly="true" :config="getConfig('form',slotProps.row)" :showSubmitBtn="false" @change="rowEditFunc($event,slotProps.row)"/>
+            </div>
           </div>
         </span>
       </template>
@@ -46,7 +53,7 @@
       :status=" dialog_input.length > 0 ? 'success': 'error' " 
       :tips=" dialog_input.length > 0 ? '校验通过': '名称不能为空'"
       /> -->
-      <technology-table v-model="table_data_edit" :viewType="viewType" :getAttributesFunction="getAttributesFunction" v-model:title="_title" @change=""/>
+      <technology-table v-model="table_data_edit" :editor="editor" :viewType="viewType" :getAttributesFunction="getAttributesFunction" v-model:title="_title" @change=""/>
   </t-dialog>
   <t-dialog
     v-model:visible="dialog_visible"
@@ -212,7 +219,7 @@ const columnsCheckboxs = ref([])
 
 const displayColumns = ref([]);
 const displayColumnsC = ref([]);
-displayColumns.value = ['serial-number', 'step_name', 'step_type', 'attributes', 'description', 'operate']
+displayColumns.value = ['serial-number', 'name', 'step_type', 'attributes', 'description', 'operate']
 
 const selectProcedureRow = ref(null)
 
@@ -348,7 +355,7 @@ const columns = ref([
   },
   {
     width: 140,
-    colKey: 'step_name',
+    colKey: 'name',
     title: '名称',
     ellipsis: true,
   },
@@ -499,12 +506,12 @@ const initData = async () => {
         obj.children = obj.children.map(eleC=>{
           let objC = {
             ...eleC,
-            type: eleC.key === "xm_raw_material" ? 'VueContainer' :eleC.type,
+            type: eleC.key.includes( 'xm_raw_material') ? 'VueContainer' :eleC.type,
           }
           objC.value = objC.value ? objC.attribute_type === "compound" ? JSON.parse(objC.value) : objC.value : ''
           if (objC.attribute_type === "compound") {
             objC.group = objC.group.map(eleG=>{
-              return {...eleG,type: eleG.key === "xm_raw_material" ? 'VueContainer' :eleG.type }
+              return {...eleG,type: eleG.key.includes( 'xm_raw_material') ? 'VueContainer' :eleG.type }
             })
           }
           return objC
