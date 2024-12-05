@@ -226,17 +226,18 @@ export interface XmTitleContentsModel {
 declare type Recordable<T = any> = Record<string, T>;
 
 export interface XmTableOptionModel<T> {
-  key: string
+  key?: string
   table_data?: T
   option?: T
   title?: string
   designParams?: T[]
   designResult?: T[]
-  designParam: T
+  designParam?: T
   columns?: T[]
   // 修改日志
   change_log?: T
   group?: string
+  is_integration?: boolean
 
 }
 

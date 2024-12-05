@@ -48,7 +48,7 @@
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') ||
           editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
-          ico="t-table"
+          ico="technology"
           text="工艺表格"
           :tooltip="false"
           @menu-click="editor?.chain().focus().addTechnology_tables({is_integration:true}).run()"
@@ -64,7 +64,7 @@
           @menu-click="editor?.chain().focus().addExperimental_designs().run()"
         />
       </t-dropdown-item>  
-      <t-dropdown-item  >
+      <t-dropdown-item v-if="false" >
         <!-- <menus-toolbar-insert-ingredient_dev-table table-type="sample_table" /> -->
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') ||

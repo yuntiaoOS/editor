@@ -7,6 +7,52 @@ export function renderGroups(editor: Editor) {
   const groups: Group[] = [
     {
       name: 'format',
+      title: '插入数据表格',
+      commands: [
+        {
+          name: 'raw_material_table',
+          label: '原材料表格',
+          iconName: 't-table',
+          action: ({ editor, range }) => {
+            editor?.chain().focus().addRaw_material_tables({is_integration:true}).run()
+          },
+        },
+        {
+          name: 'technology_table',
+          label: "工艺表格",
+          iconName: 'technology',
+          action: ({ editor, range }) => {
+            editor?.chain().focus().addTechnology_tables({is_integration:true}).run()
+          },
+        },
+        {
+          name: 'experimental_design',
+          label: '试验方法设计',
+          iconName: 'experimental_design',
+          action: ({ editor, range }) => {
+            editor?.chain().focus().addExperimental_designs().run()
+          },
+        },
+        // {
+        //   name: 'sample_table',
+        //   label: '样品表格',
+        //   iconName: 'sample',
+        //   action: ({ editor, range }) => {
+        //     editor?.chain().focus().addSample_tables({is_integration:true}).run()
+        //   },
+        // },
+        {
+          name: 'evaluating_table',
+          label: '评测表格',
+          iconName: 'evaluating',
+          action: ({ editor, range }) => {
+            editor?.chain().focus().addEvaluating_tables().run()
+          },
+        },
+      ],
+    },
+    {
+      name: 'format',
       title: t('blockMenu.toogleNode'),
       commands: [
         {

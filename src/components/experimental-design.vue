@@ -13,7 +13,7 @@
     </t-step-item>
     <t-step-item title="步骤2" content="根据选择方式设置参数">
       <template #extra>
-        <t-space direction="vertical" >
+        <div style="width: calc(80vw - 100px);" >
           <t-checkbox disabled>为设定的默认显示上一次实验参数（也可以选择来源于某个样品）</t-checkbox>
           <t-list v-if="current === 1" :split="true">
             <t-list-item v-for=" (item,index) in _designParams " :key="index">
@@ -21,7 +21,7 @@
               <template #action>
                 <t-space >
                   <span v-if="['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 " style="line-height: 32px;">步进： </span>
-                  <div style="width: 300px">
+                  <div >
                     <div v-if="item.attribute_type === 'single'" >
                       <xm-input v-model="item.step" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
                     </div>
@@ -36,12 +36,14 @@
               </template>
             </t-list-item>
           </t-list>
-          <t-space v-if="current === 1" style="line-height: 32px;">正交：{{_designParams.filter(ele=>ele.check).length}} x    <t-input-number v-model="cycleNumber" theme="column" :max="100" :min="1" auto-width borderless  style="border-bottom: 1px solid var(--td-border-level-2-color);" @blur="blurCycleNumberFunc"/>     (前边{{_designParams.filter(ele=>ele.check).length}}是选择的因数数量，后边我是需要正交的次数需要手动填写) </t-space>
-          <t-space v-if="current === 1" align="center">
-            <t-button size="small" variant="text" @click="current--"> 上一步 </t-button>
-            <t-button v-if="_designParams.filter(ele=>ele.check).length>0" size="small" variant="base" @click="makeTableFunc"> 下一步 </t-button>
-          </t-space>
-        </t-space>
+          <t-space v-if="current === 1" style="line-height: 32px;margin-top:10px;">正交：{{_designParams.filter(ele=>ele.check).length}} x    <t-input-number v-model="cycleNumber" theme="column" :max="100" :min="0" auto-width borderless  style="border-bottom: 1px solid var(--td-border-level-2-color);" @blur="blurCycleNumberFunc"/>     (前边{{_designParams.filter(ele=>ele.check).length}}是选择的因数数量，后边我是需要正交的次数需要手动填写) </t-space>
+          <div style="margin-top:10px;">
+            <t-space v-if="current === 1" align="center">
+              <t-button size="small" variant="text" @click="current--"> 上一步 </t-button>
+              <t-button v-if="_designParams.filter(ele=>ele.check).length>0" size="small" variant="base" @click="makeTableFunc"> 下一步 </t-button>
+            </t-space>
+          </div>
+        </div>
       </template>
     </t-step-item>
     <t-step-item title="步骤3" content="选择正交表确定实验">
@@ -67,7 +69,7 @@
             </t-table>
           </div>
           <t-space align="center">
-            <t-button size="small" variant="text" @click="current--"> 上一步 </t-button>
+            <t-button size="small" variant="text" @click=" designType.includes('自定义') ? current = 0 : current--"> 上一步 </t-button>
             <!-- <t-button size="small" variant="base" @click="null"> 完成 </t-button> -->
           </t-space>
         </t-space>
@@ -83,32 +85,34 @@
   >
     <t-form
       ref="xmformRef" 
-      :label-align="form_config.labelPos"
-      :label-width="form_config.labelWidth"
-      :data="formData"
+      label-align="left"
+      label-width="120px"
+      :data="formData" colon
       :rules="form_config.rules"
       :error-message="errorConfig === 'default' ? undefined : errorMessage"
       scroll-to-first-error="smooth"
       @submit="onSubmit"
     >
-      <t-row :gutter="[16, 10]" justify="space-between">
-        <t-col 
-          v-for="formItem in form_config.formItems "  :key="formItem.key"
-          :xs="12" :sm="columns" :md="columns" :lg="columns" :xl="columns/2" 
-          >
-          <t-form-item 
-            :name="formItem.key" 
-            :label="formItem.title?formItem.title:formItem.name"
-            :rules="formItem.rules" >
-              <div v-if="formItem.attribute_type === 'single'" >
-                <xm-input v-model="formData[formItem.key]" :config="formItem" ></xm-input>
-              </div>
-              <div v-else>
-                <xm-form ref="xmformSubRef" v-model:form-data="formData[formItem.key]" :config="getConfig('form',formItem)" :show-submit-btn="false" />
-              </div>
-          </t-form-item>
-        </t-col>
-      </t-row>
+      <div>
+        <t-row :gutter="[16, 10]" justify="space-between">
+          <t-col 
+            v-for="formItem in form_config.formItems "  :key="formItem.key"
+            :xs="12" :sm="12/columns.length" :md="12/columns.length" :lg="12/columns.length" :xl="12/columns.length" 
+            >
+            <t-form-item 
+              :name="formItem.key" 
+              :label="formItem.title?formItem.title:formItem.name"
+              :rules="formItem.rules" >
+                <div v-if="formItem.attribute_type === 'single'" >
+                  <xm-input v-model="formData[formItem.key]" :config="formItem" ></xm-input>
+                </div>
+                <div v-else>
+                  <xm-form ref="xmformSubRef" v-model:form-data="formData[formItem.key]" :config="getConfig('form',formItem)" :show-submit-btn="false" />
+                </div>
+            </t-form-item>
+          </t-col>
+        </t-row>
+      </div>
     </t-form>
     <!-- <xm-form ref="xmformRef"  v-model:form-data="formData" :show-submit-btn="false" :config="form_config" :on-submit="onSubmit"/> -->
   </t-dialog>
@@ -177,7 +181,7 @@ const columnsDefault = [
 
 const selectedRowKeys = ref([]);
 
-const cycleNumber = ref(1);
+const cycleNumber = ref(0);
 
 const _designResult = computed({
   get() {
@@ -243,7 +247,7 @@ const typeSelectNext = ()=>{
   console.log("typeSelectNext----------------------",current.value,designType.value)
   // designType.value === '自定义' 时 current.value跳到下下步
   if (designType.value.includes('自定义')  && current.value === 0) {
-    current.value++
+    cycleNumber.value = 0
     makeTableFunc()
   } else if (designType.value.includes('正交设计') && current.value === 0) {
     
@@ -254,6 +258,7 @@ const typeSelectNext = ()=>{
   } else {
      
   }
+  cycleNumber.value = 0
   current.value++
 }
 
@@ -267,7 +272,7 @@ const onSelectChange = (value, params) => {
 
 const blurCycleNumberFunc = (val) => {
   if (Number(val) > 100) cycleNumber.value = 100;
-  if (Number(val) < 1) cycleNumber.value = 1;
+  if (Number(val) < 1) cycleNumber.value = 0;
 }
 
 const onAdd = () => {
@@ -291,7 +296,7 @@ const onAdd = () => {
 }
 
 const onSubmit = () => {
-  console.log('-------formData----------', xmformRef.value,formData.value);
+  console.log('-------formData----------',_designParams.value, xmformRef.value,formData.value);
   xmformRef.value.validate({ showErrorMessage: true }).then((validateResult) => {
     if (validateResult && Object.keys(validateResult).length) {
       const firstError = Object.values(validateResult)[0]?.[0]?.message;
@@ -299,6 +304,17 @@ const onSubmit = () => {
     }else{
       add_dialog_visible.value = false;
       const newData = { ...formData.value,id: uuid(), check: true };
+      _designParams.value.forEach((item) => {
+        if ( item.key !== XM_raw_material_key  ){
+          newData[`${item.key }_id`] = item.id
+        }else{
+          newData[`${item.key }_id`] = item.id
+          newData['name'] = item.props.options?.filter(eleO => item.step.includes(eleO.id))?.map(eleO => eleO.name)?.join("/") 
+        }
+        newData['raw_material'] = item.raw_material 
+        newData['technology'] = item.technology 
+        console.log('-------316----obj----------',newData)
+      })
       _designResult.value.push(newData);
       selectedRowKeys.value = [...selectedRowKeys.value, newData.id]
     }
@@ -554,6 +570,10 @@ onMounted(() => {
   .t-button + .t-button {
     margin-left: 4px;
   }
+}
+:deep(.umo-list-item-main){
+  justify-content: flex-start;
+  gap: 20px;
 }
 :deep(.umo-list-item) {
   padding: 6px 0;
