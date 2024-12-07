@@ -25,7 +25,7 @@
         <span v-else-if="slotProps.row.attribute_type ">
           <div v-if="slotProps.row.attribute_type === 'single'" >
             <!-- <xm-input v-model="slotProps.row.value" :config="slotProps.row" readonly borderless @change="rowEditFunc($event,slotProps.row)"/> -->
-            <div>{{slotProps.row.value}}</div>
+            <div>{{slotProps.row.value}} {{ slotProps.row.props.suffix }}</div>
           </div>
           <div v-else>
             <div v-if="slotProps.row.multiple">
@@ -55,6 +55,26 @@
       /> -->
       <technology-table v-model="table_data_edit" :editor="editor" :viewType="viewType" :getAttributesFunction="getAttributesFunction" v-model:title="_title" @change=""/>
   </t-dialog>
+  <t-dialog destroyOnClose 
+      v-model:visible="add_parent_visible"
+      header="选择原材料表"
+      width="40%" attach="body"
+      :confirm-on-enter="true"
+      :on-confirm="on_select_parentFunc"
+    >
+      <t-select
+        v-model="dialog_select"
+        :options="dialog_selectOptions"
+        filterable
+        multiple
+        :keys="{ label: 'title', value: 'id' }"  
+        placeholder="请选择操作"
+        :scroll="{type: 'virtual'}"  
+        :popup-props="{ overlayInnerStyle: { height: '300px' } }"  
+        :status=" dialog_select !== '' ? 'success': 'error' "
+        :tips="dialog_select !== '' ? '校验通过': '操作不能为空'"
+      />
+    </t-dialog>
   <t-dialog
     v-model:visible="dialog_visible"
     header="表格列配置" destroyOnClose
@@ -134,9 +154,10 @@ const $key_data = JSON.parse( localStorage.getItem('key_data'))
 const loading = ref(false)
 const dialog_visible = ref(false);
 const tableRef = ref();
-
+const add_parent_visible = ref(false);
 const procedureVisible = ref(false);
-
+const dialog_select = ref('')
+const dialog_selectOptions = ref([])
 
 const operationOption = ref([])
 const searchTitle = ref('')
@@ -264,6 +285,19 @@ const getConfig = (type,row) => {
 const rowEditFunc = (val,row)=>{
   console.log('--------212---------rowEditFunc: ', val, row)
 
+}
+
+const on_select_parentFunc = async ()=>{
+  const params = {
+    parent: dialog_select.value
+  }
+  isChanged.value = true
+  const res = await post_experiment_material_fetch(params)
+  if (res.data.code === 2000) {
+    useMessage('success' ,res.data.msg);
+    await initData()
+  }
+  add_parent_visible.value = false
 }
 
 const onProcedureConfirmFunc = async () => {
@@ -537,18 +571,33 @@ const initData = async () => {
 }
 
 onMounted(async () => {
-  console.log('----------change_log.value22222222222222222222222222---------',props);
+  console.log('----------change_log.value22222222222222---------',props);
   if (change_log.value?.change_log && (table_data.value && table_data.value.length === 0) ) {
-    console.log('----------change_log.value22222222222222222222222222---------',change_log.value);
+    console.log('----------change_log.value222222222---------',change_log.value);
     await initData()
   }else if (props.viewType === 'productView' && props.node.attrs && props.node.attrs.change_log) {
     await initData()
   } else if(is_integration.value) {
-    
-    const docD = editor.getJSON()
+    console.log('----------change_log.value22222222--------',is_integration.value);
+    const docD = props.editor.getJSON()
     if (docD ) {
+      dialog_selectOptions.value = []
       // 原材料表
-     
+      const dialog = useConfirm({
+        theme: 'info',
+        header: '提示',
+        body: '检测到当前实验项目中存在工艺表，是否使用该工艺表进行初始化？',
+        confirmBtn: '确定',
+        onConfirm() {
+          dialog.destroy()
+          setTimeout(() => {
+            add_parent_visible.value = true
+          }, 300)
+        },
+        onClosed() {
+          
+        },
+      })
       
     }else {
       TMessagePlugin.warning('当前文档中没有数据')

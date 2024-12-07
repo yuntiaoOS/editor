@@ -35,6 +35,12 @@
         <t-option v-for="item in selectOptions" :key="item[_config.props.valueKey]" :value="item[_config.props.valueKey]" :label="item[_config.props.labelKey]"></t-option>
       </t-select>
     </template>
+    <template v-else-if="_config[props.props.componentKey] === 'Cascader'" >
+      <t-cascader
+        v-model="_value" :options="selectOptions" :multiple="_config.props.multiple" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth" placeholder="请选择" clearable
+        :loading="selectLoading" filterable value-mode="onlyLeaf" @change="changeFunc" @blur="blurFunc">
+      </t-cascader>
+    </template>
     <template v-else-if="_config[props.props.componentKey] === 'Score'" >
       <t-rate v-model="_value" show-text :default-value="4" :disabled="readonly" @change="changeFunc"/>
     </template>
@@ -80,7 +86,15 @@
       -
     </template>
     <template v-else >
-      <t-input v-model="_value" autofocus :borderless="borderless" :readonly="readonly" :auto-width="autoWidth" placeholder="请输入" @change="changeFunc" @blur="blurFunc"/>
+      <t-input-adornment v-if="_config.props.suffix && _config.props.suffix.length > 0" >
+        <t-input v-model="_value" autofocus :borderless="borderless" :readonly="readonly" auto-width placeholder="请输入" @change="changeFunc" @blur="blurFunc">
+        </t-input>
+        <template #append>
+          <t-input v-model="_config.props.suffix" borderless auto-width placeholder="请输入" />
+        </template>
+      </t-input-adornment>
+      <t-input v-else v-model="_value" autofocus :borderless="borderless" :readonly="readonly" :auto-width="autoWidth" placeholder="请输入" @change="changeFunc" @blur="blurFunc">
+      </t-input>
     </template>
 
   </div>
@@ -171,7 +185,13 @@ if (props.modelValue) {
   if ( (props.config[props.props.componentKey] === 'SelectPlus' || props.config[props.props.componentKey] === 'ImageUpload') &&  !Array.isArray(props.modelValue) ) {
     _value.value = []
   }
-} else {
+} else if (props.config[props.props.componentKey] === 'Cascader'){
+  if (props.config.props.multiple) {
+    _value.value = []
+  }else{
+    _value.value = ''
+  }
+}else {
   if (props.config[props.props.componentKey] === 'SelectPlusRadio') {
     _value.value = {}
   }else if (props.config[props.props.componentKey] === 'SelectPlus' || props.config[props.props.componentKey] === 'ImageUpload') {
@@ -250,7 +270,7 @@ const selectFocusMethod = async (formItem) => {
 }
 
 onMounted( async () => {
-  if (props.config[props.props.componentKey] === 'SelectPlusRadio' || props.config[props.props.componentKey] === 'SelectPlus' || props.config[props.props.componentKey] === 'UserPicker') {
+  if (props.config[props.props.componentKey] === 'SelectPlusRadio' || props.config[props.props.componentKey] === 'Cascader' || props.config[props.props.componentKey] === 'SelectPlus' || props.config[props.props.componentKey] === 'UserPicker') {
     if (!props.config.props.remote) {
       selectOptions.value = props.config.props.options.map((item) => ({
         [props.config.props.valueKey]: item[props.config.props.valueKey],

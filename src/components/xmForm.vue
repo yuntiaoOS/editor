@@ -14,7 +14,7 @@
     <t-row :gutter="[16, 10]" justify="space-between">
       <t-col 
         v-for="formItem in _config.formItems "  :key="formItem.key"
-        :xs="12" :sm="columns" :md="columns" :lg="columns" :xl="columns/2" 
+        :xs="12" :sm="12" :md="12" :lg="columns/2" :xl="columns/2"
         >
         <t-form-item 
           :name="formItem.key" 
@@ -202,7 +202,7 @@ const props = defineProps({
   },
   columns: {
     type: Number,
-    default: 12,
+    default: 24,
   },
   onSubmit: {
     type: Function,

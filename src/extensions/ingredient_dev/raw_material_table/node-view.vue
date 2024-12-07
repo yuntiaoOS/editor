@@ -64,7 +64,7 @@
       header="选择原材料表"
       width="40%" attach="body"
       :confirm-on-enter="true"
-      :on-confirm="on_select_parent_materialFunc"
+      :on-confirm="on_select_parentFunc"
     >
       <t-select
         v-model="dialog_select"
@@ -172,7 +172,7 @@ const onSelectChange = ({value, params} )=>{
   select_material.value = params.selectedRowData
 }
 
-const on_select_parent_materialFunc = async ()=>{
+const on_select_parentFunc = async ()=>{
   const params = {
     parent: dialog_select.value
   }

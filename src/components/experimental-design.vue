@@ -17,22 +17,34 @@
           <t-checkbox disabled>为设定的默认显示上一次实验参数（也可以选择来源于某个样品）</t-checkbox>
           <t-list v-if="current === 1" :split="true">
             <t-list-item v-for=" (item,index) in _designParams " :key="index">
-              <t-checkbox v-model="item.check" style="min-width: 200px;">因数{{index+1}}： {{item.name}}</t-checkbox>
               <template #action>
-                <t-space >
-                  <span v-if="['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 " style="line-height: 32px;">步进： </span>
-                  <div >
+                <el-row style="display:flex;width: calc(80vw - 120px);justify-content: space-between;" justify="start">
+                  <el-col :span="3" style="display: flex">
+                    <t-checkbox v-model="item.check" style="min-width: 200px;">因数{{index+1}}： {{item.name}}</t-checkbox>
+                  </el-col>
+                  <el-col :span="5" style="display: flex">
+                    <span  style="line-height: 32px;width:60px">基值：</span>
                     <div v-if="item.attribute_type === 'single'" >
-                      <xm-input v-model="item.step" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
+                      <xm-input v-model="item.value" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
                     </div>
                     <div v-else>
-                      <xm-form ref="xmformRef" v-model:form-data="item.step" :config="getConfig('form',item)" :show-submit-btn="false" />
+                      <xm-form ref="xmformRef" v-model:form-data="item.value" :config="getConfig('form',item)" :show-submit-btn="false" />
                     </div>
-                    <!-- <xm-input v-model="item.step" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/> -->
-                  </div>
-                  
+                  </el-col>  
+                  <el-col :span="4" style="display: flex">
+                    <span v-if="['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 " style="line-height: 32px;width:60px ">步进： </span>
+                    <div >
+                      <div v-if="item.attribute_type === 'single'" >
+                        <xm-input v-model="item.step" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
+                      </div>
+                      <div v-else>
+                        <xm-form ref="xmformRef" v-model:form-data="item.step" :config="getConfig('form',item,'step')" :show-submit-btn="false" />
+                      </div>
+                      <!-- <xm-input v-model="item.step" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/> -->
+                    </div>
+                  </el-col>
                   <!-- <t-input v-model="item.step" auto-width borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/> -->
-                </t-space>  
+                </el-row>  
               </template>
             </t-list-item>
           </t-list>
@@ -79,7 +91,7 @@
   <t-dialog 
     v-model:visible="add_dialog_visible"
     header="新增" destroy-on-close
-    width="50%" attach="body"
+    width="80%" attach="body"
     :confirm-on-enter="true"
     :on-confirm="onSubmit"
   >
@@ -94,10 +106,10 @@
       @submit="onSubmit"
     >
       <div>
-        <t-row :gutter="[16, 10]" justify="space-between">
+        <t-row :gutter="[5, 5]" justify="space-between">
           <t-col 
             v-for="formItem in form_config.formItems "  :key="formItem.key"
-            :xs="12" :sm="12/columns.length" :md="12/columns.length" :lg="12/columns.length" :xl="12/columns.length" 
+            :xs="12" :sm="12" :md="12" :lg="12" :xl="12" 
             >
             <t-form-item 
               :name="formItem.key" 
@@ -122,7 +134,7 @@
 import { ref } from 'vue';
 import { v4 as uuid } from 'uuid'
 import { config } from 'process';
-
+import { getFieldValue } from '@/utils/index';
 import xmInput from './xm-input.vue';
 import { multiply } from 'lodash-unified';
 
@@ -214,7 +226,7 @@ const designTypeOptions = [
 
 const designType = ref('正交设计');
 
-const getConfig = (type,row) => {
+const getConfig = (type,row,rowType) => {
   const config = {
     formItems: [],
     formConfig: {
@@ -237,7 +249,11 @@ const getConfig = (type,row) => {
     }
   }
   if (row.attribute_type === 'compound' && row.group) {
-    config.formItems = row.group
+    if (rowType === 'step') {
+      config.formItems = row.group.filter(ele=>!ele.key.includes(XM_raw_material_key))
+    }else{
+      config.formItems = row.group
+    }
   }
 
   return config
@@ -277,21 +293,27 @@ const blurCycleNumberFunc = (val) => {
 
 const onAdd = () => {
   formData.value = {}
-  form_config.value.formItems = _designParams.value.map((item) => { return {...item, title: item.name } });
-  console.log('-------onAdd-----275-----', form_config.value.formItems,_designParams.value);
-  for (const key in _designParams.value) {
-    if (Object.prototype.hasOwnProperty.call(_designParams.value, key)) {
-      const designItem = _designParams.value[key];
-      form_config.value.formConfig.rules[designItem.key] = [
-        { required: true, message: '必填', type: 'error', trigger: ['blur','change'] },
-      ]
-      if (designItem.attribute_type === 'compound' && designItem.group) {
-        formData.value[designItem.key] = {}
-      }else{
-        formData.value[designItem.key] = ''
-      }
+  form_config.value.formItems = _designParams.value.map((item) => { 
+    const obj = {
+      ...item, 
+      title: item.name,
+      [item.key]:item.value ,
     }
-  }
+    return obj
+  });
+  console.log('-------onAdd-----275-----', form_config.value,_designParams.value);
+  _designParams.value.forEach((designItem) =>{
+    form_config.value.formConfig.rules[designItem.key] = [
+      { required: true, message: '必填', type: 'error', trigger: ['blur','change'] },
+    ]
+    if (designItem.attribute_type === 'compound' && designItem.group) {
+      formData.value[designItem.key] = designItem.value ?{ ...designItem.value} : {}
+    }else{
+      formData.value[designItem.key] =  designItem.value ? designItem.value : ''
+    }
+
+  })
+  console.log('-------onAdd-----275-----', form_config.value,formData.value);
   add_dialog_visible.value = true;
 }
 
@@ -305,6 +327,7 @@ const onSubmit = () => {
       add_dialog_visible.value = false;
       const newData = { ...formData.value,id: uuid(), check: true };
       _designParams.value.forEach((item) => {
+        newData['name'] = item.name
         if ( !item.key.includes(XM_raw_material_key) ){
           newData[`${item.key }_id`] = item.id
         }else{
@@ -344,11 +367,11 @@ function addDecimals(str1, str2,index,attribute_type) {
   console.log('-------140-----addDecimals----------',str1, str2,attribute_type);
   if (attribute_type === 'compound'){ 
     const resD = {};
-    for (const key in str2) {
+    for (const key in str1) {
       if (key.includes( XM_raw_material_key) ) {
-        resD[key] = str2[key]
+        resD[key] = str1[key]
       }else{
-        resD[key] = addresult(str1[key], String(index * str2[key]) )
+        resD[key] = addresult(str1[key], String(index * str1[key]) )
       }
       
     }
@@ -368,124 +391,53 @@ function isNumber(value) {
   return !isNaN(num)
 }
 
-const makeTableFunc = ()=> {
-  console.log('-------260-----makeTableFunc----------',_designParams.value);
+const makeTableFunc = () => {
+  console.log('-------260-----makeTableFunc----------', _designParams.value);
+
   const selectedRK = [];
   const paramsColumns = [];
-  _designParams.value.filter(ele=>ele.check).forEach((item) => {
-    const componentName = xmInput
-    const options = !['SelectPlusRadio','SelectPlus'].includes(item.type) ? [] : item.props.options.map(ele=> ({ label: ele.name, value: ele.id }) )
-    if (item.key.includes( XM_raw_material_key)) {
-      paramsColumns.unshift({
-        title: item.name,
-        colKey: item.key,
-        width: 100,
-        render(h, { row }) {
-          const dataR =  row[item.key]
-          return dataR ? item.props.options?.filter(eleO => dataR.includes(eleO.id))?.map(eleO => eleO.name)?.join(";") : '' 
-        },
-      });
-    }else{
-      if (item.attribute_type === 'compound') {
-        const colG = {
-          title: item.name,
-          colKey: item.key,
-          children: []
-        }
-        item.group.forEach((eleC) => {
-          if (eleC.key.includes( XM_raw_material_key)) {
-            colG.children.push({
-              title: eleC.name,
-              colKey: `${item.key}.${eleC.key}`,
-              width: 100,
-              render(h, { row ,col}) {
-                console.log('---------------------0',row,item,col,eleC)
-                const dataR = row[item.key]? row[item.key][eleC.key] : []
-                return dataR ? eleC.props.options?.filter(eleO => dataR.includes(eleO.id))?.map(eleO => eleO.name)?.join(";") : '' 
-              },
-            })
-          }else {
-            colG.children.push({
-              title: eleC.name,
-              colKey: `${item.key}.${eleC.key}`,
-              width: 100,
-              edit: {
-                // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-                // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-                component: componentName,
-                // props, 透传全部属性到 Input 组件
-                props: ({col,row})=> {
-                  return  {
-                    modelValue: row[item.key][eleC.key],
-                    config: eleC,
-                    clearable: true,
-                    autofocus: true,
-                    multiply: true,
-                    options
-                    // autoWidth: true,
-                  };
 
-                },
-                // 校验规则，此处同 Form 表单
-                rules: [
-                  {
-                    required: false,
-                    message: '不能为空',
-                  },
-                ],
-                showEditIcon: true,
-                abortEditOnEvent: ['onEnter','onBlur'],
-                onEdited: (context ) => {
-                  console.log(context);
-                  const newData = [..._designResult.value];
-                  newData.splice(context.rowIndex, 1, context.newRowData);
-                  _designResult.value = newData;
-                  useMessage('success' ,'Success');
-                },
-                // 触发校验的时机（when to validate)
-                validateTrigger: 'change',
-                // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-                on: (editContext ) => ({
-                  onBlur: (ctx ) => {
-                    console.log('失去焦点', editContext);
-                    ctx?.e?.preventDefault();
-                  },
-                  onEnter: (ctx ) => {
-                    ctx?.e?.preventDefault();
-                    console.log('onEnter', ctx);
-                  },
-                  // 默认是否为编辑状态
-                  defaultEditable: true,
-                }),
-              }
-            })
-          }
-          
-        })
-        paramsColumns.push( colG );
-      }else{
-        paramsColumns.push({
+  const processItem = (item, parentKey = '') => {
+    const key = parentKey ? `${parentKey}` : item.key;
+    const componentName = xmInput;
+    const options = !['SelectPlusRadio', 'SelectPlus'].includes(item.type)
+      ? []
+      : item.props.options.map(ele => ({ label: ele.name, value: ele.id }));
+
+    if (item.children && item.children.length > 0) {
+      item.children = item.children.map(child => processItem(child,`${parentKey}.${child.key}` ));
+      return item
+    }else {
+      if (item.key.includes(XM_raw_material_key)) {
+        return {
           title: item.name,
-          colKey: item.key,
+          colKey: key,
+          width: 100,
+          render: (h, { row }) => {
+            const dataR = getFieldValue(key,row);
+            return dataR
+              ? item.props.options
+                  ?.filter(eleO => dataR.includes(eleO.id))
+                  .map(eleO => eleO.name)
+                  .join(';')
+              : '';
+          },
+        };
+      } else {
+        return {
+          title: item.name,
+          colKey: key,
           width: 100,
           edit: {
-            // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-            // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
             component: componentName,
-            // props, 透传全部属性到 Input 组件
-            props: ({col,row})=> {
-              return  {
-                modelValue: row[item.key],
-                config: item,
-                clearable: true,
-                autofocus: true,
-                multiply: true,
-                options
-                // autoWidth: true,
-              };
-
-            },
-            // 校验规则，此处同 Form 表单
+            props: ({ col, row }) => ({
+              modelValue: getFieldValue(key,row),
+              config: item,
+              clearable: true,
+              autofocus: true,
+              multiply: true,
+              options,
+            }),
             rules: [
               {
                 required: false,
@@ -493,72 +445,90 @@ const makeTableFunc = ()=> {
               },
             ],
             showEditIcon: true,
-            abortEditOnEvent: ['onEnter','onBlur'],
-            onEdited: (context ) => {
-              console.log(context);
+            abortEditOnEvent: ['onEnter', 'onBlur'],
+            onEdited: (context) => {
               const newData = [..._designResult.value];
               newData.splice(context.rowIndex, 1, context.newRowData);
               _designResult.value = newData;
-              useMessage('success' ,'Success');
+              useMessage('success', 'Success');
             },
-            // 触发校验的时机（when to validate)
             validateTrigger: 'change',
-            // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-            on: (editContext ) => ({
-              onBlur: (ctx ) => {
+            on: (editContext) => ({
+              onBlur: (ctx) => {
                 console.log('失去焦点', editContext);
                 ctx?.e?.preventDefault();
               },
-              onEnter: (ctx ) => {
+              onEnter: (ctx) => {
                 ctx?.e?.preventDefault();
                 console.log('onEnter', ctx);
               },
-              // 默认是否为编辑状态
               defaultEditable: true,
             }),
-          }
-        });
+          },
+        } ;
       }
-      
     }
-    
-  })
+  };
+
+  _designParams.value
+    .filter(ele => ele.check)
+    .forEach(item => {
+      if (item.attribute_type === 'compound' && item.group) {
+        const colG = {
+          title: item.name,
+          colKey: item.key,
+          children: item.group,
+        };
+        paramsColumns.push(processItem(colG,colG.colKey));
+      } else {
+        paramsColumns.push(processItem(item));
+      }
+    });
+
   columns.value = [...columnsDefault, ...paramsColumns];
-  
-  console.log('--------151----_desinParams.value----------',_designResult.value,paramsColumns)
-  current.value++
-  
-  
+  console.log('--------151----_designParams.value----------', _designResult.value, paramsColumns);
+  current.value++;
+
   const designResult = [];
-  for(let i = 0;i<cycleNumber.value;i++) {
-    const obj = {check:true,name:''};
+  for (let i = 0; i < cycleNumber.value; i++) {
+    const obj = { check: true, name: '' };
     obj.id = uuid();
-    _designParams.value.forEach((item) => {
-      console.log('-------310----item----------',item,item.step)
-      if (item.step ) {
-        if ( !item.key.includes( XM_raw_material_key)  ){
-          obj[item.key] = addDecimals(item.value, item.step,i,item.attribute_type)  ;
-          obj[`${item.key }_id`] = item.id
-          console.log('-------524----obj----------',item.key,obj)
-        }else{
-          obj[item.key] = item.step ;
-          obj[`${item.key }_id`] = item.id
-          obj['name'] = item.props.options?.filter(eleO => item.step.includes(eleO.id))?.map(eleO => eleO.name)?.join("/") 
+    _designParams.value.forEach(item => {
+      obj.name = item.name;
+      if (item.step) {
+        if (!item.key.includes(XM_raw_material_key)) {
+          obj[item.key] = addDecimals(item.value, item.step, i, item.attribute_type);
+          obj[`${item.key}_id`] = item.id;
+        } else {
+          obj[item.key] = item.step;
+          obj[`${item.key}_id`] = item.id;
+          obj.name = item.props.options
+            ? item.props.options
+                .filter(eleO => item.step.includes(eleO.id))
+                .map(eleO => eleO.name)
+                .join('/')
+            : '';
+        }
+      } else {
+        if (!item.key.includes(XM_raw_material_key)) {
+          obj[item.key] = item.value;
+          obj[`${item.key}_id`] = item.id;
+        } else {
+          obj[item.key] = item.step;
+          obj[`${item.key}_id`] = item.id;
         }
       }
-      
-      obj['raw_material'] = item.raw_material 
-      obj['technology'] = item.technology 
-      console.log('-------533----obj----------',obj)
-    })
-    console.log('------315----item------obj----------',obj)
+      obj.raw_material = item.raw_material;
+      obj.technology = item.technology;
+    });
     designResult.push(obj);
-    selectedRK.push(obj.id)
+    selectedRK.push(obj.id);
   }
-  _designResult.value = Object.assign([],[...designResult]) ;
-  selectedRowKeys.value = [...selectedRK]
-  console.log('------155------_desinParams.value----------',selectedRK,selectedRowKeys.value,designResult,_designResult.value)
-}
+
+  _designResult.value = [...designResult];
+  selectedRowKeys.value = [...selectedRK];
+  console.log('------155------_designParams.value----------', selectedRK, selectedRowKeys.value, designResult, _designResult.value);
+};
 
 onMounted(() => {
   _designParams.value = props.designParams;
