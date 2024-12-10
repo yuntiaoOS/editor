@@ -49,7 +49,7 @@
       :options="operationOptionSelect"
       filterable destroyOnClose
       multiple
-      :keys="{ label: 'name', value: 'id',disabled: 'disabled1'}"  
+      :keys="{ label: 'title', value: 'id',disabled: 'disabled1'}"  
       placeholder="请选择操作"
       :scroll="{type: 'virtual'}"  
       :popup-props="{ overlayInnerStyle: { height: '300px' } }"  
@@ -328,6 +328,7 @@ const onOperationConfirmFunc = async () => {
       }
       const obj  = {
         ...itemO,
+        name: itemO.title,
         step_type: 'operation',
         type: itemO.key.includes( 'xm_raw_material') ? 'VueContainer' :itemO.type,
         parent: parent,
@@ -364,10 +365,10 @@ const getOperationOptionFunc = async (page=1) => {
     if (page === 1) {
       const res_data = res.data.data.filter(ele=> ele.type !== "ImageUpload")
       operationOption.value = res_data.map(item => ({...item, attribute: item.id}))
-      operationOptionSelect.value = res_data.map(item => ({id: item.id, name: item.name}))
+      operationOptionSelect.value = res_data.map(item => ({id: item.id, title: item.title}))
     } else {
       operationOption.value = [...operationOption.value, ...res_data].map(item => ({...item, attribute: item.id}))
-      operationOptionSelect.value = [...operationOption.value, ...res_data].map(item => ({id: item.id, name: item.name}))
+      operationOptionSelect.value = [...operationOption.value, ...res_data].map(item => ({id: item.id, title: item.title}))
     }
     pagination.value.total = res.data.total
     

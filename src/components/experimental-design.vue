@@ -32,8 +32,8 @@
                     </div>
                   </el-col>  
                   <el-col :span="4" style="display: flex">
-                    <span v-if="['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 " style="line-height: 32px;width:60px ">步进： </span>
-                    <div >
+                    <span v-if="['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 || !item.key.includes('xm_raw_material')" style="line-height: 32px;width:60px ">步进： </span>
+                    <div v-if="!item.key.includes('xm_raw_material')">
                       <div v-if="item.attribute_type === 'single'" >
                         <xm-input v-model="item.step" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
                       </div>
@@ -88,7 +88,7 @@
       </template>
     </t-step-item>
   </t-steps>
-  <t-dialog 
+  <!-- <t-dialog 
     v-model:visible="add_dialog_visible"
     header="新增" destroy-on-close
     width="80%" attach="body"
@@ -126,8 +126,9 @@
         </t-row>
       </div>
     </t-form>
-    <!-- <xm-form ref="xmformRef"  v-model:form-data="formData" :show-submit-btn="false" :config="form_config" :on-submit="onSubmit"/> -->
-  </t-dialog>
+  </t-dialog> -->
+  <editSampleView v-if="add_dialog_visible" v-model:dialog-visible="add_dialog_visible" :design-params="designParams" @onSubmit="onSubmit" />
+    
 </template>
 
 <script setup lang="jsx">
@@ -137,6 +138,7 @@ import { config } from 'process';
 import { getFieldValue } from '@/utils/index';
 import xmInput from './xm-input.vue';
 import { multiply } from 'lodash-unified';
+import { timeFormat } from '@/utils/time-ago'
 
 const emits = defineEmits(['update:designParams', 'update:designResult']);
 const props = defineProps({
@@ -317,32 +319,10 @@ const onAdd = () => {
   add_dialog_visible.value = true;
 }
 
-const onSubmit = () => {
+const onSubmit = (row) => {
   console.log('-------formData----------',_designParams.value, xmformRef.value,formData.value);
-  xmformRef.value.validate({ showErrorMessage: true }).then((validateResult) => {
-    if (validateResult && Object.keys(validateResult).length) {
-      const firstError = Object.values(validateResult)[0]?.[0]?.message;
-      useMessage('warning',firstError)
-    }else{
-      add_dialog_visible.value = false;
-      const newData = { ...formData.value,id: uuid(), check: true };
-      _designParams.value.forEach((item) => {
-        newData['name'] = item.name
-        if ( !item.key.includes(XM_raw_material_key) ){
-          newData[`${item.key }_id`] = item.id
-        }else{
-          newData[`${item.key }_id`] = item.id
-          newData['name'] = item.props.options?.filter(eleO => item.step.includes(eleO.id))?.map(eleO => eleO.name)?.join("/") 
-        }
-        newData['raw_material'] = item.raw_material 
-        newData['technology'] = item.technology 
-        console.log('-------316----obj----------',newData)
-      })
-      _designResult.value.push(newData);
-      selectedRowKeys.value = [...selectedRowKeys.value, newData.id]
-    }
-  })
-
+  _designResult.value.push(row);
+  selectedRowKeys.value = [...selectedRowKeys.value, row.id]
 }
 
 function addDecimals(str1, str2,index,attribute_type) {
@@ -351,18 +331,24 @@ function addDecimals(str1, str2,index,attribute_type) {
     if (( !str1 || str1.length === 0 || str1 === 'NaN') && ( !str2 || str2.length === 0 || str2 === 'NaN') ) return '0';
     if ( !str1 || str1.length === 0 || str1 === 'NaN') return str2;
     if ( !str2 || str2.length === 0 || str2 === 'NaN') return str1;
-    // 将小数转换为整数
-    const factor = 10 ** Math.max(str1.split('.')[1]?.length || 0, str2.split('.')[1]?.length || 0);
-    const num1 = BigInt(str1.replace('.', '')) * BigInt(factor);
-    const num2 = BigInt(str2.replace('.', '')) * BigInt(factor);
+    try {
+      let result = ''
+      // 将小数转换为整数
+      const factor = 10 ** Math.max(str1.split('.')[1]?.length || 0, str2.split('.')[1]?.length || 0);
+      const num1 = BigInt(str1.replace('.', '')) * BigInt(factor);
+      const num2 = BigInt(str2.replace('.', '')) * BigInt(factor);
 
-    // 相加
-    const sum = num1 + num2;
+      // 相加
+      const sum = num1 + num2;
 
-    // 将结果转换回小数
-    const result = `${(sum / BigInt(factor)).toString()  }.${  (sum % BigInt(factor)).toString().padStart(Math.log10(factor), '0')}`;
+      // 将结果转换回小数
+      result = `${(sum / BigInt(factor)).toString()  }.${  (sum % BigInt(factor)).toString().padStart(Math.log10(factor), '0')}`;
 
-    return result;
+      return result;
+    } catch (error) {
+      return str1
+    }
+    
   }
   console.log('-------140-----addDecimals----------',str1, str2,attribute_type);
   if (attribute_type === 'compound'){ 
@@ -493,8 +479,8 @@ const makeTableFunc = () => {
   for (let i = 0; i < cycleNumber.value; i++) {
     const obj = { check: true, name: '' };
     obj.id = uuid();
+    obj.name = `样品-${timeFormat(null,'yyyymmddhhMMss')}`
     _designParams.value.forEach(item => {
-      obj.name = item.name;
       if (item.step) {
         if (!item.key.includes(XM_raw_material_key)) {
           obj[item.key] = addDecimals(item.value, item.step, i, item.attribute_type);

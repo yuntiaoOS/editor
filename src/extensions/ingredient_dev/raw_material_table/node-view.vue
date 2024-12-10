@@ -400,13 +400,15 @@ onMounted(async () => {
     console.log('----------change_log.value395---------',table_data.value,change_log.value);
     await initData()
   }else if(is_integration.value) {
-    
+    if ( is_integration.value) {
+      is_integration.value = false
+    }
     const docD = editor.getJSON()
     if (docD ) {
       // 原材料表
       const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
       if (raw_material_tables.length === 0) {
-        TMessagePlugin.warning('请先创建原材料表')
+        // TMessagePlugin.warning('请先创建原材料表')
         return  // 原材料表不存在，返回
       }
       raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)

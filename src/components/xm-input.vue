@@ -90,7 +90,7 @@
         <t-input v-model="_value" autofocus :borderless="borderless" :readonly="readonly" auto-width placeholder="请输入" @change="changeFunc" @blur="blurFunc">
         </t-input>
         <template #append>
-          <t-input v-model="_config.props.suffix" borderless auto-width placeholder="请输入" />
+          <t-input v-model="_config.props.suffix" readonly borderless auto-width placeholder="请输入" />
         </template>
       </t-input-adornment>
       <t-input v-else v-model="_value" autofocus :borderless="borderless" :readonly="readonly" :auto-width="autoWidth" placeholder="请输入" @change="changeFunc" @blur="blurFunc">

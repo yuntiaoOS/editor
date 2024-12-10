@@ -98,8 +98,8 @@ const getDesignParams = () => {
       if (eleT.key.includes( XM_raw_material_key)) {
         return { 
           ...eleT,step:'',check:true,
-          raw_material: selectTableForm.value.raw_material,
-          technology: selectTableForm.value.technology,
+          raw_material: raw_materialOptions.value.find(ele=> ele.id === selectTableForm.value.raw_material).change_log.change_log,
+          technology: technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).change_log.change_log,
           type: 'SelectPlus',
           label: eleT.name,
           value: eleT.id,
@@ -112,13 +112,14 @@ const getDesignParams = () => {
         }
       } else {
         if ( eleT.attribute_type === "compound"){
-          const customItems = {...eleT,step:{},check:true}
+          const customItems = {...eleT,
+                  raw_material: raw_materialOptions.value.find(ele=> ele.id === selectTableForm.value.raw_material).change_log.change_log,
+                  technology: technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).change_log.change_log,
+                  step:{},check:true}
           customItems.group = customItems.group.map(eleG=>{
             if (eleG.key.includes( XM_raw_material_key)) {
               return { 
                 ...eleG,step:'',check:true,
-                raw_material: selectTableForm.value.raw_material,
-                technology: selectTableForm.value.technology,
                 type: 'SelectPlus',
                 label: eleG.name,
                 value: eleG.id,
@@ -130,13 +131,15 @@ const getDesignParams = () => {
                 },
               }
             } else {
-              return {...eleG }
+              return {...eleG}
             }
           })
 
           return customItems
         }else{
-          return {...eleT,step:'',check:true}
+          return {...eleT,
+              raw_material: raw_materialOptions.value.find(ele=> ele.id === selectTableForm.value.raw_material).change_log.change_log,
+              technology: technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).change_log.change_log,step:'',check:true}
         }
         
       }
@@ -210,7 +213,7 @@ const on_experimental_designFunc = async ()=>{
       const { from, to } = editor.state.selection ?? {}
       console.log('--------on_experimental_designFunc--------189--------',from, to)
       editor.commands.setTextSelection({ from , to: to + 1  })
-      editor.commands.addSample_tables({ group:res.data.data.group, table_data:res.data.data.data,designParams:designParamsC})
+      editor.commands.addSample_tables({ group:res.data.data.group, table_data:[],designParams:designParamsC})
       // editor.view.updateState(editor.state)
       table_data.value = [...table_data]
       experimental_design_visible.value = false

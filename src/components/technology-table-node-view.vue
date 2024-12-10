@@ -598,12 +598,14 @@ onMounted(async () => {
           
         },
       })
-      
     }else {
       TMessagePlugin.warning('当前文档中没有数据')
     }
   }
   tableRef.value.expandAll()
+  if (is_integration.value) {
+    is_integration.value = false
+  }
 })
 
 </script>

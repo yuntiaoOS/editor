@@ -70,6 +70,64 @@ export const defaultNodes: NodeSerializer = {
   table(state, node) {
     state.table(node)
   },
+  xmTitle(state:any, node:any) {
+    console.log('---------xmTitle---23--------',state, node)
+    // 添加特定的渲染逻辑
+    const customText = node.attrs.title || 'Default Text'
+    state.text(customText, node.marks || [])
+    state.closeBlock()
+  },
+  xmForm(state:any, node:any) {
+    // 添加特定的渲染逻辑
+    const customText = node.attrs.title || 'Default Text'
+
+    state.text(customText, node.marks || [])
+    node.content.forEach((child:any) => {
+      state.render(child, node)
+    })
+    // node.content.forEach(child => state.render(child, node))
+    state.closeBlock()
+  },
+  xmTitleContent(state:any, node:any) {
+    // 添加特定的渲染逻辑
+    const customText = node.attrs.title || 'Default Text'
+
+    state.text(customText, node.marks || [])
+    // node.content.forEach(child => state.render(child, node))
+    state.closeBlock()
+  },
+  raw_material_table(state:any, node:any) {
+    // 添加特定的渲染逻辑
+    const customText = node.attrs.title || 'Default Text'
+
+    state.text(customText, node.marks || [])
+    // node.content.forEach(child => state.render(child, node))
+    state.closeBlock()
+  },
+  technology_table(state:any, node:any) {
+    // 添加特定的渲染逻辑
+    const customText = node.attrs.title || 'Default Text'
+
+    state.text(customText, node.marks || [])
+    // node.content.forEach(child => state.render(child, node))
+    state.closeBlock()
+  },
+  sample_table(state:any, node:any) {
+    // 添加特定的渲染逻辑
+    const customText = node.attrs.title || 'Default Text'
+
+    state.text(customText, node.marks || [])
+    // node.content.forEach(child => state.render(child, node))
+    state.closeBlock()
+  },
+  evaluating_table(state:any, node:any) {
+    // 添加特定的渲染逻辑
+    const customText = node.attrs.title || 'Default Text'
+
+    state.text(customText, node.marks || [])
+    // node.content.forEach(child => state.render(child, node))
+    state.closeBlock()
+  },
 }
 
 export const defaultMarks: MarkSerializer = {

@@ -14,7 +14,7 @@
               </div>
               <t-space>
                 <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入样品名称" />
-                <t-button v-if="false" theme="warning" variant="outline" @click="experimental_design_visible = true;">试验方法设计</t-button>
+                <t-button  variant="outline" @click="onAddFunc">新增</t-button>
                 <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
                 <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
               </t-space>
@@ -30,11 +30,11 @@
 
         </template> 
         <template #type-slot-operate="{ col, row }">
-          <div class="table-operations">
-            <!-- <t-link v-if="!editableRowKeys.includes(row.id)" theme="primary" hover="color" @click.stop="onEdit(row)">
-              编辑
+          <div style="display: flex; align-items: center;gap: 10px; ">
+            <t-link theme="primary" hover="color" @click="onTechnology(row)">
+              工艺
             </t-link>
-            <div v-else>
+            <!-- <div v-else>
               <t-link theme="primary" hover="color" @click.stop="onSave(row)">
                 保存
               </t-link>
@@ -50,14 +50,13 @@
       </t-table>
       <node-view-content :node="node" ></node-view-content> 
     </div>
-    <t-dialog destroyOnClose :closeOnOverlayClick="false"
-      v-model:visible="experimental_design_visible"
-      header="试验方法设计" :cancelBtn="null"
-      width="80%" attach="body"
-      :confirm-on-enter="true"
-      :on-confirm="on_experimental_designFunc"
+    <editSampleView v-if="editSampleDialogVisible" v-model:dialog-visible="editSampleDialogVisible" :design-params="_designParams" @onSubmit="onSubmit" />
+    <t-dialog destroyOnClose
+      v-model:visible="technologyInfoVisible"
+      header="工艺详情" :footer="false"
+      width="70%" attach="body"
     >
-      <experimental-design v-if="experimental_design_visible" v-model:design-params="_designParams" v-model:design-result="designResult" @select-change="onSelectChange"/>
+      <technologyInfoView v-if="technologyInfoVisible" :row="selectRow" :designParams="_designParams"/>
     </t-dialog>
     
     <t-dialog destroyOnClose
@@ -88,7 +87,7 @@
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
-import { getIngredient_dev_experimentListFetch,delete_experiment_samplesFetch,get_experiment_samplesListFetch ,put_experiment_samples_fetch } from '@/api/experiment'
+import { getIngredient_dev_experimentListFetch,post_experiment_samples_fetch,delete_experiment_samplesFetch,get_experiment_samplesListFetch ,put_experiment_samples_fetch } from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
@@ -102,6 +101,11 @@ const currentSaveId = ref('');
 const editMap  = {};
 const loading = ref(false);
 const searchTitle = ref('')
+
+const editSampleDialogVisible = ref(false);
+const selectRow = ref()
+
+const technologyInfoVisible = ref(false);
 
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
 const experiment_record = computed(() => $key_data?.experiment_record)
@@ -138,71 +142,8 @@ const group = computed({
 })
 
 const _designParams = computed({
-  get: () => {
-    const oldDesignParams = node.attrs.designParams
-    console.log('------116--------oldDesignParams------',oldDesignParams)
-    const docD = editor.getJSON()
-    let designParams = []
-    if (docD) {
-      // 原材料表
-      const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
-      // 工艺表
-      const technology_tables = docD.content.filter(ele=> ele.type === 'technology_table')
-      if (technology_tables.length > 0) {
-        const [technology_table] = technology_tables
-        const table_data  = technology_table.attrs.table_data.map(eleT => eleT.children)
-        console.log('--------_designParams--------145--------',table_data)
-        let material_options = []
-        if (raw_material_tables.length > 0) {
-          const [raw_material_table] = raw_material_tables
-          console.log('-------130-------raw_material_table----------',raw_material_table)
-          console.log('-------131-------raw_material_table----------',raw_material_table.attrs.table_data)
-          material_options = Object.assign([],raw_material_table.attrs.table_data).map(ele=> { return { ...ele,name: ele.experiment_material_name + '/' + ele.experiment_material_sn } }) 
-        }
-        if (table_data.length > 0) {
-          console.log('--------_designParams--------138--------',table_data,table_data.reduce((a, b) => a.concat(b)))
-          designParams = table_data.reduce((a, b) => a.concat(b)).map(eleT => { 
-            if (eleT.key.includes( XM_raw_material_key)) {
-              return { 
-                ...eleT,step:'',check:true,
-                raw_material: raw_material_tables[0].attrs.key,
-                technology: technology_tables[0].attrs.key,
-                type: 'SelectPlus',
-                label: eleT.name,
-                value: eleT.id,
-                props: {
-                  ...eleT.props,
-                  labelKey: 'name',
-                  valueKey: 'id',
-                  options: material_options
-                },
-              }
-            } else {
-              return {...eleT,step:'',check:true}
-            }
-            
-          })
-          nextTick(()=>{
-            if (oldDesignParams && oldDesignParams.length > 0) {
-              // 遍历数组 b，查找并更新数组 a 中的对象
-              oldDesignParams.forEach(itemB => {
-                const itemA = designParams.find(itemA => itemA.id === itemB.id);
-                if (itemA) {
-                  itemA.step = itemB.step;
-                }
-              });
-            }
-          })
-        }
-      }
-    }else {
-      designParams = oldDesignParams
-    }
-    console.log('-------192-------designParams----------',designParams)
-    return designParams
-  },
+  get: () => node.attrs.designParams,
   set(value) {
-    console.log('------172--------updateAttributes({ designParams: value })------',value)
     updateAttributes({ designParams: value })
   },
 })
@@ -216,50 +157,43 @@ const table_data = computed({
   },
 })
 
-const onSelectChange = ({value, params} )=>{
-  // console.log('--------onSelectChange--------44--------',value, params)
-  select_material.value = params.selectedRowData
+const onAddFunc = () => {
+  editSampleDialogVisible.value = true
+  console.log('------220--------onAddFunc----------')
 }
 
-const on_experimental_designFunc = async()=>{
-  console.log('--------on_experimental_designFunc--------156--------',designResult.value,_designParams.value)
-  const designParamsC =  Object.assign([],_designParams.value)
-  const selectData = designResult.value.filter(ele=> ele.check)
-  if (selectData.length > 0) {
-    const table_data = []
-    selectData.forEach((ele ,index) => {
-      const obj  = {
-        ...ele,
-        name: ele.name&&ele.name.length>0 ? ele.name : `SF-${timeFormat(null,'yyyymmddhhMMss')}`,
-        id: uuid(),
-        raw_material: ele.id,
-        count: '0',
-      }
-      table_data.push(obj)
-    });
-    const params = {
-      experiment_theme: experiment_theme.value?.id,
-      record: experiment_record.value?.id,
-      keys: _designParams.value.filter(ele=> ele.check).map(ele=> `${ele.key }_id`),
-      values: _designParams.value.filter(ele=> ele.check).map(ele=> ele.key),
-      data: table_data
-    }
-    const res = await post_experiment_samples_fetch(params)
-    console.log('--------on_experimental_designFunc--------180--------',params,selectData,_designParams.value,designResult.value)
-    if (res.data.code === 2000) {
-      console.log('--------on_experimental_designFunc--------183--------',editor.state)
-    
-      table_data.value = [...table_data]
-      experimental_design_visible.value = false
-    }else{
-      TMessagePlugin.warning(res.data.msg)
-    }
-  }else{
-    TMessagePlugin.warning('请选择需要添加的数据')
+const onTechnology = (row)=> {
+  console.log('----220--onTechnology-------',row)
+  selectRow.value = row
+  technologyInfoVisible.value = true
+}
+
+const onSubmit = async (row)=> {
+  const params = {
+    experiment_theme: experiment_theme.value?.id,
+    record: experiment_record.value?.id,
+    keys: _designParams.value.filter(ele=> ele.check).map(ele=> `${ele.key }_id`),
+    values: _designParams.value.filter(ele=> ele.check).map(ele=> ele.key),
+    group: group.value,
+    data: [{
+      ...row,
+      name: row.name&&row.name.length>0 ? row.name : `SF-${timeFormat(null,'yyyymmddhhMMss')}`,
+      raw_material: row.id,
+      count: '0',
+    }]
   }
-  nextTick(()=>{
-    updateAttributes({ designParams:[ ..._designParams.value] })
-  })
+  const res = await post_experiment_samples_fetch(params)
+  console.log('--------on_experimental_designFunc--------180--------',params,_designParams.value,designResult.value)
+  if (res.data.code === 2000) {
+    console.log('--------on_experimental_designFunc--------183--------',editor.state)
+    group.value =  res.data.data.group
+    updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+    await initData()
+  }else{
+    TMessagePlugin.warning(res.data.msg)
+  }
+
+
 }
 
 const onDelete = async(row) => {
@@ -470,7 +404,7 @@ columns.value = [
   {
     title: '操作栏',
     colKey: 'operate',
-    width: 80,
+    width: 90,
     cell: 'type-slot-operate',
   },
 ];
@@ -510,6 +444,7 @@ const initData = async () => {
 }
 
 onMounted(async () => {
+  console.log('----------4447----onMounted-----',node);
   if (group.value && group.value.length > 0 && table_data.value?.length === 0) {
     console.log('----------change_log.value499---------',group.value);
     await initData()

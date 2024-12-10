@@ -51,6 +51,10 @@ const transform: AxiosTransform = {
       return data.data;
     }
 
+    if (code === 401) {
+      window.location.href = '/login';
+    }
+
     throw new Error(`请求接口错误, 错误码: ${code}`);
   },
 

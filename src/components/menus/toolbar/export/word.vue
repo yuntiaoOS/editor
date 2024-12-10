@@ -1,20 +1,34 @@
 <template>
-  <menus-button text="Word" ico="word" huge />
+  <menus-button text="Word" ico="word" huge @menu-click="exportToWord"/>
 </template>
 
 <script setup lang="ts">
-// import htmlDocx from 'html-docx-js/dist/html-docx';  // 引入 html-docx-js 库
-// const { options, editor } = useStore()
-// function exportToWord() {
-//   const content = editor.getHTML();  // 获取编辑器中的 HTML 内容
-//   const docxContent = htmlDocx.asBlob(content);  // 转换为 .docx 格式
 
-//   // 创建下载链接并自动点击
-//   const link = document.createElement('a');
-//   link.href = URL.createObjectURL(docxContent);
-//   link.download = 'document.docx';  // 设置文件名
-//   link.click();  // 模拟点击下载
-// }
+import { Document, Packer, Paragraph, TextRun } from "docx"
+
+import { saveAs } from 'file-saver'
+// import { DocxSerializer, defaultNodes, defaultMarks } from 'prosemirror-docx'
+
+import {  DocxSerializer,  defaultNodes, defaultMarks } from '@/extensions/docx'
+
+const { options, editor } = useStore()
+
+const docxSerializer = new DocxSerializer(defaultNodes, defaultMarks)
+
+function exportToWord() {
+  const opts: any = {
+    getImageBuffer: async (src: string) => {
+      const response = await fetch(src)
+      const arrayBuffer = await response.arrayBuffer()
+      return new Uint8Array(arrayBuffer)
+    },
+  }
+  const wordDocument = docxSerializer.serialize(editor.value.state.doc, opts)
+  console.log('----102----wordDocument--------------', wordDocument)
+  Packer.toBlob(wordDocument).then(blob => saveAs(new Blob([blob]), 'example.docx'))
+
+}
+
 </script>
 
 <style lang="less" scoped></style>
