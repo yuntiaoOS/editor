@@ -214,6 +214,9 @@ const renderStepIcon = () => {
 const renderOperationIcon = () => {
   return <t-icon name="adjustment" size="30px" />;
 };
+const renderAssessmentIcon = () => {
+  return <t-icon name="analytics" size="30px" />;
+};
 const renderArrowUp = () => {
   return <t-icon name="arrow-left-up" />;
 };
@@ -476,8 +479,8 @@ const columns = ref([
     width: 80,
     cell: (h, { row:{ step_type }, rowIndex }) => {
       return (
-        <t-tag shape="round" icon={step_type === 'processes' ? renderStepIcon: renderOperationIcon} theme={step_type === 'processes' ? 'primary' : 'success' } variant="light-outline">
-          {step_type === 'processes' ? '步骤' : '操作'}
+        <t-tag shape="round" icon={step_type === 'processes' ? renderStepIcon : step_type === 'assessment' ? renderAssessmentIcon : renderOperationIcon} theme={step_type === 'processes' ? 'primary' : 'success' } variant="light-outline">
+          {step_type === 'processes' ? '步骤' : step_type === 'assessment' ? '评估' : '操作'}
         </t-tag>
       );
     },
@@ -585,11 +588,10 @@ const columns = ref([
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     cell: (h, { row }) => (
       <div class="tdesign-table-demo__table-operations">
-        {row.step_type === "processes" && (
-          <t-button title="插入操作" theme="primary" onClick={(event) =>{event.stopPropagation();  appendTo(row)} }>插入操作</t-button>
-        )}
-        <t-button title="前插步骤" disabled shape="square" variant="text" icon={renderArrowUp}  onClick={(event) =>{event.stopPropagation();  insertBefore(row)} }></t-button>
-        <t-button title="后插步骤" disabled shape="square" variant="text" icon={renderArrowDown}  onClick={(event) =>{event.stopPropagation();  insertAfter(row)} }></t-button>
+        {row.step_type === "processes" && [
+          <t-button title="插入操作" theme="primary" onClick={(event) =>{event.stopPropagation();  appendTo(row)} }>插入操作</t-button>,
+          <t-button title="插入评估" theme="success" onClick={(event) =>{event.stopPropagation();  appendTo(row)} }>插入评估</t-button>
+          ]}
         <t-popconfirm content="确认删除吗" onConfirm={() => onDeleteConfirm(row) }>
           <t-button title="删除" theme="danger" shape="square" variant="text" icon={renderDelete} ></t-button>
         </t-popconfirm>
