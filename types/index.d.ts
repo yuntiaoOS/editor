@@ -238,6 +238,8 @@ export interface XmTableOptionModel<T> {
   change_log?: T
   group?: string
   is_integration?: boolean
+  // 自定义参数
+  customerParams?: T
 
 }
 

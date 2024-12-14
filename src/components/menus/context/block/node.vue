@@ -49,7 +49,7 @@
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') ||
           editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
           ico="technology"
-          text="工艺表格"
+          text="工艺路线"
           :tooltip="false"
           @menu-click="editor?.chain().focus().addTechnology_tables({is_integration:true}).run()"
         />

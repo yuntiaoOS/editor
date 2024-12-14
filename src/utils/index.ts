@@ -64,23 +64,28 @@ export function checkBeforeSaveDoc(content:any[],) {
 export const getFieldValue = (field: string, row: any)=> {
   // console.log('----------getFieldName-----------------', field, row)
   let fieldName = ''
-  if (!row) {
+  if (!row || !field) {
     return fieldName
   }
-  if (field.indexOf('.') !== -1) {
-    const fieldArr = field.split('.')
-    let fieldData: any = {}
-    fieldArr.forEach((ele, index) => {
-      if (index === 0) {
-        fieldData = row[ele]
-      } else if (fieldData) {
-        fieldData = fieldData[ele]
-      }
-      fieldName = fieldData
-    })
-  } else {
-    fieldName = row[field]
+  try {
+    if (field && field.includes('.')) {
+      const fieldArr = field.split('.')
+      let fieldData: any = {}
+      fieldArr.forEach((ele, index) => {
+        if (index === 0) {
+          fieldData = row[ele]
+        } else if (fieldData) {
+          fieldData = fieldData[ele]
+        }
+        fieldName = fieldData
+      })
+    } else {
+      fieldName = row[field]
+    }
+  } catch (error) {
+    console.log('----------getFieldName----error-------------',error, field, row)
   }
+  
   // console.log('----------getFieldName----11111-------------', field, row)
   return fieldName
 }

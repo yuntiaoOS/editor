@@ -47,3 +47,5 @@ pnpm-lock.yaml
 Thumbs.db
 
 src/lib
+public/lib
+lib

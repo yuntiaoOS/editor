@@ -19,7 +19,7 @@ export function renderGroups(editor: Editor) {
         },
         {
           name: 'technology_table',
-          label: "工艺表格",
+          label: "工艺路线",
           iconName: 'technology',
           action: ({ editor, range }) => {
             editor?.chain().focus().addTechnology_tables({is_integration:true}).run()

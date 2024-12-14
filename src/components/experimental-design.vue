@@ -1,66 +1,42 @@
 <!-- 试验方法设计 -->
 <template>
-  <t-steps layout="vertical" :current="current" status="process" class="steps-demos-extra">
-    <t-step-item title="步骤1" content="选择实验设计方式类型">
-      <template #extra>
+  <!-- <t-steps layout="vertical" :current="current" status="process" class="steps-demos-extra">
+    <t-step-item title="设计方式" content="选择实验设计方式类型">
+      <template #extra> -->
         <t-space direction="vertical">
-          <t-space align="center">
+          <t-space direction="vertical">
             <t-check-tag-group v-model="designType" style="margin-right: 32px" :options="designTypeOptions" @change="current = 0;">选中/未选态</t-check-tag-group>
+            <div style="width: calc(80vw - 100px);" >
+              <t-checkbox disabled>为设定的默认显示上一次实验参数（也可以选择来源于某个样品）</t-checkbox>
+              <t-tree 
+                ref="designTreeRef" v-model="designTreeChecked"
+                :data="_designParams.formItems"  :keys="{ value: 'rowKey', label: 'title', children: 'formItems' }"
+                activable  expandParent activeMultiple expandAll 
+                allowFoldNodeOnFilter checkable  line @change="treeSelectChange">  
+                <template #label="{ node }">
+                  <div style="display:flex;gap:10px;">
+                    <span :style="{color: node.data.type ?'blue' :'var(--umo-text-color-primary)' ,width: '150px'}">{{ node.label }}</span>
+                    <div v-if="node.isLeaf()" >
+                      <xmFormDesignRender style="overflow: auto;"
+                        v-model="_designParams.formData"
+                        :label="node.data.title"
+                        :valueKey="getNodeFullColKey(node)"
+                        :mode=" 'RESP'"
+                        :config="node.data">
+                      </xmFormDesignRender>
+                    </div>
+                  </div>
+                </template>
+              </t-tree>
+            </div>
           </t-space>
-          <t-button v-if="current === 0" size="small" variant="base" @click="typeSelectNext"> 下一步 </t-button>
+          <t-button v-if="false" size="small" variant="base" @click="typeSelectNext"> 下一步 </t-button>
         </t-space>
-      </template>
+      <!-- </template>
     </t-step-item>
-    <t-step-item title="步骤2" content="根据选择方式设置参数">
+    <t-step-item title="实验数据" content="选择正交表确定实验">
       <template #extra>
-        <div style="width: calc(80vw - 100px);" >
-          <t-checkbox disabled>为设定的默认显示上一次实验参数（也可以选择来源于某个样品）</t-checkbox>
-          <t-list v-if="current === 1" :split="true">
-            <t-list-item v-for=" (item,index) in _designParams " :key="index">
-              <template #action>
-                <el-row style="display:flex;width: calc(80vw - 120px);justify-content: space-between;" justify="start">
-                  <el-col :span="3" style="display: flex">
-                    <t-checkbox v-model="item.check" style="min-width: 200px;">因数{{index+1}}： {{item.name}}</t-checkbox>
-                  </el-col>
-                  <el-col :span="5" style="display: flex">
-                    <span  style="line-height: 32px;width:60px">基值：</span>
-                    <div v-if="item.attribute_type === 'single'" >
-                      <xm-input v-model="item.value" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
-                    </div>
-                    <div v-else>
-                      <xm-form ref="xmformRef" v-model:form-data="item.value" :config="getConfig('form',item)" :show-submit-btn="false" />
-                    </div>
-                  </el-col>  
-                  <el-col :span="4" style="display: flex">
-                    <span v-if="['SelectPlusRadio','SelectPlus'].indexOf(item.type) === -1 || !item.key.includes('xm_raw_material')" style="line-height: 32px;width:60px ">步进： </span>
-                    <div v-if="!item.key.includes('xm_raw_material')">
-                      <div v-if="item.attribute_type === 'single'" >
-                        <xm-input v-model="item.step" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/>
-                      </div>
-                      <div v-else>
-                        <xm-form ref="xmformRef" v-model:form-data="item.step" :config="getConfig('form',item,'step')" :show-submit-btn="false" />
-                      </div>
-                      <!-- <xm-input v-model="item.step" :config="item" borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/> -->
-                    </div>
-                  </el-col>
-                  <!-- <t-input v-model="item.step" auto-width borderless style="border-bottom: 1px solid var(--td-border-level-2-color);"/> -->
-                </el-row>  
-              </template>
-            </t-list-item>
-          </t-list>
-          <t-space v-if="current === 1" style="line-height: 32px;margin-top:10px;">正交：{{_designParams.filter(ele=>ele.check).length}} x    <t-input-number v-model="cycleNumber" theme="column" :max="100" :min="0" auto-width borderless  style="border-bottom: 1px solid var(--td-border-level-2-color);" @blur="blurCycleNumberFunc"/>     (前边{{_designParams.filter(ele=>ele.check).length}}是选择的因数数量，后边我是需要正交的次数需要手动填写) </t-space>
-          <div style="margin-top:10px;">
-            <t-space v-if="current === 1" align="center">
-              <t-button size="small" variant="text" @click="current--"> 上一步 </t-button>
-              <t-button v-if="_designParams.filter(ele=>ele.check).length>0" size="small" variant="base" @click="makeTableFunc"> 下一步 </t-button>
-            </t-space>
-          </div>
-        </div>
-      </template>
-    </t-step-item>
-    <t-step-item title="步骤3" content="选择正交表确定实验">
-      <template #extra>
-        <t-space v-if="current === 2" direction="vertical">
+        <t-space v-if="current === 1" direction="vertical">
           <div>
             <t-table
               ref="tableRef" :selected-row-keys="selectedRowKeys"
@@ -71,76 +47,44 @@
                 <div style="padding: 6px 0;display: block;">
                   <t-space>
                     <div> &nbsp; </div>
-                    <!-- <t-space> -->
                       <t-button variant="outline" @click="onAdd">添加数据</t-button>
-                    <!-- </t-space> -->
+      
                   </t-space>
                 </div>
               </template>
-              
+              <template #defaultValueSlot="slotProps">
+                <div >
+                  <xmFormDesignRender style="overflow: auto;"
+                    v-model="slotProps.row"
+                    :label="slotProps.col.title"
+                    :valueKey="slotProps.col.colKey"
+                    :mode=" 'RESP'"
+                    :config="slotProps.col.attrs">
+                  </xmFormDesignRender>
+                </div>
+              </template>
             </t-table>
           </div>
           <t-space align="center">
             <t-button size="small" variant="text" @click=" designType.includes('自定义') ? current = 0 : current--"> 上一步 </t-button>
-            <!-- <t-button size="small" variant="base" @click="null"> 完成 </t-button> -->
+          
           </t-space>
         </t-space>
       </template>
     </t-step-item>
-  </t-steps>
-  <!-- <t-dialog 
-    v-model:visible="add_dialog_visible"
-    header="新增" destroy-on-close
-    width="80%" attach="body"
-    :confirm-on-enter="true"
-    :on-confirm="onSubmit"
-  >
-    <t-form
-      ref="xmformRef" 
-      label-align="left"
-      label-width="120px"
-      :data="formData" colon
-      :rules="form_config.rules"
-      :error-message="errorConfig === 'default' ? undefined : errorMessage"
-      scroll-to-first-error="smooth"
-      @submit="onSubmit"
-    >
-      <div>
-        <t-row :gutter="[5, 5]" justify="space-between">
-          <t-col 
-            v-for="formItem in form_config.formItems "  :key="formItem.key"
-            :xs="12" :sm="12" :md="12" :lg="12" :xl="12" 
-            >
-            <t-form-item 
-              :name="formItem.key" 
-              :label="formItem.title?formItem.title:formItem.name"
-              :rules="formItem.rules" >
-                <div v-if="formItem.attribute_type === 'single'" >
-                  <xm-input v-model="formData[formItem.key]" :config="formItem" ></xm-input>
-                </div>
-                <div v-else>
-                  <xm-form ref="xmformSubRef" v-model:form-data="formData[formItem.key]" :config="getConfig('form',formItem)" :show-submit-btn="false" />
-                </div>
-            </t-form-item>
-          </t-col>
-        </t-row>
-      </div>
-    </t-form>
-  </t-dialog> -->
-  <editSampleView v-if="add_dialog_visible" v-model:dialog-visible="add_dialog_visible" :design-params="designParams" @onSubmit="onSubmit" />
+  </t-steps> -->
+  <editSampleView v-if="add_dialog_visible" v-model:dialog-visible="add_dialog_visible" :design-params="_designParams" @onSubmit="onSubmit" />
     
 </template>
 
 <script setup lang="jsx">
 import { ref } from 'vue';
 import { v4 as uuid } from 'uuid'
-import { config } from 'process';
 import { getFieldValue } from '@/utils/index';
 import xmInput from './xm-input.vue';
-import { multiply } from 'lodash-unified';
 import { timeFormat } from '@/utils/time-ago'
 
-const emits = defineEmits(['update:designParams', 'update:designResult']);
+const emits = defineEmits(['update:designParams', 'update:designResult','update:selectFormItems', 'change']);
 const props = defineProps({
   designParams: {
     type: Array,
@@ -150,35 +94,16 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  selectFormItems: {
+    type: Array,
+    default: () => [],
+  },
 });
-const current = ref(1);
-const tableRef = ref();
-const xmformRef = ref();
-const xmformSubRef = ref();
+const current = ref(0);
+
 const columns = ref([]);
 const add_dialog_visible = ref(false);
-const formData = ref({});
-const form_config = ref({
-  formItems: [],
-  formConfig: {
-    rules: {
-      name: [
-        { required: true, message: '必填', type: 'error', trigger: 'blur' },
-      ],
-      description: [
-        { required: false, message: '必填', type: 'error', trigger: ['blur'] },
-      ]
-    },
-    ruleJs: "//formData: 表单数据  formMap: 表单字段id -> 字段json配置\r\nfunction doChange(formData, formMap){\r\n\t\r\n}",
-    labelPos: "left",
-    ruleType: "SIMPLE",
-    layout: "vertical",
-    columns: 1,
-    colon: true,
-    labelWidth: "80px",
-    showSubmitBtn: false,
-  }
-});
+
 const columnsDefault = [
   {
     colKey: 'row-select',
@@ -193,8 +118,9 @@ const columnsDefault = [
   },
 ]
 
+const designTreeRef = ref();
 const selectedRowKeys = ref([]);
-
+const designTreeChecked = ref([]);
 const cycleNumber = ref(0);
 
 const _designResult = computed({
@@ -206,14 +132,53 @@ const _designResult = computed({
   },
 });
 
-
+const _selectFormItems = computed({
+  get() {
+    return props.selectFormItems || [];
+  },
+  set(value) {
+    emits('update:selectFormItems', value);
+  },
+});
 
 const _designParams = ref([])
 
+function filterFormItems(nodes, targetIds) {
+  const result = [];
+
+  for (const node of nodes) {
+    // 对每个节点进行递归处理
+    const filteredChildren = node.formItems && node.formItems.length > 0 
+      ? filterFormItems(node.formItems, targetIds) 
+      : [];
+    
+    // 判断当前节点是否在目标列表中，或者其子节点中有目标节点
+    if (targetIds.includes(node.rowKey) || filteredChildren.length > 0) {
+      result.push({
+        ...node,
+        formItems: filteredChildren
+      });
+    }
+  }
+
+  return result;
+}
+
+const treeSelectChange = (keys) => {
+  const formItems = filterFormItems(_designParams.value.formItems, designTreeChecked.value);
+  console.log('-------treeSelectChange------',formItems,keys);
+  _selectFormItems.value = formItems;
+  // emits('change', formItems);
+}
+
 watch(_designParams.value, (val) => {
-  if (val && val.length > 0) {
-    console.log('-------_designParams-------------',val);
-    emits('update:designParams', val);
+  if (val) {
+    console.log('-------_designParams--------161-----',val);
+    if (val.formItems && val.formItems.length > 0) {
+      console.log('-------_designParams--designTreeChecked------156-----',designTreeChecked.value,val);
+      emits('update:designParams', val);
+    }
+    
   }
 }, { immediate: true });
 
@@ -226,46 +191,12 @@ const designTypeOptions = [
   { label: '中心复合', value: '中心复合' , disabled: true},
 ]
 
-const designType = ref('正交设计');
-
-const getConfig = (type,row,rowType) => {
-  const config = {
-    formItems: [],
-    formConfig: {
-      rules: {
-        name: [
-          { required: true, message: '必填', type: 'error', trigger: 'blur' },
-        ],
-        description: [
-          { required: false, message: '必填', type: 'error', trigger: ['blur'] },
-        ]
-      },
-      ruleJs: "//formData: 表单数据  formMap: 表单字段id -> 字段json配置\r\nfunction doChange(formData, formMap){\r\n\t\r\n}",
-      labelPos: "left",
-      ruleType: "SIMPLE",
-      layout: "vertical",
-      columns: 1,
-      colon: true,
-      labelWidth: "80px",
-      showSubmitBtn: false,
-    }
-  }
-  if (row.attribute_type === 'compound' && row.group) {
-    if (rowType === 'step') {
-      config.formItems = row.group.filter(ele=>!ele.key.includes(XM_raw_material_key))
-    }else{
-      config.formItems = row.group
-    }
-  }
-
-  return config
-}
+const designType = ref(['自定义']);
 
 const typeSelectNext = ()=>{
-  console.log("typeSelectNext----------------------",current.value,designType.value)
+  console.log("typeSelectNext----------------------",current.value,_designParams)
   // designType.value === '自定义' 时 current.value跳到下下步
   if (designType.value.includes('自定义')  && current.value === 0) {
-    cycleNumber.value = 0
     makeTableFunc()
   } else if (designType.value.includes('正交设计') && current.value === 0) {
     
@@ -276,8 +207,29 @@ const typeSelectNext = ()=>{
   } else {
      
   }
-  cycleNumber.value = 0
-  current.value++
+  current.value = 1
+}
+
+const getNodeFullColKey = (node) => {
+  const parents = node.getParents()
+  
+  // console.info('树结构数据:--------',node, parents);
+  if (!parents) {
+    return ''
+  } 
+  const keys = []
+  parents.forEach(item => {
+    keys.unshift(item.data.key)
+  })
+  if (parents[0].data.type && parents[0].data.type === "FieldsGroup") {
+    keys.push(node.data.id)
+  }else{
+    keys.push(node.data.key)
+  }
+  
+  const keyStr = keys.join('.')
+  // console.log('keys:-----204---', keyStr);
+  return keyStr? keyStr : ''
 }
 
 const onSelectChange = (value, params) => {
@@ -294,33 +246,11 @@ const blurCycleNumberFunc = (val) => {
 }
 
 const onAdd = () => {
-  formData.value = {}
-  form_config.value.formItems = _designParams.value.map((item) => { 
-    const obj = {
-      ...item, 
-      title: item.name,
-      [item.key]:item.value ,
-    }
-    return obj
-  });
-  console.log('-------onAdd-----275-----', form_config.value,_designParams.value);
-  _designParams.value.forEach((designItem) =>{
-    form_config.value.formConfig.rules[designItem.key] = [
-      { required: true, message: '必填', type: 'error', trigger: ['blur','change'] },
-    ]
-    if (designItem.attribute_type === 'compound' && designItem.group) {
-      formData.value[designItem.key] = designItem.value ?{ ...designItem.value} : {}
-    }else{
-      formData.value[designItem.key] =  designItem.value ? designItem.value : ''
-    }
-
-  })
-  console.log('-------onAdd-----275-----', form_config.value,formData.value);
   add_dialog_visible.value = true;
 }
 
 const onSubmit = (row) => {
-  console.log('-------formData----------',_designParams.value, xmformRef.value,formData.value);
+  console.log('-------formData----------',_designParams.value, row);
   _designResult.value.push(row);
   selectedRowKeys.value = [...selectedRowKeys.value, row.id]
 }
@@ -376,152 +306,139 @@ function isNumber(value) {
   // 判断转换后的值是否为数字，并且不是 NaN
   return !isNaN(num)
 }
-
+const FormDesignRenderComponent = resolveComponent('FormDesignRender');
 const makeTableFunc = () => {
-  console.log('-------260-----makeTableFunc----------', _designParams.value);
+  console.log('-------260-----makeTableFunc----------', _designParams.value );
 
   const selectedRK = [];
-  const paramsColumns = [];
+  // 递归函数，生成多级表头的 columns
+  function generateColumns(formItems, parentKey = '',parent) {
+    return formItems.map(item => {
+      // 如果存在父级 key，则拼接父级 key 和当前 key
+      const itemKey = parent?.type && parent.type === 'FieldsGroup' ?  item.id : item.key;
+      const currentKey = parentKey ? `${parentKey}.${itemKey}` : itemKey;
 
-  const processItem = (item, parentKey = '') => {
-    const key = parentKey ? `${parentKey}` : item.key;
-    const componentName = xmInput;
-    const options = !['SelectPlusRadio', 'SelectPlus'].includes(item.type)
-      ? []
-      : item.props.options.map(ele => ({ label: ele.name, value: ele.id }));
+      const column = {
+        title: item.title,
+        colKey: currentKey,
+        attrs: item,
+        minWidth: 100,
+        cell: 'defaultValueSlot',
+        // cell: (h , { row, rowIndex , col} ) => {
+        //   if (!item.formItems ) {
+        //     return (
+        //       <FormDesignRender
+        //           value={getFieldValue(col.key,row )}
+        //           label={col.title}
+        //           mode="RESP"
+        //           config={col.attrs}
+        //           onChange={(value) => {
+        //             // row.form.formData[item.key] = value;
+        //           }}
+        //         />
+        //     )
+        //   }
+        // }
+      };
 
-    if (item.children && item.children.length > 0) {
-      item.children = item.children.map(child => processItem(child,`${parentKey}.${child.key}` ));
-      return item
-    }else {
-      if (item.key.includes(XM_raw_material_key)) {
-        return {
-          title: item.name,
-          colKey: key,
-          width: 100,
-          render: (h, { row }) => {
-            const dataR = getFieldValue(key,row);
-            return dataR
-              ? item.props.options
-                  ?.filter(eleO => dataR.includes(eleO.id))
-                  .map(eleO => eleO.name)
-                  .join(';')
-              : '';
-          },
-        };
-      } else {
-        return {
-          title: item.name,
-          colKey: key,
-          width: 100,
-          edit: {
-            component: componentName,
-            props: ({ col, row }) => ({
-              modelValue: getFieldValue(key,row),
-              config: item,
-              clearable: true,
-              autofocus: true,
-              multiply: true,
-              options,
-            }),
-            rules: [
-              {
-                required: false,
-                message: '不能为空',
-              },
-            ],
-            showEditIcon: true,
-            abortEditOnEvent: ['onEnter', 'onBlur'],
-            onEdited: (context) => {
-              const newData = [..._designResult.value];
-              newData.splice(context.rowIndex, 1, context.newRowData);
-              _designResult.value = newData;
-              useMessage('success', 'Success');
-            },
-            validateTrigger: 'change',
-            on: (editContext) => ({
-              onBlur: (ctx) => {
-                console.log('失去焦点', editContext);
-                ctx?.e?.preventDefault();
-              },
-              onEnter: (ctx) => {
-                ctx?.e?.preventDefault();
-                console.log('onEnter', ctx);
-              },
-              defaultEditable: true,
-            }),
-          },
-        } ;
+      // 如果当前项有子 formItems，递归生成 children
+      if (item.formItems && item.formItems.length > 0) {
+        column.children = generateColumns(item.formItems, currentKey,item);
       }
-    }
-  };
 
-  _designParams.value
-    .filter(ele => ele.check)
-    .forEach(item => {
-      if (item.attribute_type === 'compound' && item.group) {
-        const colG = {
-          title: item.name,
-          colKey: item.key,
-          children: item.group,
-        };
-        paramsColumns.push(processItem(colG,colG.colKey));
-      } else {
-        paramsColumns.push(processItem(item));
-      }
+      return column;
     });
-
-  columns.value = [...columnsDefault, ...paramsColumns];
-  console.log('--------151----_designParams.value----------', _designResult.value, paramsColumns);
-  current.value++;
-
-  const designResult = [];
-  for (let i = 0; i < cycleNumber.value; i++) {
-    const obj = { check: true, name: '' };
-    obj.id = uuid();
-    obj.name = `样品-${timeFormat(null,'yyyymmddhhMMss')}`
-    _designParams.value.forEach(item => {
-      if (item.step) {
-        if (!item.key.includes(XM_raw_material_key)) {
-          obj[item.key] = addDecimals(item.value, item.step, i, item.attribute_type);
-          obj[`${item.key}_id`] = item.id;
-        } else {
-          obj[item.key] = item.step;
-          obj[`${item.key}_id`] = item.id;
-          obj.name = item.props.options
-            ? item.props.options
-                .filter(eleO => item.step.includes(eleO.id))
-                .map(eleO => eleO.name)
-                .join('/')
-            : '';
-        }
-      } else {
-        if (!item.key.includes(XM_raw_material_key)) {
-          obj[item.key] = item.value;
-          obj[`${item.key}_id`] = item.id;
-        } else {
-          obj[item.key] = item.step;
-          obj[`${item.key}_id`] = item.id;
-        }
-      }
-      obj.raw_material = item.raw_material;
-      obj.technology = item.technology;
-    });
-    designResult.push(obj);
-    selectedRK.push(obj.id);
   }
 
-  _designResult.value = [...designResult];
+  // 主逻辑：生成 columns
+  const paramsColumns = generateColumns(_designParams.value.formItems,'',_designParams.value);
+  // console.log('--------366---_designParams.value----------', paramsColumns);
+
+
+  columns.value = [...columnsDefault, ...paramsColumns];
+  // console.log('--------151----_designParams.value----------', _designResult.value, columns.value);
+
+  const designResult = [];
+  // for (let i = 0; i < cycleNumber.value; i++) {
+  //   const obj = { check: true, name: '' };
+  //   obj.id = uuid();
+  //   obj.name = `样品-${timeFormat(null,'yyyymmddhhMMss')}`
+  //   _designParams.value.forEach(item => {
+  //     if (item.step) {
+  //       if (!item.key.includes(XM_raw_material_key)) {
+  //         obj[item.key] = addDecimals(item.value, item.step, i, item.attribute_type);
+  //         obj[`${item.key}_id`] = item.id;
+  //       } else {
+  //         obj[item.key] = item.step;
+  //         obj[`${item.key}_id`] = item.id;
+  //         obj.name = item.props.options
+  //           ? item.props.options
+  //               .filter(eleO => item.step.includes(eleO.id))
+  //               .map(eleO => eleO.name)
+  //               .join('/')
+  //           : '';
+  //       }
+  //     } else {
+  //       if (!item.key.includes(XM_raw_material_key)) {
+  //         obj[item.key] = item.value;
+  //         obj[`${item.key}_id`] = item.id;
+  //       } else {
+  //         obj[item.key] = item.step;
+  //         obj[`${item.key}_id`] = item.id;
+  //       }
+  //     }
+  //     obj.raw_material = item.raw_material;
+  //     obj.technology = item.technology;
+  //   });
+  //   designResult.push(obj);
+  //   selectedRK.push(obj.id);
+  // }
+
+  // _designResult.value = [...designResult];
   selectedRowKeys.value = [...selectedRK];
-  console.log('------155------_designParams.value----------', selectedRK, selectedRowKeys.value, designResult, _designResult.value);
+  // console.log('------155------_designParams.value----------', selectedRK, selectedRowKeys.value, designResult, _designResult.value);
+};
+
+const getTreeData = (formItems,designTreeChecked) => {
+  const treeData = [];
+  console.log('------270-----_designParams----------',formItems);
+  formItems.map(ele => {
+    if (ele.type === 'FieldsGroup') {
+      const obj = { ...ele, title: ele.title ? ele.title : ele.name, formItems: [] };
+      obj.formItems = getTreeData(ele.props.items,designTreeChecked);
+      if (obj.rowKey) designTreeChecked.push(obj.rowKey);
+      treeData.push(obj);
+    } else {
+      if (ele.formItems && ele.formItems.length > 0) {
+        const obj = { ...ele, title: ele.title ? ele.title : ele.name, formItems: [] };
+        obj.formItems = getTreeData(ele.formItems,designTreeChecked);
+        if (obj.rowKey) designTreeChecked.push(obj.rowKey);
+        treeData.push(obj);
+      } else {
+        if (ele.rowKey) designTreeChecked.push(ele.rowKey);
+        treeData.push({ ...ele , title: ele.title ? ele.title : ele.name });
+      }
+    }
+  })
+  // console.log('------425-----_designParams----------',treeData);
+  return treeData;
 };
 
 onMounted(() => {
-  _designParams.value = props.designParams;
+  designTreeChecked.value = [];
+  _designParams.value = {
+    ...props.designParams,
+    formItems: getTreeData(props.designParams.formItems,designTreeChecked.value)
+  };
+  _selectFormItems.value = [...props.designParams.formItems];
+  console.log('------439-----_designParams----------',designTreeChecked.value, _designParams.value);
 })
 
 </script>
 <style lang="less" scoped>
+:deep(.umo-table__content){
+  border-top: 1px #333 solid;
+}
 .steps-demos-extra {
   .t-button + .t-button {
     margin-left: 4px;

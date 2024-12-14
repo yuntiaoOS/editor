@@ -400,9 +400,7 @@ onMounted(async () => {
     console.log('----------change_log.value395---------',table_data.value,change_log.value);
     await initData()
   }else if(is_integration.value) {
-    if ( is_integration.value) {
-      is_integration.value = false
-    }
+    
     const docD = editor.getJSON()
     if (docD ) {
       // 原材料表
@@ -431,6 +429,9 @@ onMounted(async () => {
     }else {
       TMessagePlugin.warning('当前文档中没有数据')
     }
+  }
+  if ( is_integration.value) {
+    is_integration.value = false
   }
   
 })

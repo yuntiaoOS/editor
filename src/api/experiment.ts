@@ -7,6 +7,7 @@ const Api = {
   experiment_record: '/ingredient_dev/experiment/record/', //记录
   experiment_material: '/ingredient_dev/experiment/material/', //新增记录-原材料
   processes_attribute: '/processes/attribute/', //操作属性
+  eval_attribute_library: '/evaluation_metric/eval_attribute_library/', // 指标属性
   ingredient_dev_experiment_sn : '/ingredient_dev/experiment/sn/' , //实验编号创建
   eval_execute_standard: '/evaluation_metric/eval_execute_standard/', //评估执行标准
   execute_standard_item: '/evaluation_metric/execute_standard_item/', //评估执行标准里面的指标项
@@ -103,7 +104,14 @@ export function getIngredient_dev_experimentListFetch(params?: any) {
   });
 }
 
-/*-------------------------------------记录-原材料--------------------------------------------*/
+/*-------------------------------------指标属性--------------------------------------------*/
+export function getEval_attribute_libraryListFetch(params?: any) {
+  return request.get({
+    url: `${Api.eval_attribute_library}`,
+    params
+  });
+}
+/*-------------------------------------操作属性--------------------------------------------*/
 export function getProcesses_attributeListFetch(params?: any) {
   return request.get<ExperimentInfo>({
     url: `${Api.processes_attribute}`,
@@ -174,4 +182,11 @@ export function get_experiment_record_infoFetch(id:string, params?: any) {
 
 export function put_experiment_record_fetch(id: any, params = {}) {
   return request.put({ url: `${Api.experiment_record}${id}/`, data: params });
+}
+// 访客接口
+export function get_experiment_record_visitorListFetch(id:string,params?: any) {
+  return request.get({
+    url: `${Api.experiment_record}${id}/visitor/`,
+    params
+  });
 }

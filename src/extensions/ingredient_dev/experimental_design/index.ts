@@ -16,7 +16,7 @@ export default xmNode.create({
   name: 'experimental_design',
   group: 'block',
   content: 'block*',
-  atom: true,
+  atom: false,
   selectable: true,
   
   parseHTML() {
@@ -36,28 +36,41 @@ export default xmNode.create({
           return { 'data-key': attributes.key };
         },
       },
+      customerParams: {
+        default: {},
+        parseHTML: (element) => {
+          const customerParams = element.getAttribute('data-customerParams');
+          return JSON.parse(customerParams as string || '{}');
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.customerParams) {
+            return {};
+          }
+          return { 'data-customerParams': JSON.stringify(attributes.customerParams)  };
+        },
+      },
       designParams: {
-        default: [],
+        default: {},
         parseHTML: (element) => {
           const designParams = element.getAttribute('data-designParams');
-          return JSON.parse(designParams as string || '[]');
+          return JSON.parse(designParams as string || '{}');
         },
         renderHTML: (attributes) => {
           if (!attributes.designParams) {
-            return [];
+            return {};
           }
           return { 'data-designParams': JSON.stringify(attributes.designParams)  };
         },
       },
       designResult: {
-        default: [],
+        default: {},
         parseHTML: (element) => {
           const designResult = element.getAttribute('data-designResult');
-          return JSON.parse(designResult as string || '[]');
+          return JSON.parse(designResult as string || '{}');
         },
         renderHTML: (attributes) => {
           if (!attributes.designResult) {
-            return [];
+            return {};
           }
           return { 'data-designResult': JSON.stringify(attributes.designResult)  };
         },
@@ -92,7 +105,7 @@ export default xmNode.create({
               type: this.name,
               attrs: {
                 ...currentOption,
-                title: currentOption?.title && currentOption.title.length > 0 ? currentOption.title : `试验设计${timeFormat(null, 'yyyymmddhhMM')}`,
+                title: currentOption?.title && currentOption.title.length > 0 ? currentOption.title : `试验设计方案${timeFormat(null, 'yyyymmddhhMM')}`,
                 key: option?.key ? option?.key : Xm_Table_key['experimental_design']  + timeFormat(null,'yyyymmddhhMMss'),
                 table_data: option?.table_data,
               },

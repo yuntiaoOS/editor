@@ -16,7 +16,7 @@ export default xmNode.create({
   name: 'technology_table',
   group: 'block',
   content: 'block*',
-  atom: true,
+  atom: false,
   selectable: true,
  
   parseHTML() {

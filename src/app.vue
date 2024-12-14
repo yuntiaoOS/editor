@@ -1,5 +1,11 @@
 <template>
   <div class="box">
+    <FormRender :forms="[formItems]" v-model="xmValue"></FormRender>
+    <!-- <FormDesignRender
+      v-model="_value"
+      mode="NORMAL"
+      :config="formItems">
+    </FormDesignRender> -->
     <!-- <TTitle>What is TDesign</TTitle>
     <TText mark>
       TDesign is an enterprise-level design system accumulated by Tencent's
@@ -65,6 +71,23 @@ const config = {
   "title": "物料名称",
   "valueType": "String"
 }
+
+const _value = ref('大锅饭的师傅')
+const formItems = 
+  {
+    key: "",
+    icon: "creditcard",
+    type: "TextInput",
+    props: {
+      abstract: true,
+      required: false,
+      enableScan: true,
+      enablePrint: true,
+      suffix: undefined,
+    },
+    title: "单行文本",
+    valueType: "String"
+  }
 
 
 const templates = [
@@ -10719,7 +10742,7 @@ const options = $ref({
       "experimenter": []
     },
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzNzk2MzUxLCJpYXQiOjE3MzM3MDk5NTEsImp0aSI6ImUzNDAxZDM0OGVlYjRlZTc4MTIzMmE4NTgyMzJlNThjIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.-JC2lnTa9wOLTBWLHQl_p-zcpdl-2Y2cqmS62WOkJ0s',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0MTY0MzUzLCJpYXQiOjE3MzQwNzc5NTMsImp0aSI6Ijg4OWQ0YTRlOGFmZDQwZGNhMTdjYjBkMTllYmQxM2ZmIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.WYI60A2uHac2Y7DP0YA1Hacxx206pFXAuntvob7fwCI',
   },
   document: {
     placeholder: '测试文档',
@@ -11374,181 +11397,181 @@ onMounted(() => {
   const jsonContent = {
     "type": "doc",
     "content": [
-      // {
-      //   "type": "xmTitle",
-      //   "attrs": {
-      //     "id": "b6be422d-defc-4b0f-b490-a321cb3c7aae",
-      //     "key": "baseTitle",
-      //     "name": "2476efd3-63bc-4788-9f8a-b496d8d1c8f6",
-      //     "title": "JL11271610",
-      //     "isChanged": false,
-      //     "updateTime": "",
-      //     "showSubTitle": true
-      //   }
-      // },
-      // {
-      //   "type": "xmForm",
-      //   "attrs": {
-      //     "id": "b6be422d-defc-4b0f-b490-a321cb3c7aae",
-      //     "key": "baseInfo",
-      //     "name": "82177d83-e226-4205-922f-659506c8a4a7",
-      //     "config": {
-      //       "formItems": [
-      //         {
-      //           "id": "sn",
-      //           "key": "sn",
-      //           "icon": "iconamoon:edit",
-      //           "name": "TextInput",
-      //           "type": "TextInput",
-      //           "alias": "实验编号",
-      //           "props": {
-      //             "hidden": false,
-      //             "abstract": false,
-      //             "readOnly": false,
-      //             "required": true,
-      //             "enableScan": false,
-      //             "validation": null,
-      //             "enablePrint": true,
-      //             "textForSuffix": "",
-      //             "enableSuffixText": false
-      //           },
-      //           "title": "实验编号",
-      //           "valueType": "String"
-      //         },
-      //         {
-      //           "id": "experimenter",
-      //           "key": "experimenter",
-      //           "icon": "iconamoon:edit",
-      //           "name": "UserPicker",
-      //           "type": "UserPicker",
-      //           "alias": "实验参与人",
-      //           "props": {
-      //             "hidden": false,
-      //             "remote": true,
-      //             "options": [
-      //               {
-      //                 "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-      //                 "name": "白欣力"
-      //               },
-      //               {
-      //                 "id": "63aed191-f093-4e9d-b4ef-4a159ffa39381",
-      //                 "name": "白欣力"
-      //               },
-      //               {
-      //                 "id": "d56402a2-9c9a-4674-a682-e4086e884ac1",
-      //                 "name": "董鑫龙"
-      //               },
-      //               {
-      //                 "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-      //                 "name": "赵紫文"
-      //               }
-      //             ],
-      //             "abstract": false,
-      //             "labelKey": "name",
-      //             "multiply": false,
-      //             "readOnly": false,
-      //             "required": false,
-      //             "valueKey": "id",
-      //             "enableScan": false,
-      //             "validation": null,
-      //             "enablePrint": true,
-      //             "textForSuffix": "",
-      //             "enableSuffixText": false
-      //           },
-      //           "title": "实验参与人",
-      //           "valueType": "String"
-      //         },
-      //         {
-      //           "id": "start_time",
-      //           "key": "start_time",
-      //           "icon": "iconamoon:edit",
-      //           "name": "DateTime",
-      //           "type": "DateTime",
-      //           "alias": "开始时间",
-      //           "props": {
-      //             "hidden": false,
-      //             "abstract": false,
-      //             "readOnly": false,
-      //             "required": false,
-      //             "enableScan": false,
-      //             "validation": null,
-      //             "enablePrint": true,
-      //             "enableTimePicker": false
-      //           },
-      //           "title": "开始时间",
-      //           "valueType": "String"
-      //         },
-      //         {
-      //           "id": "end_time",
-      //           "key": "end_time",
-      //           "icon": "iconamoon:edit",
-      //           "name": "DateTime",
-      //           "type": "DateTime",
-      //           "alias": "结束时间",
-      //           "props": {
-      //             "hidden": false,
-      //             "abstract": false,
-      //             "readOnly": false,
-      //             "required": false,
-      //             "enableScan": false,
-      //             "validation": null,
-      //             "enablePrint": true,
-      //             "enableTimePicker": false
-      //           },
-      //           "title": "结束时间",
-      //           "valueType": "String"
-      //         }
-      //       ],
-      //       "formConfig": {
-      //         "colon": true,
-      //         "rules": {
-      //           "name": [
-      //             {
-      //               "type": "error",
-      //               "message": "必填",
-      //               "required": true
-      //             },
-      //             {
-      //               "min": 2,
-      //               "type": "error",
-      //               "message": "至少需要两个字",
-      //               "trigger": "blur"
-      //             }
-      //           ],
-      //           "description": [
-      //             {
-      //               "type": "error",
-      //               "message": "必填",
-      //               "required": true
-      //             },
-      //             {
-      //               "min": 12,
-      //               "type": "error",
-      //               "message": "至少需要11两个字",
-      //               "trigger": "blur"
-      //             }
-      //           ]
-      //         },
-      //         "layout": "vertical",
-      //         "ruleJs": "//formData: 表单数据  formMap: 表单字段id -> 字段json配置\r\nfunction doChange(formData, formMap){\r\n\t\r\n}",
-      //         "columns": 2,
-      //         "labelPos": "left",
-      //         "ruleType": "SIMPLE",
-      //         "labelWidth": "80px",
-      //         "showSubmitBtn": false
-      //       }
-      //     },
-      //     "formData": {
-      //       "sn": "dw5456546",
-      //       "title": "JL11271610",
-      //       "end_time": "2024-11-30 00:00:00",
-      //       "start_time": "2024-11-22 00:00:00",
-      //       "experimenter": "d56402a2-9c9a-4674-a682-e4086e884ac1"
-      //     },
-      //     "isChanged": false,
-      //     "updateTime": ""
-      //   }
-      // },
+      {
+        "type": "xmTitle",
+        "attrs": {
+          "id": "b6be422d-defc-4b0f-b490-a321cb3c7aae",
+          "key": "baseTitle",
+          "name": "2476efd3-63bc-4788-9f8a-b496d8d1c8f6",
+          "title": "JL11271610",
+          "isChanged": false,
+          "updateTime": "",
+          "showSubTitle": true
+        }
+      },
+      {
+        "type": "xmForm",
+        "attrs": {
+          "id": "b6be422d-defc-4b0f-b490-a321cb3c7aae",
+          "key": "baseInfo",
+          "name": "82177d83-e226-4205-922f-659506c8a4a7",
+          "config": {
+            "formItems": [
+              {
+                "id": "sn",
+                "key": "sn",
+                "icon": "iconamoon:edit",
+                "name": "TextInput",
+                "type": "TextInput",
+                "alias": "实验编号",
+                "props": {
+                  "hidden": false,
+                  "abstract": false,
+                  "readOnly": false,
+                  "required": true,
+                  "enableScan": false,
+                  "validation": null,
+                  "enablePrint": true,
+                  "textForSuffix": "",
+                  "enableSuffixText": false
+                },
+                "title": "实验编号",
+                "valueType": "String"
+              },
+              {
+                "id": "experimenter",
+                "key": "experimenter",
+                "icon": "iconamoon:edit",
+                "name": "UserPicker",
+                "type": "UserPicker",
+                "alias": "实验参与人",
+                "props": {
+                  "hidden": false,
+                  "remote": true,
+                  "options": [
+                    {
+                      "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+                      "name": "白欣力"
+                    },
+                    {
+                      "id": "63aed191-f093-4e9d-b4ef-4a159ffa39381",
+                      "name": "白欣力"
+                    },
+                    {
+                      "id": "d56402a2-9c9a-4674-a682-e4086e884ac1",
+                      "name": "董鑫龙"
+                    },
+                    {
+                      "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
+                      "name": "赵紫文"
+                    }
+                  ],
+                  "abstract": false,
+                  "labelKey": "name",
+                  "multiply": false,
+                  "readOnly": false,
+                  "required": false,
+                  "valueKey": "id",
+                  "enableScan": false,
+                  "validation": null,
+                  "enablePrint": true,
+                  "textForSuffix": "",
+                  "enableSuffixText": false
+                },
+                "title": "实验参与人",
+                "valueType": "String"
+              },
+              {
+                "id": "start_time",
+                "key": "start_time",
+                "icon": "iconamoon:edit",
+                "name": "DateTime",
+                "type": "DateTime",
+                "alias": "开始时间",
+                "props": {
+                  "hidden": false,
+                  "abstract": false,
+                  "readOnly": false,
+                  "required": false,
+                  "enableScan": false,
+                  "validation": null,
+                  "enablePrint": true,
+                  "enableTimePicker": false
+                },
+                "title": "开始时间",
+                "valueType": "String"
+              },
+              {
+                "id": "end_time",
+                "key": "end_time",
+                "icon": "iconamoon:edit",
+                "name": "DateTime",
+                "type": "DateTime",
+                "alias": "结束时间",
+                "props": {
+                  "hidden": false,
+                  "abstract": false,
+                  "readOnly": false,
+                  "required": false,
+                  "enableScan": false,
+                  "validation": null,
+                  "enablePrint": true,
+                  "enableTimePicker": false
+                },
+                "title": "结束时间",
+                "valueType": "String"
+              }
+            ],
+            "formConfig": {
+              "colon": true,
+              "rules": {
+                "name": [
+                  {
+                    "type": "error",
+                    "message": "必填",
+                    "required": true
+                  },
+                  {
+                    "min": 2,
+                    "type": "error",
+                    "message": "至少需要两个字",
+                    "trigger": "blur"
+                  }
+                ],
+                "description": [
+                  {
+                    "type": "error",
+                    "message": "必填",
+                    "required": true
+                  },
+                  {
+                    "min": 12,
+                    "type": "error",
+                    "message": "至少需要11两个字",
+                    "trigger": "blur"
+                  }
+                ]
+              },
+              "layout": "vertical",
+              "ruleJs": "//formData: 表单数据  formMap: 表单字段id -> 字段json配置\r\nfunction doChange(formData, formMap){\r\n\t\r\n}",
+              "columns": 2,
+              "labelPos": "left",
+              "ruleType": "SIMPLE",
+              "labelWidth": "80px",
+              "showSubmitBtn": false
+            }
+          },
+          "formData": {
+            "sn": "dw5456546",
+            "title": "JL11271610",
+            "end_time": "2024-11-30 00:00:00",
+            "start_time": "2024-11-22 00:00:00",
+            "experimenter": "d56402a2-9c9a-4674-a682-e4086e884ac1"
+          },
+          "isChanged": false,
+          "updateTime": ""
+        }
+      },
       {
         "type": "paragraph",
         "attrs": {
@@ -11748,159 +11771,377 @@ onMounted(() => {
       {
         "type": "technology_table",
         "attrs": {
-          "id": "dfdb602b-11a2-4346-887f-ff872325b52e",
-          "updateTime": "2024-12-09 21:24:27",
-          "key": "technology_table20241209194406",
-          "name": "b98cb4b4-5ab2-489d-bdfa-e0f27acf261f",
+          "id": "769d9198-9735-43b2-bad0-69d252636f2d",
+          "updateTime": "",
+          "key": "technology_table20241211155322",
+          "name": "1b2c71b6-82a8-448c-8477-24ff457c0183",
           "isChanged": false,
-          "change_log": {
-            "change_log": "b19e377f-b413-4ed5-bf90-69e600ef7ff2"
-          },
+          "change_log": {},
           "is_integration": false,
           "table_data": [
             {
-              "id": "955e6c3c-7bfa-443a-b740-25585e50c2fe",
-              "name": "复旦复华",
-              "description": "工艺描述冻干粉红色根据地好",
-              "step_type": "processes",
-              "sequence": 0,
-              "duration": null,
-              "key": "955e6c3c-7bfa-443a-b740-25585e50c2fe",
-              "children": [
-                {
-                  "id": "e427df63-4ec8-4f15-9f5f-540e48eda549",
-                  "attribute": 9,
-                  "value": "233",
-                  "attribute_type": "single",
-                  "name": "额为了我",
-                  "description": "操作1，很棒",
-                  "step_type": "operation",
-                  "duration": null,
-                  "parent": "955e6c3c-7bfa-443a-b740-25585e50c2fe",
-                  "props": {
-                    "suffix": "kg",
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true
+              "id": "05351cc2-1207-4c94-8b1e-47f2ecb25659",
+              "rowKey": "05351cc2-1207-4c94-8b1e-47f2ecb25659/74325",
+              "name": "电饭锅和电饭锅",
+              "type": "operate",
+              "description": "",
+              "form": {
+                "formItems": [
+                  {
+                    "id": 14,
+                    "title": "单行输入",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": true,
+                      "required": false,
+                      "enableScan": true,
+                      "enablePrint": true,
+                      "placeholder": "提示"
+                    },
+                    "key": "dan_hang_shu_ru",
+                    "type": "TextInput",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "rowKey": "14uayhmfe9"
                   },
-                  "key": "quality-y1xv2dqu",
-                  "type": "TextInput",
-                  "unit": "kg",
-                  "group": []
-                },
-                {
-                  "id": "d4af5178-6c70-426e-b3b5-0086b1e484cf",
-                  "attribute": 11,
-                  "value": {
-                    "quality": "12",
-                    "xm_raw_material": [
-                      "098973f9-a550-4220-88bc-18af6bc89996",
+                  {
+                    "id": 24,
+                    "title": "原材料",
+                    "props": {
+                      "http": {},
+                      "fixed": true,
+                      "hidden": false,
+                      "suffix": null,
+                      "options": [
+                        {
+                          "group": "原材料202412091853",
+                          "children": [
+                            {
+                              "id": "098973f9-a550-4220-88bc-18af6bc89996",
+                              "experiment_material": "a12ca520-d4d0-41e3-a2bf-ba6a3daeb70c",
+                              "experiment_material_name": "YCL12021526",
+                              "description": null,
+                              "experiment_material_state": "",
+                              "change_log": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
+                              "experiment_material_sn": "SN-1733124379373",
+                              "experiment_material_batch": "BT-1733124379373",
+                              "experiment_material_price": "23.00",
+                              "experiment_material_supplier": "大锅饭的师傅",
+                              "value": "098973f9-a550-4220-88bc-18af6bc89996",
+                              "label": "YCL12021526/SN-1733124379373"
+                            },
+                            {
+                              "id": "8ae07816-fd7b-40df-8c72-d539f2db13e9",
+                              "experiment_material": "681e59cd-23b1-48c1-bd68-d3d257cfe487",
+                              "experiment_material_name": "YCL12021527",
+                              "description": null,
+                              "experiment_material_state": "",
+                              "change_log": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
+                              "experiment_material_sn": "SN-1733124429469",
+                              "experiment_material_batch": "BT-1733124429469",
+                              "experiment_material_price": "32.00",
+                              "experiment_material_supplier": "个的风格大方",
+                              "value": "8ae07816-fd7b-40df-8c72-d539f2db13e9",
+                              "label": "YCL12021527/SN-1733124429469"
+                            },
+                            {
+                              "id": "adba60a6-d2a2-4938-bac6-3d274089a4a2",
+                              "experiment_material": "c5da9760-00dc-43d5-850d-76ef71919e62",
+                              "experiment_material_name": "YCL12021527",
+                              "description": null,
+                              "experiment_material_state": "",
+                              "change_log": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
+                              "experiment_material_sn": "SN-1733290926736",
+                              "experiment_material_batch": "BT-1733290926737",
+                              "experiment_material_price": "32.00",
+                              "experiment_material_supplier": "个的风格大方",
+                              "value": "adba60a6-d2a2-4938-bac6-3d274089a4a2",
+                              "label": "YCL12021527/SN-1733290926736"
+                            }
+                          ]
+                        }
+                      ],
+                      "abstract": false,
+                      "dictType": null,
+                      "multiple": true,
+                      "readOnly": false,
+                      "required": false,
+                      "expanding": false,
+                      "validation": null,
+                      "enablePrint": true
+                    },
+                    "key": "yuan_cai_liao",
+                    "type": "SelectMaterial",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "rowKey": "248t2t68ma"
+                  },
+                  {
+                    "id": 25,
+                    "title": "原材料组合",
+                    "props": {
+                      "size": 8,
+                      "items": [
+                        {
+                          "id": 24,
+                          "key": "yuan_cai_liao",
+                          "type": "SelectMaterial",
+                          "unit": null,
+                          "props": {
+                            "http": {},
+                            "fixed": true,
+                            "hidden": false,
+                            "suffix": null,
+                            "options": [
+                              {
+                                "group": "原材料202412091853",
+                                "children": [
+                                  {
+                                    "id": "098973f9-a550-4220-88bc-18af6bc89996",
+                                    "experiment_material": "a12ca520-d4d0-41e3-a2bf-ba6a3daeb70c",
+                                    "experiment_material_name": "YCL12021526",
+                                    "description": null,
+                                    "experiment_material_state": "",
+                                    "change_log": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
+                                    "experiment_material_sn": "SN-1733124379373",
+                                    "experiment_material_batch": "BT-1733124379373",
+                                    "experiment_material_price": "23.00",
+                                    "experiment_material_supplier": "大锅饭的师傅",
+                                    "value": "098973f9-a550-4220-88bc-18af6bc89996",
+                                    "label": "YCL12021526/SN-1733124379373"
+                                  },
+                                  {
+                                    "id": "8ae07816-fd7b-40df-8c72-d539f2db13e9",
+                                    "experiment_material": "681e59cd-23b1-48c1-bd68-d3d257cfe487",
+                                    "experiment_material_name": "YCL12021527",
+                                    "description": null,
+                                    "experiment_material_state": "",
+                                    "change_log": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
+                                    "experiment_material_sn": "SN-1733124429469",
+                                    "experiment_material_batch": "BT-1733124429469",
+                                    "experiment_material_price": "32.00",
+                                    "experiment_material_supplier": "个的风格大方",
+                                    "value": "8ae07816-fd7b-40df-8c72-d539f2db13e9",
+                                    "label": "YCL12021527/SN-1733124429469"
+                                  },
+                                  {
+                                    "id": "adba60a6-d2a2-4938-bac6-3d274089a4a2",
+                                    "experiment_material": "c5da9760-00dc-43d5-850d-76ef71919e62",
+                                    "experiment_material_name": "YCL12021527",
+                                    "description": null,
+                                    "experiment_material_state": "",
+                                    "change_log": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
+                                    "experiment_material_sn": "SN-1733290926736",
+                                    "experiment_material_batch": "BT-1733290926737",
+                                    "experiment_material_price": "32.00",
+                                    "experiment_material_supplier": "个的风格大方",
+                                    "value": "adba60a6-d2a2-4938-bac6-3d274089a4a2",
+                                    "label": "YCL12021527/SN-1733290926736"
+                                  }
+                                ]
+                              }
+                            ],
+                            "abstract": false,
+                            "dictType": null,
+                            "multiple": true,
+                            "readOnly": false,
+                            "required": false,
+                            "expanding": false,
+                            "validation": null,
+                            "enablePrint": true
+                          },
+                          "title": "原材料",
+                          "value": null,
+                          "multiple": false,
+                          "attribute_type": "single",
+                          "rowKey": "24ysipgq5a"
+                        },
+                        {
+                          "id": 15,
+                          "key": "shu_zi_shu_ru",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": 1,
+                            "enablePrint": true
+                          },
+                          "title": "数字输入",
+                          "value": null,
+                          "multiple": false,
+                          "attribute_type": "single",
+                          "rowKey": "15feyrv7rq"
+                        }
+                      ],
+                      "abstract": false,
+                      "required": false,
+                      "direction": "horizontal",
+                      "expanding": false,
+                      "enablePrint": true
+                    },
+                    "key": "yuan_cai_liao_zu_he",
+                    "type": "FieldsGroup",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "rowKey": "25tp82tpnw"
+                  }
+                ],
+                "formData": {
+                  "dan_hang_shu_ru": "23",
+                  "yuan_cai_liao": [
+                    "098973f9-a550-4220-88bc-18af6bc89996",
+                    "8ae07816-fd7b-40df-8c72-d539f2db13e9"
+                  ],
+                  "yuan_cai_liao_zu_he": {
+                    "15": "12",
+                    "24": [
                       "8ae07816-fd7b-40df-8c72-d539f2db13e9"
                     ]
-                  },
-                  "attribute_type": "compound",
-                  "name": "热二恶烷",
-                  "description": "操作二加油",
-                  "step_type": "operation",
-                  "duration": null,
-                  "parent": "955e6c3c-7bfa-443a-b740-25585e50c2fe",
-                  "props": {},
-                  "key": "Raw_material_weighing-ncnu7j8c",
-                  "type": "",
-                  "unit": null,
-                  "group": [
-                    {
-                      "id": 8,
-                      "name": "原材料",
-                      "type": "VueContainer",
-                      "props": {
-                        "abstract": false,
-                        "required": false,
-                        "enableScan": false,
-                        "enablePrint": true
-                      },
-                      "key": "xm_raw_material",
-                      "value": null,
-                      "unit": null,
-                      "attribute_type": "single"
-                    },
-                    {
-                      "id": 9,
-                      "name": "质量",
-                      "type": "TextInput",
-                      "props": {
-                        "suffix": "kg",
-                        "abstract": false,
-                        "required": false,
-                        "enableScan": false,
-                        "enablePrint": true
-                      },
-                      "key": "quality",
-                      "value": null,
-                      "unit": "kg",
-                      "attribute_type": "single"
-                    }
-                  ]
+                  }
                 }
-              ]
+              }
             },
             {
-              "id": "ad868b21-6cdf-4bb1-ad39-f639f1a797cf",
-              "name": "地方撒还打算",
-              "description": "工艺还记得施工方电饭锅和",
-              "step_type": "processes",
-              "sequence": 1,
-              "duration": null,
-              "key": "ad868b21-6cdf-4bb1-ad39-f639f1a797cf",
-              "children": [
-                {
-                  "id": "5de8a79f-1444-4f78-b96c-b78cc9799762",
-                  "attribute": 8,
-                  "value": "",
-                  "attribute_type": "single",
-                  "name": "原材料",
-                  "description": "操作原材料活动结束后好",
-                  "step_type": "operation",
-                  "duration": null,
-                  "parent": "ad868b21-6cdf-4bb1-ad39-f639f1a797cf",
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true
+              "id": "6b9b006a-2bc7-49e0-8786-c679ce521323",
+              "rowKey": "6b9b006a-2bc7-49e0-8786-c679ce521323/74325",
+              "name": "倒还好到时",
+              "type": "operate",
+              "description": "",
+              "form": {
+                "formItems": [
+                  {
+                    "id": 14,
+                    "title": "单行输入",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": true,
+                      "required": false,
+                      "enableScan": true,
+                      "enablePrint": true,
+                      "placeholder": "提示"
+                    },
+                    "key": "dan_hang_shu_ru",
+                    "type": "TextInput",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "rowKey": "14qb1tv058"
                   },
-                  "key": "xm_raw_material-qy8rcqui",
-                  "type": "VueContainer",
-                  "unit": null,
-                  "group": []
-                },
-                {
-                  "id": "1f64b23b-72c9-45be-8a23-9f2ccf2ef734",
-                  "attribute": 9,
-                  "value": "34",
-                  "attribute_type": "single",
-                  "name": "质量",
-                  "description": "操作指令质量客户端框架设计",
-                  "step_type": "operation",
-                  "duration": null,
-                  "parent": "ad868b21-6cdf-4bb1-ad39-f639f1a797cf",
-                  "props": {
-                    "suffix": "kg",
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true
+                  {
+                    "id": 15,
+                    "title": "数字输入",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": 1,
+                      "enablePrint": true
+                    },
+                    "key": "shu_zi_shu_ru",
+                    "type": "NumberInput",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "rowKey": "15mo915rj3"
                   },
-                  "key": "quality-ffomlxv0",
-                  "type": "TextInput",
-                  "unit": "kg",
-                  "group": []
+                  {
+                    "id": 24,
+                    "title": "原材料",
+                    "props": {
+                      "http": {},
+                      "fixed": true,
+                      "hidden": false,
+                      "suffix": null,
+                      "options": [
+                        {
+                          "group": "原材料202412091853",
+                          "children": [
+                            {
+                              "id": "098973f9-a550-4220-88bc-18af6bc89996",
+                              "experiment_material": "a12ca520-d4d0-41e3-a2bf-ba6a3daeb70c",
+                              "experiment_material_name": "YCL12021526",
+                              "description": null,
+                              "experiment_material_state": "",
+                              "change_log": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
+                              "experiment_material_sn": "SN-1733124379373",
+                              "experiment_material_batch": "BT-1733124379373",
+                              "experiment_material_price": "23.00",
+                              "experiment_material_supplier": "大锅饭的师傅",
+                              "value": "098973f9-a550-4220-88bc-18af6bc89996",
+                              "label": "YCL12021526/SN-1733124379373"
+                            },
+                            {
+                              "id": "8ae07816-fd7b-40df-8c72-d539f2db13e9",
+                              "experiment_material": "681e59cd-23b1-48c1-bd68-d3d257cfe487",
+                              "experiment_material_name": "YCL12021527",
+                              "description": null,
+                              "experiment_material_state": "",
+                              "change_log": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
+                              "experiment_material_sn": "SN-1733124429469",
+                              "experiment_material_batch": "BT-1733124429469",
+                              "experiment_material_price": "32.00",
+                              "experiment_material_supplier": "个的风格大方",
+                              "value": "8ae07816-fd7b-40df-8c72-d539f2db13e9",
+                              "label": "YCL12021527/SN-1733124429469"
+                            },
+                            {
+                              "id": "adba60a6-d2a2-4938-bac6-3d274089a4a2",
+                              "experiment_material": "c5da9760-00dc-43d5-850d-76ef71919e62",
+                              "experiment_material_name": "YCL12021527",
+                              "description": null,
+                              "experiment_material_state": "",
+                              "change_log": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
+                              "experiment_material_sn": "SN-1733290926736",
+                              "experiment_material_batch": "BT-1733290926737",
+                              "experiment_material_price": "32.00",
+                              "experiment_material_supplier": "个的风格大方",
+                              "value": "adba60a6-d2a2-4938-bac6-3d274089a4a2",
+                              "label": "YCL12021527/SN-1733290926736"
+                            }
+                          ]
+                        }
+                      ],
+                      "abstract": false,
+                      "dictType": null,
+                      "multiple": true,
+                      "readOnly": false,
+                      "required": false,
+                      "expanding": false,
+                      "validation": null,
+                      "enablePrint": true
+                    },
+                    "key": "yuan_cai_liao",
+                    "type": "SelectMaterial",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "rowKey": "24rs22l52b"
+                  }
+                ],
+                "formData": {
+                  "dan_hang_shu_ru": "12",
+                  "shu_zi_shu_ru": "22",
+                  "yuan_cai_liao": [
+                    "8ae07816-fd7b-40df-8c72-d539f2db13e9",
+                    "098973f9-a550-4220-88bc-18af6bc89996",
+                    "adba60a6-d2a2-4938-bac6-3d274089a4a2"
+                  ]
                 }
-              ]
+              }
             }
           ],
-          "title": "工艺202412091944"
+          "title": "工艺202412111553"
         },
         "content": [
           {

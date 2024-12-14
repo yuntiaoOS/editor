@@ -4,7 +4,7 @@ export const Xm_Table_key: Record<string, string> = {
   feedback_evaluation_table: "feedback_evaluation_table", // 反馈评估表格
   raw_material_table: "raw_material_table", // 原材料表格
   sample_table: "sample_table",     // 样品表格
-  technology_table: "technology_table", // 工艺表格
+  technology_table: "technology_table", // 工艺路线
   experimental_design: "experimental_design", // 实验设计表格
 };
 

@@ -19,7 +19,7 @@ const transform: AxiosTransform = {
   // 处理请求数据。如果数据不是预期格式，可直接抛出错误
   transformRequestHook: (res, options) => {
     const { isTransformResponse, isReturnNativeResponse } = options;
-
+    // console.log('--------------requestInterceptors--------------',res)
     // 如果204无内容直接返回
     const method = res.config.method?.toLowerCase();
     if (res.status === 204 || method === 'put' || method === 'patch') {
@@ -44,15 +44,14 @@ const transform: AxiosTransform = {
 
     //  这里 code为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
     const { code } = data;
-
+    
+    if (code === 401) {
+      window.location.href = '/login';
+    }
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = data && code === 2000;
     if (hasSuccess) {
       return data.data;
-    }
-
-    if (code === 401) {
-      window.location.href = '/login';
     }
 
     throw new Error(`请求接口错误, 错误码: ${code}`);
@@ -61,7 +60,7 @@ const transform: AxiosTransform = {
   // 请求前处理配置
   beforeRequestHook: (config, options) => {
     const { apiUrl, isJoinPrefix, urlPrefix, joinParamsToUrl, formatDate, joinTime = true } = options;
-    console.log('---------------beforeRequestHook-----64-----', config,options);
+    // console.log('-----------------requestInterceptors-----64-----', config,options);
     // 添加接口前缀
     if (isJoinPrefix && urlPrefix && isString(urlPrefix)) {
       config.url = `${urlPrefix}${config.url}`;
@@ -132,12 +131,18 @@ const transform: AxiosTransform = {
 
   // 响应拦截器处理
   responseInterceptors: (res) => {
+    // console.log('---------------requestInterceptors-----134-----');
     return res;
   },
 
   // 响应错误处理
   responseInterceptorsCatch: (error: any, instance: AxiosInstance) => {
-    const { config } = error;
+    // console.log('---------------requestInterceptors-----140----',error,instance);
+    const { config, status } = error;
+    if (status === 401) {
+      window.location.href = '/login';
+      return;
+    }
     if (!config || !config.requestOptions.retry) return Promise.reject(error);
 
     config.retryCount = config.retryCount || 0;
@@ -196,7 +201,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           withToken: true,
           // 重试
           retry: {
-            count: 3,
+            count: 1,
             delay: 1000,
           },
         },

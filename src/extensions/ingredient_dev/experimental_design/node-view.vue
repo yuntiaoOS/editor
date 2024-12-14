@@ -1,7 +1,64 @@
 <template>
   <node-view-wrapper :id="node.attrs.id" class="umo-node-view">
-    <div style="width: 100%">
-      <node-view-content :node="node" ></node-view-content> 
+    <div style="display: flex ;flex-direction: column;gap: 10px;" >
+
+      <div style="width: 100%;display: flex ;flex-direction: column;gap: 10px;" >
+        <t-card 
+          v-for=" (design,index) in [designResult]" :key="index"
+          :title="design.title" header-bordered :style="{ width: '100%' }">
+          <!-- <t-row v-for=" (formItemP,indexP) in design.formItems" :key="indexP">
+            <t-col flex="100px">
+              <div>{{formItemP.name}}</div>
+            </t-col>
+            <t-col flex="auto">
+              <div >
+                <template v-for="(formItemO, indexO) in formItemP.formItems" :key="indexO">
+                  <xmFormDesignRender 
+                    v-model="design.formData"
+                    style="overflow: auto;"
+                    :label="formItemO.title"
+                    :valueKey="`${formItemP.id}.${formItemO.key}`"
+                    :mode=" 'RESP'"
+                    :config="formItemO">
+                  </xmFormDesignRender>
+                </template>
+              </div>
+            </t-col>
+          </t-row> -->
+          <t-tree 
+            ref="designTreeRef"
+            :data="design.formItems"  :keys="{ value: 'rowKey', label: 'title', children: 'formItems' }"
+            activable  expandParent activeMultiple expandAll 
+            allowFoldNodeOnFilter  line @change="treeSelectChange">  
+            <template #label="{ node }">
+              <div style="display:flex;gap:10px;">
+                <span :style="{color: node.data.type ?'blue' :'var(--umo-text-color-primary)' ,width: '150px'}">{{ node.label }}</span>
+                <div v-if="node.isLeaf()" >
+                  <xmFormDesignRender style="overflow: auto;"
+                    v-model="design.formData"
+                    :label="node.data.title"
+                    :valueKey="getNodeFullColKey(node)"
+                    :mode=" 'RESP'"
+                    :config="node.data">
+                  </xmFormDesignRender>
+                </div>
+              </div>
+            </template>
+          </t-tree>
+          <template #title>
+            <t-input v-model="design.title" auto-width placeholder="请输入名称" />
+          </template> 
+          <template #actions>
+            <t-button style="width: 100px;" variant="outline" @click="onSelectDesignFunc">
+              <template #icon><icon class="umo-button-icon" name="experimental_design" /></template>
+              <span style="margin-left:4px;"> 试验设计</span>
+            </t-button>
+            <!-- <a href="javascript:void(0)" @click="clickHandler">操作</a> -->
+          </template>
+        </t-card>
+        
+        <node-view-content :node="node" ></node-view-content> 
+      </div>
     </div>
     <t-dialog 
       v-model:visible="select_design_visible"
@@ -13,11 +70,11 @@
       :on-confirm="on_select_designFunc"
     >
       <t-form ref="select_design_form" :rules="FORM_RULES" :data="selectTableForm" :colon="true" >
-        <t-form-item label="原材料表" name="raw_material">
+        <!-- <t-form-item label="原材料表" name="raw_material">
           <t-select v-model="selectTableForm.raw_material" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
             <t-option v-for="item in raw_materialOptions" :key="item.id" :value="item.id" :label="item.title"></t-option>
           </t-select>
-        </t-form-item>
+        </t-form-item> -->
         <t-form-item label="工艺表" name="technology">
           <t-select v-model="selectTableForm.technology" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
             <t-option v-for="item in technologyOptions" :key="item.id" :value="item.id" :label="item.title"></t-option>
@@ -34,7 +91,7 @@
       :confirm-on-enter="true"
       :on-confirm="on_experimental_designFunc"
     >
-      <experimental-design v-if="experimental_design_visible" v-model:designParams="_designParams" v-model:designResult="designResult" @select-change="onSelectChange"/>
+      <experimental-design v-if="experimental_design_visible" v-model:designParams="_designParams" v-model:selectFormItems="selectFormItems"  @select-change="onSelectChange"/>
     </t-dialog>
   </node-view-wrapper>
 </template>
@@ -44,6 +101,7 @@ import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
 import { getIngredient_dev_experimentListFetch,post_experiment_samples_fetch } from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
+import { cloneDeep } from 'lodash-unified';
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
@@ -53,6 +111,7 @@ const $key_data = JSON.parse( localStorage.getItem('key_data'))
 const experiment_record = computed(() => $key_data?.experiment_record)
 const experiment_theme = computed(() => $key_data?.experiment_theme)
 
+const designTreeRef = ref();
 const experimental_design_visible = ref(false);
 const select_design_form = ref();
 const raw_materialOptions = ref([])
@@ -64,7 +123,7 @@ const selectTableForm = ref({
 const FORM_RULES = { raw_material: [{ required: true, message: '必填' ,trigger: ['change'] }],
   technology: [{ required: true, message: '必填' ,trigger: ['change'] }] 
 };
-const select_material = ref([])
+const selectFormItems = ref([])
 
 const _designParams = computed({
   get: () => {
@@ -73,6 +132,16 @@ const _designParams = computed({
   set(value) {
     console.log('------172--------updateAttributes({ designParams: value })------',value)
     updateAttributes({ designParams: value })
+  },
+})
+
+const customerParams  = computed({
+  get: () => {
+    return node.attrs.customerParams
+  },
+  set(value) {
+    console.log('------172--------updateAttributes({ customerParams: value })------',value)
+    updateAttributes({ customerParams: value })
   },
 })
 
@@ -86,100 +155,122 @@ const designResult = computed({
 })
 
 const getDesignParams = () => {
-  const oldDesignParams = [..._designParams.value]
-  console.log('------90--------oldDesignParams------',oldDesignParams)
-  let designParams = []
-  console.log('--------_designParams--------93--------',technologyOptions.value,raw_materialOptions.value)
-  const technology_table_data = technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).table_data.map(eleT => eleT.children).reduce((a, b) => a.concat(b)).filter(item => item.type || item.group )
-  const material_table_data = raw_materialOptions.value.find(ele=> ele.id === selectTableForm.value.raw_material).table_data.map(ele=> { return { ...ele,name:`${ele.experiment_material_name }/${ele.experiment_material_sn}` } }) 
-  console.log('--------_designParams--------95--------',technology_table_data,material_table_data)
-  if (technology_table_data && material_table_data) {
-    designParams = technology_table_data.map(eleT => { 
-      if (eleT.key.includes( XM_raw_material_key)) {
-        return { 
-          ...eleT,step:'',check:true,
-          raw_material: raw_materialOptions.value.find(ele=> ele.id === selectTableForm.value.raw_material).change_log.change_log,
-          technology: technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).change_log.change_log,
-          type: 'SelectPlus',
-          label: eleT.name,
-          value: eleT.id,
-          props: {
-            ...eleT.props,
-            labelKey: 'name',
-            valueKey: 'id',
-            options: material_table_data
-          },
-        }
-      } else {
-        if ( eleT.attribute_type === "compound"){
-          const customItems = {...eleT,
-                  raw_material: raw_materialOptions.value.find(ele=> ele.id === selectTableForm.value.raw_material).change_log.change_log,
-                  technology: technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).change_log.change_log,
-                  step:{},check:true}
-          customItems.group = customItems.group.map(eleG=>{
-            if (eleG.key.includes( XM_raw_material_key)) {
-              return { 
-                ...eleG,step:'',check:true,
-                type: 'SelectPlus',
-                label: eleG.name,
-                value: eleG.id,
-                props: {
-                  ...eleG.props,
-                  labelKey: 'name',
-                  valueKey: 'id',
-                  options: material_table_data
-                },
-              }
-            } else {
-              return {...eleG}
-            }
-          })
-
-          return customItems
-        }else{
-          return {...eleT,
-              raw_material: raw_materialOptions.value.find(ele=> ele.id === selectTableForm.value.raw_material).change_log.change_log,
-              technology: technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).change_log.change_log,step:'',check:true}
-        }
-        
-      }
-      
-    })
-    if (oldDesignParams && oldDesignParams.length > 0) {
-      // 遍历数组 b，查找并更新数组 a 中的对象
-      oldDesignParams.forEach(itemB => {
-        const itemA = designParams.find(itemA => itemA.id === itemB.id);
-        if (itemA) {
-          itemA.step = itemB.step;
+  let designParams = {}
+  console.log('--------_designParams--------93--------',technologyOptions.value,raw_materialOptions.value,selectTableForm.value.technology)
+  const technology_table_data = technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).table_data.map(eleT => ({...eleT.form,id:eleT.id,key:eleT.id,rowKey:eleT.rowKey,title:eleT.name ,name:eleT.name}) )
+  const optionsGroup = raw_materialOptions.value.map(ele=>{
+    return {
+      group: ele.title,
+      children: ele.table_data.map(eleT=>{
+        return {...eleT, value: eleT.id, label: `${eleT.experiment_material_name }/${eleT.experiment_material_sn }` }
+      })
+    }
+  })
+  console.log('--------_designParams--------95--------',technology_table_data)
+  // TODO 待优化optionsGroup原材料数据要插入更新
+  if (technology_table_data) {
+    // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
+    function processItems(items, optionsGroup) {
+      return items.map(eleI => {
+        if (eleI.type === 'SelectMaterial') {
+          return {
+            ...eleI,
+            props: {
+              ...eleI.props,
+              options: optionsGroup,
+            },
+          };
+        } else if (eleI.type === 'FieldsGroup') {
+          return {
+            ...eleI,
+            props: {
+              ...eleI.props,
+              items: processItems(eleI.props.items, optionsGroup), // 递归处理嵌套的 items
+            },
+          };
+        } else {
+          return eleI;
         }
       });
     }
+    designParams = {
+      formItems: technology_table_data,
+      formData:{},
+      stepData:{},
+    }
+    technology_table_data.forEach(eleT => {
+      designParams.formData[eleT.id] = eleT.formData
+      designParams.stepData[eleT.id] = eleT.formData
+    })
   }
   console.log('--------_designParams--------129--------',designParams)
   return designParams
 }
-
-const on_select_designFunc = ()=>{
-  select_design_form.value?.validate({ showErrorMessage: true }).then((validateResult) => {
-    if (validateResult && Object.keys(validateResult).length) {
-      const firstError = Object.values(validateResult)[0]?.[0]?.message;
-      useMessage('warning',firstError)
-    }else{
-      _designParams.value = getDesignParams()
-      experimental_design_visible.value = true;
-    }
+const getNodeFullColKey = (node) => {
+  const parents = node.getParents()
+  
+  // console.info('树结构数据:--------',node, parents);
+  if (!parents) {
+    return ''
+  } 
+  const keys = []
+  parents.forEach(item => {
+    keys.unshift(item.data.key)
   })
-  select_design_visible.value = false
+  if (parents[0].data.type && parents[0].data.type === "FieldsGroup") {
+    keys.push(node.data.id)
+  }else{
+    keys.push(node.data.key)
+  }
+  
+  const keyStr = keys.join('.')
+  // console.log('keys:-----204---', keyStr);
+  return keyStr? keyStr : ''
+}
+const on_select_designFunc = (validate)=>{
+  if (validate) {
+    _designParams.value = getDesignParams()
+    experimental_design_visible.value = true;
+  } else {
+    select_design_form.value?.validate({ showErrorMessage: true }).then((validateResult) => {
+      if (validateResult && Object.keys(validateResult).length) {
+        const firstError = Object.values(validateResult)[0]?.[0]?.message;
+        useMessage('warning',firstError)
+      }else{
+        _designParams.value = getDesignParams()
+        experimental_design_visible.value = true;
+      }
+    })
+    select_design_visible.value = false
+  }
+  console.log('--------on_select_designFunc--------138--------',validate, _designParams.value)
+  
 }
 
-const onSelectChange = ({value, params} )=>{
+const onSelectChange = ( formItems )=>{
   // console.log('--------onSelectChange--------44--------',value, params)
-  select_material.value = params.selectedRowData
+  // nextTick(() => {
+  //   selectFormItems.value = [...formItems]
+  // })
 }
 
 const on_experimental_designFunc = async ()=>{
-  console.log('--------on_experimental_designFunc--------156--------',designResult.value,_designParams.value)
-  const designParamsC =  Object.assign([],_designParams.value)
+  console.log('--------on_experimental_designFunc--------156--------',selectFormItems.value,designResult.value,_designParams.value)
+  if (!selectFormItems.value || selectFormItems.value.length === 0) {
+    TMessagePlugin.warning('请选择需要添加的数据')
+    return 
+  }
+  designResult.value = {
+    // ..._designParams.value,
+    formData: cloneDeep(_designParams.value.formData),
+    formItems: cloneDeep(selectFormItems.value),
+    id: uuid(),
+    title: `试验设计方案-${timeFormat(null,'yyyymmddhhMMss')}`,
+  }
+  designTreeRef.value.exp
+  experimental_design_visible.value = false
+  
+  return
   const selectData = designResult.value.filter(ele=> ele.check)
   if (selectData.length > 0) {
     const table_data = []
@@ -252,15 +343,39 @@ const initialize = () => {
   }
 }
 
+const onSelectDesignFunc = () => {
+  initialize()
+  if (node.attrs.customerParams?.is_select ) {
+    selectTableForm.value.technology = node.attrs.customerParams?.technology
+    on_select_designFunc(node.attrs.customerParams?.is_select)
+  }else{
+    setTimeout(() => {
+      if (technologyOptions.value.length === 1 ) {
+        selectTableForm.value.technology = technologyOptions.value[0].id
+        on_select_designFunc(true)
+      } else {
+        select_design_visible.value = true;
+      }
+    }, 500);
+  }
+}
+
+
 onMounted(() => {
   initialize()
   console.log('--------onMounted--------213--------',node.attrs)
-  if (node.attrs.designParams && Object.keys(node.attrs.designParams).length > 0) {
-
+  console.log('---------285------------',JSON.parse( JSON.stringify(node.attrs.customerParams)  ))
+  if (node.attrs.customerParams?.is_select ) {
+    selectTableForm.value.technology = node.attrs.customerParams?.technology
+    on_select_designFunc(node.attrs.customerParams?.is_select)
   }else{
     setTimeout(() => {
-      select_design_visible.value = true;
+      if (technologyOptions.value.length === 1 ) {
+        selectTableForm.value.technology = technologyOptions.value[0].id
+        on_select_designFunc(true)
+      }
     }, 500);
+
   }
   
 })

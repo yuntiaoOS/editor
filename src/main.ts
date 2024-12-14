@@ -3,8 +3,8 @@ import type { UmoEditorOptions } from '@/types'
 import App from './app.vue'
 import { useUmoEditor } from './components'
 
-import MzycLib from './lib/mzyc-lib.es.js'
-import './lib/mzyc-vue-components.css'
+import MzycLib from '../../../mzyc-vue-components/outDist/lib/mzyc-lib.es.js'
+import '../../../mzyc-vue-components/outDist/lib/mzyc-vue-components.css'
 
 const app = createApp(App)
 // // 引入组件库的少量全局样式变量
@@ -13,5 +13,5 @@ const app = createApp(App)
 const options = {}
 
 app.use(useUmoEditor, options as unknown as UmoEditorOptions)
-app.use(MzycLib,options)
+app.use(MzycLib)
 app.mount('#app')
