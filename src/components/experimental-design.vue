@@ -185,8 +185,8 @@ watch(_designParams.value, (val) => {
 console.log('-------78-----props----',props);
 
 const designTypeOptions = [
-  { label: '自定义', value: '自定义' , disabled: false },
-  { label: '正交设计', value: '正交设计' , disabled: false},
+  { label: '自定义', value: '自定义' , disabled: true },
+  { label: '正交设计', value: '正交设计' , disabled: true},
   { label: '响应面法', value: '响应面法' , disabled: true},
   { label: '中心复合', value: '中心复合' , disabled: true},
 ]
@@ -401,7 +401,7 @@ const makeTableFunc = () => {
 
 const getTreeData = (formItems,designTreeChecked) => {
   const treeData = [];
-  console.log('------270-----_designParams----------',formItems);
+  if (!formItems) return [];
   formItems.map(ele => {
     if (ele.type === 'FieldsGroup') {
       const obj = { ...ele, title: ele.title ? ele.title : ele.name, formItems: [] };
@@ -426,11 +426,14 @@ const getTreeData = (formItems,designTreeChecked) => {
 
 onMounted(() => {
   designTreeChecked.value = [];
-  _designParams.value = {
-    ...props.designParams,
-    formItems: getTreeData(props.designParams.formItems,designTreeChecked.value)
-  };
-  _selectFormItems.value = [...props.designParams.formItems];
+  if (props.designParams?.formItems && props.designParams.formItems.length > 0) {
+    _designParams.value = {
+      ...props.designParams,
+      formItems: getTreeData(props.designParams.formItems,designTreeChecked.value)
+    };
+    _selectFormItems.value = [...props.designParams.formItems];
+    
+  }
   console.log('------439-----_designParams----------',designTreeChecked.value, _designParams.value);
 })
 

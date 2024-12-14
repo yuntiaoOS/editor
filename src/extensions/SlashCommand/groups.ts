@@ -33,6 +33,14 @@ export function renderGroups(editor: Editor) {
             editor?.chain().focus().addExperimental_designs().run()
           },
         },
+        {
+          name: 'test_record_table',
+          label: '试验记录',
+          iconName: 'test-records',
+          action: ({ editor, range }) => {
+            editor?.chain().focus().addTest_record_table().run()
+          },
+        },
         // {
         //   name: 'sample_table',
         //   label: '样品表格',
@@ -41,14 +49,14 @@ export function renderGroups(editor: Editor) {
         //     editor?.chain().focus().addSample_tables({is_integration:true}).run()
         //   },
         // },
-        {
-          name: 'evaluating_table',
-          label: '评测表格',
-          iconName: 'evaluating',
-          action: ({ editor, range }) => {
-            editor?.chain().focus().addEvaluating_tables().run()
-          },
-        },
+        // {
+        //   name: 'evaluating_table',
+        //   label: '评测表格',
+        //   iconName: 'evaluating',
+        //   action: ({ editor, range }) => {
+        //     editor?.chain().focus().addEvaluating_tables().run()
+        //   },
+        // },
       ],
     },
     {

@@ -37,12 +37,12 @@
           </t-popconfirm>
         </div>
       </template>
-      <template #footerSummary >
+      <!-- <template #footerSummary >
         <div v-if="table_data.length > 0" style="display: flex;align-items: center;justify-content: space-between;">
           <div></div>
           <t-button theme="primary" variant="text" @click="onExperimentalDesign" >试验设计</t-button>
         </div>
-      </template>
+      </template> -->
     </t-table>
     <node-view-content :node="_node" ></node-view-content> 
   </div>
@@ -65,15 +65,15 @@
     <t-form ref="design_form" :rules="FORM_RULES" :data="procedureFormData" :colon="true" >
       <t-form-item label="类型" name="type">
         <t-radio-group v-model="procedureFormData.type" variant="primary-filled" @change="procedureTypeChange">
-          <t-radio-button value="operate">操作</t-radio-button>
-          <t-radio-button value="assessment">评估</t-radio-button>
+          <t-radio-button value="group">工序</t-radio-button>
+          <t-radio-button value="customer">自定义</t-radio-button>
         </t-radio-group>
       </t-form-item>
       <t-form-item label="名称" name="name">
         <t-input v-model="procedureFormData.name" placeholder="请输入原材料名称" />
       </t-form-item>
       <t-form-item label="操作" name="operates">
-        <t-select v-if="procedureFormData.type === 'operate'"  v-model="procedureFormData.operates" multiple clearable filterable placeholder="请选择" >
+        <t-select v-if="procedureFormData.type "  v-model="procedureFormData.operates" multiple clearable filterable placeholder="请选择" >
           <t-option v-for="(item,index) in operationOption" :key="index" :value="item.id" :label="item.title"></t-option> 
           <template #panelBottomContent>
             <div class="select-panel-footer">
@@ -305,7 +305,7 @@ const FORM_RULES = {
 
 const procedureFormData = ref({
   name:'',
-  type: 'operate',  // assessment: 评估  ；operate： 操作
+  type: 'group',  // group: 已配好的工序  ；operate： 操作
   description:'',
   operates:[]
 })
@@ -410,6 +410,7 @@ const on_select_parentFunc = async ()=>{
             return {
               ...eleI,
               rowKey: eleI.id + '/' + shortId(),
+              description: '',
               props: {
                 ...eleI.props,
                 options: optionsGroup,
@@ -419,17 +420,18 @@ const on_select_parentFunc = async ()=>{
             return {
               ...eleI,
               rowKey: eleI.id + '/' + shortId(),
+              description: '',
               props: {
                 ...eleI.props,
                 items: processItems(eleI.props.items, optionsGroup), // 递归处理嵌套的 items
               },
             };
           } else {
-            return {...eleI, rowKey: eleI.id + '/' + shortId()};
+            return {...eleI, description: '', rowKey: eleI.id + '/' + shortId()};
           }
         });
       }
-      if (procedureFormData.value.type === 'operate') {
+      if (procedureFormData.value.type ) {
         operates = operationOption.value.filter(ele=> procedureFormData.value.operates.includes(ele.id))
           .map(ele => processItems([ele], optionsGroup)[0]);
       } else {
@@ -446,7 +448,7 @@ const on_select_parentFunc = async ()=>{
         form: {
           formItems: operates,
           formConfig: undefined,
-          formData: {}
+          formData: {description:''}
         }
       }
 
@@ -562,7 +564,7 @@ const getOperationOptionFunc = async (page=1) => {
       operationOption.value = [...operationOption.value, ...resD.data]
     }
     pagination.value.total = resD.total
-    console.log(operationOption.value, '-------------479------------operationOption.value')
+    // console.log(operationOption.value, '-------------479------------operationOption.value')
   }
   
 }
@@ -717,7 +719,7 @@ const columns = ref([
 function onAddWorkingProcedure(row=undefined) {
   procedureFormData.value = {
     name:'',
-    type: 'operate',
+    type: 'group',
     description:'',
     operates:[]
   }

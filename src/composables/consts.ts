@@ -6,6 +6,7 @@ export const Xm_Table_key: Record<string, string> = {
   sample_table: "sample_table",     // 样品表格
   technology_table: "technology_table", // 工艺路线
   experimental_design: "experimental_design", // 实验设计表格
+  test_record_table: "test_record_table", // 测试记录表格
 };
 
 // 原材料数据存储字段固定字段 -- 后续用作特殊判断

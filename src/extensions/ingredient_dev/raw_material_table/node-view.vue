@@ -398,33 +398,33 @@ const initData = async () => {
 onMounted(async () => {
   if (change_log.value?.change_log && table_data.value?.length === 0) {
     console.log('----------change_log.value395---------',table_data.value,change_log.value);
-    await initData()
+    // await initData()
   }else if(is_integration.value) {
     
     const docD = editor.getJSON()
     if (docD ) {
       // 原材料表
-      const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
-      if (raw_material_tables.length === 0) {
-        // TMessagePlugin.warning('请先创建原材料表')
-        return  // 原材料表不存在，返回
-      }
-      raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
-      const dialog = useConfirm({
-        theme: 'info',
-        header: '提示',
-        body: '检测到当前文档中存在原材料表，是否使用该原材料表进行初始化？',
-        confirmBtn: '确定',
-        onConfirm() {
-          dialog.destroy()
-          setTimeout(() => {
-            add_parent_visible.value = true
-          }, 300)
-        },
-        onClosed() {
+      // const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
+      // if (raw_material_tables.length === 0) {
+      //   // TMessagePlugin.warning('请先创建原材料表')
+      //   return  // 原材料表不存在，返回
+      // }
+      // raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
+      // const dialog = useConfirm({
+      //   theme: 'info',
+      //   header: '提示',
+      //   body: '检测到当前文档中存在原材料表，是否使用该原材料表进行初始化？',
+      //   confirmBtn: '确定',
+      //   onConfirm() {
+      //     dialog.destroy()
+      //     setTimeout(() => {
+      //       add_parent_visible.value = true
+      //     }, 300)
+      //   },
+      //   onClosed() {
           
-        },
-      })
+      //   },
+      // })
       
     }else {
       TMessagePlugin.warning('当前文档中没有数据')

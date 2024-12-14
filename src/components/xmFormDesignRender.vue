@@ -1,6 +1,6 @@
 <template>
   <FormDesignRender 
-    v-model="_value" style="overflow: auto;"
+    v-model="_value"
     :label="label"
     :mode="mode"
     :config="config">

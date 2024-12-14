@@ -54,6 +54,7 @@ import technology_table from './ingredient_dev/technology_table'
 import sample_table from './ingredient_dev/sample_table'
 import experimental_design from './ingredient_dev/experimental_design'
 import evaluating_table from './ingredient_dev/evaluating_table'
+import test_record_table from './ingredient_dev/test_record_table'
 
 // 自定义不能选中移动的节点
 import atomUnselect from './atom-unselect'
@@ -109,6 +110,7 @@ export const extensions = [
   technology_table,
   experimental_design,
   evaluating_table,
+  test_record_table,
   atomUnselect,
   xmTitle,
   xmTitleContent,

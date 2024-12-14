@@ -5,7 +5,7 @@
       <div style="width: 100%;display: flex ;flex-direction: column;gap: 10px;" >
         <t-card 
           v-for=" (design,index) in [designResult]" :key="index"
-          :title="design.title" header-bordered :style="{ width: '100%' }">
+          :title="_title" header-bordered :style="{ width: '100%' }">
           <!-- <t-row v-for=" (formItemP,indexP) in design.formItems" :key="indexP">
             <t-col flex="100px">
               <div>{{formItemP.name}}</div>
@@ -26,6 +26,7 @@
             </t-col>
           </t-row> -->
           <t-tree 
+            v-if="design"
             ref="designTreeRef"
             :data="design.formItems"  :keys="{ value: 'rowKey', label: 'title', children: 'formItems' }"
             activable  expandParent activeMultiple expandAll 
@@ -46,7 +47,7 @@
             </template>
           </t-tree>
           <template #title>
-            <t-input v-model="design.title" auto-width placeholder="请输入名称" />
+            <t-input v-model="_title" auto-width placeholder="请输入名称" />
           </template> 
           <template #actions>
             <t-button style="width: 100px;" variant="outline" @click="onSelectDesignFunc">
@@ -124,6 +125,15 @@ const FORM_RULES = { raw_material: [{ required: true, message: '必填' ,trigger
   technology: [{ required: true, message: '必填' ,trigger: ['change'] }] 
 };
 const selectFormItems = ref([])
+
+const _title = computed({
+  get: () => {
+    return node.attrs.title
+  },
+  set(value) {
+    updateAttributes({ title: value })
+  },
+})
 
 const _designParams = computed({
   get: () => {
@@ -369,12 +379,14 @@ onMounted(() => {
     selectTableForm.value.technology = node.attrs.customerParams?.technology
     on_select_designFunc(node.attrs.customerParams?.is_select)
   }else{
-    setTimeout(() => {
-      if (technologyOptions.value.length === 1 ) {
-        selectTableForm.value.technology = technologyOptions.value[0].id
-        on_select_designFunc(true)
-      }
-    }, 500);
+    if (!designResult.value || !designResult.value.formItems || designResult.value.formItems.length === 0) {
+      setTimeout(() => {
+        if (technologyOptions.value.length === 1 ) {
+          selectTableForm.value.technology = technologyOptions.value[0].id
+          on_select_designFunc(true)
+        }
+      }, 500);
+    }
 
   }
   
