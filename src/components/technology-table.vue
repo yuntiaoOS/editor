@@ -172,11 +172,11 @@ const setActiveItemRef = (index,el) => {
 const get_raw_materialOptionsFunc = () => {
   const docD = props.editor.getJSON()
   if (docD) {
-    // 原材料表
+    // 物料表
     const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
     if (raw_material_tables.length === 0) {
-      TMessagePlugin.warning('请先创建原材料表')
-      return  // 原材料表不存在，返回
+      TMessagePlugin.warning('请先创建物料表')
+      return  // 物料表不存在，返回
     }
     raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
   }

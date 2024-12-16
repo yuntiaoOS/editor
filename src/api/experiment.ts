@@ -5,7 +5,7 @@ import type { ExperimentInfo, ExperimentInfoList } from '@/api/model/experimentM
 const Api = {
   experiment_theme: '/ingredient_dev/experiment/theme/',  //实验
   experiment_record: '/ingredient_dev/experiment/record/', //记录
-  experiment_material: '/ingredient_dev/experiment/material/', //新增记录-原材料
+  experiment_material: '/ingredient_dev/experiment/material/', //新增记录-物料
   processes_attribute: '/processes/attribute/', //操作属性
   eval_attribute_library: '/evaluation_metric/eval_attribute_library/', // 指标属性
   ingredient_dev_experiment_sn : '/ingredient_dev/experiment/sn/' , //实验编号创建
@@ -119,7 +119,7 @@ export function getProcesses_attributeListFetch(params?: any) {
   });
 }
 
-/*-------------------------------------记录-原材料--------------------------------------------*/
+/*-------------------------------------记录-物料--------------------------------------------*/
 export function delete_material_multiple_deleteFetch(params: any) {
   return request.delete({ url: Api.material_multiple_delete, params });
 }

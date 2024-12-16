@@ -32,7 +32,7 @@ const columns = [
   },
   {
     colKey: 'name',
-    title: '原材料',
+    title: '物料',
     cell: (h, { row, rowIndex }) => {
       const status = rowIndex % 3;
       return (

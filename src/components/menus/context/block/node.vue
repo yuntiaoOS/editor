@@ -38,7 +38,7 @@
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
            editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
           ico="t-table"
-          text="原材料表格"
+          text="物料表格"
           :tooltip="false"
           @menu-click="editor?.chain().focus().addRaw_material_tables({is_integration:true}).run()"
         />

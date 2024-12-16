@@ -453,7 +453,7 @@ onMounted(async () => {
     
     const docD = editor.getJSON()
     if (docD ) {
-      // 原材料表
+      // 物料表
      
       
     }else {

@@ -65,13 +65,13 @@
       v-model:visible="select_design_visible"
       destroy-on-close 
       :close-on-overlay-click="false"
-      header="选择原材料表及工艺表" :cancel-btn="null"
+      header="选择物料表及工艺表" :cancel-btn="null"
       width="600" attach="body"
       :confirm-on-enter="true"
       :on-confirm="on_select_designFunc"
     >
       <t-form ref="select_design_form" :rules="FORM_RULES" :data="selectTableForm" :colon="true" >
-        <!-- <t-form-item label="原材料表" name="raw_material">
+        <!-- <t-form-item label="物料表" name="raw_material">
           <t-select v-model="selectTableForm.raw_material" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
             <t-option v-for="item in raw_materialOptions" :key="item.id" :value="item.id" :label="item.title"></t-option>
           </t-select>
@@ -177,7 +177,7 @@ const getDesignParams = () => {
     }
   })
   console.log('--------_designParams--------95--------',technology_table_data)
-  // TODO 待优化optionsGroup原材料数据要插入更新
+  //[ ] TODO  待优化optionsGroup物料数据要插入更新
   if (technology_table_data) {
     // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
     function processItems(items, optionsGroup) {
@@ -203,8 +203,12 @@ const getDesignParams = () => {
         }
       });
     }
+    const formItems = technology_table_data.map(ele=>{
+      return {...ele, formItems: processItems(ele.formItems, optionsGroup)}
+    })
+    console.log('--------_designParams--------209--------',formItems)
     designParams = {
-      formItems: technology_table_data,
+      formItems,
       formData:{},
       stepData:{},
     }
@@ -334,11 +338,11 @@ const on_experimental_designFunc = async ()=>{
 const initialize = () => {
   const docD = editor.getJSON()
   if (docD) {
-    // 原材料表
+    // 物料表
     const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
     if (raw_material_tables.length === 0) {
-      TMessagePlugin.warning('请先创建原材料表')
-      return  // 原材料表不存在，返回
+      TMessagePlugin.warning('请先创建物料表')
+      return  // 物料表不存在，返回
     }
     // 工艺表
     const technology_tables = docD.content.filter(ele=> ele.type === 'technology_table')

@@ -452,17 +452,17 @@ onMounted(async () => {
     
     const docD = editor.getJSON()
     if (docD ) {
-      // 原材料表
+      // 物料表
       const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
       if (raw_material_tables.length === 0) {
-        TMessagePlugin.warning('请先创建原材料表')
-        return  // 原材料表不存在，返回
+        TMessagePlugin.warning('请先创建物料表')
+        return  // 物料表不存在，返回
       }
       raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
       const dialog = useConfirm({
         theme: 'info',
         header: '提示',
-        body: '检测到当前文档中存在原材料表，是否使用该原材料表进行初始化？',
+        body: '检测到当前文档中存在物料表，是否使用该物料表进行初始化？',
         confirmBtn: '确定',
         onConfirm() {
           dialog.destroy()

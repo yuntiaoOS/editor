@@ -58,13 +58,13 @@ const icon = computed(() => {
 const text = computed(() => {
   switch (props.tableType) {
     case Xm_Table_key['raw_material_table']:
-      return '原材料表格'
+      return '物料表格'
     case Xm_Table_key['technology_table']:
       return '工艺路线'
     case Xm_Table_key['sample_table']:
       return '样品表格'
     default:
-      return '原材料表格'
+      return '物料表格'
   }
 })
 

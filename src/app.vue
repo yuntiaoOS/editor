@@ -10742,7 +10742,7 @@ const options = $ref({
       "experimenter": []
     },
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0MjUwODQ5LCJpYXQiOjE3MzQxNjQ0NDksImp0aSI6IjRlMjFiNWRjMzAxNTQyZGZiNGE5ZDJiZTNlMmI5MDI5IiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.KQ-QPi0BKzko9-xwfsL6aLfd6T-wRkBX64WzK7kpoR8',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NDAyODM3LCJpYXQiOjE3MzQzMTY0MzcsImp0aSI6ImVhZjQ2MDc1MWIwODQzYjZhYjlhM2E0NzdkOTBiZjBhIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.rAr2IuYSGpxFOAxZRTRxBdUKJ46faFw1tMDNZyaZKqc',
   },
   document: {
     placeholder: '测试文档',
@@ -11675,7 +11675,7 @@ onMounted(() => {
         },
         "content": [
           {
-            "text": "原材料：",
+            "text": "物料：",
             "type": "text"
           }
         ]
@@ -11730,7 +11730,7 @@ onMounted(() => {
               "experiment_material_supplier": "个的风格大方"
             }
           ],
-          "title": "原材料202412091853"
+          "title": "物料202412091853"
         },
         "content": [
           {
@@ -11808,7 +11808,7 @@ onMounted(() => {
                   },
                   {
                     "id": 24,
-                    "title": "原材料",
+                    "title": "物料",
                     "props": {
                       "http": {},
                       "fixed": true,
@@ -11816,7 +11816,7 @@ onMounted(() => {
                       "suffix": null,
                       "options": [
                         {
-                          "group": "原材料202412091853",
+                          "group": "物料202412091853",
                           "children": [
                             {
                               "id": "098973f9-a550-4220-88bc-18af6bc89996",
@@ -11882,7 +11882,7 @@ onMounted(() => {
                   },
                   {
                     "id": 25,
-                    "title": "原材料组合",
+                    "title": "物料组合",
                     "props": {
                       "size": 8,
                       "items": [
@@ -11898,7 +11898,7 @@ onMounted(() => {
                             "suffix": null,
                             "options": [
                               {
-                                "group": "原材料202412091853",
+                                "group": "物料202412091853",
                                 "children": [
                                   {
                                     "id": "098973f9-a550-4220-88bc-18af6bc89996",
@@ -11954,7 +11954,7 @@ onMounted(() => {
                             "validation": null,
                             "enablePrint": true
                           },
-                          "title": "原材料",
+                          "title": "物料",
                           "value": null,
                           "multiple": false,
                           "attribute_type": "single",
@@ -12056,7 +12056,7 @@ onMounted(() => {
                   },
                   {
                     "id": 24,
-                    "title": "原材料",
+                    "title": "物料",
                     "props": {
                       "http": {},
                       "fixed": true,
@@ -12064,7 +12064,7 @@ onMounted(() => {
                       "suffix": null,
                       "options": [
                         {
-                          "group": "原材料202412091853",
+                          "group": "物料202412091853",
                           "children": [
                             {
                               "id": "098973f9-a550-4220-88bc-18af6bc89996",
@@ -12204,7 +12204,7 @@ onMounted(() => {
                             },
                             {
                                 "id": 24,
-                                "title": "原材料",
+                                "title": "物料",
                                 "props": {
                                     "http": {},
                                     "fixed": true,
@@ -12212,7 +12212,7 @@ onMounted(() => {
                                     "suffix": null,
                                     "options": [
                                         {
-                                            "group": "原材料202412091853",
+                                            "group": "物料202412091853",
                                             "children": [
                                                 {
                                                     "id": "098973f9-a550-4220-88bc-18af6bc89996",
@@ -12278,7 +12278,7 @@ onMounted(() => {
                             },
                             {
                                 "id": 25,
-                                "title": "原材料组合",
+                                "title": "物料组合",
                                 "props": {
                                     "size": 8,
                                     "items": [
@@ -12294,7 +12294,7 @@ onMounted(() => {
                                                 "suffix": null,
                                                 "options": [
                                                     {
-                                                        "group": "原材料202412091853",
+                                                        "group": "物料202412091853",
                                                         "children": [
                                                             {
                                                                 "id": "098973f9-a550-4220-88bc-18af6bc89996",
@@ -12350,7 +12350,7 @@ onMounted(() => {
                                                 "validation": null,
                                                 "enablePrint": true
                                             },
-                                            "title": "原材料",
+                                            "title": "物料",
                                             "value": null,
                                             "multiple": false,
                                             "attribute_type": "single",
@@ -12450,7 +12450,7 @@ onMounted(() => {
                             },
                             {
                                 "id": 24,
-                                "title": "原材料",
+                                "title": "物料",
                                 "props": {
                                     "http": {},
                                     "fixed": true,
@@ -12458,7 +12458,7 @@ onMounted(() => {
                                     "suffix": null,
                                     "options": [
                                         {
-                                            "group": "原材料202412091853",
+                                            "group": "物料202412091853",
                                             "children": [
                                                 {
                                                     "id": "098973f9-a550-4220-88bc-18af6bc89996",
@@ -12637,7 +12637,7 @@ onMounted(() => {
                             },
                             {
                                 "id": 24,
-                                "title": "原材料",
+                                "title": "物料",
                                 "props": {
                                     "http": {},
                                     "fixed": true,
@@ -12645,7 +12645,7 @@ onMounted(() => {
                                     "suffix": null,
                                     "options": [
                                         {
-                                            "group": "原材料202412091853",
+                                            "group": "物料202412091853",
                                             "children": [
                                                 {
                                                     "id": "098973f9-a550-4220-88bc-18af6bc89996",
@@ -12711,7 +12711,7 @@ onMounted(() => {
                             },
                             {
                                 "id": 25,
-                                "title": "原材料组合",
+                                "title": "物料组合",
                                 "props": {
                                     "size": 8,
                                     "items": [
@@ -12727,7 +12727,7 @@ onMounted(() => {
                                                 "suffix": null,
                                                 "options": [
                                                     {
-                                                        "group": "原材料202412091853",
+                                                        "group": "物料202412091853",
                                                         "children": [
                                                             {
                                                                 "id": "098973f9-a550-4220-88bc-18af6bc89996",
@@ -12783,7 +12783,7 @@ onMounted(() => {
                                                 "validation": null,
                                                 "enablePrint": true
                                             },
-                                            "title": "原材料",
+                                            "title": "物料",
                                             "value": null,
                                             "multiple": false,
                                             "attribute_type": "single",
@@ -12883,7 +12883,7 @@ onMounted(() => {
                             },
                             {
                                 "id": 24,
-                                "title": "原材料",
+                                "title": "物料",
                                 "props": {
                                     "http": {},
                                     "fixed": true,
@@ -12891,7 +12891,7 @@ onMounted(() => {
                                     "suffix": null,
                                     "options": [
                                         {
-                                            "group": "原材料202412091853",
+                                            "group": "物料202412091853",
                                             "children": [
                                                 {
                                                     "id": "098973f9-a550-4220-88bc-18af6bc89996",
@@ -13090,7 +13090,7 @@ onMounted(() => {
                       },
                       {
                         "id": 24,
-                        "title": "原材料",
+                        "title": "物料",
                         "props": {
                           "http": {},
                           "fixed": true,
@@ -13098,7 +13098,7 @@ onMounted(() => {
                           "suffix": null,
                           "options": [
                             {
-                              "group": "原材料202412091853",
+                              "group": "物料202412091853",
                               "children": [
                                 {
                                   "id": "098973f9-a550-4220-88bc-18af6bc89996",
@@ -13164,7 +13164,7 @@ onMounted(() => {
                       },
                       {
                         "id": 25,
-                        "title": "原材料组合",
+                        "title": "物料组合",
                         "props": {
                           "size": 8,
                           "items": [
@@ -13180,7 +13180,7 @@ onMounted(() => {
                                 "suffix": null,
                                 "options": [
                                   {
-                                    "group": "原材料202412091853",
+                                    "group": "物料202412091853",
                                     "children": [
                                       {
                                         "id": "098973f9-a550-4220-88bc-18af6bc89996",
@@ -13236,7 +13236,7 @@ onMounted(() => {
                                 "validation": null,
                                 "enablePrint": true
                               },
-                              "title": "原材料",
+                              "title": "物料",
                               "value": null,
                               "multiple": false,
                               "attribute_type": "single",
@@ -13336,7 +13336,7 @@ onMounted(() => {
                       },
                       {
                         "id": 24,
-                        "title": "原材料",
+                        "title": "物料",
                         "props": {
                           "http": {},
                           "fixed": true,
@@ -13344,7 +13344,7 @@ onMounted(() => {
                           "suffix": null,
                           "options": [
                             {
-                              "group": "原材料202412091853",
+                              "group": "物料202412091853",
                               "children": [
                                 {
                                   "id": "098973f9-a550-4220-88bc-18af6bc89996",
@@ -13987,7 +13987,7 @@ onMounted(() => {
               "group": [
                 {
                   "id": 8,
-                  "name": "原材料",
+                  "name": "物料",
                   "type": "SelectPlus",
                   "props": {
                     "abstract": false,
@@ -14044,7 +14044,7 @@ onMounted(() => {
                   "attribute_type": "single",
                   "step": "",
                   "check": true,
-                  "label": "原材料"
+                  "label": "物料"
                 },
                 {
                   "id": 9,

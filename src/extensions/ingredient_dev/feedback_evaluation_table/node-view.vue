@@ -11,7 +11,7 @@
             <t-space>
               <div></div>
               <t-space>
-                <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
+                <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入物料名称" />
                 <t-button variant="outline" @click="add_dialog_visible = true;">新增</t-button>
                 <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
               </t-space>
@@ -49,7 +49,7 @@
     </div>
     <t-dialog destroyOnClose 
       v-model:visible="add_dialog_visible"
-      header="新增原材料"
+      header="新增物料"
       width="80%" attach="body"
       :confirm-on-enter="true"
       :on-confirm="on_select_materialFunc"
@@ -202,7 +202,7 @@ columns.value = [
   // },
   {
     colKey: 'material',
-    title: '原材料',
+    title: '物料',
     cell: (h , { row: { material}, rowIndex } ) => {
       const status = rowIndex % 3;
       return (

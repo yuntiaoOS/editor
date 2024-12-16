@@ -70,7 +70,7 @@
         </t-radio-group>
       </t-form-item>
       <t-form-item label="名称" name="name">
-        <t-input v-model="procedureFormData.name" placeholder="请输入原材料名称" />
+        <t-input v-model="procedureFormData.name" placeholder="请输入物料名称" />
       </t-form-item>
       <t-form-item label="操作" name="operates">
         <t-select v-if="procedureFormData.type "  v-model="procedureFormData.operates" multiple clearable filterable placeholder="请选择" >
@@ -374,11 +374,11 @@ const onExperimentalDesign = () => {
 const getRaw_materialOptionsFunc = () => {
   const docD = props.editor.getJSON()
   if (docD) {
-    // 原材料表
+    // 物料表
     const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
     if (raw_material_tables.length === 0) {
-      TMessagePlugin.warning('请先创建原材料表')
-      return  // 原材料表不存在，返回
+      TMessagePlugin.warning('请先创建物料表')
+      return  // 物料表不存在，返回
     }
     raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
     console.log('--------212---------raw_materialOptions: ', raw_materialOptions.value)
@@ -814,7 +814,7 @@ onMounted(async () => {
     const docD = props.editor.getJSON()
     if (docD ) {
       dialog_selectOptions.value = []
-      // 原材料表
+      // 物料表
       const dialog = useConfirm({
         theme: 'info',
         header: '提示',

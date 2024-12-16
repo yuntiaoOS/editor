@@ -12,7 +12,7 @@
               <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
             </div>
             <t-space>
-              <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
+              <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入物料名称" />
               <!-- <t-button variant="outline" @click="add_dialog_visible = true;">新增</t-button> -->
               <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
               <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
@@ -1069,7 +1069,7 @@ const handleIntegration = async () => {
 
   const raw_material_tables = docD.content.filter(ele => ele.type === 'raw_material_table');
   if (raw_material_tables.length === 0) {
-    TMessagePlugin.warning('请先创建原材料表');
+    TMessagePlugin.warning('请先创建物料表');
     return;
   }
 
@@ -1078,7 +1078,7 @@ const handleIntegration = async () => {
   const dialog = useConfirm({
     theme: 'info',
     header: '提示',
-    body: '检测到当前文档中存在原材料表，是否使用该原材料表进行初始化？',
+    body: '检测到当前文档中存在物料表，是否使用该物料表进行初始化？',
     confirmBtn: '确定',
     onConfirm() {
       dialog.destroy();

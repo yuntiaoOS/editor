@@ -103,7 +103,7 @@ export default xmNode.create({
               type: this.name,
               attrs: {
                 ...currentOption,
-                title: currentOption?.title && currentOption.title.length > 0 ? currentOption.title : `原材料${timeFormat(null, 'yyyymmddhhMM')}`,
+                title: currentOption?.title && currentOption.title.length > 0 ? currentOption.title : `物料${timeFormat(null, 'yyyymmddhhMM')}`,
                 key: option?.key ? option?.key : Xm_Table_key['raw_material_table']  + timeFormat(null,'yyyymmddhhMMss'),
               },
               content: [

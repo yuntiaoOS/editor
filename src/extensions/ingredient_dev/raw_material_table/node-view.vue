@@ -13,7 +13,7 @@
                 <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
               </div>
               <t-space>
-                <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入原材料名称" />
+                <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入物料名称" />
                 <t-button variant="outline" @click="addFunc">新增</t-button>
                 <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
                 <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
@@ -52,7 +52,7 @@
     </div>
     <t-dialog destroyOnClose
       v-model:visible="add_dialog_visible"
-      header="新增原材料"
+      header="新增物料"
       width="80%" attach="body"
       :confirm-on-enter="true"
       :on-confirm="on_select_materialFunc"
@@ -61,7 +61,7 @@
     </t-dialog>
     <t-dialog destroyOnClose 
       v-model:visible="add_parent_visible"
-      header="选择原材料表"
+      header="选择物料表"
       width="40%" attach="body"
       :confirm-on-enter="true"
       :on-confirm="on_select_parentFunc"
@@ -106,7 +106,8 @@
 
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
-import { post_experiment_material_fetch,put_experiment_material_fetch,delete_material_multiple_deleteFetch ,get_experiment_material_fetch} from '@/api/experiment'
+import { post_experiment_material_fetch ,get_experiment_material_fetch} from '@/api/experiment'
+import { v4 as uuid } from 'uuid'
 import { timeFormat } from '@/utils/time-ago'
 
 const { node, editor, updateAttributes } = defineProps(nodeViewProps)
@@ -186,56 +187,76 @@ const on_select_parentFunc = async ()=>{
 }
 
 const on_select_materialFunc = async ()=>{
-  console.log('--------on_select_materialFunc--------161--------',change_log.value)
-  const params = {
-    experiment_theme: experiment_theme.value?.id,
-    record: experiment_record.value?.id,
-    parent: change_log.value?.change_log,
-    identifier: undefined,  // 标识 非必填
-    experiment_materials: select_material.value.map(ele=>{ return { experiment_material: ele.id } })
-  }
+  console.log('--------on_select_materialFunc--------161--------',select_material.value)
+  // const params = {
+  //   experiment_theme: experiment_theme.value?.id,
+  //   record: experiment_record.value?.id,
+  //   parent: change_log.value?.change_log,
+  //   identifier: undefined,  // 标识 非必填
+  //   experiment_materials: select_material.value.map(ele=>{ return { experiment_material: ele.id } })
+  // }
+  // select_material.value.forEach((ele ) => {
+  //   const obj  = {
+  //     ...ele,
+  //     // content: '0.0',
+  //   }
+  //   // table_data.value.push(obj)
+  // });
+  // isChanged.value = true
+  // const res = await post_experiment_material_fetch(params)
+  // add_dialog_visible.value = false
+  // if (res.data.code === 2000) {
+  //   useMessage('success' ,res.data.msg);
+  //   change_log.value = {
+  //     change_log: res.data.data.change_log
+  //   }
+  //   updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+  //   // table_data.value = res.data.data.data
+  //   await initData()
+  // }
+
   select_material.value.forEach((ele ) => {
     const obj  = {
-      ...ele,
+      id: uuid(),
+      material:ele,
+      experiment_material: ele.id,
+      experiment_material_batch: ele.batch,
+      experiment_material_name: ele.name,
+      experiment_material_price: ele.price,
+      experiment_material_sn: ele.sn,
+      experiment_material_state: ele.state,
+      experiment_material_supplier: ele.supplier,
+      description: ''
       // content: '0.0',
     }
-    // table_data.value.push(obj)
+    table_data.value.push(obj)
   });
-  isChanged.value = true
-  const res = await post_experiment_material_fetch(params)
+  updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
   add_dialog_visible.value = false
-  if (res.data.code === 2000) {
-    useMessage('success' ,res.data.msg);
-    change_log.value = {
-      change_log: res.data.data.change_log
-    }
-    updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
-    // table_data.value = res.data.data.data
-    await initData()
-  }
   console.log('--------onSelectChange--------119--------',table_data.value)
   // setReadOnly()
 }
 
 const onDelete = async (row) => {
   console.log('--------onDelete--------44--------',row)
-  const params = {
-    change_log: change_log.value?.change_log,
-    // change_log: row.change_log,  // 标识 非必填
-    ids: row.id
-  }
-  isChanged.value = true
-  const res = await delete_material_multiple_deleteFetch(params)
-  if (res.data.code === 2000) {
-    useMessage('success' ,res.data.msg);
-    change_log.value = {
-      change_log: res.data.data.change_log
-    }
-    updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
-    await initData()
-  }
-  // const index = table_data.value.findIndex((t ) => t === row);
-  // table_data.value.splice(index, 1);
+  // const params = {
+  //   change_log: change_log.value?.change_log,
+  //   // change_log: row.change_log,  // 标识 非必填
+  //   ids: row.id
+  // }
+  // isChanged.value = true
+  // const res = await delete_material_multiple_deleteFetch(params)
+  // if (res.data.code === 2000) {
+  //   useMessage('success' ,res.data.msg);
+  //   change_log.value = {
+  //     change_log: res.data.data.change_log
+  //   }
+  //   updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+  //   await initData()
+  // }
+  const index = table_data.value.findIndex((t ) => t === row);
+  updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+  table_data.value.splice(index, 1);
   // setReadOnly(false)
 };
 
@@ -249,7 +270,7 @@ displayColumns.value = ['experiment_material_name','experiment_material_batch', 
 columns.value = [
   {
     colKey: 'experiment_material_name',
-    title: '原材料',
+    title: '物料',
     cell: (h , { row, rowIndex } ) => {
       const status = rowIndex % 3;
       return (
@@ -307,29 +328,31 @@ columns.value = [
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
       onEdited: async (context ) => {
-        console.log(context);
-        // const newData = [...table_data.value];
-        // newData.splice(context.rowIndex, 1, context.newRowData);
-        // table_data.value = newData;
-        // console.log('Edit firstName:', context);
-        const params = {
-          change_log: change_log.value?.change_log,
-          id: context.row.id,
-          description: context.newRowData.description,
-          experiment_material: context.row.experiment_material,
-          experiment_material_batch: context.row.experiment_material_batch,
-        }
-        isChanged.value = true
-        const res = await put_experiment_material_fetch(context.row.id,params)
-        if (res.data.code === 2000) {
-          useMessage('success' ,res.data.msg);
-          change_log.value = {
-            change_log: res.data.data.change_log
-          }
-          updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
-          await initData()
-        }
-        // setReadOnly()
+        const newData = [...table_data.value];
+        newData.splice(context.rowIndex, 1, context.newRowData);
+        table_data.value = newData;
+        console.log('------552------Edit firstName:', context,table_data.value);
+        updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+        useMessage('success' ,'Success');
+
+        // const params = {
+        //   change_log: change_log.value?.change_log,
+        //   id: context.row.id,
+        //   description: context.newRowData.description,
+        //   experiment_material: context.row.experiment_material,
+        //   experiment_material_batch: context.row.experiment_material_batch,
+        // }
+        // isChanged.value = true
+        // const res = await put_experiment_material_fetch(context.row.id,params)
+        // if (res.data.code === 2000) {
+        //   useMessage('success' ,res.data.msg);
+        //   change_log.value = {
+        //     change_log: res.data.data.change_log
+        //   }
+        //   updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+        //   await initData()
+        // }
+        
       },
       // 触发校验的时机（when to validate)
       validateTrigger: 'change',
@@ -403,17 +426,17 @@ onMounted(async () => {
     
     const docD = editor.getJSON()
     if (docD ) {
-      // 原材料表
+      // 物料表
       // const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
       // if (raw_material_tables.length === 0) {
-      //   // TMessagePlugin.warning('请先创建原材料表')
-      //   return  // 原材料表不存在，返回
+      //   // TMessagePlugin.warning('请先创建物料表')
+      //   return  // 物料表不存在，返回
       // }
       // raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
       // const dialog = useConfirm({
       //   theme: 'info',
       //   header: '提示',
-      //   body: '检测到当前文档中存在原材料表，是否使用该原材料表进行初始化？',
+      //   body: '检测到当前文档中存在物料表，是否使用该物料表进行初始化？',
       //   confirmBtn: '确定',
       //   onConfirm() {
       //     dialog.destroy()

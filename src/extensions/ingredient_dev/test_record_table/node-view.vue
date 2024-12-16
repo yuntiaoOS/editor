@@ -246,113 +246,7 @@ const experiment_theme = computed(() => $key_data?.experiment_theme)
 const select_design_visible = ref(false);
 const experimental_design_visible = ref(false);
 
-const assessmentOption = ref([
-  {
-    "id": 8,
-    "title": "单行输入",
-    "props": {
-      "suffix": "%",
-      "abstract": true,
-      "required": false,
-      "enableScan": true,
-      "enablePrint": true
-    },
-    "key": "dan_hang_shu_ru",
-    "type": "TextInput",
-    "value": null,
-    "unit": null,
-    "attribute_type": "single"
-  },
-  {
-    "id": 9,
-    "title": "数字输入",
-    "props": {
-      "suffix": "%",
-      "abstract": false,
-      "required": false,
-      "enablePrint": true
-    },
-    "key": "shu_zi_shu_ru",
-    "type": "NumberInput",
-    "value": null,
-    "unit": null,
-    "attribute_type": "single"
-  },
-  {
-    "id": 10,
-    "title": "组合属性",
-    "props": {
-      "size": 8,
-      "items": [
-        {
-          "id": 8,
-          "key": "dan_hang_shu_ru",
-          "type": "TextInput",
-          "unit": null,
-          "group": [],
-          "props": {
-            "suffix": "%",
-            "abstract": true,
-            "required": false,
-            "enableScan": true,
-            "enablePrint": true
-          },
-          "title": "单行输入",
-          "value": null,
-          "attribute_type": "single"
-        }
-      ],
-      "abstract": false,
-      "required": false,
-      "direction": "horizontal",
-      "expanding": false,
-      "enablePrint": true
-    },
-    "key": "zu_he_shu_xing",
-    "type": "FieldsGroup",
-    "value": null,
-    "unit": null,
-    "attribute_type": "single"
-  },
-  {
-    "id": 11,
-    "title": "原料",
-    "props": {
-      "options": [
-        "选项1",
-        "选项2"
-      ],
-      "abstract": false,
-      "required": false,
-      "expanding": false,
-      "enablePrint": true
-    },
-    "key": "yuan_liao",
-    "type": "SelectInput",
-    "value": null,
-    "unit": null,
-    "attribute_type": "single"
-  },
-  {
-    "id": 12,
-    "title": "附件",
-    "props": {
-      "maxSize": 100,
-      "abstract": false,
-      "onlyRead": false,
-      "required": false,
-      "fileTypes": [],
-      "maxNumber": 10,
-      "enablePrint": true,
-      "placeholder": "点击上传"
-    },
-    "key": "fu_jian",
-    "type": "Attachment",
-    "value": null,
-    "unit": null,
-    "attribute_type": "single"
-  }
-])
+const assessmentOption = ref([])
 const expandedRowKeys = ref([]);
 
 const selectRecordTable = ref()
@@ -436,7 +330,11 @@ const onAddFunc = () => {
 }
 
 const expandDataFunc = (row)=>{
-  expandedRowKeys.value.push(row.id)
+  if (expandedRowKeys.value.includes(row.id)) {
+    expandedRowKeys.value = expandedRowKeys.value.filter((item) => item !== row.id)
+  } else {
+    expandedRowKeys.value.push(row.id)
+  }
 }
 
 const getNodeFullColKey = (node) => {
@@ -938,11 +836,11 @@ const initData = async () => {
 const initialize = () => {
   const docD = editor.getJSON()
   if (docD) {
-    // 原材料表
+    // 物料表
     const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
     if (raw_material_tables.length === 0) {
-      TMessagePlugin.warning('请先创建原材料表')
-      return  // 原材料表不存在，返回
+      TMessagePlugin.warning('请先创建物料表')
+      return  // 物料表不存在，返回
     }
     raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
     // 工艺表
@@ -990,17 +888,17 @@ onMounted(() => {
     
     const docD = editor.getJSON()
     if (docD ) {
-      // 原材料表
+      // 物料表
       // const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
       // if (raw_material_tables.length === 0) {
-      //   TMessagePlugin.warning('请先创建原材料表')
-      //   return  // 原材料表不存在，返回
+      //   TMessagePlugin.warning('请先创建物料表')
+      //   return  // 物料表不存在，返回
       // }
       // raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
       // const dialog = useConfirm({
       //   theme: 'info',
       //   header: '提示',
-      //   body: '检测到当前文档中存在原材料表，是否使用该原材料表进行初始化？',
+      //   body: '检测到当前文档中存在物料表，是否使用该物料表进行初始化？',
       //   confirmBtn: '确定',
       //   onConfirm() {
       //     dialog.destroy()

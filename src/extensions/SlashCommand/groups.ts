@@ -11,7 +11,7 @@ export function renderGroups(editor: Editor) {
       commands: [
         {
           name: 'raw_material_table',
-          label: '原材料表格',
+          label: '物料表格',
           iconName: 't-table',
           action: ({ editor, range }) => {
             editor?.chain().focus().addRaw_material_tables({is_integration:true}).run()
