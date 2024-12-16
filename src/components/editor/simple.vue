@@ -483,7 +483,7 @@ provide('setLocale', setLocale)
 provide('reset', reset)
 
 onMounted(()=>{
-  page.value.showToc = true
+  page.value.showToc = false
   console.log('-----------------experiment_record-----451---------',options.value)
   // setToolbar({ mode: 'classic', show: false })
   loadTatexStyle()

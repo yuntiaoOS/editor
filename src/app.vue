@@ -10692,32 +10692,243 @@ const options = $ref({
       ]
     },
     experiment_theme: {
-      "id": "27cb4fd5-7c15-43e3-a240-9ae2950ee85d",
-      "modifier_name": "zzw",
+      "id": "984fbf0c-baf9-4a5a-ae72-dfc105618af1",
+      "modifier_name": "赵紫文",
       "dept_belong_id": null,
-      "creator_name": "zzw",
-      "create_datetime": "2024-12-02 15:53:03",
-      "update_datetime": "2024-12-02 15:53:03",
-      "liked": false,
-      "description": null,
+      "creator_name": "赵紫文",
+      "create_datetime": "2024-12-16 16:21:59",
+      "update_datetime": "2024-12-16 16:21:59",
+      "is_collect": false,
+      "person_in_charge": {
+        "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+        "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+        "name": "赵紫文",
+        "is_owner": true,
+        "avatar": "http://192.168.2.11:8002/media/avatar/abf0f9c664c6c4b3e4b0fbaf054c1db7_r9xK2Nq.png"
+      },
+      "participants": [
+        {
+          "id": "cea15e47-dcdd-4880-8bf3-ca6829109cf7",
+          "user_id": "cea15e47-dcdd-4880-8bf3-ca6829109cf7",
+          "name": "张三丰",
+          "is_owner": true,
+          "avatar": "http://192.168.2.11:8002/media/avatar/f21be6bb-34b9-481d-88dd-5c6c3d6ed66b.png"
+        },
+        {
+          "id": "69d25690-2f7a-458e-8f10-1c38162a1c58",
+          "user_id": "69d25690-2f7a-458e-8f10-1c38162a1c58",
+          "name": "张大彪",
+          "is_owner": false,
+          "avatar": "http://192.168.2.11:8002/media/avatar/db1f268d-5b27-4bed-95f5-6426025519e0.png"
+        },
+        {
+          "id": "995dda9e-dbee-46db-af4f-02686c470357",
+          "user_id": "995dda9e-dbee-46db-af4f-02686c470357",
+          "name": "胡汉三",
+          "is_owner": false,
+          "avatar": "http://192.168.2.11:8002/media/avatar/5ea58e76-fcbd-43bc-9493-dde4ba269b3e.png"
+        },
+        {
+          "id": "9dc2696a-b931-4abb-bb81-5fa2d088947e",
+          "user_id": "9dc2696a-b931-4abb-bb81-5fa2d088947e",
+          "name": "等待",
+          "is_owner": false,
+          "avatar": "http://192.168.2.11:8002/media/avatar/26e35b37-d464-48f6-a423-b73f17ca2538.png"
+        },
+        {
+          "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+          "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+          "name": "赵紫文",
+          "is_owner": true,
+          "avatar": "http://192.168.2.11:8002/media/avatar/abf0f9c664c6c4b3e4b0fbaf054c1db7_r9xK2Nq.png"
+        },
+        {
+          "id": "63aed191-f093-4e9d-b4ef-4a159ffa3935",
+          "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa3935",
+          "name": "小白1",
+          "is_owner": true,
+          "avatar": "http://192.168.2.11:8002/media/avatar/abf0f9c664c6c4b3e4b0fbaf054c1db7_l1HXx8V.jpg"
+        }
+      ],
+      "description": "根深蒂固打三个",
       "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
       "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-      "title": "JL120215520002",
-      "sn": null,
+      "name": "SY12161621",
+      "sn": "SN-1734337273849",
+      "icon": "/experiment/picture1.png",
+      "label": null,
+      "experiment_template": null,
       "start_time": null,
       "end_time": null,
-      "experiment_design": null,
-      "sample_number": null,
-      "version": 1,
-      "document_attachments": null,
-      "json_data": {},
-      "experiment_theme": "27cb4fd5-7c15-43e3-a240-9ae2950ee85d",
-      "previous_record": null,
-      "catalog": null,
-      "experimenter": []
+      "experiment_design": {
+        "type": "doc",
+        "content": [
+          {
+            "type": "xmTitleContent",
+            "attrs": {
+              "title": "试验目的：",
+              "content": "目的"
+            },
+            "content": [
+              {
+                "type": "heading",
+                "attrs": {
+                  "id": "elm5s8",
+                  "level": 2,
+                  "indent": null,
+                  "margin": {},
+                  "textAlign": "left",
+                  "lineHeight": 1.5,
+                  "data-toc-id": "elm5s8"
+                },
+                "content": [
+                  {
+                    "text": "试验目的：",
+                    "type": "text"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "indent": null,
+                  "margin": {},
+                  "textAlign": "left",
+                  "lineHeight": 1.5
+                },
+                "content": [
+                  {
+                    "text": "目的古代诗歌的",
+                    "type": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "attrs": {
+              "indent": null,
+              "margin": {},
+              "textAlign": "left",
+              "lineHeight": 1.5
+            }
+          },
+          {
+            "type": "xmTitleContent",
+            "attrs": {
+              "title": "试验背景：",
+              "content": "背景"
+            },
+            "content": [
+              {
+                "type": "heading",
+                "attrs": {
+                  "id": "h1tica",
+                  "level": 2,
+                  "indent": null,
+                  "margin": {},
+                  "textAlign": "left",
+                  "lineHeight": 1.5,
+                  "data-toc-id": "h1tica"
+                },
+                "content": [
+                  {
+                    "text": "试验背景：",
+                    "type": "text"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "indent": null,
+                  "margin": {},
+                  "textAlign": "left",
+                  "lineHeight": 1.5
+                },
+                "content": [
+                  {
+                    "text": "背景高大上高大上",
+                    "type": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "attrs": {
+              "indent": null,
+              "margin": {},
+              "textAlign": "left",
+              "lineHeight": 1.5
+            }
+          },
+          {
+            "type": "xmTitleContent",
+            "attrs": {
+              "title": "试验计划：",
+              "content": "计划"
+            },
+            "content": [
+              {
+                "type": "heading",
+                "attrs": {
+                  "id": "fsmq94",
+                  "level": 2,
+                  "indent": null,
+                  "margin": {},
+                  "textAlign": "left",
+                  "lineHeight": 1.5,
+                  "data-toc-id": "fsmq94"
+                },
+                "content": [
+                  {
+                    "text": "试验计划：",
+                    "type": "text"
+                  }
+                ]
+              },
+              {
+                "type": "paragraph",
+                "attrs": {
+                  "indent": null,
+                  "margin": {},
+                  "textAlign": "left",
+                  "lineHeight": 1.5
+                },
+                "content": [
+                  {
+                    "text": "计划根深蒂固的树",
+                    "type": "text"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "attrs": {
+              "indent": null,
+              "margin": {},
+              "textAlign": "left",
+              "lineHeight": 1.5
+            },
+            "content": [
+              {
+                "text": " ",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      },
+      "attachment": [],
+      "publish": false
     },
     experiment_record: {
-      "id": "90eff14c-9327-4745-8302-729a2ed3398b",
+      "id": "6a0b41eb-5d68-4e86-b4d6-b9d39d92aef8",
       "modifier_name": "zzw",
       "dept_belong_id": null,
       "creator_name": "zzw",
@@ -10735,7 +10946,7 @@ const options = $ref({
       "sample_number": null,
       "version": 1,
       "document_attachments": null,
-      "experiment_theme": "27cb4fd5-7c15-43e3-a240-9ae2950ee85d",
+      "experiment_theme": "984fbf0c-baf9-4a5a-ae72-dfc105618af1",
       "previous_record": null,
       "catalog": null,
       "experimenter": []
@@ -13037,7 +13248,7 @@ onMounted(() => {
               "name": "样品-2024121417030oe07o68",
               "sn": "SF-202412141703tqxfnnfr",
               "count": 1,
-              "is_sample": true,
+              "is_sample": false,
               "experimental_design": {
                 "formData": {
                   "05351cc2-1207-4c94-8b1e-47f2ecb25659": {

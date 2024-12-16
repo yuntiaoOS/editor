@@ -25,34 +25,33 @@
         <template #expandedRow="{ row }">
           <t-space direction="vertical" align="" style="width: 100%;">
             <div class="more-detail">
-              <t-divider align="left" dashed>试验方法设计</t-divider>
+              <t-divider align="left" dashed>样本参数</t-divider>
               <div v-for="(treeItem,index) in row.experimental_design.formItems" :key="index">
-                <t-descriptions size="small" colon  :column="1" :label-style="{ width: '150px', textAlign: 'left' }" style="margin-bottom: 20px">
-                  <t-descriptions-item >
-                    <template #label>
-                      <t-text theme="primary">工序</t-text>
-                    </template>
-                    <t-text theme="primary" strong>{{treeItem.title}}</t-text>
-                  </t-descriptions-item>
-                  <t-descriptions-item v-for="(item,indexF) in treeItem.formItems" :key="indexF" >
-                    <template #label>
-                      <t-text theme="primary">{{item.title}}</t-text>
-                    </template>
+                <div><span :style="{color: 'var(--umo-text-color-primary)',fontWeight: 'bold' }">{{ treeItem.title }}</span></div>
+                <t-row v-for="(item,indexF) in treeItem.formItems" :key="indexF" style="margin-left:30px;">
+                  <t-col flex="150px">
+                    <div>
+                      <span :style="{color: 'blue' ,width: '150px'}">{{ item.title }}</span>
+                    </div>
+                  </t-col>
+                  <t-col flex="auto">
                     <FormDesignRender 
                       v-model="row.experimental_design.formData[treeItem.key][item.key]"
                       style="overflow: auto;"
                       :mode=" 'RESP'"
                       :config="item">
                     </FormDesignRender>
-                  </t-descriptions-item>
-                  <t-descriptions-item >
-                    <template #label>
-                      <!-- <t-tag theme="primary">备注</t-tag> -->
-                      <t-text theme="primary">备注</t-text>
-                    </template>
+                  </t-col>
+                </t-row>
+                <t-row style="margin-bottom:16px">
+                  <t-col flex="100px">
+                    <span :style="{color: 'blue' ,width: '150px'}">备注</span>
+                  </t-col>
+                  <t-col flex="auto">
                     <t-textarea v-model="row.experimental_design.formData[treeItem.key].description" :autosize="{minRows: 2}" placeholder="请输入备注"></t-textarea>
-                  </t-descriptions-item>
-                </t-descriptions>
+                  </t-col>
+                </t-row>
+
                 <t-tree v-if="false"
                   :data="[treeItem]"  :keys="{ value: 'rowKey', label: 'title', children: 'formItems' }"
                   activable  expandParent activeMultiple expandAll 
@@ -135,9 +134,9 @@
         <template #type-slot-operate="{ col, row }">
           <div style="display: flex; align-items: center;gap: 10px; ">
             <t-link theme="primary" hover="color" @click="expandDataFunc(row)">
-              试验记录
+              评测记录
             </t-link>
-            <t-switch v-model="row.is_sample" :label="['已出样', '未出样']"></t-switch>
+            <t-switch v-model="row.is_sample" :disabled="row.is_sample" :label="['已出样', '未出样']" @change="creatSample(row)"></t-switch>
             <!-- <div v-else>
               <t-link theme="primary" hover="color" @click.stop="onSave(row)">
                 保存
@@ -222,7 +221,7 @@
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
-import { getEval_attribute_libraryListFetch,get_experiment_samplesListFetch  } from '@/api/experiment'
+import { getEval_attribute_libraryListFetch,get_experiment_samplesListFetch,post_samples_create_manyFetch  } from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
 import component from '@/extensions/form/item/component';
 import { cloneDeep } from 'lodash-unified';
@@ -361,7 +360,7 @@ const getNodeFullColKey = (node) => {
     keys.unshift(item.data.key)
   })
   if (parents[0].data.type && parents[0].data.type === "FieldsGroup") {
-    keys.push(node.data.id)
+    keys.push(node.data.key)
   }else{
     keys.push(node.data.key)
   }
@@ -434,23 +433,23 @@ const frontColumns = [
         defaultEditable: false,
       }),
     },
-    width: 140,
+    width: 240,
   },
 ]
 const suffixColumns = [
-{
-  title: '操作栏',
-  colKey: 'operate',
-  width: 180,
-  cell: 'type-slot-operate',
-},
+  {
+    title: '操作栏',
+    colKey: 'operate',
+    width: 180,
+    cell: 'type-slot-operate',
+  },
 ]
 columns.value = [
   ...frontColumns,
   {
     colKey: 'sn',
     title: '编号',
-    width: 120,
+    width: 220,
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
       // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
@@ -615,7 +614,7 @@ columns.value = [
     colKey: 'description',
     title: '描述',
     ellipsis: true,
-    width: 140,
+    minWidth: 140,
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
       // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
@@ -681,6 +680,34 @@ const columnEditFunc = ()=>{
   dialog_visible.value = true
 }
 
+const creatSample = async (row)=>{
+  if (row.is_sample && experiment_record.value?.id) {
+    const params = {
+      experiment_theme: experiment_theme.value?.id,
+      record: experiment_record.value?.id,
+      data: [
+          {name: row.name, json_data: row}
+      ]
+    }
+    const res = await post_samples_create_manyFetch(params)
+    if (res.data.code === 2000) {
+      if (res.data.data && res.data.data.length > 0) {
+        const rowC = {...row, sn: res.data.data[0].sn,id: res.data.data[0].id}
+        const index = table_data.value.findIndex((rowT) => rowT.id === rowC.id)
+        nextTick(() => {
+          table_data.value.splice(index, 1, rowC)
+        })
+        useMessage('success',res.data.msg)
+      }
+    }else{
+      row.is_sample = false
+    }
+  }else{
+    useMessage('warning','实验记录数据错误')
+  }
+
+}
+
 const on_select_indexFunc = ()=>{
   console.log('--------on_select_indexFunc--------590--------',selectRecordTable.value,selectTableForm.value )
   select_record_form.value?.validate({ showErrorMessage: true }).then((validateResult) => {
@@ -733,11 +760,11 @@ const makerecordDataFunc = (init=false)=>{
 
     items.forEach(eleI => {
       if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(eleI.type)) {
-        valueC[eleI.id] = [];
+        valueC[eleI.key] = [];
       } else if (['FieldsGroup'].includes(eleI.type)) {
-        valueC[eleI.id] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
+        valueC[eleI.key] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
       } else {
-        valueC[eleI.id] = '';
+        valueC[eleI.key] = '';
       }
     });
 
@@ -780,8 +807,8 @@ const on_select_designFunc = ()=>{
     experimental_designs.forEach(ele=>{
       const newData = {
         id: uuid(),
-        name: `样品-${timeFormat(null,'yyyymmddhhMM')}${shortId()}`,
-        sn: `SF-${timeFormat(null,'yyyymmddhhMM')}${shortId()}`,
+        name: `样品-${timeFormat(null,'yymmddhhMM')}${shortId(2)}`,
+        sn: `SF-${timeFormat(null,'yymmddhhMM')}${shortId(2)}`,
         count: 1,
         is_sample: false,
         experimental_design: cloneDeep( ele ),

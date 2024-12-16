@@ -19,9 +19,13 @@ const Api = {
   experiment_samples:'/ingredient_dev/experiment/samples/', //样品
   experiment_evaluation: '/ingredient_dev/experiment/evaluation/', //实验数据
   experiment_samples_groups: '/ingredient_dev/experiment/samples/groups/', //样品表组接口
+  samples_create_many: '/ingredient_dev/experiment/samples/create_many/' , //样品创建
 
 };
 /*-------------------------------------样品表组接口------------------------------------------*/
+export function post_samples_create_manyFetch(params?: any) {
+  return request.post({url: `${Api.samples_create_many}`,data:params});
+}
 export function get_experiment_samples_groupsFetch(params?: any) {
   return request.get({url: `${Api.experiment_samples_groups}`,params});
 }
@@ -111,6 +115,9 @@ export function getEval_attribute_libraryListFetch(params?: any) {
     params
   });
 }
+export function postEvalAttributeLibraryFetch(params?: any) {
+  return request.post({ url: Api.eval_attribute_library, data: params });
+}
 /*-------------------------------------操作属性--------------------------------------------*/
 export function getProcesses_attributeListFetch(params?: any) {
   return request.get<ExperimentInfo>({
@@ -118,7 +125,9 @@ export function getProcesses_attributeListFetch(params?: any) {
     params
   });
 }
-
+export function postProcessesAttributeFetch(params?: any) {
+  return request.post({ url: Api.processes_attribute, data: params });
+}
 /*-------------------------------------记录-物料--------------------------------------------*/
 export function delete_material_multiple_deleteFetch(params: any) {
   return request.delete({ url: Api.material_multiple_delete, params });

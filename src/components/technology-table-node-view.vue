@@ -73,19 +73,22 @@
         <t-input v-model="procedureFormData.name" placeholder="请输入物料名称" />
       </t-form-item>
       <t-form-item label="操作" name="operates">
-        <t-select v-if="procedureFormData.type "  v-model="procedureFormData.operates" multiple clearable filterable placeholder="请选择" >
+        <t-select v-if="procedureFormData.type "  v-model="procedureFormData.operates" multiple clearable filterable placeholder="请选择" 
+          @focus="procedureTypeChange(procedureFormData.type)">
           <t-option v-for="(item,index) in operationOption" :key="index" :value="item.id" :label="item.title"></t-option> 
-          <template v-if="false" #panelBottomContent>
+          <template #panelBottomContent>
             <div class="select-panel-footer">
               <t-button v-if="editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
                 >新增选项</t-button
               >
-              <div v-else>
-                <t-input v-model="newOption" autofocus></t-input>
-                <t-button size="small" style="margin-top: 8px" @click="onAddConfirm"> 确认 </t-button>
-                <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
-                  取消
-                </t-button>
+              <div v-else style="padding: 10px;">
+                <!-- <t-input v-model="newOption" autofocus></t-input> -->
+                <t-space>
+                  <t-button size="small" style="margin-top: 8px" @click="onAddConfirm"> 确认 </t-button>
+                  <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
+                    取消
+                  </t-button>
+                </t-space>  
               </div>
             </div>
           </template>
@@ -133,10 +136,20 @@
       </t-card>
     </t-space>
   </t-dialog>
+    
+  <FormFieldPanel
+    v-if="showFormFieldPanelView"
+    :mode="filedarr"
+    :groupFields="groupFields"
+    :editMode=" false "
+    v-model:modelValue="formFieldData"
+    v-model:visible="showFormFieldPanelView"
+    @onSuccess="submitGroupFields"
+  ></FormFieldPanel>
 </template>
 
 <script setup lang="jsx">
-import { getProcesses_attributeListFetch ,getEval_attribute_libraryListFetch } from '@/api/experiment'
+import { getProcesses_attributeListFetch ,getEval_attribute_libraryListFetch , postProcessesAttributeFetch} from '@/api/experiment'
 import { v4 as uuid } from 'uuid'
 
 import { timeFormat } from '@/utils/time-ago'
@@ -223,6 +236,26 @@ const _editedComponentType = computed(() => editedComponentType.value)
 
 const experiment_record = computed(() => $key_data?.experiment_record)
 const experiment_theme = computed(() => $key_data?.experiment_theme)
+
+
+
+
+const filedarr = [
+  'TextInput',
+  'NumberInput',
+  'Attachment',
+  'SelectPlusRadio',
+  'SelectPlus',
+  // 'TextareaInput',
+  'FieldsGroup',
+  'AmountInput',
+]
+const formFieldData = ref({ name: '' })
+
+const groupFields = ref([])
+
+const showFormFieldPanelView = ref(false);
+
 
 const updateTime = computed({
   get: () => _node.value&&_node.value.attrs? _node.value.attrs.updateTime : '',
@@ -314,6 +347,8 @@ const editOrCreate = ref('create')
 
 const onOperatesAdd = () => {
   editOrCreate.value = 'edit';
+  formFieldData.value = { name: '' }
+  showFormFieldPanelView.value = true;
 }
 
 const onAddConfirm = () => {
@@ -324,11 +359,11 @@ const onAddCancel = () => {
   editOrCreate.value = 'create';
 };
 
-const procedureTypeChange = (val) => {
-  if (val === 'operate') {
-    getOperationOptionFunc()
+const procedureTypeChange = async (val) => {
+  if (val === 'group') {
+    await getOperationOptionFunc()
   } else {
-    getAssessmentOptionFunc()
+    await getAssessmentOptionFunc()
   }
 }
 
@@ -352,6 +387,50 @@ const editableCellStateFunc = ()=> {
 const rowEditFunc = (val,row)=>{
   console.log('--------212---------rowEditFunc: ', val, row)
 
+}
+
+
+
+const getgroupFields = () => {
+  getEval_attribute_libraryListFetch({
+    page: 1,
+    limit: 'all',
+  })
+    .then((res) => {
+      if (res.data.value && res.data.value.code === 2000) {
+        res.data.value.data = res.data.value.data.filter(
+          (item) => item.type != 'FieldsGroup',
+        )
+        groupFields.value = [...res.data.value.data]
+      }
+    })
+    .finally(() => {
+      loading.value = false
+    })
+    .catch(() => {
+      loading.value = false
+    })
+  loading.value = false
+}
+
+const submitGroupFields = (from) => {
+  console.log('--------212---------submitGroupFields: ', from)
+  var fromData = cloneDeep(from)
+  //根据EditType 判断 当前是否是编辑模式
+  postProcessesAttributeFetch(fromData).then( async (res) => {
+    console.log('-------421-----res---------',res)
+    if (res.data && res.data.code === 2000) {
+      useMessage('success' ,res.data.msg);
+      showFormFieldPanelView.value = false
+      nextTick(() => {
+        procedureFormData.value.operates.push(res.data.data.id)
+      })
+      await procedureTypeChange(procedureFormData.value.type)
+      console.log('-------421-----procedureFormData---------',procedureFormData.value)
+    }
+  }).catch((err) => {
+    TMessagePlugin.error(`${err}`)
+  })
 }
 
 const onDelete = (row) => {
@@ -458,11 +537,11 @@ const on_select_parentFunc = async ()=>{
 
         items.forEach(eleI => {
           if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(eleI.type)) {
-            valueC[eleI.id] = [];
+            valueC[eleI.key] = [];
           } else if (['FieldsGroup'].includes(eleI.type)) {
-            valueC[eleI.id] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
+            valueC[eleI.key] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
           } else {
-            valueC[eleI.id] = '';
+            valueC[eleI.key] = '';
           }
         });
 
@@ -598,7 +677,7 @@ const columns = ref([
   {
     title: '序号',
     colKey: 'serial-number',
-    width: 62,
+    width: '50px',
   },
   {
     width: 140,
@@ -665,7 +744,7 @@ const columns = ref([
     colKey: 'description',
     title: '描述',
     ellipsis: true,
-    minWidth: 160,
+    width: 160,
     edit: {
       component: TTextarea,
       props: {

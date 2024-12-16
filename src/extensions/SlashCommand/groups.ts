@@ -14,7 +14,7 @@ export function renderGroups(editor: Editor) {
           label: '物料表格',
           iconName: 't-table',
           action: ({ editor, range }) => {
-            editor?.chain().focus().addRaw_material_tables({is_integration:true}).run()
+            editor?.chain().focus().deleteRange(range).addRaw_material_tables({is_integration:true}).run()
           },
         },
         {
@@ -22,7 +22,7 @@ export function renderGroups(editor: Editor) {
           label: "工艺路线",
           iconName: 'technology',
           action: ({ editor, range }) => {
-            editor?.chain().focus().addTechnology_tables({is_integration:true}).run()
+            editor?.chain().focus().deleteRange(range).addTechnology_tables({is_integration:true}).run()
           },
         },
         {
@@ -30,7 +30,7 @@ export function renderGroups(editor: Editor) {
           label: '试验方法设计',
           iconName: 'experimental_design',
           action: ({ editor, range }) => {
-            editor?.chain().focus().addExperimental_designs().run()
+            editor?.chain().focus().deleteRange(range).addExperimental_designs().run()
           },
         },
         {
@@ -38,7 +38,7 @@ export function renderGroups(editor: Editor) {
           label: '试验记录',
           iconName: 'test-records',
           action: ({ editor, range }) => {
-            editor?.chain().focus().addTest_record_table().run()
+            editor?.chain().focus().deleteRange(range).addTest_record_table().run()
           },
         },
         // {
@@ -46,7 +46,7 @@ export function renderGroups(editor: Editor) {
         //   label: '样品表格',
         //   iconName: 'sample',
         //   action: ({ editor, range }) => {
-        //     editor?.chain().focus().addSample_tables({is_integration:true}).run()
+        //     editor?.chain().focus().deleteRange(range).addSample_tables({is_integration:true}).run()
         //   },
         // },
         // {
@@ -54,7 +54,7 @@ export function renderGroups(editor: Editor) {
         //   label: '评测表格',
         //   iconName: 'evaluating',
         //   action: ({ editor, range }) => {
-        //     editor?.chain().focus().addEvaluating_tables().run()
+        //     editor?.chain().focus().deleteRange(range).addEvaluating_tables().run()
         //   },
         // },
       ],

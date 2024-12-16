@@ -19,7 +19,6 @@
                     <div v-if="node.isLeaf()" >
                       <xmFormDesignRender style="overflow: auto;"
                         v-model="_designParams.formData"
-                        :label="node.data.title"
                         :valueKey="getNodeFullColKey(node)"
                         :mode=" 'RESP'"
                         :config="node.data">
@@ -222,7 +221,7 @@ const getNodeFullColKey = (node) => {
     keys.unshift(item.data.key)
   })
   if (parents[0].data.type && parents[0].data.type === "FieldsGroup") {
-    keys.push(node.data.id)
+    keys.push(node.data.key)
   }else{
     keys.push(node.data.key)
   }

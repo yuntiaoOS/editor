@@ -232,7 +232,7 @@ const getNodeFullColKey = (node) => {
     keys.unshift(item.data.key)
   })
   if (parents[0].data.type && parents[0].data.type === "FieldsGroup") {
-    keys.push(node.data.id)
+    keys.push(node.data.key)
   }else{
     keys.push(node.data.key)
   }
