@@ -97,7 +97,7 @@ export default xmNode.create({
       addRaw_material_tables:
         (option?:XmTableOptionModel<any>) =>
           ({ commands }) => {
-            const currentOption = mergeAttributes(this.options, option as XmTableOptionModel<any>)
+            const currentOption =  mergeAttributes(this.options, option as XmTableOptionModel<any>)
             console.log('------------101-----------option', option, currentOption)
             const content = {
               type: this.name,
@@ -105,6 +105,7 @@ export default xmNode.create({
                 ...currentOption,
                 title: currentOption?.title && currentOption.title.length > 0 ? currentOption.title : `物料${timeFormat(null, 'yyyymmddhhMM')}`,
                 key: option?.key ? option?.key : Xm_Table_key['raw_material_table']  + timeFormat(null,'yyyymmddhhMMss'),
+                table_data: option?.table_data || [],
               },
               content: [
                 {

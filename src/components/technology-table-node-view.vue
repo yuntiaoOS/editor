@@ -63,7 +63,7 @@
     :on-confirm="on_select_parentFunc"
   >
     <t-form ref="design_form" :rules="FORM_RULES" :data="procedureFormData" :colon="true" >
-      <t-form-item label="类型" name="type">
+      <t-form-item v-if="false" label="类型" name="type">
         <t-radio-group v-model="procedureFormData.type" variant="primary-filled" @change="procedureTypeChange">
           <t-radio-button value="group">工序</t-radio-button>
           <t-radio-button value="customer">自定义</t-radio-button>
@@ -75,7 +75,7 @@
       <t-form-item label="操作" name="operates">
         <t-select v-if="procedureFormData.type "  v-model="procedureFormData.operates" multiple clearable filterable placeholder="请选择" >
           <t-option v-for="(item,index) in operationOption" :key="index" :value="item.id" :label="item.title"></t-option> 
-          <template #panelBottomContent>
+          <template v-if="false" #panelBottomContent>
             <div class="select-panel-footer">
               <t-button v-if="editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
                 >新增选项</t-button
@@ -93,7 +93,7 @@
         <t-select  v-else v-model="procedureFormData.operates" multiple clearable filterable placeholder="请选择" >
           <t-option v-for="(item,index) in assessmentOption" :key="index" :value="item.id" :label="item.title"></t-option> 
        
-          <template #panelBottomContent>
+          <template v-if="false" #panelBottomContent>
             <div class="select-panel-footer">
               <t-button v-if="editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
                 >新增选项</t-button
@@ -813,23 +813,23 @@ onMounted(async () => {
     console.log('----------change_log.value22222222--------',is_integration.value);
     const docD = props.editor.getJSON()
     if (docD ) {
-      dialog_selectOptions.value = []
-      // 物料表
-      const dialog = useConfirm({
-        theme: 'info',
-        header: '提示',
-        body: '检测到当前实验项目中存在工艺表，是否使用该工艺表进行初始化？',
-        confirmBtn: '确定',
-        onConfirm() {
-          dialog.destroy()
-          setTimeout(() => {
-            add_parent_visible.value = true
-          }, 300)
-        },
-        onClosed() {
+      // dialog_selectOptions.value = []
+      // // 物料表
+      // const dialog = useConfirm({
+      //   theme: 'info',
+      //   header: '提示',
+      //   body: '检测到当前实验项目中存在工艺表，是否使用该工艺表进行初始化？',
+      //   confirmBtn: '确定',
+      //   onConfirm() {
+      //     dialog.destroy()
+      //     setTimeout(() => {
+      //       add_parent_visible.value = true
+      //     }, 300)
+      //   },
+      //   onClosed() {
           
-        },
-      })
+      //   },
+      // })
     }else {
       TMessagePlugin.warning('当前文档中没有数据')
     }
@@ -843,6 +843,9 @@ onMounted(async () => {
 </script>
 
 <style lang="scss" scoped>
+:deep(.t-input--auto-width) {
+  min-width: 160px;
+}
 :deep( .umo-table__row-full-element ){
   padding: 0;
 }

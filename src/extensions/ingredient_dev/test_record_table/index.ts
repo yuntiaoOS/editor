@@ -128,6 +128,7 @@ export default xmNode.create({
                 ...currentOption,
                 title: currentOption?.title && currentOption.title.length > 0 ? currentOption.title : `试验记录${timeFormat(null, 'yyyymmddhhMM')}`,
                 key: option?.key ? option?.key : Xm_Table_key['test_record_table']  + timeFormat(null,'yyyymmddhhMMss'),
+                table_data: option?.table_data || [],
               },
               content: [
                 {

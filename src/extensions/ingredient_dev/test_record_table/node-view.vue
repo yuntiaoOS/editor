@@ -27,8 +27,17 @@
             <div class="more-detail">
               <t-divider align="left" dashed>试验方法设计</t-divider>
               <div v-for="(treeItem,index) in row.experimental_design.formItems" :key="index">
-                <t-descriptions :title="treeItem.title" size="small" colon  :column="1" :label-style="{ width: '150px', textAlign: 'left' }" style="margin-bottom: 20px">
-                  <t-descriptions-item v-for="(item,indexF) in treeItem.formItems" :key="indexF" :label="item.title">
+                <t-descriptions size="small" colon  :column="1" :label-style="{ width: '150px', textAlign: 'left' }" style="margin-bottom: 20px">
+                  <t-descriptions-item >
+                    <template #label>
+                      <t-text theme="primary">工序</t-text>
+                    </template>
+                    <t-text theme="primary" strong>{{treeItem.title}}</t-text>
+                  </t-descriptions-item>
+                  <t-descriptions-item v-for="(item,indexF) in treeItem.formItems" :key="indexF" >
+                    <template #label>
+                      <t-text theme="primary">{{item.title}}</t-text>
+                    </template>
                     <FormDesignRender 
                       v-model="row.experimental_design.formData[treeItem.key][item.key]"
                       style="overflow: auto;"
@@ -38,7 +47,8 @@
                   </t-descriptions-item>
                   <t-descriptions-item >
                     <template #label>
-                      <t-tag theme="primary">备注</t-tag>
+                      <!-- <t-tag theme="primary">备注</t-tag> -->
+                      <t-text theme="primary">备注</t-text>
                     </template>
                     <t-textarea v-model="row.experimental_design.formData[treeItem.key].description" :autosize="{minRows: 2}" placeholder="请输入备注"></t-textarea>
                   </t-descriptions-item>
@@ -151,7 +161,7 @@
       header="选择实验设计方案" :cancel-btn="null"
       width="600" attach="body"
       :confirm-on-enter="true"
-      :on-confirm="on_select_designFunc"
+      :on-confirm="on_select_design_formFunc"
     >
       <t-form ref="select_design_form" :rules="FORM_RULES" :data="selectTableForm" :colon="true" >
         <t-form-item label="实验设计方案" name="experimental_design">
@@ -246,6 +256,8 @@ const experiment_theme = computed(() => $key_data?.experiment_theme)
 const select_design_visible = ref(false);
 const experimental_design_visible = ref(false);
 
+const select_design_form = ref()
+
 const assessmentOption = ref([])
 const expandedRowKeys = ref([]);
 
@@ -322,7 +334,7 @@ const onAddFunc = () => {
   initialize()
   if (experimental_designOptions.value.length === 1 ) {
     selectTableForm.value.experimental_design = experimental_designOptions.value[0].id
-    on_select_designFunc(true)
+    on_select_designFunc()
   }else{
     select_design_visible.value = true
   }
@@ -429,7 +441,7 @@ const suffixColumns = [
 {
   title: '操作栏',
   colKey: 'operate',
-  width: 90,
+  width: 180,
   cell: 'type-slot-operate',
 },
 ]
@@ -751,9 +763,18 @@ const makerecordDataFunc = (init=false)=>{
     
   });
 }
-
-const on_select_designFunc = (validate)=>{
-  console.log('--------on_select_designFunc--------555555555555555555--------',experimental_designOptions.value )
+const on_select_design_formFunc = ()=>{
+  select_design_form.value?.validate({ showErrorMessage: true }).then((validateResult) => {
+    if (validateResult && Object.keys(validateResult).length) {
+      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      useMessage('warning',firstError)
+    }else{
+      on_select_designFunc()
+    }
+  })
+}
+const on_select_designFunc = ()=>{
+  console.log('--------on_select_desigFunc--------555555555555555555--------',experimental_designOptions.value )
   const makeData = ()=>{
     const experimental_designs = experimental_designOptions.value.filter(ele=> selectTableForm.value.experimental_design.includes(ele.id)).map(eleT => (eleT.designResult) )
     experimental_designs.forEach(ele=>{
@@ -776,21 +797,9 @@ const on_select_designFunc = (validate)=>{
       table_data.value.push(newData)
     })
   }
-  if (validate) {
-    makeData()
-    select_design_visible.value = false
-  } else {
-    select_design_form.value?.validate({ showErrorMessage: true }).then((validateResult) => {
-      if (validateResult && Object.keys(validateResult).length) {
-        const firstError = Object.values(validateResult)[0]?.[0]?.message;
-        useMessage('warning',firstError)
-      }else{
-        makeData()
-      }
-    })
-    select_design_visible.value = false
-  }
-  console.log('--------on_select_designFunc--------138--------',table_data.value, _designParams.value)
+  makeData()
+  select_design_visible.value = false
+  console.log('--------on_select_desinFunc--------138--------',table_data.value, _designParams.value)
   
 }
 
@@ -798,7 +807,7 @@ const getAssessmentOptionFunc = async (page=1) => {
   const res = await getEval_attribute_libraryListFetch({page,limit:9999})
   console.log(res, '-------------488------------assessmentOption.value')
   let resD = {}
-  if ( true) {
+  if (true) {
     resD = res.data
   }else {
     resD = res.data.value ? res.data.value : res.data
@@ -863,17 +872,19 @@ const initialize = () => {
 }
 
 onMounted(() => {
-  console.log('----------4447----onMounted-----',node);
+  console.log('----------4447----onMounted-----',node,node.attrs.customerParams?.is_select);
   initialize()
   if (node.attrs.customerParams?.is_select ) {
     selectTableForm.value.experimental_design = node.attrs.customerParams?.experimental_design
-    on_select_designFunc(node.attrs.customerParams?.is_select)
+    on_select_designFunc()
   }else{
+    console.log('----------869----onMounted-----',table_data.value);
     if (!table_data.value || table_data.value?.length === 0) {
+      console.log('----------870----onMounted-----',experimental_designOptions.value);
       setTimeout(() => {
         if (experimental_designOptions.value.length === 1 ) {
           selectTableForm.value.experimental_design = experimental_designOptions.value[0].id
-          on_select_designFunc(true)
+          on_select_designFunc()
         }else{
           select_design_visible.value = true
         }

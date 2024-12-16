@@ -68,7 +68,7 @@
       header="选择物料表及工艺表" :cancel-btn="null"
       width="600" attach="body"
       :confirm-on-enter="true"
-      :on-confirm="on_select_designFunc"
+      :on-confirm="select_design_formFunc"
     >
       <t-form ref="select_design_form" :rules="FORM_RULES" :data="selectTableForm" :colon="true" >
         <!-- <t-form-item label="物料表" name="raw_material">
@@ -241,23 +241,22 @@ const getNodeFullColKey = (node) => {
   // console.log('keys:-----204---', keyStr);
   return keyStr? keyStr : ''
 }
-const on_select_designFunc = (validate)=>{
-  if (validate) {
-    _designParams.value = getDesignParams()
-    experimental_design_visible.value = true;
-  } else {
-    select_design_form.value?.validate({ showErrorMessage: true }).then((validateResult) => {
-      if (validateResult && Object.keys(validateResult).length) {
-        const firstError = Object.values(validateResult)[0]?.[0]?.message;
-        useMessage('warning',firstError)
-      }else{
-        _designParams.value = getDesignParams()
-        experimental_design_visible.value = true;
-      }
-    })
-    select_design_visible.value = false
-  }
-  console.log('--------on_select_designFunc--------138--------',validate, _designParams.value)
+const select_design_formFunc = ()=>{
+  select_design_form.value?.validate({ showErrorMessage: true }).then((validateResult) => {
+    if (validateResult && Object.keys(validateResult).length) {
+      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      useMessage('warning',firstError)
+    }else{
+      select_design_visible.value = false
+      _designParams.value = getDesignParams()
+      experimental_design_visible.value = true;
+    }
+  })
+}
+const on_select_designFunc = ()=>{
+  _designParams.value = getDesignParams()
+  experimental_design_visible.value = true;
+  console.log('---------------138--------', _designParams.value)
   
 }
 
@@ -281,7 +280,6 @@ const on_experimental_designFunc = async ()=>{
     id: uuid(),
     title: `试验设计方案-${timeFormat(null,'yyyymmddhhMMss')}`,
   }
-  designTreeRef.value.exp
   experimental_design_visible.value = false
   
   return
@@ -361,16 +359,14 @@ const onSelectDesignFunc = () => {
   initialize()
   if (node.attrs.customerParams?.is_select ) {
     selectTableForm.value.technology = node.attrs.customerParams?.technology
-    on_select_designFunc(node.attrs.customerParams?.is_select)
+    on_select_designFunc()
   }else{
-    setTimeout(() => {
-      if (technologyOptions.value.length === 1 ) {
-        selectTableForm.value.technology = technologyOptions.value[0].id
-        on_select_designFunc(true)
-      } else {
-        select_design_visible.value = true;
-      }
-    }, 500);
+    if (technologyOptions.value.length === 1 ) {
+      selectTableForm.value.technology = technologyOptions.value[0].id
+      on_select_designFunc()
+    } else {
+      select_design_visible.value = true;
+    }
   }
 }
 
@@ -381,13 +377,13 @@ onMounted(() => {
   console.log('---------285------------',JSON.parse( JSON.stringify(node.attrs.customerParams)  ))
   if (node.attrs.customerParams?.is_select ) {
     selectTableForm.value.technology = node.attrs.customerParams?.technology
-    on_select_designFunc(node.attrs.customerParams?.is_select)
+    on_select_designFunc()
   }else{
     if (!designResult.value || !designResult.value.formItems || designResult.value.formItems.length === 0) {
       setTimeout(() => {
         if (technologyOptions.value.length === 1 ) {
           selectTableForm.value.technology = technologyOptions.value[0].id
-          on_select_designFunc(true)
+          on_select_designFunc()
         }
       }, 500);
     }

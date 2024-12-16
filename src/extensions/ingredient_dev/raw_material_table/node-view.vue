@@ -11,9 +11,9 @@
             <t-space>
               <div>
                 <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
+                <t-input v-model="_title" auto-width placeholder="请输入物料名称" />
               </div>
               <t-space>
-                <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入物料名称" />
                 <t-button variant="outline" @click="addFunc">新增</t-button>
                 <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
                 <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
@@ -127,6 +127,13 @@ const add_parent_visible = ref(false);
 const raw_materialOptions = ref([])
 const select_material = ref([])
 const dialog_select = ref('')
+
+const _title = computed({
+  get: () => node.attrs.title,
+  set(value) {
+    updateAttributes({ title: value })
+  },
+})
 
 const isChanged = computed({
   get: () => node.attrs.isChanged,
@@ -419,6 +426,7 @@ const initData = async () => {
 }
 
 onMounted(async () => {
+  console.log('----------onMounted.422---------',table_data.value);
   if (change_log.value?.change_log && table_data.value?.length === 0) {
     console.log('----------change_log.value395---------',table_data.value,change_log.value);
     // await initData()
@@ -453,10 +461,17 @@ onMounted(async () => {
       TMessagePlugin.warning('当前文档中没有数据')
     }
   }
-  if ( is_integration.value) {
-    is_integration.value = false
-  }
+  // if ( is_integration.value) {
+  //   is_integration.value = false
+  // }
   
+})
+
+
+onBeforeUnmount(() => {
+  table_data.value = []
+
+  console.log('----------onBeforeUnmount---------');
 })
 
 </script>
