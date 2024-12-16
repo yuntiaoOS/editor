@@ -530,7 +530,7 @@ const columnsDefaultF = [
                       "enablePrint": true,
                       "textForSuffix": "",
                       "enableSuffixText": false,
-                      "multiply":false,
+                      "multiple":false,
                       "remote": true,
                       "valueKey": "id",
                       "labelKey": "name",
@@ -833,7 +833,7 @@ const makeTableDataAndColumnFunc = (tableData, selectTableForm, index_typeInfo) 
             config: item,
             clearable: true,
             autofocus: false,
-            multiply: true,
+            multiple: true,
             options
           };
         },
@@ -1033,7 +1033,7 @@ const createEditProps = (row, column, parent = null) => {
     config: column.edit.customProps?.config,
     clearable: true,
     autofocus: true,
-    multiply: true,
+    multiple: true,
     options: column.edit.customProps?.options,
   };
 };

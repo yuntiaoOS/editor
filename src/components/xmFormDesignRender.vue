@@ -83,7 +83,7 @@ const blurFunc = (val) => {
 function setNestedValue(obj, path, value) {
   const keys = path.split('.'); // 将路径拆分为数组
   let current = obj;
-  console.log('obj--------------', current, path, value);
+  // console.log('obj--------------', current, path, value);
   keys.forEach((key, index) => {
     if (index === keys.length - 1) {
       current[key] = value; // 如果是最后一个键，直接赋值

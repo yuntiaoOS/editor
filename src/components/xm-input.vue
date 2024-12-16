@@ -102,6 +102,7 @@
 
 <script setup lang="jsx">
 import { getOrg_memberFetch } from '@/api/index'
+import { get_experiment_record_visitorListFetch } from '@/api/experiment'
 import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
 
 const emits = defineEmits(['update:modelValue', 'change','blur','enter'])
@@ -178,6 +179,9 @@ const props = defineProps({
     default: () => {}
   }
 })
+
+const $key_data = JSON.parse(localStorage.getItem('key_data') ?? '{}')
+const experiment_record = computed(() => $key_data?.experiment_record)
  
 const _value = ref()
 if (props.modelValue) {
@@ -254,15 +258,25 @@ const selectFocusMethod = async (formItem) => {
     if (formItem.props.remoteMethod) {
       res = await formItem.props.remoteMethod()
     } else if ( props.config[props.props.componentKey] === 'UserPicker' ) {
-      res = await getOrg_memberFetch()
+      res = await experiment_record.value && experiment_record.value.id ? get_experiment_record_visitorListFetch(experiment_record.value.id) : getOrg_memberFetch()
     }
-    console.log('-------selectFocusMethod----------------',res)
-    if (res && res.data.code === 2000) {
-      formItem.props.options = res.data.data.map((item) => ({
-        [formItem.props.valueKey]: item[formItem.props.valueKey],
-        [formItem.props.labelKey]: item[formItem.props.labelKey],
-      }))
+    console.log('-------selectFocusMethod----------------',props.config[props.props.componentKey],res,experiment_record.value)
+    if (props.config[props.props.componentKey] === 'UserPicker') {
+      if (res && res.data.code === 2000) {
+        formItem.props.options = res.data.data.map(ele=>ele.user).map((item) => ({
+          [formItem.props.valueKey]: item[formItem.props.valueKey],
+          [formItem.props.labelKey]: item[formItem.props.labelKey],
+        }))
+      }
+    }else{
+      if (res && res.data.code === 2000) {
+        formItem.props.options = res.data.data.map((item) => ({
+          [formItem.props.valueKey]: item[formItem.props.valueKey],
+          [formItem.props.labelKey]: item[formItem.props.labelKey],
+        }))
+      }
     }
+    
     _config.value = {...formItem}
     selectOptions.value = formItem.props.options
   }
@@ -278,7 +292,9 @@ onMounted( async () => {
       }))
     }else{
       if (props.config[props.props.componentKey] === 'UserPicker' && _config.value.props.remote && !_config.value.props.remoteMethod) {
-        _config.value.props.remoteMethod = getOrg_memberFetch
+        _config.value.props.remoteMethod = experiment_record.value?.id ? ()=>{ return new Promise((resolve, reject) => {
+          get_experiment_record_visitorListFetch(experiment_record.value.id).then(res=> { resolve(res) }).catch(err=>{ reject(err) })
+        })  } : getOrg_memberFetch
       }
       await selectFocusMethod(_config.value)
     }

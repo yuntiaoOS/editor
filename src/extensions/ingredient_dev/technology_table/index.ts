@@ -3,6 +3,7 @@ import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import NodeView from './node-view.vue'
 import type { XmTableOptionModel } from '@/types'
 import { timeFormat } from '@/utils/time-ago'
+import { v4 as uuid } from 'uuid'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -104,6 +105,7 @@ export default xmNode.create({
                 title: currentOption?.title && currentOption.title.length > 0 ? currentOption.title : `工艺${timeFormat(null, 'yyyymmddhhMM')}`,
                 key: currentOption?.key ? currentOption?.key : Xm_Table_key['technology_table']  + timeFormat(null,'yyyymmddhhMMss'),
                 table_data: option?.table_data || [],
+                id: uuid(),
               },
               content: [
                 {

@@ -3,6 +3,7 @@ import { VueNodeViewRenderer } from '@tiptap/vue-3'
 import NodeView from './node-view.vue'
 import type { XmTableOptionModel } from '@/types'
 import { timeFormat } from '@/utils/time-ago'
+import { v4 as uuid } from 'uuid'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -73,7 +74,8 @@ export default xmNode.create({
               attrs: {
                 ...currentOption,
                 key: option?.key ? option?.key : Xm_Table_key['feedback_evaluation_table']  + timeFormat(null,'yyyymmddhhMMss'),
-                table_data: option?.table_data,
+                table_data: option?.table_data || [],
+                id: uuid(),
               },
               content: [
                 {

@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import { shortId } from '@/utils/short-id'
-import { multiply } from 'lodash-unified';
 import { getOrg_memberFetch, attachments_fileFetch } from '@/api/index'
 import { put_experiment_record_fetch } from '@/api/experiment'
 import { checkBeforeSaveDoc } from '@/utils/index'
@@ -11468,7 +11467,7 @@ onMounted(() => {
                   ],
                   "abstract": false,
                   "labelKey": "name",
-                  "multiply": false,
+                  "multiple": true,
                   "readOnly": false,
                   "required": false,
                   "valueKey": "id",
@@ -14127,174 +14126,6 @@ onMounted(() => {
     ]
   }
   editorRef.editorInstance?.commands.setContent(jsonContent)
-
-  const contentD = [
-    {
-        "type": "xmForm",
-        "attrs": {
-          "id": "b6be422d-defc-4b0f-b490-a321cb3c7aae",
-          "key": "baseInfo",
-          "name": "82177d83-e226-4205-922f-659506c8a4a7",
-          "config": {
-            "formItems": [
-              {
-                "id": "sn",
-                "key": "sn",
-                "icon": "iconamoon:edit",
-                "name": "TextInput",
-                "type": "TextInput",
-                "alias": "实验编号",
-                "props": {
-                  "hidden": false,
-                  "abstract": false,
-                  "readOnly": false,
-                  "required": true,
-                  "enableScan": false,
-                  "validation": null,
-                  "enablePrint": true,
-                  "textForSuffix": "",
-                  "enableSuffixText": false
-                },
-                "title": "实验编号",
-                "valueType": "String"
-              },
-              {
-                "id": "experimenter",
-                "key": "experimenter",
-                "icon": "iconamoon:edit",
-                "name": "UserPicker",
-                "type": "UserPicker",
-                "alias": "实验参与人",
-                "props": {
-                  "hidden": false,
-                  "remote": true,
-                  "options": [
-                    {
-                      "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-                      "name": "白欣力"
-                    },
-                    {
-                      "id": "63aed191-f093-4e9d-b4ef-4a159ffa39381",
-                      "name": "白欣力"
-                    },
-                    {
-                      "id": "d56402a2-9c9a-4674-a682-e4086e884ac1",
-                      "name": "董鑫龙"
-                    },
-                    {
-                      "id": "8218a663-e9a6-43d5-a0f1-d68a5509e366",
-                      "name": "赵紫文"
-                    }
-                  ],
-                  "abstract": false,
-                  "labelKey": "name",
-                  "multiply": false,
-                  "readOnly": false,
-                  "required": false,
-                  "valueKey": "id",
-                  "enableScan": false,
-                  "validation": null,
-                  "enablePrint": true,
-                  "textForSuffix": "",
-                  "enableSuffixText": false
-                },
-                "title": "实验参与人",
-                "valueType": "String"
-              },
-              {
-                "id": "start_time",
-                "key": "start_time",
-                "icon": "iconamoon:edit",
-                "name": "DateTime",
-                "type": "DateTime",
-                "alias": "开始时间",
-                "props": {
-                  "hidden": false,
-                  "abstract": false,
-                  "readOnly": false,
-                  "required": false,
-                  "enableScan": false,
-                  "validation": null,
-                  "enablePrint": true,
-                  "enableTimePicker": false
-                },
-                "title": "开始时间",
-                "valueType": "String"
-              },
-              {
-                "id": "end_time",
-                "key": "end_time",
-                "icon": "iconamoon:edit",
-                "name": "DateTime",
-                "type": "DateTime",
-                "alias": "结束时间",
-                "props": {
-                  "hidden": false,
-                  "abstract": false,
-                  "readOnly": false,
-                  "required": false,
-                  "enableScan": false,
-                  "validation": null,
-                  "enablePrint": true,
-                  "enableTimePicker": false
-                },
-                "title": "结束时间",
-                "valueType": "String"
-              }
-            ],
-            "formConfig": {
-              "colon": true,
-              "rules": {
-                "name": [
-                  {
-                    "type": "error",
-                    "message": "必填",
-                    "required": true
-                  },
-                  {
-                    "min": 2,
-                    "type": "error",
-                    "message": "至少需要两个字",
-                    "trigger": "blur"
-                  }
-                ],
-                "description": [
-                  {
-                    "type": "error",
-                    "message": "必填",
-                    "required": true
-                  },
-                  {
-                    "min": 12,
-                    "type": "error",
-                    "message": "至少需要11两个字",
-                    "trigger": "blur"
-                  }
-                ]
-              },
-              "layout": "vertical",
-              "ruleJs": "//formData: 表单数据  formMap: 表单字段id -> 字段json配置\r\nfunction doChange(formData, formMap){\r\n\t\r\n}",
-              "columns": 2,
-              "labelPos": "left",
-              "ruleType": "SIMPLE",
-              "labelWidth": "80px",
-              "showSubmitBtn": false
-            }
-          },
-          "formData": {
-            "sn": "dw5456546",
-            "title": "JL11271610",
-            "end_time": "2024-11-30 00:00:00",
-            "start_time": "2024-11-22 00:00:00",
-            "experimenter": "d56402a2-9c9a-4674-a682-e4086e884ac1"
-          },
-          "isChanged": false,
-          "updateTime": ""
-        }
-      }
-  ]
-
-  // editorRef.editorInstance?.commands.setContent(contentD)
 
   // editorRef.editorInstance?.chain().focus().addSample_tables({key: 'sample_table',title:'试验方式使用面板'}).run()
 })

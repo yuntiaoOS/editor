@@ -435,7 +435,7 @@ const columnsDefaultF = [
                       "enablePrint": true,
                       "textForSuffix": "",
                       "enableSuffixText": false,
-                      "multiply":false,
+                      "multiple":false,
                       "remote": true,
                       "valueKey": "id",
                       "labelKey": "name",
@@ -829,7 +829,7 @@ const makeTableDataAndColumnFunc = (tableData,selectTableForm,index_typeInfo)=>{
             config: item,
             clearable: true,
             autofocus: false,
-            multiply: true,
+            multiple: true,
             options
             // autoWidth: true,
           }
@@ -1036,7 +1036,7 @@ onMounted(async () => {
                       config: eleC.edit.customProps?.config,
                       clearable: true,
                       autofocus: true,
-                      multiply: true,
+                      multiple: true,
                       options: eleC.edit.customProps?.options,
                       // autoWidth: true,
                     }
@@ -1091,7 +1091,7 @@ onMounted(async () => {
                     config: ele.edit.customProps?.config,
                     clearable: true,
                     autofocus: true,
-                    multiply: true,
+                    multiple: true,
                     options: ele.edit.customProps?.options,
                     // autoWidth: true,
                   }
@@ -1147,7 +1147,7 @@ onMounted(async () => {
                 config: col.edit.customProps?.config,
                 clearable: true,
                 autofocus: true,
-                multiply: true,
+                multiple: true,
                 options: col.edit.customProps?.options,
                 // autoWidth: true,
               }
