@@ -681,10 +681,15 @@ const columnEditFunc = ()=>{
 }
 
 const creatSample = async (row)=>{
-  if (row.is_sample && experiment_record.value?.id) {
+  console.log('------row.is_sample--------------',row.is_sample)
+  const $key_data = JSON.parse( localStorage.getItem('key_data'))
+  const experiment_record = $key_data?.experiment_record
+  const experiment_theme =  $key_data?.experiment_theme
+  console.log('------row.is_sample----2----------',experiment_record)
+  if (row.is_sample && experiment_record?.id) {
     const params = {
-      experiment_theme: experiment_theme.value?.id,
-      record: experiment_record.value?.id,
+      experiment_theme: experiment_theme?.id,
+      record: experiment_record?.id,
       data: [
           {name: row.name, json_data: row}
       ]
@@ -703,6 +708,7 @@ const creatSample = async (row)=>{
       row.is_sample = false
     }
   }else{
+    row.is_sample = false
     useMessage('warning','实验记录数据错误')
   }
 

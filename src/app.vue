@@ -10952,7 +10952,7 @@ const options = $ref({
       "experimenter": []
     },
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NDAyODM3LCJpYXQiOjE3MzQzMTY0MzcsImp0aSI6ImVhZjQ2MDc1MWIwODQzYjZhYjlhM2E0NzdkOTBiZjBhIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.rAr2IuYSGpxFOAxZRTRxBdUKJ46faFw1tMDNZyaZKqc',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NDI2MTc0LCJpYXQiOjE3MzQzMzk3NzQsImp0aSI6ImM0MjY2NzE0NTMxMzRmY2I5MzkxNTMwNGI0MzBhOTMyIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.zFLsA1bIgYBAGnj5rkAChPj9pKk2CF1kfnNwlbwk7PA',
   },
   document: {
     placeholder: '测试文档',

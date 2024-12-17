@@ -73,12 +73,12 @@
         <t-input v-model="procedureFormData.name" placeholder="请输入物料名称" />
       </t-form-item>
       <t-form-item label="操作" name="operates">
-        <t-select v-if="procedureFormData.type "  v-model="procedureFormData.operates" multiple clearable filterable placeholder="请选择" 
+        <t-select v-if="procedureFormData.type " ref="selectOperationRef"  v-model="procedureFormData.operates" v-model:popupVisible="popupVisible" multiple clearable filterable placeholder="请选择" 
           @focus="procedureTypeChange(procedureFormData.type)">
           <t-option v-for="(item,index) in operationOption" :key="index" :value="item.id" :label="item.title"></t-option> 
           <template #panelBottomContent>
             <div class="select-panel-footer">
-              <t-button v-if="editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
+              <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
                 >新增选项</t-button
               >
               <div v-else style="padding: 10px;">
@@ -93,7 +93,7 @@
             </div>
           </template>
         </t-select>
-        <t-select  v-else v-model="procedureFormData.operates" multiple clearable filterable placeholder="请选择" >
+        <t-select  v-else  ref="selectOperationRef" v-model="procedureFormData.operates" multiple clearable filterable placeholder="请选择" >
           <t-option v-for="(item,index) in assessmentOption" :key="index" :value="item.id" :label="item.title"></t-option> 
        
           <template v-if="false" #panelBottomContent>
@@ -224,6 +224,9 @@ const procedureVisible = ref(false);
 const dialog_select = ref('')
 const dialog_selectOptions = ref([])
 
+const selectOperationRef = ref()
+const popupVisible = ref(false)
+
 const operationOption = ref([])
 const searchTitle = ref('')
 
@@ -348,6 +351,8 @@ const editOrCreate = ref('create')
 const onOperatesAdd = () => {
   editOrCreate.value = 'edit';
   formFieldData.value = { name: '' }
+  console.log('-------145---onOperatesAdd-----',selectOperationRef.value)
+  popupVisible.value = false
   showFormFieldPanelView.value = true;
 }
 
@@ -422,9 +427,7 @@ const submitGroupFields = (from) => {
     if (res.data && res.data.code === 2000) {
       useMessage('success' ,res.data.msg);
       showFormFieldPanelView.value = false
-      nextTick(() => {
-        procedureFormData.value.operates.push(res.data.data.id)
-      })
+      procedureFormData.value.operates.push(res.data.data.id)
       await procedureTypeChange(procedureFormData.value.type)
       console.log('-------421-----procedureFormData---------',procedureFormData.value)
     }
