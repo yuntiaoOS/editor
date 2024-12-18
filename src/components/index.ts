@@ -15,6 +15,8 @@ import technologyTableNodeView from './technology-table-node-view.vue'
 
 import evaluatingTableNodeView  from './evaluating-table-node-view.vue'
 
+import testRecordExpanded from './test-record-expanded.vue'
+
 const useUmoEditor = {
   install: (app: any, options: UmoEditorOptions) => {
     // 组件配置
@@ -26,6 +28,7 @@ const useUmoEditor = {
     app.component('technologyTable', technologyTable)
     app.component("technologyTableNodeView",technologyTableNodeView)
     app.component("evaluatingTableNodeView", evaluatingTableNodeView)
+    app.component('testRecordExpanded', testRecordExpanded)
   },
 }
 
@@ -39,5 +42,6 @@ export {
   technologyTable,
   UmoSimpleEditor,
   technologyTableNodeView,
-  evaluatingTableNodeView
+  evaluatingTableNodeView,
+  testRecordExpanded
 }

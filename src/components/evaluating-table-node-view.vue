@@ -2,7 +2,7 @@
   <div style="width: 100%">
     <!-- <h2>试验原辅料</h2> -->
     <t-table 
-      ref="tableRef" :loading="loading"
+      ref="tableRef" :loading="loading" 
       v-model:display-columns="displayColumns" row-key="id" :data="_table_data" :columns="_columns" resizable
       >
       <template #topContent>
@@ -18,6 +18,15 @@
               <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
             </t-space>
           </t-space>
+        </div>
+      </template>
+      <template #defaultValueSlot="slotProps">
+        <div >
+          <FormDesignRender style="overflow: auto;"  @change="onFormChange(slotProps.row, slotProps.col)"
+            v-model="slotProps.row['value'][slotProps.col.colKey.replace('value.','')]"
+            :mode=" 'NORMAL'"
+            :config="slotProps.col.attrs">
+          </FormDesignRender>
         </div>
       </template>
       <template #type-slot-sort="{ col, row , rowIndex}">
@@ -60,8 +69,8 @@
   >
     <t-form ref="select_design_form" :rules="FORM_RULES" :data="selectTableForm" :colon="true" >
       <t-form-item label="样品表" name="sample_group">
-        <t-select v-model="selectTableForm.sample_group" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
-          <t-option v-for="item in sample_group_options" :key="item.group" :value="item.group" :label="item.name"></t-option>
+        <t-select v-model="selectTableForm.sample_group" multiple borderless placeholder="请选择" style="width: 100%;" clearable filterable >
+          <t-option v-for="item in sample_group_options" :key="item.id" :value="item.id" :label="item.name"></t-option>
         </t-select>
       </t-form-item>
       <t-form-item label="执行标准" name="index_type">
@@ -117,14 +126,20 @@
 
 <script setup lang="jsx">
 import { v4 as uuid } from 'uuid'
-import { getEval_execute_standardListFetch,get_experiment_samples_groupsFetch,put_experiment_evaluation_fetch,delete_experiment_evaluationFetch, get_experiment_evaluationListFetch,post_experiment_evaluation_fetch } from '@/api/experiment'
+import { getEval_execute_standardListFetch,getExecute_standard_itemInfoFetch,get_experiment_samples_groupsFetch,get_experiment_samplesListFetch,put_experiment_evaluation_fetch,delete_experiment_evaluationFetch, get_experiment_evaluationListFetch,post_experiment_evaluation_fetch } from '@/api/experiment'
 import xmInput from '@/components/xm-input.vue';
 import { timeFormat } from '@/utils/time-ago'
 import { getOrg_memberFetch } from '@/api/index'
 import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
-const emits = defineEmits(['update:node'])
+import { debounce } from 'lodash-es'
+
+const emits = defineEmits(['update:nodeAttrs'])
 const props = defineProps({
   node: {
+    type: Object,
+    default: () => {}
+  },
+  nodeAttrs: {
     type: Object,
     default: () => {}
   },
@@ -154,69 +169,62 @@ const props = defineProps({
   },
 })
 
-const _node = computed({
-  get: () => props.node,
+const _nodeAttrs = computed({
+  get: () => props.nodeAttrs,
   set: (value) => {
     // Update the node in the editor
-    emits('update:node', value)
+    emits('update:nodeAttrs', value)
   }
 })
 
 const is_integration = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.is_integration : '',
+  get: () => _nodeAttrs.value? _nodeAttrs.value.is_integration : '',
   set(value) {
-    _node.value.attrs.is_integration = value
-    emits('update:node', _node.value)
+    _nodeAttrs.value.is_integration = value
   },
 })
 
 const group = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.group : '',
+  get: () => _nodeAttrs.value? _nodeAttrs.value.group : '',
   set(value) {
-    _node.value.attrs.group = value
-    emits('update:node', _node.value)
+    _nodeAttrs.value.group = value
   },
 })
 
 const isChanged = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.isChanged : '',
+  get: () => _nodeAttrs.value? _nodeAttrs.value.isChanged : '',
   set(value) {
-    _node.value.attrs.isChanged = value
-    emits('update:node', _node.value)
+    _nodeAttrs.value.isChanged = value
   },
 })
 
 const updateTime = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.updateTime : '',
+  get: () => _nodeAttrs.value? _nodeAttrs.value.updateTime : '',
   set(value) {
-    _node.value.attrs.updateTime = value
-    emits('update:node', _node.value)
+    _nodeAttrs.value.updateTime = value
   },
 })
 
 const _table_data = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.table_data : '',
+  get: () => _nodeAttrs.value? _nodeAttrs.value.table_data : '',
   set(value) {
-    _node.value.attrs.table_data = value
-    emits('update:node', _node.value)
+    _nodeAttrs.value.table_data = value
   },
 })
 
 const designParams = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.designParams : '',
+  get: () => _nodeAttrs.value? _nodeAttrs.value.designParams : '',
   set(value) {
-    _node.value.attrs.designParams = value
-    emits('update:node', _node.value)
+    _nodeAttrs.value.designParams = value
   },
 })
 
 const _columns = ref([])
 
 const columns = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.columns : '',
+  get: () => _nodeAttrs.value? _nodeAttrs.value.columns : '',
   set(value) {
-    _node.value.attrs.columns = value
-    emits('update:node', _node.value)
+    _nodeAttrs.value.columns = value
   },
 })
 
@@ -244,200 +252,21 @@ const resultKey = (str) => {
   return parts[parts.length - 1];
 }
 
-const cellMake = (h, { row, rowIndex,col }) => {
-  console.log('------147----cellMake---------',row, rowIndex,col)
-  const res = col.colKey.split('.').reduce((obj, k) => obj && obj[k], row);
-  console.log('------153----cellMake---res------',col.colKey,res)
-  if (col.edit && col.edit.customProps && col.edit.customProps.config ) {
-    if (col.edit.customProps.config.type === 'ImageUpload' && res && res.length > 0) {
-      return ( 
-        <div class="tdesign-demo-image-viewer__base">
-          <t-image-viewer images={fixedImageUrls(res)}>
-            {{
-              trigger: ({ open }) => (
-                <div class="tdesign-demo-image-viewer__ui-image">
-                  <img alt="test" src={fixedImageUrl(res[0].url)} class="tdesign-demo-image-viewer__ui-image--img" />
-                  <div 
-                    class="tdesign-demo-image-viewer__ui-image--hover" 
-                    onClick={(e) => { e.stopPropagation(); open() }}
-                  >
-                    <span>
-                      <BrowseIcon size="1.4em" /> 预览
-                    </span>
-                  </div>
-                  <div class="tdesign-demo-image-viewer__ui-image--footer">
-                    <span class="tdesign-demo-image-viewer__ui-image--title">
-                      1/{res.length}
-                    </span>
-                  </div>
-                </div>
-              )
-            }}
-          </t-image-viewer>
-        </div>
-       )
-    }else{
-      return ( <span>{res}</span> );
-    }
-  }else{
-    return ( <span>{res}</span> );
-  }
-  
-}
 const columnsDefaultF = [
   {
     title: '样品名',
-    colKey: 'samples',
+    colKey: 'sample',
     minWidth: 140,
     cell: (h , { row, rowIndex } ) => {
       const status = rowIndex % 3;
       return (
         <div>
-          <span>{row.samples ? row.samples.name : '-'}</span>
-          <t-tag size="small">{row.samples ? row.samples.sn : ''}</t-tag>
+          <span>{row.sample ? row.sample.name : '-'}</span>
+          <t-tag size="small">{row.sample ? row.sample.sn : ''}</t-tag>
         </div>
       );
     },
-    // edit: {
-    //   // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-    //   // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-    //   component: TInput,
-    //   // props, 透传全部属性到 Input 组件
-    //   props: {
-    //     clearable: true,
-    //     autofocus: true,
-    //     // autoWidth: true,
-    //   },
-    //   // 校验规则，此处同 Form 表单
-    //   rules: [
-    //     {
-    //       required: true,
-    //       message: '不能为空',
-    //     },
-    //   ],
-    //   showEditIcon: true,
-    //   abortEditOnEvent: ['onEnter','onBlur'],
-    //   onEdited: (context ) => {
-    //     console.log(context);
-    //     const newData = [..._table_data.value];
-    //     newData.splice(context.rowIndex, 1, context.newRowData);
-    //     _table_data.value = newData;
-    //     console.log('Edit firstName:', context);
-    //     useMessage('success' ,'Success');
-    //   },
-    //   // 触发校验的时机（when to validate)
-    //   validateTrigger: 'change',
-    //   // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-    //   on: (editContext ) => ({
-    //     onBlur: (ctx ) => {
-    //       console.log('失去焦点', editContext);
-    //       ctx?.e?.preventDefault();
-    //     },
-    //     onEnter: (ctx ) => {
-    //       ctx?.e?.preventDefault();
-    //       console.log('onEnter', ctx);
-    //     },
-    //     // 默认是否为编辑状态
-    //     defaultEditable: false,
-    //   }),
-    // },
   },
-  // {
-  //   title: '编号',
-  //   colKey: 'sample_sn',
-  //   width: 140,
-  //   // edit: {
-  //   //   // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-  //   //   // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-  //   //   component: TInput,
-  //   //   // props, 透传全部属性到 Input 组件
-  //   //   props: {
-  //   //     clearable: true,
-  //   //     autofocus: true,
-  //   //     // autoWidth: true,
-  //   //   },
-  //   //   // 校验规则，此处同 Form 表单
-  //   //   rules: [
-  //   //     {
-  //   //       required: true,
-  //   //       message: '不能为空',
-  //   //     },
-  //   //   ],
-  //   //   showEditIcon: true,
-  //   //   abortEditOnEvent: ['onEnter','onBlur'],
-  //   //   onEdited: (context ) => {
-  //   //     console.log(context);
-  //   //     const newData = [..._table_data.value];
-  //   //     newData.splice(context.rowIndex, 1, context.newRowData);
-  //   //     _table_data.value = newData;
-  //   //     console.log('Edit firstName:', context);
-  //   //     useMessage('success' ,'Success');
-  //   //   },
-  //   //   // 触发校验的时机（when to validate)
-  //   //   validateTrigger: 'change',
-  //   //   // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-  //   //   on: (editContext ) => ({
-  //   //     onBlur: (ctx ) => {
-  //   //       console.log('失去焦点', editContext);
-  //   //       ctx?.e?.preventDefault();
-  //   //     },
-  //   //     onEnter: (ctx ) => {
-  //   //       ctx?.e?.preventDefault();
-  //   //       console.log('onEnter', ctx);
-  //   //     },
-  //   //     // 默认是否为编辑状态
-  //   //     defaultEditable: false,
-  //   //   }),
-  //   // },
-  // },
-  // {
-  //   title: '类型',
-  //   colKey: 'category',
-  //   minWidth: 140,
-  //   edit: {
-  //     // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
-  //     // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
-  //     component: TInput,
-  //     // props, 透传全部属性到 Input 组件
-  //     props: {
-  //       clearable: true,
-  //       autofocus: true,
-  //       // autoWidth: true,
-  //     },
-  //     // 校验规则，此处同 Form 表单
-  //     rules: [
-  //       {
-  //         required: true,
-  //         message: '不能为空',
-  //       },
-  //     ],
-  //     showEditIcon: true,
-  //     abortEditOnEvent: ['onEnter','onBlur'],
-  //     onEdited: (context ) => {
-  //       console.log(context);
-  //       const newData = [..._table_data.value];
-  //       newData.splice(context.rowIndex, 1, context.newRowData);
-  //       _table_data.value = newData;
-  //       console.log('Edit firstName:', context);
-  //       useMessage('success' ,'Success');
-  //     },
-  //     // 触发校验的时机（when to validate)
-  //     validateTrigger: 'change',
-  //     // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-  //     on: (editContext ) => ({
-  //       onBlur: (ctx ) => {
-  //         console.log('失去焦点', editContext);
-  //         ctx?.e?.preventDefault();
-  //       },
-  //       onEnter: (ctx ) => {
-  //         ctx?.e?.preventDefault();
-  //         console.log('onEnter', ctx);
-  //       },
-  //       // 默认是否为编辑状态
-  //       defaultEditable: false,
-  //     }),
-  //   },
-  // },
   {
     title: '周期',
     colKey: 'current_period',
@@ -693,7 +522,7 @@ const columnsDefaultA = [
         const res = await put_experiment_evaluation_fetch(context.row.id,params)
         if (res.data.code === 2000) {
           useMessage('success' ,res.data.msg);
-          group.value =  res.data.data.group
+          // group.value =  res.data.data.group
           updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
           await initData()
           console.log('Edit firstName:', context);
@@ -734,7 +563,7 @@ const add_dialog_visible = ref(false);
 const select_design_form = ref()
 const select_design_visible = ref(false)
 const selectTableForm = ref({
-  sample_group: '',
+  sample_group: [],
   index_type: '',
   condition: '',
   test_period: evaluating_test_period_options&&evaluating_test_period_options.length > 0 ? evaluating_test_period_options[0].value : '',
@@ -746,7 +575,7 @@ const sample_group_options = ref([]);
 const eval_execute_standardList = ref([]);
 
 const FORM_RULES = { 
-  sample_group: [{ required: true, message: '必填' ,trigger: ['blur'] }],
+  sample_group: [{ required: true, message: '必填' ,trigger: ['change'] }],
   index_type: [{ required: true, message: '必填' ,trigger: ['blur'] }],
   condition: [{ required: true, message: '必填' ,trigger: ['blur'] }],
   test_period: [{ required: true, message: '必填' ,trigger: ['blur'] }],
@@ -764,27 +593,53 @@ const displayColumnsC = ref([]);
 const checkAll = computed(() => displayColumns.value.length === displayColumnsC.value.length);
 const indeterminate = computed(() => !!(displayColumns.value.length > displayColumnsC.value.length && displayColumnsC.value.length));
 
+
 const blurCycleNumberFunc = (val) => {
   if (Number(val) > 100) selectTableForm.value.period_num = 100;
   if (Number(val) < 1) selectTableForm.value.period_num = 1;
 }
 
+
+
+const editdRow = ref();
+let debouncedRequest = null;
+const onFormChange = (row, col)=>{
+  console.log('onFormChange------000----603--------',row, col);
+  if (!isChanged.value) isChanged.value = true
+  const putFetch = async (rowF, colF) => {
+    const params = {
+      value:rowF.value,
+      group: group.value
+    }
+    const res = await put_experiment_evaluation_fetch(rowF.id,params)
+    if (res.data.code === 2000) {
+      useMessage('success' ,res.data.msg);
+      // group.value =  res.data.data.group
+      updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+      editdRow.value = undefined;
+      await initData()
+    }
+  }
+  
+  if (editdRow.value && editdRow.value.id !== row.id ) {
+    const fetchRow = editdRow.value?editdRow.value : row
+    putFetch(fetchRow, col)
+  }else{
+    if (!debouncedRequest) {
+      debouncedRequest = debounce(async (currentRow, currentCol) => {
+        // 逻辑代码
+        putFetch(currentRow, currentCol)
+        // 执行请求
+        debouncedRequest = null;
+      }, 2000);
+    }
+    debouncedRequest(row, col);
+  }
+  editdRow.value = row;
+}
+
 const makeTableDataAndColumnFunc = (tableData, selectTableForm, index_typeInfo) => {
   console.log('-----478-----makeTableDataAndColumnFunc------------', selectTableForm, index_typeInfo);
-
-  const generateDateArray = () => {
-    const startDate = new Date(selectTableForm.start_datetime);
-    const incrementDays = selectTableForm.test_period === '1' ? selectTableForm.current_period * 7 : selectTableForm.current_period;
-    
-    return Array.from({ length: selectTableForm.period_num }, (_, i) => {
-      const date = new Date(startDate.getTime() + i * incrementDays * 24 * 60 * 60 * 1000);
-      return date.toISOString().split('T')[0];
-    });
-  };
-
-  const result = generateDateArray();
-  console.log('-----478-----makeTableDataAndColumnFunc----result--------', result);
-
   const table_data = tableData.map(ele => ({
     ...ele,
     value: index_typeInfo.reduce((acc, { attribute }) => {
@@ -805,70 +660,6 @@ const makeTableDataAndColumnFunc = (tableData, selectTableForm, index_typeInfo) 
   const group_Colums_result = Object.values(groupedData);
   console.log('--------692---------group_Colums_result-----', group_Colums_result);
 
-  const makeColumns = (item, sub_col, type) => {
-    const componentName = xmInput;
-    const options = ['SelectPlusRadio', 'SelectPlus'].includes(item.type) 
-      ? item.props.options.map(ele => ({ label: ele.name, value: ele.id }))
-      : [];
-
-    sub_col.children.push({
-      title: item.name,
-      colKey: type === 'group' ? `${sub_col.colKey}.${item.key}` : `value.${item.key}`,
-      minWidth: 100,
-      cell: cellMake,
-      edit: {
-        component: componentName,
-        customProps: { componentName: 'xmInput', config: item, options },
-        props: ({ col, row }) => {
-          if (!row.value) row.value = {};
-          const key = type === 'group' ? resultKey(sub_col.colKey) : resultKey(col.colKey);
-          if (type === 'group') {
-            if (!row.value[key]) row.value[key] = {};
-            if (!row.value[key][resultKey(col.colKey)]) row.value[key][resultKey(col.colKey)] = '';
-          } else if (!row.value[key]) {
-            row.value[key] = '';
-          }
-          return {
-            modelValue: type === 'group' ? row.value[key][resultKey(col.colKey)] : row.value[key],
-            config: item,
-            clearable: true,
-            autofocus: false,
-            multiple: true,
-            options
-          };
-        },
-        rules: [{ required: false, message: '不能为空' }],
-        showEditIcon: true,
-        abortEditOnEvent: ['onEnter', 'onBlur'],
-        onEdited: async (context) => {
-          console.log(context);
-          const params = { value: context.newRowData.value, group: group.value };
-          isChanged.value = true;
-          const res = await put_experiment_evaluation_fetch(context.row.id, params);
-          if (res.data.code === 2000) {
-            useMessage('success', res.data.msg);
-            group.value = res.data.data.group;
-            updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss');
-            await initData();
-            console.log('Edit firstName:', context);
-          }
-        },
-        validateTrigger: 'change',
-        on: (editContext) => ({
-          onBlur: (ctx) => {
-            console.log('失去焦点', editContext);
-            ctx?.e?.preventDefault();
-          },
-          onEnter: (ctx) => {
-            ctx?.e?.preventDefault();
-            console.log('onEnter', ctx);
-          },
-          defaultEditable: true,
-        }),
-      }
-    });
-  };
-
   const columns = group_Colums_result.map(({ category_name, id, children }) => {
     const group_Colums = {
       title: category_name,
@@ -876,24 +667,20 @@ const makeTableDataAndColumnFunc = (tableData, selectTableForm, index_typeInfo) 
       children: [],
     };
     children.forEach(({ attribute: item }) => {
-      if (item.group && item.group.length > 0) {
-        const sub_col = {
-          title: item.name,
-          colKey: `value.${item.key}`,
-          children: []
-        };
-        item.group.forEach(sub_item => makeColumns(sub_item, sub_col, 'group'));
-        group_Colums.children.push(sub_col);
-      } else {
-        makeColumns(item, group_Colums, 'single');
-      }
+      group_Colums.children.push({
+        title: item.title,
+        colKey:`value.${item.key}`,
+        attrs: item,
+        minWidth: 100,
+        cell: 'defaultValueSlot',
+      })
     });
     return group_Colums;
   });
 
-  _node.value.attrs.columns = [...columns]
-  emits('update:node', _node.value)
-  console.log('-----700-----makeTableDataAndColumnFunc----columns--------', columns);
+  _nodeAttrs.value.columns = [...columns]
+  // emits('update:nodeAttrs', _nodeAttrs.value)
+  console.log('-----700-----makeTableDataAndColumnFunc----columns--------',table_data, columns);
   return { table_data, columns: [...columnsDefaultF, ...columns, ...columnsDefaultA] };
 };
 
@@ -911,14 +698,14 @@ const on_select_designFunc = ()=>{
       isChanged.value = true
       const res = await post_experiment_evaluation_fetch(params)
       if (res && res.data.code === 2000) {
-        group.value = res.data.data.group
+        group.value = res.data.data.data[0].group
         useMessage('success',res.data.msg)
         updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
         select_design_visible.value = false
         designParams.value = {form: selectTableForm.value,index_typeInfo:res.data.data.item  }
         const { table_data, columns } = makeTableDataAndColumnFunc(res.data.data.data,selectTableForm.value,res.data.data.item) 
         _columns.value = [...columns]
-        // _table_data.value = [...table_data]
+        // _table_data.value= [...table_data]
         displayColumns.value = columns.map(ele=> ele.colKey)
         await initData()
         console.log('-------575-------table_data', _table_data.value,_columns.value)
@@ -980,6 +767,23 @@ const columnEditFunc = ()=>{
   dialog_visible.value = true
 }
 
+// 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
+function processValueItems(items) {
+  const valueC = {};
+
+  items.forEach(eleI => {
+    if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(eleI.type)) {
+      valueC[eleI.key] = [];
+    } else if (['FieldsGroup'].includes(eleI.type)) {
+      valueC[eleI.key] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
+    } else {
+      valueC[eleI.key] = '';
+    }
+  });
+
+  return valueC;
+}
+
 const initData = async () => {
   loading.value = true
   const params = {
@@ -991,74 +795,29 @@ const initData = async () => {
   const res = await get_experiment_evaluationListFetch(params)
   loading.value = false
   if (res.data.code === 2000 && res.data.data.length > 0) {
-    _table_data.value = res.data.data
+    _table_data.value = res.data.data.map(ele=>{
+      if (!ele.value) {
+        let valC = {}
+        ele.eval_standard.map(eleS=> eleS.attribute).forEach(eleS =>{
+          let valueC = '';
+          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(eleS.type)) {
+            valueC = [];
+          } else if (['FieldsGroup'].includes(eleS.type)) {
+            valueC = processValueItems(eleS.props.items); // 调用递归函数处理嵌套的 items
+          }
+          valC[eleS.key] = valueC
+
+        })
+        return {...ele,value:valC}
+      }else{
+        return ele
+      }
+    })
+    console.log('----------initData-----777---------',_table_data.value)
     if (isChanged.value) { isChanged.value = false }
   }
   
 }
-
-const processColumn = (col) => {
-  if (col.children && col.children.length > 0) {
-    return { ...col, children: col.children.map(processChildColumn) };
-  }
-  return createEditableColumn(col);
-};
-
-const processChildColumn = (ele) => {
-  if (ele.children && ele.children.length > 0) {
-    return { ...ele, children: ele.children.map(eleC => createEditableColumn(eleC, ele)) };
-  }
-  return createEditableColumn(ele);
-};
-
-const createEditableColumn = (column, parent = null) => {
-  return {
-    ...column,
-    cell: cellMake,
-    edit: {
-      ...column.edit,
-      component: xmInput,
-      props: ({ row }) => createEditProps(row, column, parent),
-      onEdited: createOnEditedHandler(column),
-    }
-  };
-};
-
-const createEditProps = (row, column, parent = null) => {
-  const key = parent ? `${resultKey(parent.colKey)}.${resultKey(column.colKey)}` : resultKey(column.colKey);
-  ensureValueExists(row, key);
-  
-  return {
-    modelValue: _.get(row.value, key, ''),
-    config: column.edit.customProps?.config,
-    clearable: true,
-    autofocus: true,
-    multiple: true,
-    options: column.edit.customProps?.options,
-  };
-};
-
-const ensureValueExists = (row, key) => {
-  if (!row.value) row.value = {};
-  _.set(row.value, key, _.get(row.value, key, ''));
-};
-
-const createOnEditedHandler = (column) => async (context) => {
-  console.log(`---------${column.colKey} edited-------------`, context);
-  const params = {
-    value: context.newRowData.value,
-    group: group.value
-  };
-  isChanged.value = true;
-  const res = await put_experiment_evaluation_fetch(context.row.id, params);
-  if (res.data.code === 2000) {
-    useMessage('success', res.data.msg);
-    group.value = res.data.data.group;
-    updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss');
-    await initData();
-    console.log('Edit completed:', context);
-  }
-};
 
 const handleIntegration = async () => {
   const docD = props.editor.getJSON();
@@ -1090,13 +849,10 @@ const handleIntegration = async () => {
 };
 
 onMounted(async () => {
-  if (_node.value.attrs.columns && Object.keys(_node.value.attrs.columns).length > 0) {
-    const columns = _node.value.attrs.columns.map(processColumn);
-    
-    console.log('-----------onMounted---822----------------', columns);
-    
+  if (_nodeAttrs.value.columns && Object.keys(_nodeAttrs.value.columns).length > 0) {
+    console.log('-----------onMounted---822----------------',_nodeAttrs.value.columns, _columns.value);
+    _columns.value = [...columnsDefaultF, ..._nodeAttrs.value.columns, ...columnsDefaultA] ;
     setTimeout(() => {
-      _columns.value = [...columnsDefaultF, ...columns, ...columnsDefaultA];
       displayColumns.value = _columns.value.map(ele => ele.colKey);
       tableRef.value.refreshTable();
     }, 100);
@@ -1112,7 +868,7 @@ onMounted(async () => {
       select_design_visible.value = true;
     }, 100);
   }
-  get_experiment_samples_groupsFetch({experiment_theme: experiment_theme.value?.id, record: experiment_record.value?.id}).then((res)=>{
+  get_experiment_samplesListFetch({experiment_theme: experiment_theme.value?.id, record: experiment_record.value?.id}).then((res)=>{
     if (res.data.code === 2000) {
       sample_group_options.value = res.data.data
     }else{

@@ -16,7 +16,7 @@
                 <template #label="{ node }">
                   <div style="display:flex;gap:10px;">
                     <span :style="{color: node.data.type ?'blue' :'var(--umo-text-color-primary)' ,width: '150px'}">{{ node.label }}</span>
-                    <div v-if="node.isLeaf()" >
+                    <div v-if="node.isLeaf()" style="width: calc(100% - 150px) ;">
                       <xmFormDesignRender style="overflow: auto;"
                         v-model="_designParams.formData"
                         :valueKey="getNodeFullColKey(node)"

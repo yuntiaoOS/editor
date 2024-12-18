@@ -49,14 +49,14 @@ export function renderGroups(editor: Editor) {
         //     editor?.chain().focus().deleteRange(range).addSample_tables({is_integration:true}).run()
         //   },
         // },
-        // {
-        //   name: 'evaluating_table',
-        //   label: '评测表格',
-        //   iconName: 'evaluating',
-        //   action: ({ editor, range }) => {
-        //     editor?.chain().focus().deleteRange(range).addEvaluating_tables().run()
-        //   },
-        // },
+        {
+          name: 'evaluating_table',
+          label: '评测表格',
+          iconName: 'evaluating',
+          action: ({ editor, range }) => {
+            editor?.chain().focus().deleteRange(range).addEvaluating_tables().run()
+          },
+        },
       ],
     },
     {

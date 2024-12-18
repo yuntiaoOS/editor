@@ -10692,12 +10692,12 @@ const options = $ref({
       ]
     },
     experiment_theme: {
-      "id": "984fbf0c-baf9-4a5a-ae72-dfc105618af1",
+      "id": "58a9eb8e-b687-46a9-a13e-fa8da809810f",
       "modifier_name": "赵紫文",
       "dept_belong_id": null,
       "creator_name": "赵紫文",
-      "create_datetime": "2024-12-16 16:21:59",
-      "update_datetime": "2024-12-16 16:21:59",
+      "create_datetime": "2024-12-17 17:40:27",
+      "update_datetime": "2024-12-17 17:40:27",
       "is_collect": false,
       "person_in_charge": {
         "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
@@ -10736,6 +10736,20 @@ const options = $ref({
           "avatar": "http://192.168.2.11:8002/media/avatar/26e35b37-d464-48f6-a423-b73f17ca2538.png"
         },
         {
+          "id": "fae7d20f-c834-4b07-8667-004a3c5c31b0",
+          "user_id": "fae7d20f-c834-4b07-8667-004a3c5c31b0",
+          "name": "18689494871b",
+          "is_owner": false,
+          "avatar": "http://192.168.2.11:8002/media/avatar/3e1d10d2-354b-42e0-9935-4ef0b137ee64.png"
+        },
+        {
+          "id": "2ce24614-f3ca-4d70-97d9-8d4af1a60fff",
+          "user_id": "2ce24614-f3ca-4d70-97d9-8d4af1a60fff",
+          "name": "18689494870b",
+          "is_owner": false,
+          "avatar": "http://192.168.2.11:8002/media/avatar/3659a216-9b94-4dc6-8ab2-bd9b8b973e8c.png"
+        },
+        {
           "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
           "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
           "name": "赵紫文",
@@ -10750,11 +10764,11 @@ const options = $ref({
           "avatar": "http://192.168.2.11:8002/media/avatar/abf0f9c664c6c4b3e4b0fbaf054c1db7_l1HXx8V.jpg"
         }
       ],
-      "description": "根深蒂固打三个",
+      "description": "3得得得得得得得得得得得得得得得得得得得",
       "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
       "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-      "name": "SY12161621",
-      "sn": "SN-1734337273849",
+      "name": "SY1217173900001",
+      "sn": "SN-1734428386206",
       "icon": "/experiment/picture1.png",
       "label": null,
       "experiment_template": null,
@@ -10798,7 +10812,7 @@ const options = $ref({
                 },
                 "content": [
                   {
-                    "text": "目的古代诗歌的",
+                    "text": "目的洒洒水",
                     "type": "text"
                   }
                 ]
@@ -10849,7 +10863,7 @@ const options = $ref({
                 },
                 "content": [
                   {
-                    "text": "背景高大上高大上",
+                    "text": "背景大S倒萨倒萨",
                     "type": "text"
                   }
                 ]
@@ -10900,7 +10914,7 @@ const options = $ref({
                 },
                 "content": [
                   {
-                    "text": "计划根深蒂固的树",
+                    "text": "计划打的啥大叔",
                     "type": "text"
                   }
                 ]
@@ -10928,31 +10942,32 @@ const options = $ref({
       "publish": false
     },
     experiment_record: {
-      "id": "6a0b41eb-5d68-4e86-b4d6-b9d39d92aef8",
-      "modifier_name": "zzw",
+      "id": "ec15f0e6-de73-4b04-8b1e-0bfbde3bedce",
+      "modifier_name": "赵紫文",
       "dept_belong_id": null,
-      "creator_name": "zzw",
-      "create_datetime": "2024-12-02 15:29:43",
-      "update_datetime": "2024-12-02 16:01:48",
-      "liked": true,
+      "creator_name": "赵紫文",
+      "create_datetime": "2024-12-17 17:51:17",
+      "update_datetime": "2024-12-17 17:51:17",
+      "liked": false,
       "description": null,
       "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
       "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-      "title": "JL120215290001",
-      "sn": "as546654654",
-      "start_time": "2024-12-19 00:00:00",
-      "end_time": "2024-12-29 00:00:00",
+      "title": "JL121717512222",
+      "sn": null,
+      "start_time": null,
+      "end_time": null,
       "experiment_design": null,
       "sample_number": null,
       "version": 1,
       "document_attachments": null,
-      "experiment_theme": "984fbf0c-baf9-4a5a-ae72-dfc105618af1",
+      "json_data": {},
+      "experiment_theme": "58a9eb8e-b687-46a9-a13e-fa8da809810f",
       "previous_record": null,
       "catalog": null,
       "experimenter": []
     },
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NDI2MTc0LCJpYXQiOjE3MzQzMzk3NzQsImp0aSI6ImM0MjY2NzE0NTMxMzRmY2I5MzkxNTMwNGI0MzBhOTMyIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.zFLsA1bIgYBAGnj5rkAChPj9pKk2CF1kfnNwlbwk7PA',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NTEyNzE2LCJpYXQiOjE3MzQ0MjYzMTYsImp0aSI6ImU4Yzg0MWM5ZGY4NTQxMzk4YzRkNzc3ZTVlYmJjYjVhIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.LwXUdIchgkRxjHVe7WwHl4BGIkkJJvXkObkaApm6sso',
   },
   document: {
     placeholder: '测试文档',
@@ -14011,277 +14026,363 @@ onMounted(() => {
         }
       },
       {
-        "type": "sample_table",
+        "type": "evaluating_table",
         "attrs": {
-          "id": "57a48f7b-5f54-4608-80b3-b7d95beff945",
-          "updateTime": "",
-          "key": "sample_table20241209201827",
-          "name": "71795720-f249-492c-90a9-f8e65ec16e48",
+          "id": "c2b0343d-e093-4583-b5e9-7a12eaac2dbb",
+          "updateTime": "2024-12-18 10:59:20",
+          "key": "evaluating_table20241218105907",
+          "name": "c7112cfc-7f0c-470f-8265-17d1aea91073",
           "isChanged": false,
-          "group": "3d2f2bde-492b-49b7-9984-eeecdee7706d",
-          "table_data": [
+          "table_data": [],
+          "columns": [
             {
-              "id": "e3fc7ca6-04bd-471c-867b-f156aa062877",
-              "modifier_name": "赵紫文",
-              "dept_belong_id": null,
-              "creator_name": "赵紫文",
-              "create_datetime": "2024-12-09 20:18:25",
-              "update_datetime": "2024-12-09 20:18:25",
-              "param": [
+              "title": "理化指标",
+              "colKey": "category1",
+              "children": [
                 {
-                  "id": "cc7c14ca-9765-417a-a70d-441e7a9c6368",
-                  "value": {
-                    "quality": "36.0",
-                    "xm_raw_material": [
-                      "098973f9-a550-4220-88bc-18af6bc89996",
-                      "8ae07816-fd7b-40df-8c72-d539f2db13e9"
-                    ]
+                  "title": "LAB_L",
+                  "colKey": "value.lab_l",
+                  "attrs": {
+                    "id": 18,
+                    "title": "LAB_L",
+                    "type": "NumberInput",
+                    "key": "lab_l",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
                   },
-                  "step_attribute_id": "328dd3d2-2330-4baf-a424-40e11fb43fb1",
-                  "step_attribute_name": "热二恶烷",
-                  "step_attribute_value": "{\"quality\":\"12\"}",
-                  "step_attribute_attribute_type": "compound"
+                  "minWidth": 100,
+                  "cell": "defaultValueSlot"
                 },
                 {
-                  "id": "e17ee124-b187-4300-afd8-bc9ba39b7d94",
-                  "value": "257.0",
-                  "step_attribute_id": "821445fd-9cfc-4d9e-a869-3b0a243c601c",
-                  "step_attribute_name": "额为了我",
-                  "step_attribute_value": "233",
-                  "step_attribute_attribute_type": "single"
+                  "title": "LAB_A",
+                  "colKey": "value.lab_a",
+                  "attrs": {
+                    "id": 19,
+                    "title": "LAB_A",
+                    "type": "NumberInput",
+                    "key": "lab_a",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "minWidth": 100,
+                  "cell": "defaultValueSlot"
                 }
-              ],
-              "description": null,
-              "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-              "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-              "name": "样品-20241209201824",
-              "sn": "S2024120941",
-              "batch": "2024120941",
-              "count": 1,
-              "group": "3d2f2bde-492b-49b7-9984-eeecdee7706d",
-              "experiment_theme": "27cb4fd5-7c15-43e3-a240-9ae2950ee85d",
-              "record": "90eff14c-9327-4745-8302-729a2ed3398b"
+              ]
             },
             {
-              "id": "4240cad1-2ae8-4536-b927-143340a96514",
-              "modifier_name": "赵紫文",
-              "dept_belong_id": null,
-              "creator_name": "赵紫文",
-              "create_datetime": "2024-12-09 20:18:25",
-              "update_datetime": "2024-12-09 20:18:25",
-              "param": [
+              "title": "感官指标",
+              "colKey": "category2",
+              "children": [
                 {
-                  "id": "0406f036-2512-4ea9-bdd9-249b1cb83323",
-                  "value": "245.0",
-                  "step_attribute_id": "821445fd-9cfc-4d9e-a869-3b0a243c601c",
-                  "step_attribute_name": "额为了我",
-                  "step_attribute_value": "233",
-                  "step_attribute_attribute_type": "single"
+                  "title": "LAB_B",
+                  "colKey": "value.lab_b",
+                  "attrs": {
+                    "id": 20,
+                    "title": "LAB_B",
+                    "type": "NumberInput",
+                    "key": "lab_b",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "minWidth": 100,
+                  "cell": "defaultValueSlot"
                 },
                 {
-                  "id": "65bc6372-10c8-4c1f-8712-075b5cf2aa60",
-                  "value": {
-                    "quality": "24.0",
-                    "xm_raw_material": [
-                      "098973f9-a550-4220-88bc-18af6bc89996",
-                      "8ae07816-fd7b-40df-8c72-d539f2db13e9"
-                    ]
+                  "title": "LAB",
+                  "colKey": "value.lab",
+                  "attrs": {
+                    "id": 21,
+                    "title": "LAB",
+                    "type": "FieldsGroup",
+                    "key": "lab",
+                    "props": {
+                      "size": 8,
+                      "items": [
+                        {
+                          "id": 18,
+                          "key": "lab_l",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_L",
+                          "value": null,
+                          "attribute_type": "single"
+                        },
+                        {
+                          "id": 19,
+                          "key": "lab_a",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_A",
+                          "value": null,
+                          "attribute_type": "single"
+                        },
+                        {
+                          "id": 20,
+                          "key": "lab_b",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_B",
+                          "value": null,
+                          "attribute_type": "single"
+                        }
+                      ],
+                      "abstract": false,
+                      "required": false,
+                      "direction": "horizontal",
+                      "expanding": false,
+                      "enablePrint": true
+                    },
+                    "value": null
                   },
-                  "step_attribute_id": "328dd3d2-2330-4baf-a424-40e11fb43fb1",
-                  "step_attribute_name": "热二恶烷",
-                  "step_attribute_value": "{\"quality\":\"12\"}",
-                  "step_attribute_attribute_type": "compound"
+                  "minWidth": 100,
+                  "cell": "defaultValueSlot"
                 }
-              ],
-              "description": null,
-              "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-              "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-              "name": "样品-20241209201824",
-              "sn": "S2024120940",
-              "batch": "2024120940",
-              "count": 1,
-              "group": "3d2f2bde-492b-49b7-9984-eeecdee7706d",
-              "experiment_theme": "27cb4fd5-7c15-43e3-a240-9ae2950ee85d",
-              "record": "90eff14c-9327-4745-8302-729a2ed3398b"
-            },
-            {
-              "id": "b977ff1c-bb59-43d2-b84a-f544e8d0995a",
-              "modifier_name": "赵紫文",
-              "dept_belong_id": null,
-              "creator_name": "赵紫文",
-              "create_datetime": "2024-12-09 20:18:25",
-              "update_datetime": "2024-12-09 20:18:25",
-              "param": [
-                {
-                  "id": "4856d936-175f-4e73-8cad-9bcca2509fee",
-                  "value": "233.0",
-                  "step_attribute_id": "821445fd-9cfc-4d9e-a869-3b0a243c601c",
-                  "step_attribute_name": "额为了我",
-                  "step_attribute_value": "233",
-                  "step_attribute_attribute_type": "single"
-                },
-                {
-                  "id": "5bdc30f0-ee10-4344-aa0f-da53f37d83c3",
-                  "value": {
-                    "quality": "12.0",
-                    "xm_raw_material": [
-                      "098973f9-a550-4220-88bc-18af6bc89996",
-                      "8ae07816-fd7b-40df-8c72-d539f2db13e9"
-                    ]
-                  },
-                  "step_attribute_id": "328dd3d2-2330-4baf-a424-40e11fb43fb1",
-                  "step_attribute_name": "热二恶烷",
-                  "step_attribute_value": "{\"quality\":\"12\"}",
-                  "step_attribute_attribute_type": "compound"
-                }
-              ],
-              "description": null,
-              "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-              "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-              "name": "样品-20241209201824",
-              "sn": "S2024120939",
-              "batch": "2024120939",
-              "count": 1,
-              "group": "3d2f2bde-492b-49b7-9984-eeecdee7706d",
-              "experiment_theme": "27cb4fd5-7c15-43e3-a240-9ae2950ee85d",
-              "record": "90eff14c-9327-4745-8302-729a2ed3398b"
+              ]
             }
           ],
-          "designParams": [
-            {
-              "id": "821445fd-9cfc-4d9e-a869-3b0a243c601c",
-              "attribute": 9,
-              "value": "233",
-              "attribute_type": "single",
-              "name": "额为了我",
-              "description": "",
-              "step_type": "operation",
-              "duration": null,
-              "parent": "ba1d0964-0d5f-4e52-b995-f26674f491d4",
-              "props": {
-                "suffix": "kg",
-                "abstract": false,
-                "required": false,
-                "enableScan": false,
-                "enablePrint": true
-              },
-              "key": "quality-y1xv2dqu",
-              "type": "TextInput",
-              "unit": "kg",
-              "group": [],
-              "raw_material": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
-              "technology": "736cfefe-d514-4602-acf7-dae524c63530",
-              "step": "12",
-              "check": true
+          "group": "548757dd-cfc5-4ea5-bcc2-fa085398f5aa",
+          "designParams": {
+            "form": {
+              "sample_group": [
+                "279e06f0-6c68-4bf4-a0f3-eca25b1af2cb",
+                "d5765d7e-1ebd-4c0d-a7dc-98b3e9d9ca06"
+              ],
+              "index_type": 6,
+              "condition": "5",
+              "test_period": "1",
+              "start_datetime": "2024-12-18",
+              "current_period": "2",
+              "period_num": 2
             },
-            {
-              "id": "328dd3d2-2330-4baf-a424-40e11fb43fb1",
-              "attribute": 11,
-              "value": {
-                "quality": "12",
-                "xm_raw_material": [
-                  "098973f9-a550-4220-88bc-18af6bc89996",
-                  "8ae07816-fd7b-40df-8c72-d539f2db13e9"
-                ]
-              },
-              "attribute_type": "compound",
-              "name": "热二恶烷",
-              "description": "",
-              "step_type": "operation",
-              "duration": null,
-              "parent": "ba1d0964-0d5f-4e52-b995-f26674f491d4",
-              "props": {},
-              "key": "Raw_material_weighing-ncnu7j8c",
-              "type": "",
-              "unit": null,
-              "group": [
-                {
-                  "id": 8,
-                  "name": "物料",
-                  "type": "SelectPlus",
-                  "props": {
-                    "abstract": false,
-                    "required": false,
-                    "enableScan": false,
-                    "enablePrint": true,
-                    "labelKey": "name",
-                    "valueKey": "id",
-                    "options": [
-                      {
-                        "id": "098973f9-a550-4220-88bc-18af6bc89996",
-                        "experiment_material": "a12ca520-d4d0-41e3-a2bf-ba6a3daeb70c",
-                        "experiment_material_name": "YCL12021526",
-                        "description": null,
-                        "experiment_material_state": "",
-                        "change_log": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
-                        "experiment_material_sn": "SN-1733124379373",
-                        "experiment_material_batch": "BT-1733124379373",
-                        "experiment_material_price": "23.00",
-                        "experiment_material_supplier": "大锅饭的师傅",
-                        "name": "YCL12021526/SN-1733124379373"
-                      },
-                      {
-                        "id": "8ae07816-fd7b-40df-8c72-d539f2db13e9",
-                        "experiment_material": "681e59cd-23b1-48c1-bd68-d3d257cfe487",
-                        "experiment_material_name": "YCL12021527",
-                        "description": null,
-                        "experiment_material_state": "",
-                        "change_log": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
-                        "experiment_material_sn": "SN-1733124429469",
-                        "experiment_material_batch": "BT-1733124429469",
-                        "experiment_material_price": "32.00",
-                        "experiment_material_supplier": "个的风格大方",
-                        "name": "YCL12021527/SN-1733124429469"
-                      },
-                      {
-                        "id": "adba60a6-d2a2-4938-bac6-3d274089a4a2",
-                        "experiment_material": "c5da9760-00dc-43d5-850d-76ef71919e62",
-                        "experiment_material_name": "YCL12021527",
-                        "description": null,
-                        "experiment_material_state": "",
-                        "change_log": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
-                        "experiment_material_sn": "SN-1733290926736",
-                        "experiment_material_batch": "BT-1733290926737",
-                        "experiment_material_price": "32.00",
-                        "experiment_material_supplier": "个的风格大方",
-                        "name": "YCL12021527/SN-1733290926736"
-                      }
-                    ]
-                  },
-                  "key": "xm_raw_material",
-                  "value": 8,
-                  "unit": null,
-                  "attribute_type": "single",
-                  "step": "",
-                  "check": true,
-                  "label": "物料"
+            "index_typeInfo": [
+              {
+                "id": 9,
+                "execute_standard": {
+                  "id": 6,
+                  "standard_code": "43523424",
+                  "standard_name": "测试标准12171421",
+                  "standard_type": "2"
                 },
-                {
-                  "id": 9,
-                  "name": "质量",
-                  "type": "TextInput",
+                "description": "",
+                "internal_description": "",
+                "reference_value": "",
+                "attribute": {
+                  "id": 18,
+                  "title": "LAB_L",
+                  "type": "NumberInput",
+                  "key": "lab_l",
                   "props": {
-                    "suffix": "kg",
+                    "suffix": "%",
                     "abstract": false,
                     "required": false,
-                    "enableScan": false,
+                    "precision": null,
                     "enablePrint": true
                   },
-                  "key": "quality",
-                  "value": null,
-                  "unit": "kg",
-                  "attribute_type": "single"
+                  "value": null
+                },
+                "value": "",
+                "unit": "",
+                "update_datetime": "2024-12-17 14:21:45",
+                "create_datetime": "2024-12-17 14:21:45",
+                "category": {
+                  "id": 1,
+                  "category_name": "理化指标"
                 }
-              ],
-              "raw_material": "d63bd5ee-c0b6-48d1-90af-a52a54a26b3b",
-              "technology": "736cfefe-d514-4602-acf7-dae524c63530",
-              "step": {
-                "quality": "12"
               },
-              "check": true
-            }
-          ],
-          "title": "样品202412092018"
+              {
+                "id": 10,
+                "execute_standard": {
+                  "id": 6,
+                  "standard_code": "43523424",
+                  "standard_name": "测试标准12171421",
+                  "standard_type": "2"
+                },
+                "description": "",
+                "internal_description": "",
+                "reference_value": "",
+                "attribute": {
+                  "id": 19,
+                  "title": "LAB_A",
+                  "type": "NumberInput",
+                  "key": "lab_a",
+                  "props": {
+                    "suffix": "%",
+                    "abstract": false,
+                    "required": false,
+                    "precision": null,
+                    "enablePrint": true
+                  },
+                  "value": null
+                },
+                "value": "",
+                "unit": "",
+                "update_datetime": "2024-12-17 14:21:45",
+                "create_datetime": "2024-12-17 14:21:45",
+                "category": {
+                  "id": 1,
+                  "category_name": "理化指标"
+                }
+              },
+              {
+                "id": 11,
+                "execute_standard": {
+                  "id": 6,
+                  "standard_code": "43523424",
+                  "standard_name": "测试标准12171421",
+                  "standard_type": "2"
+                },
+                "description": "",
+                "internal_description": "",
+                "reference_value": "",
+                "attribute": {
+                  "id": 20,
+                  "title": "LAB_B",
+                  "type": "NumberInput",
+                  "key": "lab_b",
+                  "props": {
+                    "suffix": "%",
+                    "abstract": false,
+                    "required": false,
+                    "precision": null,
+                    "enablePrint": true
+                  },
+                  "value": null
+                },
+                "value": "",
+                "unit": "",
+                "update_datetime": "2024-12-17 14:21:45",
+                "create_datetime": "2024-12-17 14:21:45",
+                "category": {
+                  "id": 2,
+                  "category_name": "感官指标"
+                }
+              },
+              {
+                "id": 12,
+                "execute_standard": {
+                  "id": 6,
+                  "standard_code": "43523424",
+                  "standard_name": "测试标准12171421",
+                  "standard_type": "2"
+                },
+                "description": "",
+                "internal_description": "",
+                "reference_value": "",
+                "attribute": {
+                  "id": 21,
+                  "title": "LAB",
+                  "type": "FieldsGroup",
+                  "key": "lab",
+                  "props": {
+                    "size": 8,
+                    "items": [
+                      {
+                        "id": 18,
+                        "key": "lab_l",
+                        "type": "NumberInput",
+                        "unit": null,
+                        "props": {
+                          "suffix": "%",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "title": "LAB_L",
+                        "value": null,
+                        "attribute_type": "single"
+                      },
+                      {
+                        "id": 19,
+                        "key": "lab_a",
+                        "type": "NumberInput",
+                        "unit": null,
+                        "props": {
+                          "suffix": "%",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "title": "LAB_A",
+                        "value": null,
+                        "attribute_type": "single"
+                      },
+                      {
+                        "id": 20,
+                        "key": "lab_b",
+                        "type": "NumberInput",
+                        "unit": null,
+                        "props": {
+                          "suffix": "%",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "title": "LAB_B",
+                        "value": null,
+                        "attribute_type": "single"
+                      }
+                    ],
+                    "abstract": false,
+                    "required": false,
+                    "direction": "horizontal",
+                    "expanding": false,
+                    "enablePrint": true
+                  },
+                  "value": null
+                },
+                "value": "",
+                "unit": "",
+                "update_datetime": "2024-12-17 14:21:45",
+                "create_datetime": "2024-12-17 14:21:45",
+                "category": {
+                  "id": 2,
+                  "category_name": "感官指标"
+                }
+              }
+            ]
+          }
         },
         "content": [
           {
@@ -14311,7 +14412,1300 @@ onMounted(() => {
           "lineHeight": 1.5
         }
       },
-
+      {
+        "type": "evaluating_table",
+        "attrs": {
+          "id": "b0a29d3b-7566-40fb-8583-6783ed10b5c5",
+          "updateTime": "2024-12-18 14:07:19",
+          "key": "evaluating_table20241218140651",
+          "name": "db1f8563-1ce7-4752-911e-451bfe5804e4",
+          "isChanged": false,
+          "table_data": [
+            {
+              "id": "fdc91bca-01ea-4dc9-9056-b271e2657ab0",
+              "modifier_name": "赵紫文",
+              "dept_belong_id": null,
+              "creator_name": "赵紫文",
+              "create_datetime": "2024-12-18 14:07:04",
+              "update_datetime": "2024-12-18 14:07:11",
+              "eval_standard": [
+                {
+                  "id": 9,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 18,
+                    "title": "LAB_L",
+                    "type": "NumberInput",
+                    "key": "lab_l",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 1,
+                    "category_name": "理化指标"
+                  }
+                },
+                {
+                  "id": 10,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 19,
+                    "title": "LAB_A",
+                    "type": "NumberInput",
+                    "key": "lab_a",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 1,
+                    "category_name": "理化指标"
+                  }
+                },
+                {
+                  "id": 11,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 20,
+                    "title": "LAB_B",
+                    "type": "NumberInput",
+                    "key": "lab_b",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 2,
+                    "category_name": "感官指标"
+                  }
+                },
+                {
+                  "id": 12,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 21,
+                    "title": "LAB",
+                    "type": "FieldsGroup",
+                    "key": "lab",
+                    "props": {
+                      "size": 8,
+                      "items": [
+                        {
+                          "id": 18,
+                          "key": "lab_l",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_L",
+                          "value": null,
+                          "attribute_type": "single"
+                        },
+                        {
+                          "id": 19,
+                          "key": "lab_a",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_A",
+                          "value": null,
+                          "attribute_type": "single"
+                        },
+                        {
+                          "id": 20,
+                          "key": "lab_b",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_B",
+                          "value": null,
+                          "attribute_type": "single"
+                        }
+                      ],
+                      "abstract": false,
+                      "required": false,
+                      "direction": "horizontal",
+                      "expanding": false,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 2,
+                    "category_name": "感官指标"
+                  }
+                }
+              ],
+              "sample": {
+                "id": "44c3659a-d774-4b6b-a9dc-e4d918e97104",
+                "name": "样品-2024121417030oe07o68",
+                "sn": "S2024121710",
+                "batch": ""
+              },
+              "eval_user": {
+                "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+                "name": "赵紫文",
+                "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa3938"
+              },
+              "description": "32",
+              "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+              "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+              "condition": "2",
+              "test_period": "1",
+              "current_period": "2",
+              "period_num": "2",
+              "start_time": "2025-01-16",
+              "value": {
+                "lab_l": "",
+                "lab_a": "",
+                "lab_b": "",
+                "lab": {
+                  "lab_l": "",
+                  "lab_a": "",
+                  "lab_b": ""
+                }
+              },
+              "experiment_theme": "58a9eb8e-b687-46a9-a13e-fa8da809810f",
+              "record": "ec15f0e6-de73-4b04-8b1e-0bfbde3bedce",
+              "group": "0b132938-e833-4c3d-b752-94f061b12a27"
+            },
+            {
+              "id": "04ee2e54-1f37-46ea-a2c1-ebd4f5351452",
+              "modifier_name": "赵紫文",
+              "dept_belong_id": null,
+              "creator_name": "赵紫文",
+              "create_datetime": "2024-12-18 14:07:04",
+              "update_datetime": "2024-12-18 14:07:14",
+              "eval_standard": [
+                {
+                  "id": 9,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 18,
+                    "title": "LAB_L",
+                    "type": "NumberInput",
+                    "key": "lab_l",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 1,
+                    "category_name": "理化指标"
+                  }
+                },
+                {
+                  "id": 10,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 19,
+                    "title": "LAB_A",
+                    "type": "NumberInput",
+                    "key": "lab_a",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 1,
+                    "category_name": "理化指标"
+                  }
+                },
+                {
+                  "id": 11,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 20,
+                    "title": "LAB_B",
+                    "type": "NumberInput",
+                    "key": "lab_b",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 2,
+                    "category_name": "感官指标"
+                  }
+                },
+                {
+                  "id": 12,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 21,
+                    "title": "LAB",
+                    "type": "FieldsGroup",
+                    "key": "lab",
+                    "props": {
+                      "size": 8,
+                      "items": [
+                        {
+                          "id": 18,
+                          "key": "lab_l",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_L",
+                          "value": null,
+                          "attribute_type": "single"
+                        },
+                        {
+                          "id": 19,
+                          "key": "lab_a",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_A",
+                          "value": null,
+                          "attribute_type": "single"
+                        },
+                        {
+                          "id": 20,
+                          "key": "lab_b",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_B",
+                          "value": null,
+                          "attribute_type": "single"
+                        }
+                      ],
+                      "abstract": false,
+                      "required": false,
+                      "direction": "horizontal",
+                      "expanding": false,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 2,
+                    "category_name": "感官指标"
+                  }
+                }
+              ],
+              "sample": {
+                "id": "44c3659a-d774-4b6b-a9dc-e4d918e97104",
+                "name": "样品-2024121417030oe07o68",
+                "sn": "S2024121710",
+                "batch": ""
+              },
+              "eval_user": {
+                "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+                "name": "赵紫文",
+                "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa3938"
+              },
+              "description": "32",
+              "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+              "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+              "condition": "2",
+              "test_period": "1",
+              "current_period": "2",
+              "period_num": "1",
+              "start_time": "2025-01-02",
+              "value": {
+                "lab_l": "",
+                "lab_a": "",
+                "lab_b": "",
+                "lab": {
+                  "lab_l": "",
+                  "lab_a": "",
+                  "lab_b": ""
+                }
+              },
+              "experiment_theme": "58a9eb8e-b687-46a9-a13e-fa8da809810f",
+              "record": "ec15f0e6-de73-4b04-8b1e-0bfbde3bedce",
+              "group": "0b132938-e833-4c3d-b752-94f061b12a27"
+            },
+            {
+              "id": "e5cb1976-5138-40da-b662-21f755b0c1e9",
+              "modifier_name": "赵紫文",
+              "dept_belong_id": null,
+              "creator_name": "赵紫文",
+              "create_datetime": "2024-12-18 14:07:04",
+              "update_datetime": "2024-12-18 14:07:16",
+              "eval_standard": [
+                {
+                  "id": 9,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 18,
+                    "title": "LAB_L",
+                    "type": "NumberInput",
+                    "key": "lab_l",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 1,
+                    "category_name": "理化指标"
+                  }
+                },
+                {
+                  "id": 10,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 19,
+                    "title": "LAB_A",
+                    "type": "NumberInput",
+                    "key": "lab_a",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 1,
+                    "category_name": "理化指标"
+                  }
+                },
+                {
+                  "id": 11,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 20,
+                    "title": "LAB_B",
+                    "type": "NumberInput",
+                    "key": "lab_b",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 2,
+                    "category_name": "感官指标"
+                  }
+                },
+                {
+                  "id": 12,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 21,
+                    "title": "LAB",
+                    "type": "FieldsGroup",
+                    "key": "lab",
+                    "props": {
+                      "size": 8,
+                      "items": [
+                        {
+                          "id": 18,
+                          "key": "lab_l",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_L",
+                          "value": null,
+                          "attribute_type": "single"
+                        },
+                        {
+                          "id": 19,
+                          "key": "lab_a",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_A",
+                          "value": null,
+                          "attribute_type": "single"
+                        },
+                        {
+                          "id": 20,
+                          "key": "lab_b",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_B",
+                          "value": null,
+                          "attribute_type": "single"
+                        }
+                      ],
+                      "abstract": false,
+                      "required": false,
+                      "direction": "horizontal",
+                      "expanding": false,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 2,
+                    "category_name": "感官指标"
+                  }
+                }
+              ],
+              "sample": {
+                "id": "17e215a1-5648-4006-8b07-095ed77dd9e9",
+                "name": "样品-202412172138k4",
+                "sn": "S2024121720",
+                "batch": ""
+              },
+              "eval_user": {
+                "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+                "name": "赵紫文",
+                "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa3938"
+              },
+              "description": "43",
+              "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+              "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+              "condition": "2",
+              "test_period": "1",
+              "current_period": "2",
+              "period_num": "2",
+              "start_time": "2025-01-02",
+              "value": {
+                "lab_l": "",
+                "lab_a": "",
+                "lab_b": "",
+                "lab": {
+                  "lab_l": "",
+                  "lab_a": "",
+                  "lab_b": ""
+                }
+              },
+              "experiment_theme": "58a9eb8e-b687-46a9-a13e-fa8da809810f",
+              "record": "ec15f0e6-de73-4b04-8b1e-0bfbde3bedce",
+              "group": "0b132938-e833-4c3d-b752-94f061b12a27"
+            },
+            {
+              "id": "f023af7c-da67-4bb1-9a8a-59092da7f4d3",
+              "modifier_name": "赵紫文",
+              "dept_belong_id": null,
+              "creator_name": "赵紫文",
+              "create_datetime": "2024-12-18 14:07:04",
+              "update_datetime": "2024-12-18 14:07:18",
+              "eval_standard": [
+                {
+                  "id": 9,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 18,
+                    "title": "LAB_L",
+                    "type": "NumberInput",
+                    "key": "lab_l",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 1,
+                    "category_name": "理化指标"
+                  }
+                },
+                {
+                  "id": 10,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 19,
+                    "title": "LAB_A",
+                    "type": "NumberInput",
+                    "key": "lab_a",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 1,
+                    "category_name": "理化指标"
+                  }
+                },
+                {
+                  "id": 11,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 20,
+                    "title": "LAB_B",
+                    "type": "NumberInput",
+                    "key": "lab_b",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 2,
+                    "category_name": "感官指标"
+                  }
+                },
+                {
+                  "id": 12,
+                  "execute_standard": {
+                    "id": 6,
+                    "standard_code": "43523424",
+                    "standard_name": "测试标准12171421",
+                    "standard_type": "2"
+                  },
+                  "description": "",
+                  "internal_description": "",
+                  "reference_value": "",
+                  "attribute": {
+                    "id": 21,
+                    "title": "LAB",
+                    "type": "FieldsGroup",
+                    "key": "lab",
+                    "props": {
+                      "size": 8,
+                      "items": [
+                        {
+                          "id": 18,
+                          "key": "lab_l",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_L",
+                          "value": null,
+                          "attribute_type": "single"
+                        },
+                        {
+                          "id": 19,
+                          "key": "lab_a",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_A",
+                          "value": null,
+                          "attribute_type": "single"
+                        },
+                        {
+                          "id": 20,
+                          "key": "lab_b",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_B",
+                          "value": null,
+                          "attribute_type": "single"
+                        }
+                      ],
+                      "abstract": false,
+                      "required": false,
+                      "direction": "horizontal",
+                      "expanding": false,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "value": "",
+                  "unit": "",
+                  "update_datetime": "2024-12-17 14:21:45",
+                  "create_datetime": "2024-12-17 14:21:45",
+                  "category": {
+                    "id": 2,
+                    "category_name": "感官指标"
+                  }
+                }
+              ],
+              "sample": {
+                "id": "17e215a1-5648-4006-8b07-095ed77dd9e9",
+                "name": "样品-202412172138k4",
+                "sn": "S2024121720",
+                "batch": ""
+              },
+              "eval_user": {
+                "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+                "name": "赵紫文",
+                "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa3938"
+              },
+              "description": "34",
+              "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+              "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+              "condition": "2",
+              "test_period": "1",
+              "current_period": "2",
+              "period_num": "1",
+              "start_time": "2024-12-19",
+              "value": {
+                "lab_l": "",
+                "lab_a": "",
+                "lab_b": "",
+                "lab": {
+                  "lab_l": "",
+                  "lab_a": "",
+                  "lab_b": ""
+                }
+              },
+              "experiment_theme": "58a9eb8e-b687-46a9-a13e-fa8da809810f",
+              "record": "ec15f0e6-de73-4b04-8b1e-0bfbde3bedce",
+              "group": "0b132938-e833-4c3d-b752-94f061b12a27"
+            }
+          ],
+          "columns": [
+            {
+              "title": "理化指标",
+              "colKey": "category1",
+              "children": [
+                {
+                  "title": "LAB_L",
+                  "colKey": "value.lab_l",
+                  "attrs": {
+                    "id": 18,
+                    "title": "LAB_L",
+                    "type": "NumberInput",
+                    "key": "lab_l",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "minWidth": 100,
+                  "cell": "defaultValueSlot"
+                },
+                {
+                  "title": "LAB_A",
+                  "colKey": "value.lab_a",
+                  "attrs": {
+                    "id": 19,
+                    "title": "LAB_A",
+                    "type": "NumberInput",
+                    "key": "lab_a",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "minWidth": 100,
+                  "cell": "defaultValueSlot"
+                }
+              ]
+            },
+            {
+              "title": "感官指标",
+              "colKey": "category2",
+              "children": [
+                {
+                  "title": "LAB_B",
+                  "colKey": "value.lab_b",
+                  "attrs": {
+                    "id": 20,
+                    "title": "LAB_B",
+                    "type": "NumberInput",
+                    "key": "lab_b",
+                    "props": {
+                      "suffix": "%",
+                      "abstract": false,
+                      "required": false,
+                      "precision": null,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "minWidth": 100,
+                  "cell": "defaultValueSlot"
+                },
+                {
+                  "title": "LAB",
+                  "colKey": "value.lab",
+                  "attrs": {
+                    "id": 21,
+                    "title": "LAB",
+                    "type": "FieldsGroup",
+                    "key": "lab",
+                    "props": {
+                      "size": 8,
+                      "items": [
+                        {
+                          "id": 18,
+                          "key": "lab_l",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_L",
+                          "value": null,
+                          "attribute_type": "single"
+                        },
+                        {
+                          "id": 19,
+                          "key": "lab_a",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_A",
+                          "value": null,
+                          "attribute_type": "single"
+                        },
+                        {
+                          "id": 20,
+                          "key": "lab_b",
+                          "type": "NumberInput",
+                          "unit": null,
+                          "props": {
+                            "suffix": "%",
+                            "abstract": false,
+                            "required": false,
+                            "precision": null,
+                            "enablePrint": true
+                          },
+                          "title": "LAB_B",
+                          "value": null,
+                          "attribute_type": "single"
+                        }
+                      ],
+                      "abstract": false,
+                      "required": false,
+                      "direction": "horizontal",
+                      "expanding": false,
+                      "enablePrint": true
+                    },
+                    "value": null
+                  },
+                  "minWidth": 100,
+                  "cell": "defaultValueSlot"
+                }
+              ]
+            }
+          ],
+          "group": "0b132938-e833-4c3d-b752-94f061b12a27",
+          "designParams": {
+            "form": {
+              "sample_group": [
+                "17e215a1-5648-4006-8b07-095ed77dd9e9",
+                "44c3659a-d774-4b6b-a9dc-e4d918e97104"
+              ],
+              "index_type": 6,
+              "condition": "2",
+              "test_period": "1",
+              "start_datetime": "2024-12-19",
+              "current_period": "2",
+              "period_num": 2
+            },
+            "index_typeInfo": [
+              {
+                "id": 9,
+                "execute_standard": {
+                  "id": 6,
+                  "standard_code": "43523424",
+                  "standard_name": "测试标准12171421",
+                  "standard_type": "2"
+                },
+                "description": "",
+                "internal_description": "",
+                "reference_value": "",
+                "attribute": {
+                  "id": 18,
+                  "title": "LAB_L",
+                  "type": "NumberInput",
+                  "key": "lab_l",
+                  "props": {
+                    "suffix": "%",
+                    "abstract": false,
+                    "required": false,
+                    "precision": null,
+                    "enablePrint": true
+                  },
+                  "value": null
+                },
+                "value": "",
+                "unit": "",
+                "update_datetime": "2024-12-17 14:21:45",
+                "create_datetime": "2024-12-17 14:21:45",
+                "category": {
+                  "id": 1,
+                  "category_name": "理化指标"
+                }
+              },
+              {
+                "id": 10,
+                "execute_standard": {
+                  "id": 6,
+                  "standard_code": "43523424",
+                  "standard_name": "测试标准12171421",
+                  "standard_type": "2"
+                },
+                "description": "",
+                "internal_description": "",
+                "reference_value": "",
+                "attribute": {
+                  "id": 19,
+                  "title": "LAB_A",
+                  "type": "NumberInput",
+                  "key": "lab_a",
+                  "props": {
+                    "suffix": "%",
+                    "abstract": false,
+                    "required": false,
+                    "precision": null,
+                    "enablePrint": true
+                  },
+                  "value": null
+                },
+                "value": "",
+                "unit": "",
+                "update_datetime": "2024-12-17 14:21:45",
+                "create_datetime": "2024-12-17 14:21:45",
+                "category": {
+                  "id": 1,
+                  "category_name": "理化指标"
+                }
+              },
+              {
+                "id": 11,
+                "execute_standard": {
+                  "id": 6,
+                  "standard_code": "43523424",
+                  "standard_name": "测试标准12171421",
+                  "standard_type": "2"
+                },
+                "description": "",
+                "internal_description": "",
+                "reference_value": "",
+                "attribute": {
+                  "id": 20,
+                  "title": "LAB_B",
+                  "type": "NumberInput",
+                  "key": "lab_b",
+                  "props": {
+                    "suffix": "%",
+                    "abstract": false,
+                    "required": false,
+                    "precision": null,
+                    "enablePrint": true
+                  },
+                  "value": null
+                },
+                "value": "",
+                "unit": "",
+                "update_datetime": "2024-12-17 14:21:45",
+                "create_datetime": "2024-12-17 14:21:45",
+                "category": {
+                  "id": 2,
+                  "category_name": "感官指标"
+                }
+              },
+              {
+                "id": 12,
+                "execute_standard": {
+                  "id": 6,
+                  "standard_code": "43523424",
+                  "standard_name": "测试标准12171421",
+                  "standard_type": "2"
+                },
+                "description": "",
+                "internal_description": "",
+                "reference_value": "",
+                "attribute": {
+                  "id": 21,
+                  "title": "LAB",
+                  "type": "FieldsGroup",
+                  "key": "lab",
+                  "props": {
+                    "size": 8,
+                    "items": [
+                      {
+                        "id": 18,
+                        "key": "lab_l",
+                        "type": "NumberInput",
+                        "unit": null,
+                        "props": {
+                          "suffix": "%",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "title": "LAB_L",
+                        "value": null,
+                        "attribute_type": "single"
+                      },
+                      {
+                        "id": 19,
+                        "key": "lab_a",
+                        "type": "NumberInput",
+                        "unit": null,
+                        "props": {
+                          "suffix": "%",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "title": "LAB_A",
+                        "value": null,
+                        "attribute_type": "single"
+                      },
+                      {
+                        "id": 20,
+                        "key": "lab_b",
+                        "type": "NumberInput",
+                        "unit": null,
+                        "props": {
+                          "suffix": "%",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "title": "LAB_B",
+                        "value": null,
+                        "attribute_type": "single"
+                      }
+                    ],
+                    "abstract": false,
+                    "required": false,
+                    "direction": "horizontal",
+                    "expanding": false,
+                    "enablePrint": true
+                  },
+                  "value": null
+                },
+                "value": "",
+                "unit": "",
+                "update_datetime": "2024-12-17 14:21:45",
+                "create_datetime": "2024-12-17 14:21:45",
+                "category": {
+                  "id": 2,
+                  "category_name": "感官指标"
+                }
+              }
+            ]
+          }
+        },
+        "content": [
+          {
+            "type": "paragraph",
+            "attrs": {
+              "indent": null,
+              "textAlign": "left",
+              "lineHeight": 1.5,
+              "margin": {}
+            },
+            "content": [
+              {
+                "type": "text",
+                "text": " "
+              }
+            ]
+          }
+        ]
+      },
 
 
       {

@@ -85,7 +85,7 @@
           @menu-click="editor?.chain().focus().addSample_tables({is_integration:true}).run()"
         />
       </t-dropdown-item>  
-      <t-dropdown-item  v-if="false" divider>
+      <t-dropdown-item  divider>
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
           editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"

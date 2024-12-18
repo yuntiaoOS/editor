@@ -162,9 +162,13 @@ import {
   AddRectangleIcon,
   MinusRectangleIcon,
 } from 'tdesign-icons-vue-next';
-const emits = defineEmits(['update:node'])
+const emits = defineEmits(['update:nodeAttrs'])
 const props = defineProps({
   node: {
+    type: Object,
+    default: () => {}
+  },
+  nodeAttrs: {
     type: Object,
     default: () => {}
   },
@@ -205,11 +209,11 @@ const TextInputItem = {
   valueType: "String"
 }
 
-const _node = computed({
-  get: () => props.node,
+const _nodeAttrs = computed({
+  get: () => props.nodeAttrs,
   set: (value) => {
     // Update the node in the editor
-    emits('update:node', value)
+    emits('update:nodeAttrs', value)
   }
 })
 
@@ -261,56 +265,48 @@ const showFormFieldPanelView = ref(false);
 
 
 const updateTime = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.updateTime : '',
+  get: () => _nodeAttrs.value? _nodeAttrs.value.updateTime : '',
   set(value) {
-    _node.value.attrs.updateTime = value
-    emits('update:node', _node.value)
+    _nodeAttrs.value.updateTime = value
   },
 })
 
 const isChanged = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.isChanged : false,
+  get: () => _nodeAttrs.value? _nodeAttrs.value.isChanged : false,
   set(value) {
-    _node.value.attrs.isChanged = value
-    emits('update:node', _node.value)
+    _nodeAttrs.value.isChanged = value
   },
 })
 
 const change_log = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.change_log : '',
+  get: () => _nodeAttrs.value? _nodeAttrs.value.change_log : '',
   set(value) {
     console.log('-------150---change_log-----',value)
-    _node.value.attrs.change_log = value
-    emits('update:node', _node.value)
-    console.log('-------150---change_log-----',_node.value)
+    _nodeAttrs.value.change_log = value
   },
 })
 
 const is_integration = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.is_integration : false,
+  get: () => _nodeAttrs.value? _nodeAttrs.value.is_integration : false,
   set(value) {
-    _node.value.attrs.is_integration = value
-    emits('update:node', _node.value)
+    _nodeAttrs.value.is_integration = value
   },
 })
 
 const table_data = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.table_data : [],
+  get: () => _nodeAttrs.value? _nodeAttrs.value.table_data : [],
   set(value) {
     console.log('-------166---table_data-----',value)
-    _node.value.attrs.table_data = value
-    emits('update:node', _node.value)
-    console.log('-------166---table_data-----',_node.value)
+    _nodeAttrs.value.table_data = value
   },
 })
 
 const table_data_edit = ref([])
 
 const _title = computed({
-  get: () => _node.value&&_node.value.attrs? _node.value.attrs.title : `工艺${timeFormat(null, 'yyyymmddhhMM')}`,
+  get: () => _nodeAttrs.value? _nodeAttrs.value.title : `工艺${timeFormat(null, 'yyyymmddhhMM')}`,
   set(value) {
-    _node.value.attrs.title = value
-    emits('update:node', _node.value)
+    _nodeAttrs.value.title = value
   },
 })
 
@@ -385,9 +381,6 @@ const selectProcedureType = ref('append')
 const checkAll = computed(() => displayColumns.value.length === displayColumnsC.value.length);
 const indeterminate = computed(() => !!(displayColumns.value.length > displayColumnsC.value.length && displayColumnsC.value.length));
 
-const editableCellStateFunc = ()=> {
-  return !(_editedComponentType !== _node.value.type.name  && readOnly.value);
-}
 
 const rowEditFunc = (val,row)=>{
   console.log('--------212---------rowEditFunc: ', val, row)
@@ -449,8 +442,8 @@ const onExperimentalDesign = () => {
   console.log('--------on_experimental_designFunc--------189--------',from, to)
   props.editor?.commands.setTextSelection({ from , to: to + 1  })
   props.editor?.chain().focus().insertContent('<p></p><p></p>').run();
-  props.editor?.commands.addExperimental_designs({ customerParams: { is_select: true, technology: _node.value.attrs.id } })
-  // props.editor?.chain().focus().addExperimental_designs({ customerParams: { is_select: true, technology: _node.value.attrs.id } }).run()
+  props.editor?.commands.addExperimental_designs({ customerParams: { is_select: true, technology: _nodeAttrs.value.id } })
+  // props.editor?.chain().focus().addExperimental_designs({ customerParams: { is_select: true, technology: _nodeAttrs.value.id } }).run()
 }
 
 const getRaw_materialOptionsFunc = () => {

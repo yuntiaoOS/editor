@@ -22,8 +22,9 @@
             </t-space>
           </div>
         </template>
-        <template #expandedRow="{ row }">
-          <t-space direction="vertical" align="" style="width: 100%;">
+        <template #expandedRow="slotProps">
+          <TestRecordExpanded v-model="slotProps.row" ></TestRecordExpanded>
+          <t-space v-if="false" direction="vertical" align="" style="width: 100%;">
             <div class="more-detail">
               <t-divider align="left" dashed>样本参数</t-divider>
               <div v-for="(treeItem,index) in row.experimental_design.formItems" :key="index">
@@ -223,7 +224,6 @@ import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
 import { getEval_attribute_libraryListFetch,get_experiment_samplesListFetch,post_samples_create_manyFetch  } from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
-import component from '@/extensions/form/item/component';
 import { cloneDeep } from 'lodash-unified';
 import { shortId } from '@/utils/short-id'
 
@@ -697,7 +697,7 @@ const creatSample = async (row)=>{
     const res = await post_samples_create_manyFetch(params)
     if (res.data.code === 2000) {
       if (res.data.data && res.data.data.length > 0) {
-        const rowC = {...row, sn: res.data.data[0].sn,id: res.data.data[0].id}
+        const rowC = {...row, sn: res.data.data[0].sn,idC: res.data.data[0].id}
         const index = table_data.value.findIndex((rowT) => rowT.id === rowC.id)
         nextTick(() => {
           table_data.value.splice(index, 1, rowC)
