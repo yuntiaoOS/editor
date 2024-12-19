@@ -30,26 +30,32 @@ export const defaultNodes: NodeSerializer = {
   blockquote(state, node) {
     state.renderContent(node, { style: 'IntenseQuote' })
   },
-  code_block(state, node) {
+  codeBlock(state, node) {
     // TODO: something for code
     state.renderContent(node)
     state.closeBlock(node)
   },
-  horizontal_rule(state, node) {
+  horizontalRule(state, node) {
     // Kinda hacky, but this works to insert two paragraphs, the first with a break
     state.closeBlock(node, { thematicBreak: true })
     state.closeBlock(node)
   },
-  hard_break(state) {
+  hardBreak(state) {
     state.addRunOptions({ break: 1 })
   },
-  ordered_list(state, node) {
-    state.renderList(node, 'numbered')
-  },
-  bullet_list(state, node) {
+  taskList(state, node) {
     state.renderList(node, 'bullets')
   },
-  list_item(state, node) {
+  taskItem(state, node) {
+    state.renderListItem(node)
+  },
+  orderedList(state, node) {
+    state.renderList(node, 'numbered')
+  },
+  bulletList(state, node) {
+    state.renderList(node, 'bullets')
+  },
+  listItem(state, node) {
     state.renderListItem(node)
   },
   // Presentational

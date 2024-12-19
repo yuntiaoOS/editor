@@ -312,14 +312,14 @@ export class DocxSerializerState {
     const { getCellOptions, getRowOptions, tableOptions } = opts
     const actualChildren = this.children
     const rows: TableRow[] = []
-
+    console.log('-----table--------315------------------',node)
     // FIXME: node.content is a Fragment
     // @ts-expect-error, typing is probably wrong
-    for (const row of node.content) {
+    for (const row of node.content.content) {
       const cells: TableCell[] = []
       // Check if all cells are headers in this row
       let tableHeader = true
-      for (const cell of row.content) {
+      for (const cell of row.content.content) {
         if (cell.type.name !== 'table_header') {
           tableHeader = false
           break
@@ -327,7 +327,7 @@ export class DocxSerializerState {
       }
       // This scales images inside of tables
       this.maxImageWidth = MAX_IMAGE_WIDTH / row.content.childCount
-      for (const cell of row.content) {
+      for (const cell of row.content.content) {
         this.children = []
         this.renderContent(cell)
         const tableCellOpts: Mutable<ITableCellOptions> = {

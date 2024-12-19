@@ -135,7 +135,7 @@
         <template #type-slot-operate="{ col, row }">
           <div style="display: flex; align-items: center;gap: 10px; ">
             <t-link theme="primary" hover="color" @click="expandDataFunc(row)">
-              评测记录
+              记录
             </t-link>
             <t-switch v-model="row.is_sample" :disabled="row.is_sample" :label="['已出样', '未出样']" @change="creatSample(row)"></t-switch>
             <!-- <div v-else>
@@ -385,7 +385,7 @@ const columnsCheckboxs = ref([])
 
 const displayColumns = ref([]);
 const displayColumnsC = ref([]);
-displayColumns.value = ['name','sn','experimental_design', 'count','description','is_sample', 'operate']
+displayColumns.value = ['name','sn','experimental_design', 'weight','description','is_sample', 'operate']
 const frontColumns = [
   {
     colKey: 'name',
@@ -500,9 +500,58 @@ columns.value = [
   //   minWidth: 400,
   //   cell: 'slot-experimental_design'
   // },
+  // {
+  //   colKey: 'count',
+  //   title: '数量',
+  //   width: 80,
+  //   edit: {
+  //     // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+  //     // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+  //     component: TInputNumber,
+  //     // props, 透传全部属性到 Input 组件
+  //     props: {
+  //       clearable: true,
+  //       autofocus: true,
+  //       autoWidth: true,
+  //       theme:"normal",
+  //       // suffix:"kg"
+  //     },
+  //     // 校验规则，此处同 Form 表单
+  //     rules: [
+  //       {
+  //         required: true,
+  //         message: '不能为空',
+  //       },
+  //     ],
+  //     showEditIcon: true,
+  //     abortEditOnEvent: ['onEnter','onBlur'],
+  //     onEdited: (context ) => {
+  //       const newData = [...table_data.value];
+  //       newData.splice(context.rowIndex, 1, context.newRowData);
+  //       table_data.value = newData;
+  //       console.log('------552------Edit firstName:', context,table_data.value);
+  //       useMessage('success' ,'Success');
+  //     },
+  //     // 触发校验的时机（when to validate)
+  //     validateTrigger: 'change',
+  //     // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+  //     on: (editContext ) => ({
+  //       onBlur: (ctx ) => {
+  //         console.log('失去焦点', editContext);
+  //         ctx?.e?.preventDefault();
+  //       },
+  //       onEnter: (ctx ) => {
+  //         ctx?.e?.preventDefault();
+  //         console.log('onEnter', ctx);
+  //       },
+  //       // 默认是否为编辑状态
+  //       defaultEditable: false,
+  //     }),
+  //   },
+  // },
   {
-    colKey: 'count',
-    title: '数量/g',
+    colKey: 'weight',
+    title: '质量/kg',
     width: 80,
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
@@ -514,7 +563,7 @@ columns.value = [
         autofocus: true,
         autoWidth: true,
         theme:"normal",
-        suffix:"g"
+        suffix:"kg"
       },
       // 校验规则，此处同 Form 表单
       rules: [
@@ -549,67 +598,6 @@ columns.value = [
       }),
     },
   },
-  // {
-  //   colKey: 'is_sample',
-  //   title: '是否出样',
-  //   width: 100,
-  //   cell: (h, { row, rowIndex }) => {
-  //     return h(TSwitch, {
-  //       modelValue: row.is_sample,  // 使用 modelValue 绑定数据
-  //       label:['已出样', '未出样'],
-  //       'onUpdate:modelValue': (e) => {  // 监听 update:modelValue 事件
-  //         console.log('switch-----', e);
-  //         const newData = [...table_data.value];
-  //         newData[rowIndex].is_sample = e;
-  //         table_data.value = newData;
-  //         useMessage('success', 'Success');
-  //       },
-  //       style: {
-  //         'margin-left': '10px',
-  //       },
-  //     });
-  //   },
-  //   // edit: {
-  //   //   component: TSwitch,
-  //   //   props: {
-  //   //     clearable: true,
-  //   //     autofocus: true,
-  //   //     // autoWidth: true,
-  //   //   },
-  //   //   // 校验规则，此处同 Form 表单
-  //   //   rules: [
-  //   //     {
-  //   //       required: false,
-  //   //       message: '不能为空',
-  //   //     },
-  //   //   ],
-  //   //   showEditIcon: true,
-  //   //   abortEditOnEvent: ['onEnter','onBlur'],
-  //   //   onEdited: (context ) => {
-  //   //     const newData = [...table_data.value];
-  //   //     newData.splice(context.rowIndex, 1, context.newRowData);
-  //   //     table_data.value = newData;
-  //   //     console.log('------552------Edit firstName:', context,table_data.value);
-  //   //     useMessage('success' ,'Success');
-  //   //   },
-  //   //   // 触发校验的时机（when to validate)
-  //   //   validateTrigger: 'change',
-  //   //   // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
-  //   //   on: (editContext ) => ({
-  //   //     onBlur: (ctx ) => {
-  //   //       console.log('失去焦点', editContext);
-  //   //       ctx?.e?.preventDefault();
-  //   //     },
-  //   //     onEnter: (ctx ) => {
-  //   //       ctx?.e?.preventDefault();
-  //   //       console.log('onEnter', ctx);
-  //   //     },
-  //   //     // 默认是否为编辑状态
-  //   //     defaultEditable: true,
-  //   //   }),
-
-  //   // }
-  // },
   {
     colKey: 'description',
     title: '描述',
@@ -681,7 +669,7 @@ const columnEditFunc = ()=>{
 }
 
 const creatSample = async (row)=>{
-  console.log('------row.is_sample--------------',row.is_sample)
+  console.log('------row.is_sample--------------',row)
   const $key_data = JSON.parse( localStorage.getItem('key_data'))
   const experiment_record = $key_data?.experiment_record
   const experiment_theme =  $key_data?.experiment_theme
@@ -690,6 +678,10 @@ const creatSample = async (row)=>{
     const params = {
       experiment_theme: experiment_theme?.id,
       record: experiment_record?.id,
+      type: '小试',
+      source: '自制',
+      count: row.count,
+      weight: row.weight,
       data: [
           {name: row.name, json_data: row}
       ]
@@ -697,8 +689,8 @@ const creatSample = async (row)=>{
     const res = await post_samples_create_manyFetch(params)
     if (res.data.code === 2000) {
       if (res.data.data && res.data.data.length > 0) {
-        const rowC = {...row, sn: res.data.data[0].sn,idC: res.data.data[0].id}
-        const index = table_data.value.findIndex((rowT) => rowT.id === rowC.id)
+        const rowC = {...row, sn: res.data.data[0].sn,id: res.data.data[0].id,row_id: row.id}
+        const index = table_data.value.findIndex((rowT) => rowT.id === rowC.row_id)
         nextTick(() => {
           table_data.value.splice(index, 1, rowC)
         })
@@ -815,7 +807,7 @@ const on_select_designFunc = ()=>{
         id: uuid(),
         name: `样品-${timeFormat(null,'yymmddhhMM')}${shortId(2)}`,
         sn: `SF-${timeFormat(null,'yymmddhhMM')}${shortId(2)}`,
-        count: 1,
+        weight: 1,
         is_sample: false,
         experimental_design: cloneDeep( ele ),
         record_table: {

@@ -241,8 +241,8 @@ const raw_materialOptions = ref([])
 const readOnly = computed(() => options.value.document?.readOnly)
 const _editedComponentType = computed(() => editedComponentType.value)
 
-const experiment_record = computed(() => $key_data?.experiment_record)
-const experiment_theme = computed(() => $key_data?.experiment_theme)
+const experiment_record = computed(() => _nodeAttrs.value?.experiment_record ? _nodeAttrs.value?.experiment_record : $key_data.experiment_record)
+const experiment_theme = computed(() => _nodeAttrs.value?.experiment_theme ? _nodeAttrs.value?.experiment_theme : $key_data.experiment_theme)
 
 
 
@@ -447,6 +447,9 @@ const onExperimentalDesign = () => {
 }
 
 const getRaw_materialOptionsFunc = () => {
+  if (!props.editor) {
+    return
+  }
   const docD = props.editor.getJSON()
   if (docD) {
     // 物料表

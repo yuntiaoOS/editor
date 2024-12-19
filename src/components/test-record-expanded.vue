@@ -1,7 +1,7 @@
 <template>
   <t-space direction="vertical" align="" style="width: 100%;">
-    <div class="more-detail">
-      <t-divider align="left" dashed>样本参数</t-divider>
+    <div v-if="viewType === 'nodeView'" class="more-detail">
+      <t-divider align="left" dashed>样品参数</t-divider>
       <div v-for="(treeItem,index) in _value.experimental_design.formItems" :key="index">
         <div><span :style="{color: 'var(--umo-text-color-primary)',fontWeight: 'bold' ,lineHeight:'32px'}">{{ treeItem.title }}</span></div>
         <t-row v-for="(item,indexF) in treeItem.formItems" :key="indexF" style="margin-left:30px;line-height: 32px ;">
@@ -58,7 +58,7 @@
       
     </div>
     <div>
-      <t-divider align="left" dashed>试验记录</t-divider>
+      <t-divider align="left" dashed>评测记录</t-divider>
       <t-table  
         ref="tableRef"  :loading="loading"  
         row-key="id" :data="_value.record_table.table_data" :columns="_value.record_table.columns" resizable
@@ -138,6 +138,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
     required: true,
+  },
+  viewType: {
+    type: String,
+    default: 'nodeView',
   },
 })
  

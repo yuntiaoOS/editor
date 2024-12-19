@@ -234,8 +234,8 @@ const $dict_data = JSON.parse( localStorage.getItem('dict_data') )
 console.log('-----------113------------------',$dict_data);
 
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
-const experiment_record = computed(() => $key_data?.experiment_record)
-const experiment_theme = computed(() => $key_data?.experiment_theme)
+const experiment_record = computed(() => _nodeAttrs.value?.experiment_record ? _nodeAttrs.value?.experiment_record : $key_data.experiment_record)
+const experiment_theme = computed(() => _nodeAttrs.value?.experiment_theme ? _nodeAttrs.value?.experiment_theme : $key_data.experiment_theme)
 
 const test_condition_options = $dict_data['test_conditions'];
 const evaluating_test_period_options = $dict_data['evaluating_test_period'];
@@ -813,6 +813,15 @@ const initData = async () => {
         return ele
       }
     })
+
+    if (!_nodeAttrs.value.columns || _nodeAttrs.value.columns.length === 0) {
+      const { columns } = makeTableDataAndColumnFunc(res.data.data,selectTableForm.value,res.data.data[0].eval_standard) 
+      _columns.value = [...columns]
+      setTimeout(() => {
+        displayColumns.value = _columns.value.map(ele => ele.colKey);
+        tableRef.value.refreshTable();
+      }, 100);
+    }
     console.log('----------initData-----777---------',_table_data.value)
     if (isChanged.value) { isChanged.value = false }
   }
@@ -864,9 +873,14 @@ onMounted(async () => {
       await handleIntegration();
     }
   } else {
-    setTimeout(() => {
-      select_design_visible.value = true;
-    }, 100);
+    if (group.value && group.value.length > 0 &&( !_table_data.value || _table_data.value?.length === 0)) {
+      console.log('----------change_log.value1095---------', group.value);
+      await initData();
+    } else {
+      setTimeout(() => {
+        select_design_visible.value = true;
+      }, 100);
+    }
   }
   get_experiment_samplesListFetch({experiment_theme: experiment_theme.value?.id, record: experiment_record.value?.id}).then((res)=>{
     if (res.data.code === 2000) {

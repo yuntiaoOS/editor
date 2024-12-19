@@ -18,26 +18,26 @@
         </t-avatar-group> -->
         <div style="display:flex;align-items: center;gap:20px;padding:5px;">
           <t-popup 
-            v-if="experiment_record.participants"
+            v-if="experiment_record.experimenter"
             trigger="click"
             placement="bottom"
             destroyOnClose
             hideEmptyPopup
           >
             <t-icon name="usergroup" size="14px" style="color: #a0a0a0"/> 
-            <span class="Font12Color" style="margin-left:4px;">{{formatParticipants(experiment_record.participants)}} </span>
+            <span class="Font12Color" style="margin-left:4px;">{{formatParticipants(experiment_record.experimenter)}} </span>
             <div style="" > </div>
             <template #content>
               <div style="padding:10px;">
-                <div v-if="experiment_record.participants" style="padding-bottom: 4px;" >
-                  <span class="Font12Color">编辑者（{{experiment_record.participants.length}}）</span>
+                <div v-if="experiment_record.experimenter" style="padding-bottom: 4px;" >
+                  <span class="Font12Color">编辑者（{{experiment_record.experimenter.length}}）</span>
                 </div>
-                <div v-for=" participant in experiment_record.participants " :key="participant.id" style="padding-bottom: 6px;">
+                <div v-for=" participant in experiment_record.experimenter " :key="participant.id" style="padding-bottom: 6px;">
                   <t-space size="10px">
                     <t-avatar size="20px" shape="round" :image="participant.avatar"> {{participant.name}} </t-avatar>
                     <span class="Font12Color" >{{participant.name}}</span>
                     <t-tag 
-                      v-if="participant.is_creator" style="margin-left:16px;"
+                      v-if="participant.id === experiment_record.creator" style="margin-left:16px;"
                       theme="primary" size="small" shape="round" variant="outline">创建者</t-tag>
                   </t-space>
                 </div>
@@ -46,24 +46,24 @@
             </template> 
 
           </t-popup>
-          <div ><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{experiment_record.create_datetime}}</span> </div>
+          <div ><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{experiment_record.update_datetime}}</span> </div>
         </div>
         <t-popup 
-          v-if="experiment_record.participants"
+          v-if="experiment_record.experimenter"
           trigger="click"
           placement="bottom"
           destroyOnClose
           hideEmptyPopup
         >
           <t-icon name="book-open" size="14px" style="color: #a0a0a0"/> 
-          <span class="Font12Color" style="margin-left:4px;">{{experiment_record.participants.length}} </span>
+          <span class="Font12Color" style="margin-left:4px;">{{experiment_record.experimenter.length}} </span>
           <div style="" > </div>
           <template #content>
-            <div v-if="experiment_record.participants" style="padding:10px;">
+            <div v-if="experiment_record.experimenter" style="padding:10px;">
               <div style="padding-bottom: 4px;">
-                <span class="Font12Color">阅读者（{{experiment_record.participants.length}}）</span>
+                <span class="Font12Color">阅读者（{{experiment_record.experimenter.length}}）</span>
               </div>
-              <div v-for=" participant in experiment_record.participants " :key="participant.id" style="padding-bottom: 6px;">
+              <div v-for=" participant in experiment_record.experimenter " :key="participant.id" style="padding-bottom: 6px;">
                 <t-space size="10px">
                   <t-avatar size="20px" shape="round" :image="participant.avatar"> {{participant.name}} </t-avatar>
                   <span class="Font12Color" >{{participant.name}}</span>
