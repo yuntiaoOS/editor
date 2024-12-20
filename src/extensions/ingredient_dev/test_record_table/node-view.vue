@@ -222,7 +222,7 @@
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
-import { getEval_attribute_libraryListFetch,get_experiment_samplesListFetch,post_samples_create_manyFetch  } from '@/api/experiment'
+import { getEval_attribute_libraryListFetch,get_ingredient_dev_sampleListFetch,post_ingredient_dev_sample_fetch  } from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
 import { cloneDeep } from 'lodash-unified';
 import { shortId } from '@/utils/short-id'
@@ -683,10 +683,10 @@ const creatSample = async (row)=>{
       count: row.count,
       weight: row.weight,
       data: [
-          {name: row.name, json_data: row}
+          {name: row.name, value: row}
       ]
     }
-    const res = await post_samples_create_manyFetch(params)
+    const res = await post_ingredient_dev_sample_fetch(params)
     if (res.data.code === 2000) {
       if (res.data.data && res.data.data.length > 0) {
         const rowC = {...row, sn: res.data.data[0].sn,id: res.data.data[0].id,row_id: row.id}
@@ -859,7 +859,7 @@ const initData = async () => {
     group: group.value,
   }
   console.log('----------initData-----297---------',params)
-  const res = await get_experiment_samplesListFetch(params)
+  const res = await get_ingredient_dev_sampleListFetch(params)
   loading.value = false
   if (res.data.code === 2000 && res.data.data.length > 0) {
     table_data.value = res.data.data

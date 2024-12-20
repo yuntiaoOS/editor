@@ -73,8 +73,8 @@
           <t-option v-for="item in sample_group_options" :key="item.id" :value="item.id" :label="item.name"></t-option>
         </t-select>
       </t-form-item>
-      <t-form-item label="执行标准" name="index_type">
-        <t-select v-model="selectTableForm.index_type" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
+      <t-form-item label="执行标准" name="eval_standard">
+        <t-select v-model="selectTableForm.eval_standard" borderless placeholder="请选择" style="width: 100%;" clearable filterable >
           <t-option v-for="item in eval_execute_standardList" :key="item.id" :value="item.id" :label="item.standard_name"></t-option>
         </t-select>
       </t-form-item>
@@ -126,7 +126,7 @@
 
 <script setup lang="jsx">
 import { v4 as uuid } from 'uuid'
-import { getEval_execute_standardListFetch,getExecute_standard_itemInfoFetch,get_experiment_samples_groupsFetch,get_experiment_samplesListFetch,put_experiment_evaluation_fetch,delete_experiment_evaluationFetch, get_experiment_evaluationListFetch,post_experiment_evaluation_fetch } from '@/api/experiment'
+import { getEval_execute_standardListFetch,getExecute_standard_itemInfoFetch,get_ingredient_dev_sampleListFetch,put_experiment_evaluation_fetch,delete_experiment_evaluationFetch, get_experiment_evaluationListFetch,post_experiment_evaluation_fetch } from '@/api/experiment'
 import xmInput from '@/components/xm-input.vue';
 import { timeFormat } from '@/utils/time-ago'
 import { getOrg_memberFetch } from '@/api/index'
@@ -564,7 +564,7 @@ const select_design_form = ref()
 const select_design_visible = ref(false)
 const selectTableForm = ref({
   sample_group: [],
-  index_type: '',
+  eval_standard: '',
   condition: '',
   test_period: evaluating_test_period_options&&evaluating_test_period_options.length > 0 ? evaluating_test_period_options[0].value : '',
   start_datetime: '',
@@ -576,7 +576,7 @@ const eval_execute_standardList = ref([]);
 
 const FORM_RULES = { 
   sample_group: [{ required: true, message: '必填' ,trigger: ['change'] }],
-  index_type: [{ required: true, message: '必填' ,trigger: ['blur'] }],
+  eval_standard: [{ required: true, message: '必填' ,trigger: ['blur'] }],
   condition: [{ required: true, message: '必填' ,trigger: ['blur'] }],
   test_period: [{ required: true, message: '必填' ,trigger: ['blur'] }],
   start_datetime: [{ required: true, message: '必填' ,trigger: ['blur'] }],
@@ -638,17 +638,17 @@ const onFormChange = (row, col)=>{
   editdRow.value = row;
 }
 
-const makeTableDataAndColumnFunc = (tableData, selectTableForm, index_typeInfo) => {
-  console.log('-----478-----makeTableDataAndColumnFunc------------', selectTableForm, index_typeInfo);
+const makeTableDataAndColumnFunc = (tableData, selectTableForm, eval_standardInfo) => {
+  console.log('-----478-----makeTableDataAndColumnFunc------------', selectTableForm, eval_standardInfo);
   const table_data = tableData.map(ele => ({
     ...ele,
-    value: index_typeInfo.reduce((acc, { attribute }) => {
+    value: eval_standardInfo.reduce((acc, { attribute }) => {
       acc[attribute.key] = attribute.group && attribute.group.length > 0 ? {} : '';
       return acc;
     }, {})
   }));
 
-  const groupedData = index_typeInfo.reduce((acc, item) => {
+  const groupedData = eval_standardInfo.reduce((acc, item) => {
     const { id: categoryId, category_name: categoryName } = item.category;
     if (!acc[categoryId]) {
       acc[categoryId] = { id: categoryId, category_name: categoryName, children: [] };
@@ -702,7 +702,7 @@ const on_select_designFunc = ()=>{
         useMessage('success',res.data.msg)
         updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
         select_design_visible.value = false
-        designParams.value = {form: selectTableForm.value,index_typeInfo:res.data.data.item  }
+        designParams.value = {form: selectTableForm.value,eval_standardInfo:res.data.data.item  }
         const { table_data, columns } = makeTableDataAndColumnFunc(res.data.data.data,selectTableForm.value,res.data.data.item) 
         _columns.value = [...columns]
         // _table_data.value= [...table_data]
@@ -787,8 +787,8 @@ function processValueItems(items) {
 const initData = async () => {
   loading.value = true
   const params = {
-    experiment_theme: experiment_theme.value?.id,
-    record: experiment_record.value?.id,
+    // experiment_theme: experiment_theme.value?.id,
+    // record: experiment_record.value?.id,
     group: group.value,
   }
   console.log('----------initData-----297---------',params)
@@ -882,7 +882,7 @@ onMounted(async () => {
       }, 100);
     }
   }
-  get_experiment_samplesListFetch({experiment_theme: experiment_theme.value?.id, record: experiment_record.value?.id}).then((res)=>{
+  get_ingredient_dev_sampleListFetch({experiment_theme: experiment_theme.value?.id, record: experiment_record.value?.id}).then((res)=>{
     if (res.data.code === 2000) {
       sample_group_options.value = res.data.data
     }else{

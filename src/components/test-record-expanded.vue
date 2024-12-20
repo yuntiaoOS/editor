@@ -129,7 +129,7 @@ import { getFieldValue } from '@/utils/index';
 import { cloneDeep } from 'lodash-unified';
 import { shortId } from '@/utils/short-id'
 import { v4 as uuid } from 'uuid'
-import { getEval_attribute_libraryListFetch,get_experiment_samplesListFetch,post_samples_create_manyFetch  } from '@/api/experiment'
+import { getEval_attribute_libraryListFetch,get_ingredient_dev_sampleListFetch,post_ingredient_dev_sample_fetch  } from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
 
 const emits = defineEmits(['update:modelValue', 'change','blur','enter'])

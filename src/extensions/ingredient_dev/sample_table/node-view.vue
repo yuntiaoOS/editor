@@ -87,7 +87,7 @@
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
-import { getIngredient_dev_experimentListFetch,post_experiment_samples_fetch,delete_experiment_samplesFetch,get_experiment_samplesListFetch ,put_experiment_samples_fetch } from '@/api/experiment'
+import { getIngredient_dev_experimentListFetch,post_ingredient_dev_sample_fetch,delete_ingredient_dev_sampleFetch,get_ingredient_dev_sampleListFetch ,put_ingredient_dev_sample_fetch } from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
@@ -182,7 +182,7 @@ const onSubmit = async (row)=> {
       count: '0',
     }]
   }
-  const res = await post_experiment_samples_fetch(params)
+  const res = await post_ingredient_dev_sample_fetch(params)
   console.log('--------on_experimental_designFunc--------180--------',params,_designParams.value,designResult.value)
   if (res.data.code === 2000) {
     console.log('--------on_experimental_designFunc--------183--------',editor.state)
@@ -202,7 +202,7 @@ const onDelete = async(row) => {
     group: group.value,
   }
   isChanged.value = true
-  const res = await delete_experiment_samplesFetch(row.id,params)
+  const res = await delete_ingredient_dev_sampleFetch(row.id,params)
   if (res.data.code === 2000) {
     useMessage('success' ,res.data.msg);
     // group.value =  res.data.data.group
@@ -251,7 +251,7 @@ columns.value = [
           group: group.value
         }
         isChanged.value = true
-        const res = await put_experiment_samples_fetch(context.row.id,params)
+        const res = await put_ingredient_dev_sample_fetch(context.row.id,params)
         if (res.data.code === 2000) {
           useMessage('success' ,res.data.msg);
           group.value =  res.data.data.group
@@ -317,7 +317,7 @@ columns.value = [
           group: group.value
         }
         isChanged.value = true
-        const res = await put_experiment_samples_fetch(context.row.id,params)
+        const res = await put_ingredient_dev_sample_fetch(context.row.id,params)
         if (res.data.code === 2000) {
           useMessage('success' ,res.data.msg);
           group.value =  res.data.data.group
@@ -375,7 +375,7 @@ columns.value = [
           group: group.value
         }
         isChanged.value = true
-        const res = await put_experiment_samples_fetch(context.row.id,params)
+        const res = await put_ingredient_dev_sample_fetch(context.row.id,params)
         if (res.data.code === 2000) {
           useMessage('success' ,res.data.msg);
           group.value =  res.data.data.group
@@ -435,7 +435,7 @@ const initData = async () => {
     group: group.value,
   }
   console.log('----------initData-----297---------',params)
-  const res = await get_experiment_samplesListFetch(params)
+  const res = await get_ingredient_dev_sampleListFetch(params)
   loading.value = false
   if (res.data.code === 2000 && res.data.data.length > 0) {
     table_data.value = res.data.data

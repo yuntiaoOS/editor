@@ -16,19 +16,19 @@ const Api = {
   material_multiple_delete: '/ingredient_dev/experiment/material/multiple_delete/', //'试验原料版本列表-批量删除
   experiment_process: '/ingredient_dev/experiment/process/', //工艺、操作属性
   get_assign_record_process_data: '/ingredient_dev/experiment/process/get_assign_record_process_data/', //工艺详情get接口
-  experiment_samples:'/ingredient_dev/experiment/samples/', //样品
-  experiment_evaluation: '/ingredient_dev/experiment/evaluation/', //实验数据
-  experiment_samples_groups: '/ingredient_dev/experiment/samples/groups/', //样品表组接口
-  samples_create_many: '/ingredient_dev/experiment/samples/create_many/' , //样品创建
-
+  experiment_evaluation: '/ingredient_dev/evaluation/', //实验数据
+  ingredient_dev_sample: '/ingredient_dev/sample/' , //样品
+  record_history: '/ingredient_dev/experiment/record_history/', //试验记录历史
 };
-/*-------------------------------------样品表组接口------------------------------------------*/
-export function post_samples_create_manyFetch(params?: any) {
-  return request.post({url: `${Api.samples_create_many}`,data:params});
+/*-------------------------------------试验记录历史--------------------------------------------*/
+export function get_record_history_versionsFetch(params?: any) {
+  return request.get({url: `${Api.record_history}history_versions/`,params});
 }
-export function get_experiment_samples_groupsFetch(params?: any) {
-  return request.get({url: `${Api.experiment_samples_groups}`,params});
+
+export function get_record_history_infoFetch(id:string,params?: any) {
+  return request.get({url: `${Api.record_history}${id}/`,params});
 }
+
 /*-------------------------------------实验-数据--------------------------------------------*/
 export function get_experiment_evaluation_infoFetch(id:string,params?: any) {
   return request.get({url: `${Api.experiment_evaluation}${id}/`,params});
@@ -46,20 +46,20 @@ export function delete_experiment_evaluationFetch(id:string,params: any) {
   return request.delete( { url:`${Api.experiment_evaluation}${id}/`, params });
 }
 /*-------------------------------------实验-样品--------------------------------------------*/
-export function get_experiment_samples_infoFetch(id:string,params?: any) {
-  return request.get({url: `${Api.experiment_samples}${id}/`,params});
+export function get_ingredient_dev_sample_infoFetch(id:string,params?: any) {
+  return request.get({url: `${Api.ingredient_dev_sample}${id}/`,params});
 }
-export function get_experiment_samplesListFetch(params?: any) {
-  return request.get({url: Api.experiment_samples,params});
+export function get_ingredient_dev_sampleListFetch(params?: any) {
+  return request.get({url: Api.ingredient_dev_sample,params});
 }
-export function post_experiment_samples_fetch(params: any) {
-  return request.post({ url: Api.experiment_samples, data: params });
+export function post_ingredient_dev_sample_fetch(params: any) {
+  return request.post({ url: Api.ingredient_dev_sample, data: params });
 }
-export function put_experiment_samples_fetch(id:string,params: any) {
-  return request.put({ url:`${Api.experiment_samples}${id}/`, data: params });
+export function put_ingredient_dev_sample_fetch(id:string,params: any) {
+  return request.put({ url:`${Api.ingredient_dev_sample}${id}/`, data: params });
 }
-export function delete_experiment_samplesFetch(id:string,params: any) {
-  return request.delete( { url:`${Api.experiment_samples}${id}/`, params });
+export function delete_ingredient_dev_sampleFetch(id:string,params: any) {
+  return request.delete( { url:`${Api.ingredient_dev_sample}${id}/`, params });
 }
 /*-------------------------------------实验工艺--------------------------------------------*/
 export function get_assign_record_process_dataFetch(params?: any) {

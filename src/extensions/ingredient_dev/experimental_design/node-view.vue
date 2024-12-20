@@ -100,7 +100,7 @@
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
-import { getIngredient_dev_experimentListFetch,post_experiment_samples_fetch } from '@/api/experiment'
+import { getIngredient_dev_experimentListFetch,post_ingredient_dev_sample_fetch } from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
 import { cloneDeep } from 'lodash-unified';
 
@@ -303,7 +303,7 @@ const on_experimental_designFunc = async ()=>{
       values: _designParams.value.filter(ele=> ele.check).map(ele=> ele.key),
       data: table_data
     }
-    const res = await post_experiment_samples_fetch(params)
+    const res = await post_ingredient_dev_sample_fetch(params)
     console.log('--------on_experimental_designFunc--------180--------',params,selectData,_designParams.value,designResult.value)
     if (res.data.code === 2000) {
       console.log('--------on_experimental_designFunc--------183--------',editor.state)

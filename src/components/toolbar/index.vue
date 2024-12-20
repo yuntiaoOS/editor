@@ -80,7 +80,8 @@
                 @click="saveContent"
                 v-text="t('save.text')"
               ></t-button>
-              <t-button
+              <t-button 
+                v-if="false"
                 size="small"
                 variant="outline"
                 @click="setContentFromCache"

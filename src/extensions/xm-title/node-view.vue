@@ -25,7 +25,7 @@
             hideEmptyPopup
           >
             <t-icon name="usergroup" size="14px" style="color: #a0a0a0"/> 
-            <span class="Font12Color" style="margin-left:4px;">{{formatParticipants(experiment_record.experimenter)}} </span>
+            <span class="Font12Color" style="margin-left:4px;cursor: pointer;">{{formatParticipants(experiment_record.experimenter)}} </span>
             <div style="" > </div>
             <template #content>
               <div style="padding:10px;">
@@ -46,27 +46,67 @@
             </template> 
 
           </t-popup>
-          <div ><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{experiment_record.update_datetime}}</span> </div>
+          <div >
+            <t-popup 
+            v-if="historyData"
+            trigger="click"
+            placement="bottom"
+            destroyOnClose
+            hideEmptyPopup
+          >
+            <span style="cursor: pointer;"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{ current_update_datetime}}</span> </span> 
+            <template #content>
+              <div style="padding:10px;">
+                <t-list style="height: 300px" :scroll="{ type: 'virtual' }" >
+                  <t-list-item v-for="(history, index) in historyData" :key="index">
+                    <t-space size="10px" style="cursor: pointer;">
+                      <t-avatar size="20px" shape="round" :image="history.history_user.avatar"> {{history.history_user.name}} </t-avatar>
+                      <span class="Font12Color" >{{history.history_user.name}}</span>
+                      <span class="Font12Color" >{{timeAgo(history.create_datetime)}}</span>
+                    </t-space>
+                    <template #action>
+                      <span>
+                        <t-link theme="primary" hover="color" style="margin-left: 16px" @click="transformDocContent(history)">还原</t-link>
+                      </span>
+                    </template>
+                  </t-list-item>                 
+                </t-list>
+                <!-- <div v-for=" history in historyData " :key="history.id" style="padding-bottom: 6px;" @click="transformDocContent(history)">
+                  <t-space size="10px" style="cursor: pointer;">
+                    <t-avatar size="20px" shape="round" :image="history.history_user.avatar"> {{history.history_user.name}} </t-avatar>
+                    <span class="Font12Color" >{{history.history_user.name}}</span>
+                    <span class="Font12Color" >{{timeAgo(history.create_datetime)}}</span>
+                  </t-space>
+                </div> -->
+              </div>
+              
+            </template> 
+
+          </t-popup>
+          
+        </div>
         </div>
         <t-popup 
-          v-if="experiment_record.experimenter"
+          v-if="visitorData"
           trigger="click"
           placement="bottom"
           destroyOnClose
           hideEmptyPopup
         >
-          <t-icon name="book-open" size="14px" style="color: #a0a0a0"/> 
-          <span class="Font12Color" style="margin-left:4px;">{{experiment_record.experimenter.length}} </span>
-          <div style="" > </div>
+          <div style="cursor: pointer;" > 
+            <t-icon name="book-open" size="14px" style="color: #a0a0a0"/> 
+            <span class="Font12Color" style="margin-left:4px;">{{visitorData.length}} </span>
+          </div>
           <template #content>
-            <div v-if="experiment_record.experimenter" style="padding:10px;">
+            <div v-if="visitorData" style="padding:10px;">
               <div style="padding-bottom: 4px;">
-                <span class="Font12Color">阅读者（{{experiment_record.experimenter.length}}）</span>
+                <span class="Font12Color">阅读者（{{visitorData.length}}）</span>
               </div>
-              <div v-for=" participant in experiment_record.experimenter " :key="participant.id" style="padding-bottom: 6px;">
+              <div v-for=" participant in visitorData" :key="participant.id" style="padding-bottom: 6px;">
                 <t-space size="10px">
-                  <t-avatar size="20px" shape="round" :image="participant.avatar"> {{participant.name}} </t-avatar>
-                  <span class="Font12Color" >{{participant.name}}</span>
+                  <t-avatar size="20px" shape="round" :image="participant.user.avatar"> {{participant.user.name}} </t-avatar>
+                  <span class="Font12Color" >{{participant.user.name}}</span>
+                  <span class="Font12Color" >{{timeAgo(participant.update_datetime)}}</span>
                 </t-space>
               </div>
             </div>
@@ -83,10 +123,14 @@
 <script setup lang="ts">
 
 import { nodeViewProps, NodeViewWrapper ,NodeViewContent} from '@tiptap/vue-3'
+import { get_record_history_versionsFetch,get_record_history_infoFetch ,get_experiment_record_visitorListFetch} from '@/api/experiment'
+
+import { timeAgo } from '@/utils/time-ago'
+import { transform } from 'typescript';
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
-const { options } = useStore()
+const { editor,options } = useStore()
 const $key_data = JSON.parse( localStorage.getItem('key_data') ?? '{}')
 const isEdit = ref(false)
 
@@ -104,6 +148,11 @@ const title = computed({
 })
 
 const experiment_record = computed(() => $key_data?.experiment_record)
+
+const current_update_datetime = ref('')
+if (experiment_record.value.update_datetime) {
+  current_update_datetime .value = experiment_record.value.update_datetime
+}
 
 const formatParticipants = (participants:any[]) => {
   const names = participants.map(participant => participant.name);
@@ -126,9 +175,82 @@ const HeditFunc = () => {
 const tInputBlur = () => {
   isEdit.value = false
 }
-onMounted(() => {
-  
+
+
+/*
+历史记录数据
+*/
+const historyData = ref([])
+const historyDataInit = async () => {
+  if (experiment_record.value) {
+    const res = await get_record_history_versionsFetch({ record: experiment_record.value.id})
+    if (res.data.code === 2000) {
+      historyData.value = res.data.data
+    }
+
+  } else {
+    historyData.value = []
+  }
+}
+
+//获取历史记录详情
+const transformDocContent = async (history:any) => {
+  if (history?.id) {
+    const res = await get_record_history_infoFetch(history.id)
+    if (res.data.code === 2000) {
+      nextTick(async () => {
+        // 确保 editor 已初始化
+        if (editor.value) {
+          try {
+            // editor.value?.chain().setContent(res.data.data.json_data, true).focus().run()
+            // 解析 JSON 数据
+            const parsedContent = editor.value.schema.nodeFromJSON(res.data.data.json_data);
+
+            // 创建一个新的事务（transaction）
+            const transaction = editor.value.state.tr.replaceWith(
+              0, // 替换的起始位置
+              editor.value.state.doc.content.size, // 替换的结束位置
+              parsedContent // 替换的内容
+            );
+
+            // 分发事务
+            editor.value.view.dispatch(transaction);
+          } catch (error) {
+            console.error('Error setting content:', error);
+            // console.error('Invalid JSON data:', jsonData);
+          }
+        } else {
+          console.error('Editor is not initialized');
+        }
+      })
+    }
+  } else {
+    console.log('历史记录内容为空')
+  }
+}
+
+
+/*
+访客数据
+*/
+const visitorData = ref([])
+const visitorDataInit = async () => {
+  if (experiment_record.value) {
+    const res = await get_experiment_record_visitorListFetch(experiment_record.value.id)
+    if (res.data.code === 2000) {
+      visitorData.value = res.data.data
+    }
+  } else {
+    visitorData.value = []
+  }
+}
+
+
+onMounted( async () => {
+  await historyDataInit()
+  await visitorDataInit()
 })
+
 onBeforeUnmount(() => {
    
 })
