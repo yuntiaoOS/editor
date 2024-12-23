@@ -57,10 +57,10 @@ const allComments = ref<any[]>([]);
 const findCommentsAndStoreValues = (editor: any) => {
   const tempComments: any[] = [];
 
-  editor.state.doc.descendants((node, pos) => {
+  editor.state.doc.descendants((node: any, pos: any) => {
     const { marks } = node;
 
-    marks.forEach((mark) => {
+    marks.forEach((mark:any) => {
       if (mark.type.name === "comment") {
         const markComments = mark.attrs.comment;
 

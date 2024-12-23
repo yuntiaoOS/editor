@@ -20,14 +20,30 @@
       </template>
       <template #defaultValueSlot="slotProps">
         <div >
-          <template v-for="(item, index) in slotProps.row.form.formItems" >
-            <FormDesignRender style="overflow: auto;"
-              v-model="slotProps.row.form.formData[item.key]"
-              :label="item.title"
-              :mode=" 'RESP'"
-              :config="item">
-            </FormDesignRender>
-          </template>
+          <t-list v-if="slotProps.row.form.formItems && slotProps.row.form.formItems.length > 0 ">
+            <t-list-item v-for="(item, index) in slotProps.row.form.formItems" >
+              <div style="display: flex;align-items: center;gap:10px;">
+                <t-dropdown :options="operateTypeOption" trigger="click" @click="(operateI)=>{ item.operateType = operateI.value; }">
+                  <t-tag size="small" :theme=" item.operateType === '物料' ? 'primary' :  item.operateType === '样品' ? 'warning' : 'success' ">{{item.operateType}}</t-tag>
+                </t-dropdown>
+                <span>{{item.title}}</span>
+              </div>
+              <template #action>
+                <div style="display:flex;align-items: center;gap:10px;">
+                  <t-link theme="primary" hover="color" @click="onOperateAdd('up',index,slotProps.rowIndex,slotProps.row)" > 向上插入 </t-link>
+                  <t-link theme="primary" hover="color" @click="onOperateAdd('down',index,slotProps.rowIndex,slotProps.row)" > 向下插入 </t-link>
+                  <t-dropdown :options="[{content:'删除', value: 'delete'}]" trigger="hover" @click="()=>{ 
+                    slotProps.row.form.formItems.splice(index, 1);
+                   }">
+                    <t-icon name="ellipsis" size="18px" style="cursor: pointer;"></t-icon>
+                  </t-dropdown>
+                </div>
+              </template>
+            </t-list-item>
+          </t-list>
+          <div v-else>
+            <t-link theme="primary" hover="color" @click="onOperateAdd('append',index,slotProps.rowIndex,slotProps.row)"> + 添加操作属性 </t-link>
+          </div>
         </div>
       </template>
       <template #type-slot-operate="{ col, row }">
@@ -65,16 +81,15 @@
     <t-form ref="design_form" :rules="FORM_RULES" :data="procedureFormData" :colon="true" >
       <t-form-item v-if="false" label="类型" name="type">
         <t-radio-group v-model="procedureFormData.type" variant="primary-filled" @change="procedureTypeChange">
-          <t-radio-button value="group">工序</t-radio-button>
-          <t-radio-button value="customer">自定义</t-radio-button>
+          <t-radio-button value="group">工序模块</t-radio-button>
+          <t-radio-button value="customer">自定义操作</t-radio-button>
         </t-radio-group>
       </t-form-item>
       <t-form-item label="名称" name="name">
         <t-input v-model="procedureFormData.name" placeholder="请输入物料名称" />
       </t-form-item>
-      <t-form-item label="操作" name="operates">
-        <t-select v-if="procedureFormData.type " ref="selectOperationRef"  v-model="procedureFormData.operates" v-model:popupVisible="popupVisible" multiple clearable filterable placeholder="请选择" 
-          @focus="procedureTypeChange(procedureFormData.type)">
+      <t-form-item :label="procedureFormData.type ==='group' ?'工序模块':'操作'" :name="procedureFormData.type ==='group' ?'process_template':'operates'">
+        <t-select v-if="procedureFormData.type ==='customer' " ref="selectOperationRef"  v-model="procedureFormData.operates" v-model:popupVisible="popupVisible" multiple clearable filterable placeholder="请选择"  >
           <t-option v-for="(item,index) in operationOption" :key="index" :value="item.id" :label="item.title"></t-option> 
           <template #panelBottomContent>
             <div class="select-panel-footer">
@@ -93,20 +108,22 @@
             </div>
           </template>
         </t-select>
-        <t-select  v-else  ref="selectOperationRef" v-model="procedureFormData.operates" multiple clearable filterable placeholder="请选择" >
-          <t-option v-for="(item,index) in assessmentOption" :key="index" :value="item.id" :label="item.title"></t-option> 
+        <t-select  v-else  ref="selectOperationRef" v-model="procedureFormData.process_template" clearable filterable placeholder="请选择"  
+          @focus=" procedureTypeChange(procedureFormData.type) ">
+          <t-option v-for="(item,index) in [...processesTemplateOption,{id:'0',name:'自定义',attribute:[]}]" :key="index" :value="item.id" :label="item.name"></t-option> 
        
-          <template v-if="false" #panelBottomContent>
+          <template #panelBottomContent>
             <div class="select-panel-footer">
-              <t-button v-if="editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
-                >新增选项</t-button
+              <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onProcessesTemplateAdd"
+                >新增工序模块</t-button
               >
-              <div v-else>
-                <t-input v-model="newOption" autofocus></t-input>
-                <t-button size="small" style="margin-top: 8px" @click="onAddConfirm"> 确认 </t-button>
-                <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
-                  取消
-                </t-button>
+              <div v-else style="padding: 10px;">
+                <t-space>
+                  <t-button size="small" style="margin-top: 8px" @click="onAddConfirm"> 确认 </t-button>
+                  <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
+                    取消
+                  </t-button>
+                </t-space>  
               </div>
             </div>
           </template>
@@ -136,7 +153,37 @@
       </t-card>
     </t-space>
   </t-dialog>
-    
+  <t-dialog destroyOnClose 
+    v-model:visible="addOperateVisible"
+    header="添加工序"
+    width="50%" attach="body"
+    :confirm-on-enter="true"
+    :on-confirm="onAddOperateFunc"
+  >
+    <t-form ref="design_form" :rules="FORM_RULES" :data="procedureFormData" :colon="true" >
+      <t-form-item :label="'操作'" :name="'operates'">
+        <t-select ref="selectOperationRef"  v-model="procedureFormData.operates" v-model:popupVisible="popupVisible" multiple clearable filterable placeholder="请选择"  >
+          <t-option v-for="(item,index) in operationOption" :key="index" :value="item.id" :label="item.title"></t-option> 
+          <template #panelBottomContent>
+            <div class="select-panel-footer">
+              <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
+                >新增选项</t-button
+              >
+              <div v-else style="padding: 10px;">
+                <!-- <t-input v-model="newOption" autofocus></t-input> -->
+                <t-space>
+                  <t-button size="small" style="margin-top: 8px" @click="onAddConfirm"> 确认 </t-button>
+                  <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
+                    取消
+                  </t-button>
+                </t-space>  
+              </div>
+            </div>
+          </template>
+        </t-select>
+      </t-form-item>
+    </t-form>
+  </t-dialog>  
   <FormFieldPanel
     v-if="showFormFieldPanelView"
     :mode="filedarr"
@@ -149,7 +196,7 @@
 </template>
 
 <script setup lang="jsx">
-import { getProcesses_attributeListFetch ,getEval_attribute_libraryListFetch , postProcessesAttributeFetch} from '@/api/experiment'
+import { getProcesses_attributeListFetch ,get_processes_templateListFetch,getEval_attribute_libraryListFetch , postProcessesAttributeFetch} from '@/api/experiment'
 import { v4 as uuid } from 'uuid'
 
 import { timeFormat } from '@/utils/time-ago'
@@ -234,7 +281,7 @@ const popupVisible = ref(false)
 const operationOption = ref([])
 const searchTitle = ref('')
 
-const assessmentOption = ref([])
+const processesTemplateOption = ref([])
 
 const raw_materialOptions = ref([])
 
@@ -244,7 +291,7 @@ const _editedComponentType = computed(() => editedComponentType.value)
 const experiment_record = computed(() => _nodeAttrs.value?.experiment_record ? _nodeAttrs.value?.experiment_record : $key_data.experiment_record)
 const experiment_theme = computed(() => _nodeAttrs.value?.experiment_theme ? _nodeAttrs.value?.experiment_theme : $key_data.experiment_theme)
 
-
+const operateTypeOption = [{content:'操作', value: '操作'},{content:'物料', value: '物料'}, {content:'样品', value: '样品'}]
 
 
 const filedarr = [
@@ -333,13 +380,15 @@ const design_form = ref()
 const FORM_RULES = { 
   name: [{ required: true, message: '必填' ,trigger: ['blur'] }],
   operates: [{ required: true, message: '必填' ,trigger: ['blur','change'] }],
+  process_template: [{ required: true, message: '必填' ,trigger: ['blur','change'] }],
 };
 
 const procedureFormData = ref({
   name:'',
   type: 'group',  // group: 已配好的工序  ；operate： 操作
   description:'',
-  operates:[]
+  operates:[],
+  process_template:'',
 })
 
 const editOrCreate = ref('create')
@@ -352,6 +401,10 @@ const onOperatesAdd = () => {
   showFormFieldPanelView.value = true;
 }
 
+const onProcessesTemplateAdd = () => {
+  window.open('/admin/process/processmodule/', '_blank')
+}
+
 const onAddConfirm = () => {
    
   editOrCreate.value = 'create';
@@ -362,9 +415,9 @@ const onAddCancel = () => {
 
 const procedureTypeChange = async (val) => {
   if (val === 'group') {
-    await getOperationOptionFunc()
+    await getprocessesTemplateOptionFunc()
   } else {
-    await getAssessmentOptionFunc()
+    await getOperationOptionFunc()
   }
 }
 
@@ -381,10 +434,114 @@ const selectProcedureType = ref('append')
 const checkAll = computed(() => displayColumns.value.length === displayColumnsC.value.length);
 const indeterminate = computed(() => !!(displayColumns.value.length > displayColumnsC.value.length && displayColumnsC.value.length));
 
+const operateSelect = ref()
+const addOperateVisible = ref(false)
+const onOperateAdd = (type,index,rowIndex,row)=>{
+  console.log('--------212---------onOperateAdd: ', type,index,rowIndex,row)
+  operateSelect.value = cloneDeep( {type,index,rowIndex,row} )
+  procedureFormData.value.operates = []
+  addOperateVisible.value = true
+}
 
-const rowEditFunc = (val,row)=>{
-  console.log('--------212---------rowEditFunc: ', val, row)
+const onAddOperateFunc = () => {
+  console.log('--------212---------onAddOperateFunc: ', operateSelect.value)
+  design_form.value.validate({ showErrorMessage: true }).then((validateResult) => {
+    if (validateResult && Object.keys(validateResult).length) {
+      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      useMessage('warning',firstError)
+    }else{
+      let operates = []
+      getRaw_materialOptionsFunc()
+      const optionsGroup = raw_materialOptions.value.map(ele=>{
+        return {
+          group: ele.title,
+          children: ele.table_data.map(eleT=>{
+            return {...eleT, value: eleT.id, label: `${eleT.experiment_material_name }/${eleT.experiment_material_sn }` }
+          })
+        }
+      })
+      // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
+      function processItems(items, optionsGroup) {
+        return items.map(eleI => {
+          if (eleI.type === 'SelectMaterial') {
+            return {
+              ...eleI,
+              rowKey: eleI.id + '/' + shortId(),
+              description: '',
+              props: {
+                ...eleI.props,
+                options: optionsGroup,
+              },
+            };
+          } else if (eleI.type === 'FieldsGroup') {
+            return {
+              ...eleI,
+              rowKey: eleI.id + '/' + shortId(),
+              description: '',
+              props: {
+                ...eleI.props,
+                items: processItems(eleI.props.items, optionsGroup), // 递归处理嵌套的 items
+              },
+            };
+          } else {
+            return {...eleI, description: '', rowKey: eleI.id + '/' + shortId()};
+          }
+        });
+      }
+      operates = operationOption.value.filter(ele=> procedureFormData.value.operates.includes(ele.id))
+          .map(ele => processItems([ele], optionsGroup)[0]).map(ele => ({...ele,operateType: '操作'})); 
+      console.log('----------442------operates-----',operates)
+    
+      let rowD = cloneDeep( operateSelect.value.row )
+      console.log('----------496------operates-----',  cloneDeep(rowD) )
+      if (operateSelect.value.type === 'up') {
+        if (operateSelect.value.index === 0) {
+          rowD.form.formItems.splice(0,0,...operates)
+        }else{
+          rowD.form.formItems.splice(operateSelect.value.index-1,0,...operates)
+        }
+      }else if (operateSelect.value.type === 'down') {
+        rowD.form.formItems.splice(operateSelect.value.index,0,...operates) 
+      }else if (operateSelect.value.type === 'append') {
+        rowD.form.formItems.splice(0,0,...operates) 
+      }
+      console.log('----------508------operates-----',cloneDeep(rowD))
+      // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
+      function processValueItems(items) {
+        const valueC = {};
 
+        items.forEach(eleI => {
+          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(eleI.type)) {
+            valueC[eleI.key] = [];
+          } else if (['FieldsGroup'].includes(eleI.type)) {
+            valueC[eleI.key] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
+          } else {
+            valueC[eleI.key] = '';
+          }
+        });
+
+        return valueC;
+      }
+      // 主逻辑
+      rowD.form.formItems.forEach(ele => {
+        let valueC = '';
+
+        if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
+          valueC = [];
+        } else if (['FieldsGroup'].includes(ele.type)) {
+          valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
+        }
+
+        rowD.form.formData[ele.key] = valueC;
+      });
+      nextTick(()=>{
+        table_data.value.splice(operateSelect.value.rowIndex,1,rowD)
+      })
+      addOperateVisible.value = false
+      console.log('-------------2243------------operationOption.value',rowD,procedureFormData.value)
+    }
+      
+  })
 }
 
 
@@ -509,11 +666,14 @@ const on_select_parentFunc = async ()=>{
           }
         });
       }
-      if (procedureFormData.value.type ) {
+      if (procedureFormData.value.type === 'customer' ) {
         operates = operationOption.value.filter(ele=> procedureFormData.value.operates.includes(ele.id))
-          .map(ele => processItems([ele], optionsGroup)[0]);
+          .map(ele => processItems([ele], optionsGroup)[0]).map(ele => ({...ele,operateType: '操作'}));
       } else {
-        operates = assessmentOption.value.filter(ele=> procedureFormData.value.operates.includes(ele.id))
+        const processesTemplate = processesTemplateOption.value.find(ele=> procedureFormData.value.process_template === ele.id )
+        const operateIds = processesTemplate? processesTemplate.attribute : []
+        operates = operationOption.value.filter(ele=> operateIds.includes(ele.id))
+          .map(ele => processItems([ele], optionsGroup)[0]).map(ele => ({...ele,operateType: processesTemplate.type}));
       }
       console.log('----------442------operates-----',operates)
       const uuidStr = uuid()
@@ -649,9 +809,9 @@ const getOperationOptionFunc = async (page=1) => {
 
 getOperationOptionFunc()
 
-const getAssessmentOptionFunc = async (page=1) => {
-  const res = await getEval_attribute_libraryListFetch({page,limit:9999})
-  console.log(res, '-------------488------------assessmentOption.value')
+const getprocessesTemplateOptionFunc = async (page=1) => {
+  const res = await get_processes_templateListFetch({page,limit:9999})
+  console.log(res, '-------------488------------processesTemplateOption.value')
   let resD = {}
   if (props.viewType === 'nodeView') {
     resD = res.data
@@ -660,17 +820,17 @@ const getAssessmentOptionFunc = async (page=1) => {
   }
   if (resD.code === 2000) {
     if (page === 1) {
-      assessmentOption.value = [...resD.data]
+      processesTemplateOption.value = [...resD.data]
     } else {
-      assessmentOption.value = [...assessmentOption.value, ...resD.data]
+      processesTemplateOption.value = [...processesTemplateOption.value, ...resD.data]
     }
     pagination.value.total = resD.total
-    console.log(assessmentOption.value, '-------------502------------assessmentOption.value')
+    console.log(processesTemplateOption.value, '-------------502------------processesTemplateOption.value')
   }
   
 }
 
-getAssessmentOptionFunc()
+getprocessesTemplateOptionFunc()
 const FormRenderComponent = resolveComponent('FormRender');
 const columns = ref([
   {

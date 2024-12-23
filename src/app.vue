@@ -13238,7 +13238,7 @@ const options = $ref({
       "catalog": null
     },
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0ODUyODcwLCJpYXQiOjE3MzQ3NjY0NzAsImp0aSI6IjgxNTg3MDRkYTI5NTRhMWI4NWUwNTFiMWU4NzQ5NDk2IiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.4DVaYR6fo21L2hLiu8O6uuO9L5PzAKW2nWAgQlh2R0E',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM1MDA1Nzk3LCJpYXQiOjE3MzQ5MTkzOTcsImp0aSI6IjI1MWE3ZTliNTA5YzQ1NjE5NWRjY2M0ZmJkNDBiYWQzIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.8NZhw2K1C_I3pYRDttyIp75n8ln65a0KOqEbYko_FZs',
   },
   document: {
     placeholder: '测试文档',
