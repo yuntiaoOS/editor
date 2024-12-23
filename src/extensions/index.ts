@@ -56,6 +56,9 @@ import experimental_design from './ingredient_dev/experimental_design'
 import evaluating_table from './ingredient_dev/evaluating_table'
 import test_record_table from './ingredient_dev/test_record_table'
 
+// 批注
+import Comment from './comment/comment'
+
 // 自定义不能选中移动的节点
 import atomUnselect from './atom-unselect'
 import xmTitleContent from './xm-title-content'
@@ -81,7 +84,7 @@ import TextBox from './text-box'
 import Toc from './toc'
 import Video from './video'
 
-const { options, container, tableOfContents } = useStore()
+const { options, container, tableOfContents,commentBox } = useStore()
 
 const { dicts, document: doc, file } = options.value
 
@@ -135,6 +138,7 @@ export const extensions = [
   Indent,
   TextAlign,
   NodeAlign,
+  Comment.configure({ isCommentModeOn: () => commentBox.value }),
   TaskItem.configure({ nested: true }),
   TaskList.configure({
     HTMLAttributes: {

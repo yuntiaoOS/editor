@@ -13238,7 +13238,7 @@ const options = $ref({
       "catalog": null
     },
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NzQ3NDQwLCJpYXQiOjE3MzQ2NjEwNDAsImp0aSI6IjNmNzQ0ZTlhMDQzMjRhNzBhODdlNTdjOWM3NzZiODVmIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.8UmqbBHQOnyLKexj1fpC6Ukb2aqcmxEAVMInYEaUZNY',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0ODUyODcwLCJpYXQiOjE3MzQ3NjY0NzAsImp0aSI6IjgxNTg3MDRkYTI5NTRhMWI4NWUwNTFiMWU4NzQ5NDk2IiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.4DVaYR6fo21L2hLiu8O6uuO9L5PzAKW2nWAgQlh2R0E',
   },
   document: {
     placeholder: '测试文档',
@@ -13896,18 +13896,186 @@ onMounted(() => {
       {
         "type": "xmTitle",
         "attrs": {
-          "id": "b6be422d-defc-4b0f-b490-a321cb3c7aae",
+          "id": "1333b668-3df8-4e63-95db-dd0fbc781fc9",
           "key": "baseTitle",
-          "name": "2476efd3-63bc-4788-9f8a-b496d8d1c8f6",
-          "title": "JL11271610",
+          "name": "5dddbd0e-88e2-49a7-ac1d-9d9c63cff0d0",
+          "title": "热狗热狗热狗人",
           "isChanged": false,
           "updateTime": "",
           "showSubTitle": true
         }
       },
-    
-
-
+      {
+        "type": "xmForm",
+        "attrs": {
+          "id": "1333b668-3df8-4e63-95db-dd0fbc781fc9",
+          "key": "baseInfo",
+          "name": "a51e8091-d70d-4393-9151-dd94bd6b79ee",
+          "config": {
+            "formItems": [
+              {
+                "id": "sn",
+                "key": "sn",
+                "icon": "iconamoon:edit",
+                "name": "TextInput",
+                "type": "TextInput",
+                "alias": "实验编号",
+                "props": {
+                  "hidden": false,
+                  "abstract": false,
+                  "readOnly": false,
+                  "required": true,
+                  "enableScan": false,
+                  "validation": null,
+                  "enablePrint": true,
+                  "textForSuffix": "",
+                  "enableSuffixText": false
+                },
+                "title": "实验编号",
+                "valueType": "String"
+              },
+              {
+                "id": "experimenter",
+                "key": "experimenter",
+                "icon": "iconamoon:edit",
+                "name": "UserPicker",
+                "type": "UserPicker",
+                "alias": "实验参与人",
+                "props": {
+                  "hidden": false,
+                  "remote": true,
+                  "options": [
+                    {
+                      "id": "cea15e47-dcdd-4880-8bf3-ca6829109cf7",
+                      "name": "张三丰"
+                    },
+                    {
+                      "id": "69d25690-2f7a-458e-8f10-1c38162a1c58",
+                      "name": "张大彪"
+                    },
+                    {
+                      "id": "995dda9e-dbee-46db-af4f-02686c470357",
+                      "name": "胡汉三"
+                    },
+                    {
+                      "id": "9dc2696a-b931-4abb-bb81-5fa2d088947e",
+                      "name": "等待"
+                    },
+                    {
+                      "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+                      "name": "赵紫文"
+                    },
+                    {
+                      "id": "63aed191-f093-4e9d-b4ef-4a159ffa3935",
+                      "name": "小白1"
+                    }
+                  ],
+                  "abstract": false,
+                  "labelKey": "name",
+                  "multiple": true,
+                  "readOnly": false,
+                  "required": false,
+                  "valueKey": "id",
+                  "enableScan": false,
+                  "validation": null,
+                  "enablePrint": true,
+                  "textForSuffix": "",
+                  "enableSuffixText": false
+                },
+                "title": "实验参与人",
+                "valueType": "String"
+              },
+              {
+                "id": "start_time",
+                "key": "start_time",
+                "icon": "iconamoon:edit",
+                "name": "DateTime",
+                "type": "DateTime",
+                "alias": "开始时间",
+                "props": {
+                  "hidden": false,
+                  "abstract": false,
+                  "readOnly": false,
+                  "required": false,
+                  "enableScan": false,
+                  "validation": null,
+                  "enablePrint": true,
+                  "enableTimePicker": false
+                },
+                "title": "开始时间",
+                "valueType": "String"
+              },
+              {
+                "id": "end_time",
+                "key": "end_time",
+                "icon": "iconamoon:edit",
+                "name": "DateTime",
+                "type": "DateTime",
+                "alias": "结束时间",
+                "props": {
+                  "hidden": false,
+                  "abstract": false,
+                  "readOnly": false,
+                  "required": false,
+                  "enableScan": false,
+                  "validation": null,
+                  "enablePrint": true,
+                  "enableTimePicker": false
+                },
+                "title": "结束时间",
+                "valueType": "String"
+              }
+            ],
+            "formConfig": {
+              "colon": true,
+              "rules": {
+                "name": [
+                  {
+                    "type": "error",
+                    "message": "必填",
+                    "required": true
+                  },
+                  {
+                    "min": 2,
+                    "type": "error",
+                    "message": "至少需要两个字",
+                    "trigger": "blur"
+                  }
+                ],
+                "description": [
+                  {
+                    "type": "error",
+                    "message": "必填",
+                    "required": true
+                  },
+                  {
+                    "min": 12,
+                    "type": "error",
+                    "message": "至少需要11两个字",
+                    "trigger": "blur"
+                  }
+                ]
+              },
+              "layout": "vertical",
+              "ruleJs": "//formData: 表单数据  formMap: 表单字段id -> 字段json配置\r\nfunction doChange(formData, formMap){\r\n\t\r\n}",
+              "columns": 2,
+              "labelPos": "left",
+              "ruleType": "SIMPLE",
+              "labelWidth": "80px",
+              "showSubmitBtn": false
+            }
+          },
+          "formData": {
+            "sn": null,
+            "title": "热狗热狗热狗人",
+            "end_time": null,
+            "start_time": null,
+            "experimenter": []
+          },
+          "isChanged": false,
+          "updateTime": ""
+        }
+      },
       {
         "type": "paragraph",
         "attrs": {
@@ -13917,8 +14085,119 @@ onMounted(() => {
           "lineHeight": 1.5
         }
       },
-
-  
+      {
+        "type": "xmTitleContent",
+        "attrs": {
+          "title": "试验目的：",
+          "content": "目的"
+        },
+        "content": [
+          {
+            "type": "heading",
+            "attrs": {
+              "id": "elm5s8",
+              "level": 2,
+              "indent": null,
+              "margin": {},
+              "textAlign": "left",
+              "lineHeight": 1.5,
+              "data-toc-id": "elm5s8"
+            },
+            "content": [
+              {
+                "text": "试验目的：eeeeeeeeeeeeeeeee",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "attrs": {
+              "indent": null,
+              "margin": {},
+              "textAlign": "left",
+              "lineHeight": 1.5
+            },
+            "content": [
+              {
+                "text": "目的",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "raw_material_table",
+        "attrs": {
+          "id": "c16c9640-767d-470d-84d6-3c92a59e0327",
+          "key": "raw_material_table20241220154246",
+          "name": "db9c5c9e-c5ed-417a-9577-00edd8fab32b",
+          "title": "原材料202412201542",
+          "isChanged": false,
+          "change_log": {},
+          "table_data": [],
+          "updateTime": "",
+          "is_integration": false
+        },
+        "content": [
+          {
+            "type": "paragraph",
+            "attrs": {
+              "indent": null,
+              "margin": {},
+              "textAlign": "left",
+              "lineHeight": 1.5
+            }
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "indent": null,
+          "margin": {},
+          "textAlign": "left",
+          "lineHeight": 1.5
+        },
+        "content": [
+          {
+            "text": "jkdhtrhtrhthrhthtrhtrhtrhtrhtrhgfdgdfcscs",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "technology_table",
+        "attrs": {
+          "id": "56feb0e7-5a97-4f51-8628-5d6603845b04",
+          "key": "technology_table20241220154246",
+          "name": "0bf591ed-80e6-46c3-b786-a1efbf527bf2",
+          "title": "工艺202412201542gfd",
+          "isChanged": false,
+          "change_log": {},
+          "table_data": [],
+          "updateTime": "",
+          "is_integration": false
+        },
+        "content": [
+          {
+            "type": "paragraph",
+            "attrs": {
+              "indent": null,
+              "margin": {},
+              "textAlign": "left",
+              "lineHeight": 1.5
+            },
+            "content": [
+              {
+                "text": " ",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      },
       {
         "type": "paragraph",
         "attrs": {
@@ -13928,6 +14207,117 @@ onMounted(() => {
           "lineHeight": 1.5
         }
       },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "indent": null,
+          "margin": {},
+          "textAlign": "left",
+          "lineHeight": 1.5
+        },
+        "content": [
+          {
+            "text": "cr3r23r3r23r23fdswqdw",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "indent": null,
+          "margin": {},
+          "textAlign": "left",
+          "lineHeight": 1.5
+        }
+      },
+      {
+        "type": "xmTitleContent",
+        "attrs": {
+          "title": "试验结论：",
+          "content": "结论"
+        },
+        "content": [
+          {
+            "type": "heading",
+            "attrs": {
+              "id": "sy03fy",
+              "level": 2,
+              "indent": null,
+              "margin": {},
+              "textAlign": "left",
+              "lineHeight": 1.5,
+              "data-toc-id": "sy03fy"
+            },
+            "content": [
+              {
+                "text": "试验结论：",
+                "type": "text"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "attrs": {
+              "indent": null,
+              "margin": {},
+              "textAlign": "left",
+              "lineHeight": 1.5
+            },
+            "content": [
+              {
+                "text": "结论",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "indent": null,
+          "margin": {},
+          "textAlign": "left",
+          "lineHeight": 1.5
+        },
+        "content": [
+          {
+            "text": "rr23dwq",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "indent": null,
+          "margin": {},
+          "textAlign": "left",
+          "lineHeight": 1.5
+        },
+        "content": [
+          {
+            "text": "fr32r23",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "indent": null,
+          "margin": {},
+          "textAlign": "left",
+          "lineHeight": 1.5
+        },
+        "content": [
+          {
+            "text": "gr23dwqdw1111111111111111111111111111111",
+            "type": "text"
+          }
+        ]
+      }
     ]
   }
   editorRef.editorInstance?.commands.setContent(jsonContent)

@@ -71,7 +71,7 @@ watch(() => page.value.pagination, updatePostion)
   &-container {
     min-width: 250px;
     width: 250px;
-    padding-right: 50px;
+    padding-right: 10px;
     position: absolute;
     right: -320px;
     top: 0;

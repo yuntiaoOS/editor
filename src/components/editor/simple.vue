@@ -70,7 +70,7 @@
                 </t-space>
                 
               </div>
-              <!-- <container-comments /> -->
+              <container-comments v-if="false"/>
             </div>
           </div>
           <t-image-viewer

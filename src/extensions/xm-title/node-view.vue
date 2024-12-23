@@ -47,44 +47,47 @@
 
           </t-popup>
           <div >
+            <span style="cursor: pointer;" @click="()=> {historyDataInit();historyDataVisible = true ;}" ><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{ current_update_datetime}}</span> </span> 
+            
             <t-popup 
-            v-if="historyData"
-            trigger="click"
-            placement="bottom"
-            destroyOnClose
-            hideEmptyPopup
-          >
-            <span style="cursor: pointer;"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{ current_update_datetime}}</span> </span> 
-            <template #content>
-              <div style="padding:10px;">
-                <t-list style="height: 300px" :scroll="{ type: 'virtual' }" >
-                  <t-list-item v-for="(history, index) in historyData" :key="index">
+              v-if="false" 
+              trigger="click"
+              placement="bottom"
+              destroyOnClose
+              hideEmptyPopup
+              :on-visible-change=" (visible:boolean)=> visible && historyDataInit()"
+            >
+              <span style="cursor: pointer;" ><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{ current_update_datetime}}</span> </span> 
+              <template #content>
+                <div style="padding:10px;" >
+                  <t-list v-if="historyData.length > 0" style="height: 300px" :scroll="{ type: 'virtual' }" >
+                    <t-list-item v-for="(history, index) in historyData" :key="index">
+                      <t-space size="10px" style="cursor: pointer;">
+                        <t-avatar size="20px" shape="round" :image="history.history_user.avatar"> {{history.history_user.name}} </t-avatar>
+                        <span class="Font12Color" >{{history.history_user.name}}</span>
+                        <span class="Font12Color" >{{timeAgo(history.create_datetime)}}</span>
+                      </t-space>
+                      <template #action>
+                        <span>
+                          <t-link theme="primary" hover="color" style="margin-left: 16px" @click="transformDocContent(history)">还原</t-link>
+                        </span>
+                      </template>
+                    </t-list-item>                 
+                  </t-list>
+                  <!-- <div v-for=" history in historyData " :key="history.id" style="padding-bottom: 6px;" @click="transformDocContent(history)">
                     <t-space size="10px" style="cursor: pointer;">
                       <t-avatar size="20px" shape="round" :image="history.history_user.avatar"> {{history.history_user.name}} </t-avatar>
                       <span class="Font12Color" >{{history.history_user.name}}</span>
                       <span class="Font12Color" >{{timeAgo(history.create_datetime)}}</span>
                     </t-space>
-                    <template #action>
-                      <span>
-                        <t-link theme="primary" hover="color" style="margin-left: 16px" @click="transformDocContent(history)">还原</t-link>
-                      </span>
-                    </template>
-                  </t-list-item>                 
-                </t-list>
-                <!-- <div v-for=" history in historyData " :key="history.id" style="padding-bottom: 6px;" @click="transformDocContent(history)">
-                  <t-space size="10px" style="cursor: pointer;">
-                    <t-avatar size="20px" shape="round" :image="history.history_user.avatar"> {{history.history_user.name}} </t-avatar>
-                    <span class="Font12Color" >{{history.history_user.name}}</span>
-                    <span class="Font12Color" >{{timeAgo(history.create_datetime)}}</span>
-                  </t-space>
-                </div> -->
-              </div>
-              
-            </template> 
+                  </div> -->
+                </div>
+                
+              </template> 
 
-          </t-popup>
-          
-        </div>
+            </t-popup>
+            
+          </div>
         </div>
         <t-popup 
           v-if="visitorData"
@@ -92,8 +95,9 @@
           placement="bottom"
           destroyOnClose
           hideEmptyPopup
+          :on-visible-change=" (visible:boolean)=> visible && visitorDataInit()"
         >
-          <div style="cursor: pointer;" > 
+          <div style="cursor: pointer;"> 
             <t-icon name="book-open" size="14px" style="color: #a0a0a0"/> 
             <span class="Font12Color" style="margin-left:4px;">{{visitorData.length}} </span>
           </div>
@@ -117,6 +121,32 @@
         
       </div>
     </div>
+    
+    <t-drawer 
+      v-model:visible="historyDataVisible" 
+      :closeBtn="true"
+      destroyOnClose
+      :closeOnOverlayClick="false"
+      closeOnEscKeydown
+      :footer="false"
+      :show-overlay="false" 
+      header="修改记录"  
+    >
+      <t-list style="height: calc( 100vh - 100px )" :scroll="{ type: 'virtual' }" >
+        <t-list-item v-for="(history, index) in historyData" :key="index">
+          <t-space size="10px" style="cursor: pointer;">
+            <t-avatar size="20px" shape="round" :image="history.history_user.avatar"> {{history.history_user.name}} </t-avatar>
+            <span class="Font12Color" >{{history.history_user.name}}</span>
+            <span class="Font12Color" >{{timeAgo(history.create_datetime)}}</span>
+          </t-space>
+          <template #action>
+            <span style="margin-right:10px;">
+              <t-link theme="primary" hover="color" style="margin-left: 16px" @click="transformDocContent(history)">还原</t-link>
+            </span>
+          </template>
+        </t-list-item>                 
+      </t-list>
+    </t-drawer>
   </node-view-wrapper>
 </template>
 
@@ -135,7 +165,7 @@ const $key_data = JSON.parse( localStorage.getItem('key_data') ?? '{}')
 const isEdit = ref(false)
 
 const xmTitleRef = ref()
-
+const historyDataVisible = ref(false)
 const showSubTitle = ref(true)
 
 const readOnly = computed(() => options.value.document?.readOnly)
@@ -215,6 +245,8 @@ const transformDocContent = async (history:any) => {
 
             // 分发事务
             editor.value.view.dispatch(transaction);
+            current_update_datetime.value = res.data.data.update_datetime
+            useMessage('success',res.data.msg)
           } catch (error) {
             console.error('Error setting content:', error);
             // console.error('Invalid JSON data:', jsonData);
@@ -223,6 +255,8 @@ const transformDocContent = async (history:any) => {
           console.error('Editor is not initialized');
         }
       })
+    }else {
+      useMessage('error',res.data.msg)
     }
   } else {
     console.log('历史记录内容为空')
