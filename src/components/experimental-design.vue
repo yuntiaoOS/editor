@@ -14,7 +14,8 @@
                 activable  expandParent activeMultiple expandAll 
                 allowFoldNodeOnFilter checkable  line @change="treeSelectChange">  
                 <template #label="{ node }">
-                  <div style="display:flex;gap:10px;">
+                  <div style="display:flex;gap:10px;align-items: center;">
+                    <t-tag v-if="node.isLeaf()" size="small" :theme=" node.data.operateType === '物料' ? 'primary' :  node.data.operateType === '样品' ? 'warning' : 'success' ">{{node.data.operateType}}</t-tag>
                     <span :style="{color: node.data.type ?'blue' :'var(--umo-text-color-primary)' ,width: '150px'}">{{ node.label }}</span>
                     <div v-if="node.isLeaf()" style="width: calc(100% - 150px) ;">
                       <xmFormDesignRender style="overflow: auto;"
@@ -83,7 +84,7 @@ import { getFieldValue } from '@/utils/index';
 import xmInput from './xm-input.vue';
 import { timeFormat } from '@/utils/time-ago'
 
-const emits = defineEmits(['update:designParams', 'update:designResult','update:selectFormItems', 'change']);
+const emits = defineEmits(['update:designParams', 'update:designResult','update:selectFormItems','update:orthogonalDesign', 'change']);
 const props = defineProps({
   designParams: {
     type: Array,
@@ -96,6 +97,10 @@ const props = defineProps({
   selectFormItems: {
     type: Array,
     default: () => [],
+  },
+  orthogonalDesign: {
+    type: Object,
+    default: () => {},
   },
 });
 const current = ref(0);
@@ -120,7 +125,7 @@ const columnsDefault = [
 const designTreeRef = ref();
 const selectedRowKeys = ref([]);
 const designTreeChecked = ref([]);
-const cycleNumber = ref(0);
+
 
 const _designResult = computed({
   get() {
@@ -139,6 +144,20 @@ const _selectFormItems = computed({
     emits('update:selectFormItems', value);
   },
 });
+
+const _orthogonalDesign = computed({
+  get() {
+    return props.orthogonalDesign || {};
+  },
+  set(value) {
+    emits('update:orthogonalDesign', value);
+  },
+});
+
+
+// 生成数据组数
+_orthogonalDesign.value =  { cycleNumber : 1, stepItems: [] };
+
 
 const _designParams = ref([])
 
@@ -240,8 +259,8 @@ const onSelectChange = (value, params) => {
 };
 
 const blurCycleNumberFunc = (val) => {
-  if (Number(val) > 100) cycleNumber.value = 100;
-  if (Number(val) < 1) cycleNumber.value = 0;
+  if (Number(val) > 100) _orthogonalDesign.value.cycleNumber = 100;
+  if (Number(val) < 1) _orthogonalDesign.value.cycleNumber = 0;
 }
 
 const onAdd = () => {
@@ -358,7 +377,7 @@ const makeTableFunc = () => {
   // console.log('--------151----_designParams.value----------', _designResult.value, columns.value);
 
   const designResult = [];
-  // for (let i = 0; i < cycleNumber.value; i++) {
+  // for (let i = 0; i < _orthogonalDesign.value.cycleNumber; i++) {
   //   const obj = { check: true, name: '' };
   //   obj.id = uuid();
   //   obj.name = `样品-${timeFormat(null,'yyyymmddhhMMss')}`
@@ -402,12 +421,12 @@ const getTreeData = (formItems,designTreeChecked) => {
   const treeData = [];
   if (!formItems) return [];
   formItems.map(ele => {
-    if (ele.type === 'FieldsGroup') {
-      const obj = { ...ele, title: ele.title ? ele.title : ele.name, formItems: [] };
-      obj.formItems = getTreeData(ele.props.items,designTreeChecked);
-      if (obj.rowKey) designTreeChecked.push(obj.rowKey);
-      treeData.push(obj);
-    } else {
+    // if (ele.type === 'FieldsGroup') {
+    //   const obj = { ...ele, title: ele.title ? ele.title : ele.name, formItems: [] };
+    //   obj.formItems = getTreeData(ele.props.items,designTreeChecked);
+    //   if (obj.rowKey) designTreeChecked.push(obj.rowKey);
+    //   treeData.push(obj);
+    // } else {
       if (ele.formItems && ele.formItems.length > 0) {
         const obj = { ...ele, title: ele.title ? ele.title : ele.name, formItems: [] };
         obj.formItems = getTreeData(ele.formItems,designTreeChecked);
@@ -417,7 +436,7 @@ const getTreeData = (formItems,designTreeChecked) => {
         if (ele.rowKey) designTreeChecked.push(ele.rowKey);
         treeData.push({ ...ele , title: ele.title ? ele.title : ele.name });
       }
-    }
+    // }
   })
   // console.log('------425-----_designParams----------',treeData);
   return treeData;

@@ -13238,7 +13238,7 @@ const options = $ref({
       "catalog": null
     },
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM1MDA1Nzk3LCJpYXQiOjE3MzQ5MTkzOTcsImp0aSI6IjI1MWE3ZTliNTA5YzQ1NjE5NWRjY2M0ZmJkNDBiYWQzIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.8NZhw2K1C_I3pYRDttyIp75n8ln65a0KOqEbYko_FZs',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM1MTk3MzUxLCJpYXQiOjE3MzUxMTA5NTEsImp0aSI6ImRkNThmZmFkMzM5MTRjOGU5NWRmNzRlMWQ1MjQ0ZDAwIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.ODN9Xx9lWQt_F7eMiXBruSW8YuAV5s-ebHiA2NJ_kBM',
   },
   document: {
     placeholder: '测试文档',
@@ -14131,23 +14131,122 @@ onMounted(() => {
         "type": "raw_material_table",
         "attrs": {
           "id": "c16c9640-767d-470d-84d6-3c92a59e0327",
+          "updateTime": "2024-12-24 16:27:47",
           "key": "raw_material_table20241220154246",
           "name": "db9c5c9e-c5ed-417a-9577-00edd8fab32b",
-          "title": "原材料202412201542",
           "isChanged": false,
           "change_log": {},
-          "table_data": [],
-          "updateTime": "",
-          "is_integration": false
+          "is_integration": false,
+          "table_data": [
+            {
+              "id": "135b78f6-dce7-4f1d-ab44-32ead0c1a231",
+              "material": {
+                "id": "cb3cfa37-3012-4109-b295-88bb083a2aa6",
+                "modifier_name": null,
+                "dept_belong_id": null,
+                "creator_name": "小白1",
+                "create_datetime": "2024-12-23 11:47:59",
+                "update_datetime": "2024-12-23 11:47:59",
+                "state": {
+                  "id": "63e1c32f-f9f6-4caf-a698-631443950b93",
+                  "name": "待审核",
+                  "color": "#0052d9",
+                  "type_id": 0
+                },
+                "description": null,
+                "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3935",
+                "modifier": null,
+                "custom_data": {},
+                "state_id": "63e1c32f-f9f6-4caf-a698-631443950b93",
+                "ticket_id": "abc9b4b3-b8f6-4f21-b862-1a938e7ebfac",
+                "name": "测试标题模版",
+                "sn": "SN-2222222222",
+                "purpose": null,
+                "cas": "222",
+                "attachment": null,
+                "group": "cb3cfa37-3012-4109-b295-88bb083a2aa6",
+                "batch": "22222",
+                "price": "222.00",
+                "production_date": "2024-12-31",
+                "margin": null,
+                "goods": null,
+                "supplier": null,
+                "place": null
+              },
+              "experiment_material": "cb3cfa37-3012-4109-b295-88bb083a2aa6",
+              "experiment_material_batch": "22222",
+              "experiment_material_name": "测试标题模版",
+              "experiment_material_price": "222.00",
+              "experiment_material_sn": "SN-2222222222",
+              "experiment_material_state": {
+                "id": "63e1c32f-f9f6-4caf-a698-631443950b93",
+                "name": "待审核",
+                "color": "#0052d9",
+                "type_id": 0
+              },
+              "experiment_material_supplier": null,
+              "description": ""
+            },
+            {
+              "id": "cd2b206c-0ca0-4c81-9622-aa5f618ef8a0",
+              "material": {
+                "id": "397ba2c4-1f0a-4f85-9a22-cc61bb174708",
+                "modifier_name": null,
+                "dept_belong_id": null,
+                "creator_name": "小白1",
+                "create_datetime": "2024-12-20 20:58:41",
+                "update_datetime": "2024-12-20 20:58:41",
+                "state": {
+                  "id": "63e1c32f-f9f6-4caf-a698-631443950b93",
+                  "name": "待审核",
+                  "color": "#0052d9",
+                  "type_id": 0
+                },
+                "description": null,
+                "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3935",
+                "modifier": null,
+                "custom_data": {},
+                "state_id": "63e1c32f-f9f6-4caf-a698-631443950b93",
+                "ticket_id": "7691e486-31d8-4f9b-89ab-a74385a72bd9",
+                "name": "测试222",
+                "sn": "测试2222",
+                "purpose": null,
+                "cas": "测222",
+                "attachment": null,
+                "group": "397ba2c4-1f0a-4f85-9a22-cc61bb174708",
+                "batch": "测试22222",
+                "price": null,
+                "production_date": null,
+                "margin": null,
+                "goods": null,
+                "supplier": null,
+                "place": null
+              },
+              "experiment_material": "397ba2c4-1f0a-4f85-9a22-cc61bb174708",
+              "experiment_material_batch": "测试22222",
+              "experiment_material_name": "测试222",
+              "experiment_material_price": null,
+              "experiment_material_sn": "测试2222",
+              "experiment_material_state": {
+                "id": "63e1c32f-f9f6-4caf-a698-631443950b93",
+                "name": "待审核",
+                "color": "#0052d9",
+                "type_id": 0
+              },
+              "experiment_material_supplier": null,
+              "description": ""
+            }
+          ],
+          "title": "原材料202412201542"
         },
         "content": [
           {
             "type": "paragraph",
             "attrs": {
               "indent": null,
-              "margin": {},
               "textAlign": "left",
-              "lineHeight": 1.5
+              "lineHeight": 1.5,
+              "margin": {}
             }
           }
         ]
@@ -14171,30 +14270,342 @@ onMounted(() => {
         "type": "technology_table",
         "attrs": {
           "id": "56feb0e7-5a97-4f51-8628-5d6603845b04",
+          "updateTime": "",
           "key": "technology_table20241220154246",
           "name": "0bf591ed-80e6-46c3-b786-a1efbf527bf2",
-          "title": "工艺202412201542gfd",
           "isChanged": false,
           "change_log": {},
-          "table_data": [],
-          "updateTime": "",
-          "is_integration": false
+          "is_integration": false,
+          "table_data": [
+            {
+              "id": "4190bf97-6f3d-4c37-be19-14342957f3e6",
+              "rowKey": "4190bf97-6f3d-4c37-be19-14342957f3e6/lk93t94k",
+              "name": "电饭煲辅导班",
+              "type": "group",
+              "description": "",
+              "form": {
+                "formItems": [
+                  {
+                    "id": 31,
+                    "title": "单行输入",
+                    "props": {
+                      "suffix": null,
+                      "abstract": true,
+                      "required": false,
+                      "enableScan": false,
+                      "enablePrint": true
+                    },
+                    "key": "dan_hang_shu_ru",
+                    "type": "TextInput",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "description": "",
+                    "rowKey": "31/8fa1n6oq",
+                    "operateType": "操作"
+                  },
+                  {
+                    "id": 32,
+                    "title": "团材料",
+                    "props": {
+                      "http": {},
+                      "fixed": true,
+                      "hidden": false,
+                      "suffix": null,
+                      "options": [
+                        {
+                          "group": "原材料202412201542",
+                          "children": [
+                            {
+                              "id": "135b78f6-dce7-4f1d-ab44-32ead0c1a231",
+                              "material": {
+                                "id": "cb3cfa37-3012-4109-b295-88bb083a2aa6",
+                                "modifier_name": null,
+                                "dept_belong_id": null,
+                                "creator_name": "小白1",
+                                "create_datetime": "2024-12-23 11:47:59",
+                                "update_datetime": "2024-12-23 11:47:59",
+                                "state": {
+                                  "id": "63e1c32f-f9f6-4caf-a698-631443950b93",
+                                  "name": "待审核",
+                                  "color": "#0052d9",
+                                  "type_id": 0
+                                },
+                                "description": null,
+                                "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3935",
+                                "modifier": null,
+                                "custom_data": {},
+                                "state_id": "63e1c32f-f9f6-4caf-a698-631443950b93",
+                                "ticket_id": "abc9b4b3-b8f6-4f21-b862-1a938e7ebfac",
+                                "name": "测试标题模版",
+                                "sn": "SN-2222222222",
+                                "purpose": null,
+                                "cas": "222",
+                                "attachment": null,
+                                "group": "cb3cfa37-3012-4109-b295-88bb083a2aa6",
+                                "batch": "22222",
+                                "price": "222.00",
+                                "production_date": "2024-12-31",
+                                "margin": null,
+                                "goods": null,
+                                "supplier": null,
+                                "place": null
+                              },
+                              "experiment_material": "cb3cfa37-3012-4109-b295-88bb083a2aa6",
+                              "experiment_material_batch": "22222",
+                              "experiment_material_name": "测试标题模版",
+                              "experiment_material_price": "222.00",
+                              "experiment_material_sn": "SN-2222222222",
+                              "experiment_material_state": {
+                                "id": "63e1c32f-f9f6-4caf-a698-631443950b93",
+                                "name": "待审核",
+                                "color": "#0052d9",
+                                "type_id": 0
+                              },
+                              "experiment_material_supplier": null,
+                              "description": "",
+                              "value": "135b78f6-dce7-4f1d-ab44-32ead0c1a231",
+                              "label": "测试标题模版/SN-2222222222"
+                            },
+                            {
+                              "id": "cd2b206c-0ca0-4c81-9622-aa5f618ef8a0",
+                              "material": {
+                                "id": "397ba2c4-1f0a-4f85-9a22-cc61bb174708",
+                                "modifier_name": null,
+                                "dept_belong_id": null,
+                                "creator_name": "小白1",
+                                "create_datetime": "2024-12-20 20:58:41",
+                                "update_datetime": "2024-12-20 20:58:41",
+                                "state": {
+                                  "id": "63e1c32f-f9f6-4caf-a698-631443950b93",
+                                  "name": "待审核",
+                                  "color": "#0052d9",
+                                  "type_id": 0
+                                },
+                                "description": null,
+                                "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3935",
+                                "modifier": null,
+                                "custom_data": {},
+                                "state_id": "63e1c32f-f9f6-4caf-a698-631443950b93",
+                                "ticket_id": "7691e486-31d8-4f9b-89ab-a74385a72bd9",
+                                "name": "测试222",
+                                "sn": "测试2222",
+                                "purpose": null,
+                                "cas": "测222",
+                                "attachment": null,
+                                "group": "397ba2c4-1f0a-4f85-9a22-cc61bb174708",
+                                "batch": "测试22222",
+                                "price": null,
+                                "production_date": null,
+                                "margin": null,
+                                "goods": null,
+                                "supplier": null,
+                                "place": null
+                              },
+                              "experiment_material": "397ba2c4-1f0a-4f85-9a22-cc61bb174708",
+                              "experiment_material_batch": "测试22222",
+                              "experiment_material_name": "测试222",
+                              "experiment_material_price": null,
+                              "experiment_material_sn": "测试2222",
+                              "experiment_material_state": {
+                                "id": "63e1c32f-f9f6-4caf-a698-631443950b93",
+                                "name": "待审核",
+                                "color": "#0052d9",
+                                "type_id": 0
+                              },
+                              "experiment_material_supplier": null,
+                              "description": "",
+                              "value": "cd2b206c-0ca0-4c81-9622-aa5f618ef8a0",
+                              "label": "测试222/测试2222"
+                            }
+                          ]
+                        }
+                      ],
+                      "abstract": false,
+                      "dictType": null,
+                      "multiple": true,
+                      "readOnly": false,
+                      "required": false,
+                      "expanding": false,
+                      "validation": null,
+                      "enablePrint": true
+                    },
+                    "key": "tuan_cai_liao",
+                    "type": "SelectMaterial",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "rowKey": "32/0xxqi55n",
+                    "description": "",
+                    "operateType": "操作"
+                  },
+                  {
+                    "id": 33,
+                    "title": "单选",
+                    "props": {
+                      "suffix": null,
+                      "options": [
+                        "选项1",
+                        "选项2"
+                      ],
+                      "abstract": false,
+                      "required": false,
+                      "expanding": false,
+                      "enablePrint": true
+                    },
+                    "key": "dan_xuan",
+                    "type": "SelectInputRadio",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "description": "",
+                    "rowKey": "33/5zyhhnry",
+                    "operateType": "操作"
+                  }
+                ],
+                "formData": {
+                  "description": "",
+                  "dan_hang_shu_ru": "热供热",
+                  "tuan_cai_liao": [
+                    "135b78f6-dce7-4f1d-ab44-32ead0c1a231",
+                    "cd2b206c-0ca0-4c81-9622-aa5f618ef8a0"
+                  ],
+                  "dan_xuan": "选项1"
+                }
+              }
+            },
+            {
+              "id": "a1300d9c-793a-43cf-963d-6bfa415e44c9",
+              "rowKey": "a1300d9c-793a-43cf-963d-6bfa415e44c9/kv4nmbxu",
+              "name": "北方大部分",
+              "type": "group",
+              "description": "",
+              "form": {
+                "formItems": [
+                  {
+                    "id": 31,
+                    "title": "单行输入",
+                    "props": {
+                      "suffix": null,
+                      "abstract": true,
+                      "required": false,
+                      "enableScan": false,
+                      "enablePrint": true
+                    },
+                    "key": "dan_hang_shu_ru",
+                    "type": "TextInput",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "description": "",
+                    "rowKey": "31/g0sps9wt",
+                    "operateType": "物料"
+                  },
+                  {
+                    "id": 33,
+                    "title": "单选",
+                    "props": {
+                      "suffix": null,
+                      "options": [
+                        "选项1",
+                        "选项2"
+                      ],
+                      "abstract": false,
+                      "required": false,
+                      "expanding": false,
+                      "enablePrint": true
+                    },
+                    "key": "dan_xuan",
+                    "type": "SelectInputRadio",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "description": "",
+                    "rowKey": "33/5c5zuerh",
+                    "operateType": "物料"
+                  },
+                  {
+                    "id": 35,
+                    "title": "哈哈啥",
+                    "props": {
+                      "suffix": null,
+                      "abstract": true,
+                      "required": false,
+                      "enableScan": false,
+                      "enablePrint": true
+                    },
+                    "key": "ha_ha_sha",
+                    "type": "TextInput",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "description": "",
+                    "rowKey": "35/bqgoj64a",
+                    "operateType": "物料"
+                  },
+                  {
+                    "id": 36,
+                    "title": "够了够了",
+                    "props": {
+                      "suffix": null,
+                      "abstract": true,
+                      "required": false,
+                      "enableScan": false,
+                      "enablePrint": true
+                    },
+                    "key": "gou_le_gou_le",
+                    "type": "TextInput",
+                    "value": null,
+                    "unit": null,
+                    "attribute_type": "single",
+                    "multiple": false,
+                    "description": "",
+                    "rowKey": "36/lsb0fd8o",
+                    "operateType": "物料"
+                  }
+                ],
+                "formData": {
+                  "description": "",
+                  "dan_hang_shu_ru": "红糖核桃仁",
+                  "dan_xuan": "选项2",
+                  "ha_ha_sha": "隔热我公司功夫",
+                  "gou_le_gou_le": "个人够了"
+                }
+              }
+            }
+          ],
+          "title": "工艺202412201542gfd"
         },
         "content": [
           {
             "type": "paragraph",
             "attrs": {
               "indent": null,
-              "margin": {},
               "textAlign": "left",
-              "lineHeight": 1.5
+              "lineHeight": 1.5,
+              "margin": {}
             },
             "content": [
               {
-                "text": " ",
-                "type": "text"
+                "type": "text",
+                "text": " "
               }
             ]
+          },
+          {
+            "type": "paragraph",
+            "attrs": {
+              "indent": null,
+              "textAlign": "left",
+              "lineHeight": 1.5,
+              "margin": {}
+            }
           }
         ]
       },

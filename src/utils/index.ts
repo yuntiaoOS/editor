@@ -89,3 +89,35 @@ export const getFieldValue = (field: string, row: any)=> {
   // console.log('----------getFieldName----11111-------------', field, row)
   return fieldName
 }
+
+export function mergeRowsByFields(fields,baseField, data) {
+  return ({ row, col, rowIndex }) => {
+    const field = col.colKey ;
+
+    // 检查字段是否在需要合并的列表中
+    if (fields.includes(field)) {
+      const prevRow = data[rowIndex - 1];
+      const nextRow = data[rowIndex + 1];
+
+      // 隐藏当前单元格，若上一个单元格值相同
+      if (prevRow && prevRow[baseField] === row[baseField]) {
+        return { rowspan: 0, colspan: 1 };
+      }
+
+      // 计算合并的行数
+      if (nextRow && nextRow[baseField] === row[baseField]) {
+        let rowspan = 1;
+        for (let i = rowIndex + 1; i < data.length; i++) {
+          if (data[i][baseField] === row[baseField]) {
+            rowspan++;
+          } else {
+            break;
+          }
+        }
+        return { rowspan, colspan: 1 }; // 合并单元格
+      }
+    }
+
+    return { rowspan: 1, colspan: 1 }; // 默认不合并
+  };
+}

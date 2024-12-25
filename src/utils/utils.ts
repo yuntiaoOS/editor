@@ -45,4 +45,4 @@ export function hasExtension(editor: Editor, name: string): boolean {
   return true
 }
 
-export { differenceBy, isEqual, throttle, truncate } from 'lodash-unified'
+export { differenceBy, isEqual, throttle, truncate } from 'lodash-es'

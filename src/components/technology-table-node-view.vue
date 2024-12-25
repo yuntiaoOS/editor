@@ -29,11 +29,17 @@
                 <span>{{item.title}}</span>
               </div>
               <template #action>
-                <div style="display:flex;align-items: center;gap:10px;">
-                  <t-link theme="primary" hover="color" @click="onOperateAdd('up',index,slotProps.rowIndex,slotProps.row)" > 向上插入 </t-link>
-                  <t-link theme="primary" hover="color" @click="onOperateAdd('down',index,slotProps.rowIndex,slotProps.row)" > 向下插入 </t-link>
-                  <t-dropdown :options="[{content:'删除', value: 'delete'}]" trigger="hover" @click="()=>{ 
-                    slotProps.row.form.formItems.splice(index, 1);
+                <div style="margin-right:10px;">
+                  <t-link v-if="false" theme="primary" hover="color" @click="onOperateAdd('up',index,slotProps.rowIndex,slotProps.row)" > 向上插入 </t-link>
+                  <t-link v-if="false" theme="primary" hover="color" @click="onOperateAdd('down',index,slotProps.rowIndex,slotProps.row)" > 向下插入 </t-link>
+                  <t-dropdown :options="[{content:'向上插入', value: 'up'},{content:'向下插入', value: 'down'},{content:'删除', value: 'delete'}]" trigger="hover" @click="(operateI)=>{ 
+                    if(operateI.value === 'delete'){
+                      slotProps.row.form.formItems.splice(index, 1);
+                    }else if(operateI.value === 'up'){
+                      onOperateAdd('up',index,slotProps.rowIndex,slotProps.row)
+                    }else if(operateI.value === 'down'){
+                      onOperateAdd('down',index,slotProps.rowIndex,slotProps.row)
+                    }
                    }">
                     <t-icon name="ellipsis" size="18px" style="cursor: pointer;"></t-icon>
                   </t-dropdown>
@@ -200,7 +206,7 @@ import { getProcesses_attributeListFetch ,get_processes_templateListFetch,getEva
 import { v4 as uuid } from 'uuid'
 
 import { timeFormat } from '@/utils/time-ago'
-import { cloneDeep } from 'lodash-unified';
+import { cloneDeep } from 'lodash-es';
 import { shortId } from '@/utils/short-id'
 import {
   ChevronRightIcon,

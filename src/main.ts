@@ -2,9 +2,9 @@ import type { UmoEditorOptions } from '@/types'
 
 import App from './app.vue'
 import { useUmoEditor } from './components'
-
-import MzycLib from '../../../mzyc-vue-components/outDist/lib/mzyc-lib.es.js'
-import '../../../mzyc-vue-components/outDist/lib/mzyc-vue-components.css'
+//我想引用mzyc-vue-components-zzw项目里面的 /dist/lib/mzyc-lib.es.js
+import MzycLib from '../../mzyc-vue-components-zzw/dist/lib/mzyc-lib.es.js'
+import '../../mzyc-vue-components-zzw/dist/lib/mzyc-vue-components.css'
 
 const app = createApp(App)
 // // 引入组件库的少量全局样式变量

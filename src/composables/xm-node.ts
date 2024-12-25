@@ -1,5 +1,5 @@
 import { Node } from '@tiptap/core'
-import { update } from 'lodash-unified';
+import { update } from 'lodash-es';
 import { v4 as uuid } from 'uuid'
 import { timeFormat } from '@/utils/time-ago'
 export default class xmNode extends Node{

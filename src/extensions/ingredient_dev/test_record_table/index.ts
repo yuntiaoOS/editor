@@ -84,6 +84,19 @@ export default xmNode.create({
           return { 'data-designParams': JSON.stringify(attributes.designParams)  };
         },
       },
+      designResult: {
+        default: {},
+        parseHTML: (element) => {
+          const designResult = element.getAttribute('data-designResult');
+          return JSON.parse(designResult as string || '{}');
+        },
+        renderHTML: (attributes) => {
+          if (!attributes.designResult) {
+            return {};
+          }
+          return { 'data-designResult': JSON.stringify(attributes.designResult)  };
+        },
+      },
       selectRows: {
         default: [],
         parseHTML: (element) => {

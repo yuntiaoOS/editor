@@ -91,7 +91,7 @@ import { getIngredient_dev_materialListFetch } from '@/api/material'
 import { v4 as uuid } from 'uuid'
 const { node, editor, updateAttributes } = defineProps(nodeViewProps)
 import { timeFormat } from '@/utils/time-ago'
-import { cloneDeep } from 'lodash-unified';
+import { cloneDeep } from 'lodash-es';
 const { options ,editedComponentType} = useStore()
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
 

@@ -102,7 +102,7 @@ import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
 import { getIngredient_dev_experimentListFetch,post_ingredient_dev_sample_fetch } from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
-import { cloneDeep } from 'lodash-unified';
+import { cloneDeep } from 'lodash-es';
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 

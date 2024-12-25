@@ -1,67 +1,9 @@
 <template>
   <t-space direction="vertical" align="" style="width: 100%;">
-    <div v-if="viewType === 'nodeView'" class="more-detail">
-      <t-divider align="left" dashed>样品参数</t-divider>
-      <div v-for="(treeItem,index) in _value.experimental_design.formItems" :key="index">
-        <div><span :style="{color: 'var(--umo-text-color-primary)',fontWeight: 'bold' ,lineHeight:'32px'}">{{ treeItem.title }}</span></div>
-        <t-row v-for="(item,indexF) in treeItem.formItems" :key="indexF" style="margin-left:30px;line-height: 32px ;">
-          <t-col flex="150px">
-            <div>
-              <span class="umo-tree__line umo-tree__line--leaf umo-tree__line--first" style="--level: 1;left: -26px;line-height: 36px;bottom:10px;"></span>
-              <span :style="{color: 'blue1' ,width: '150px'}">{{ item.title }}</span>
-            </div>
-          </t-col>
-          <t-col flex="auto">
-            <FormDesignRender 
-              v-model="_value.experimental_design.formData[treeItem.key][item.key]"
-              style="overflow: auto;"
-              :mode=" 'RESP'"
-              :config="item">
-            </FormDesignRender>
-          </t-col>
-        </t-row>
-        <t-row style="margin-bottom:16px;margin-top:10px;">
-          <t-col flex="100px">
-            <span :style="{color: 'blue' ,width: '150px'}">备注</span>
-          </t-col>
-          <t-col flex="auto">
-            <t-textarea v-model="_value.experimental_design.formData[treeItem.key].description" :autosize="{minRows: 2}" placeholder="请输入备注"></t-textarea>
-          </t-col>
-        </t-row>
-
-        <t-tree v-if="false"
-          :data="[treeItem]"  :keys="{ value: 'rowKey', label: 'title', children: 'formItems' }"
-          activable  expandParent activeMultiple expandAll 
-          allowFoldNodeOnFilter  line >  
-          <template #label="{ node }">
-            <t-row>
-              <t-col flex="150px">
-                <span :style="{color: node.data.type ?'blue' :'var(--umo-text-color-primary)' ,width: '150px'}">{{ node.label }}</span>
-              </t-col>
-              <t-col flex="auto">
-                <div v-if="node.isLeaf()">
-                  <xmFormDesignRender
-                    v-model="_value.experimental_design.formData"
-                    :label="node.data.title"
-                    :valueKey="getNodeFullColKey(node)"
-                    :mode=" 'RESP'"
-                    :config="node.data">
-                  </xmFormDesignRender>
-                  
-                </div>
-              </t-col>
-            </t-row>
-          </template>
-        </t-tree>
-        
-      </div>
-      
-    </div>
     <div>
-      <t-divider align="left" dashed>评测记录</t-divider>
       <t-table  
         ref="tableRef"  :loading="loading"  
-        row-key="id" :data="_value.record_table.table_data" :columns="_value.record_table.columns" resizable
+        row-key="id" :data="_sampleInfo.record_table.table_data" :columns="_sampleInfo.record_table.columns" resizable
       >
         <template #defaultValueSlot="slotProps">
           <div >
@@ -88,10 +30,10 @@
         </template>
         <template #type-slot-operate="slotProps">
           <div style="display: flex; align-items: center;gap: 10px; ">
-            <t-link theme="primary" hover="color" @click="_value.record_table.table_data.push(cloneDeep( slotProps.row ) )">
+            <t-link theme="primary" hover="color" @click="_sampleInfo.record_table.table_data.push(cloneDeep( slotProps.row ) )">
               复制
             </t-link>
-            <t-popconfirm content="确认删除吗" @confirm="() => { _value.record_table.table_data.splice( _value.record_table.table_data.indexOf(slotProps.row),1 ) }" >
+            <t-popconfirm content="确认删除吗" @confirm="() => { _sampleInfo.record_table.table_data.splice( _sampleInfo.record_table.table_data.indexOf(slotProps.row),1 ) }" >
               <t-button title="删除" theme="danger" shape="square" variant="text" >删除</t-button>
             </t-popconfirm>
           </div>
@@ -126,7 +68,7 @@
 
 <script setup lang="jsx">
 import { getFieldValue } from '@/utils/index';
-import { cloneDeep } from 'lodash-unified';
+import { cloneDeep } from 'lodash-es';
 import { shortId } from '@/utils/short-id'
 import { v4 as uuid } from 'uuid'
 import { getEval_attribute_libraryListFetch,get_ingredient_dev_sampleListFetch,post_ingredient_dev_sample_fetch  } from '@/api/experiment'
@@ -151,6 +93,15 @@ const _value = computed({
   },
   set(val) {
     emits('update:modelValue', val)
+  }
+})
+
+const _sampleInfo = computed({
+  get() {
+    return _value.value.sample
+  },
+  set(val) {
+    _value.value.sample = val
   }
 })
 
@@ -210,7 +161,7 @@ const onAddIndexFunc = ()=>{
 }
 
 const on_select_indexFunc = ()=>{
-  console.log('--------on_select_indexFunc--------590--------',_value.value,selectTableForm.value )
+  console.log('--------on_select_indexFunc--------590--------',_sampleInfo.value,selectTableForm.value )
   select_record_form.value?.validate({ showErrorMessage: true }).then((validateResult) => {
     if (validateResult && Object.keys(validateResult).length) {
       const firstError = Object.values(validateResult)[0]?.[0]?.message;
@@ -232,19 +183,19 @@ const on_select_indexFunc = ()=>{
       })
       console.log('--------on_select_indexFunc--------593--------',paramsColumns )
 
-      _value.value.record_table.columns = [...paramsColumns, ...suffixColumns]
-      _value.value.record_table.params = cloneDeep(indexTypes)
+      _sampleInfo.value.record_table.columns = [...paramsColumns, ...suffixColumns]
+      _sampleInfo.value.record_table.params = cloneDeep(indexTypes)
       
 
       makerecordDataFunc(true)
-      emits('change', _value.value)
+      emits('change', _sampleInfo.value)
       // let indexC = -1
       // table_data.value.forEach((row, index) => {
-      //   if (row.id === _value.value.id) {
+      //   if (row.id === _sampleInfo.value.id) {
       //     indexC = index;
       //   }
       // });
-      // table_data.value.splice(indexC, 1, _value.value)
+      // table_data.value.splice(indexC, 1, _sampleInfo.value)
       // console.log('--------on_select_indexFunc--------656--------',table_data.value )
       select_index_visible.value = false
     }
@@ -253,8 +204,8 @@ const on_select_indexFunc = ()=>{
 }
 
 const makerecordDataFunc = (init=false)=>{
-  console.log('--------makerecordDataFunc--------590--------',_value.value,selectTableForm.value )
-  const rowD = {name: _value.value.name}
+  console.log('--------makerecordDataFunc--------590--------',_sampleInfo.value,selectTableForm.value )
+  const rowD = {name: _sampleInfo.value.name}
   // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
   function processValueItems(items) {
     const valueC = {};
@@ -272,7 +223,7 @@ const makerecordDataFunc = (init=false)=>{
     return valueC;
   }
   // 主逻辑
-  _value.value.record_table.params.forEach(ele => {
+  _sampleInfo.value.record_table.params.forEach(ele => {
     let valueC = '';
 
     if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
@@ -284,9 +235,9 @@ const makerecordDataFunc = (init=false)=>{
   });
   nextTick(() => {
     if (init) {
-      _value.value.record_table.table_data = [rowD]
+      _sampleInfo.value.record_table.table_data = [rowD]
     }else{
-      _value.value.record_table.table_data.push(rowD)
+      _sampleInfo.value.record_table.table_data.push(rowD)
     }
     
   });

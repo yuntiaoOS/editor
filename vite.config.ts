@@ -46,7 +46,7 @@ const buildConfig = {
     name: pkg.name,
     fileName: 'umo-editor',
   },
-  outDir: '../outDist',
+  outDir: './dist',
   copyPublicDir: false,
   minify: 'esbuild' as const,
   cssMinify: true,
