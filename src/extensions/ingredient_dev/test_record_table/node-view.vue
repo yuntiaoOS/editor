@@ -39,7 +39,7 @@
                 />
               </div>
               <t-space>
-                <t-button variant="outline" @click="onAddFunc">新增</t-button>
+                <t-button variant="outline" @click="onAddFunc">{{ designResult.formItems ? '编辑': '新增' }}</t-button>
                 <div
                   v-if="updateTime && updateTime.length > 10"
                   title="修改时间"
@@ -83,36 +83,55 @@
               :config="row.operate_router"
             >
             </FormDesignRender>
+            <div v-else-if="row.operateType === '过程描述'">
+              <t-textarea
+                v-model="row.description"
+                placeholder="请输入过程描述"
+                name="description"
+                :autosize="true"
+              />
+            </div>
           </div>
         </template>
         <template #slot-description="{ row }">
-          <div class="slot-description-class"
-               style="display: flex;align-items: center;justify-content: space-between; width: 100%">
-            <span v-if="!row.description || row.description.length === 0"
-              style="color: var(--td-text-color-placeholder)">{{'点击输入实验记录' }}</span>
-            <span v-else>{{row.description}}</span>
+          <div
+            class="slot-description-class"
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              width: 100%;
+            "
+          >
+            <span
+              v-if="!row.description || row.description.length === 0"
+              style="color: var(--td-text-color-placeholder)"
+              >{{ '点击输入实验记录' }}</span
+            >
+            <span v-else>{{ row.description }}</span>
             <div class="slot-description-S-class">
-              <t-button v-if="['物料', '操作'].includes(row.operateType)"
-                        title="出样"
-                        theme="primary"
-                        shape="square"
-                        variant="text"
-                        @click.stop="creatSample(row)"
+              <t-button
+                v-if="['物料', '操作'].includes(row.operateType)"
+                title="出样"
+                theme="primary"
+                shape="square"
+                variant="text"
+                @click.stop="creatSample(row)"
               >
                 出样
               </t-button>
-              <t-button v-if="['样品'].includes(row.operateType)"
-                        style="width: 80px;"
-                        title="评测记录"
-                        theme="primary"
-                        shape="square"
-                        variant="text"
-                        @click.stop="expandDataFunc(row)"
+              <t-button
+                v-if="['样品'].includes(row.operateType)"
+                style="width: 80px"
+                title="评测记录"
+                theme="primary"
+                shape="square"
+                variant="text"
+                @click.stop="expandDataFunc(row)"
               >
                 评测记录
               </t-button>
             </div>
-
           </div>
         </template>
         <template #type-slot-operate="{ col, row, rowIndex }">
@@ -423,6 +442,7 @@ const submitExperimentalDesign = () => {
     table_dataV.push(row)
   })
   table_data.value = cloneDeep(table_dataV)
+  updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
   console.log('----351------onAddFunc----------', table_data.value)
 }
 
@@ -432,13 +452,12 @@ const onAddFunc = () => {
     designResult.value,
     select_design_visible.value,
   )
-  initialize()
-  // if (designResult.value.formItems && designResult.value.formItems.length > 0 ) {
-  //   on_select_designFunc()
-  // }else{
-  //   console.log('----351------onAddFunc----------',designResult.value)
-  select_design_visible.value = true
-  // }
+  if (designResult.value.formItems && designResult.value.formItems.length > 0) {
+    select_design_visible.value = true
+  } else {
+    initialize()
+    select_design_visible.value = true
+  }
 }
 
 const expandDataFunc = (row) => {
@@ -479,15 +498,26 @@ const onAddIndexFunc = (row) => {
 }
 
 const onDelete = async (row) => {
+  updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
   table_data.value.splice(table_data.value.indexOf(row), 1)
 }
 
-const rowspanAndColspan = ({ row, col, rowIndex }) => {
-  return mergeRowsByFields(
-    ['procedure'],
-    'procedure_rowKey',
-    table_data.value,
-  )({ row, col, rowIndex })
+const rowspanAndColspan = ({ row, col, rowIndex, colIndex }) => {
+  if (colIndex > 1 && row.operateType === '过程描述') {
+    if (colIndex === 2) {
+      return { rowspan: 1, colspan: 2 }
+    } else if (colIndex === 3) {
+      return { rowspan: 0, colspan: 0 }
+    } else {
+      return { rowspan: 1, colspan: 1 }
+    }
+  } else {
+    return mergeRowsByFields(
+      ['procedure'],
+      'procedure_rowKey',
+      table_data.value,
+    )({ row, col, rowIndex })
+  }
 }
 
 const columns = ref([])
@@ -631,6 +661,7 @@ columns.value = [
       abortEditOnEvent: ['onEnter', 'onBlur'],
       onEdited: (context) => {
         const newData = [...table_data.value]
+        updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
         console.log('------552------Edit firstName:', context, table_data.value)
@@ -778,8 +809,11 @@ const creatSample = async (row) => {
             },
           }
           console.log('------row.is_sample------rowC--------', rowC)
-          const rowIndex = table_data.value.findIndex((rowT) => rowT.id === row.id)
+          const rowIndex = table_data.value.findIndex(
+            (rowT) => rowT.id === row.id,
+          )
           const table_dataV = cloneDeep(table_data.value)
+          updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
           table_dataV.splice(rowIndex + 1, 0, rowData)
           table_data.value = cloneDeep(table_dataV)
           tableRef.value.refreshTable()
@@ -856,6 +890,7 @@ const on_select_indexFunc = () => {
           }
         })
         table_data.value.splice(indexC, 1, selectRecordTable.value)
+        updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
         console.log(
           '--------on_select_indexFunc--------656--------',
           table_data.value,
@@ -1116,7 +1151,7 @@ onMounted(() => {
   opacity: 0;
 }
 .slot-description-class:hover {
-  .slot-description-S-class{
+  .slot-description-S-class {
     opacity: 1;
   }
 }

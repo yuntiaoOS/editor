@@ -253,9 +253,8 @@ onMounted(() => {
   initialize()
   console.log('--------onMounted--------213--------',_nodeAttrs.value)
   console.log('---------285------------',JSON.parse( JSON.stringify(_nodeAttrs.value.customerParams)  ))
-  if (_nodeAttrs.value.customerParams?.is_select ) {
-    selectTableForm.value.technology = _nodeAttrs.value.customerParams?.technology
-    on_select_designFunc()
+  if (_nodeAttrs.value.designParams?.formItems && _nodeAttrs.value.designParams?.formItems.length > 0) {
+    experimental_design_visible.value = true
   }else{
     if (!designResult.value || !designResult.value.formItems || designResult.value.formItems.length === 0) {
       setTimeout(() => {
