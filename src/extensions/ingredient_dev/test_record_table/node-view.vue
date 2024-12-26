@@ -691,44 +691,70 @@ const columnEditFunc = () => {
 
 const creatSample = async (row) => {
   console.log('------row.is_sample--------------', row)
-  const rowC = {
-    id: uuid(),
-    procedure_rowKey: row.procedure_rowKey,
-    operate_rowKey: row.operate_rowKey,
-    operateType: '样品',
-    formData: {},
-    formItems: { title: '样品检测' },
-    description: '',
-    procedure: row.procedure,
-    is_sample: false,
-    operate_router: { title: '样品检测' },
-    sample: {
-      id: uuid(),
-      name: `样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
-      sn: `SF-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
-      weight: 1,
-      record_table: {
-        id: uuid(),
-        title: `测试${shortId()}`,
-        table_data: [],
-        columns: [...suffixColumns],
-        params: {},
-      },
-      description: '',
-    },
-  }
-  console.log('------row.is_sample------rowC--------', rowC)
-  const rowIndex = table_data.value.findIndex((rowT) => rowT.id === row.id)
-  const table_dataV = cloneDeep(table_data.value)
-  table_dataV.splice(rowIndex + 1, 0, rowC)
-  table_data.value = cloneDeep(table_dataV)
-  tableRef.value.refreshTable()
-  return
+  // const rowC = {
+  //   id: uuid(),
+  //   procedure_rowKey: row.procedure_rowKey,
+  //   operate_rowKey: row.operate_rowKey,
+  //   operateType: '样品',
+  //   formData: {},
+  //   formItems: { title: '样品检测' },
+  //   description: '',
+  //   procedure: row.procedure,
+  //   is_sample: false,
+  //   operate_router: { title: '样品检测' },
+  //   sample: {
+  //     id: uuid(),
+  //     name: `样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
+  //     sn: `SF-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
+  //     weight: 1,
+  //     record_table: {
+  //       id: uuid(),
+  //       title: `测试${shortId()}`,
+  //       table_data: [],
+  //       columns: [...suffixColumns],
+  //       params: {},
+  //     },
+  //     description: '',
+  //   },
+  // }
+  // console.log('------row.is_sample------rowC--------', rowC)
+  // const rowIndex = table_data.value.findIndex((rowT) => rowT.id === row.id)
+  // const table_dataV = cloneDeep(table_data.value)
+  // table_dataV.splice(rowIndex + 1, 0, rowC)
+  // table_data.value = cloneDeep(table_dataV)
+  // tableRef.value.refreshTable()
+  // return
   const $key_data = JSON.parse(localStorage.getItem('key_data'))
   const experiment_record = $key_data?.experiment_record
   const experiment_theme = $key_data?.experiment_theme
   console.log('------row.is_sample----2----------', experiment_record)
-  if (row.is_sample && experiment_record?.id) {
+  if (experiment_record?.id) {
+    const rowC = {
+      id: uuid(),
+      procedure_rowKey: row.procedure_rowKey,
+      operate_rowKey: row.operate_rowKey,
+      operateType: '样品',
+      formData: {},
+      formItems: { title: '样品检测' },
+      description: '',
+      procedure: row.procedure,
+      is_sample: false,
+      operate_router: { title: '样品检测' },
+      sample: {
+        id: uuid(),
+        name: `样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
+        sn: `SF-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
+        weight: 1,
+        record_table: {
+          id: uuid(),
+          title: `测试${shortId()}`,
+          table_data: [],
+          columns: [...suffixColumns],
+          params: {},
+        },
+        description: '',
+      },
+    }
     const params = {
       experiment_theme: experiment_theme?.id,
       record: experiment_record?.id,
@@ -736,22 +762,27 @@ const creatSample = async (row) => {
       source: '自制',
       count: row.count,
       weight: row.weight,
-      data: [{ name: row.name, value: row }],
+      data: [{ name: rowC.sample.name, value: rowC }],
     }
     const res = await post_ingredient_dev_sample_fetch(params)
     if (res.data.code === 2000) {
       if (res.data.data && res.data.data.length > 0) {
-        const rowC = {
-          ...row,
-          sn: res.data.data[0].sn,
-          id: res.data.data[0].id,
-          row_id: row.id,
-        }
-        const index = table_data.value.findIndex(
-          (rowT) => rowT.id === rowC.row_id,
-        )
         nextTick(() => {
-          table_data.value.splice(index, 1, rowC)
+          const rowData = {
+            ...rowC,
+            sample: {
+              ...rowC.sample,
+              id: res.data.data[0].id,
+              // name: `样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
+              sn: res.data.data[0].sn,
+            },
+          }
+          console.log('------row.is_sample------rowC--------', rowC)
+          const rowIndex = table_data.value.findIndex((rowT) => rowT.id === row.id)
+          const table_dataV = cloneDeep(table_data.value)
+          table_dataV.splice(rowIndex + 1, 0, rowData)
+          table_data.value = cloneDeep(table_dataV)
+          tableRef.value.refreshTable()
         })
         useMessage('success', res.data.msg)
       }
