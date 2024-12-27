@@ -121,7 +121,7 @@
           <template #panelBottomContent>
             <div class="select-panel-footer">
               <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onProcessesTemplateAdd"
-                >新增工序模块</t-button
+                >新增标准工艺</t-button
               >
               <div v-else style="padding: 10px;">
                 <t-space>

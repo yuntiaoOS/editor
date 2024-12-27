@@ -39,6 +39,7 @@
                 />
               </div>
               <t-space>
+                <t-button variant="outline" @click="onShowFunc">{{  '试验方法设计' }}</t-button>
                 <t-button variant="outline" @click="onAddFunc">{{ designResult.formItems ? '编辑': '新增' }}</t-button>
                 <div
                   v-if="updateTime && updateTime.length > 10"
@@ -192,9 +193,22 @@
       v-model:node-attrs="_nodeAttrs"
       :node="node"
       :editor="editor"
-      @cancel="select_design_visible = false"
+      @cancel="selectDesignCancel"
       @submit="submitExperimentalDesign"
     />
+    <t-dialog
+      v-model:visible="result_design_visible"
+      destroy-on-close
+      :close-on-overlay-click="false"
+      header="试验方法设计" :cancel-btn="null"
+      width="80%" attach="body"
+      :confirmBtn="null"
+      :confirm-on-enter="true"
+      :on-cancel="onCancelFunc"
+      :on-close="onCancelFunc"
+    >
+      <experimental-design v-if="result_design_visible" v-model:designParams="designResult" readonly/>
+    </t-dialog>
     <t-dialog
       v-model:visible="select_index_visible"
       destroy-on-close
@@ -318,6 +332,8 @@ const $key_data = JSON.parse(localStorage.getItem('key_data'))
 const experiment_record = computed(() => $key_data?.experiment_record)
 const experiment_theme = computed(() => $key_data?.experiment_theme)
 const select_design_visible = ref(false)
+
+const result_design_visible = ref(false)
 const experimental_design_visible = ref(false)
 
 const select_design_form = ref()
@@ -444,6 +460,16 @@ const submitExperimentalDesign = () => {
   table_data.value = cloneDeep(table_dataV)
   updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
   console.log('----351------onAddFunc----------', table_data.value)
+}
+
+const selectDesignCancel = () => {
+  console.log('----------selectDesignCancel----------')
+  select_design_visible.value = false
+}
+
+const onShowFunc = () => {
+  console.log('------onShowFunc----------')
+  result_design_visible.value = true
 }
 
 const onAddFunc = () => {

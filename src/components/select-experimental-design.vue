@@ -7,6 +7,7 @@
     width="600" attach="body"
     :confirm-on-enter="true"
     :on-cancel="onCancelFunc"
+    :on-close="onCancelFunc"
     :on-confirm="select_design_formFunc"
   >
     <t-form ref="select_design_form" :rules="FORM_RULES" :data="selectTableForm" :colon="true" >
@@ -24,6 +25,8 @@
     header="试验方法设计" :cancel-btn="null"
     width="80%" attach="body"
     :confirm-on-enter="true"
+    :on-cancel="onCancelFunc"
+    :on-close="onCancelFunc"
     :on-confirm="on_experimental_designFunc"
   >
     <experimental-design v-if="experimental_design_visible" v-model:designParams="_designParams" v-model:selectFormItems="selectFormItems" v-model:orthogonalDesign="orthogonalDesign"  @select-change="onSelectChange"/>
@@ -137,6 +140,26 @@ const getDesignParams = () => {
               items: processItems(eleI.props.items, optionsGroup), // 递归处理嵌套的 items
             },
           };
+        } else if (eleI.type === 'TableList' ) {
+          return {
+            ...eleI,
+            props: {
+              ...eleI.props,
+              columns: eleI.props.columns.map(eleC=>{
+                if (eleC.type === 'SelectMaterial') {
+                  return {
+                    ...eleC,
+                    props: {
+                      ...eleC.props,
+                      options: optionsGroup,
+                    },
+                  };
+                }else{
+                  return eleC
+                }
+              })
+            },
+          };
         } else {
           return eleI;
         }
@@ -200,6 +223,7 @@ const on_select_designFunc = ()=>{
 }
 
 const onCancelFunc = ()=>{
+  console.log('--------onCancelFunc--------142--------')
   emits('cancel')
 }
 
