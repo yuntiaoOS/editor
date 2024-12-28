@@ -66,7 +66,7 @@
           </div>
         </template>
         <template #expandedRow="slotProps">
-          <TestRecordExpanded v-model="slotProps.row"></TestRecordExpanded>
+          <TestRecordExpanded v-if="expandedRowKeys.includes(slotProps.row.id)" v-model="slotProps.row" :sample="slotProps.row.sample.id"></TestRecordExpanded>
         </template>
         <template #type-slot-operate-router="{ col, row, rowIndex }">
           <div class="operate-router-class">
@@ -114,6 +114,7 @@
               <t-button
                 v-if="['物料', '操作'].includes(row.operateType)"
                 title="出样"
+                style="width: 50px"
                 theme="primary"
                 shape="square"
                 variant="text"
@@ -124,13 +125,13 @@
               <t-button
                 v-if="['样品'].includes(row.operateType)"
                 style="width: 80px"
-                title="评测记录"
+                title="试验数据"
                 theme="primary"
                 shape="square"
                 variant="text"
                 @click.stop="expandDataFunc(row)"
               >
-                评测记录
+                试验数据
               </t-button>
             </div>
           </div>
@@ -308,7 +309,7 @@ import Template from '@/components/menus/toolbar/insert/template.vue'
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
-const { options } = useStore()
+const { options , refreshNode } = useStore()
 const dialog_visible = ref(false)
 const tableRef = ref()
 const editableRowKeys = ref([])
@@ -748,39 +749,10 @@ const columnEditFunc = () => {
 
 const creatSample = async (row) => {
   console.log('------row.is_sample--------------', row)
-  // const rowC = {
-  //   id: uuid(),
-  //   procedure_rowKey: row.procedure_rowKey,
-  //   operate_rowKey: row.operate_rowKey,
-  //   operateType: '样品',
-  //   formData: {},
-  //   formItems: { title: '样品检测' },
-  //   description: '',
-  //   procedure: row.procedure,
-  //   is_sample: false,
-  //   operate_router: { title: '样品检测' },
-  //   sample: {
-  //     id: uuid(),
-  //     name: `样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
-  //     sn: `SF-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
-  //     weight: 1,
-  //     record_table: {
-  //       id: uuid(),
-  //       title: `测试${shortId()}`,
-  //       table_data: [],
-  //       columns: [...suffixColumns],
-  //       params: {},
-  //     },
-  //     description: '',
-  //   },
-  // }
-  // console.log('------row.is_sample------rowC--------', rowC)
-  // const rowIndex = table_data.value.findIndex((rowT) => rowT.id === row.id)
-  // const table_dataV = cloneDeep(table_data.value)
-  // table_dataV.splice(rowIndex + 1, 0, rowC)
-  // table_data.value = cloneDeep(table_dataV)
-  // tableRef.value.refreshTable()
-  // return
+  const rowIndex = table_data.value.findIndex(
+    (rowT) => rowT.id === row.id,
+  )
+  const sampleData = table_data.value.slice(0,rowIndex+1)
   const $key_data = JSON.parse(localStorage.getItem('key_data'))
   const experiment_record = $key_data?.experiment_record
   const experiment_theme = $key_data?.experiment_theme
@@ -792,7 +764,7 @@ const creatSample = async (row) => {
       operate_rowKey: row.operate_rowKey,
       operateType: '样品',
       formData: {},
-      formItems: { title: '样品检测' },
+      formItems: sampleData,
       description: '',
       procedure: row.procedure,
       is_sample: false,
@@ -829,20 +801,19 @@ const creatSample = async (row) => {
             ...rowC,
             sample: {
               ...rowC.sample,
+              is_sample: true,
               id: res.data.data[0].id,
               // name: `样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
               sn: res.data.data[0].sn,
             },
           }
           console.log('------row.is_sample------rowC--------', rowC)
-          const rowIndex = table_data.value.findIndex(
-            (rowT) => rowT.id === row.id,
-          )
           const table_dataV = cloneDeep(table_data.value)
           updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
           table_dataV.splice(rowIndex + 1, 0, rowData)
           table_data.value = cloneDeep(table_dataV)
           tableRef.value.refreshTable()
+          refreshNode.value = 'sample_table'
         })
         useMessage('success', res.data.msg)
       }
@@ -1174,7 +1145,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .slot-description-S-class {
-  opacity: 0;
+  opacity: 1;
 }
 .slot-description-class:hover {
   .slot-description-S-class {
@@ -1188,9 +1159,10 @@ onMounted(() => {
 }
 
 .operate-sample-class {
+  cursor: pointer;
 }
 
-.operate-router-class::hover {
+.operate-router-class:hover {
   cursor: pointer;
 }
 

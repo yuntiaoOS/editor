@@ -15,6 +15,7 @@ export const useStore = createGlobalState(() => {
   const options = ref<UmoEditorOptions>(defaultOptions)
   const page = ref<PageOption>(defaultOptions.page)
   const editor = ref<Editor>()
+  const refreshNode = ref('')
   const painter = ref<{
     enabled: boolean
     once: boolean
@@ -168,6 +169,7 @@ export const useStore = createGlobalState(() => {
     options,
     page,
     editor,
+    refreshNode,
     painter,
     blockMenu,
     assistantBox,

@@ -3,37 +3,38 @@
     <div>
       <t-table  
         ref="tableRef"  :loading="loading"  
-        row-key="id" :data="_sampleInfo.record_table.table_data" :columns="_sampleInfo.record_table.columns" resizable
+        row-key="id" :data="_sampleInfo?.record_table?.table_data" :columns="_columns" resizable
       >
         <template #defaultValueSlot="slotProps">
           <div >
             <FormDesignRender style="overflow: auto;"
               v-model="slotProps.row[slotProps.col.colKey]"
-              :mode=" 'NORMAL'"
+              :mode=" readonly ? 'READ' : 'NORMAL'"
               :config="slotProps.col.attrs">
             </FormDesignRender>
           </div>
         </template>
         <template #topContent>
-          <div style="padding: 6px 0;display: block;">
+          <div style="padding: 6px 0;display: block;" v-if="!readonly">
             <t-space>
               <div>
+                <t-button  variant="outline" @click="onSaveDataFunc">保存数据</t-button>
                 <!-- <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
                 <t-input v-model="_title" auto-width placeholder="请输入名称" /> -->
               </div>
               <t-space>
-                <t-button  variant="outline" @click="makerecordDataFunc()">新增</t-button>
-                <t-button  variant="outline" @click="onAddIndexFunc()">配置指标</t-button>
+                <t-button  variant="outline" @click="onAddRowFunc">新增</t-button>
+                <t-button  variant="outline" @click="onAddIndexFunc">配置指标</t-button>
               </t-space>
             </t-space>
           </div>
         </template>
         <template #type-slot-operate="slotProps">
           <div style="display: flex; align-items: center;gap: 10px; ">
-            <t-link theme="primary" hover="color" @click="_sampleInfo.record_table.table_data.push(cloneDeep( slotProps.row ) )">
+            <t-link theme="primary" hover="color" @click="copyRowFunc(slotProps.row)">
               复制
             </t-link>
-            <t-popconfirm content="确认删除吗" @confirm="() => { _sampleInfo.record_table.table_data.splice( _sampleInfo.record_table.table_data.indexOf(slotProps.row),1 ) }" >
+            <t-popconfirm content="确认删除吗" @confirm="deleteRowFunc(slotProps.row)" >
               <t-button title="删除" theme="danger" shape="square" variant="text" >删除</t-button>
             </t-popconfirm>
           </div>
@@ -71,7 +72,13 @@ import { getFieldValue } from '@/utils/index';
 import { cloneDeep } from 'lodash-es';
 import { shortId } from '@/utils/short-id'
 import { v4 as uuid } from 'uuid'
-import { getEval_attribute_libraryListFetch,get_ingredient_dev_sampleListFetch,post_ingredient_dev_sample_fetch  } from '@/api/experiment'
+import {
+  getEval_attribute_libraryListFetch,
+  get_ingredient_dev_sampleListFetch,
+  post_ingredient_dev_sample_fetch,
+  put_ingredient_dev_sample_fetch,
+  get_ingredient_dev_sample_infoFetch,
+} from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
 
 const emits = defineEmits(['update:modelValue', 'change','blur','enter'])
@@ -85,24 +92,37 @@ const props = defineProps({
     type: String,
     default: 'nodeView',
   },
+  sample: {
+    type: String,
+    default: ''
+  },
+  readonly: {
+    type: Boolean,
+    default: false,
+  },
 })
  
-const _value = computed({
-  get() {
-    return props.modelValue
-  },
-  set(val) {
-    emits('update:modelValue', val)
-  }
-})
+const _value = ref({})
+//   computed({
+//   get() {
+//     return props.modelValue
+//   },
+//   set(val) {
+//     emits('update:modelValue', val)
+//   }
+// })
 
 const _sampleInfo = computed({
   get() {
-    return _value.value.sample
+    return _value.value.value?.sample
   },
   set(val) {
-    _value.value.sample = val
+    _value.value.value.sample = val
   }
+})
+
+const _columns = computed(() => {
+  return props.readonly ? _sampleInfo.value?.record_table.columns.filter(ele => ele.colKey !== 'operate') : _sampleInfo.value?.record_table.columns
 })
 
 const select_index_visible = ref(false);
@@ -113,7 +133,7 @@ const suffixColumns = [
   {
     title: '操作栏',
     colKey: 'operate',
-    width: 180,
+    width: 100,
     cell: 'type-slot-operate',
   },
 ]
@@ -156,6 +176,63 @@ const getNodeFullColKey = (node) => {
   return keyStr? keyStr : ''
 }
 
+const onSaveDataFunc = () => {
+  putIngredientDevSampleFunc(_value.value).then(res=>{
+    if (res.data.code === 2000) {
+      emits('change', _sampleInfo.value)
+    }
+  }).catch(err=>{
+    console.log(err, '--------on_select_indexFunc--------593--------')
+  })
+}
+
+const onAddRowFunc = () => {
+  makerecordDataFunc()
+  putIngredientDevSampleFunc(_value.value).then(res=>{
+    if (res.data.code === 2000) {
+      emits('change', _sampleInfo.value)
+    }
+  }).catch(err=>{
+    console.log(err, '--------on_select_indexFunc--------593--------')
+  })
+}
+
+const deleteRowFunc = (row) => {
+  const index = _sampleInfo.value.record_table.table_data.findIndex(ele => ele.id === row.id)
+  _sampleInfo.value.record_table.table_data.splice(index, 1)
+  putIngredientDevSampleFunc(_value.value).then(res=>{
+    if (res.data.code === 2000) {
+      emits('change', _sampleInfo.value)
+    }
+  }).catch(err=>{
+    console.log(err, '--------on_select_indexFunc--------593--------')
+  })
+}
+
+const copyRowFunc = (row) => {
+  const newRow = cloneDeep(row)
+  newRow.id = uuid()
+  _sampleInfo.value.record_table.table_data.push(newRow)
+  putIngredientDevSampleFunc(_value.value).then(res=>{
+    if (res.data.code === 2000) {
+      emits('change', _sampleInfo.value)
+      select_index_visible.value = false
+    }
+  }).catch(err=>{
+    console.log(err, '--------on_select_indexFunc--------593--------')
+  })
+}
+
+const putIngredientDevSampleFunc = (sampleInfo) => {
+  return new Promise((resolve, reject) => {
+    put_ingredient_dev_sample_fetch(props.sample , {value:sampleInfo.value}).then(res=>{
+      resolve(res)
+    }).catch(err=>{
+      reject(err)
+    })
+  })
+}
+
 const onAddIndexFunc = ()=>{
   select_index_visible.value = true
 }
@@ -188,16 +265,15 @@ const on_select_indexFunc = ()=>{
       
 
       makerecordDataFunc(true)
-      emits('change', _sampleInfo.value)
-      // let indexC = -1
-      // table_data.value.forEach((row, index) => {
-      //   if (row.id === _sampleInfo.value.id) {
-      //     indexC = index;
-      //   }
-      // });
-      // table_data.value.splice(indexC, 1, _sampleInfo.value)
-      // console.log('--------on_select_indexFunc--------656--------',table_data.value )
-      select_index_visible.value = false
+      putIngredientDevSampleFunc(_value.value).then(res=>{
+        if (res.data.code === 2000) {
+          emits('change', _sampleInfo.value)
+          select_index_visible.value = false
+        }
+      }).catch(err=>{
+        console.log(err, '--------on_select_indexFunc--------593--------')
+      })
+
     }
   })
   
@@ -205,7 +281,7 @@ const on_select_indexFunc = ()=>{
 
 const makerecordDataFunc = (init=false)=>{
   console.log('--------makerecordDataFunc--------590--------',_sampleInfo.value,selectTableForm.value )
-  const rowD = {name: _sampleInfo.value.name}
+  const rowD = {id:uuid(),name: _sampleInfo.value.name}
   // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
   function processValueItems(items) {
     const valueC = {};
@@ -233,14 +309,11 @@ const makerecordDataFunc = (init=false)=>{
     }
     rowD[ele.key] = valueC;
   });
-  nextTick(() => {
-    if (init) {
-      _sampleInfo.value.record_table.table_data = [rowD]
-    }else{
-      _sampleInfo.value.record_table.table_data.push(rowD)
-    }
-    
-  });
+  if (init) {
+    _sampleInfo.value.record_table.table_data = [rowD]
+  }else{
+    _sampleInfo.value.record_table.table_data.push(rowD)
+  }
 }
 
 const getAssessmentOptionFunc = async (page=1) => {
@@ -264,10 +337,26 @@ const getAssessmentOptionFunc = async (page=1) => {
   
 }
 
+const getSampleInfoFunc = async () => {
+  const res = await get_ingredient_dev_sample_infoFetch(props.sample)
+  console.log(res, '-------------488------------getSampleInfoFunc')
+  let resD = {}
+  if (true) {
+    resD = res.data
+  }else {
+    resD = res.data.value ? res.data.value : res.data
+  }
+  if (resD.code === 2000) {
+    _value.value = resD.data
+  }
 
+}
 
 onMounted( async () => {
   await getAssessmentOptionFunc()
+  if (props.sample) {
+    await getSampleInfoFunc()
+  }
 
 })
 

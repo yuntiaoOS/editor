@@ -25,14 +25,14 @@ export function renderGroups(editor: Editor) {
             editor?.chain().focus().deleteRange(range).addTechnology_tables({is_integration:true}).run()
           },
         },
-        {
-          name: 'experimental_design',
-          label: '试验方法设计',
-          iconName: 'experimental_design',
-          action: ({ editor, range }) => {
-            editor?.chain().focus().deleteRange(range).addExperimental_designs().run()
-          },
-        },
+        // {
+        //   name: 'experimental_design',
+        //   label: '试验方法设计',
+        //   iconName: 'experimental_design',
+        //   action: ({ editor, range }) => {
+        //     editor?.chain().focus().deleteRange(range).addExperimental_designs().run()
+        //   },
+        // },
         {
           name: 'test_record_table',
           label: '试验记录',
@@ -41,14 +41,14 @@ export function renderGroups(editor: Editor) {
             editor?.chain().focus().deleteRange(range).addTest_record_table().run()
           },
         },
-        // {
-        //   name: 'sample_table',
-        //   label: '样品表格',
-        //   iconName: 'sample',
-        //   action: ({ editor, range }) => {
-        //     editor?.chain().focus().deleteRange(range).addSample_tables({is_integration:true}).run()
-        //   },
-        // },
+        {
+          name: 'sample_table',
+          label: '样品表格',
+          iconName: 'sample',
+          action: ({ editor, range }) => {
+            editor?.chain().focus().deleteRange(range).addSample_tables({is_integration:true}).run()
+          },
+        },
         {
           name: 'evaluating_table',
           label: '评测表格',

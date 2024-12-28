@@ -2,8 +2,8 @@
   <node-view-wrapper :id="node.attrs.id" class="umo-node-view">
     <div style="width: 100%">
       <!-- <h2>样品</h2> -->
-      <t-table 
-        ref="tableRef"  :loading="loading"
+      <t-table :expandIcon="false"
+        ref="tableRef"  :loading="loading" :expanded-row-keys="expandedRowKeys" expanded-row="expandedRow"
         row-key="id" :data="table_data" :columns="columns" resizable v-model:displayColumns="displayColumns"
          >
         <template #topContent>
@@ -14,26 +14,39 @@
               </div>
               <t-space>
                 <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入样品名称" />
-                <t-button  variant="outline" @click="onAddFunc">新增</t-button>
+                <t-button  variant="outline" @click="onAddFunc">刷新</t-button>
                 <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
                 <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
               </t-space>
             </t-space>
           </div>
         </template>
-        <template #type-slot-sort="{ col, row , rowIndex}">
-          <t-space>
-            <t-icon v-if="rowIndex!==0" name="order-ascending" size="18px"></t-icon>
-            <div v-else></div>
-            <t-icon v-if="rowIndex!==table_data.length-1" name="order-descending" size="18px"></t-icon>
-          </t-space>
-
-        </template> 
+        <template #expandedRow="slotProps">
+          <TestRecordExpanded v-if="expandedRowKeys.includes(slotProps.row.id)" v-model="slotProps.row.value" :sample="slotProps.row.id"></TestRecordExpanded>
+        </template>
         <template #type-slot-operate="{ col, row }">
           <div style="display: flex; align-items: center;gap: 10px; ">
-            <t-link theme="primary" hover="color" @click="onTechnology(row)">
+            <t-button
+              style="width: 50px"
+              title="工艺"
+              theme="primary"
+              shape="square"
+              variant="text"
+              @click.stop="onTechnology(row)"
+            >
               工艺
-            </t-link>
+            </t-button>
+            <t-button
+              style="width: 80px"
+              title="试验数据"
+              theme="primary"
+              shape="square"
+              variant="text"
+              @click.stop="expandDataFunc(row)"
+            >
+              试验数据
+            </t-button>
+
             <!-- <div v-else>
               <t-link theme="primary" hover="color" @click.stop="onSave(row)">
                 保存
@@ -42,9 +55,9 @@
                 取消
               </t-link>
             </div> -->
-            <t-popconfirm content="确认删除吗" @confirm="() => onDelete(row)" >
-              <t-button title="删除" theme="danger" shape="square" variant="text" >删除</t-button>
-            </t-popconfirm>
+<!--            <t-popconfirm content="确认删除吗" @confirm="() => onDelete(row)" >-->
+<!--              <t-button title="删除" theme="danger" shape="square" variant="text" >删除</t-button>-->
+<!--            </t-popconfirm>-->
           </div>
         </template>
       </t-table>
@@ -56,7 +69,48 @@
       header="工艺详情" :footer="false"
       width="70%" attach="body"
     >
-      <technologyInfoView v-if="technologyInfoVisible" :row="selectRow" :designParams="_designParams"/>
+      <t-table v-if="selectRow"
+        :rowspan-and-colspan="rowspanAndColspan"
+        ref="tableRef"
+        :loading="loading"
+        table-layout="auto"
+        :expandIcon="false"
+        row-key="id"
+        :data="selectRow.value.formItems"
+        :columns="technologyColumns"
+      >
+        <template #expandedRow="slotProps">
+          <TestRecordExpanded v-model="slotProps.row"></TestRecordExpanded>
+        </template>
+        <template #type-slot-operate-router="{ col, row, rowIndex }">
+          <div class="operate-router-class">
+            <div v-if="row.operateType === '样品'">
+              <div>
+                <span>{{ row.sample.name }} ：{{ row.sample.sn }}</span>
+              </div>
+            </div>
+            <FormDesignRender
+              v-else-if="row.operateType !== '过程描述'"
+              v-model="row.formData"
+              style="overflow: auto"
+              :label="row.operate_router.title + '：'"
+              :mode="'READ'"
+              readonly
+              :config="row.operate_router"
+            >
+            </FormDesignRender>
+            <div v-else-if="row.operateType === '过程描述'">
+              <t-textarea
+                v-model="row.description"
+                placeholder="请输入过程描述"
+                readonly
+                name="description"
+                :autosize="true"
+              />
+            </div>
+          </div>
+        </template>
+      </t-table>
     </t-dialog>
     
     <t-dialog destroyOnClose
@@ -89,10 +143,12 @@ import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { v4 as uuid } from 'uuid'
 import { getIngredient_dev_experimentListFetch,post_ingredient_dev_sample_fetch,delete_ingredient_dev_sampleFetch,get_ingredient_dev_sampleListFetch ,put_ingredient_dev_sample_fetch } from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
+import Template from '@/components/menus/toolbar/insert/template.vue'
+import { mergeRowsByFields } from '@/utils/index'
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
-const { options } = useStore()
+const { options , refreshNode } = useStore()
 const dialog_visible = ref(false);
 const tableRef = ref();
 const editableRowKeys = ref([]);
@@ -106,13 +162,14 @@ const editSampleDialogVisible = ref(false);
 const selectRow = ref()
 
 const technologyInfoVisible = ref(false);
+const expandSampleData = ref([])
 
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
 const experiment_record = computed(() => $key_data?.experiment_record)
 const experiment_theme = computed(() => $key_data?.experiment_theme)
 
 const experimental_design_visible = ref(false);
-
+const expandedRowKeys = ref([])
 const select_material = ref([])
 
 const updateTime = computed({
@@ -141,6 +198,14 @@ const group = computed({
   },
 })
 
+watch(() => refreshNode?.value, async (value) => {
+  console.log('--------refreshNode.value--------',value)
+  if (value === 'sample_table') {
+    await initData()
+    refreshNode.value = ''
+  }
+})
+
 const _designParams = computed({
   get: () => node.attrs.designParams,
   set(value) {
@@ -157,8 +222,84 @@ const table_data = computed({
   },
 })
 
-const onAddFunc = () => {
-  editSampleDialogVisible.value = true
+const technologyColumns = ref([
+  {
+    title: '工序',
+    colKey: 'procedure',
+    width: 100,
+    cell: (h, { row }) => {
+      return row.procedure.title
+    },
+  },
+  {
+    colKey: 'operate_router',
+    title: '工艺线路',
+    width: 140,
+    cell: (h, { row }) => {
+      const theme =
+        row.operateType === '物料'
+          ? 'primary'
+          : row.operateType === '样品'
+            ? 'warning'
+            : 'success'
+      return (
+        <div>
+          {row.operateType !== '过程描述' && [
+            <t-tag size="small" style="margin-right:6px;" theme={theme}>
+              {row.operateType}
+            </t-tag>,
+          ]}
+          <span>{row.operate_router.title}</span>
+        </div>
+      )
+    },
+  },
+  {
+    colKey: 'formItems',
+    title: '工艺要求',
+    minWidth: 220,
+    cell: 'type-slot-operate-router',
+  },
+  {
+    colKey: 'description',
+    title: '实验记录',
+    ellipsis: true,
+    minWidth: 220,
+  }
+]);
+
+const rowspanAndColspan = ({ row, col, rowIndex, colIndex }) => {
+  if (colIndex > 1 && row.operateType === '过程描述') {
+    if (colIndex === 2) {
+      return { rowspan: 1, colspan: 2 }
+    } else if (colIndex === 3) {
+      return { rowspan: 0, colspan: 0 }
+    } else {
+      return { rowspan: 1, colspan: 1 }
+    }
+  } else {
+    return mergeRowsByFields(
+      ['procedure'],
+      'procedure_rowKey',
+      selectRow.value.value.formItems,
+    )({ row, col, rowIndex })
+  }
+}
+
+const expandDataFunc = (row) => {
+  if (expandedRowKeys.value.includes(row.id)) {
+    expandedRowKeys.value = expandedRowKeys.value.filter(
+      (item) => item !== row.id,
+    )
+  } else {
+    expandedRowKeys.value.push(row.id)
+  }
+
+}
+
+const onAddFunc = async () => {
+  await initData()
+  // editSampleDialogVisible.value = true
   console.log('------220--------onAddFunc----------')
 }
 
@@ -402,9 +543,9 @@ columns.value = [
     },
   },
   {
-    title: '操作栏',
+    title: '操作',
     colKey: 'operate',
-    width: 90,
+    width: 150,
     cell: 'type-slot-operate',
   },
 ];
@@ -432,53 +573,20 @@ const initData = async () => {
   const params = {
     experiment_theme: experiment_theme.value?.id,
     record: experiment_record.value?.id,
-    group: group.value,
   }
   console.log('----------initData-----297---------',params)
   const res = await get_ingredient_dev_sampleListFetch(params)
   loading.value = false
   if (res.data.code === 2000 && res.data.data.length > 0) {
     table_data.value = res.data.data
+    updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
     if (isChanged.value) { isChanged.value = false }
   }
 }
 
 onMounted(async () => {
   console.log('----------4447----onMounted-----',node);
-  if (group.value && group.value.length > 0 && table_data.value?.length === 0) {
-    console.log('----------change_log.value499---------',group.value);
-    await initData()
-  }else if(is_integration.value) {
-    
-    const docD = editor.getJSON()
-    if (docD ) {
-      // 物料表
-      const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
-      if (raw_material_tables.length === 0) {
-        TMessagePlugin.warning('请先创建物料表')
-        return  // 物料表不存在，返回
-      }
-      raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
-      const dialog = useConfirm({
-        theme: 'info',
-        header: '提示',
-        body: '检测到当前文档中存在物料表，是否使用该物料表进行初始化？',
-        confirmBtn: '确定',
-        onConfirm() {
-          dialog.destroy()
-          setTimeout(() => {
-            add_parent_visible.value = true
-          }, 300)
-        },
-        onClosed() {
-          
-        },
-      })
-      
-    }else {
-      TMessagePlugin.warning('当前文档中没有数据')
-    }
-  }
+  await initData()
 })
 
 </script>

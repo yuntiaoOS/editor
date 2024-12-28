@@ -54,7 +54,7 @@
           @menu-click="editor?.chain().focus().addTechnology_tables({is_integration:true}).run()"
         />
       </t-dropdown-item>
-      <t-dropdown-item  >
+      <t-dropdown-item  v-if="false" >
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
           editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
@@ -64,7 +64,7 @@
           @menu-click="editor?.chain().focus().addExperimental_designs().run()"
         />
       </t-dropdown-item>
-      <t-dropdown-item  divider>
+      <t-dropdown-item >
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
           editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
@@ -74,7 +74,7 @@
           @menu-click="editor?.chain().focus().addTest_record_table().run()"
         />
       </t-dropdown-item>    
-      <t-dropdown-item v-if="false" >
+      <t-dropdown-item >
         <!-- <menus-toolbar-insert-ingredient_dev-table table-type="sample_table" /> -->
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||

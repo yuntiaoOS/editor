@@ -13238,7 +13238,7 @@ const options = $ref({
       "catalog": null
     },
     umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM1MjgzODI3LCJpYXQiOjE3MzUxOTc0MjcsImp0aSI6ImRiYjg0NWVjZjg1YzRiYjg5ZWFjYTE1YzBjY2FlMGRhIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.nRTVItSixaCdGOE8XRaQCBJrV8gloOAq0AGfUWv39Aw',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM1NDY0MjE3LCJpYXQiOjE3MzUzNzc4MTcsImp0aSI6ImE4ODQyNGFiYzJkNjQ4YzJhNzU0NTU1NzFiMDU0MTRjIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.cCuD6y2CCsdLfr-ZFcvxiDSbWAAtjLSz2vMHac2qifw',
   },
   document: {
     placeholder: '测试文档',

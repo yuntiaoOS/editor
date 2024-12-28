@@ -90,8 +90,8 @@ export const getFieldValue = (field: string, row: any)=> {
   return fieldName
 }
 
-export function mergeRowsByFields(fields,baseField, data) {
-  return ({ row, col, rowIndex }) => {
+export function mergeRowsByFields(fields:any,baseField:string, data:any) {
+  return ({ row, col, rowIndex }:any) => {
     const field = col.colKey ;
 
     // 检查字段是否在需要合并的列表中
@@ -106,7 +106,7 @@ export function mergeRowsByFields(fields,baseField, data) {
 
       // 计算合并的行数
       if (nextRow && nextRow[baseField] === row[baseField]) {
-        let rowspan = 1;
+        let rowspan  = 1;
         for (let i = rowIndex + 1; i < data.length; i++) {
           if (data[i][baseField] === row[baseField]) {
             rowspan++;
