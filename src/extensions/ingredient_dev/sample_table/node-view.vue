@@ -62,9 +62,9 @@
             @change="sampleRecordChange(slotProps.row)"
           ></TestRecordExpanded>
         </template>
-        <template #type-slot-operate="{ col, row }">
+        <template #type-slot-operate="{ col, row, rowIndex }">
           <div style="display: flex; align-items: center; gap: 10px">
-            <t-popconfirm v-if="false" content="确认留样吗" @confirm="onPostSampleFunc(row)">
+            <t-popconfirm content="确认留样吗" @confirm="onPostSampleFunc(row,rowIndex)">
               <t-button
                 style="width: 50px"
                 title="留样"
@@ -73,7 +73,7 @@
                 variant="text"
                 @click.stop="null"
               >
-                {{row.sample.really_sample ? '更新批次': '留样'}}
+                {{row.sample.really_sample ? '更新': '留样'}}
               </t-button>
             </t-popconfirm>
             <t-button
@@ -353,27 +353,45 @@ const sampleRecordChange = (row) => {
   refreshNode.data = cloneDeep(row)
 }
 
-const onPostSampleFunc = async (row) => {
+const onPostSampleFunc = async (row,rowIndex) => {
   console.log('--------onPostSample--------', row)
   const rowC = cloneDeep(row)
-  const params = {
-    experiment_theme: experiment_theme.value?.id,
-    record: experiment_record.value?.id,
-    type: '小试',
-    source: '自制',
-    count: row.count,
-    weight: row.weight,
-    data: [{ name: rowC.sample.name, value: rowC }],
-  }
+
   let res = {}
   if (rowC.sample.really_sample) {
+    const params = {
+      // experiment_theme: experiment_theme.value?.id,
+      // record: experiment_record.value?.id,
+      // type: '小试',
+      // source: '自制',
+      count: rowC.sample.count,
+      weight: rowC.sample.weight,
+      value: rowC,
+    }
     res = await put_ingredient_dev_sample_fetch(rowC.sample.id,params)
   } else {
+    const params = {
+      experiment_theme: experiment_theme.value?.id,
+      record: experiment_record.value?.id,
+      type: '小试',
+      source: '自制',
+      count: rowC.count,
+      weight: rowC.weight,
+      data: [{ name: rowC.sample.name, value: rowC }],
+    }
     res = await post_ingredient_dev_sample_fetch(params)
   }
 
   if (res && res.data.code === 2000) {
-    if (res.data.data && res.data.data.length > 0) {
+    let resD = undefined
+    if (!rowC.sample.really_sample) {
+      if (res.data.data && res.data.data.length > 0) {
+        resD = res.data.data[0]
+      }
+    }else {
+      resD = res.data.data
+    }
+    if (resD) {
       nextTick(() => {
         const rowData = {
           ...rowC,
@@ -381,18 +399,19 @@ const onPostSampleFunc = async (row) => {
           sample: {
             ...rowC.sample,
             really_sample: true,
-            id: res.data.data[0].id,
+            id: resD.id,
             // name: `样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
-            sn: res.data.data[0].sn,
+            sn: resD.sn,
           },
         }
-        console.log('------row.is_sample------rowC--------', rowC)
+        console.log('------row.is_sample------rowC--------', rowData,rowC)
         const table_dataV = cloneDeep(table_data.value)
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
-        table_dataV.splice(rowIndex + 1, 0, rowData)
+        table_dataV.splice(rowIndex, 1, rowData)
         table_data.value = cloneDeep(table_dataV)
         tableRef.value.refreshTable()
-        refreshNode.type = 'sample_table'
+        refreshNode.type = 'record_sample_table'
+        refreshNode.data = cloneDeep(rowData)
       })
       useMessage('success', res.data.msg)
     } else {

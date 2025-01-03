@@ -876,9 +876,12 @@ onMounted(async () => {
       console.log('----------change_log.value1095---------', group.value);
       await initData();
     } else {
-      setTimeout(() => {
-        select_design_visible.value = true;
-      }, 100);
+      if (!_table_data.value || _table_data.value?.length === 0){
+        setTimeout(() => {
+          // select_design_visible.value = true;
+        }, 100);
+      }
+
     }
   }
   get_ingredient_dev_sampleListFetch({experiment_theme: experiment_theme.value?.id, record: experiment_record.value?.id}).then((res)=>{
