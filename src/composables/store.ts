@@ -15,7 +15,7 @@ export const useStore = createGlobalState(() => {
   const options = ref<UmoEditorOptions>(defaultOptions)
   const page = ref<PageOption>(defaultOptions.page)
   const editor = ref<Editor>()
-  const refreshNode = ref('')
+  const refreshNode = reactive({ type: '', data: undefined })
   const painter = ref<{
     enabled: boolean
     once: boolean

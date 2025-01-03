@@ -13,7 +13,7 @@
             </div>
             <t-space>
               <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入物料名称" />
-              <!-- <t-button variant="outline" @click="add_dialog_visible = true;">新增</t-button> -->
+               <t-button variant="outline" @click=" select_design_visible = true;">配置</t-button>
               <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
               <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
             </t-space>
@@ -558,7 +558,6 @@ const columnsDefaultA = [
   },
 ]
 const searchTitle = ref('')
-const add_dialog_visible = ref(false);
 
 const select_design_form = ref()
 const select_design_visible = ref(false)

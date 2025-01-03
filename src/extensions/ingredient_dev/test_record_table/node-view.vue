@@ -66,7 +66,7 @@
           </div>
         </template>
         <template #expandedRow="slotProps">
-          <TestRecordExpanded v-if="expandedRowKeys.includes(slotProps.row.id)" v-model="slotProps.row" :sample="slotProps.row.sample.id"></TestRecordExpanded>
+          <TestRecordExpanded v-if="expandedRowKeys.includes(slotProps.row.id)" v-model="slotProps.row" :sample="slotProps.row.sample.id" @change="sampleRecordChange"></TestRecordExpanded>
         </template>
         <template #type-slot-operate-router="{ col, row, rowIndex }">
           <div class="operate-router-class">
@@ -75,15 +75,18 @@
                 <span>{{ row.sample.name }} ：{{ row.sample.sn }}</span>
               </div>
             </div>
-            <FormDesignRender
-              v-else-if="row.operateType !== '过程描述'"
-              v-model="row.formData"
-              style="overflow: auto"
-              :label="row.operate_router.title + '：'"
-              :mode="'READ'"
-              :config="row.operate_router"
-            >
-            </FormDesignRender>
+            <t-space v-else-if="row.operateType !== '过程描述'" >
+              <template v-for="(item, index) in row.formItems.attribute">
+                <FormDesignRender
+                  v-model="row.formData[item.key]"
+                  style="overflow: auto"
+                  :label="item.title + '：'"
+                  :mode="'READ'"
+                  :config="item"
+                >
+                </FormDesignRender>
+              </template>
+            </t-space>
             <div v-else-if="row.operateType === '过程描述'">
               <t-textarea
                 v-model="row.description"
@@ -94,7 +97,7 @@
             </div>
           </div>
         </template>
-        <template #slot-description="{ row }">
+        <template #slot-description="{ row, rowIndex }">
           <div
             class="slot-description-class"
             style="
@@ -122,6 +125,7 @@
               >
                 出样
               </t-button>
+
               <t-button
                 v-if="['样品'].includes(row.operateType)"
                 style="width: 80px"
@@ -133,6 +137,16 @@
               >
                 试验数据
               </t-button>
+              <t-popconfirm
+                v-if="['样品'].includes(row.operateType)"
+                content="确认删除吗"
+                @confirm="() => onSampleDelete(row,rowIndex)"
+              >
+                <t-button title="删除" style="width: 50px"
+                  theme="danger" shape="square" variant="text" @click.stop="null" >
+                  删除
+                </t-button>
+              </t-popconfirm>
             </div>
           </div>
         </template>
@@ -691,6 +705,9 @@ columns.value = [
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
+        if (context.newRowData.operateType === '样品') {
+          refreshNode.type = 'sample_table'
+        }
         console.log('------552------Edit firstName:', context, table_data.value)
         useMessage('success', 'Success')
       },
@@ -730,6 +747,20 @@ const indeterminate = computed(
     ),
 )
 
+watch(() => refreshNode, (value) => {
+  console.log('----748----refreshNode.value--------',value)
+  if (value.type === 'record_sample_table') {
+    nextTick(() => {
+      const index = table_data.value.findIndex(
+        (row) => row.id === value.data.id,
+      )
+      table_data.value.splice(index,1,value.data)
+      refreshNode.type = ''
+    })
+  }
+}, { deep: true, immediate: true })
+
+
 const handleSelectAll = (checked) => {
   displayColumnsC.value = checked ? [...displayColumns.value] : []
 }
@@ -745,6 +776,20 @@ const columnEditFunc = () => {
   })
   displayColumnsC.value = [...displayColumns.value]
   dialog_visible.value = true
+}
+
+const sampleRecordChange = (row) => {
+  refreshNode.type = 'sample_table'
+}
+
+const onSampleDelete = (row,rowIndex) => {
+  console.log('------onSampleDelete----------', row)
+  const table_dataV = cloneDeep(table_data.value)
+  updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
+  table_dataV.splice(rowIndex, 1)
+  table_data.value = cloneDeep(table_dataV)
+  tableRef.value.refreshTable()
+  refreshNode.type = 'sample_table'
 }
 
 const creatSample = async (row) => {
@@ -784,6 +829,24 @@ const creatSample = async (row) => {
         description: '',
       },
     }
+
+    const rowData = {
+      ...rowC,
+      is_sample: true,
+      sample: {
+        ...rowC.sample,
+        is_sample: true
+      },
+    }
+    console.log('------row.is_sample------rowC--------', rowC)
+    const table_dataV = cloneDeep(table_data.value)
+    updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
+    table_dataV.splice(rowIndex + 1, 0, rowData)
+    table_data.value = cloneDeep(table_dataV)
+    tableRef.value.refreshTable()
+    refreshNode.type = 'sample_table'
+    return
+
     const params = {
       experiment_theme: experiment_theme?.id,
       record: experiment_record?.id,
@@ -799,6 +862,7 @@ const creatSample = async (row) => {
         nextTick(() => {
           const rowData = {
             ...rowC,
+            is_sample: true,
             sample: {
               ...rowC.sample,
               is_sample: true,
@@ -813,7 +877,7 @@ const creatSample = async (row) => {
           table_dataV.splice(rowIndex + 1, 0, rowData)
           table_data.value = cloneDeep(table_dataV)
           tableRef.value.refreshTable()
-          refreshNode.value = 'sample_table'
+          refreshNode.type = 'sample_table'
         })
         useMessage('success', res.data.msg)
       }

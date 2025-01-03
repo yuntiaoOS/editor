@@ -53,19 +53,22 @@
               >
               <div
                 v-if="!slotProps.row.formItems"
-                style="width: calc(100% - 150px)"
+                style="width: calc(100% - 150px);overflow-x: auto"
               >
-                <xmFormDesignRender
-                  style="overflow: auto"
-                  v-model="_designParams.formData"
-                  :label="slotProps.row.title"
-                  :valueKey="
-                    getParentRowKeys(slotProps.row, _designParams.formItems)
-                  "
-                  :mode=" readonly ? 'READ' : 'RESP'"
-                  :config="slotProps.row"
-                >
-                </xmFormDesignRender>
+                <t-space >
+                  <template v-for="(item, index) in slotProps.row.attribute">
+                    <xmFormDesignRender
+                      style="overflow: auto"
+                      v-model="_designParams.formData"
+                      :label="item.title"
+                      :valueKey=" getParentRowKeys(item, _designParams.formItems) "
+                      :mode=" readonly ? 'READ' : 'RESP'"
+                      :config="item"
+                    >
+                    </xmFormDesignRender>
+                  </template>
+                </t-space>
+
               </div>
             </div>
           </template>
@@ -314,14 +317,15 @@ const getParentRowKeys = (row, data) => {
   // console.log('------getParentRowKeys----', row, data)
   const parentKeys = []
   const findParentKeys = (node, targetRow) => {
-    if (node.formItems) {
-      for (const child of node.formItems) {
+    const node_formItems = node.formItems ? node.formItems : node.attribute
+    if (node_formItems) {
+      for (const child of node_formItems) {
         if (child.rowKey === targetRow.rowKey) {
-          parentKeys.push(node.key)
+          parentKeys.push(node.attribute ? node.rowKey : node.key)
           return true
         }
         if (findParentKeys(child, targetRow)) {
-          parentKeys.push(node.key)
+          parentKeys.push(node.attribute ? node.rowKey : node.key)
           return true
         }
       }

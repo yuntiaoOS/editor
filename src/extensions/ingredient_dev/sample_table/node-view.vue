@@ -22,7 +22,7 @@
           </div>
         </template>
         <template #expandedRow="slotProps">
-          <TestRecordExpanded v-if="expandedRowKeys.includes(slotProps.row.id)" v-model="slotProps.row.value" :sample="slotProps.row.id"></TestRecordExpanded>
+          <TestRecordExpanded v-if="expandedRowKeys.includes(slotProps.row.id)" v-model="slotProps.row" :sample="slotProps.row.sample.id" @change="sampleRecordChange(slotProps.row)"></TestRecordExpanded>
         </template>
         <template #type-slot-operate="{ col, row }">
           <div style="display: flex; align-items: center;gap: 10px; ">
@@ -76,12 +76,9 @@
         table-layout="auto"
         :expandIcon="false"
         row-key="id"
-        :data="selectRow.value.formItems"
+        :data="selectRow.formItems"
         :columns="technologyColumns"
       >
-        <template #expandedRow="slotProps">
-          <TestRecordExpanded v-model="slotProps.row"></TestRecordExpanded>
-        </template>
         <template #type-slot-operate-router="{ col, row, rowIndex }">
           <div class="operate-router-class">
             <div v-if="row.operateType === '样品'">
@@ -89,16 +86,18 @@
                 <span>{{ row.sample.name }} ：{{ row.sample.sn }}</span>
               </div>
             </div>
-            <FormDesignRender
-              v-else-if="row.operateType !== '过程描述'"
-              v-model="row.formData"
-              style="overflow: auto"
-              :label="row.operate_router.title + '：'"
-              :mode="'READ'"
-              readonly
-              :config="row.operate_router"
-            >
-            </FormDesignRender>
+            <t-space v-else-if="row.operateType !== '过程描述'" >
+              <template v-for="(item, index) in row.formItems.attribute">
+                <FormDesignRender
+                  v-model="row.formData[item.key]"
+                  style="overflow: auto"
+                  :label="item.title + '：'"
+                  :mode="'READ'"
+                  :config="item"
+                >
+                </FormDesignRender>
+              </template>
+            </t-space>
             <div v-else-if="row.operateType === '过程描述'">
               <t-textarea
                 v-model="row.description"
@@ -145,6 +144,7 @@ import { getIngredient_dev_experimentListFetch,post_ingredient_dev_sample_fetch,
 import { timeFormat } from '@/utils/time-ago'
 import Template from '@/components/menus/toolbar/insert/template.vue'
 import { mergeRowsByFields } from '@/utils/index'
+import cloneDeep from 'lodash/cloneDeep'
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
@@ -198,13 +198,13 @@ const group = computed({
   },
 })
 
-watch(() => refreshNode?.value, async (value) => {
+watch(() => refreshNode, async (value) => {
   console.log('--------refreshNode.value--------',value)
-  if (value === 'sample_table') {
+  if (value.type === 'sample_table') {
     await initData()
-    refreshNode.value = ''
+    refreshNode.type = ''
   }
-})
+}, { deep: true, immediate: true })
 
 const _designParams = computed({
   get: () => node.attrs.designParams,
@@ -268,6 +268,11 @@ const technologyColumns = ref([
   }
 ]);
 
+const sampleRecordChange = (row) => {
+  refreshNode.type = 'record_sample_table'
+  refreshNode.data = cloneDeep(row)
+}
+
 const rowspanAndColspan = ({ row, col, rowIndex, colIndex }) => {
   if (colIndex > 1 && row.operateType === '过程描述') {
     if (colIndex === 2) {
@@ -281,7 +286,7 @@ const rowspanAndColspan = ({ row, col, rowIndex, colIndex }) => {
     return mergeRowsByFields(
       ['procedure'],
       'procedure_rowKey',
-      selectRow.value.value.formItems,
+      selectRow.value.formItems,
     )({ row, col, rowIndex })
   }
 }
@@ -361,10 +366,10 @@ const columnsCheckboxs = ref([])
 
 const displayColumns = ref([]);
 const displayColumnsC = ref([]);
-displayColumns.value = ['name','sn', 'count','description', 'operate']
+displayColumns.value = ['sample.name','sample.sn', 'sample.weight','description', 'operate']
 columns.value = [
   {
-    colKey: 'name',
+    colKey: 'sample.name',
     title: '名称',
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
@@ -387,23 +392,11 @@ columns.value = [
       abortEditOnEvent: ['onEnter','onBlur'],
       onEdited: async (context ) => {
         console.log(context);
-        const params = {
-          name:context.newRowData.name,
-          group: group.value
-        }
-        isChanged.value = true
-        const res = await put_ingredient_dev_sample_fetch(context.row.id,params)
-        if (res.data.code === 2000) {
-          useMessage('success' ,res.data.msg);
-          group.value =  res.data.data.group
-          updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
-          // const newData = [...table_data.value];
-          // newData.splice(context.rowIndex, 1, context.newRowData);
-          // table_data.value = newData;
-          await initData()
-          console.log('Edit firstName:', context);
-        }
-        
+        const newData = [...table_data.value]
+        newData.splice(context.rowIndex, 1, context.newRowData)
+        table_data.value = newData
+        updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
+
       },
       // 触发校验的时机（when to validate)
       validateTrigger: 'change',
@@ -421,17 +414,17 @@ columns.value = [
         defaultEditable: false,
       }),
     },
-    minWidth: 120,
+    width: 200,
   },
   {
-    colKey: 'sn',
+    colKey: 'sample.sn',
     title: '编号',
     width: 170,
   },
   {
-    colKey: 'count',
-    title: '数量',
-    width: 160,
+    colKey: 'sample.weight',
+    title: '质量(g)',
+    width: 100,
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
       // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
@@ -453,19 +446,10 @@ columns.value = [
       abortEditOnEvent: ['onEnter','onBlur'],
       onEdited: async (context ) => {
         console.log(context);
-        const params = {
-          count:context.newRowData.count,
-          group: group.value
-        }
-        isChanged.value = true
-        const res = await put_ingredient_dev_sample_fetch(context.row.id,params)
-        if (res.data.code === 2000) {
-          useMessage('success' ,res.data.msg);
-          group.value =  res.data.data.group
-          updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
-          await initData()
-          console.log('Edit firstName:', context);
-        }
+        const newData = [...table_data.value]
+        newData.splice(context.rowIndex, 1, context.newRowData)
+        table_data.value = newData
+        updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
       },
       // 触发校验的时机（when to validate)
       validateTrigger: 'change',
@@ -488,7 +472,7 @@ columns.value = [
     colKey: 'description',
     title: '描述',
     ellipsis: true,
-    minWidth: 100,
+    minWidth: 120,
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
       // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
@@ -510,20 +494,12 @@ columns.value = [
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
       onEdited:async (context ) => {
-        console.log(context);
-        const params = {
-          description:context.newRowData.description,
-          group: group.value
-        }
-        isChanged.value = true
-        const res = await put_ingredient_dev_sample_fetch(context.row.id,params)
-        if (res.data.code === 2000) {
-          useMessage('success' ,res.data.msg);
-          group.value =  res.data.data.group
-          updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
-          await initData()
-          console.log('Edit firstName:', context);
-        }
+        const newData = [...table_data.value]
+        newData.splice(context.rowIndex, 1, context.newRowData)
+        table_data.value = newData
+        refreshNode.type = 'record_sample_table'
+        refreshNode.data = cloneDeep(context.newRowData)
+        updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
       },
       // 触发校验的时机（when to validate)
       validateTrigger: 'change',
@@ -570,6 +546,28 @@ const columnEditFunc = ()=>{
 
 const initData = async () => {
   loading.value = true
+
+  const docD = editor.getJSON()
+  if (docD) {
+    // 物料表
+    const test_record_table = docD.content.filter(
+      (ele) => ele.type === 'test_record_table',
+    )
+    if (test_record_table.length === 0) {
+      TMessagePlugin.warning('请先在试验数据表中出样')
+      return // 物料表不存在，返回
+    }
+    const sample_table = test_record_table.map(ele=> ele.attrs.table_data).reduce((pre,cur)=> pre.concat(cur),[]).filter(ele=> ele.is_sample)
+    console.log('----------initData-----582---------',sample_table,table_data.value)
+    nextTick(()=> {
+      table_data.value = sample_table
+      updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
+    })
+  } else {
+    TMessagePlugin.warning('当前文档中没有数据错误')
+  }
+  loading.value = false
+  return
   const params = {
     experiment_theme: experiment_theme.value?.id,
     record: experiment_record.value?.id,

@@ -1,7 +1,7 @@
 <template>
   <t-space direction="vertical" align="" style="width: 100%;">
     <div>
-      <t-table  
+      <t-table
         ref="tableRef"  :loading="loading"  
         row-key="id" :data="_sampleInfo?.record_table?.table_data" :columns="_columns" resizable
       >
@@ -10,7 +10,7 @@
             <FormDesignRender style="overflow: auto;"
               v-model="slotProps.row[slotProps.col.colKey]"
               :mode=" readonly ? 'READ' : 'NORMAL'"
-              :config="slotProps.col.attrs">
+              :config="slotProps.row.index_type">
             </FormDesignRender>
           </div>
         </template>
@@ -18,13 +18,14 @@
           <div style="padding: 6px 0;display: block;" v-if="!readonly">
             <t-space>
               <div>
-                <t-button  variant="outline" @click="onSaveDataFunc">保存数据</t-button>
+                <t-button v-if="false" variant="outline" @click="onSaveDataFunc">保存数据</t-button>
                 <!-- <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
                 <t-input v-model="_title" auto-width placeholder="请输入名称" /> -->
               </div>
               <t-space>
-                <t-button  variant="outline" @click="onAddRowFunc">新增</t-button>
-                <t-button  variant="outline" @click="onAddIndexFunc">配置指标</t-button>
+                <t-button v-if="false" variant="outline" @click="onAddRowFunc">新增</t-button>
+                <t-button v-if="false" variant="outline" @click="onAddIndexFunc">配置指标</t-button>
+                <t-button  variant="outline" @click="onAddIndexRowFunc">新增</t-button>
               </t-space>
             </t-space>
           </div>
@@ -101,29 +102,108 @@ const props = defineProps({
     default: false,
   },
 })
- 
-const _value = ref({})
-//   computed({
-//   get() {
-//     return props.modelValue
-//   },
-//   set(val) {
-//     emits('update:modelValue', val)
-//   }
-// })
 
-const _sampleInfo = computed({
+const _value = computed({
   get() {
-    return _value.value.value?.sample
+    return props.modelValue
   },
   set(val) {
-    _value.value.value.sample = val
+    emits('update:modelValue', val)
   }
 })
 
-const _columns = computed(() => {
-  return props.readonly ? _sampleInfo.value?.record_table.columns.filter(ele => ele.colKey !== 'operate') : _sampleInfo.value?.record_table.columns
+const _sampleInfo = computed({
+  get() {
+    return _value.value?.sample
+  },
+  set(val) {
+    _value.value.sample = val
+  }
 })
+
+watch(() => _sampleInfo.value?.record_table?.table_data, (val) => {
+  if (val) {
+    emits('change', _sampleInfo.value)
+  }
+}, { deep: true, immediate: true})
+
+const _columns = [
+  {
+    title: '日期',
+    width: 120,
+    colKey: 'time',
+  },
+  {
+    title: '指标',
+    width: 120,
+    colKey: 'index_type.title',
+  },
+  {
+    title: '数据',
+    width: 200,
+    colKey: 'data',
+    cell: 'defaultValueSlot'
+  },
+  {
+    colKey: 'description',
+    title: '记录',
+    ellipsis: true,
+    width: 220,
+    edit: {
+      // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
+      // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
+      component: TTextarea,
+      // props, 透传全部属性到 Input 组件
+      props: {
+        clearable: true,
+        autofocus: true,
+        // autoWidth: true,
+        autosize: true,
+      },
+      // 校验规则，此处同 Form 表单
+      rules: [
+        {
+          required: false,
+          message: '不能为空',
+        },
+      ],
+      showEditIcon: true,
+      abortEditOnEvent: ['onEnter', 'onBlur'],
+      onEdited: (context) => {
+        const newData = [..._sampleInfo.value.record_table.table_data]
+        // updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
+        newData.splice(context.rowIndex, 1, context.newRowData)
+        _sampleInfo.value.record_table.table_data = newData
+        emits('change', _sampleInfo.value)
+        useMessage('success', 'Success')
+      },
+      // 触发校验的时机（when to validate)
+      validateTrigger: 'change',
+      // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
+      on: (editContext) => ({
+        onBlur: (ctx) => {
+          console.log('失去焦点', editContext)
+          ctx?.e?.preventDefault()
+        },
+        onEnter: (ctx) => {
+          ctx?.e?.preventDefault()
+          console.log('onEnter', ctx)
+        },
+        // 默认是否为编辑状态
+        defaultEditable: true,
+      }),
+    },
+  },
+  {
+    title: '操作栏',
+    colKey: 'operate',
+    width: 100,
+    cell: 'type-slot-operate',
+  },
+]
+//   computed(() => {
+//   return props.readonly ? _sampleInfo.value?.record_table.columns.filter(ele => ele.colKey !== 'operate') : _sampleInfo.value?.record_table.columns
+// })
 
 const select_index_visible = ref(false);
 const assessmentOption = ref([])
@@ -237,6 +317,10 @@ const onAddIndexFunc = ()=>{
   select_index_visible.value = true
 }
 
+const onAddIndexRowFunc = ()=>{
+  select_index_visible.value = true
+}
+
 const on_select_indexFunc = ()=>{
   console.log('--------on_select_indexFunc--------590--------',_sampleInfo.value,selectTableForm.value )
   select_record_form.value?.validate({ showErrorMessage: true }).then((validateResult) => {
@@ -244,6 +328,46 @@ const on_select_indexFunc = ()=>{
       const firstError = Object.values(validateResult)[0]?.[0]?.message;
       useMessage('warning',firstError)
     }else{
+      function processValueItems(items) {
+        const valueC = {};
+
+        items.forEach(eleI => {
+          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(eleI.type)) {
+            valueC[eleI.key] = [];
+          } else if (['FieldsGroup'].includes(eleI.type)) {
+            valueC[eleI.key] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
+          } else {
+            valueC[eleI.key] = '';
+          }
+        });
+
+        return valueC;
+      }
+      const indexTypeOs = assessmentOption.value.filter(ele=> selectTableForm.value.index_type.includes(ele.id))
+      console.log('--------on_select_indexFunc--------336--------',indexTypeOs )
+      indexTypeOs.forEach(ele=>{
+        let valueC = '';
+        if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
+          valueC = [];
+        } else if (['FieldsGroup'].includes(ele.type)) {
+          valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
+        }
+        const rowData = {
+          id: uuid(),
+          index_type: ele,
+          time: timeFormat(null, 'yyyy-mm-dd hh:MM:ss'),
+          data: valueC,
+          description: ''
+        }
+        console.log('--------on_select_indexFunc--------343--------',rowData )
+        _sampleInfo.value.record_table.table_data.push(rowData)
+      })
+      emits('change', _sampleInfo.value)
+      select_index_visible.value = false
+
+
+
+      return
       const indexTypes = assessmentOption.value.filter(ele=> selectTableForm.value.index_type.includes(ele.id))
       const paramsColumns = []
       const descriptionCol = {"key":"description","icon":"","type":"TextareaInput","props":{"abstract":true,"required":false,"enableScan":false,"enablePrint":true},"title":"描述","valueType":""}
@@ -354,7 +478,8 @@ const getSampleInfoFunc = async () => {
 
 onMounted( async () => {
   await getAssessmentOptionFunc()
-  if (props.sample) {
+  // 暂时停止使用接口获取样品试验记录数据
+  if (props.sample && false) {
     await getSampleInfoFunc()
   }
 

@@ -20,10 +20,14 @@ const Api = {
   ingredient_dev_sample: '/ingredient_dev/sample/' , //样品
   record_history: '/ingredient_dev/experiment/record_history/', //试验记录历史
   processes_template:'/processes/template/', //工艺模板
+  processes_procedure: '/processes/procedure/', //工艺流程
 };
 /*-------------------------------------工艺模板--------------------------------------------*/
 export function get_processes_templateListFetch(params?: any) {
   return request.get({url: Api.processes_template,params});
+}
+export function get_processes_procedureListFetch(params?: any) {
+  return request.get({url: Api.processes_procedure,params});
 }
 /*-------------------------------------试验记录历史--------------------------------------------*/
 export function get_record_history_versionsFetch(params?: any) {

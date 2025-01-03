@@ -35,6 +35,7 @@
 
 <script setup lang="jsx">
 import { v4 as uuid } from 'uuid'
+import { shortId } from '@/utils/short-id'
 import { timeFormat } from '@/utils/time-ago'
 import { cloneDeep } from 'lodash-es';
 
@@ -105,6 +106,50 @@ const designResult = computed({
     _nodeAttrs.value.designResult = value
   }
 })
+// 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
+function processItems(items, optionsGroup) {
+  return items.map(eleI => {
+    if (eleI.type === 'SelectMaterial') {
+      return {
+        ...eleI,
+        props: {
+          ...eleI.props,
+          options: optionsGroup,
+        },
+      };
+    } else if (eleI.type === 'FieldsGroup') {
+      return {
+        ...eleI,
+        props: {
+          ...eleI.props,
+          items: processItems(eleI.props.items, optionsGroup), // 递归处理嵌套的 items
+        },
+      };
+    } else if (eleI.type === 'TableList' ) {
+      return {
+        ...eleI,
+        props: {
+          ...eleI.props,
+          columns: eleI.props.columns.map(eleC=>{
+            if (eleC.type === 'SelectMaterial') {
+              return {
+                ...eleC,
+                props: {
+                  ...eleC.props,
+                  options: optionsGroup,
+                },
+              };
+            }else{
+              return eleC
+            }
+          })
+        },
+      };
+    } else {
+      return eleI;
+    }
+  });
+}
 
 const getDesignParams = () => {
   let designParams = {}
@@ -121,52 +166,14 @@ const getDesignParams = () => {
   console.log('--------_designParams--------95--------',technology_table_data)
   //[ ] TODO  待优化optionsGroup物料数据要插入更新
   if (technology_table_data) {
-    // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
-    function processItems(items, optionsGroup) {
-      return items.map(eleI => {
-        if (eleI.type === 'SelectMaterial') {
-          return {
-            ...eleI,
-            props: {
-              ...eleI.props,
-              options: optionsGroup,
-            },
-          };
-        } else if (eleI.type === 'FieldsGroup') {
-          return {
-            ...eleI,
-            props: {
-              ...eleI.props,
-              items: processItems(eleI.props.items, optionsGroup), // 递归处理嵌套的 items
-            },
-          };
-        } else if (eleI.type === 'TableList' ) {
-          return {
-            ...eleI,
-            props: {
-              ...eleI.props,
-              columns: eleI.props.columns.map(eleC=>{
-                if (eleC.type === 'SelectMaterial') {
-                  return {
-                    ...eleC,
-                    props: {
-                      ...eleC.props,
-                      options: optionsGroup,
-                    },
-                  };
-                }else{
-                  return eleC
-                }
-              })
-            },
-          };
-        } else {
-          return eleI;
-        }
-      });
-    }
     const formItems = technology_table_data.map(ele=>{
-      return {...ele, formItems: processItems(ele.formItems, optionsGroup)}
+      ele.formItems = ele.formItems.map(eleT=>{
+        eleT.attribute = eleT.attribute.map(eleA=>{
+          return processItems([eleA], optionsGroup)[0]
+        })
+        return eleT
+      })
+      return ele
     })
     console.log('--------_designParams--------209--------',formItems)
     designParams = {

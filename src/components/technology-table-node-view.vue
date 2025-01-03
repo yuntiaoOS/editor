@@ -30,15 +30,22 @@
               </div>
               <template #action>
                 <div style="margin-right:10px;">
-                  <t-link v-if="false" theme="primary" hover="color" @click="onOperateAdd('up',index,slotProps.rowIndex,slotProps.row)" > 向上插入 </t-link>
-                  <t-link v-if="false" theme="primary" hover="color" @click="onOperateAdd('down',index,slotProps.rowIndex,slotProps.row)" > 向下插入 </t-link>
-                  <t-dropdown :options="[{content:'向上插入', value: 'up'},{content:'向下插入', value: 'down'},{content:'删除', value: 'delete'}]" trigger="hover" @click="(operateI)=>{ 
+                  <t-button :disabled="index === 0 " variant="text" shape="square" hover="color" @click="onOperateAdd('up',index,slotProps.rowIndex,slotProps.row)" > <t-icon name="arrow-up" ></t-icon> </t-button>
+                  <t-button :disabled="index === slotProps.row.form.formItems.length - 1 " variant="text" shape="square" hover="color" @click="onOperateAdd('down',index,slotProps.rowIndex,slotProps.row)" > <t-icon name="arrow-down" ></t-icon> </t-button>
+                  <t-button variant="text" shape="square" hover="color" @click="onOperateAdd('insert',index,slotProps.rowIndex,slotProps.row)" > <t-icon name="download-1"></t-icon> </t-button>
+                  <t-popconfirm content="确认删除吗" @confirm="onOperateAdd('delete',index,slotProps.rowIndex,slotProps.row)">
+                    <t-button variant="text" shape="square" theme="danger" hover="color"> <t-icon name="delete"></t-icon> </t-button>
+                  </t-popconfirm>
+
+                  <t-dropdown v-if="false" :options="[{content:'上移', value: 'up'},{content:'下移', value: 'down'},{content:'插入', value: 'insert'},{content:'删除', value: 'delete'}]" trigger="hover" @click="(operateI)=>{
                     if(operateI.value === 'delete'){
                       slotProps.row.form.formItems.splice(index, 1);
                     }else if(operateI.value === 'up'){
                       onOperateAdd('up',index,slotProps.rowIndex,slotProps.row)
                     }else if(operateI.value === 'down'){
                       onOperateAdd('down',index,slotProps.rowIndex,slotProps.row)
+                    }else if(operateI.value === 'insert'){
+                      onOperateAdd('insert',index,slotProps.rowIndex,slotProps.row)
                     }
                    }">
                     <t-icon name="ellipsis" size="18px" style="cursor: pointer;"></t-icon>
@@ -66,7 +73,7 @@
         </div>
       </template> -->
     </t-table>
-    <node-view-content :node="_node" ></node-view-content> 
+    <node-view-content :node="_node" ></node-view-content>
   </div>
   <!-- <t-dialog
     v-model:visible="procedureVisible"
@@ -77,9 +84,9 @@
   >
       <technology-table v-model="table_data_edit" :editor="editor" :viewType="viewType" :getAttributesFunction="getAttributesFunction" v-model:title="_title" @change=""/>
   </t-dialog> -->
-  <t-dialog destroyOnClose 
+  <t-dialog destroyOnClose
     v-model:visible="add_parent_visible"
-    header="添加工序"
+    header="添加工序项"
     width="50%" attach="body"
     :confirm-on-enter="true"
     :on-confirm="on_select_parentFunc"
@@ -87,16 +94,17 @@
     <t-form ref="design_form" :rules="FORM_RULES" :data="procedureFormData" :colon="true" >
       <t-form-item v-if="false" label="类型" name="type">
         <t-radio-group v-model="procedureFormData.type" variant="primary-filled" @change="procedureTypeChange">
-          <t-radio-button value="group">工序模块</t-radio-button>
-          <t-radio-button value="customer">自定义操作</t-radio-button>
+          <t-radio-button value="procedure">工序项</t-radio-button>
+          <t-radio-button value="template">工艺模块</t-radio-button>
+          <t-radio-button value="operate">自定义操作</t-radio-button>
         </t-radio-group>
       </t-form-item>
-      <t-form-item label="名称" name="name">
+      <t-form-item v-if="false" label="名称" name="name">
         <t-input v-model="procedureFormData.name" placeholder="请输入物料名称" />
       </t-form-item>
-      <t-form-item :label="procedureFormData.type ==='group' ?'工序模块':'操作'" :name="procedureFormData.type ==='group' ?'process_template':'operates'">
-        <t-select v-if="procedureFormData.type ==='customer' " ref="selectOperationRef"  v-model="procedureFormData.operates" v-model:popupVisible="popupVisible" multiple clearable filterable placeholder="请选择"  >
-          <t-option v-for="(item,index) in operationOption" :key="index" :value="item.id" :label="item.title"></t-option> 
+      <t-form-item :label="procedureFormData.type ==='procedure' ?'工序项':'操作'" :name="procedureFormData.type ==='procedure' ?'processProcedure':'process_template'">
+        <t-select v-if="procedureFormData.type ==='operate' " ref="selectOperationRef"  v-model="procedureFormData.operates" v-model:popupVisible="popupVisible" multiple clearable filterable placeholder="请选择"  >
+          <t-option v-for="(item,index) in operationOption" :key="index" :value="item.id" :label="item.title"></t-option>
           <template #panelBottomContent>
             <div class="select-panel-footer">
               <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
@@ -109,19 +117,19 @@
                   <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
                     取消
                   </t-button>
-                </t-space>  
+                </t-space>
               </div>
             </div>
           </template>
         </t-select>
-        <t-select  v-else  ref="selectOperationRef" v-model="procedureFormData.process_template" clearable filterable placeholder="请选择"  
-          @focus=" procedureTypeChange(procedureFormData.type) ">
-          <t-option v-for="(item,index) in [...processesTemplateOption,{id:'0',name:'自定义',attribute:[]}]" :key="index" :value="item.id" :label="item.name"></t-option> 
-       
+        <t-select  v-else-if="procedureFormData.type ==='template' "  ref="selectOperationRef" v-model="procedureFormData.process_template" clearable filterable placeholder="请选择"
+                   @focus="get_processes_procedureListFunc(1)">
+          <t-option v-for="(item,index) in [...processesTemplateOption ,{id:'0',name:'自定义',attribute:[]}]" :key="index" :value="item.id" :label="item.name"></t-option>
+
           <template #panelBottomContent>
             <div class="select-panel-footer">
               <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onProcessesTemplateAdd"
-                >新增标准工艺</t-button
+              >新增工序项</t-button
               >
               <div v-else style="padding: 10px;">
                 <t-space>
@@ -129,7 +137,27 @@
                   <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
                     取消
                   </t-button>
-                </t-space>  
+                </t-space>
+              </div>
+            </div>
+          </template>
+        </t-select>
+        <t-select  v-else  ref="selectOperationRef" v-model="procedureFormData.processProcedure" clearable filterable placeholder="请选择"
+          @focus="get_processes_procedureListFunc(1)">
+          <t-option v-for="(item,index) in [...processesProcedureOption,{id:'0',name:'自定义',attribute:[]}]" :key="index" :value="item.id" :label="item.name"></t-option>
+
+          <template #panelBottomContent>
+            <div class="select-panel-footer">
+              <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onProcessesProcedureAdd"
+                >新增工序项</t-button
+              >
+              <div v-else style="padding: 10px;">
+                <t-space>
+                  <t-button size="small" style="margin-top: 8px" @click="onAddConfirm"> 确认 </t-button>
+                  <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
+                    取消
+                  </t-button>
+                </t-space>
               </div>
             </div>
           </template>
@@ -159,17 +187,49 @@
       </t-card>
     </t-space>
   </t-dialog>
-  <t-dialog destroyOnClose 
+  <t-dialog destroyOnClose
+            v-model:visible="addTemplateVisible"
+            header="添加工艺模块"
+            width="50%" attach="body"
+            :confirm-on-enter="true"
+            :on-confirm="onAddOperateTemplateFunc"
+  >
+    <t-form ref="design_form" :rules="FORM_RULES" :data="procedureFormData" :colon="true" >
+      <t-form-item :label="'工艺模块'" :name="'process_template'">
+        <t-select ref="selectOperationRef"  v-model="procedureFormData.process_template" v-model:popupVisible="popupVisible"
+                  multiple clearable filterable placeholder="请选择" @focus="getprocessesTemplateOptionFunc(1)" >
+          <t-option v-for="(item,index) in processesTemplateOption" :key="index" :value="item.id" :label="item.name"></t-option>
+          <template #panelBottomContent>
+            <div class="select-panel-footer">
+              <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onProcessesTemplateAdd"
+              >新增工艺模块</t-button
+              >
+              <div v-else style="padding: 10px;">
+                <t-space>
+                  <t-button size="small" style="margin-top: 8px" @click="onAddConfirm"> 确认 </t-button>
+                  <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
+                    取消
+                  </t-button>
+                </t-space>
+              </div>
+            </div>
+          </template>
+        </t-select>
+      </t-form-item>
+    </t-form>
+  </t-dialog>
+  <t-dialog destroyOnClose
     v-model:visible="addOperateVisible"
-    header="添加工序"
+    header="添加操作"
     width="50%" attach="body"
     :confirm-on-enter="true"
     :on-confirm="onAddOperateFunc"
   >
     <t-form ref="design_form" :rules="FORM_RULES" :data="procedureFormData" :colon="true" >
       <t-form-item :label="'操作'" :name="'operates'">
-        <t-select ref="selectOperationRef"  v-model="procedureFormData.operates" v-model:popupVisible="popupVisible" multiple clearable filterable placeholder="请选择"  >
-          <t-option v-for="(item,index) in operationOption" :key="index" :value="item.id" :label="item.title"></t-option> 
+        <t-select ref="selectOperationRef"  v-model="procedureFormData.operates" v-model:popupVisible="popupVisible"
+                  multiple clearable filterable placeholder="请选择" @focus="getOperationOptionFunc(1)" >
+          <t-option v-for="(item,index) in operationOption" :key="index" :value="item.id" :label="item.title"></t-option>
           <template #panelBottomContent>
             <div class="select-panel-footer">
               <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
@@ -182,14 +242,14 @@
                   <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
                     取消
                   </t-button>
-                </t-space>  
+                </t-space>
               </div>
             </div>
           </template>
         </t-select>
       </t-form-item>
     </t-form>
-  </t-dialog>  
+  </t-dialog>
   <FormFieldPanel
     v-if="showFormFieldPanelView"
     :mode="filedarr"
@@ -202,7 +262,12 @@
 </template>
 
 <script setup lang="jsx">
-import { getProcesses_attributeListFetch ,get_processes_templateListFetch,getEval_attribute_libraryListFetch , postProcessesAttributeFetch} from '@/api/experiment'
+import { getProcesses_attributeListFetch ,
+  get_processes_procedureListFetch,
+  get_processes_templateListFetch,
+  getEval_attribute_libraryListFetch ,
+  postProcessesAttributeFetch
+} from '@/api/experiment'
 import { v4 as uuid } from 'uuid'
 
 import { timeFormat } from '@/utils/time-ago'
@@ -240,7 +305,7 @@ const props = defineProps({
   getDataFunction: {
     type: Function,
     required: true,
-  }, 
+  },
   postDataFunction: {
     type: Function,
     required: true,
@@ -288,6 +353,7 @@ const operationOption = ref([])
 const searchTitle = ref('')
 
 const processesTemplateOption = ref([])
+const processesProcedureOption = ref([])
 
 const raw_materialOptions = ref([])
 
@@ -383,18 +449,20 @@ const pagination = ref({
 
 
 const design_form = ref()
-const FORM_RULES = { 
+const FORM_RULES = {
   name: [{ required: true, message: '必填' ,trigger: ['blur'] }],
   operates: [{ required: true, message: '必填' ,trigger: ['blur','change'] }],
   process_template: [{ required: true, message: '必填' ,trigger: ['blur','change'] }],
+  processProcedure: [{ required: true, message: '必填' ,trigger: ['blur','change'] }],
 };
 
 const procedureFormData = ref({
   name:'',
-  type: 'group',  // group: 已配好的工序  ；operate： 操作
+  type: 'procedure',  // procedure: 已配好的工序  ；operate： 操作
   description:'',
   operates:[],
-  process_template:'',
+  processProcedure:'',
+  process_template:[],
 })
 
 const editOrCreate = ref('create')
@@ -411,8 +479,12 @@ const onProcessesTemplateAdd = () => {
   window.open('/admin/process/processmodule/', '_blank')
 }
 
+const onProcessesProcedureAdd = () => {
+  window.open('/admin/process/operationitem/', '_blank')
+}
+
 const onAddConfirm = () => {
-   
+
   editOrCreate.value = 'create';
 };
 const onAddCancel = () => {
@@ -420,7 +492,7 @@ const onAddCancel = () => {
 };
 
 const procedureTypeChange = async (val) => {
-  if (val === 'group') {
+  if (val === 'procedure') {
     await getprocessesTemplateOptionFunc()
   } else {
     await getOperationOptionFunc()
@@ -441,13 +513,147 @@ const checkAll = computed(() => displayColumns.value.length === displayColumnsC.
 const indeterminate = computed(() => !!(displayColumns.value.length > displayColumnsC.value.length && displayColumnsC.value.length));
 
 const operateSelect = ref()
+const addTemplateVisible = ref(false)
 const addOperateVisible = ref(false)
 const onOperateAdd = (type,index,rowIndex,row)=>{
   console.log('--------212---------onOperateAdd: ', type,index,rowIndex,row)
-  operateSelect.value = cloneDeep( {type,index,rowIndex,row} )
-  procedureFormData.value.operates = []
-  addOperateVisible.value = true
+  if (type === 'insert') {
+    operateSelect.value = cloneDeep( {type,index,rowIndex,row} )
+    procedureFormData.value.process_template = []
+    addTemplateVisible.value = true
+  }else if (type === 'insertOperate') {
+    operateSelect.value = cloneDeep( {type,index,rowIndex,row} )
+    procedureFormData.value.operates = []
+    addOperateVisible.value = true
+  }else if (type === 'up'){
+    const temp = row.form.formItems[index];
+    row.form.formItems[index] = row.form.formItems[index - 1];
+    row.form.formItems[index - 1] = temp;
+  }else if (type === 'down'){
+    const temp = row.form.formItems[index];
+    row.form.formItems[index] = row.form.formItems[index + 1];
+    row.form.formItems[index + 1] = temp;
+  }else if (type === 'delete'){
+    row.form.formItems.splice(index, 1);
+  }
+
 }
+// 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
+function processValueItems(items) {
+  const valueC = {};
+
+  items.forEach(eleI => {
+    if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(eleI.type)) {
+      valueC[eleI.key] = [];
+    } else if (['FieldsGroup'].includes(eleI.type)) {
+      valueC[eleI.key] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
+    } else {
+      valueC[eleI.key] = '';
+    }
+  });
+
+  return valueC;
+}
+// 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
+function processItems(items, optionsGroup) {
+  return items.map(eleI => {
+    if (eleI.type === 'SelectMaterial') {
+      return {
+        ...eleI,
+        rowKey: eleI.id + '/' + shortId(),
+        description: '',
+        props: {
+          ...eleI.props,
+          options: optionsGroup,
+        },
+      };
+    } else if (eleI.type === 'FieldsGroup') {
+      return {
+        ...eleI,
+        rowKey: eleI.id + '/' + shortId(),
+        description: '',
+        props: {
+          ...eleI.props,
+          items: processItems(eleI.props.items, optionsGroup), // 递归处理嵌套的 items
+        },
+      };
+    } else {
+      return {...eleI, description: '', rowKey: eleI.id + '/' + shortId()};
+    }
+  });
+}
+const onAddOperateTemplateFunc = () => {
+  console.log('--------212---------onAddOperateFunc: ', operateSelect.value)
+  design_form.value.validate({ showErrorMessage: true }).then((validateResult) => {
+    if (validateResult && Object.keys(validateResult).length) {
+      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      useMessage('warning',firstError)
+    }else{
+      let operates = []
+      getRaw_materialOptionsFunc()
+      const optionsGroup = raw_materialOptions.value.map(ele=>{
+        return {
+          group: ele.title,
+          children: ele.table_data.map(eleT=>{
+            return {...eleT, value: eleT.id, label: `${eleT.experiment_material_name }/${eleT.experiment_material_sn }` }
+          })
+        }
+      })
+      operates = processesTemplateOption.value.filter(ele=> procedureFormData.value.process_template.includes(ele.id))
+        .map(eleT=>{
+          eleT.attribute = eleT.attribute.map(eleA=>{
+            return processItems([eleA], optionsGroup)[0]
+          })
+          const keyId = eleT.id + '/' + shortId()
+          eleT.rowKey = keyId
+          eleT.key = keyId
+          eleT.title = eleT.name
+          eleT.operateType = eleT.type
+          return eleT
+        })
+
+
+      console.log('----------442------operates-----',operates)
+
+      let rowD = cloneDeep( operateSelect.value.row )
+      console.log('----------496------operates-----',  cloneDeep(rowD) )
+      if (operateSelect.value.type === 'up') {
+        if (operateSelect.value.index === 0) {
+          rowD.form.formItems.splice(0,0,...operates)
+        }else{
+          rowD.form.formItems.splice(operateSelect.value.index-1,0,...operates)
+        }
+      }else if (operateSelect.value.type === 'down') {
+        rowD.form.formItems.splice(operateSelect.value.index,0,...operates)
+      }else if (operateSelect.value.type === 'insert') {
+        rowD.form.formItems.splice(operateSelect.value.index,0,...operates)
+      }else if (operateSelect.value.type === 'append') {
+        rowD.form.formItems.splice(0,0,...operates)
+      }
+      console.log('----------508------operates-----',cloneDeep(rowD))
+
+      // 主逻辑
+      rowD.form.formItems.forEach(ele => {
+        let valueC = '';
+
+        if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
+          valueC = [];
+        } else if (['FieldsGroup'].includes(ele.type)) {
+          valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
+        }
+
+        rowD.form.formData[ele.rowKey] = valueC;
+      });
+      nextTick(()=>{
+        table_data.value.splice(operateSelect.value.rowIndex,1,rowD)
+      })
+      addTemplateVisible.value = false
+      console.log('-------------2243------------operationOption.value',rowD,procedureFormData.value)
+    }
+
+  })
+}
+
 
 const onAddOperateFunc = () => {
   console.log('--------212---------onAddOperateFunc: ', operateSelect.value)
@@ -466,38 +672,11 @@ const onAddOperateFunc = () => {
           })
         }
       })
-      // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
-      function processItems(items, optionsGroup) {
-        return items.map(eleI => {
-          if (eleI.type === 'SelectMaterial') {
-            return {
-              ...eleI,
-              rowKey: eleI.id + '/' + shortId(),
-              description: '',
-              props: {
-                ...eleI.props,
-                options: optionsGroup,
-              },
-            };
-          } else if (eleI.type === 'FieldsGroup') {
-            return {
-              ...eleI,
-              rowKey: eleI.id + '/' + shortId(),
-              description: '',
-              props: {
-                ...eleI.props,
-                items: processItems(eleI.props.items, optionsGroup), // 递归处理嵌套的 items
-              },
-            };
-          } else {
-            return {...eleI, description: '', rowKey: eleI.id + '/' + shortId()};
-          }
-        });
-      }
+
       operates = operationOption.value.filter(ele=> procedureFormData.value.operates.includes(ele.id))
-          .map(ele => processItems([ele], optionsGroup)[0]).map(ele => ({...ele,operateType: '操作'})); 
+          .map(ele => processItems([ele], optionsGroup)[0]).map(ele => ({...ele,operateType: '操作'}));
       console.log('----------442------operates-----',operates)
-    
+
       let rowD = cloneDeep( operateSelect.value.row )
       console.log('----------496------operates-----',  cloneDeep(rowD) )
       if (operateSelect.value.type === 'up') {
@@ -507,27 +686,13 @@ const onAddOperateFunc = () => {
           rowD.form.formItems.splice(operateSelect.value.index-1,0,...operates)
         }
       }else if (operateSelect.value.type === 'down') {
-        rowD.form.formItems.splice(operateSelect.value.index,0,...operates) 
+        rowD.form.formItems.splice(operateSelect.value.index,0,...operates)
+      }else if (operateSelect.value.type === 'insert') {
+        rowD.form.formItems.splice(operateSelect.value.index,0,...operates)
       }else if (operateSelect.value.type === 'append') {
-        rowD.form.formItems.splice(0,0,...operates) 
+        rowD.form.formItems.splice(0,0,...operates)
       }
       console.log('----------508------operates-----',cloneDeep(rowD))
-      // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
-      function processValueItems(items) {
-        const valueC = {};
-
-        items.forEach(eleI => {
-          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(eleI.type)) {
-            valueC[eleI.key] = [];
-          } else if (['FieldsGroup'].includes(eleI.type)) {
-            valueC[eleI.key] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
-          } else {
-            valueC[eleI.key] = '';
-          }
-        });
-
-        return valueC;
-      }
       // 主逻辑
       rowD.form.formItems.forEach(ele => {
         let valueC = '';
@@ -538,7 +703,7 @@ const onAddOperateFunc = () => {
           valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
         }
 
-        rowD.form.formData[ele.key] = valueC;
+        rowD.form.formData[ele.rowKey] = valueC;
       });
       nextTick(()=>{
         table_data.value.splice(operateSelect.value.rowIndex,1,rowD)
@@ -546,7 +711,7 @@ const onAddOperateFunc = () => {
       addOperateVisible.value = false
       console.log('-------------2243------------operationOption.value',rowD,procedureFormData.value)
     }
-      
+
   })
 }
 
@@ -644,93 +809,67 @@ const on_select_parentFunc = async ()=>{
           })
         }
       })
-      // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
-      function processItems(items, optionsGroup) {
-        return items.map(eleI => {
-          if (eleI.type === 'SelectMaterial') {
-            return {
-              ...eleI,
-              rowKey: eleI.id + '/' + shortId(),
-              description: '',
-              props: {
-                ...eleI.props,
-                options: optionsGroup,
-              },
-            };
-          } else if (eleI.type === 'FieldsGroup') {
-            return {
-              ...eleI,
-              rowKey: eleI.id + '/' + shortId(),
-              description: '',
-              props: {
-                ...eleI.props,
-                items: processItems(eleI.props.items, optionsGroup), // 递归处理嵌套的 items
-              },
-            };
-          } else {
-            return {...eleI, description: '', rowKey: eleI.id + '/' + shortId()};
-          }
-        });
-      }
-      if (procedureFormData.value.type === 'customer' ) {
+      if (procedureFormData.value.type === 'operate' ) {
         operates = operationOption.value.filter(ele=> procedureFormData.value.operates.includes(ele.id))
           .map(ele => processItems([ele], optionsGroup)[0]).map(ele => ({...ele,operateType: '操作'}));
-      } else {
+      }else if (procedureFormData.value.type === 'template' ) {
         const processesTemplate = processesTemplateOption.value.find(ele=> procedureFormData.value.process_template === ele.id )
         const operateIds = processesTemplate? processesTemplate.attribute : []
         operates = operationOption.value.filter(ele=> operateIds.includes(ele.id))
           .map(ele => processItems([ele], optionsGroup)[0]).map(ele => ({...ele,operateType: processesTemplate.type}));
+      } else {
+        const processesProcedure = processesProcedureOption.value.find(ele=> procedureFormData.value.processProcedure === ele.id )
+        processesProcedure.process_template_info = processesProcedure.process_template_info.map(eleT=>{
+          eleT.attribute = eleT.attribute.map(eleA=>{
+            return processItems([eleA], optionsGroup)[0]
+          })
+          const keyId = eleT.id + '/' + shortId()
+          eleT.rowKey = keyId
+          eleT.key = keyId
+          eleT.title = eleT.name
+          eleT.operateType = eleT.type
+          return eleT
+        })
+        operates = {...processesProcedure }
       }
       console.log('----------442------operates-----',operates)
       const uuidStr = uuid()
       const rowD = {
         id: uuidStr,
         rowKey: uuidStr + '/' + shortId(),
-        name: procedureFormData.value.name,
+        name: operates.name,
         type: procedureFormData.value.type,
         description: procedureFormData.value.description,
         form: {
-          formItems: operates,
+          formItems: operates.process_template_info,
           formConfig: undefined,
           formData: {description:''}
         }
       }
-
-      // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
-      function processValueItems(items) {
-        const valueC = {};
-
-        items.forEach(eleI => {
-          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(eleI.type)) {
-            valueC[eleI.key] = [];
-          } else if (['FieldsGroup'].includes(eleI.type)) {
-            valueC[eleI.key] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
-          } else {
-            valueC[eleI.key] = '';
-          }
-        });
-
-        return valueC;
-      }
       // 主逻辑
-      operates.forEach(ele => {
-        let valueC = '';
+      operates.process_template_info.forEach(eleP => {
+        let valueD = {};
+        eleP.attribute.forEach(ele => {
+          let valueC = '';
 
-        if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
-          valueC = [];
-        } else if (['FieldsGroup'].includes(ele.type)) {
-          valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
-        }
+          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
+            valueC = [];
+          } else if (['FieldsGroup'].includes(ele.type)) {
+            valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
+          }
 
-        rowD.form.formData[ele.key] = valueC;
+          valueD[ele.key] = valueC;
+        });
+        rowD.form.formData[eleP.rowKey] = valueD;
       });
+
       nextTick(() => {
         table_data.value.push(rowD)
       });
       add_parent_visible.value = false
       console.log('-------------2243------------operationOption.value',procedureFormData.value)
     }
-      
+
   })
 }
 
@@ -758,17 +897,17 @@ const onProcedureConfirmFunc = async () => {
           name: _title.value,
           step:steps
         }
-      } 
+      }
     }else {
       params = {
         product: change_log.value.change_log,
         process: {
           name: _title.value,
           step: steps,
-        },  
-      } 
+        },
+      }
     }
-    
+
     isChanged.value = true
     const res = await props.postDataFunction(params)
     let resD = {}
@@ -810,7 +949,7 @@ const getOperationOptionFunc = async (page=1) => {
     pagination.value.total = resD.total
     // console.log(operationOption.value, '-------------479------------operationOption.value')
   }
-  
+
 }
 
 getOperationOptionFunc()
@@ -833,10 +972,34 @@ const getprocessesTemplateOptionFunc = async (page=1) => {
     pagination.value.total = resD.total
     console.log(processesTemplateOption.value, '-------------502------------processesTemplateOption.value')
   }
-  
+
 }
 
 getprocessesTemplateOptionFunc()
+
+const get_processes_procedureListFunc = async (page=1) => {
+  const res = await get_processes_procedureListFetch({page,limit:9999})
+  console.log(res, '-------------488------------processesProcedureOption.value')
+  let resD = {}
+  if (props.viewType === 'nodeView') {
+    resD = res.data
+  }else {
+    resD = res.data.value ? res.data.value : res.data
+  }
+  if (resD.code === 2000) {
+    if (page === 1) {
+      processesProcedureOption.value = [...resD.data]
+    } else {
+      processesProcedureOption.value = [...processesProcedureOption.value, ...resD.data]
+    }
+    pagination.value.total = resD.total
+    console.log(processesProcedureOption.value, '-------------502------------processesProcedureOption.value')
+  }
+
+}
+
+get_processes_procedureListFunc()
+
 const FormRenderComponent = resolveComponent('FormRender');
 const columns = ref([
   {
@@ -851,7 +1014,7 @@ const columns = ref([
     ellipsis: true,
     cell: (h , { row, rowIndex } ) => {
       return (
-        <div title={row.type === "operate" ? "操作" : "评估"} style="width:100%;white-space: break-spaces;"> 
+        <div title={row.type === "operate" ? "操作" : "评估"} style="width:100%;white-space: break-spaces;">
           {row.type === "operate" && [<t-icon name="adjustment" />] }
           {row.type === "assessment" && [<t-icon name="analytics" />] }
           <span style="margin-left:6px;">{row.name ? row.name : '-'}</span>
@@ -963,7 +1126,7 @@ const columns = ref([
 function onAddWorkingProcedure(row=undefined) {
   procedureFormData.value = {
     name:'',
-    type: 'group',
+    type: 'procedure',
     description:'',
     operates:[]
   }
@@ -1013,7 +1176,7 @@ const initData = async () => {
   }
   if (resD.code === 2000 ) {
     if ( resD.data.process && resD.data.process.step ){
-      if (isChanged.value) { isChanged.value = false } 
+      if (isChanged.value) { isChanged.value = false }
       const tableD = resD.data.process.step.map(ele => {
         let obj = { ...ele}
         obj.children = obj.children.map(eleC=>{
@@ -1031,12 +1194,12 @@ const initData = async () => {
         })
         return obj
       })
-      if ( tableD.length > 0 ) { 
+      if ( tableD.length > 0 ) {
         nextTick(()=>{
-          table_data.value = tableD 
+          table_data.value = tableD
           _title.value = resD.data.process.name
         })
-        
+
       }
       console.log('----------initData-----607---------',table_data.value)
     }
@@ -1071,7 +1234,7 @@ onMounted(async () => {
       //     }, 300)
       //   },
       //   onClosed() {
-          
+
       //   },
       // })
     }else {

@@ -256,7 +256,7 @@ const select_design_formFunc = ()=>{
 const on_select_designFunc = ()=>{
   _designParams.value = getDesignParams()
   experimental_design_visible.value = true;
-  console.log('---------------138--------', _designParams.value)
+  console.log('---------------259--------', _designParams.value)
   
 }
 
