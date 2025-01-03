@@ -55,7 +55,7 @@
             </t-list-item>
           </t-list>
           <div v-else>
-            <t-link theme="primary" hover="color" @click="onOperateAdd('append',index,slotProps.rowIndex,slotProps.row)"> + 添加操作属性 </t-link>
+            <t-link theme="primary" hover="color" @click="onOperateAdd('insert',index,slotProps.rowIndex,slotProps.row)"> + 添加操作属性 </t-link>
           </div>
         </div>
       </template>
@@ -124,7 +124,7 @@
         </t-select>
         <t-select  v-else-if="procedureFormData.type ==='template' "  ref="selectOperationRef" v-model="procedureFormData.process_template" clearable filterable placeholder="请选择"
                    @focus="get_processes_procedureListFunc(1)">
-          <t-option v-for="(item,index) in [...processesTemplateOption ,{id:'0',name:'自定义',attribute:[]}]" :key="index" :value="item.id" :label="item.name"></t-option>
+          <t-option v-for="(item,index) in [...processesTemplateOption ,{id:'0',name:'自定义',process_template_info:[],description:''}]" :key="index" :value="item.id" :label="item.name"></t-option>
 
           <template #panelBottomContent>
             <div class="select-panel-footer">
@@ -819,18 +819,23 @@ const on_select_parentFunc = async ()=>{
           .map(ele => processItems([ele], optionsGroup)[0]).map(ele => ({...ele,operateType: processesTemplate.type}));
       } else {
         const processesProcedure = processesProcedureOption.value.find(ele=> procedureFormData.value.processProcedure === ele.id )
-        processesProcedure.process_template_info = processesProcedure.process_template_info.map(eleT=>{
-          eleT.attribute = eleT.attribute.map(eleA=>{
-            return processItems([eleA], optionsGroup)[0]
+        if (processesProcedure) {
+          processesProcedure.process_template_info = processesProcedure.process_template_info.map(eleT=>{
+            eleT.attribute = eleT.attribute.map(eleA=>{
+              return processItems([eleA], optionsGroup)[0]
+            })
+            const keyId = eleT.id + '/' + shortId()
+            eleT.rowKey = keyId
+            eleT.key = keyId
+            eleT.title = eleT.name
+            eleT.operateType = eleT.type
+            return eleT
           })
-          const keyId = eleT.id + '/' + shortId()
-          eleT.rowKey = keyId
-          eleT.key = keyId
-          eleT.title = eleT.name
-          eleT.operateType = eleT.type
-          return eleT
-        })
-        operates = {...processesProcedure }
+          operates = {...processesProcedure }
+        } else {
+          operates = {id:'0',name:'自定义',process_template_info:[],description:''}
+        }
+
       }
       console.log('----------442------operates-----',operates)
       const uuidStr = uuid()
