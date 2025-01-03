@@ -109,6 +109,7 @@ import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 import { post_experiment_material_fetch ,get_experiment_material_fetch} from '@/api/experiment'
 import { v4 as uuid } from 'uuid'
 import { timeFormat } from '@/utils/time-ago'
+import cloneDeep from 'lodash/cloneDeep.js'
 
 const { node, editor, updateAttributes } = defineProps(nodeViewProps)
 
@@ -432,7 +433,7 @@ onMounted(async () => {
     // await initData()
   }else if(is_integration.value) {
     
-    const docD = editor.getJSON()
+    const docD = cloneDeep(editor.getJSON())
     if (docD ) {
       // 物料表
       // const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')

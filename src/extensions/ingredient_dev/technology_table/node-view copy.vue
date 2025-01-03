@@ -451,7 +451,7 @@ onMounted(async () => {
     await initData()
   }else if(is_integration.value) {
     
-    const docD = editor.getJSON()
+    const docD = cloneDeep(editor.getJSON())
     if (docD ) {
       // 物料表
      

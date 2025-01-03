@@ -334,7 +334,7 @@ const on_experimental_designFunc = async ()=>{
 }
 
 const initialize = () => {
-  const docD = editor.getJSON()
+  const docD = cloneDeep(editor.getJSON())
   if (docD) {
     // 物料表
     const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')

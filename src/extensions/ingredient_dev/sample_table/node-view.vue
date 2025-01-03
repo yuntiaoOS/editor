@@ -64,7 +64,7 @@
         </template>
         <template #type-slot-operate="{ col, row, rowIndex }">
           <div style="display: flex; align-items: center; gap: 10px">
-            <t-popconfirm content="确认留样吗" @confirm="onPostSampleFunc(row,rowIndex)">
+            <t-popconfirm v-if="false" content="确认留样吗" @confirm="onPostSampleFunc(row,rowIndex)">
               <t-button
                 style="width: 50px"
                 title="留样"
@@ -73,9 +73,14 @@
                 variant="text"
                 @click.stop="null"
               >
-                {{row.sample.really_sample ? '更新': '留样'}}
+                {{row.sample.really_sample ? '更新样品': '留样'}}
               </t-button>
             </t-popconfirm>
+            <t-dropdown :options="row.sample.really_sample ? [{ content: '更新批次', value: 1 }] : [{ content: '留样', value: 1 }]" trigger="click" @click="onPostSampleFunc(row,rowIndex)">
+              <t-space>
+                <t-tag style="cursor: pointer" :theme="row.sample.really_sample ? 'success': 'warning'">{{row.sample.really_sample ? '已留样': '未留样'}}</t-tag>
+              </t-space>
+            </t-dropdown>
             <t-button
               style="width: 50px"
               title="工艺"
@@ -689,7 +694,7 @@ columns.value = [
   {
     title: '操作',
     colKey: 'operate',
-    width: 150,
+    width: 180,
     cell: 'type-slot-operate',
   },
 ]
@@ -725,7 +730,7 @@ const columnEditFunc = () => {
 const initData = async () => {
   loading.value = true
 
-  const docD = editor.getJSON()
+  const docD = cloneDeep(editor.getJSON())
   if (docD) {
     // 物料表
     const test_record_table = docD.content.filter(

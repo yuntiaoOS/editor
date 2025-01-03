@@ -751,11 +751,14 @@ watch(() => refreshNode, (value) => {
   console.log('----748----refreshNode.value--------',value)
   if (value.type === 'record_sample_table') {
     nextTick(() => {
-      const index = table_data.value.findIndex(
+      let index = -1
+      index = table_data.value.findIndex(
         (row) => row.id === value.data.id,
       )
-      table_data.value.splice(index,1,value.data)
-      refreshNode.type = ''
+      if (index > -1) {
+        table_data.value.splice(index, 1, value.data)
+        refreshNode.type = ''
+      }
     })
   }
 }, { deep: true, immediate: true })
@@ -1111,7 +1114,7 @@ const initData = async () => {
 }
 
 const initialize = () => {
-  const docD = editor.getJSON()
+  const docD = cloneDeep(editor.getJSON())
   if (docD) {
     // 物料表
     const raw_material_tables = docD.content.filter(
@@ -1177,7 +1180,7 @@ onMounted(() => {
     console.log('----------change_log.value499---------', group.value)
     // await initData()
   } else if (is_integration.value) {
-    const docD = editor.getJSON()
+    const docD = cloneDeep(editor.getJSON())
     if (docD) {
       // 物料表
       // const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')

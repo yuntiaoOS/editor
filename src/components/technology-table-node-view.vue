@@ -55,7 +55,7 @@
             </t-list-item>
           </t-list>
           <div v-else>
-            <t-link theme="primary" hover="color" @click="onOperateAdd('insert',index,slotProps.rowIndex,slotProps.row)"> + 添加操作属性 </t-link>
+            <t-link theme="primary" hover="color" @click="onOperateAdd('insert',index,slotProps.rowIndex,slotProps.row)"> + 添加工艺模块 </t-link>
           </div>
         </div>
       </template>
@@ -601,7 +601,8 @@ const onAddOperateTemplateFunc = () => {
       })
       operates = processesTemplateOption.value.filter(ele=> procedureFormData.value.process_template.includes(ele.id))
         .map(eleT=>{
-          eleT.attribute = eleT.attribute.map(eleA=>{
+          const attributeC =  eleT.attribute_info ?  cloneDeep(eleT.attribute_info) :  cloneDeep(eleT.attribute)
+          eleT.attribute = attributeC.map(eleA=>{
             return processItems([eleA], optionsGroup)[0]
           })
           const keyId = eleT.id + '/' + shortId()
@@ -611,7 +612,6 @@ const onAddOperateTemplateFunc = () => {
           eleT.operateType = eleT.type
           return eleT
         })
-
 
       console.log('----------442------operates-----',operates)
 
@@ -630,19 +630,23 @@ const onAddOperateTemplateFunc = () => {
       }else if (operateSelect.value.type === 'append') {
         rowD.form.formItems.splice(0,0,...operates)
       }
-      console.log('----------508------operates-----',cloneDeep(rowD))
+      console.log('----------635------operates-----',cloneDeep(rowD))
 
       // 主逻辑
-      rowD.form.formItems.forEach(ele => {
-        let valueC = '';
+      rowD.form.formItems.forEach(eleP => {
+        let valueD = {};
+        eleP.attribute.forEach(ele => {
+          let valueC = '';
 
-        if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
-          valueC = [];
-        } else if (['FieldsGroup'].includes(ele.type)) {
-          valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
-        }
+          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
+            valueC = [];
+          } else if (['FieldsGroup'].includes(ele.type)) {
+            valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
+          }
 
-        rowD.form.formData[ele.rowKey] = valueC;
+          valueD[ele.key] = valueC;
+        });
+        rowD.form.formData[eleP.rowKey] = valueD;
       });
       nextTick(()=>{
         table_data.value.splice(operateSelect.value.rowIndex,1,rowD)
@@ -778,7 +782,7 @@ const getRaw_materialOptionsFunc = () => {
   if (!props.editor) {
     return
   }
-  const docD = props.editor.getJSON()
+  const docD = cloneDeep(props.editor.getJSON())
   if (docD) {
     // 物料表
     const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
@@ -821,7 +825,8 @@ const on_select_parentFunc = async ()=>{
         const processesProcedure = processesProcedureOption.value.find(ele=> procedureFormData.value.processProcedure === ele.id )
         if (processesProcedure) {
           processesProcedure.process_template_info = processesProcedure.process_template_info.map(eleT=>{
-            eleT.attribute = eleT.attribute.map(eleA=>{
+            const attributeC =  eleT.attribute_info ?  cloneDeep(eleT.attribute_info) :  cloneDeep(eleT.attribute)
+            eleT.attribute = attributeC.map(eleA=>{
               return processItems([eleA], optionsGroup)[0]
             })
             const keyId = eleT.id + '/' + shortId()
@@ -1223,7 +1228,7 @@ onMounted(async () => {
     await initData()
   } else if(is_integration.value) {
     console.log('----------change_log.value22222222--------',is_integration.value);
-    const docD = props.editor.getJSON()
+    const docD = cloneDeep(props.editor.getJSON())
     if (docD ) {
       // dialog_selectOptions.value = []
       // // 物料表

@@ -132,6 +132,7 @@ import { timeFormat } from '@/utils/time-ago'
 import { getOrg_memberFetch } from '@/api/index'
 import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
 import { debounce } from 'lodash-es'
+import cloneDeep from 'lodash/cloneDeep'
 
 const emits = defineEmits(['update:nodeAttrs'])
 const props = defineProps({
@@ -828,7 +829,7 @@ const initData = async () => {
 }
 
 const handleIntegration = async () => {
-  const docD = props.editor.getJSON();
+  const docD = cloneDeep(props.editor.getJSON()) ;
   if (!docD) {
     TMessagePlugin.warning('当前文档中没有数据');
     return;

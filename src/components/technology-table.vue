@@ -106,6 +106,7 @@ import {
 import { Loading } from 'tdesign-vue-next';
 import { v4 as uuid } from 'uuid'
 import { getProcesses_attributeListFetch } from '@/api/experiment'
+import cloneDeep from 'lodash/cloneDeep.js'
 const emits = defineEmits(['update:modelValue', 'update:title'])
 
 const props = defineProps({
@@ -170,7 +171,7 @@ const setActiveItemRef = (index,el) => {
 }
 
 const get_raw_materialOptionsFunc = () => {
-  const docD = props.editor.getJSON()
+  const docD = cloneDeep(props.editor.getJSON())
   if (docD) {
     // 物料表
     const raw_material_tables = docD.content.filter(ele=> ele.type === 'raw_material_table')
