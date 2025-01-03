@@ -1,5 +1,12 @@
 <template>
   <t-space direction="vertical" align="" style="width: 100%;">
+    <div >
+      <FormDesignRender style="overflow: auto;"
+                        v-model="_formData['attachment']"
+                        :mode=" readonly ? 'READ' : 'NORMAL'"
+                        :config="attachmentFormItem">
+      </FormDesignRender>
+    </div>
     <div>
       <t-table
         ref="tableRef"  :loading="loading"  
@@ -103,6 +110,25 @@ const props = defineProps({
   },
 })
 
+const attachmentFormItem = {
+  "title": "附件",
+  "type": "Attachment",
+  "icon": "carbon:attachment",
+  "key": "attachment",
+  "value_type": "Array",
+  "props": {
+    "required": false,
+    "enablePrint": true,
+    "placeholder": "直接上传用于本地文件上传至系统，文件库用于选择系统已存在的文件",
+    "onlyRead": false,
+    "maxSize": 100,
+    "maxNumber": 10,
+    "fileTypes": [],
+    "abstract": false,
+    "hidden": false
+  }
+}
+
 const _value = computed({
   get() {
     return props.modelValue
@@ -118,6 +144,16 @@ const _sampleInfo = computed({
   },
   set(val) {
     _value.value.sample = val
+  }
+})
+
+const _formData = computed({
+  get() {
+    return _value.value?.formData
+  },
+  set(val) {
+    emits('change', _sampleInfo.value)
+    _value.value.formData = val
   }
 })
 

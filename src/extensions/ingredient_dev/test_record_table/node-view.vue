@@ -835,7 +835,7 @@ const creatSample = async (row) => {
       is_sample: true,
       sample: {
         ...rowC.sample,
-        is_sample: true
+        really_sample: false
       },
     }
     console.log('------row.is_sample------rowC--------', rowC)
@@ -865,7 +865,7 @@ const creatSample = async (row) => {
             is_sample: true,
             sample: {
               ...rowC.sample,
-              is_sample: true,
+              really_sample: true,
               id: res.data.data[0].id,
               // name: `样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
               sn: res.data.data[0].sn,
