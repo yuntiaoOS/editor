@@ -225,15 +225,15 @@ const on_select_materialFunc = async ()=>{
 
   select_material.value.forEach((ele ) => {
     const obj  = {
+      // ...ele,
       id: uuid(),
-      material:ele,
-      experiment_material: ele.id,
-      experiment_material_batch: ele.batch,
-      experiment_material_name: ele.name,
-      experiment_material_price: ele.price,
-      experiment_material_sn: ele.sn,
-      experiment_material_state: ele.state,
-      experiment_material_supplier: ele.supplier,
+      material: ele.id,
+      batch: ele.batch,
+      name: ele.name,
+      price: ele.price,
+      sn: ele.sn,
+      state: ele.state,
+      supplier: ele.supplier,
       description: ''
       // content: '0.0',
     }
@@ -274,34 +274,34 @@ const columnsCheckboxs = ref([])
 
 const displayColumns = ref([]);
 const displayColumnsC = ref([]);
-displayColumns.value = ['experiment_material_name','experiment_material_batch', 'experiment_material_supplier', 'experiment_material_price', 'description', 'operate']
+displayColumns.value = ['name','batch', 'supplier', 'price', 'description', 'operate']
 columns.value = [
   {
-    colKey: 'experiment_material_name',
+    colKey: 'name',
     title: '物料',
     cell: (h , { row, rowIndex } ) => {
       const status = rowIndex % 3;
       return (
         <div>
-          <span>{row.experiment_material_name ? row.experiment_material_name : ''}</span>
-          <t-tag size="small">{row.experiment_material_sn ? row.experiment_material_sn : ''}</t-tag>
+          <span>{row.name ? row.name : ''}</span>
+          <t-tag size="small">{row.sn ? row.sn : ''}</t-tag>
         </div>
       );
     },
     minWidth: 120,
   },
   {
-    colKey: 'experiment_material_batch',
+    colKey: 'batch',
     title: '批次',
     width: 170,
   },
   {
-    colKey: 'experiment_material_supplier',
+    colKey: 'supplier',
     title: '供应商',
     width: 160,
   },
   {
-    colKey: 'experiment_material_price',
+    colKey: 'price',
     title: '价格',
     width: 90,
   },

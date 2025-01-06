@@ -449,10 +449,10 @@ const submitExperimentalDesign = () => {
         formData: designResult.value.formData[procedure.key][operate.key],
         formItems: operate,
         description: operate.description,
-        procedure,
+        procedure: { id: procedure.id, title: procedure.title,key: procedure.key,rowKey: procedure.rowKey },
         is_sample: false,
         sample: {},
-        operate_router: operate,
+        operate_router: { id: operate.id, title: operate.title,key: operate.key,rowKey: operate.rowKey },
       }
       table_dataV.push(row)
     })
@@ -464,7 +464,7 @@ const submitExperimentalDesign = () => {
       formData: { description: procedure.description },
       formItems: { title: '过程描述' },
       description: procedure.description,
-      procedure,
+      procedure: { id: procedure.id, title: procedure.title,key: procedure.key,rowKey: procedure.rowKey },
       is_sample: false,
       sample: {},
       operate_router: { title: '过程描述' },
@@ -782,6 +782,7 @@ const columnEditFunc = () => {
 }
 
 const sampleRecordChange = (row) => {
+  console.log('------785-------------sampleRecordChange----------')
   refreshNode.type = 'sample_table'
 }
 

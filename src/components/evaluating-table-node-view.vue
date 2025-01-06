@@ -13,7 +13,7 @@
             </div>
             <t-space>
               <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入物料名称" />
-               <t-button variant="outline" @click=" select_design_visible = true;">配置</t-button>
+               <t-button variant="outline" @click="onSelectDialogFunc">配置</t-button>
               <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
               <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
             </t-space>
@@ -231,7 +231,10 @@ const columns = computed({
 
 
 
-const $dict_data = JSON.parse( localStorage.getItem('dict_data') )
+let $dict_data = JSON.parse( localStorage.getItem('dict_data') )
+if (!$dict_data) {
+  $dict_data = JSON.parse( localStorage.getItem('rzm-dictionary') ).data
+}
 console.log('-----------113------------------',$dict_data);
 
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
@@ -599,7 +602,28 @@ const blurCycleNumberFunc = (val) => {
   if (Number(val) < 1) selectTableForm.value.period_num = 1;
 }
 
+const onSelectDialogFunc = async () => {
+  const docD = cloneDeep(props.editor.getJSON())
+  if (docD) {
+    // 物料表
+    const sample_table = docD.content.filter(
+      (ele) => ele.type === 'sample_table',
+    )
+    if (sample_table.length === 0) {
+      TMessagePlugin.warning('请先创建样品表单并在里面留样')
+      return // 物料表不存在，返回
+    }
+    sample_group_options.value = sample_table.map((ele) => ele.attrs.table_data).reduce((a, b) => a.concat(b)).filter((ele) => ele.sample.really_sample).map((ele) => ele.sample)
+  } else {
+    TMessagePlugin.warning('当前文档中没有数据错误')
+  }
 
+  const res2 = await getEval_execute_standardListFetch()
+  if (res2.data.code === 2000) {
+    eval_execute_standardList.value = res2.data.data
+  }
+  select_design_visible.value = true
+}
 
 const editdRow = ref();
 let debouncedRequest = null;
@@ -885,15 +909,15 @@ onMounted(async () => {
 
     }
   }
-  get_ingredient_dev_sampleListFetch({experiment_theme: experiment_theme.value?.id, record: experiment_record.value?.id}).then((res)=>{
-    if (res.data.code === 2000) {
-      sample_group_options.value = res.data.data
-    }else{
-      TMessagePlugin.error(res.data.msg)
-    }
-  }).catch((err) => {
-    TMessagePlugin.error('获取样品列表失败')
-  })
+  // get_ingredient_dev_sampleListFetch({experiment_theme: experiment_theme.value?.id, record: experiment_record.value?.id}).then((res)=>{
+  //   if (res.data.code === 2000) {
+  //     sample_group_options.value = res.data.data
+  //   }else{
+  //     TMessagePlugin.error(res.data.msg)
+  //   }
+  // }).catch((err) => {
+  //   TMessagePlugin.error('获取样品列表失败')
+  // })
   getEval_execute_standardListFetch().then((res) => {
     if (res.data.code === 2000) {
       eval_execute_standardList.value = res.data.data

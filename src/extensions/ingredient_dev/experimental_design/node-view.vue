@@ -172,7 +172,7 @@ const getDesignParams = () => {
     return {
       group: ele.title,
       children: ele.table_data.map(eleT=>{
-        return {...eleT, value: eleT.id, label: `${eleT.experiment_material_name }/${eleT.experiment_material_sn }` }
+        return { value: eleT.id, label: `${eleT.name }/${eleT.sn }` }
       })
     }
   })

@@ -71,6 +71,7 @@ export default xmNode.create({
           return { 'data-table_data': JSON.stringify(attributes.table_data)  };
         },
       },
+      // 生成表格时选择工艺路线的所有项
       designParams: {
         default: {},
         parseHTML: (element) => {
@@ -84,6 +85,7 @@ export default xmNode.create({
           return { 'data-designParams': JSON.stringify(attributes.designParams)  };
         },
       },
+      // 当前表格用到的工艺项及数据
       designResult: {
         default: {},
         parseHTML: (element) => {

@@ -159,7 +159,7 @@ const getDesignParams = () => {
     return {
       group: ele.title,
       children: ele.table_data.map(eleT=>{
-        return {...eleT, value: eleT.id, label: `${eleT.experiment_material_name }/${eleT.experiment_material_sn }` }
+        return { value: eleT.id, label: `${eleT.name }/${eleT.sn }` }
       })
     }
   })
@@ -167,13 +167,15 @@ const getDesignParams = () => {
   //[ ] TODO  待优化optionsGroup物料数据要插入更新
   if (technology_table_data) {
     const formItems = technology_table_data.map(ele=>{
-      ele.formItems = ele.formItems.map(eleT=>{
+      const eleC = cloneDeep(ele)
+      delete eleC.formData
+      eleC.formItems = eleC.formItems.map(eleT=>{
         eleT.attribute = eleT.attribute.map(eleA=>{
           return processItems([eleA], optionsGroup)[0]
         })
         return eleT
       })
-      return ele
+      return eleC
     })
     console.log('--------_designParams--------209--------',formItems)
     designParams = {

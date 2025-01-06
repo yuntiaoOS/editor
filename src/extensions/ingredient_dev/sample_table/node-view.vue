@@ -750,7 +750,7 @@ const initData = async () => {
       table_data.value,
     )
     nextTick(() => {
-      table_data.value = sample_table
+      table_data.value = cloneDeep(sample_table)
       updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
     })
   } else {
