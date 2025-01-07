@@ -59,7 +59,7 @@ export default Image.extend({
         default: false,
       },
       equalProportion: {
-        default: true,
+        default: false,
       },
       flipX: {
         default: false,

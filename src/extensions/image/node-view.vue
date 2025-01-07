@@ -74,6 +74,7 @@
           :data-id="node.attrs.id"
           loading="lazy"
           @load="onLoad"
+          @error="() => (error.value = true)"
         />
         <div
           v-if="!node.attrs.uploaded && node.attrs.file !== null"
@@ -96,7 +97,8 @@ import { shortId } from '@/utils/short-id'
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 const { options, editor, imageViewer } = useStore()
-const { isLoading, error } = useImage({ src: fixedImageUrl(node.attrs.src) })
+const error = $ref(false)
+const isLoading = $ref(false)
 
 const containerRef = ref(null)
 const imageRef = $ref<HTMLImageElement | null>(null)
@@ -145,6 +147,7 @@ const onLoad = async () => {
     const { height } = imageRef?.getBoundingClientRect() ?? {}
     updateAttributes({ height: height.toFixed(2) })
   }
+  isLoading.value = false
 }
 
 const onRotate = ({ angle }: { angle: number }) => {
