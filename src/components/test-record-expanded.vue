@@ -9,7 +9,7 @@
     </div>
     <div>
       <t-table
-        ref="tableRef"  :loading="loading"  
+        ref="tableRef"  :loading="loading"
         row-key="id" :data="_sampleInfo?.record_table?.table_data" :columns="_columns" resizable
       >
         <template #defaultValueSlot="slotProps">
@@ -50,9 +50,9 @@
       </t-table>
     </div>
   </t-space>
-  <t-dialog 
+  <t-dialog
     v-model:visible="select_index_visible"
-    destroy-on-close 
+    destroy-on-close
     :close-on-overlay-click="false"
     header="选择指标属性" :cancel-btn="null"
     width="600" attach="body"
@@ -123,6 +123,7 @@ const attachmentFormItem = {
     "onlyRead": false,
     "maxSize": 100,
     "maxNumber": 10,
+    "type": "image",
     "fileTypes": [],
     "abstract": false,
     "hidden": false
@@ -262,7 +263,7 @@ const pagination = ref({
 
 const selectTableForm = ref({
   type: 'group',
-  index_type: [] ,  
+  index_type: [] ,
   experimental_design:[]
 })
 const FORM_RULES = {
@@ -272,11 +273,11 @@ const FORM_RULES = {
 
 const getNodeFullColKey = (node) => {
   const parents = node.getParents()
-  
+
   // console.info('树结构数据:--------',node, parents);
   if (!parents) {
     return ''
-  } 
+  }
   const keys = []
   parents.forEach(item => {
     keys.unshift(item.data.key)
@@ -286,7 +287,7 @@ const getNodeFullColKey = (node) => {
   }else{
     keys.push(node.data.key)
   }
-  
+
   const keyStr = keys.join('.')
   // console.log('keys:-----204---', keyStr);
   return keyStr? keyStr : ''
@@ -422,7 +423,7 @@ const on_select_indexFunc = ()=>{
 
       _sampleInfo.value.record_table.columns = [...paramsColumns, ...suffixColumns]
       _sampleInfo.value.record_table.params = cloneDeep(indexTypes)
-      
+
 
       makerecordDataFunc(true)
       putIngredientDevSampleFunc(_value.value).then(res=>{
@@ -436,7 +437,7 @@ const on_select_indexFunc = ()=>{
 
     }
   })
-  
+
 }
 
 const makerecordDataFunc = (init=false)=>{
@@ -494,7 +495,7 @@ const getAssessmentOptionFunc = async (page=1) => {
     pagination.value.total = resD.total
     console.log(assessmentOption.value, '-------------502------------assessmentOption.value')
   }
-  
+
 }
 
 const getSampleInfoFunc = async () => {
