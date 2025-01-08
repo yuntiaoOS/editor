@@ -94,7 +94,7 @@ export interface DocumentOptions {
   id?: string
   title: string
   content: string
-  placeholder?: Record<string, string>
+  placeholder?: Record<string, string> | string
   enableSpellcheck?: boolean
   enableMarkdown?: boolean
   enableBubbleMenu?: boolean

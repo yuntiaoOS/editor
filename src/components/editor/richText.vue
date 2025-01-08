@@ -5,12 +5,10 @@
       classPrefix: 'umo',
     }"
   >
-    <div
-      :id="container.substr(1)"
-      class="umo-editor-container"
-    >
+    <div :id="container.substr(1)" class="umo-editor-container">
       <header class="umo-toolbar">
-        <toolbar v-if="showToolbar"
+        <toolbar
+          v-if="showToolbar"
           :key="toolbarKey"
           @menu-change="(event: any) => emits('menuChange', event)"
         >
@@ -39,9 +37,7 @@
                     '--umo-editor-placeholder': `'${l(options.document?.placeholder ?? {})}'`,
                   }"
                 />
-                <menus-bubble
-                  v-if="editorInstance "
-                />
+                <menus-bubble v-if="editorInstance" />
               </div>
             </div>
           </div>
@@ -52,7 +48,7 @@
             @close="imageViewer.visible = false"
           />
           <container-search-replace />
-<!--          <container-print />-->
+          <!--          <container-print />-->
         </div>
       </main>
     </div>
@@ -69,7 +65,7 @@ import Mathematics from '@tiptap-pro/extension-mathematics'
 import { richTextExtensions } from '@/extensions'
 import Image from '@/extensions/image'
 
-import { defaultOptions} from '@/options'
+import { defaultOptions } from '@/options'
 
 import type { GlobalConfigProvider } from 'tdesign-vue-next'
 import enConfig from 'tdesign-vue-next/esm/locale/en_US'
@@ -97,7 +93,7 @@ const Document = TiptapDocument.extend({
 
 const props = defineProps({
   modelValue: {
-    type: [String , Object],
+    type: [String, Object],
     default: '',
   },
   showToolbar: {
@@ -145,7 +141,8 @@ const defaultOptionsR: UmoEditorOptions = {
   ...defaultOptions,
   document: {
     placeholder: '请输入',
-    content:  _value.value ?? "<p>请输入</p>",
+    title: '文档',
+    content: _value.value ?? '<p>请输入</p>',
   },
   toolbar: {
     defaultMode: 'classic',
@@ -160,12 +157,7 @@ const defaultOptionsR: UmoEditorOptions = {
   },
   editorKey: props.editorKey,
   file: {
-    allowedMimeTypes: [
-      'application/pdf',
-      'image/*',
-      'video/mp4',
-      'audio/*',
-    ],
+    allowedMimeTypes: ['application/pdf', 'image/*', 'video/mp4', 'audio/*'],
     maxSize: 1024 * 1024 * 1024,
   },
   async onFileUpload(file: File & { url?: string }) {
@@ -173,12 +165,14 @@ const defaultOptionsR: UmoEditorOptions = {
       throw new Error('没有找到要上传的文件')
     }
     console.log('-------1111111111----onUpload-----------', file)
-    const res = await attachments_fileFetch({file})
+    const res = await attachments_fileFetch({ file })
     console.log('-------res-----1111111111111----', res)
     if (res.status === 201) {
-      const fileUrl = 'http://id.zw.rzm.com' + `/api/storage/files/${res.data.id}/preview/`
-      const fileUrl2 = 'http://id.zw.rzm.com' + `/api/storage/files/${res.data.id}/download/`
-      return { ...res.data,src: fileUrl,url: fileUrl ,file:fileUrl2}
+      const fileUrl =
+        'http://id.zw.rzm.com' + `/api/storage/files/${res.data.id}/preview/`
+      const fileUrl2 =
+        'http://id.zw.rzm.com' + `/api/storage/files/${res.data.id}/download/`
+      return { ...res.data, src: fileUrl, url: fileUrl, file: fileUrl2 }
     } else {
       throw new Error(res.data.msg)
       // return {
@@ -227,15 +221,15 @@ const editorInstance: Editor = new Editor({
   onCreate({ editor }) {
     isEmpty = editor.commands.setPlaceholder('')
   },
-  onSelectionUpdate({ editor }) {
+  onSelectionUpdate: ({ editor }:any) => {
     setEditor(editor)
   },
-  onFocus({ editor }) {
+  onFocus: ({ editor }:any) => {
     setEditor(editor)
   },
-  onUpdate: throttle(({ editor }) => {
+  onUpdate: throttle(({ editor }:any) => {
     setEditor(editor)
-    let output = getOutput(editor, 'html')
+    let output :any = getOutput(editor, 'html')
     emits('changed', {
       editor: editor,
       json: getOutput(editor, 'json'),
@@ -243,7 +237,7 @@ const editorInstance: Editor = new Editor({
     })
     if (props.outputType === 'html') {
       _value.value = output
-    }else {
+    } else {
       _value.value = getOutput(editor, 'json')
     }
     console.log('-------onUpdate---204-------', getOutput(editor, 'json'))
@@ -303,13 +297,13 @@ const reset = (silent: boolean) => {
   })
 }
 
-function printHtmlString(htmlString:string) {
+function printHtmlString(htmlString: string) {
   // 打开一个新窗口（空白页）
-  const printWindow = window.open('', '_blank', 'width=800,height=600');
+  const printWindow = window.open('', '_blank', 'width=800,height=600')
 
   if (!printWindow) {
-    console.error('浏览器可能阻止了弹窗，请允许弹窗后再试');
-    return;
+    console.error('浏览器可能阻止了弹窗，请允许弹窗后再试')
+    return
   }
 
   // 写入基本的HTML结构
@@ -330,17 +324,17 @@ function printHtmlString(htmlString:string) {
         ${htmlString}
       </body>
     </html>
-  `);
+  `)
 
   // 关闭文档流
-  printWindow.document.close();
+  printWindow.document.close()
 
   // 确保新窗口聚焦，然后调用打印
-  printWindow.focus();
-  printWindow.print();
+  printWindow.focus()
+  printWindow.print()
 
   // 如果你想在打印完成后自动关闭该窗口，取消注释下行
-  printWindow.close();
+  printWindow.close()
 }
 
 // 图片预览
@@ -377,7 +371,7 @@ watch(
       return
     }
     const myHtml = getOutput(editor.value, 'html')
-    emits('print',{myHtml,printing})
+    emits('print', { myHtml, printing })
   },
   { deep: true },
 )

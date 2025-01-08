@@ -46,7 +46,7 @@ declare module '@tiptap/core' {
       insertFile: (options: any) => ReturnType
     }
     selectFiles: {
-      selectFiles: (options: any) => ReturnType
+      selectFiles: (options: any, type?: boolean) => ReturnType
     }
   }
 }
