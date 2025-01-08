@@ -80,7 +80,7 @@
                 @click="saveContent"
                 v-text="t('save.text')"
               ></t-button>
-              <t-button 
+              <t-button
                 v-if="false"
                 size="small"
                 variant="outline"
@@ -141,6 +141,7 @@ import type { DropdownOption } from 'tdesign-vue-next'
 import { timeAgo } from '@/utils/time-ago'
 const emits = defineEmits(['menu-change'])
 const { container, options, editor, savedAt } = useStore()
+
 const $toolbar = useState('toolbar') // options.value && options.value.toolbar ? ref( { mode: options.value.toolbar.defaultMode, show: true } ) : useState('toolbar')
 let statusPopup = $ref(false)
 const online = useOnline()

@@ -60,7 +60,7 @@
         </div>
         <div class="umo-virtual-group">
           <menus-toolbar-base-import-word />
-          <menus-toolbar-base-markdown />
+          <menus-toolbar-base-markdown  v-if="!disableItem('markdown')"/>
           <menus-toolbar-base-search-replace />
         </div>
         <div class="umo-virtual-group">

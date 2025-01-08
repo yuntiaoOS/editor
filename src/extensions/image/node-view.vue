@@ -13,12 +13,12 @@
       class="umo-node-container umo-node-image"
       :class="{
         'is-loading': node.attrs.src && isLoading,
-        'is-error': node.attrs.src && error,
+        'is-error': node.attrs.src && isError,
         'is-draggable': node.attrs.draggable,
         'umo-hover-shadow': !options.document?.readOnly,
         'umo-select-outline': !node.attrs.draggable,
       }"
-    >
+    >{{error}}
       <div
         v-if="node.attrs.src && isLoading"
         class="loading"
@@ -28,7 +28,7 @@
         {{ t('node.image.loading') }}
       </div>
       <div
-        v-else-if="node.attrs.src && error"
+        v-else-if="node.attrs.src && isError"
         class="error"
         :style="{ height: `${node.attrs.height}px` }"
       >
@@ -74,7 +74,7 @@
           :data-id="node.attrs.id"
           loading="lazy"
           @load="onLoad"
-          @error="() => (error.value = true)"
+          @error="onError"
         />
         <div
           v-if="!node.attrs.uploaded && node.attrs.file !== null"
@@ -97,8 +97,8 @@ import { shortId } from '@/utils/short-id'
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 const { options, editor, imageViewer } = useStore()
-const error = $ref(false)
-const isLoading = $ref(false)
+let isError = $ref(false)
+let isLoading = $ref(false)
 
 const containerRef = ref(null)
 const imageRef = $ref<HTMLImageElement | null>(null)
@@ -147,7 +147,19 @@ const onLoad = async () => {
     const { height } = imageRef?.getBoundingClientRect() ?? {}
     updateAttributes({ height: height.toFixed(2) })
   }
-  isLoading.value = false
+  isLoading = false
+}
+// 正则：以 http://、https:// 或 blob: 开头 (大小写不敏感)
+const isHttpHttpsOrBlob = (src:string) => {
+  return /^(https?:\/\/|blob:|data:imag)/i.test(src);
+};
+const onError = (error:any) => {
+  console.log('-----------154-----onError----error-----------------', error , node.attrs.src)
+  isLoading = false
+  //判断node.attrs.src不是合法的图片地址 会触发isError = true
+  if (!node.attrs.src || node.attrs.src === '' || node.attrs.src === 'null' || node.attrs.src === 'undefined' || !isHttpHttpsOrBlob(node.attrs.src) ) {
+    isError = true
+  }
 }
 
 const onRotate = ({ angle }: { angle: number }) => {
@@ -191,7 +203,7 @@ watch(
 watch(
   () => node.attrs.src,
   async (src: string) => {
-    if (node.attrs.uploaded === false && !error.value) {
+    if (node.attrs.uploaded === false && !isError) {
       if (src?.startsWith('data:image')) {
         const [data, type] = src.split(';')[0].split(':')
         let [_, ext] = type.split('/')
@@ -214,7 +226,7 @@ watch(
   { immediate: true },
 )
 watch(
-  () => error.value,
+  () => isError,
   (errorValue: any) => {
     if (errorValue?.type) {
       updateAttributes({ error: errorValue.type === 'error' })

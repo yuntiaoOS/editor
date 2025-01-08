@@ -18,7 +18,7 @@
       :style="{ height: options.height }"
     >
       <header class="umo-toolbar">
-        <toolbar 
+        <toolbar
           :key="toolbarKey"
           @menu-change="(event: any) => emits('menuChange', event)"
         >
@@ -55,7 +55,7 @@
                   "
                 />
                 <menus-bubble v-if=" editor && !page.preview?.enabled && !editorDestroyed" />
-                <menus-context-block 
+                <menus-context-block
                   v-if="options.document?.enableBlockMenu &&
                     !page.preview?.enabled &&
                     editor &&
@@ -68,7 +68,7 @@
                   <t-divider dashed />
                   <comment-bottom  />
                 </t-space>
-                
+
               </div>
               <container-comments v-if="false"/>
             </div>
@@ -79,6 +79,8 @@
             :images="previewImages"
             @close="imageViewer.visible = false"
           />
+          <container-search-replace />
+<!--          <container-print />-->
         </div>
       </main>
     </div>
@@ -227,7 +229,7 @@ const editorInstance: Editor = new Editor({
     ...(options.value.extensions as Extension[]),
   ],
   onCreate({ editor }) {
-    isEmpty = editor.commands.setPlaceholder(options.value.document?.placeholder?? '请输入' )
+    isEmpty = editor.commands.setPlaceholder('')
   },
   onUpdate: throttle(({ editor }) => {
     let output = getOutput(editor, 'html')
@@ -240,7 +242,7 @@ const editorInstance: Editor = new Editor({
   onTransaction: throttle(({ editor, transaction }:any) => {
     // console.log(transaction, editor,'-------208---------transaction---------------')
     const customTitleNode = editor.state.doc.nodeAt(0); // 假设标题是第一个节点
-   
+
     if (transaction.docChanged) {
       const interestedNodeTypes = ['xmTitle']
       // 检查事务是否涉及到你感兴趣的节点
@@ -450,6 +452,47 @@ const setReadOnly = (readOnly = true) => {
   }
 }
 
+function printHtmlString(htmlString:string) {
+  // 打开一个新窗口（空白页）
+  const printWindow = window.open('', '_blank', 'width=800,height=600');
+
+  if (!printWindow) {
+    console.error('浏览器可能阻止了弹窗，请允许弹窗后再试');
+    return;
+  }
+
+  // 写入基本的HTML结构
+  printWindow.document.write(`<!DOCTYPE html>
+    <html>
+      <head>
+        <title>打印</title>
+        <!-- 在这里可以手动加入需要的CSS -->
+        <style>
+          /* 示例：让 body 有点边距 */
+          body {
+            margin: 20px;
+            font-size: 14px;
+          }
+        </style>
+      </head>
+      <body>
+        ${htmlString}
+      </body>
+    </html>
+  `);
+
+  // 关闭文档流
+  printWindow.document.close();
+
+  // 确保新窗口聚焦，然后调用打印
+  printWindow.focus();
+  printWindow.print();
+
+  // 如果你想在打印完成后自动关闭该窗口，取消注释下行
+  printWindow.close();
+}
+
+
 // 图片预览
 let previewImages = $ref<string[]>([])
 let currentImageIndex = $ref<number>(0)
@@ -477,6 +520,16 @@ watch(
   },
 )
 
+watch(
+  () => printing.value,
+  () => {
+    const myHtml = getOutput(editorInstance, 'html')
+    emits('print',myHtml)
+  },
+  { deep: true },
+)
+
+
 // Methods Exposed to Descendants
 provide('saveContent', saveContent)
 provide('setLocale', setLocale)
@@ -491,8 +544,8 @@ onMounted(()=>{
     localStorage.setItem('key_data',JSON.stringify({
       experiment_theme: options.value.requestOptions.experiment_theme,
       experiment_record: options.value.requestOptions.experiment_record
-    })) 
-    
+    }))
+
     if (options.value.requestOptions.dict_data) {
       localStorage.setItem('dict_data', JSON.stringify(options.value.requestOptions.dict_data)  )
     }
@@ -506,6 +559,7 @@ defineExpose({
   editorInstance,
   setToolbar,
   saveContent,
+  printHtmlString,
   setLocale,
   setReadOnly,
   reset

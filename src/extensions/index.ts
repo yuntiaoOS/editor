@@ -105,7 +105,7 @@ export const extensions = [
     className: 'umo-node-focused',
     mode: 'all',
   }),
-  SlashCommand,
+  SlashCommand.configure({typeName: 'SlashCommand'}),
   FormatPainter,
   FontFamily,
   raw_material_table,
@@ -139,6 +139,122 @@ export const extensions = [
   TextAlign,
   NodeAlign,
   Comment.configure({ isCommentModeOn: () => commentBox.value }),
+  TaskItem.configure({ nested: true }),
+  TaskList.configure({
+    HTMLAttributes: {
+      class: 'umo-task-list',
+    },
+  }),
+  LineHeight.configure({
+    types: ['heading', 'paragraph'],
+    defaultLineHeight: dicts.lineHeights.find((item: any) => item.default)
+      .value,
+  }),
+  Margin,
+  SearchReplace.configure({
+    searchResultClass: 'umo-search-result',
+  }),
+  Link,
+  Image,
+  Video,
+  Audio,
+  File,
+  TextBox,
+  CodeBlock,
+  ColorHighlighter,
+  hr,
+  Iframe,
+  Mathematics,
+
+  // 表格
+  Table.configure({
+    allowTableNodeSelection: true,
+    resizable: true,
+  }),
+  TableRow,
+  TableHeader,
+  TableCell,
+  // 页面
+  Toc,
+  // 其他
+  Selection,
+  TableOfContents.configure({
+    getIndex: getHierarchicalIndexes,
+    onUpdate: (content) => {
+      tableOfContents.value = content
+    },
+    scrollParent: () =>
+      document.querySelector(
+        `${container} .umo-zoomable-container`,
+      ) as HTMLElement,
+    getId: () => shortId(6),
+  }),
+  Typography.configure(doc.typographyRules),
+  CharacterCount.configure({
+    limit: doc.characterLimit !== 0 ? doc.characterLimit : undefined,
+  }),
+  FileHandler.configure({
+    allowedMimeTypes: file.allowedMimeTypes,
+    onPaste(editor: Editor, files: any) {
+      for (const file of files) {
+        editor.commands.insertFile({ file, autoType: true })
+      }
+    },
+    onDrop: (editor: Editor, files: any, pos: number) => {
+      for (const file of files) {
+        editor.commands.insertFile({ file, autoType: true, pos })
+      }
+    },
+  }),
+  Dropcursor.configure({
+    color: 'var(--umo-primary-color)',
+  }),
+]
+
+export const richTextExtensions = [
+  StarterKit.configure({
+    document: false,
+    bold: false,
+    bulletList: false,
+    orderedList: false,
+    codeBlock: false,
+    horizontalRule: false,
+    dropcursor: false,
+  }),
+  Placeholder.configure({
+    placeholder: l(doc.placeholder),
+  }),
+  Focus.configure({
+    className: 'umo-node-focused',
+    mode: 'all',
+  }),
+  SlashCommand.configure({typeName: 'richText'}),
+  FormatPainter,
+  FontFamily,
+  atomUnselect,
+  xmTitle,
+  xmTitleContent,
+  formItemComponent,
+  formItem,
+  xmForm,
+  Columns, Column,
+  FontSize,
+  Bold.extend({
+    renderHTML: ({ HTMLAttributes }) => ['b', HTMLAttributes, 0],
+  }),
+  Underline,
+  Subscript,
+  Superscript,
+  Color,
+  TextColor,
+  Highlight.configure({
+    multicolor: true,
+  }),
+  BulletList,
+  OrderedList,
+  Indent,
+  TextAlign,
+  NodeAlign,
   TaskItem.configure({ nested: true }),
   TaskList.configure({
     HTMLAttributes: {

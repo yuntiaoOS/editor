@@ -8,6 +8,7 @@ import UmoDialog from './modal.vue'
 import UmoTooltip from './tooltip.vue'
 
 import UmoSimpleEditor from './editor/simple.vue'
+import richTextEditor from './editor/richText.vue'
 
 import technologyTable from './technology-table.vue'
 
@@ -23,6 +24,7 @@ const useUmoEditor = {
     const { setOptions } = useStore()
     setOptions(options)
     // 使用组件
+    app.component('richTextEditor', richTextEditor)
     app.component(UmoEditor.name ?? 'UmoEditor instance', UmoEditor)
     app.component(UmoSimpleEditor.name ?? 'UmoSimpleEditor', UmoSimpleEditor)
     app.component('technologyTable', technologyTable)
@@ -36,6 +38,7 @@ export {
   UmoEditor as default,
   UmoDialog,
   UmoEditor,
+  richTextEditor,
   UmoMenuButton,
   UmoTooltip,
   useUmoEditor,

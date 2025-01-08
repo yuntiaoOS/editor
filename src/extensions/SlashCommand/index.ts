@@ -3,12 +3,17 @@ import { VueRenderer } from '@tiptap/vue-3'
 import Suggestion, { type SuggestionProps, type SuggestionKeyDownProps } from '@tiptap/suggestion'
 import { PluginKey } from '@tiptap/pm/state'
 import tippy from 'tippy.js'
-import { renderGroups } from './groups'
+import { renderGroups, richTextRenderGroups } from './groups'
 import CommandsList from './CommandsList.vue'
+
+
+export interface SlashCommandOptions {
+  typeName: string,
+}
 
 const extensionName = 'slashCommand'
 let popup: any
-export default  Extension.create({
+export default  Extension.create<SlashCommandOptions>({
   name: extensionName,
   priority: 200,
   onCreate() {
@@ -61,7 +66,8 @@ export default  Extension.create({
         },
         items: ({ query, editor }: { query: string; editor: Editor }) => {
           // Filter commands
-          const groups = renderGroups(this.editor)
+          let groups = richTextRenderGroups(this.editor)
+          if (this.options.typeName === 'SlashCommand') groups = renderGroups(this.editor)
           const withFilteredCommands = groups.map(group => ({
             ...group,
             commands: group.commands
@@ -249,7 +255,8 @@ export default  Extension.create({
         },
         items: ({ query, editor }: { query: string; editor: Editor }) => {
           // Filter commands
-          const groups = renderGroups(this.editor)
+          let groups = richTextRenderGroups(this.editor)
+          if (this.options.typeName === 'SlashCommand') groups = renderGroups(this.editor)
           const withFilteredCommands = groups.map(group => ({
             ...group,
             commands: group.commands
@@ -424,5 +431,11 @@ export default  Extension.create({
       },
     }
   },
+
+  addOptions() {
+    return {
+      typeName: 'slashCommand',
+    }
+  }
 })
 

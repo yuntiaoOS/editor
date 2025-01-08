@@ -109,7 +109,7 @@ export interface DocumentOptions {
   autoSave?: AutoSaveOptions
 }
 
-export type LocaleLabel = string | { en_US: string; zh_CN: string }
+export type LocaleLabel = string | { 'en-US': string; 'zh-CN': string }
 
 export interface PageSize {
   label: LocaleLabel
