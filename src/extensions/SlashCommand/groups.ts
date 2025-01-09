@@ -2,6 +2,7 @@ import { Editor } from '@tiptap/core'
 import type { Group } from './types'
 
 import { hasExtension } from '@/utils/utils'
+import { shortId } from '@/utils/short-id'
 
 export function renderGroups(editor: Editor) {
   const groups: Group[] = [
@@ -304,6 +305,20 @@ export function renderGroups(editor: Editor) {
 }
 export function richTextRenderGroups(editor: Editor) {
   const groups: Group[] = [
+    {
+      name: 'custom',
+      title: '自定义',
+      commands: [
+        {
+          name: 'xmTitleContent',
+          label: '段落内容',
+          iconName: 'content-view',
+          action: ({ editor, range }) => {
+            editor.chain().focus().deleteRange(range).addXmTitleContent({key: `key${shortId()}`, title: '标题：',content: '自定义内容。。。' }).run()
+          },
+        }
+      ],
+    },
     {
       name: 'format',
       title: t('blockMenu.toogleNode'),

@@ -4,10 +4,12 @@ import atomUnselect from '../atom-unselect'
 
 import NodeView from './node-view.vue'
 import type { XmTitleContentsModel,XmTitleContentModel } from '@/types'
+import { shortId } from '@/utils/short-id'
+import { v4 as uuid } from 'uuid'
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     addXmTitleContent: {
-      addXmTitleContent: (options: XmTitleContentsModel) => ReturnType
+      addXmTitleContent: (options: XmTitleContentModel) => ReturnType
     }
   }
 }
@@ -26,8 +28,36 @@ export default atomUnselect.extend({
     const baseAttributes = super.addAttributes;
     return {
       ...baseAttributes,
-      content: '',
-      title: '',
+      key: {
+        default: uuid(),
+        parseHTML: (element:any) => element.getAttribute('data-key'),
+        renderHTML: (attributes:any) => {
+          if (!attributes.key) {
+            return {};
+          }
+          return { 'data-key': attributes.key };
+        },
+      },
+      content: {
+        default: '',
+        parseHTML: (element:any) => element.getAttribute('data-content'),
+        renderHTML: (attributes:any) => {
+          if (!attributes.content) {
+            return '';
+          }
+          return { 'data-content': attributes.content };
+        }
+      },
+      title: {
+        default: '',
+        parseHTML: (element:any) => element.getAttribute('data-title'),
+        renderHTML: (attributes:any) => {
+          if (!attributes.title) {
+            return '';
+          }
+          return { 'data-title': attributes.title };
+        }
+      },
     }
   },
   addNodeView() {
@@ -38,11 +68,12 @@ export default atomUnselect.extend({
       addXmTitleContent:
       (options) =>
       ({ commands,editor }) => {
-        const currentOption = mergeAttributes(this.options, options) 
+        const currentOption = mergeAttributes(this.options, options)
         const content = {
           type: 'xmTitleContent',
           attrs: {
             ...currentOption,
+            key: options.key ? options.key : `key${shortId()}`
           },
           content:  [
               {
@@ -78,7 +109,7 @@ export default atomUnselect.extend({
                   }
                 ]
               }
-            ]    
+            ]
         }
         // return editor.chain().focus().insertContent(content).run()
         return commands.insertContent(content)

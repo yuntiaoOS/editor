@@ -214,6 +214,7 @@ export interface UmoEditorOptions {
 }
 
 export interface XmTitleContentModel {
+  key: string
   title: string
   content: string
 }
