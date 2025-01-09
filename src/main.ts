@@ -2,6 +2,10 @@ import type { UmoEditorOptions } from '@/types'
 
 import App from './app.vue'
 import { useUmoEditor } from './components'
+
+// import { useUmoEditor } from '../dist/umo-editor.js'
+// import '../dist/style.css'
+
 //我想引用mzyc-vue-components-zzw项目里面的 /dist/lib/mzyc-lib.es.js
 import MzycLib from '../../mzyc-web/libs/mzyc-vue-components/outDist/lib/mzyc-lib.es.js'
 import '../../mzyc-web/libs/mzyc-vue-components/outDist/lib/mzyc-vue-components.css'

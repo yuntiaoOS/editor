@@ -3,7 +3,7 @@
     v-show="!blockMenu && !painter.enabled && !editor!.isEmpty"
     class="umo-editor-bubble-menu"
     :class="{ assistant: assistantBox }"
-    :editor="editor!"
+    :editor="editorType === 'RICHTEXT' ? editorInstance:  editor!"
     :tippy-options="tippyOpitons"
   >
     <menus-bubble-menus
@@ -24,7 +24,8 @@ import type { Instance } from 'tippy.js'
 
 const { options, editor, painter, blockMenu, assistantBox, commentBox } =
   useStore()
-
+const editorInstance = inject('editorInstance', null);
+const editorType = inject('editorType', '');
 // 气泡菜单
 let tippyInstance = $ref<Instance | null>(null)
 const tippyOpitons = $ref<Partial<Instance>>({

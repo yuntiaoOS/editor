@@ -37,7 +37,7 @@
                     '--umo-editor-placeholder': `'${l(options.document?.placeholder ?? {})}'`,
                   }"
                 />
-                <menus-bubble v-if="editorInstance" />
+                <menus-bubble v-if="editor" />
               </div>
             </div>
           </div>
@@ -218,10 +218,14 @@ const editorInstance: Editor = new Editor({
   editable: !props.readOnly,
   injectCSS: true,
   extensions: [Document, ...richTextExtensions],
-  onCreate({ editor }) {
+  onCreate({ editor }:any) {
     isEmpty = editor.commands.setPlaceholder('')
+    setEditor(editor)
   },
   onSelectionUpdate: ({ editor }:any) => {
+    setEditor(editor)
+  },
+  onTransaction: ({ editor }:any) => {
     setEditor(editor)
   },
   onFocus: ({ editor }:any) => {
@@ -389,7 +393,7 @@ onMounted(() => {
 })
 // 销毁编辑器实例
 onUnmounted(() => {
-  editorInstance?.destroy()
+  editor.value?.destroy()
 })
 defineExpose({
   editor,
@@ -438,7 +442,7 @@ defineExpose({
 .umo-zoomable-container {
   flex: 1;
   background-color: #fff;
-  //padding: 20px 50px;
+  padding: 10px;
   scroll-behavior: smooth;
   .umo-zoomable-content {
     //margin: 0 auto;

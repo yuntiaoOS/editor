@@ -97,7 +97,7 @@ const formItems =
 
 const richTextEditorRef = ref()
 
-const onPrint = ({myHtml,printing}) => {
+const onPrint = ({myHtml,printing}:any) => {
   console.log(myHtml,printing)
   richTextEditorRef.value.printHtmlString(myHtml)
   printing.value = false

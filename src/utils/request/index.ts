@@ -44,7 +44,7 @@ const transform: AxiosTransform = {
 
     //  这里 code为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
     const { code } = data;
-    
+
     if (code === 401) {
       window.location.href = '/login';
     }
@@ -60,14 +60,14 @@ const transform: AxiosTransform = {
   // 请求前处理配置
   beforeRequestHook: (config, options) => {
     const { apiUrl, isJoinPrefix, urlPrefix, joinParamsToUrl, formatDate, joinTime = true } = options;
-    // console.log('-----------------requestInterceptors-----64-----', config,options);
+    // console.log('-----------------requestInterceptors-----64-----',isJoinPrefix,urlPrefix,  apiUrl, config,options);
     // 添加接口前缀
     if (isJoinPrefix && urlPrefix && isString(urlPrefix)) {
       config.url = `${urlPrefix}${config.url}`;
     }
 
     // 将baseUrl拼接
-    if (apiUrl && isString(apiUrl)) {
+    if (apiUrl && (apiUrl !== 'null') && (apiUrl !== 'undefined') && (apiUrl !== '') && isString(apiUrl) && /^https?:\/\//i.test(apiUrl) ) {
       config.url = `${apiUrl}${config.url}`;
     }else{
       config.url = `${localStorage.getItem('rzm_domain')}${config.url}`;
