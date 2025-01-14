@@ -1,8 +1,8 @@
 <template>
   <div style="width: 100%">
     <!-- <h2>试验原辅料</h2> -->
-    <t-table 
-      ref="tableRef" :loading="loading" 
+    <t-table
+      ref="tableRef" :loading="loading"
       v-model:display-columns="displayColumns" row-key="id" :data="_table_data" :columns="_columns" resizable
       >
       <template #topContent>
@@ -36,7 +36,7 @@
           <t-icon v-if="rowIndex!==_table_data.length-1" name="order-descending" size="18px"></t-icon>
         </t-space>
 
-      </template> 
+      </template>
       <template #type-slot-operate="{ col, row }">
         <div class="table-operations">
           <!-- <t-link v-if="!editableRowKeys.includes(row.id)" theme="primary" hover="color" @click.stop="onEdit(row)">
@@ -56,11 +56,11 @@
         </div>
       </template>
     </t-table>
-    <node-view-content :node="node" ></node-view-content> 
+    <node-view-content :node="node" ></node-view-content>
   </div>
-  <t-dialog 
+  <t-dialog
     v-model:visible="select_design_visible"
-    destroy-on-close 
+    destroy-on-close
     :close-on-overlay-click="false"
     header="选择样品表" :cancel-btn="null"
     width="600" attach="body"
@@ -126,7 +126,7 @@
 
 <script setup lang="jsx">
 import { v4 as uuid } from 'uuid'
-import { getEval_execute_standardListFetch,getExecute_standard_itemInfoFetch,get_ingredient_dev_sampleListFetch,put_experiment_evaluation_fetch,delete_experiment_evaluationFetch, get_experiment_evaluationListFetch,post_experiment_evaluation_fetch } from '@/api/experiment'
+import { getEval_execute_standardListFetch,get_assign_record_process_dataFetch,post_experiment_process_fetch,put_experiment_evaluation_fetch,delete_experiment_evaluationFetch, get_experiment_evaluationListFetch,post_experiment_evaluation_fetch } from '@/api/experiment'
 import xmInput from '@/components/xm-input.vue';
 import { timeFormat } from '@/utils/time-ago'
 import { getOrg_memberFetch } from '@/api/index'
@@ -155,10 +155,12 @@ const props = defineProps({
   getDataFunction: {
     type: Function,
     required: true,
+    default: get_assign_record_process_dataFetch,
   },
   postDataFunction: {
     type: Function,
     required: true,
+    default: post_experiment_process_fetch,
   },
   putDataFunction: {
     type: Function,
@@ -229,12 +231,16 @@ const columns = computed({
   },
 })
 
-
-
-let $dict_data = JSON.parse( localStorage.getItem('dict_data') )
-if (!$dict_data) {
-  $dict_data = JSON.parse( localStorage.getItem('rzm-dictionary') ).data
+function safeJSONParse(str, fallback = {}) {
+  try {
+    return JSON.parse(str);
+  } catch {
+    return fallback;
+  }
 }
+
+let $dict_data = safeJSONParse( localStorage.getItem('dict_data') , {})
+
 console.log('-----------113------------------',$dict_data);
 
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
@@ -248,7 +254,7 @@ const { options } = useStore()
 const dialog_visible = ref(false);
 const tableRef = ref();
 const editableRowKeys = ref([]);
- 
+
 const loading = ref(false);
 // 取字符串用. 分割的最后一位 value.lab.lab_l 得到lab_l
 const resultKey = (str) => {
@@ -322,7 +328,7 @@ const columnsDefaultF = [
     //   }),
     // },
   },
-  { 
+  {
     title: '条件',
     colKey:'condition',
     width: 100,
@@ -336,7 +342,7 @@ const columnsDefaultF = [
     minWidth: 100,
     cell:(h, { row })=> {
       const dataR =  row.eval_user
-      return dataR ? row.eval_user.name : '-' 
+      return dataR ? row.eval_user.name : '-'
     },
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
@@ -438,7 +444,7 @@ const columnsDefaultF = [
       props: {
         clearable: true,
         autofocus: true,
-        Format: "YYYY-MM-DD", 
+        Format: "YYYY-MM-DD",
         valueType: "YYYY-MM-DD",
         // autoWidth: true,
       },
@@ -577,7 +583,7 @@ const selectTableForm = ref({
 const sample_group_options = ref([]);
 const eval_execute_standardList = ref([]);
 
-const FORM_RULES = { 
+const FORM_RULES = {
   sample_group: [{ required: true, message: '必填' ,trigger: ['change'] }],
   eval_standard: [{ required: true, message: '必填' ,trigger: ['blur'] }],
   condition: [{ required: true, message: '必填' ,trigger: ['blur'] }],
@@ -644,7 +650,7 @@ const onFormChange = (row, col)=>{
       await initData()
     }
   }
-  
+
   if (editdRow.value && editdRow.value.id !== row.id ) {
     const fetchRow = editdRow.value?editdRow.value : row
     putFetch(fetchRow, col)
@@ -727,22 +733,22 @@ const on_select_designFunc = ()=>{
         updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
         select_design_visible.value = false
         designParams.value = {form: selectTableForm.value,eval_standardInfo:res.data.data.item  }
-        const { table_data, columns } = makeTableDataAndColumnFunc(res.data.data.data,selectTableForm.value,res.data.data.item) 
+        const { table_data, columns } = makeTableDataAndColumnFunc(res.data.data.data,selectTableForm.value,res.data.data.item)
         _columns.value = [...columns]
         // _table_data.value= [...table_data]
         displayColumns.value = columns.map(ele=> ele.colKey)
         await initData()
         console.log('-------575-------table_data', _table_data.value,_columns.value)
-        // tableRef.value.refreshTable()
+        // tableRef.value?.refreshTable()
       }else{
         useMessage('error','提交失败')
       }
-      
-      
-      
+
+
+
     }
   })
-  
+
 }
 
 
@@ -811,8 +817,6 @@ function processValueItems(items) {
 const initData = async () => {
   loading.value = true
   const params = {
-    // experiment_theme: experiment_theme.value?.id,
-    // record: experiment_record.value?.id,
     group: group.value,
   }
   console.log('----------initData-----297---------',params)
@@ -839,17 +843,17 @@ const initData = async () => {
     })
 
     if (!_nodeAttrs.value.columns || _nodeAttrs.value.columns.length === 0) {
-      const { columns } = makeTableDataAndColumnFunc(res.data.data,selectTableForm.value,res.data.data[0].eval_standard) 
+      const { columns } = makeTableDataAndColumnFunc(res.data.data,selectTableForm.value,res.data.data[0].eval_standard)
       _columns.value = [...columns]
       setTimeout(() => {
         displayColumns.value = _columns.value.map(ele => ele.colKey);
-        tableRef.value.refreshTable();
+        tableRef.value?.refreshTable();
       }, 100);
     }
     console.log('----------initData-----777---------',_table_data.value)
     if (isChanged.value) { isChanged.value = false }
   }
-  
+
 }
 
 const handleIntegration = async () => {
@@ -866,7 +870,7 @@ const handleIntegration = async () => {
   }
 
   raw_materialOptions.value = raw_material_tables.map(ele => ele.attrs);
-  
+
   const dialog = useConfirm({
     theme: 'info',
     header: '提示',
@@ -887,7 +891,7 @@ onMounted(async () => {
     _columns.value = [...columnsDefaultF, ..._nodeAttrs.value.columns, ...columnsDefaultA] ;
     setTimeout(() => {
       displayColumns.value = _columns.value.map(ele => ele.colKey);
-      tableRef.value.refreshTable();
+      tableRef.value?.refreshTable();
     }, 100);
 
     if (group.value && group.value.length > 0 && _table_data.value?.length === 0) {
@@ -909,15 +913,6 @@ onMounted(async () => {
 
     }
   }
-  // get_ingredient_dev_sampleListFetch({experiment_theme: experiment_theme.value?.id, record: experiment_record.value?.id}).then((res)=>{
-  //   if (res.data.code === 2000) {
-  //     sample_group_options.value = res.data.data
-  //   }else{
-  //     TMessagePlugin.error(res.data.msg)
-  //   }
-  // }).catch((err) => {
-  //   TMessagePlugin.error('获取样品列表失败')
-  // })
   getEval_execute_standardListFetch().then((res) => {
     if (res.data.code === 2000) {
       eval_execute_standardList.value = res.data.data

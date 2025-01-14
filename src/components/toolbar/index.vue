@@ -142,7 +142,7 @@ import { timeAgo } from '@/utils/time-ago'
 const emits = defineEmits(['menu-change'])
 const { container, options, editor, savedAt } = useStore()
 
-const $toolbar = useState('toolbar') // options.value && options.value.toolbar ? ref( { mode: options.value.toolbar.defaultMode, show: true } ) : useState('toolbar')
+const $toolbar = useState('toolbar',options.value.editorKey) // options.value && options.value.toolbar ? ref( { mode: options.value.toolbar.defaultMode, show: true } ) : useState('toolbar')
 let statusPopup = $ref(false)
 const online = useOnline()
 
@@ -238,7 +238,7 @@ const saveContent = () => {
 
 // 从缓存中恢复文档
 const setContentFromCache = () => {
-  const document = useState('document')
+  const document = useState('document', options.value.editorKey)
   const { content } = document.value
   if (!content || content === '' || content === '<p></p>') {
     const dialog = useAlert({

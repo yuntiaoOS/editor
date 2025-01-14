@@ -87,7 +87,7 @@ const props = defineProps({
 const emits = defineEmits(['change'])
 
 const { editor, container, options } = useStore()
-const $recent = useState('recent')
+const $recent = useState('recent',options.value.editorKey)
 // prettier-ignore
 const standardColors = ['#B12318', '#EB3323', '#F6C143', '#FFFE55', '#A0CD63', '#4FAD5B', '#4CAFEA', '#2D70BA', '#06215C', '#68389B']
 

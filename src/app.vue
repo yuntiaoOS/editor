@@ -1,12 +1,12 @@
 <template>
   <div class="box">
-    <div v-if="true" style="height:200px;">
-      <rich-text-editor v-model="content" :showToolbar="true" />
-    </div>
-    -------------------------------------------------------------------------
-    <div v-if="true" style="height:600px;">
-      <rich-text-editor ref="richTextEditorRef" v-model="content1" outputType="json" @print="onPrint" />
-    </div>
+<!--    <div v-if="true" style="height:200px;">-->
+<!--      <rich-text-editor v-model="content" :showToolbar="true" />-->
+<!--    </div>-->
+<!--    -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--    <div v-if="true" style="height:600px;">-->
+<!--      <rich-text-editor ref="richTextEditorRef" v-model="content1" outputType="json" @print="onPrint" />-->
+<!--    </div>-->
 <!--    <FormRender :forms="[formItems]" v-model="xmValue"></FormRender>-->
     <!-- <FormDesignRender
       v-model="_value"
@@ -20,7 +20,7 @@
     </TText> -->
     <!-- <xm-form v-model:form-data="xmValue" /> -->
 <!--     <UmoEditor ref="editorRef" v-bind="options" />-->
-<!--    <UmoSimpleEditor v-if="true" ref="editorRef" v-bind="options" @change="changeEdit" />-->
+    <UmoSimpleEditor v-if="true" ref="editorRef" v-bind="options" @change="changeEdit" />
   </div>
 </template>
 
@@ -442,8 +442,8 @@ const options = $ref({
       "previous_record": null,
       "catalog": null
     },
-    umo_domain: 'http://id.zw.rzm.com',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2MzkyNDcwLCJpYXQiOjE3MzYzMDYwNzAsImp0aSI6ImNhM2JhNTUyYTU4NDQ1ZDE5NGRiNjNhNWUzODUzMTRlIiwidXNlcl9pZCI6IjYzYWVkMTkxLWYwOTMtNGU5ZC1iNGVmLTRhMTU5ZmZhMzkzOCJ9.wPjwb5iPVROURMdVwqevJ2LAlUFkT-DlE-3yqCHNepU',
+    umo_domain: 'http://192.168.2.11:8003/api',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM2ODU2MTQyLCJpYXQiOjE3MzY3Njk3NDIsImp0aSI6IjA3NTBkYzJjOWZmZDRhZGZiMWZkOWEzNzc5ODBkMWUwIiwidXNlcl9pZCI6Ijg1Mjg4NThmLTdjYjgtNDc3ZS1iZjE3LWZkZTNkMmZiYjIzZSJ9.6F-3S18jTByOsfMG0ntUpyHLXR8kl-cK4zFeeHw_xxQ',
   },
   document: {
     placeholder: '请输入',
@@ -535,8 +535,8 @@ const options = $ref({
     const res = await attachments_fileFetch({ file: file})
     console.log('-------res-----1111111111111----', res)
     if (res.status === 201) {
-      const fileUrl = 'http://id.zw.rzm.com' + `/api/storage/files/${res.data.id}/preview/`
-      const fileUrl2 = 'http://id.zw.rzm.com' + `/api/storage/files/${res.data.id}/download/`
+      const fileUrl = localStorage.getItem('BASE_URL') + `/api/storage/files/${res.data.id}/preview/`
+      const fileUrl2 = localStorage.getItem('BASE_URL') + `/api/storage/files/${res.data.id}/download/`
       return { ...res.data,src: fileUrl,url: fileUrl ,file:fileUrl2}
     } else {
       throw new Error(res.data.msg)
@@ -4477,7 +4477,7 @@ onMounted(() => {
       },
     ]
   }
-  // editorRef && editorRef.editorInstance?.commands.setContent(jsonContent)
+  editorRef && editorRef.editorInstance?.commands.setContent(jsonContent)
 
   // editorRef.editorInstance?.chain().focus().addSample_tables({key: 'sample_table',title:'试验方式使用面板'}).run()
 })

@@ -30,7 +30,7 @@ export const fixedImageUrl = (url:string | null) => {
     return '';
   }
   const regex = /^(http:\/\/|https:\/\/)/i;
-  return regex.test(url) ? url : localStorage.getItem('rzm_domain') + '/media/' + url; //'http://192.168.2.11:8003/media/' + url //  
+  return regex.test(url) ? url : localStorage.getItem('BASE_URL') + '/media/' + url; //'http://192.168.2.11:8003/media/' + url //
 }
 
 export const fixedImageUrls = (urls:any[]) => {
@@ -85,7 +85,7 @@ export const getFieldValue = (field: string, row: any)=> {
   } catch (error) {
     console.log('----------getFieldName----error-------------',error, field, row)
   }
-  
+
   // console.log('----------getFieldName----11111-------------', field, row)
   return fieldName
 }

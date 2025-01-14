@@ -309,7 +309,7 @@ const editorInstance: Editor = new Editor({
 })
 setEditor(editorInstance)
 
-
+console.log('-------312--------editorInstance------')
 function getOutput(editor: CoreEditor, output: 'html' | 'json' | 'text') {
   if (props.removeDefaultWrapper) {
     if (output === 'html') return editor.isEmpty ? '' : editor.getHTML()
@@ -424,7 +424,7 @@ const setLocale = (params: SupportedLocale) => {
 
 const reset = (silent: boolean) => {
   const resetFn = () => {
-    localStorage.clear()
+    sessionStorage.clear()
     location.reload()
   }
   if (silent) {
@@ -546,13 +546,14 @@ onMounted(()=>{
       experiment_record: options.value.requestOptions.experiment_record
     }))
 
-    if (options.value.requestOptions.dict_data) {
-      localStorage.setItem('dict_data', JSON.stringify(options.value.requestOptions.dict_data)  )
-    }
+    // if (options.value.requestOptions.dict_data) {
+    //   localStorage.setItem('dict_data', JSON.stringify(options.value.requestOptions.dict_data)  )
+    // }
   }
 })
 // 销毁编辑器实例
 onUnmounted(() => {
+  resetStore()
   editor.value?.destroy()
 })
 defineExpose({

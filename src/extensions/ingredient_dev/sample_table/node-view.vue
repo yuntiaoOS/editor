@@ -279,18 +279,6 @@ const group = computed({
   },
 })
 
-watch(
-  () => refreshNode,
-  async (value) => {
-    console.log('--------refreshNode.value--------', value)
-    if (value.type === 'sample_table') {
-      await initData()
-      refreshNode.type = ''
-    }
-  },
-  { deep: true, immediate: true },
-)
-
 const _designParams = computed({
   get: () => node.attrs.designParams,
   set(value) {
@@ -414,7 +402,7 @@ const onPostSampleFunc = async (row,rowIndex) => {
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
         table_dataV.splice(rowIndex, 1, rowData)
         table_data.value = cloneDeep(table_dataV)
-        tableRef.value.refreshTable()
+        tableRef.value?.refreshTable()
         refreshNode.type = 'record_sample_table'
         refreshNode.data = cloneDeep(rowData)
       })
@@ -569,6 +557,8 @@ columns.value = [
         const newData = [...table_data.value]
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
+        refreshNode.type = 'record_sample_table'
+        refreshNode.data = cloneDeep(context.newRowData)
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
       },
       // 触发校验的时机（when to validate)
@@ -622,6 +612,8 @@ columns.value = [
         const newData = [...table_data.value]
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
+        refreshNode.type = 'record_sample_table'
+        refreshNode.data = cloneDeep(context.newRowData)
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
       },
       // 触发校验的时机（when to validate)
@@ -773,6 +765,19 @@ const initData = async () => {
     }
   }
 }
+
+
+watch(
+  () => refreshNode,
+  async (value) => {
+    console.log('--------refreshNode.value--------', value)
+    if (value.type === 'sample_table') {
+      await initData()
+      refreshNode.type = ''
+    }
+  },
+  { deep: true, immediate: true },
+)
 
 onMounted(async () => {
   console.log('----------4447----onMounted-----', node)

@@ -341,7 +341,7 @@ import { getShortcut } from '@/utils/shortcut'
 const { locale } = useI18n()
 
 const { container, options, page, editor } = useStore()
-const $document = useState('document')
+const $document = useState('document', options.value.editorKey)
 
 // 快捷键抽屉
 const showShortcut = $ref(false)

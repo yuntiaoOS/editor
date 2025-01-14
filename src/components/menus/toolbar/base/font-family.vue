@@ -40,8 +40,8 @@
 import { isString } from '@tool-belt/type-predicates'
 
 const { options, editor } = useStore()
-const $toolbar = useState('toolbar')
-const $recent = useState('recent')
+const $toolbar = useState('toolbar',options.value.editorKey)
+const $recent = useState('recent',options.value.editorKey)
 
 const usedFonts = $ref<string[]>([])
 // https://www.cnblogs.com/gaidalou/p/8479452.html

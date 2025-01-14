@@ -662,7 +662,7 @@ const print = () => {
 
 const reset = (silent: boolean) => {
   const resetFn = () => {
-    localStorage.clear()
+    sessionStorage.clear()
     location.reload()
   }
   if (silent) {

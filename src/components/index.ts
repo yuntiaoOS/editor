@@ -21,8 +21,8 @@ import testRecordExpanded from './test-record-expanded.vue'
 const useUmoEditor = {
   install: (app: any, options: UmoEditorOptions) => {
     // 组件配置
-    const { setOptions } = useStore()
-    setOptions(options)
+    // const { setOptions } = useStore()
+    // setOptions(options)
     // 使用组件
     app.component('richTextEditor', richTextEditor)
     app.component(UmoEditor.name ?? 'UmoEditor instance', UmoEditor)

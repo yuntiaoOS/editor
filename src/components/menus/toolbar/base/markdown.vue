@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 const { options, editorDestroyed } = useStore()
-const $document = useState('document')
+const $document = useState('document', options.value.editorKey)
 
 const toggleMarkdownMode = () => {
   const dialog = useConfirm({

@@ -10,6 +10,6 @@
 </template>
 
 <script setup lang="ts">
-const { editor } = useStore()
-const $toolbar = useState('toolbar')
+const { editor ,options} = useStore()
+const $toolbar = useState('toolbar',options.value.editorKey)
 </script>

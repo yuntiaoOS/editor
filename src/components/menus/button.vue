@@ -375,8 +375,8 @@ const props = defineProps({
 const emits = defineEmits(['toggle-popup'])
 
 const attrs = useAttrs()
-const { container, editor } = useStore()
-const $toolbar = useState('toolbar')
+const { container, editor , options} = useStore()
+const $toolbar = useState('toolbar',options.value.editorKey)
 const menuClick = (...args: any[]) => {
   if (attrs.onMenuClickThrough) {
     ;(attrs.onMenuClickThrough as (...args: any[]) => void)(...args)

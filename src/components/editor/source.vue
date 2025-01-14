@@ -22,7 +22,7 @@ import { type Editor, loader, MonacoEditor } from '@vue-monaco/editor'
 
 const { options, editor } = useStore()
 const { locale } = useI18n()
-const $document = useState('document')
+const $document = useState('document', options.value.editorKey)
 
 loader.config({
   paths: {

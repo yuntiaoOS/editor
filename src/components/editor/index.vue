@@ -41,7 +41,7 @@ import { pagePlugin } from '@/extensions/page/page-plugin'
 const { options, editor, page, painter, setEditor, editorDestroyed } =
   useStore()
 
-const $document = useState('document')
+const $document = useState('document', options.value.editorKey)
 
 let enableRules: boolean | Extension[] = true
 if (

@@ -186,9 +186,9 @@
       </t-table>
       <node-view-content :node="node"></node-view-content>
     </div>
-    <!-- <t-dialog 
+    <!-- <t-dialog
       v-model:visible="select_design_visible"
-      destroy-on-close 
+      destroy-on-close
       :close-on-overlay-click="false"
       header="选择实验设计方案" :cancel-btn="null"
       width="600" attach="body"
@@ -792,7 +792,7 @@ const onSampleDelete = (row,rowIndex) => {
   updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
   table_dataV.splice(rowIndex, 1)
   table_data.value = cloneDeep(table_dataV)
-  tableRef.value.refreshTable()
+  tableRef.value?.refreshTable()
   refreshNode.type = 'sample_table'
 }
 
@@ -847,7 +847,7 @@ const creatSample = async (row) => {
     updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
     table_dataV.splice(rowIndex + 1, 0, rowData)
     table_data.value = cloneDeep(table_dataV)
-    tableRef.value.refreshTable()
+    tableRef.value?.refreshTable()
     refreshNode.type = 'sample_table'
     return
 
@@ -880,7 +880,7 @@ const creatSample = async (row) => {
           updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
           table_dataV.splice(rowIndex + 1, 0, rowData)
           table_data.value = cloneDeep(table_dataV)
-          tableRef.value.refreshTable()
+          tableRef.value?.refreshTable()
           refreshNode.type = 'sample_table'
         })
         useMessage('success', res.data.msg)

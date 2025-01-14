@@ -8,7 +8,7 @@
 
 <script setup lang="jsx">
 import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
-import { get_assign_record_process_dataFetch,getProcesses_attributeListFetch,get_experiment_processListFetch,post_experiment_process_fetch } from '@/api/experiment'
+import { get_assign_record_process_dataFetch,getProcesses_attributeListFetch,post_experiment_process_fetch } from '@/api/experiment'
 const { node, editor, updateAttributes } = defineProps(nodeViewProps)
 
 const _nodeAttrs = computed({

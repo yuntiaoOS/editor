@@ -29,9 +29,9 @@ export default xmNode.create({
         default: '',
         parseHTML: (element) => {
           const title = element.getAttribute('data-title');
-          if (!title || title.length < 5) {
+          if (!title || title.length < 1) {
             useMessage('error','Title must be at least 5 characters long');
-            throw new Error('Title must be at least 5 characters long');
+            // throw new Error('Title must be at least 5 characters long');
           }
           return title;
         },
@@ -59,7 +59,7 @@ export default xmNode.create({
       addXmTitle:
       (options) =>
       ({ commands,editor }) => {
-        const currentOption = mergeAttributes(this.options, options) 
+        const currentOption = mergeAttributes(this.options, options)
         console.log('---------63--------------',currentOption)
         const content = {
           type: 'xmTitle',

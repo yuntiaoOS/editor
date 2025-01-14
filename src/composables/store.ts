@@ -70,13 +70,13 @@ export const useStore = createGlobalState(() => {
       $locale.value = options.value.locale
     }
     const {editorKey} = options.value
-    localStorage.setItem('editorKey', editorKey)
-    // TODO: 数据存储改为 localStorage.setItem(`${editorKey}:rzm_domain`, options.value.requestOptions.rzm_domain)，便于区分不同编辑器
-    // 若有 requestOptions，则需要在此处存储 requestOptions rzm_domain 和 umo_token 到 store 中
+    sessionStorage.setItem('editorKey', editorKey)
+    // TODO: 数据存储改为 localStorage.setItem(`${editorKey}:BASE_URL`, options.value.requestOptions.BASE_URL)，便于区分不同编辑器
+    // 若有 requestOptions，则需要在此处存储 requestOptions  和 umo_token 到 store 中
     if (options.value.requestOptions) {
-      if (options.value.requestOptions.umo_domain) localStorage.setItem('rzm_domain', options.value.requestOptions.umo_domain)
+      if (options.value.requestOptions.umo_domain) localStorage.setItem('BASE_URL', options.value.requestOptions.umo_domain)
       if (options.value.requestOptions.umo_token) localStorage.setItem('mzyc_token', options.value.requestOptions.umo_token )
-      localStorage.setItem('dict_data', JSON.stringify(options.value.requestOptions.dict_data)  )
+      // localStorage.setItem('dict_data', JSON.stringify(options.value.requestOptions.dict_data)  )
       localStorage.setItem('key_data', JSON.stringify({
         experiment_theme: options.value.requestOptions.experiment_theme,
         experiment_record: options.value.requestOptions.experiment_record
@@ -150,6 +150,9 @@ export const useStore = createGlobalState(() => {
   const resetStore = () => {
     editor.value = undefined
     tableOfContents.value = []
+    // 重置 options
+    options.value = defaultOptions
+    sessionStorage.clear()
     searchReplace.value = false
     savedAt.value = null
     editorDestroyed.value = true

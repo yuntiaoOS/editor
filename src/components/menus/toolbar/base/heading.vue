@@ -6,7 +6,7 @@
     :disabled="!editor?.isEditable"
   >
     <div class="umo-heading-container">
-      <template v-for="(item, index) in options" :key="item.value">
+      <template v-for="(item, index) in options_h" :key="item.value">
         <div
           v-if="index < 4"
           class="card"
@@ -30,7 +30,7 @@
         </div>
         <template #content>
           <div ref="popupContentRef" class="umo-heading-container">
-            <template v-for="(item, index) in options" :key="item.value">
+            <template v-for="(item, index) in options_h" :key="item.value">
               <div
                 v-if="index >= 4"
                 class="card"
@@ -60,7 +60,7 @@
     @menu-click="setHeading"
   >
     <t-option
-      v-for="item in options"
+      v-for="item in options_h"
       :key="item.value"
       class="umo-heading-select-option"
       :value="item.value"
@@ -73,16 +73,16 @@
 
 <script setup lang="ts">
 const { popupVisible } = usePopup()
-const { container, editor } = useStore()
-const $toolbar = useState('toolbar')
+const { container, editor ,options } = useStore()
+const $toolbar = useState('toolbar',options.value.editorKey)
 const popupContentRef = ref(null)
 
-const options = $ref([
+const options_h = $ref([
   { label: t('base.heading.paragraph'), desc: 'text', value: 'paragraph' },
 ])
 for (const i of Array.from({ length: 6 }).keys()) {
   const level = i + 1
-  options.push({
+  options_h.push({
     label: `${t('base.heading.text', { level })}`,
     desc: `h${level}`,
     value: level,

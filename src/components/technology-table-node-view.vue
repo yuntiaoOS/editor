@@ -626,7 +626,7 @@ const onAddOperateTemplateFunc = () => {
       }else if (operateSelect.value.type === 'down') {
         rowD.form.formItems.splice(operateSelect.value.index,0,...operates)
       }else if (operateSelect.value.type === 'insert') {
-        rowD.form.formItems.splice(operateSelect.value.index,0,...operates)
+        rowD.form.formItems.splice(operateSelect.value.index + 1,0,...operates)
       }else if (operateSelect.value.type === 'append') {
         rowD.form.formItems.splice(0,0,...operates)
       }

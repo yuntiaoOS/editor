@@ -70,7 +70,7 @@ const transform: AxiosTransform = {
     if (apiUrl && (apiUrl !== 'null') && (apiUrl !== 'undefined') && (apiUrl !== '') && isString(apiUrl) && /^https?:\/\//i.test(apiUrl) ) {
       config.url = `${apiUrl}${config.url}`;
     }else{
-      config.url = `${localStorage.getItem('rzm_domain')}${config.url}`;
+      config.url = `${localStorage.getItem('BASE_URL')}${config.url}`;
     }
     const params = config.params || {};
     const data = config.data || false;
@@ -179,12 +179,12 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         // 配置项，下面的选项都可以在独立的接口请求中覆盖
         requestOptions: {
           // 接口地址
-          apiUrl: localStorage.getItem('rzm_domain') ,
+          apiUrl: localStorage.getItem('BASE_URL') ,
           // 是否自动添加接口前缀
           isJoinPrefix: true,
           // 接口前缀
           // 例如: https://www.baidu.com/api
-          urlPrefix: '/api',
+          urlPrefix: '', // '/api'
           // 是否返回原生响应头 比如：需要获取响应头时使用该属性
           isReturnNativeResponse: true,
           // 需要对返回数据进行处理

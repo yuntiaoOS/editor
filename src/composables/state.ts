@@ -23,7 +23,7 @@ export type StateValue<T extends StateKey> = T extends 'toolbar'
         : T extends 'locale'
           ? SupportedLocale
           : never
-          
+
 
 export function useState<T extends StateKey>(
   key: T,
@@ -35,7 +35,7 @@ export function useState<T extends StateKey>(
   if (key === 'document') {
     return useStorage<StateValue<T>>(
       storageKey,
-      (options.value.document ?? {}) as StateValue<T>,localStorage
+      (options.value.document ?? {}) as StateValue<T>,sessionStorage
     )
   }
   if (key === 'locale') {
@@ -48,19 +48,19 @@ export function useState<T extends StateKey>(
     return useStorage<StateValue<T>>(storageKey, {
       fonts: [] as string[],
       colors: [] as string[],
-    } as StateValue<T>,localStorage)
+    } as StateValue<T>,sessionStorage)
   }
   if (key === 'print') {
     return useStorage<StateValue<T>>(storageKey, {
       singleColumn: true,
       showPageNumber: true,
-    } as StateValue<T>,localStorage)
+    } as StateValue<T>,sessionStorage)
   }
   if (key === 'toolbar') {
     return useStorage<StateValue<T>>(storageKey, {
       mode: options.value.toolbar?.defaultMode ?? 'classic',
       show: true,
-    } as StateValue<T>,localStorage)
+    } as StateValue<T>,sessionStorage)
   }
   throw new Error('[useStorage]', { cause: 'Key is not valid' })
 }

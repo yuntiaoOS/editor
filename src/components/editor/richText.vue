@@ -169,9 +169,9 @@ const defaultOptionsR: UmoEditorOptions = {
     console.log('-------res-----1111111111111----', res)
     if (res.status === 201) {
       const fileUrl =
-        'http://id.zw.rzm.com' + `/api/storage/files/${res.data.id}/preview/`
+        localStorage.getItem('BASE_URL') + `/api/storage/files/${res.data.id}/preview/`
       const fileUrl2 =
-        'http://id.zw.rzm.com' + `/api/storage/files/${res.data.id}/download/`
+        localStorage.getItem('BASE_URL') + `/api/storage/files/${res.data.id}/download/`
       return { ...res.data, src: fileUrl, url: fileUrl, file: fileUrl2 }
     } else {
       throw new Error(res.data.msg)
@@ -279,7 +279,7 @@ const setLocale = (params: SupportedLocale) => {
 
 const reset = (silent: boolean) => {
   const resetFn = () => {
-    localStorage.clear()
+    sessionStorage.clear()
     location.reload()
   }
   if (silent) {

@@ -1,11 +1,12 @@
 <template>
   <t-space direction="vertical" align="" style="width: 100%;">
-    <div >
-      <FormDesignRender style="overflow: auto;"
-                        v-model="_formData['attachment']"
-                        :mode=" readonly ? 'READ' : 'NORMAL'"
-                        :config="attachmentFormItem">
-      </FormDesignRender>
+    <div v-if="_formData">
+<!--      <FormDesignRender style="overflow: auto;"-->
+<!--                        v-model="_formData['attachment']"-->
+<!--                        :mode=" readonly ? 'READ' : 'NORMAL'"-->
+<!--                        :config="attachmentFormItem">-->
+<!--      </FormDesignRender>-->
+      <UploadFile v-model="_formData['attachment']" :multiple="true" type="image"></UploadFile>
     </div>
     <div>
       <t-table
@@ -123,6 +124,7 @@ const attachmentFormItem = {
     "onlyRead": false,
     "maxSize": 100,
     "maxNumber": 10,
+    "multiple": true,
     "type": "image",
     "fileTypes": [],
     "abstract": false,
@@ -150,7 +152,7 @@ const _sampleInfo = computed({
 
 const _formData = computed({
   get() {
-    return _value.value?.formData
+    return _value.value?.formData ?? {}
   },
   set(val) {
     emits('change', _sampleInfo.value)

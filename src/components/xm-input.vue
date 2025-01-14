@@ -11,8 +11,8 @@
       />
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'NumberInput'" >
-      <t-input-number 
-        v-model="_value" autofocus :borderless="borderless"  :auto-width="autoWidth" theme="column" :readonly="readonly" 
+      <t-input-number
+        v-model="_value" autofocus :borderless="borderless"  :auto-width="autoWidth" theme="column" :readonly="readonly"
         placeholder="请输入" @change="changeFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'TimePicker'" >
@@ -22,14 +22,14 @@
       <t-date-picker v-model="_value" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  enable-time-picker placeholder="请输入" @change="changeFunc" @blur="blurFunc"/>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'SelectPlusRadio'" >
-      <t-select 
+      <t-select
         v-model="_value" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择"  style="width: 100%;" clearable
         :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc" @blur="blurFunc">
         <t-option v-for="item in selectOptions" :key="item[_config.props.valueKey]" :value="item[_config.props.valueKey]" :label="item[_config.props.labelKey]"></t-option>
       </t-select>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'SelectPlus'" >
-      <t-select 
+      <t-select
         v-model="_value" multiple :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择" style="width: 100%;" clearable
         :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc" @blur="blurFunc">
         <t-option v-for="item in selectOptions" :key="item[_config.props.valueKey]" :value="item[_config.props.valueKey]" :label="item[_config.props.labelKey]"></t-option>
@@ -64,7 +64,7 @@
                 <div class="tdesign-demo-image-viewer__ui-image">
                   <img alt="test" :src="fixedImageUrl(imgUrl.url ? imgUrl.url : imgUrl.response.data.url )" class="tdesign-demo-image-viewer__ui-image--img" />
                   <div class="tdesign-demo-image-viewer__ui-image--hover" >
-                    <span @click="open"><t-icon name="browse" size="1.4em" /></span> 
+                    <span @click="open"><t-icon name="browse" size="1.4em" /></span>
                     <t-divider layout="vertical" />
                     <span @click="deleteFunc(imgUrl)"><t-icon name="delete" size="1.4em" /></span>
                   </div>
@@ -76,7 +76,7 @@
       </t-upload>
     </template>
     <template v-else-if="_config[props.props.componentKey] === 'UserPicker'" >
-      <t-select 
+      <t-select
         v-model="_value" :multiple="_config.props.multiple" :borderless="borderless" autofocus :readonly="readonly" :auto-width="autoWidth"  placeholder="请选择" style="width: 100%;" clearable
         :loading="selectLoading" filterable @focus="selectFocusMethod(_config)" @change="changeFunc" @blur="blurFunc">
         <t-option v-for="item in selectOptions" :key="item[_config.props.valueKey]" :value="item[_config.props.valueKey]" :label="item[_config.props.labelKey]"></t-option>
@@ -183,7 +183,7 @@ const props = defineProps({
 const $key_data = JSON.parse(localStorage.getItem('key_data') ?? '{}')
 const experiment_record = computed(() => $key_data?.experiment_record)
 const experiment_theme = computed(() => $key_data?.experiment_theme)
- 
+
 const _value = ref()
 if (props.modelValue) {
   _value.value = props.modelValue
@@ -213,7 +213,7 @@ if (props.modelValue) {
   _value.value = ''
   }
 }
-const uploadAction = ref('') 
+const uploadAction = ref('')
 const uploadHeaders = ref({})
 const selectOptions = ref([])
 
@@ -289,7 +289,7 @@ onMounted( async () => {
       await selectFocusMethod(_config.value)
     }
   }
-  uploadAction.value = `${localStorage.getItem('rzm_domain')}/api/attachments/file/`
+  uploadAction.value = `${localStorage.getItem('BASE_URL')}/api/attachments/file/`
 
   const token = localStorage.getItem('mzyc_token');
   uploadHeaders.value = { Authorization: `JWT ${token}` }
