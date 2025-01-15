@@ -1,5 +1,5 @@
 <template>
-  <t-dialog 
+  <t-dialog
     v-model:visible="add_dialog_visible"
     header="新增" destroy-on-close
     width="70%" attach="body"
@@ -11,8 +11,9 @@
         <t-divider align="left">{{formItem.title}}</t-divider>
         <div >
           <template v-for="(item, index) in formItem.formItems" :key="index">
-            <FormDesignRender 
+            <FormDesignRender
               v-model="_designParams.formData[formItem.key][item.key]"
+              v-model:formData="_designParams.formData[formItem.key]"
               style="overflow: auto;"
               :label="item.title"
               :mode=" 'RESP'"
@@ -22,9 +23,9 @@
         </div>
       </div>
     </t-space>
-    
+
   </t-dialog>
-  
+
 </template>
 
 <script setup>

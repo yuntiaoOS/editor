@@ -3,6 +3,7 @@
     <div v-if="_formData">
 <!--      <FormDesignRender style="overflow: auto;"-->
 <!--                        v-model="_formData['attachment']"-->
+<!--                        v-model:formData="_formData"-->
 <!--                        :mode=" readonly ? 'READ' : 'NORMAL'"-->
 <!--                        :config="attachmentFormItem">-->
 <!--      </FormDesignRender>-->
@@ -15,8 +16,10 @@
       >
         <template #defaultValueSlot="slotProps">
           <div >
-            <FormDesignRender style="overflow: auto;"
+            <FormDesignRender
               v-model="slotProps.row[slotProps.col.colKey]"
+              v-model:formData="slotProps.row"
+              style="overflow: auto;"
               :mode=" readonly ? 'READ' : 'NORMAL'"
               :config="slotProps.row.index_type">
             </FormDesignRender>

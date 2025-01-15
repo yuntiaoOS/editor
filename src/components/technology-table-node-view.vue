@@ -547,11 +547,12 @@ function processValueItems(items) {
       valueC[eleI.key] = [];
     } else if (['FieldsGroup'].includes(eleI.type)) {
       valueC[eleI.key] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
+    } else if (['NumberInput', 'AmountInput','TextInput'].includes(eleI.type)) {
+      valueC[eleI.key + '_unit'] = ''
     } else {
       valueC[eleI.key] = '';
     }
   });
-
   return valueC;
 }
 // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
@@ -642,6 +643,8 @@ const onAddOperateTemplateFunc = () => {
             valueC = [];
           } else if (['FieldsGroup'].includes(ele.type)) {
             valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
+          } else if (['NumberInput', 'AmountInput','TextInput'].includes(eleP.type)) {
+            valueD[ele.key][eleP.key + '_unit'] = ''
           }
 
           valueD[ele.key] = valueC;
@@ -705,6 +708,8 @@ const onAddOperateFunc = () => {
           valueC = [];
         } else if (['FieldsGroup'].includes(ele.type)) {
           valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
+        }else if (['NumberInput', 'AmountInput','TextInput'].includes(ele.type)) {
+          rowD.form.formData[ele.rowKey + '_unit'] = ''
         }
 
         rowD.form.formData[ele.rowKey] = valueC;
@@ -866,6 +871,8 @@ const on_select_parentFunc = async ()=>{
             valueC = [];
           } else if (['FieldsGroup'].includes(ele.type)) {
             valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
+          }if (['NumberInput', 'AmountInput','TextInput'].includes(ele.type)) {
+            valueD[ele.key + '_unit'] = ''
           }
 
           valueD[ele.key] = valueC;

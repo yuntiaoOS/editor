@@ -7,8 +7,8 @@ import { useUmoEditor } from './components'
 // import '../dist/style.css'
 
 //我想引用mzyc-vue-components-zzw项目里面的 /dist/lib/mzyc-lib.es.js
-import MzycLib from '../../mzyc-web/libs/mzyc-vue-components/outDist/lib/mzyc-lib.es.js'
-import '../../mzyc-web/libs/mzyc-vue-components/outDist/lib/mzyc-vue-components.css'
+import MzycLib from '../../mzyc-platform-web-zzw/libs/mzyc-lib/mzyc-lib.es.js'
+import '../../mzyc-platform-web-zzw/libs/mzyc-lib/mzyc-vue-components.css'
 
 //快捷編譯
 // import MzycLib from '../../mzyc-vue-components-zzw/dist/lib/mzyc-lib.es.js'

@@ -62,7 +62,7 @@ const buildConfig = {
       'vue',
       'tdesign-vue-next',
       './src/lib',
-      '../../../mzyc-web/libs/mzyc-vue-components/outDist/lib',
+      '../../../mzyc-platform-web-zzw/libs/mzyc-vue-components/outDist/lib',
       ...Object.keys(pkg.dependencies ?? {}),
       /^@vueuse\/.*/,
       /^@tiptap\/.*/,

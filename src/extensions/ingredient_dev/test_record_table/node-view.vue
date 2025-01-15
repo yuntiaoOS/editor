@@ -79,6 +79,7 @@
               <template v-for="(item, index) in row.formItems.attribute">
                 <FormDesignRender
                   v-model="row.formData[item.key]"
+                  v-model:formData="row.formData"
                   style="overflow: auto"
                   :label="item.title + '：'"
                   :mode="'READ'"

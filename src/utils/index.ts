@@ -60,7 +60,7 @@ export function checkBeforeSaveDoc(content:any[],) {
   }
 }
 
-
+// 取最下面层级数据 a.b.c.d = 1 用于表格数据显示 {a:{b:{c:{d:1}}}}
 export const getFieldValue = (field: string, row: any)=> {
   // console.log('----------getFieldName-----------------', field, row)
   let fieldName = ''
@@ -89,6 +89,38 @@ export const getFieldValue = (field: string, row: any)=> {
   // console.log('----------getFieldName----11111-------------', field, row)
   return fieldName
 }
+
+// 取倒数第二层级数据 a.b.c = {d:1} 用于表格数据显示 {a:{b:{c:{d:1}}}}
+export const getPenultimateLayerFieldValue = (field: string, row: any)=> {
+  // console.log('----------getFieldName-----------------', field, row)
+  let fieldName = ''
+  if (!row || !field) {
+    return fieldName
+  }
+  try {
+    if (field && field.includes('.')) {
+      let fieldArr = field.split('.')
+      fieldArr.pop()
+      let fieldData: any = {}
+      fieldArr.forEach((ele, index) => {
+        if (index === 0) {
+          fieldData = row[ele]
+        } else if (fieldData) {
+          fieldData = fieldData[ele]
+        }
+        fieldName = fieldData
+      })
+    } else {
+      fieldName = row[field]
+    }
+  } catch (error) {
+    console.log('----------getFieldName----error-------------',error, field, row)
+  }
+
+  // console.log('----------getFieldName----11111-------------', field, row)
+  return fieldName
+}
+
 
 export function mergeRowsByFields(fields:any,baseField:string, data:any) {
   return ({ row, col, rowIndex }:any) => {

@@ -1,7 +1,7 @@
 <template>
-  <t-dialog 
+  <t-dialog
     v-model:visible="select_design_visible"
-    destroy-on-close 
+    destroy-on-close
     :close-on-overlay-click="false"
     header="选择物料表及工艺表" :cancel-btn="null"
     width="600" attach="body"
@@ -18,9 +18,9 @@
       </t-form-item>
     </t-form>
   </t-dialog>
-  <t-dialog 
+  <t-dialog
     v-model:visible="experimental_design_visible"
-    destroy-on-close 
+    destroy-on-close
     :close-on-overlay-click="false"
     header="试验方法设计" :cancel-btn="null"
     width="80%" attach="body"
@@ -82,7 +82,7 @@ const selectTableForm = ref({
   technology: '',
 });
 const FORM_RULES = { raw_material: [{ required: true, message: '必填' ,trigger: ['change'] }],
-  technology: [{ required: true, message: '必填' ,trigger: ['change'] }] 
+  technology: [{ required: true, message: '必填' ,trigger: ['change'] }]
 };
 const selectFormItems = ref([])
 
@@ -193,11 +193,11 @@ const getDesignParams = () => {
 }
 const getNodeFullColKey = (node) => {
   const parents = node.getParents()
-  
+
   // console.info('树结构数据:--------',node, parents);
   if (!parents) {
     return ''
-  } 
+  }
   const keys = []
   parents.forEach(item => {
     keys.unshift(item.data.key)
@@ -207,7 +207,7 @@ const getNodeFullColKey = (node) => {
   }else{
     keys.push(node.data.key)
   }
-  
+
   const keyStr = keys.join('.')
   // console.log('keys:-----204---', keyStr);
   return keyStr? keyStr : ''
@@ -228,7 +228,7 @@ const on_select_designFunc = ()=>{
   _designParams.value = getDesignParams()
   experimental_design_visible.value = true;
   console.log('---------------138--------', _designParams.value)
-  
+
 }
 
 const onCancelFunc = ()=>{
@@ -237,14 +237,14 @@ const onCancelFunc = ()=>{
 }
 
 const onSelectChange = ( formItems )=>{
- 
+
 }
 
 const on_experimental_designFunc = async ()=>{
-  console.log('--------on_experimental_designFunc--------156--------',selectFormItems.value,designResult.value,_designParams.value)
+  console.log('--------on_experimental_designFunc--------244--------',selectFormItems.value,designResult.value,_designParams.value)
   if (!selectFormItems.value || selectFormItems.value.length === 0) {
     TMessagePlugin.warning('请选择需要添加的数据')
-    return 
+    return
   }
   designResult.value = {
     // ..._designParams.value,
@@ -301,7 +301,7 @@ onMounted(() => {
     }
 
   }
-  
+
 })
 
 </script>

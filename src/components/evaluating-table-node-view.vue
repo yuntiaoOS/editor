@@ -24,6 +24,7 @@
         <div >
           <FormDesignRender style="overflow: auto;"  @change="onFormChange(slotProps.row, slotProps.col)"
             v-model="slotProps.row['value'][slotProps.col.colKey.replace('value.','')]"
+            v-model:formData="slotProps.row['value']"
             :mode=" 'NORMAL'"
             :config="slotProps.col.attrs">
           </FormDesignRender>

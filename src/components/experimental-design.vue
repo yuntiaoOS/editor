@@ -429,6 +429,9 @@ onMounted(() => {
 })
 </script>
 <style lang="less" scoped>
+:deep(.umo-table__tree-op-icon) {
+  display: none;
+}
 :deep(.umo-table__content) {
   border-top: 1px #333 solid;
 }
