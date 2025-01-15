@@ -130,6 +130,7 @@ function processItems(items, optionsGroup) {
         ...eleI,
         props: {
           ...eleI.props,
+          showBorder: false,
           columns: eleI.props.columns.map(eleC=>{
             if (eleC.type === 'SelectMaterial') {
               return {

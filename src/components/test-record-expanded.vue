@@ -9,7 +9,7 @@
 <!--      </FormDesignRender>-->
       <UploadFile v-model="_formData['attachment']" :multiple="true" type="image"></UploadFile>
     </div>
-    <div>
+    <div v-if="_value.is_sample">
       <t-table
         ref="tableRef"  :loading="loading"
         row-key="id" :data="_sampleInfo?.record_table?.table_data" :columns="_columns" resizable

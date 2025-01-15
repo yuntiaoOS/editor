@@ -6,25 +6,37 @@
       :class="node.attrs.theme"
       style="border-bottom:1px solid #ddd;margin-bottom: 10px;"
     >
-      <h1 v-if="!isEdit && title && title.length>0" @click="HeditFunc">{{ title }}</h1>
-      <t-input 
-        v-else ref="xmTitleRef" v-model="title" 
-        :readonly="readOnly" autofocus borderless placeholder="标题" size="large" :inputClass="['xmTitleClass']" 
-        @blur="tInputBlur" />
+<!--      <t-row :gutter="6">-->
+<!--        <t-col :span="6">-->
+          <h1 v-if="!isEdit && title && title.length>0" @click="HeditFunc">{{ title }}</h1>
+          <t-input
+            v-else ref="xmTitleRef" v-model="title"
+            :readonly="readOnly" autofocus borderless placeholder="标题" size="large" :inputClass="['xmTitleClass']"
+            @blur="tInputBlur" />
+<!--        </t-col>-->
+<!--        <t-col :span="6">-->
+          <h2 v-if="!isSnEdit && sn && sn.length>0" style="margin-top: 8px;" @click="HeditSnFunc">{{ sn }}</h2>
+          <t-input
+            v-else ref="xmTitleSnRef" v-model="sn"
+            :readonly="readOnly" autofocus borderless placeholder="sn编号" size="large" :inputClass="['xmTitleClass-sn']"
+            @blur="tInputBlur" />
+<!--        </t-col>-->
+<!--      </t-row>-->
+
       <div style="padding:7px;" > </div>
       <div v-if="showSubTitle && experiment_record && experiment_record.id" style=" display: flex; align-items: center; justify-content: space-between; ">
         <!-- <t-avatar-group size="small" :max="2">
           <t-avatar v-for="participant in experiment_record.participants" :image="participant.avatar" >{{participant.name}}</t-avatar>
         </t-avatar-group> -->
         <div style="display:flex;align-items: center;gap:20px;padding:5px;">
-          <t-popup 
-            v-if="experiment_record.experimenter"
+          <t-popup
+            v-if=" false && experiment_record.experimenter"
             trigger="click"
             placement="bottom"
             destroyOnClose
             hideEmptyPopup
           >
-            <t-icon name="usergroup" size="14px" style="color: #a0a0a0"/> 
+            <t-icon name="usergroup" size="14px" style="color: #a0a0a0"/>
             <span class="Font12Color" style="margin-left:4px;cursor: pointer;">{{formatParticipants(experiment_record.experimenter)}} </span>
             <div style="" > </div>
             <template #content>
@@ -36,28 +48,28 @@
                   <t-space size="10px">
                     <t-avatar size="20px" shape="round" :image="participant.avatar"> {{participant.name}} </t-avatar>
                     <span class="Font12Color" >{{participant.name}}</span>
-                    <t-tag 
+                    <t-tag
                       v-if="participant.id === experiment_record.creator" style="margin-left:16px;"
                       theme="primary" size="small" shape="round" variant="outline">创建者</t-tag>
                   </t-space>
                 </div>
               </div>
-              
-            </template> 
+
+            </template>
 
           </t-popup>
           <div >
-            <span style="cursor: pointer;" @click="()=> {historyDataInit();historyDataVisible = true ;}" ><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{ current_update_datetime}}</span> </span> 
-            
-            <t-popup 
-              v-if="false" 
+            <span style="cursor: pointer;" @click="()=> {historyDataInit();historyDataVisible = true ;}" ><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{ current_update_datetime}}</span> </span>
+
+            <t-popup
+              v-if="false"
               trigger="click"
               placement="bottom"
               destroyOnClose
               hideEmptyPopup
               :on-visible-change=" (visible:boolean)=> visible && historyDataInit()"
             >
-              <span style="cursor: pointer;" ><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{ current_update_datetime}}</span> </span> 
+              <span style="cursor: pointer;" ><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{ current_update_datetime}}</span> </span>
               <template #content>
                 <div style="padding:10px;" >
                   <t-list v-if="historyData.length > 0" style="height: 300px" :scroll="{ type: 'virtual' }" >
@@ -72,7 +84,7 @@
                           <t-link theme="primary" hover="color" style="margin-left: 16px" @click="transformDocContent(history)">还原</t-link>
                         </span>
                       </template>
-                    </t-list-item>                 
+                    </t-list-item>
                   </t-list>
                   <!-- <div v-for=" history in historyData " :key="history.id" style="padding-bottom: 6px;" @click="transformDocContent(history)">
                     <t-space size="10px" style="cursor: pointer;">
@@ -82,14 +94,14 @@
                     </t-space>
                   </div> -->
                 </div>
-                
-              </template> 
+
+              </template>
 
             </t-popup>
-            
+
           </div>
         </div>
-        <t-popup 
+        <t-popup
           v-if="visitorData"
           trigger="click"
           placement="bottom"
@@ -97,8 +109,8 @@
           hideEmptyPopup
           :on-visible-change=" (visible:boolean)=> visible && visitorDataInit()"
         >
-          <div style="cursor: pointer;"> 
-            <t-icon name="book-open" size="14px" style="color: #a0a0a0"/> 
+          <div style="cursor: pointer;">
+            <t-icon name="book-open" size="14px" style="color: #a0a0a0"/>
             <span class="Font12Color" style="margin-left:4px;">{{visitorData.length}} </span>
           </div>
           <template #content>
@@ -114,23 +126,23 @@
                 </t-space>
               </div>
             </div>
-            
-          </template> 
+
+          </template>
 
         </t-popup>
-        
+
       </div>
     </div>
-    
-    <t-drawer 
-      v-model:visible="historyDataVisible" 
+
+    <t-drawer
+      v-model:visible="historyDataVisible"
       :closeBtn="true"
       destroyOnClose
       :closeOnOverlayClick="false"
       closeOnEscKeydown
       :footer="false"
-      :show-overlay="false" 
-      header="修改记录"  
+      :show-overlay="false"
+      header="修改记录"
     >
       <t-list style="height: calc( 100vh - 100px )" :scroll="{ type: 'virtual' }" >
         <t-list-item v-for="(history, index) in historyData" :key="index">
@@ -144,7 +156,7 @@
               <t-link theme="primary" hover="color" style="margin-left: 16px" @click="transformDocContent(history)">还原</t-link>
             </span>
           </template>
-        </t-list-item>                 
+        </t-list-item>
       </t-list>
     </t-drawer>
   </node-view-wrapper>
@@ -163,8 +175,10 @@ const { node, updateAttributes } = defineProps(nodeViewProps)
 const { editor,options } = useStore()
 const $key_data = JSON.parse( localStorage.getItem('key_data') ?? '{}')
 const isEdit = ref(false)
+const isSnEdit = ref(false)
 
 const xmTitleRef = ref()
+const xmTitleSnRef = ref()
 const historyDataVisible = ref(false)
 const showSubTitle = ref(true)
 
@@ -174,6 +188,13 @@ const title = computed({
   get: () => node.attrs.title,
   set(value: string) {
     updateAttributes({ title: value })
+  },
+})
+
+const sn = computed({
+  get: () => node.attrs.sn,
+  set(value: string) {
+    updateAttributes({ sn: value })
   },
 })
 
@@ -202,8 +223,19 @@ const HeditFunc = () => {
     } , 10)
   }
 }
+const HeditSnFunc = () => {
+  isSnEdit.value = true
+  if (xmTitleSnRef.value) {
+    xmTitleSnRef.value.$el.focus()
+  } else {
+    setTimeout(() => {
+      if (xmTitleSnRef.value) xmTitleSnRef.value.$el.focus()
+    } , 10)
+  }
+}
 const tInputBlur = () => {
   isEdit.value = false
+  isSnEdit.value = false
 }
 
 
@@ -286,7 +318,7 @@ onMounted( async () => {
 })
 
 onBeforeUnmount(() => {
-   
+
 })
 
 </script>
@@ -295,6 +327,11 @@ onBeforeUnmount(() => {
 h1 {
   font-size: 32px;
   font-weight:bold;
+}
+h2 {
+  font-size: 20px;
+  font-weight:bold;
+  color: #666;
 }
 .Font12Color {
   font-size: 12px;
@@ -308,5 +345,12 @@ h1 {
     font-weight:bold;
   }
 }
-
+:deep( .xmTitleClass-sn) {
+  border: none !important;
+  padding: 0;
+  .umo-input__inner {
+    font-size:20px;
+    font-weight:bold;
+  }
+}
 </style>

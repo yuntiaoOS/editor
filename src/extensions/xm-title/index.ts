@@ -2,6 +2,7 @@ import { mergeAttributes, Node } from '@tiptap/core'
 import { VueNodeViewRenderer } from '@tiptap/vue-3'
 
 import NodeView from './node-view.vue'
+import { v4 as uuid } from 'uuid'
 interface TitleModel {
   key: string
   title: string
@@ -37,9 +38,19 @@ export default xmNode.create({
         },
         renderHTML: (attributes) => {
           if (!attributes.title) {
-            return {};
+            return '';
           }
           return { 'data-title': attributes.title };
+        },
+      },
+      sn: {
+        default: '',
+        parseHTML: (element:any) => element.getAttribute('data-sn'),
+        renderHTML: (attributes:any) => {
+          if (!attributes.sn) {
+            return '';
+          }
+          return { 'data-sn': attributes.sn };
         },
       },
       showSubTitle: false,

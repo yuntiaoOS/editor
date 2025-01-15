@@ -553,7 +553,6 @@ onMounted(()=>{
 })
 // 销毁编辑器实例
 onUnmounted(() => {
-  resetStore()
   editor.value?.destroy()
 })
 defineExpose({

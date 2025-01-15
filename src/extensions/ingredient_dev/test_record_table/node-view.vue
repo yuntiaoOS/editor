@@ -77,10 +77,10 @@
             </div>
             <t-space v-else-if="row.operateType !== '过程描述'" >
               <template v-for="(item, index) in row.formItems.attribute">
-                <FormDesignRender
+                <FormDesignRender class="node-form-design-render-class"
                   v-model="row.formData[item.key]"
                   v-model:formData="row.formData"
-                  style="overflow: auto"
+                  style="overflow: auto;"
                   :label="item.title + '：'"
                   :mode="'READ'"
                   :config="item"
@@ -115,6 +115,17 @@
             >
             <span v-else>{{ row.description }}</span>
             <div class="slot-description-S-class">
+              <t-button
+                v-if="['物料', '操作'].includes(row.operateType)"
+                title="拍照"
+                style="width: 50px"
+                theme="primary"
+                shape="square"
+                variant="text"
+                @click.stop="expandDataFunc(row)"
+              >
+                拍照
+              </t-button>
               <t-button
                 v-if="['物料', '操作'].includes(row.operateType)"
                 title="出样"
@@ -1054,6 +1065,9 @@ const on_select_designFunc = () => {
   //       sn: `SF-${timeFormat(null,'yymmddhhMM')}${shortId(2)}`,
   //       weight: 1,
   //       is_sample: false,
+        // customData:{
+        //   photos:[]
+        // },
   //       experimental_design: cloneDeep( ele ),
   //       record_table: {
   //         id: uuid(),
@@ -1213,6 +1227,9 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+:deep(.node-form-design-render-class table td, .node-form-design-render-class table th) {
+  border: none;
+}
 .slot-description-S-class {
   opacity: 1;
 }
