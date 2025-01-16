@@ -169,6 +169,17 @@ const $document = useState('document', props.editorKey)
 
 const $key_data = ref({})
 
+// 定时保存
+let contentUpdated = $ref(false)
+let isFirstUpdate = $ref(true)
+let autoSaveInterval = $ref<NodeJS.Timeout | null>(null)
+const clearAutoSaveInterval = () => {
+  if (autoSaveInterval !== null) {
+    clearInterval(autoSaveInterval)
+    autoSaveInterval = null
+  }
+}
+
 // i18n Setup
 // @ts-ignore
 const { t, locale } = useI18n()
@@ -231,6 +242,12 @@ const editorInstance: Editor = new Editor({
   onCreate({ editor }) {
     isEmpty = editor.commands.setPlaceholder('')
   },
+  onSelectionUpdate({ editor }) {
+    emits('changed:selection', editor)
+    if (editor.isActive('table')) {
+      setEditor(editorInstance)
+    }
+  },
   onUpdate: throttle(({ editor }) => {
     let output = getOutput(editor, 'html')
     emits('changed',{editor:editor,json: getOutput(editor, 'json') ,html: output})
@@ -238,6 +255,7 @@ const editorInstance: Editor = new Editor({
     isEmpty = editor.commands.setPlaceholder('')
     isReady = true
     $document.value.content = editor.getHTML()
+    contentUpdated = true
   }, 1000),
   onTransaction: throttle(({ editor, transaction }:any) => {
     // console.log(transaction, editor,'-------208---------transaction---------------')
@@ -308,6 +326,41 @@ const editorInstance: Editor = new Editor({
   // },
 })
 setEditor(editorInstance)
+console.log('-----------------onUnmounted-----329---------',editor.value,page.value.preview?.enabled , editorDestroyed.value)
+// 定时保存
+watch(
+  () => contentUpdated,
+  (val: boolean) => {
+    const { autoSave } = options.value.document ?? {}
+    if (!autoSave?.enabled) {
+      return
+    }
+    if (isFirstUpdate) {
+      isFirstUpdate = false
+      setTimeout(() => {
+        contentUpdated = false
+      })
+      return
+    }
+    if (!val) {
+      clearAutoSaveInterval()
+      return
+    }
+    autoSaveInterval = setInterval(() => {
+      void saveContent()
+      contentUpdated = false
+      clearAutoSaveInterval()
+    }, autoSave.interval)
+  },
+)
+
+// Toolbar Mode Reset
+watch(
+  () => $toolbar.value.mode,
+  (val: any) => {
+    editorDestroyed.value = val === 'source'
+  },
+)
 
 console.log('-------312--------editorInstance------')
 function getOutput(editor: CoreEditor, output: 'html' | 'json' | 'text') {
@@ -553,6 +606,8 @@ onMounted(()=>{
 })
 // 销毁编辑器实例
 onUnmounted(() => {
+  console.log('-----------------onUnmounted-----595---------')
+  resetStore()
   editor.value?.destroy()
 })
 defineExpose({
