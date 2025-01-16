@@ -312,7 +312,7 @@ export class DocxSerializerState {
     const { getCellOptions, getRowOptions, tableOptions } = opts
     const actualChildren = this.children
     const rows: TableRow[] = []
-    console.log('-----table--------315------------------',node)
+    
     // FIXME: node.content is a Fragment
     // @ts-expect-error, typing is probably wrong
     for (const row of node.content.content) {

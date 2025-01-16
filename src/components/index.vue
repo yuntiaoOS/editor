@@ -205,7 +205,7 @@ watch(
       emits('changed:selection', { editor })
     })
     editor.value.on('transaction', ({ editor, transaction }: any) => {
-      // console.log(transaction, editor,'-------208---------transaction---------------')
+      //
       const customTitleNode = editor.state.doc.nodeAt(0); // 假设标题是第一个节点
       if (transaction.steps.some((step:any) => step.type === 'xmTitle')) {
         if (customTitleNode) {

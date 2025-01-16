@@ -19,7 +19,7 @@ const transform: AxiosTransform = {
   // 处理请求数据。如果数据不是预期格式，可直接抛出错误
   transformRequestHook: (res, options) => {
     const { isTransformResponse, isReturnNativeResponse } = options;
-    // console.log('--------------requestInterceptors--------------',res)
+    // 
     // 如果204无内容直接返回
     const method = res.config.method?.toLowerCase();
     if (res.status === 204 || method === 'put' || method === 'patch') {
@@ -60,7 +60,7 @@ const transform: AxiosTransform = {
   // 请求前处理配置
   beforeRequestHook: (config, options) => {
     const { apiUrl, isJoinPrefix, urlPrefix, joinParamsToUrl, formatDate, joinTime = true } = options;
-    // console.log('-----------------requestInterceptors-----64-----',isJoinPrefix,urlPrefix,  apiUrl, config,options);
+    // 
     // 添加接口前缀
     if (isJoinPrefix && urlPrefix && isString(urlPrefix)) {
       config.url = `${urlPrefix}${config.url}`;
@@ -111,13 +111,13 @@ const transform: AxiosTransform = {
       config.url += params;
       config.params = undefined;
     }
-    // console.log('---------------beforeRequestHook-----115-----', config);
+    // 
     return config;
   },
 
   // 请求拦截器处理
   requestInterceptors: (config, options) => {
-    // console.log('---------------requestInterceptors-----119-----', config,options);
+    // 
     // 请求之前处理config
     const token = localStorage.getItem('mzyc_token');
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
@@ -131,13 +131,13 @@ const transform: AxiosTransform = {
 
   // 响应拦截器处理
   responseInterceptors: (res) => {
-    // console.log('---------------requestInterceptors-----134-----');
+    // 
     return res;
   },
 
   // 响应错误处理
   responseInterceptorsCatch: (error: any, instance: AxiosInstance) => {
-    // console.log('---------------requestInterceptors-----140----',error,instance);
+    // 
     const { config, status } = error;
     if (status === 401) {
       window.location.href = '/login';

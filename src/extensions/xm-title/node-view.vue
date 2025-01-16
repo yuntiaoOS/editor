@@ -291,7 +291,7 @@ const transformDocContent = async (history:any) => {
       useMessage('error',res.data.msg)
     }
   } else {
-    console.log('历史记录内容为空')
+
   }
 }
 

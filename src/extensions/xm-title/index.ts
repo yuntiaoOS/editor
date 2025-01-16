@@ -71,7 +71,7 @@ export default xmNode.create({
       (options) =>
       ({ commands,editor }) => {
         const currentOption = mergeAttributes(this.options, options)
-        console.log('---------63--------------',currentOption)
+        
         const content = {
           type: 'xmTitle',
           attrs: {

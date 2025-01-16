@@ -242,7 +242,7 @@ function safeJSONParse(str, fallback = {}) {
 
 let $dict_data = safeJSONParse( localStorage.getItem('dict_data') , {})
 
-console.log('-----------113------------------',$dict_data);
+
 
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
 const experiment_record = computed(() => _nodeAttrs.value?.experiment_record ? _nodeAttrs.value?.experiment_record : $key_data.experiment_record)
@@ -305,11 +305,11 @@ const columnsDefaultF = [
     //   showEditIcon: true,
     //   abortEditOnEvent: ['onEnter','onBlur'],
     //   onEdited: (context ) => {
-    //     console.log(context);
+    //
     //     const newData = [..._table_data.value];
     //     newData.splice(context.rowIndex, 1, context.newRowData);
     //     _table_data.value = newData;
-    //     console.log('Edit firstName:', context);
+    //
     //     useMessage('success' ,'Success');
     //   },
     //   // 触发校验的时机（when to validate)
@@ -317,12 +317,12 @@ const columnsDefaultF = [
     //   // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
     //   on: (editContext ) => ({
     //     onBlur: (ctx ) => {
-    //       console.log('失去焦点', editContext);
+    //
     //       ctx?.e?.preventDefault();
     //     },
     //     onEnter: (ctx ) => {
     //       ctx?.e?.preventDefault();
-    //       console.log('onEnter', ctx);
+    //
     //     },
     //     // 默认是否为编辑状态
     //     defaultEditable: false,
@@ -393,7 +393,7 @@ const columnsDefaultF = [
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
       onEdited: async (context ) => {
-        console.log('-----eval_user--414-----',context);
+
         const params = {
           eval_user:context.newRowData.eval_user.id,
           group: group.value
@@ -408,12 +408,12 @@ const columnsDefaultF = [
           // newData.splice(context.rowIndex, 1, context.newRowData);
           // _table_data.value = newData;
           await initData()
-          console.log('Edit firstName:', context);
+
         }
         // const newData = [..._table_data.value];
         // newData.splice(context.rowIndex, 1, context.newRowData);
         // _table_data.value = newData;
-        // console.log('Edit firstName:', newData);
+        //
         // useMessage('success' ,'Success');
       },
       // 触发校验的时机（when to validate)
@@ -421,12 +421,12 @@ const columnsDefaultF = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext ) => ({
         onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
+
           ctx?.e?.preventDefault();
         },
         onEnter: (ctx ) => {
           ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
+
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -459,7 +459,7 @@ const columnsDefaultF = [
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onPick','onChange'],
       onEdited: async (context ) => {
-        console.log(context);
+
         const params = {
           start_time:context.newRowData.start_time,
           group: group.value
@@ -471,12 +471,12 @@ const columnsDefaultF = [
           group.value =  res.data.data.group
           updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
           await initData()
-          console.log('Edit firstName:', context);
+
         }
         // const newData = [..._table_data.value];
         // newData.splice(context.rowIndex, 1, context.newRowData);
         // _table_data.value = newData;
-        // console.log('Edit firstName:', context);
+        //
         // useMessage('success' ,'Success');
       },
       // 触发校验的时机（when to validate)
@@ -484,12 +484,12 @@ const columnsDefaultF = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext ) => ({
         onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
+
           ctx?.e?.preventDefault();
         },
         onEnter: (ctx ) => {
           ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
+
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -524,7 +524,7 @@ const columnsDefaultA = [
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
       onEdited: async (context ) => {
-        console.log(context);
+
         const params = {
           description:context.newRowData.description,
           group: group.value
@@ -536,12 +536,12 @@ const columnsDefaultA = [
           // group.value =  res.data.data.group
           updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
           await initData()
-          console.log('Edit firstName:', context);
+
         }
         // const newData = [..._table_data.value];
         // newData.splice(context.rowIndex, 1, context.newRowData);
         // _table_data.value = newData;
-        // console.log('Edit firstName:', context);
+        //
         // useMessage('success' ,'Success');
       },
       // 触发校验的时机（when to validate)
@@ -549,12 +549,12 @@ const columnsDefaultA = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext ) => ({
         onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
+
           ctx?.e?.preventDefault();
         },
         onEnter: (ctx ) => {
           ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
+
         },
         // 默认是否为编辑状态
         defaultEditable: true,
@@ -635,7 +635,7 @@ const onSelectDialogFunc = async () => {
 const editdRow = ref();
 let debouncedRequest = null;
 const onFormChange = (row, col)=>{
-  console.log('onFormChange------000----603--------',row, col);
+
   if (!isChanged.value) isChanged.value = true
   const putFetch = async (rowF, colF) => {
     const params = {
@@ -670,7 +670,7 @@ const onFormChange = (row, col)=>{
 }
 
 const makeTableDataAndColumnFunc = (tableData, selectTableForm, eval_standardInfo) => {
-  console.log('-----478-----makeTableDataAndColumnFunc------------', selectTableForm, eval_standardInfo);
+
   const table_data = tableData.map(ele => ({
     ...ele,
     value: eval_standardInfo.reduce((acc, { attribute }) => {
@@ -689,7 +689,7 @@ const makeTableDataAndColumnFunc = (tableData, selectTableForm, eval_standardInf
   }, {});
 
   const group_Colums_result = Object.values(groupedData);
-  console.log('--------692---------group_Colums_result-----', group_Colums_result);
+
 
   const columns = group_Colums_result.map(({ category_name, id, children }) => {
     const group_Colums = {
@@ -711,7 +711,7 @@ const makeTableDataAndColumnFunc = (tableData, selectTableForm, eval_standardInf
 
   _nodeAttrs.value.columns = [...columns]
   // emits('update:nodeAttrs', _nodeAttrs.value)
-  console.log('-----700-----makeTableDataAndColumnFunc----columns--------',table_data, columns);
+
   return { table_data, columns: [...columnsDefaultF, ...columns, ...columnsDefaultA] };
 };
 
@@ -739,7 +739,7 @@ const on_select_designFunc = ()=>{
         // _table_data.value= [...table_data]
         displayColumns.value = columns.map(ele=> ele.colKey)
         await initData()
-        console.log('-------575-------table_data', _table_data.value,_columns.value)
+
         // tableRef.value?.refreshTable()
       }else{
         useMessage('error','提交失败')
@@ -754,7 +754,7 @@ const on_select_designFunc = ()=>{
 
 
 const onDelete = async (row) => {
-  console.log('--------onDelete--------44--------',row)
+
   const params = {
     group: group.value,
   }
@@ -772,12 +772,12 @@ const onDelete = async (row) => {
 
 // 更新 editableRowKeys
 const updateEditState = (id) => {
-  console.log('--------updateEditState--------44--------',id)
+
   const index = editableRowKeys.value.findIndex((t) => t === id);
   editableRowKeys.value.splice(index, 1);
 };
 const onCancel = (row) => {
-  console.log('--------onSave--------44--------',row)
+
   const { id } = row;
   updateEditState(id );
   tableRef.value?.clearValidateData();
@@ -820,7 +820,7 @@ const initData = async () => {
   const params = {
     group: group.value,
   }
-  console.log('----------initData-----297---------',params)
+
   const res = await get_experiment_evaluationListFetch(params)
   loading.value = false
   if (res.data.code === 2000 && res.data.data.length > 0) {
@@ -851,7 +851,7 @@ const initData = async () => {
         tableRef.value?.refreshTable();
       }, 100);
     }
-    console.log('----------initData-----777---------',_table_data.value)
+
     if (isChanged.value) { isChanged.value = false }
   }
 
@@ -888,7 +888,7 @@ const handleIntegration = async () => {
 
 onMounted(async () => {
   if (_nodeAttrs.value.columns && Object.keys(_nodeAttrs.value.columns).length > 0) {
-    console.log('-----------onMounted---822----------------',_nodeAttrs.value.columns, _columns.value);
+
     _columns.value = [...columnsDefaultF, ..._nodeAttrs.value.columns, ...columnsDefaultA] ;
     setTimeout(() => {
       displayColumns.value = _columns.value.map(ele => ele.colKey);
@@ -896,14 +896,14 @@ onMounted(async () => {
     }, 100);
 
     if (group.value && group.value.length > 0 && _table_data.value?.length === 0) {
-      console.log('----------change_log.value1095---------', group.value);
+
       await initData();
     } else if (is_integration.value) {
       await handleIntegration();
     }
   } else {
     if (group.value && group.value.length > 0 &&( !_table_data.value || _table_data.value?.length === 0)) {
-      console.log('----------change_log.value1095---------', group.value);
+
       await initData();
     } else {
       if (!_table_data.value || _table_data.value?.length === 0){
@@ -923,7 +923,7 @@ onMounted(async () => {
   }).catch((err) => {
     TMessagePlugin.error('获取标准列表失败')
   })
-  console.log('-----------initData----317----------------',sample_group_options)
+
 
 })
 

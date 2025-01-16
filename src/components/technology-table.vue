@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%">
     <!-- <h2>工艺</h2> -->
-    <t-enhanced-table ref="tableRef" v-model:expandedTreeNodes="expandedTreeNodes" :tree-expand-and-fold-icon="treeExpandIcon" 
+    <t-enhanced-table ref="tableRef" v-model:expandedTreeNodes="expandedTreeNodes" :tree-expand-and-fold-icon="treeExpandIcon"
       :row-key="rowKey" :data="table_data" :columns="columns" resizable :tree="treeConfig" :editable-cell-state="editableCellStateFunc"
        @expanded-tree-nodes-change="onExpandedTreeNodesChange" >
       <template #topContent>
@@ -49,14 +49,14 @@
       :options="operationOptionSelect"
       filterable destroyOnClose
       multiple
-      :keys="{ label: 'title', value: 'id',disabled: 'disabled1'}"  
+      :keys="{ label: 'title', value: 'id',disabled: 'disabled1'}"
       placeholder="请选择操作"
-      :scroll="{type: 'virtual'}"  
-      :popup-props="{ overlayInnerStyle: { height: '300px' } }"  
+      :scroll="{type: 'virtual'}"
+      :popup-props="{ overlayInnerStyle: { height: '300px' } }"
       :status=" dialog_select.length > 0 ? 'success': 'error' "
       :tips="dialog_select.length > 0 ? '校验通过': '操作不能为空'"
     />
-    
+
   </t-dialog>
   <t-dialog
     v-model:visible="procedureVisible"
@@ -65,8 +65,8 @@
     :confirm-on-enter="true"
     :on-confirm="onProcedureConfirmFunc"
   >
-    <t-input  v-model="dialog_input" placeholder="输入工艺步骤名称" 
-      :status=" dialog_input.length > 0 ? 'success': 'error' " 
+    <t-input  v-model="dialog_input" placeholder="输入工艺步骤名称"
+      :status=" dialog_input.length > 0 ? 'success': 'error' "
       :tips=" dialog_input.length > 0 ? '校验通过': '名称不能为空'"
       />
   </t-dialog>
@@ -113,7 +113,7 @@ const props = defineProps({
   modelValue: {
     type: Array,
     default: () => ([]),
-  }, 
+  },
   title: {
     type: String,
     default: () => '请输入名称',
@@ -181,7 +181,7 @@ const get_raw_materialOptionsFunc = () => {
     }
     raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
   }
-  console.log('-------------176---raw_materialOptions.value---------',raw_materialOptions.value)
+
 }
 
 const { options ,editedComponentType} = useStore()
@@ -318,8 +318,8 @@ const onOperationConfirmFunc = async () => {
     }
     const itemOs = operationOption.value.filter(item => dialog_select.value.includes(item.id) && !keysArr.includes(item.id))
     const parent = selectOperationRow.value.step_type === 'processes' ? selectOperationRow.value.key : selectOperationRow.value.parent
-    
-    console.log('--------197---------keys: ',parent, itemOs,keysArr)
+
+
     let objS = []
     itemOs.forEach(itemO =>{
       let valueC = ''
@@ -347,7 +347,7 @@ const onOperationConfirmFunc = async () => {
       }
       objS.push( obj )
     })
-    console.log('--------197---------keys: ', parent, objS)
+
     if (selectOperationType.value === 'append') {
       tableRef.value.appendTo( parent, objS);
     }else if (selectOperationType.value === 'insertBefore') {
@@ -364,7 +364,7 @@ const onOperationConfirmFunc = async () => {
 
 const getOperationOptionFunc = async (page=1) => {
   const res = await props.getAttributesFunction({page,limit:9999})
-  console.log(res, '-------------2243------------operationOption.value')
+
   if (res.data.code === 2000) {
     if (page === 1) {
       const res_data = res.data.data.filter(ele=> ele.type !== "ImageUpload")
@@ -375,9 +375,9 @@ const getOperationOptionFunc = async (page=1) => {
       operationOptionSelect.value = [...operationOption.value, ...res_data].map(item => ({id: item.id, title: item.title}))
     }
     pagination.value.total = res.data.total
-    
-    console.log(operationOption.value, '-------------250------------operationOption.value',table_data.value)
-    
+
+
+
     // if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
     //   const operations = table_data.value.filter(ele=> ele[props.childrenKey]&& ele[props.childrenKey].length > 0 ).map(ele=> ele[props.childrenKey])
     //   if (operations.length > 0) {
@@ -394,9 +394,9 @@ getOperationOptionFunc()
 function updateTableData(tableData, newRowData) {
   const data = tableData.map(item => {
     let row = {...item}
-    console.log('---------tableData---303------',newRowData,row)
+
     if (newRowData.step_type === 'operation' && row[rowKey] === newRowData.parent) {
-      console.log('---------tableData---305------',row)
+
       // 替换 children 属性中 id 相等的这一条数据
       row[props.childrenKey] = row[props.childrenKey].map(listItem => {
         if (listItem[rowKey] === newRowData[rowKey]) {
@@ -404,17 +404,17 @@ function updateTableData(tableData, newRowData) {
         }
         return listItem;
       });
-      console.log('---------tableData---311------',row)
+
     } else if (newRowData.step_type === 'processes') {
       // 直接替换 table_data 中 id 相等的这一条数据
       if (row[rowKey] === newRowData[rowKey]) {
         row = Object.assign(item, newRowData);
       }
     }
-    
+
     return row;
   });
-  console.log('---------tableData---234------',data)
+
   return data;
 }
 const columns = ref([
@@ -451,9 +451,9 @@ const columns = ref([
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
       onEdited: (context ) => {
-        console.log(context);
+
         table_data.value = updateTableData(table_data.value, context.newRowData)
-        console.log('Edit firstName:', context,table_data.value);
+
         useMessage('success' ,'Success');
       },
       // 触发校验的时机（when to validate)
@@ -461,12 +461,12 @@ const columns = ref([
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext ) => ({
         onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
+
           ctx?.e?.preventDefault();
         },
         onEnter: (ctx ) => {
           ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
+
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -511,9 +511,9 @@ const columns = ref([
     //   showEditIcon: true,
     //   abortEditOnEvent: ['onEnter','onBlur'],
     //   onEdited: (context ) => {
-    //     console.log('------396--------onEdited------',context,table_data.value);
+    //
     //     table_data.value = updateTableData(table_data.value, context.newRowData)
-    //     console.log('Edit firstName:', context);
+    //
     //     useMessage('success' ,'Success');
     //   },
     //   // 触发校验的时机（when to validate)
@@ -521,12 +521,12 @@ const columns = ref([
     //   // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
     //   on: (editContext ) => ({
     //     onBlur: (ctx ) => {
-    //       console.log('失去焦点', editContext);
+    //
     //       ctx?.e?.preventDefault();
     //     },
     //     onEnter: (ctx ) => {
     //       ctx?.e?.preventDefault();
-    //       console.log('onEnter', ctx);
+    //
     //     },
     //     // 默认是否为编辑状态
     //     defaultEditable: false,
@@ -559,9 +559,9 @@ const columns = ref([
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
       onEdited: (context ) => {
-        console.log(context);
+
         table_data.value = updateTableData(table_data.value, context.newRowData)
-        console.log('Edit firstName:', context);
+
         useMessage('success' ,'Success');
       },
       // 触发校验的时机（when to validate)
@@ -569,12 +569,12 @@ const columns = ref([
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext ) => ({
         onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
+
           ctx?.e?.preventDefault();
         },
         onEnter: (ctx ) => {
           ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
+
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -739,9 +739,9 @@ const getTreeNode= () => {
   // tableRef.value.dataSource
   const treeData = tableRef.value.getTreeNode();
   table_data.value = treeData
-  console.log('------457-------',treeData);
+
   // setTimeout(() => {
-  //   console.log('---------575-----onDeleteConfirm-------',table_data.value,operationOptionSelect.value)
+  //
   //   if (operationOptionSelect.value.length > 0 && table_data.value.length > 0 ) {
   //     const operations = table_data.value.filter(ele=> ele[props.childrenKey]&& ele[props.childrenKey].length > 0 ).map(ele=> ele[props.childrenKey])
   //     if (operations.length > 0) {
@@ -759,14 +759,14 @@ const getTreeNode= () => {
 };
 
 const onExpandedTreeNodesChange = (expandedTreeNodes, context) => {
-  console.log('------485-------',expandedTreeNodes, context);
+
   // 全选不需要处理；仅处理懒加载
   if (!context.rowState) return;
   onTreeExpandChange(context);
 };
 const onTreeExpandChange = (context ) => {
-  console.log('------491-------',context.rowState.expanded ? '展开' : '收起', context);
-}; 
+
+};
 const treeExpandIcon = computed(() => {
   // 自定义展开图标
   if (customTreeExpandAndFoldIcon.value) {
@@ -774,7 +774,7 @@ const treeExpandIcon = computed(() => {
   }
   return lazyLoadingTreeIconRender;
 });
- 
+
 onMounted(async () => {
   tableRef.value.expandAll()
   get_raw_materialOptionsFunc()

@@ -224,12 +224,12 @@ const _columns = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext) => ({
         onBlur: (ctx) => {
-          console.log('失去焦点', editContext)
+
           ctx?.e?.preventDefault()
         },
         onEnter: (ctx) => {
           ctx?.e?.preventDefault()
-          console.log('onEnter', ctx)
+
         },
         // 默认是否为编辑状态
         defaultEditable: true,
@@ -294,7 +294,7 @@ const getNodeFullColKey = (node) => {
   }
 
   const keyStr = keys.join('.')
-  // console.log('keys:-----204---', keyStr);
+  //
   return keyStr? keyStr : ''
 }
 
@@ -304,7 +304,7 @@ const onSaveDataFunc = () => {
       emits('change', _sampleInfo.value)
     }
   }).catch(err=>{
-    console.log(err, '--------on_select_indexFunc--------593--------')
+
   })
 }
 
@@ -315,7 +315,7 @@ const onAddRowFunc = () => {
       emits('change', _sampleInfo.value)
     }
   }).catch(err=>{
-    console.log(err, '--------on_select_indexFunc--------593--------')
+
   })
 }
 
@@ -327,7 +327,7 @@ const deleteRowFunc = (row) => {
       emits('change', _sampleInfo.value)
     }
   }).catch(err=>{
-    console.log(err, '--------on_select_indexFunc--------593--------')
+
   })
 }
 
@@ -341,7 +341,7 @@ const copyRowFunc = (row) => {
       select_index_visible.value = false
     }
   }).catch(err=>{
-    console.log(err, '--------on_select_indexFunc--------593--------')
+
   })
 }
 
@@ -364,7 +364,7 @@ const onAddIndexRowFunc = ()=>{
 }
 
 const on_select_indexFunc = ()=>{
-  console.log('--------on_select_indexFunc--------590--------',_sampleInfo.value,selectTableForm.value )
+
   select_record_form.value?.validate({ showErrorMessage: true }).then((validateResult) => {
     if (validateResult && Object.keys(validateResult).length) {
       const firstError = Object.values(validateResult)[0]?.[0]?.message;
@@ -386,7 +386,7 @@ const on_select_indexFunc = ()=>{
         return valueC;
       }
       const indexTypeOs = assessmentOption.value.filter(ele=> selectTableForm.value.index_type.includes(ele.id))
-      console.log('--------on_select_indexFunc--------336--------',indexTypeOs )
+
       indexTypeOs.forEach(ele=>{
         let valueC = '';
         if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
@@ -401,7 +401,7 @@ const on_select_indexFunc = ()=>{
           data: valueC,
           description: ''
         }
-        console.log('--------on_select_indexFunc--------343--------',rowData )
+
         _sampleInfo.value.record_table.table_data.push(rowData)
       })
       emits('change', _sampleInfo.value)
@@ -424,7 +424,7 @@ const on_select_indexFunc = ()=>{
         }
         paramsColumns.push(paramsColumn)
       })
-      console.log('--------on_select_indexFunc--------593--------',paramsColumns )
+
 
       _sampleInfo.value.record_table.columns = [...paramsColumns, ...suffixColumns]
       _sampleInfo.value.record_table.params = cloneDeep(indexTypes)
@@ -437,7 +437,7 @@ const on_select_indexFunc = ()=>{
           select_index_visible.value = false
         }
       }).catch(err=>{
-        console.log(err, '--------on_select_indexFunc--------593--------')
+
       })
 
     }
@@ -446,7 +446,7 @@ const on_select_indexFunc = ()=>{
 }
 
 const makerecordDataFunc = (init=false)=>{
-  console.log('--------makerecordDataFunc--------590--------',_sampleInfo.value,selectTableForm.value )
+
   const rowD = {id:uuid(),name: _sampleInfo.value.name}
   // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
   function processValueItems(items) {
@@ -484,7 +484,7 @@ const makerecordDataFunc = (init=false)=>{
 
 const getAssessmentOptionFunc = async (page=1) => {
   const res = await getEval_attribute_libraryListFetch({page,limit:9999})
-  console.log(res, '-------------488------------assessmentOption.value')
+
   let resD = {}
   if (true) {
     resD = res.data
@@ -498,14 +498,14 @@ const getAssessmentOptionFunc = async (page=1) => {
       assessmentOption.value = [...assessmentOption.value, ...resD.data]
     }
     pagination.value.total = resD.total
-    console.log(assessmentOption.value, '-------------502------------assessmentOption.value')
+
   }
 
 }
 
 const getSampleInfoFunc = async () => {
   const res = await get_ingredient_dev_sample_infoFetch(props.sample)
-  console.log(res, '-------------488------------getSampleInfoFunc')
+
   let resD = {}
   if (true) {
     resD = res.data

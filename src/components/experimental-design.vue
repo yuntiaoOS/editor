@@ -193,17 +193,13 @@ const treeExpandIcon = computed(() => {
   return lazyLoadingTreeIconRender
 })
 const onExpandedTreeNodesChange = (expandedTreeNodes, context) => {
-  console.log('------485-------', expandedTreeNodes, context)
+
   // 全选不需要处理；仅处理懒加载
   if (!context.rowState) return
   onTreeExpandChange(context)
 }
 const onTreeExpandChange = (context) => {
-  console.log(
-    '------491-------',
-    context.rowState.expanded ? '展开' : '收起',
-    context,
-  )
+
 }
 const onEdenhancedSelectChange = (value, params) => {
   designTreeChecked.value = value
@@ -238,7 +234,7 @@ const onEdenhancedSelectChange = (value, params) => {
   };
 
   _selectFormItems.value = filterFormItems( cloneDeep(_designParams.value.formItems) , designTreeChecked.value);
-  console.log('-----331----onSelec1tChange----------',designTreeChecked.value, _selectFormItems.value)
+
 
   _designResult.value = _designResult.value.map((item) => {
     return {
@@ -246,7 +242,7 @@ const onEdenhancedSelectChange = (value, params) => {
       check: designTreeChecked.value.includes(item[rowKey.value]),
     }
   })
-  console.log('-----220----onSelect1Change----------', _designResult.value)
+
 }
 
 const selectedRowKeys = ref([])
@@ -288,13 +284,9 @@ watch(
   _designParams.value,
   (val) => {
     if (val) {
-      console.log('-------_designParams--------161-----', val)
+
       if (val.formItems && val.formItems.length > 0) {
-        console.log(
-          '-------_designParams--designTreeChecked------156-----',
-          designTreeChecked.value,
-          val,
-        )
+
         emits('update:designParams', val)
       }
     }
@@ -302,7 +294,7 @@ watch(
   { immediate: true },
 )
 
-console.log('-------78-----props----', props)
+
 
 const designTypeOptions = [
   { label: '自定义', value: '自定义', disabled: true },
@@ -314,7 +306,7 @@ const designTypeOptions = [
 const designType = ref(['自定义'])
 
 const getParentRowKeys = (row, data) => {
-  // console.log('------getParentRowKeys----', row, data)
+  //
   const parentKeys = []
   const findParentKeys = (node, targetRow) => {
     const node_formItems = node.formItems ? node.formItems : node.attribute
@@ -338,14 +330,14 @@ const getParentRowKeys = (row, data) => {
       break
     }
   }
-  // console.log('------getParentRowKeys----', parentKeys)
+  //
 
   return [...parentKeys.reverse(), row.key].join('.')
 }
 
 const onSelectChange = (value, params) => {
   selectedRowKeys.value = value
-  console.log('-----318----onSelectChange----------', value, params)
+
   // _designParams.formItems里面数据过滤selectedRowKeys.value.includes(item.rowKey),_designParams.formItems子项里面的数据也要过滤selectedRowKeys.value.includes(item.rowKey),相当于一直递归formItems值
 
   const filterFormItems = (items, selectedKeys) => {
@@ -358,14 +350,14 @@ const onSelectChange = (value, params) => {
   };
 
   _selectFormItems.value = filterFormItems(cloneDeep(_designParams.value.formItems) , selectedRowKeys.value);
-  console.log('-----331----onSelectChange----------', _selectFormItems.value)
+
   _designResult.value = _designResult.value.map((item) => {
     return { ...item, check: selectedRowKeys.value.includes(item.id) }
   })
 }
 
 const onSubmit = (row) => {
-  console.log('-------formData----------', _designParams.value, row)
+
   _designResult.value.push(row)
   selectedRowKeys.value = [...selectedRowKeys.value, row.id]
 }
@@ -401,7 +393,7 @@ const getTreeData = (formItems, designTreeChecked) => {
       treeData.push({ ...ele, title: ele.title ? ele.title : ele.name })
     }
   })
-  console.log('------425-----_designParams----------', treeData)
+
   return treeData
 }
 
@@ -421,11 +413,7 @@ onMounted(() => {
     }
     _selectFormItems.value = [...props.designParams.formItems]
   }
-  console.log(
-    '------439-----_designParams----------',
-    designTreeChecked.value,
-    _designParams.value,
-  )
+
 })
 </script>
 <style lang="less" scoped>

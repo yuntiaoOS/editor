@@ -2,8 +2,8 @@
   <node-view-wrapper :id="node.attrs.id" class="umo-node-view">
     <div style="width: 100%">
       <!-- <h2>试验原辅料</h2> -->
-      <t-table 
-        ref="tableRef"  
+      <t-table
+        ref="tableRef"
         row-key="id" :data="table_data" :columns="columns" resizable v-model:displayColumns="displayColumns"
         >
         <template #topContent>
@@ -25,7 +25,7 @@
             <t-icon v-if="rowIndex!==table_data.length-1" name="order-descending" size="18px"></t-icon>
           </t-space>
 
-        </template> 
+        </template>
         <template #type-slot-operate="{ col, row }">
           <div class="table-operations">
             <!-- <t-link v-if="!editableRowKeys.includes(row.id)" theme="primary" hover="color" @click.stop="onEdit(row)">
@@ -45,9 +45,9 @@
           </div>
         </template>
       </t-table>
-      <node-view-content :node="node" ></node-view-content> 
+      <node-view-content :node="node" ></node-view-content>
     </div>
-    <t-dialog destroyOnClose 
+    <t-dialog destroyOnClose
       v-model:visible="add_dialog_visible"
       header="新增物料"
       width="80%" attach="body"
@@ -112,7 +112,7 @@ const onAdd = ()=>{
 }
 
 const onSelectChange = ({value, params} )=>{
-  // console.log('--------onSelectChange--------44--------',value, params)
+  //
   select_material.value = params.selectedRowData
 }
 
@@ -124,46 +124,46 @@ const on_select_materialFunc = ()=>{
     }
     table_data.value.push(obj)
   });
-  console.log('--------onSelectChange--------119--------',table_data.value)
+
   add_dialog_visible.value = false
 }
 
 const onEdit = (row) => {
-  console.log('--------onEdit--------44--------',row)
+
   if (!editableRowKeys.value.includes(row.id)) {
     editableRowKeys.value.push(row.id);
   }
 };
 
 const onDelete = (row) => {
-  console.log('--------onDelete--------44--------',row)
+
   const index = table_data.value.findIndex((t ) => t === row);
   table_data.value.splice(index, 1);
 };
 
 const onDragSort = (params ) => {
-  console.log('交换行', params);
+
   table_data.value = params.newData;
 };
 // 更新 editableRowKeys
 const updateEditState = (id) => {
-  console.log('--------updateEditState--------44--------',id)
+
   const index = editableRowKeys.value.findIndex((t) => t === id);
   editableRowKeys.value.splice(index, 1);
 };
 const onCancel = (row) => {
-  console.log('--------onSave--------44--------',row)
+
   const { id } = row;
   updateEditState(id );
   tableRef.value?.clearValidateData();
 };
 const onSave = (row) => {
-  console.log('--------onSave--------44--------',row)
+
   const { id } = row;
   currentSaveId.value = id;
   // 触发内部校验，而后也可在 onRowValidate 中接收异步校验结果
   tableRef.value.validateRowData(id).then((params ) => {
-    console.log('Event Table Promise Validate:', params);
+
     if (params.result.length) {
       const r = params.result[0];
       TMessagePlugin.error(`${r.col.title} ${r.errorList[0].message}`);
@@ -265,11 +265,11 @@ columns.value = [
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
       onEdited: (context ) => {
-        console.log(context);
+
         const newData = [...table_data.value];
         newData.splice(context.rowIndex, 1, context.newRowData);
         table_data.value = newData;
-        console.log('Edit firstName:', context);
+
         useMessage('success' ,'Success');
       },
       // 触发校验的时机（when to validate)
@@ -277,12 +277,12 @@ columns.value = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext ) => ({
         onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
+
           ctx?.e?.preventDefault();
         },
         onEnter: (ctx ) => {
           ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
+
         },
         // 默认是否为编辑状态
         defaultEditable: true,
@@ -316,7 +316,7 @@ const columnEditFunc = ()=>{
 }
 
 const onCellClick = ({row,col} ) => {
-  console.log('-------onCellClick-----row,col',col.colKey, row, col)
+
   const editMapKey = ['content','description']
   if (!editableRowKeys.value.includes(row.id)) {
     editableRowKeys.value.push(row.id);

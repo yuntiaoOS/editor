@@ -24,7 +24,7 @@ function exportToWord() {
     },
   }
   const wordDocument = docxSerializer.serialize(editor.value.state.doc, opts)
-  console.log('----102----wordDocument--------------', wordDocument)
+
   Packer.toBlob(wordDocument).then(blob => saveAs(new Blob([blob]), 'example.docx'))
 
 }

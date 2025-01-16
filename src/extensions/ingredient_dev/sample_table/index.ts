@@ -84,7 +84,7 @@ export default xmNode.create({
   addNodeView() {
     return VueNodeViewRenderer(NodeView, {
       update: (props) => {
-        // console.log('update------------------------50', props)
+        // 
         // 根据props来更新节点，这里只是一个示例，具体实现需要根据实际情况
         props.updateProps(); // 调用提供的更新props的函数
         return true; // 根据VueNodeViewRenderer的API，这里通常需要返回一个布尔值

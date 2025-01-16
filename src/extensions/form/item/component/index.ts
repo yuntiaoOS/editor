@@ -82,7 +82,7 @@ export default xmNode.create({
       (options) =>
       ({ commands,editor }) => {
         const currentOption = mergeAttributes(this.options, options) 
-        console.log('---------85--------------',currentOption)
+        
         const content = {
           type: 'formItemComponent',
           attrs: {

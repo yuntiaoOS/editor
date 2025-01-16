@@ -220,7 +220,7 @@ const defaultLineHeight = $computed(
 let isReady = $ref<boolean>(false)
 let isEmpty = $ref<boolean>(false)
 
-console.log('--simple-----props--------',options.value)
+
 const editorInstance: Editor = new Editor({
   editable: !options.value.document?.readOnly,
   autofocus: options.value.document?.autofocus,
@@ -251,14 +251,14 @@ const editorInstance: Editor = new Editor({
   onUpdate: throttle(({ editor }) => {
     let output = getOutput(editor, 'html')
     emits('changed',{editor:editor,json: getOutput(editor, 'json') ,html: output})
-    console.log('-------onUpdate---204-------',getOutput(editor, 'json'))
+
     isEmpty = editor.commands.setPlaceholder('')
     isReady = true
     $document.value.content = editor.getHTML()
     contentUpdated = true
   }, 1000),
   onTransaction: throttle(({ editor, transaction }:any) => {
-    // console.log(transaction, editor,'-------208---------transaction---------------')
+    //
     const customTitleNode = editor.state.doc.nodeAt(0); // 假设标题是第一个节点
 
     if (transaction.docChanged) {
@@ -276,12 +276,12 @@ const editorInstance: Editor = new Editor({
           if (interestedNodeTypes.includes(oldArr[i])) {
             // 检查 newArr 中相同位置的项是否相同
             if (oldArr[i] !== newArr[i]) {
-              console.log(`变化的是: ${oldArr[i]}`);
+
               return oldArr[i];
             }
           }
         }
-        console.log('没有变化');
+
         return null;
       }
 
@@ -290,7 +290,7 @@ const editorInstance: Editor = new Editor({
           const { from, to } = step
           const oldNode = transaction.before.nodeAt(from)
           const newNode = transaction.doc.nodeAt(from)
-          console.log('transaction from, to:',transaction.before,transaction.doc,from, to,newNode, oldNode)
+
           const oldTypeArr = transaction.before.content.content.map((node:any) => node.type.name)
           const newTypeArr = transaction.doc.content.content.map((node:any) => node.type.name)
           const oldType = checkChanges(oldTypeArr, newTypeArr, interestedNodeTypes)
@@ -301,7 +301,7 @@ const editorInstance: Editor = new Editor({
               nodeDeleted = true
               deletedNode = oldNode
               deletedPosition = from
-              console.log('A node was deleted:', oldNode)
+
               // 你可以在这里添加更多的逻辑来处理节点删除事件
             }
           }
@@ -309,7 +309,7 @@ const editorInstance: Editor = new Editor({
       })
 
       if (nodeDeleted) {
-        console.log('Transaction involved node deletion')
+
         useMessage('warning', '该节点不能被删除')
         // 创建一个新的交易来恢复被删除的节点
         const tr :any = editor.state.tr
@@ -326,7 +326,7 @@ const editorInstance: Editor = new Editor({
   // },
 })
 setEditor(editorInstance)
-console.log('-----------------onUnmounted-----329---------',editor.value,page.value.preview?.enabled , editorDestroyed.value)
+
 // 定时保存
 watch(
   () => contentUpdated,
@@ -362,7 +362,7 @@ watch(
   },
 )
 
-console.log('-------312--------editorInstance------')
+
 function getOutput(editor: CoreEditor, output: 'html' | 'json' | 'text') {
   if (props.removeDefaultWrapper) {
     if (output === 'html') return editor.isEmpty ? '' : editor.getHTML()
@@ -414,7 +414,7 @@ const setToolbar = (params: { mode: 'classic' | 'ribbon'; show: boolean }) => {
 
 // Content Saving Methods
 const saveContent = async () => {
-  console.log('------349--------',options.value)
+
   if ($toolbar.value.mode === 'source' || options.value.document?.readOnly) {
     return
   }
@@ -590,7 +590,7 @@ provide('reset', reset)
 
 onMounted(()=>{
   page.value.showToc = false
-  console.log('-----------------experiment_record-----451---------',options.value)
+
   // setToolbar({ mode: 'classic', show: false })
   loadTatexStyle()
   if (options.value?.requestOptions) {
@@ -606,7 +606,7 @@ onMounted(()=>{
 })
 // 销毁编辑器实例
 onUnmounted(() => {
-  console.log('-----------------onUnmounted-----595---------')
+
   resetStore()
   editor.value?.destroy()
 })

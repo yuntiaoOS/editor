@@ -146,7 +146,7 @@ export default xmNode.create({
             if (validateResult === true) {
               useMessage('success','提交成功') 
             } else {
-              console.log('Errors: ', validateResult);
+              
               useMessage('warning',firstError)
             }
           };
@@ -180,7 +180,7 @@ export default xmNode.create({
       ({ commands,editor }) => {
         const nodeType:any = this.type
         const currentOption = mergeAttributes(nodeType.defaultAttrs,this.options, options) 
-        console.log('---------109--------------',currentOption)
+        
         const content = {
           type: 'xmForm',
           attrs: {

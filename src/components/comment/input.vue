@@ -86,7 +86,7 @@ const setComment = (val?: string) => {
   const localVal = val || commentText.value;
 
   if (!localVal.trim().length) return;
-  console.log("111111111111activeCommentsInstance",props.user ,options.value.user, options.value.user,props.user.nickName? props.user : options.value.user);
+
   const activeCommentInstance: CommentInstance = JSON.parse(JSON.stringify(activeCommentsInstance.value));
   const commentsArray = typeof activeCommentInstance.comments === "string" ? JSON.parse(activeCommentInstance.comments) : activeCommentInstance.comments;
 
@@ -123,7 +123,7 @@ const setComment = (val?: string) => {
 
 const commentText = ref('')
 const submitComment = () => {
-  console.log('------------124------------',commentText.value)
+
   setComment(commentText.value)
   closeComment()
 }

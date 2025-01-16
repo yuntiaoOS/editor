@@ -2,7 +2,7 @@
   <node-view-wrapper :id="node.attrs.id" class="umo-node-view" :class=" { 't-is-disabled':readOnly,'umo-is-disabled':readOnly } ">
     <div style="width: 100%">
       <!-- <h2>工艺</h2> -->
-      <t-enhanced-table ref="tableRef" v-model:expandedTreeNodes="expandedTreeNodes" :tree-expand-and-fold-icon="treeExpandIcon" 
+      <t-enhanced-table ref="tableRef" v-model:expandedTreeNodes="expandedTreeNodes" :tree-expand-and-fold-icon="treeExpandIcon"
         row-key="id" :loading="loading" :data="table_data" :columns="columns" resizable :tree="treeConfig" :editable-cell-state="editableCellStateFunc"
          @expanded-tree-nodes-change="onExpandedTreeNodesChange" >
         <template #topContent>
@@ -34,7 +34,7 @@
           </span>
         </template>
       </t-enhanced-table>
-      <node-view-content :node="node" ></node-view-content> 
+      <node-view-content :node="node" ></node-view-content>
     </div>
     <t-dialog
       v-model:visible="procedureVisible"
@@ -43,8 +43,8 @@
       :confirm-on-enter="true"
       :on-confirm="onProcedureConfirmFunc"
     >
-      <!-- <t-input  v-model="dialog_input" placeholder="输入工艺步骤名称" 
-        :status=" dialog_input.length > 0 ? 'success': 'error' " 
+      <!-- <t-input  v-model="dialog_input" placeholder="输入工艺步骤名称"
+        :status=" dialog_input.length > 0 ? 'success': 'error' "
         :tips=" dialog_input.length > 0 ? '校验通过': '名称不能为空'"
         /> -->
         <technology-table v-model="table_data_edit" v-model:title="_title" @change=""/>
@@ -85,7 +85,7 @@ import {
   AddRectangleIcon,
   MinusRectangleIcon,
 } from 'tdesign-icons-vue-next';
- 
+
 import { Loading } from 'tdesign-vue-next';
 import { getIngredient_dev_materialListFetch } from '@/api/material'
 import { v4 as uuid } from 'uuid'
@@ -230,12 +230,12 @@ const getConfig = (type,row) => {
 }
 
 const rowEditFunc = (val,row)=>{
-  console.log('--------212---------rowEditFunc: ', val, row)
+
 
 }
 
 const onProcedureConfirmFunc = async () => {
-  console.log('--------210---------onProcedureConfirmFunc: ', table_data.value,table_data_edit.value)
+
   if (table_data_edit.value && table_data_edit.value.length > 0) {
     const steps = table_data_edit.value.map(ele => {
       let obj = {...ele}
@@ -247,7 +247,7 @@ const onProcedureConfirmFunc = async () => {
       })
       return obj
     })
-    console.log('--------240---------onProcedureConfirmFunc', steps)
+
     const params = {
       experiment_theme: experiment_theme.value.id,
       record: experiment_record.value.id,
@@ -256,7 +256,7 @@ const onProcedureConfirmFunc = async () => {
         name: _title.value,
         step:steps
       }
-    }   
+    }
     isChanged.value = true
     const res = await post_experiment_process_fetch(params)
     if (res.data.code === 2000) {
@@ -270,7 +270,7 @@ const onProcedureConfirmFunc = async () => {
 
 const getOperationOptionFunc = async (page=1) => {
   const res = await getProcesses_attributeListFetch({page,limit:9999})
-  console.log(res, '-------------2243------------operationOption.value')
+
   if (res.data.code === 2000) {
     if (page === 1) {
       operationOption.value = res.data.data
@@ -278,7 +278,7 @@ const getOperationOptionFunc = async (page=1) => {
       operationOption.value = [...operationOption.value, ...res.data.data]
     }
     pagination.value.total = res.data.total
-    console.log(operationOption.value, '-------------250------------operationOption.value')
+
   }
 }
 
@@ -328,7 +328,7 @@ function disableClick(e) {
 }
 
 function onAddWorkingProcedure(row=undefined) {
-  table_data_edit.value = Object.assign([],cloneDeep([...table_data.value]) ) 
+  table_data_edit.value = Object.assign([],cloneDeep([...table_data.value]) )
   procedureVisible.value = true;
   selectProcedureRow.value = row;
   selectProcedureType.value = 'append';
@@ -393,19 +393,19 @@ const getTreeNode= () => {
   // tableRef.value.dataSource
   const treeData = tableRef.value.getTreeNode();
   table_data.value = treeData
-  console.log('------457-------',treeData);
+
   // TMessagePlugin.success('树形结构获取成功，请打开控制台查看');
 };
 
 const onExpandedTreeNodesChange = (expandedTreeNodes, context) => {
-  console.log('------485-------',expandedTreeNodes, context);
+
   // 全选不需要处理；仅处理懒加载
   if (!context.rowState) return;
   onTreeExpandChange(context);
 };
 const onTreeExpandChange = (context ) => {
-  console.log('------491-------',context.rowState.expanded ? '展开' : '收起', context);
-}; 
+
+};
 const treeExpandIcon = computed(() => {
   // 自定义展开图标
   if (customTreeExpandAndFoldIcon.value) {
@@ -420,11 +420,11 @@ const initData = async () => {
   const params = {
     change_log: change_log.value?.change_log,
   }
-  console.log('----------initData-----297---------',params)
+
   const res = await get_assign_record_process_dataFetch(params)
   loading.value = false
   if (res.data.code === 2000) {
-    if (isChanged.value) { isChanged.value = false } 
+    if (isChanged.value) { isChanged.value = false }
     const tableD = res.data.data.process.step.map(ele => {
       let obj = {...ele}
       obj.children = obj.children.map(eleC=>{
@@ -435,7 +435,7 @@ const initData = async () => {
       return obj
     })
     if ( tableD.length > 0 ) { table_data.value = tableD }
-    console.log('----------initData-----607---------',table_data.value)
+
     setTimeout(() => {
       tableRef.value.expandAll()
     }, 100);
@@ -447,15 +447,15 @@ const initData = async () => {
 
 onMounted(async () => {
   if (change_log.value?.change_log && (table_data.value && table_data.value.length === 0) ) {
-    console.log('----------change_log.value22222222222222222222222222---------',change_log.value);
+
     await initData()
   }else if(is_integration.value) {
-    
+
     const docD = cloneDeep(editor.getJSON())
     if (docD ) {
       // 物料表
-     
-      
+
+
     }else {
       TMessagePlugin.warning('当前文档中没有数据')
     }

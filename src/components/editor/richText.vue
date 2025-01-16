@@ -164,9 +164,9 @@ const defaultOptionsR: UmoEditorOptions = {
     if (!file) {
       throw new Error('没有找到要上传的文件')
     }
-    console.log('-------1111111111----onUpload-----------', file)
+
     const res = await attachments_fileFetch({ file })
-    console.log('-------res-----1111111111111----', res)
+
     if (res.status === 201) {
       const fileUrl =
         localStorage.getItem('BASE_URL') + `/api/storage/files/${res.data.id}/preview/`
@@ -244,7 +244,7 @@ const editorInstance: Editor = new Editor({
     } else {
       _value.value = getOutput(editor, 'json')
     }
-    console.log('-------onUpdate---204-------', getOutput(editor, 'json'))
+
     isEmpty = editor.commands.setPlaceholder('')
     isReady = true
   }, 1000),
@@ -389,7 +389,7 @@ provide('editorInstance', editorInstance)
 
 onMounted(() => {
   setOptions(defaultOptionsR)
-  console.log('----------------richtext-----313---------')
+
 })
 // 销毁编辑器实例
 onUnmounted(() => {

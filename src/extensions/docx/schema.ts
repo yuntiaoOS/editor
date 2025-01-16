@@ -77,7 +77,7 @@ export const defaultNodes: NodeSerializer = {
     state.table(node)
   },
   xmTitle(state:any, node:any) {
-    console.log('---------xmTitle---23--------',state, node)
+    
     // 添加特定的渲染逻辑
     const customText = node.attrs.title || 'Default Text'
     state.text(customText, node.marks || [])

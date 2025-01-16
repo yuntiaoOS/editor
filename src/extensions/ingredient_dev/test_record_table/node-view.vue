@@ -445,10 +445,7 @@ const designResult = computed({
 })
 
 const submitExperimentalDesign = () => {
-  console.log(
-    '------210--------submitExperimentalDesign----------',
-    designResult.value,
-  )
+
   select_design_visible.value = false
   const table_dataV = []
   designResult.value.formItems.forEach((procedure) => {
@@ -486,25 +483,21 @@ const submitExperimentalDesign = () => {
   })
   table_data.value = cloneDeep(table_dataV)
   updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
-  console.log('----351------onAddFunc----------', table_data.value)
+
 }
 
 const selectDesignCancel = () => {
-  console.log('----------selectDesignCancel----------')
+
   select_design_visible.value = false
 }
 
 const onShowFunc = () => {
-  console.log('------onShowFunc----------')
+
   result_design_visible.value = true
 }
 
 const onAddFunc = () => {
-  console.log(
-    '------220--------onAddFunc----------',
-    designResult.value,
-    select_design_visible.value,
-  )
+
   if (designResult.value.formItems && designResult.value.formItems.length > 0) {
     select_design_visible.value = true
   } else {
@@ -541,7 +534,7 @@ const getNodeFullColKey = (node) => {
   }
 
   const keyStr = keys.join('.')
-  // console.log('keys:-----204---', keyStr);
+  //
   return keyStr ? keyStr : ''
 }
 
@@ -618,7 +611,7 @@ const frontColumns = [
         const newData = [...table_data.value]
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
-        console.log('------552------Edit firstName:', context, table_data.value)
+
         useMessage('success', 'Success')
       },
       // 触发校验的时机（when to validate)
@@ -626,12 +619,12 @@ const frontColumns = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext) => ({
         onBlur: (ctx) => {
-          console.log('失去焦点', editContext)
+
           ctx?.e?.preventDefault()
         },
         onEnter: (ctx) => {
           ctx?.e?.preventDefault()
-          console.log('onEnter', ctx)
+
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -720,7 +713,7 @@ columns.value = [
         if (context.newRowData.operateType === '样品') {
           refreshNode.type = 'sample_table'
         }
-        console.log('------552------Edit firstName:', context, table_data.value)
+
         useMessage('success', 'Success')
       },
       // 触发校验的时机（when to validate)
@@ -728,12 +721,12 @@ columns.value = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext) => ({
         onBlur: (ctx) => {
-          console.log('失去焦点', editContext)
+
           ctx?.e?.preventDefault()
         },
         onEnter: (ctx) => {
           ctx?.e?.preventDefault()
-          console.log('onEnter', ctx)
+
         },
         // 默认是否为编辑状态
         defaultEditable: true,
@@ -760,7 +753,7 @@ const indeterminate = computed(
 )
 
 watch(() => refreshNode, (value) => {
-  console.log('----748----refreshNode.value--------',value)
+
   if (value.type === 'record_sample_table') {
     nextTick(() => {
       let index = -1
@@ -794,12 +787,12 @@ const columnEditFunc = () => {
 }
 
 const sampleRecordChange = (row) => {
-  console.log('------785-------------sampleRecordChange----------')
+
   refreshNode.type = 'sample_table'
 }
 
 const onSampleDelete = (row,rowIndex) => {
-  console.log('------onSampleDelete----------', row)
+
   const table_dataV = cloneDeep(table_data.value)
   updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
   table_dataV.splice(rowIndex, 1)
@@ -809,7 +802,7 @@ const onSampleDelete = (row,rowIndex) => {
 }
 
 const creatSample = async (row) => {
-  console.log('------row.is_sample--------------', row)
+
   const rowIndex = table_data.value.findIndex(
     (rowT) => rowT.id === row.id,
   )
@@ -817,7 +810,7 @@ const creatSample = async (row) => {
   const $key_data = JSON.parse(localStorage.getItem('key_data'))
   const experiment_record = $key_data?.experiment_record
   const experiment_theme = $key_data?.experiment_theme
-  console.log('------row.is_sample----2----------', experiment_record)
+
   if (experiment_record?.id) {
     const rowC = {
       id: uuid(),
@@ -854,7 +847,7 @@ const creatSample = async (row) => {
         really_sample: false
       },
     }
-    console.log('------row.is_sample------rowC--------', rowC)
+
     const table_dataV = cloneDeep(table_data.value)
     updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
     table_dataV.splice(rowIndex + 1, 0, rowData)
@@ -887,7 +880,7 @@ const creatSample = async (row) => {
               sn: res.data.data[0].sn,
             },
           }
-          console.log('------row.is_sample------rowC--------', rowC)
+
           const table_dataV = cloneDeep(table_data.value)
           updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
           table_dataV.splice(rowIndex + 1, 0, rowData)
@@ -907,11 +900,7 @@ const creatSample = async (row) => {
 }
 
 const on_select_indexFunc = () => {
-  console.log(
-    '--------on_select_indexFunc--------590--------',
-    selectRecordTable.value,
-    selectTableForm.value,
-  )
+
   select_record_form.value
     ?.validate({ showErrorMessage: true })
     .then((validateResult) => {
@@ -947,10 +936,7 @@ const on_select_indexFunc = () => {
           }
           paramsColumns.push(paramsColumn)
         })
-        console.log(
-          '--------on_select_indexFunc--------593--------',
-          paramsColumns,
-        )
+
 
         selectRecordTable.value.record_table.columns = [
           ...paramsColumns,
@@ -968,21 +954,14 @@ const on_select_indexFunc = () => {
         })
         table_data.value.splice(indexC, 1, selectRecordTable.value)
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
-        console.log(
-          '--------on_select_indexFunc--------656--------',
-          table_data.value,
-        )
+
         select_index_visible.value = false
       }
     })
 }
 
 const makerecordDataFunc = (init = false) => {
-  console.log(
-    '--------makerecordDataFunc--------590--------',
-    selectRecordTable.value,
-    selectTableForm.value,
-  )
+
   const rowD = { name: selectRecordTable.value.name }
 
   // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
@@ -1052,10 +1031,7 @@ const on_select_design_formFunc = () => {
     })
 }
 const on_select_designFunc = () => {
-  console.log(
-    '--------on_select_desigFunc--------555555555555555555--------',
-    experimental_designOptions.value,
-  )
+
   // const makeData = ()=>{
   //   const experimental_designs = experimental_designOptions.value.filter(ele=> selectTableForm.value.experimental_design.includes(ele.id)).map(eleT => (eleT.designResult) )
   //   experimental_designs.forEach(ele=>{
@@ -1083,12 +1059,12 @@ const on_select_designFunc = () => {
   // }
   // makeData()
   // select_design_visible.value = false
-  // console.log('--------on_select_desinFunc--------138--------',table_data.value,)
+  //
 }
 
 const getAssessmentOptionFunc = async (page = 1) => {
   const res = await getEval_attribute_libraryListFetch({ page, limit: 9999 })
-  console.log(res, '-------------488------------assessmentOption.value')
+
   let resD = {}
   if (true) {
     resD = res.data
@@ -1102,10 +1078,7 @@ const getAssessmentOptionFunc = async (page = 1) => {
       assessmentOption.value = [...assessmentOption.value, ...resD.data]
     }
     pagination.value.total = resD.total
-    console.log(
-      assessmentOption.value,
-      '-------------502------------assessmentOption.value',
-    )
+
   }
 }
 
@@ -1118,7 +1091,7 @@ const initData = async () => {
     record: experiment_record.value?.id,
     group: group.value,
   }
-  console.log('----------initData-----297---------', params)
+
   const res = await get_ingredient_dev_sampleListFetch(params)
   loading.value = false
   if (res.data.code === 2000 && res.data.data.length > 0) {
@@ -1163,23 +1136,16 @@ const initialize = () => {
 }
 
 onMounted(() => {
-  console.log(
-    '----------4447----onMounted-----',
-    node,
-    node.attrs.customerParams?.is_select,
-  )
+
   initialize()
   if (node.attrs.customerParams?.is_select) {
     selectTableForm.value.experimental_design =
       node.attrs.customerParams?.experimental_design
     on_select_designFunc()
   } else {
-    console.log('----------869----onMounted-----', table_data.value)
+
     if (!table_data.value || table_data.value?.length === 0) {
-      console.log(
-        '----------870----onMounted-----',
-        experimental_designOptions.value,
-      )
+
       setTimeout(() => {
         if (
           designResult.value.formItems &&
@@ -1193,7 +1159,7 @@ onMounted(() => {
     }
   }
   if (group.value && group.value.length > 0 && table_data.value?.length === 0) {
-    console.log('----------change_log.value499---------', group.value)
+
     // await initData()
   } else if (is_integration.value) {
     const docD = cloneDeep(editor.getJSON())

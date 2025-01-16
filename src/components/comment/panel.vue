@@ -106,16 +106,16 @@ const markAsDone = () => {
 }
 
 const editComment = () => {
-  console.log('edit')
+
 }
 const replyComment = () => {
-  console.log('reply')
+
 }
 const deleteComment = () => {
-  console.log('delete')
+
 }
 const createComment = () => {
-  console.log('create')
+
 }
 </script>
 

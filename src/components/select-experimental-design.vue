@@ -154,7 +154,7 @@ function processItems(items, optionsGroup) {
 
 const getDesignParams = () => {
   let designParams = {}
-  console.log('--------_designParams--------93--------',technologyOptions.value,raw_materialOptions.value,selectTableForm.value.technology)
+
   const technology_table_data = technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).table_data.map(eleT => ({...eleT.form,id:eleT.id,key:eleT.id,rowKey:eleT.rowKey,title:eleT.name ,name:eleT.name}) )
   const optionsGroup = raw_materialOptions.value.map(ele=>{
     return {
@@ -164,7 +164,7 @@ const getDesignParams = () => {
       })
     }
   })
-  console.log('--------_designParams--------95--------',technology_table_data)
+
   //[ ] TODO  待优化optionsGroup物料数据要插入更新
   if (technology_table_data) {
     const formItems = technology_table_data.map(ele=>{
@@ -178,7 +178,7 @@ const getDesignParams = () => {
       })
       return eleC
     })
-    console.log('--------_designParams--------209--------',formItems)
+
     designParams = {
       formItems,
       formData:{},
@@ -189,7 +189,7 @@ const getDesignParams = () => {
       designParams.stepData[eleT.id] = eleT.formData
     })
   }
-  console.log('--------_designParams--------129--------',designParams)
+
   return designParams
 }
 const getNodeFullColKey = (node) => {
@@ -210,7 +210,7 @@ const getNodeFullColKey = (node) => {
   }
 
   const keyStr = keys.join('.')
-  // console.log('keys:-----204---', keyStr);
+  //
   return keyStr? keyStr : ''
 }
 const select_design_formFunc = ()=>{
@@ -228,12 +228,12 @@ const select_design_formFunc = ()=>{
 const on_select_designFunc = ()=>{
   _designParams.value = getDesignParams()
   experimental_design_visible.value = true;
-  console.log('---------------138--------', _designParams.value)
+
 
 }
 
 const onCancelFunc = ()=>{
-  console.log('--------onCancelFunc--------142--------')
+
   emits('cancel')
 }
 
@@ -242,7 +242,7 @@ const onSelectChange = ( formItems )=>{
 }
 
 const on_experimental_designFunc = async ()=>{
-  console.log('--------on_experimental_designFunc--------244--------',selectFormItems.value,designResult.value,_designParams.value)
+
   if (!selectFormItems.value || selectFormItems.value.length === 0) {
     TMessagePlugin.warning('请选择需要添加的数据')
     return
@@ -285,8 +285,8 @@ const initialize = () => {
 
 onMounted(() => {
   initialize()
-  console.log('--------onMounted--------213--------',_nodeAttrs.value)
-  console.log('---------285------------',JSON.parse( JSON.stringify(_nodeAttrs.value.customerParams)  ))
+
+
   if (_nodeAttrs.value.designParams?.formItems && _nodeAttrs.value.designParams?.formItems.length > 0) {
     experimental_design_visible.value = true
   }else{

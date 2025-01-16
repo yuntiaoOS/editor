@@ -40,7 +40,7 @@ export const fixedImageUrls = (urls:any[]) => {
 //统一提交前检测未保存数据并继续上传数据
 export function checkBeforeSaveDoc(content:any[],) {
   const changeDatas = content.filter(ele=> ele.isChanged)
-  console.log('------------checkBeforeSaveDoc------43-------',changeDatas)
+  
   if (changeDatas.length > 0) {
     const dialog = useConfirm({
       theme: 'warning',
@@ -62,7 +62,7 @@ export function checkBeforeSaveDoc(content:any[],) {
 
 // 取最下面层级数据 a.b.c.d = 1 用于表格数据显示 {a:{b:{c:{d:1}}}}
 export const getFieldValue = (field: string, row: any)=> {
-  // console.log('----------getFieldName-----------------', field, row)
+  // 
   let fieldName = ''
   if (!row || !field) {
     return fieldName
@@ -83,16 +83,16 @@ export const getFieldValue = (field: string, row: any)=> {
       fieldName = row[field]
     }
   } catch (error) {
-    console.log('----------getFieldName----error-------------',error, field, row)
+    
   }
 
-  // console.log('----------getFieldName----11111-------------', field, row)
+  // 
   return fieldName
 }
 
 // 取倒数第二层级数据 a.b.c = {d:1} 用于表格数据显示 {a:{b:{c:{d:1}}}}
 export const getPenultimateLayerFieldValue = (field: string, row: any)=> {
-  // console.log('----------getFieldName-----------------', field, row)
+  // 
   let fieldName = ''
   if (!row || !field) {
     return fieldName
@@ -114,10 +114,10 @@ export const getPenultimateLayerFieldValue = (field: string, row: any)=> {
       fieldName = row[field]
     }
   } catch (error) {
-    console.log('----------getFieldName----error-------------',error, field, row)
+    
   }
 
-  // console.log('----------getFieldName----11111-------------', field, row)
+  // 
   return fieldName
 }
 

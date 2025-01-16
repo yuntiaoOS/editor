@@ -245,7 +245,7 @@ const uploadFail = ({ file }) => {
 };
 
 const uploadSuccess = ({response}) => {
-  console.log('success', response,_value.value);
+
   const files = _value.value.filter(file=> !file.response || ( file.response && file.response.code === 2000 ) ).map(file =>{ return file.response? file.response.data : file });
   changeFunc(files)
   MessagePlugin.success('上传成功');
@@ -262,7 +262,7 @@ const selectFocusMethod = async (formItem) => {
 
       res = experiment_theme.value?.participants ? {data:{ code : 2000 ,data: experiment_theme.value.participants }} : await getOrg_memberFetch()
     }
-    console.log('-------selectFocusMethod----------------',props.config[props.props.componentKey],res,experiment_theme.value)
+
     if (res && res.data.code === 2000) {
       formItem.props.options = res.data.data.map((item) => ({
         [formItem.props.valueKey]: item[formItem.props.valueKey],

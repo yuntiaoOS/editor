@@ -348,7 +348,7 @@ const sampleRecordChange = (row) => {
 }
 
 const onPostSampleFunc = async (row,rowIndex) => {
-  console.log('--------onPostSample--------', row)
+
   const rowC = cloneDeep(row)
 
   let res = {}
@@ -398,7 +398,7 @@ const onPostSampleFunc = async (row,rowIndex) => {
             sn: resD.sn,
           },
         }
-        console.log('------row.is_sample------rowC--------', rowData,rowC)
+
         const table_dataV = cloneDeep(table_data.value)
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
         table_dataV.splice(rowIndex, 1, rowData)
@@ -447,11 +447,11 @@ const expandDataFunc = (row) => {
 const onAddFunc = async () => {
   await initData()
   // editSampleDialogVisible.value = true
-  console.log('------220--------onAddFunc----------')
+
 }
 
 const onTechnology = (row) => {
-  console.log('----220--onTechnology-------', row)
+
   selectRow.value = row
   technologyInfoVisible.value = true
 }
@@ -480,17 +480,9 @@ const onSubmit = async (row) => {
     ],
   }
   const res = await post_ingredient_dev_sample_fetch(params)
-  console.log(
-    '--------on_experimental_designFunc--------180--------',
-    params,
-    _designParams.value,
-    designResult.value,
-  )
+
   if (res.data.code === 2000) {
-    console.log(
-      '--------on_experimental_designFunc--------183--------',
-      editor.state,
-    )
+
     group.value = res.data.data.group
     updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
     await initData()
@@ -500,7 +492,7 @@ const onSubmit = async (row) => {
 }
 
 const onDelete = async (row) => {
-  console.log('--------onDelete--------44--------', row)
+
   const params = {
     group: group.value,
   }
@@ -554,7 +546,7 @@ columns.value = [
       showEditIcon: true,
       abortEditOnEvent: ['onEnter', 'onBlur'],
       onEdited: async (context) => {
-        console.log(context)
+
         const newData = [...table_data.value]
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
@@ -567,12 +559,12 @@ columns.value = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext) => ({
         onBlur: (ctx) => {
-          console.log('失去焦点', editContext)
+
           ctx?.e?.preventDefault()
         },
         onEnter: (ctx) => {
           ctx?.e?.preventDefault()
-          console.log('onEnter', ctx)
+
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -609,7 +601,7 @@ columns.value = [
       showEditIcon: true,
       abortEditOnEvent: ['onEnter', 'onBlur'],
       onEdited: async (context) => {
-        console.log(context)
+
         const newData = [...table_data.value]
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
@@ -622,12 +614,12 @@ columns.value = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext) => ({
         onBlur: (ctx) => {
-          console.log('失去焦点', editContext)
+
           ctx?.e?.preventDefault()
         },
         onEnter: (ctx) => {
           ctx?.e?.preventDefault()
-          console.log('onEnter', ctx)
+
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -672,12 +664,12 @@ columns.value = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext) => ({
         onBlur: (ctx) => {
-          console.log('失去焦点', editContext)
+
           ctx?.e?.preventDefault()
         },
         onEnter: (ctx) => {
           ctx?.e?.preventDefault()
-          console.log('onEnter', ctx)
+
         },
         // 默认是否为编辑状态
         defaultEditable: true,
@@ -737,11 +729,7 @@ const initData = async () => {
       .map((ele) => ele.attrs.table_data)
       .reduce((pre, cur) => pre.concat(cur), [])
       .filter((ele) => ele.is_sample)
-    console.log(
-      '----------initData-----582---------',
-      sample_table,
-      table_data.value,
-    )
+
     nextTick(() => {
       table_data.value = cloneDeep(sample_table)
       updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
@@ -755,7 +743,7 @@ const initData = async () => {
     experiment_theme: experiment_theme.value?.id,
     record: experiment_record.value?.id,
   }
-  console.log('----------initData-----297---------', params)
+
   const res = await get_ingredient_dev_sampleListFetch(params)
   loading.value = false
   if (res.data.code === 2000 && res.data.data.length > 0) {
@@ -771,7 +759,7 @@ const initData = async () => {
 watch(
   () => refreshNode,
   async (value) => {
-    console.log('--------refreshNode.value--------', value)
+
     if (value.type === 'sample_table') {
       await initData()
       refreshNode.type = ''
@@ -781,7 +769,7 @@ watch(
 )
 
 onMounted(async () => {
-  console.log('----------4447----onMounted-----', node)
+
   await initData()
 })
 </script>

@@ -400,7 +400,7 @@ const isChanged = computed({
 const change_log = computed({
   get: () => _nodeAttrs.value? _nodeAttrs.value.change_log : '',
   set(value) {
-    console.log('-------150---change_log-----',value)
+
     _nodeAttrs.value.change_log = value
   },
 })
@@ -415,7 +415,7 @@ const is_integration = computed({
 const table_data = computed({
   get: () => _nodeAttrs.value? _nodeAttrs.value.table_data : [],
   set(value) {
-    console.log('-------166---table_data-----',value)
+
     _nodeAttrs.value.table_data = value
   },
 })
@@ -470,7 +470,7 @@ const editOrCreate = ref('create')
 const onOperatesAdd = () => {
   editOrCreate.value = 'edit';
   formFieldData.value = { name: '' }
-  console.log('-------145---onOperatesAdd-----',selectOperationRef.value)
+
   popupVisible.value = false
   showFormFieldPanelView.value = true;
 }
@@ -516,7 +516,7 @@ const operateSelect = ref()
 const addTemplateVisible = ref(false)
 const addOperateVisible = ref(false)
 const onOperateAdd = (type,index,rowIndex,row)=>{
-  console.log('--------212---------onOperateAdd: ', type,index,rowIndex,row)
+
   if (type === 'insert') {
     operateSelect.value = cloneDeep( {type,index,rowIndex,row} )
     procedureFormData.value.process_template = []
@@ -584,7 +584,7 @@ function processItems(items, optionsGroup) {
   });
 }
 const onAddOperateTemplateFunc = () => {
-  console.log('--------212---------onAddOperateFunc: ', operateSelect.value)
+
   design_form.value.validate({ showErrorMessage: true }).then((validateResult) => {
     if (validateResult && Object.keys(validateResult).length) {
       const firstError = Object.values(validateResult)[0]?.[0]?.message;
@@ -614,10 +614,10 @@ const onAddOperateTemplateFunc = () => {
           return eleT
         })
 
-      console.log('----------442------operates-----',operates)
+
 
       let rowD = cloneDeep( operateSelect.value.row )
-      console.log('----------496------operates-----',  cloneDeep(rowD) )
+
       if (operateSelect.value.type === 'up') {
         if (operateSelect.value.index === 0) {
           rowD.form.formItems.splice(0,0,...operates)
@@ -631,7 +631,7 @@ const onAddOperateTemplateFunc = () => {
       }else if (operateSelect.value.type === 'append') {
         rowD.form.formItems.splice(0,0,...operates)
       }
-      console.log('----------635------operates-----',cloneDeep(rowD))
+
 
       // 主逻辑
       rowD.form.formItems.forEach(eleP => {
@@ -655,7 +655,7 @@ const onAddOperateTemplateFunc = () => {
         table_data.value.splice(operateSelect.value.rowIndex,1,rowD)
       })
       addTemplateVisible.value = false
-      console.log('-------------2243------------operationOption.value',rowD,procedureFormData.value)
+
     }
 
   })
@@ -663,7 +663,7 @@ const onAddOperateTemplateFunc = () => {
 
 
 const onAddOperateFunc = () => {
-  console.log('--------212---------onAddOperateFunc: ', operateSelect.value)
+
   design_form.value.validate({ showErrorMessage: true }).then((validateResult) => {
     if (validateResult && Object.keys(validateResult).length) {
       const firstError = Object.values(validateResult)[0]?.[0]?.message;
@@ -682,10 +682,10 @@ const onAddOperateFunc = () => {
 
       operates = operationOption.value.filter(ele=> procedureFormData.value.operates.includes(ele.id))
           .map(ele => processItems([ele], optionsGroup)[0]).map(ele => ({...ele,operateType: '操作'}));
-      console.log('----------442------operates-----',operates)
+
 
       let rowD = cloneDeep( operateSelect.value.row )
-      console.log('----------496------operates-----',  cloneDeep(rowD) )
+
       if (operateSelect.value.type === 'up') {
         if (operateSelect.value.index === 0) {
           rowD.form.formItems.splice(0,0,...operates)
@@ -699,7 +699,7 @@ const onAddOperateFunc = () => {
       }else if (operateSelect.value.type === 'append') {
         rowD.form.formItems.splice(0,0,...operates)
       }
-      console.log('----------508------operates-----',cloneDeep(rowD))
+
       // 主逻辑
       rowD.form.formItems.forEach(ele => {
         let valueC = '';
@@ -718,7 +718,7 @@ const onAddOperateFunc = () => {
         table_data.value.splice(operateSelect.value.rowIndex,1,rowD)
       })
       addOperateVisible.value = false
-      console.log('-------------2243------------operationOption.value',rowD,procedureFormData.value)
+
     }
 
   })
@@ -749,17 +749,17 @@ const getgroupFields = () => {
 }
 
 const submitGroupFields = (from) => {
-  console.log('--------212---------submitGroupFields: ', from)
+
   var fromData = cloneDeep(from)
   //根据EditType 判断 当前是否是编辑模式
   postProcessesAttributeFetch(fromData).then( async (res) => {
-    console.log('-------421-----res---------',res)
+
     if (res.data && res.data.code === 2000) {
       useMessage('success' ,res.data.msg);
       showFormFieldPanelView.value = false
       procedureFormData.value.operates.push(res.data.data.id)
       await procedureTypeChange(procedureFormData.value.type)
-      console.log('-------421-----procedureFormData---------',procedureFormData.value)
+
     }
   }).catch((err) => {
     TMessagePlugin.error(`${err}`)
@@ -772,11 +772,11 @@ const onDelete = (row) => {
 };
 
 const onExperimentalDesign = () => {
-  console.log('--------212---------onExperimentalDesign: ')
+
   // props.editor?.chain().focus().insertContent('<p></p><p></p>').run();
 
   const { from, to } = props.editor?.state.selection ?? {}
-  console.log('--------on_experimental_designFunc--------189--------',from, to)
+
   props.editor?.commands.setTextSelection({ from , to: to + 1  })
   props.editor?.chain().focus().insertContent('<p></p><p></p>').run();
   props.editor?.commands.addExperimental_designs({ customerParams: { is_select: true, technology: _nodeAttrs.value.id } })
@@ -796,7 +796,7 @@ const getRaw_materialOptionsFunc = () => {
       return  // 物料表不存在，返回
     }
     raw_materialOptions.value = raw_material_tables.map(ele=> ele.attrs)
-    console.log('--------212---------raw_materialOptions: ', raw_materialOptions.value)
+
   }else {
     TMessagePlugin.warning('当前文档中没有数据')
   }
@@ -847,7 +847,7 @@ const on_select_parentFunc = async ()=>{
         }
 
       }
-      console.log('----------442------operates-----',operates)
+
       const uuidStr = uuid()
       const rowD = {
         id: uuidStr,
@@ -884,14 +884,14 @@ const on_select_parentFunc = async ()=>{
         table_data.value.push(rowD)
       });
       add_parent_visible.value = false
-      console.log('-------------2243------------operationOption.value',procedureFormData.value)
+
     }
 
   })
 }
 
 const onProcedureConfirmFunc = async () => {
-  console.log('--------210---------onProcedureConfirmFunc: ', table_data.value,table_data_edit.value)
+
   if (table_data_edit.value && table_data_edit.value.length > 0) {
     const steps = table_data_edit.value.map(ele => {
       let obj = {...ele}
@@ -903,7 +903,7 @@ const onProcedureConfirmFunc = async () => {
       })
       return obj
     })
-    console.log('--------240---------onProcedureConfirmFunc', steps)
+
     let params = {}
     if (props.viewType === 'nodeView') {
       params = {
@@ -950,7 +950,7 @@ const onProcedureConfirmFunc = async () => {
 
 const getOperationOptionFunc = async (page=1) => {
   const res = await props.getAttributesFunction({page,limit:9999})
-  console.log(res, '-------------465------------operationOption.value',page)
+
   let resD = {}
   if (props.viewType === 'nodeView') {
     resD = res.data
@@ -964,7 +964,7 @@ const getOperationOptionFunc = async (page=1) => {
       operationOption.value = [...operationOption.value, ...resD.data]
     }
     pagination.value.total = resD.total
-    // console.log(operationOption.value, '-------------479------------operationOption.value')
+    //
   }
 
 }
@@ -973,7 +973,7 @@ getOperationOptionFunc()
 
 const getprocessesTemplateOptionFunc = async (page=1) => {
   const res = await get_processes_templateListFetch({page,limit:9999})
-  console.log(res, '-------------488------------processesTemplateOption.value')
+
   let resD = {}
   if (props.viewType === 'nodeView') {
     resD = res.data
@@ -987,7 +987,7 @@ const getprocessesTemplateOptionFunc = async (page=1) => {
       processesTemplateOption.value = [...processesTemplateOption.value, ...resD.data]
     }
     pagination.value.total = resD.total
-    console.log(processesTemplateOption.value, '-------------502------------processesTemplateOption.value')
+
   }
 
 }
@@ -996,7 +996,7 @@ getprocessesTemplateOptionFunc()
 
 const get_processes_procedureListFunc = async (page=1) => {
   const res = await get_processes_procedureListFetch({page,limit:9999})
-  console.log(res, '-------------488------------processesProcedureOption.value')
+
   let resD = {}
   if (props.viewType === 'nodeView') {
     resD = res.data
@@ -1010,7 +1010,7 @@ const get_processes_procedureListFunc = async (page=1) => {
       processesProcedureOption.value = [...processesProcedureOption.value, ...resD.data]
     }
     pagination.value.total = resD.total
-    console.log(processesProcedureOption.value, '-------------502------------processesProcedureOption.value')
+
   }
 
 }
@@ -1055,11 +1055,11 @@ const columns = ref([
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
       onEdited: (context ) => {
-        console.log(context);
+
         const newData = [...table_data.value];
         newData.splice(context.rowIndex, 1, context.newRowData);
         table_data.value = newData;
-        console.log('------552------Edit firstName:', context,table_data.value);
+
         useMessage('success' ,'Success');
       },
       // 触发校验的时机（when to validate)
@@ -1067,12 +1067,12 @@ const columns = ref([
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext ) => ({
         onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
+
           ctx?.e?.preventDefault();
         },
         onEnter: (ctx ) => {
           ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
+
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -1107,11 +1107,11 @@ const columns = ref([
       showEditIcon: true,
       abortEditOnEvent: ['onEnter','onBlur'],
       onEdited: (context ) => {
-        console.log(context);
+
         const newData = [...table_data.value];
         newData.splice(context.rowIndex, 1, context.newRowData);
         table_data.value = newData;
-        console.log('------552------Edit firstName:', context,table_data.value);
+
         useMessage('success' ,'Success');
       },
       // 触发校验的时机（when to validate)
@@ -1119,12 +1119,12 @@ const columns = ref([
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext ) => ({
         onBlur: (ctx ) => {
-          console.log('失去焦点', editContext);
+
           ctx?.e?.preventDefault();
         },
         onEnter: (ctx ) => {
           ctx?.e?.preventDefault();
-          console.log('onEnter', ctx);
+
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -1181,9 +1181,9 @@ const initData = async () => {
       limit: 'all',
     }
   }
-  console.log('----------initData-----297---------',params)
+
   const res = await props.getDataFunction(params)
-  console.log('----------initData-----482---------',res)
+
   loading.value = false
   let resD = {}
   if (props.viewType === 'nodeView') {
@@ -1218,7 +1218,7 @@ const initData = async () => {
         })
 
       }
-      console.log('----------initData-----607---------',table_data.value)
+
     }
   }else {
     table_data.value = []
@@ -1227,14 +1227,14 @@ const initData = async () => {
 }
 
 onMounted(async () => {
-  console.log('----------change_log.value22222222222222---------',props);
+
   if (change_log.value?.change_log && (table_data.value && table_data.value.length === 0) ) {
-    console.log('----------change_log.value222222222---------',change_log.value);
+
     await initData()
   }else if (props.viewType === 'productView' && props.node.attrs && props.node.attrs.change_log) {
     await initData()
   } else if(is_integration.value) {
-    console.log('----------change_log.value22222222--------',is_integration.value);
+
     const docD = cloneDeep(props.editor.getJSON())
     if (docD ) {
       // dialog_selectOptions.value = []

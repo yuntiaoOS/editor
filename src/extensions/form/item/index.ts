@@ -105,7 +105,7 @@ export default xmNode.create({
       ({ commands,editor }) => {
         const nodeType:any = this.type
         const currentOption = mergeAttributes(nodeType.defaultAttrs,this.options, options)
-        console.log('---------103--------------',this,currentOption)
+        
         const content = {
           type: 'formItem',
           attrs: {

@@ -568,7 +568,7 @@ export class PageComputedContext {
           beforeBolck = node
           beforePos = pos
         } else {
-          // console.log('beforeBolck: ' + beforeBolck)
+          // 
           const mappedPos = tr.mapping.map(pos)
           if (beforeBolck.type === schema.nodes[PARAGRAPH]) {
           } else {

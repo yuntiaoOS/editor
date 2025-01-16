@@ -44,7 +44,7 @@ const _value = computed({
   get() {
     if (props.valueType === 'MultiLevel') {
       const value = getFieldValue( props.valueKey ,props.modelValue)
-      // console.log('value----------------', value)
+      //
       return value
     } else {
       return props.modelValue
@@ -71,7 +71,7 @@ const _unitFormData = computed({
     }
   },
   set(val) {
-    console.log('-------58-----res-----75------',_unitFormData.value, key,_value.value)
+
     // let res = val
     // if (props.valueType === 'MultiLevel') {
     //   res = {...props.modelValue}
@@ -79,7 +79,7 @@ const _unitFormData = computed({
     //   key.pop()
     //   key = key.join('.')
     //   setNestedValue(res, key, val)
-    //   console.log('-------58-----res-----------',_unitFormData.value, key,_value.value)
+    //
     // }else {
     //   _value.value = val
     // }
@@ -89,14 +89,14 @@ const _unitFormData = computed({
 })
 
 watch(() => _unitFormData.value, (val) => {
-  console.log('-------58-----res------93-----',val,props.valueKey ,props.modelValue)
+
   if ( typeof data === 'object' && data !== null && !Array.isArray(data) ){
     let key = props.valueKey.split('.')
     key.pop()
     key = key.join('.')
     setNestedValue(_value.value, key, val)
   }
-  console.log('-------58-----res-------98----',val ,_value.value)
+
 }, { deep: true ,immediate: true})
 
 const selectLoading = ref(false)
@@ -121,7 +121,7 @@ const blurFunc = (val) => {
 function setNestedValue(obj, path, value) {
   const keys = path.split('.'); // 将路径拆分为数组
   let current = obj;
-  console.log('obj--------------', current, path, value);
+
   keys.forEach((key, index) => {
     if (index === keys.length - 1) {
       current[key] = value; // 如果是最后一个键，直接赋值

@@ -154,7 +154,7 @@ const isHttpHttpsOrBlob = (src:string) => {
   return /^(https?:\/\/|blob:|data:imag)/i.test(src);
 };
 const onError = (error:any) => {
-  console.log('-----------154-----onError----error-----------------', error , node.attrs.src)
+
   isLoading = false
   //判断node.attrs.src不是合法的图片地址 会触发isError = true
   if (!node.attrs.src || node.attrs.src === '' || node.attrs.src === 'null' || node.attrs.src === 'undefined' || !isHttpHttpsOrBlob(node.attrs.src) ) {

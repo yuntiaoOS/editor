@@ -3,7 +3,7 @@
     <div style="display: flex ;flex-direction: column;gap: 10px;" >
 
       <div style="width: 100%;display: flex ;flex-direction: column;gap: 10px;" >
-        <t-card 
+        <t-card
           v-for=" (design,index) in [designResult]" :key="index"
           :title="_title" header-bordered :style="{ width: '100%' }">
           <!-- <t-row v-for=" (formItemP,indexP) in design.formItems" :key="indexP">
@@ -13,7 +13,7 @@
             <t-col flex="auto">
               <div >
                 <template v-for="(formItemO, indexO) in formItemP.formItems" :key="indexO">
-                  <xmFormDesignRender 
+                  <xmFormDesignRender
                     v-model="design.formData"
                     style="overflow: auto;"
                     :label="formItemO.title"
@@ -25,12 +25,12 @@
               </div>
             </t-col>
           </t-row> -->
-          <t-tree 
+          <t-tree
             v-if="design"
             ref="designTreeRef"
             :data="design.formItems"  :keys="{ value: 'rowKey', label: 'title', children: 'formItems' }"
-            activable  expandParent activeMultiple expandAll 
-            allowFoldNodeOnFilter  line @change="treeSelectChange">  
+            activable  expandParent activeMultiple expandAll
+            allowFoldNodeOnFilter  line @change="treeSelectChange">
             <template #label="{ node }">
               <div style="display:flex;gap:10px;">
                 <span :style="{color: node.data.type ?'blue' :'var(--umo-text-color-primary)' ,width: '150px'}">{{ node.label }}</span>
@@ -48,7 +48,7 @@
           </t-tree>
           <template #title>
             <t-input v-model="_title" auto-width placeholder="请输入名称" />
-          </template> 
+          </template>
           <template #actions>
             <t-button style="width: 100px;" variant="outline" @click="onSelectDesignFunc">
               <template #icon><icon class="umo-button-icon" name="experimental_design" /></template>
@@ -57,13 +57,13 @@
             <!-- <a href="javascript:void(0)" @click="clickHandler">操作</a> -->
           </template>
         </t-card>
-        
-        <node-view-content :node="node" ></node-view-content> 
+
+        <node-view-content :node="node" ></node-view-content>
       </div>
     </div>
-    <t-dialog 
+    <t-dialog
       v-model:visible="select_design_visible"
-      destroy-on-close 
+      destroy-on-close
       :close-on-overlay-click="false"
       header="选择物料表及工艺表" :cancel-btn="null"
       width="600" attach="body"
@@ -83,9 +83,9 @@
         </t-form-item>
       </t-form>
     </t-dialog>
-    <t-dialog 
+    <t-dialog
       v-model:visible="experimental_design_visible"
-      destroy-on-close 
+      destroy-on-close
       :close-on-overlay-click="false"
       header="试验方法设计" :cancel-btn="null"
       width="80%" attach="body"
@@ -122,7 +122,7 @@ const selectTableForm = ref({
   technology: '',
 });
 const FORM_RULES = { raw_material: [{ required: true, message: '必填' ,trigger: ['change'] }],
-  technology: [{ required: true, message: '必填' ,trigger: ['change'] }] 
+  technology: [{ required: true, message: '必填' ,trigger: ['change'] }]
 };
 const selectFormItems = ref([])
 
@@ -140,7 +140,7 @@ const _designParams = computed({
     return node.attrs.designParams
   },
   set(value) {
-    console.log('------172--------updateAttributes({ designParams: value })------',value)
+
     updateAttributes({ designParams: value })
   },
 })
@@ -150,7 +150,7 @@ const customerParams  = computed({
     return node.attrs.customerParams
   },
   set(value) {
-    console.log('------172--------updateAttributes({ customerParams: value })------',value)
+
     updateAttributes({ customerParams: value })
   },
 })
@@ -166,7 +166,7 @@ const designResult = computed({
 
 const getDesignParams = () => {
   let designParams = {}
-  console.log('--------_designParams--------93--------',technologyOptions.value,raw_materialOptions.value,selectTableForm.value.technology)
+
   const technology_table_data = technologyOptions.value.find(ele=> ele.id === selectTableForm.value.technology).table_data.map(eleT => ({...eleT.form,id:eleT.id,key:eleT.id,rowKey:eleT.rowKey,title:eleT.name ,name:eleT.name}) )
   const optionsGroup = raw_materialOptions.value.map(ele=>{
     return {
@@ -176,7 +176,7 @@ const getDesignParams = () => {
       })
     }
   })
-  console.log('--------_designParams--------95--------',technology_table_data)
+
   //[ ] TODO  待优化optionsGroup物料数据要插入更新
   if (technology_table_data) {
     // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
@@ -206,7 +206,7 @@ const getDesignParams = () => {
     const formItems = technology_table_data.map(ele=>{
       return {...ele, formItems: processItems(ele.formItems, optionsGroup)}
     })
-    console.log('--------_designParams--------209--------',formItems)
+
     designParams = {
       formItems,
       formData:{},
@@ -217,16 +217,16 @@ const getDesignParams = () => {
       designParams.stepData[eleT.id] = eleT.formData
     })
   }
-  console.log('--------_designParams--------129--------',designParams)
+
   return designParams
 }
 const getNodeFullColKey = (node) => {
   const parents = node.getParents()
-  
+
   // console.info('树结构数据:--------',node, parents);
   if (!parents) {
     return ''
-  } 
+  }
   const keys = []
   parents.forEach(item => {
     keys.unshift(item.data.key)
@@ -236,9 +236,9 @@ const getNodeFullColKey = (node) => {
   }else{
     keys.push(node.data.key)
   }
-  
+
   const keyStr = keys.join('.')
-  // console.log('keys:-----204---', keyStr);
+  //
   return keyStr? keyStr : ''
 }
 const select_design_formFunc = ()=>{
@@ -256,22 +256,22 @@ const select_design_formFunc = ()=>{
 const on_select_designFunc = ()=>{
   _designParams.value = getDesignParams()
   experimental_design_visible.value = true;
-  console.log('---------------259--------', _designParams.value)
-  
+
+
 }
 
 const onSelectChange = ( formItems )=>{
-  // console.log('--------onSelectChange--------44--------',value, params)
+  //
   // nextTick(() => {
   //   selectFormItems.value = [...formItems]
   // })
 }
 
 const on_experimental_designFunc = async ()=>{
-  console.log('--------on_experimental_designFunc--------156--------',selectFormItems.value,designResult.value,_designParams.value)
+
   if (!selectFormItems.value || selectFormItems.value.length === 0) {
     TMessagePlugin.warning('请选择需要添加的数据')
-    return 
+    return
   }
   designResult.value = {
     // ..._designParams.value,
@@ -281,7 +281,7 @@ const on_experimental_designFunc = async ()=>{
     title: `试验设计方案-${timeFormat(null,'yyyymmddhhMMss')}`,
   }
   experimental_design_visible.value = false
-  
+
   return
   const selectData = designResult.value.filter(ele=> ele.check)
   if (selectData.length > 0) {
@@ -304,17 +304,17 @@ const on_experimental_designFunc = async ()=>{
       data: table_data
     }
     const res = await post_ingredient_dev_sample_fetch(params)
-    console.log('--------on_experimental_designFunc--------180--------',params,selectData,_designParams.value,designResult.value)
+
     if (res.data.code === 2000) {
-      console.log('--------on_experimental_designFunc--------183--------',editor.state)
+
       // editor.commands.setTextSelection(editor.state.doc.content.size)
       // const { from0, to0 } = editor.state.selection ?? {}
       // editor.commands.setTextSelection({ from:from0 , to :to0  })
-      // console.log('--------on_experimental_designFunc--------184--------',from0, to0)
+      //
       editor.chain().focus().insertContent('<p></p><p></p>').run();
 
       const { from, to } = editor.state.selection ?? {}
-      console.log('--------on_experimental_designFunc--------189--------',from, to)
+
       editor.commands.setTextSelection({ from , to: to + 1  })
       editor.commands.addSample_tables({ group:res.data.data.group, table_data:[],designParams:designParamsC})
       // editor.view.updateState(editor.state)
@@ -329,8 +329,8 @@ const on_experimental_designFunc = async ()=>{
   // nextTick(()=>{
   //   updateAttributes({ designParams:[ ..._designParams.value] })
   // })
-  
-  console.log('--------on_experimental_designFunc--------186--------',_designParams.value,designResult.value)
+
+
 }
 
 const initialize = () => {
@@ -373,8 +373,8 @@ const onSelectDesignFunc = () => {
 
 onMounted(() => {
   initialize()
-  console.log('--------onMounted--------213--------',node.attrs)
-  console.log('---------285------------',JSON.parse( JSON.stringify(node.attrs.customerParams)  ))
+
+
   if (node.attrs.customerParams?.is_select ) {
     selectTableForm.value.technology = node.attrs.customerParams?.technology
     on_select_designFunc()
@@ -389,7 +389,7 @@ onMounted(() => {
     }
 
   }
-  
+
 })
 
 </script>

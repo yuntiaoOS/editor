@@ -85,7 +85,7 @@ export default Mark.create<CommentOptions>({
       new Plugin({
         props: {
           handleClick(view, pos) {
-            // console.log("----------extensionThis-----88888------", extensionThis);
+            // 
             if (!extensionThis.options.isCommentModeOn()) return false;
             const { schema, doc, tr } = view.state;
             const range = getMarkRange(doc.resolve(pos), schema.marks.comment);

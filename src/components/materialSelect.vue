@@ -88,7 +88,7 @@ const fetchData = async (paginationInfo) => {
     const { current, pageSize } = paginationInfo;
     // 请求可能存在跨域问题
     const res = await getIngredient_dev_materialListFetch({page: current,limit: pageSize});
-    console.log('--------------88-----------------',res);
+
     if ( res.data.code === 2000 ){
       data.value = res.data.data;
       // 数据加载完成，设置数据总条数
@@ -96,9 +96,9 @@ const fetchData = async (paginationInfo) => {
     }else{
       data.value = [];
     }
-    
+
   } catch (err) {
-    console.log(err);
+
     data.value = [];
   }
   isLoading.value = false;
@@ -106,12 +106,12 @@ const fetchData = async (paginationInfo) => {
 
 // BaseTable 中只有 page-change 事件，没有 change 事件
 const rehandleChange = (changeParams, triggerAndData) => {
-  console.log('分页、排序、过滤等发生变化时会触发 change 事件：', changeParams, triggerAndData);
+
 };
 
 // BaseTable 中只有 page-change 事件，没有 change 事件
 const onPageChange = async (pageInfo) => {
-  console.log('page-change', pageInfo);
+
   // 下面为受控方式，如果使用此方式，将pagination内的defaultCurrent改为current
   // pagination.value.current = pageInfo.current;
   // pagination.value.pageSize = pageInfo.pageSize;
@@ -127,7 +127,7 @@ onMounted(async () => {
 
 const onSelectChange = (value, params) => {
   selectedRowKeys.value = value;
-  console.log(value, params);
+
   emits('selectChange', {value, params});
 };
 

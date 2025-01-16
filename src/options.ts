@@ -850,7 +850,6 @@ const ojbectSchema = new ObjectSchema({
             ) &&
             !isNumber(value)
           ) {
-            console.log(value)
             throw new Error(
               'Key "document": Key "autofocus" must be one of "start", "end", "all", Number, true, false, null.',
             )

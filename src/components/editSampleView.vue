@@ -77,7 +77,7 @@ const formData = ref({});
 
 
 const onSubmit = () => {
-  console.log('-------formData----------',_designParams.value, xmformRef.value,formData.value);
+
   // xmformRef.value.validate({ showErrorMessage: true }).then((validateResult) => {
   //   if (validateResult && Object.keys(validateResult).length) {
   //     const firstError = Object.values(validateResult)[0]?.[0]?.message;

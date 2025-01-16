@@ -98,7 +98,6 @@ const formItems =
 const richTextEditorRef = ref()
 
 const onPrint = ({myHtml,printing}:any) => {
-  console.log(myHtml,printing)
   richTextEditorRef.value.printHtmlString(myHtml)
   printing.value = false
 }
@@ -472,7 +471,7 @@ const options = $ref({
     try {
       localStorage.setItem('document.content', document.content)
     } catch (error) {
-      console.log('------------error----------276--------',error)
+
     }
     const contentJson = editorRef.editorInstance.getJSON()
     checkBeforeSaveDoc(contentJson.content)
@@ -516,7 +515,7 @@ const options = $ref({
         json_data: contentJson
       }
       put_experiment_record_fetch(experiment_record.value ? experiment_record.value.id : '6e252907-4fa3-4e50-a97c-6d8a33bbb579', params).then((res) => {
-        console.log('-------handleOnSave-------res', res)
+
         if (res.data.code === 2000) {
           resolve('操作成功')
         } else {
@@ -531,9 +530,9 @@ const options = $ref({
     if (!file) {
       throw new Error('没有找到要上传的文件')
     }
-    console.log('-------1111111111----onUpload-----------', file)
+
     const res = await attachments_fileFetch({ file: file})
-    console.log('-------res-----1111111111111----', res)
+
     if (res.status === 201) {
       const fileUrl = localStorage.getItem('BASE_URL') + `/api/storage/files/${res.data.id}/preview/`
       const fileUrl2 = localStorage.getItem('BASE_URL') + `/api/storage/files/${res.data.id}/download/`
@@ -570,12 +569,12 @@ const inputstring = ref('测试导入word')
 
 const changeEdit = (data: any) => {
   if (editorRef && editorRef.editorInstance) {
-    console.log('--------12------', editorRef.editorInstance.getJSON())
+
   }
 }
 
 onMounted(() => {
-  // console.log('--------12------',editorRef.editorInstance.getJSON())
+  //
   // editorRef.editorInstance.chain().focus().addXmTitle({key: 'erfsfere', title: '' }).run()
   // editorRef.editorInstance.chain().focus().addXmForm().run()
   // editorRef.editorInstance?.chain().focus().setColumns().focus(editorRef.editorInstance.state.selection.head - 1).run()

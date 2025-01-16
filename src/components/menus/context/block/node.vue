@@ -30,11 +30,11 @@
         />
       </t-dropdown-item>
       <t-dropdown-item class="umo-block-menu-group-name" disabled>
-         插入数据表格 
+         插入数据表格
       </t-dropdown-item>
       <t-dropdown-item >
         <!-- <menus-toolbar-insert-ingredient_dev-table table-type="raw_material_table" /> -->
-        <menus-button 
+        <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
            editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
           ico="t-table"
@@ -73,7 +73,7 @@
           :tooltip="false"
           @menu-click="editor?.chain().focus().addTest_record_table().run()"
         />
-      </t-dropdown-item>    
+      </t-dropdown-item>
       <t-dropdown-item >
         <!-- <menus-toolbar-insert-ingredient_dev-table table-type="sample_table" /> -->
         <menus-button
@@ -84,7 +84,7 @@
           :tooltip="false"
           @menu-click="editor?.chain().focus().addSample_tables({is_integration:true}).run()"
         />
-      </t-dropdown-item>  
+      </t-dropdown-item>
       <t-dropdown-item  divider>
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
@@ -374,7 +374,7 @@ const toggleNodeType = (
 
 onMounted(() => {
   // options.value.getEntityFormMethod().then((res:any) =>{
-  //   console.log('----222-----getEntityFormMethod--------------',res)
+  //
   //   formList.value = res
   // })
 });

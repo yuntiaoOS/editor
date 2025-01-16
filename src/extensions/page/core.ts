@@ -316,7 +316,7 @@ export function getDefault() {
 }
 
 export function getDomHeight(dom: HTMLElement) {
-  // console.log('getDomHeight----------', dom)
+  // 
   if (!dom) return { height: 0, margin: 0 }
   const contentStyle =
     window.getComputedStyle(dom) ||
