@@ -111,6 +111,7 @@
     "es-drager": "^1.2.11",
     "file-saver": "^2.0.5",
     "file64": "^1.0.4",
+    "fuse.js": "^7.0.0",
     "hotkeys-js": "^3.13.7",
     "jsbarcode": "^3.11.6",
     "katex": "^0.16.11",

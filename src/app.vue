@@ -28,6 +28,7 @@
 import { getOrg_memberFetch, attachments_fileFetch } from '@/api/index'
 import { put_experiment_record_fetch } from '@/api/experiment'
 import { checkBeforeSaveDoc } from '@/utils/index'
+import Fuse from 'fuse.js';
 // import { UmoSimpleEditor,UmoEditor } from './components/index.ts'
 // import UmoEdit from './components/editor/index.vue'
 const { editor } = useStore()
@@ -442,7 +443,7 @@ const options = $ref({
       "catalog": null
     },
     umo_domain: 'http://192.168.2.11:8003/api',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM3MDE2OTUwLCJpYXQiOjE3MzY5MzA1NTAsImp0aSI6IjJiNTMxZjZjMjAxNjRkZTJiYTEzZTIzNDE2YTRjMWVkIiwidXNlcl9pZCI6Ijg1Mjg4NThmLTdjYjgtNDc3ZS1iZjE3LWZkZTNkMmZiYjIzZSJ9.uTmGWdrKDwkCYKCGFTuP1zZ3rpk32SNnMMDGPHjMefs',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM3MTczNDIyLCJpYXQiOjE3MzcwODcwMjIsImp0aSI6ImYxYzVkMzk5MTZhOTQwNDA4Y2RlYzQ1NzQ0ZTI0YTIxIiwidXNlcl9pZCI6Ijg1Mjg4NThmLTdjYjgtNDc3ZS1iZjE3LWZkZTNkMmZiYjIzZSJ9.JAGtiEFRWPBAxvl4XCKTbrz2oT-5xlmHxn_ePSza9lU',
   },
   document: {
     placeholder: '请输入',
@@ -555,7 +556,17 @@ const options = $ref({
     })
 
   },
-  async onAssistant() {
+  async onAssistant(payload:any, content:any) {
+    console.log('assistant-----', payload, content)
+    const FuseOptions = {
+      keys: ['name','title','text'], // Set the keys to search on
+      includeScore: false, // Optional: to include score for each match
+      threshold: 0.7, // Adjust search sensitivity (0.0 exact, 1.0 everything)
+    };
+    const fuse = new Fuse(content.json.content, FuseOptions);
+    console.log('assistant---fuse--', fuse, content.json.content)
+    const result = fuse.search(payload.command)
+    console.log('assistant--------result', result)
     return await Promise.resolve('<p>AI助手测试</p>')
   },
   async onCustomImportWordMethod() {
