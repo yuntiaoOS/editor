@@ -513,6 +513,12 @@ const expandDataFunc = (row) => {
     )
   } else {
     expandedRowKeys.value.push(row.id)
+    refreshNode.type = 'sample_table'
+    refreshNode.selectId = row.id
+    refreshNode.data = {
+      ...refreshNode.data,
+      [row.id]: row
+    }
   }
 }
 
@@ -712,6 +718,11 @@ columns.value = [
         table_data.value = newData
         if (context.newRowData.operateType === '样品') {
           refreshNode.type = 'sample_table'
+          refreshNode.selectId = context.newRowData.id
+          refreshNode.data = {
+            ...refreshNode.data,
+            [context.newRowData.id]: context.newRowData
+          }
         }
 
         useMessage('success', 'Success')
@@ -758,10 +769,10 @@ watch(() => refreshNode, (value) => {
     nextTick(() => {
       let index = -1
       index = table_data.value.findIndex(
-        (row) => row.id === value.data.id,
+        (row) => row.id === value.selectId,
       )
       if (index > -1) {
-        table_data.value.splice(index, 1, value.data)
+        table_data.value.splice(index, 1, value.data[value.selectId])
         refreshNode.type = ''
       }
     })
@@ -787,8 +798,15 @@ const columnEditFunc = () => {
 }
 
 const sampleRecordChange = (row) => {
-
-  refreshNode.type = 'sample_table'
+  if (row.sample?.record_table?.table_data?.length > 0) {
+    // refreshNode.type = 'sample_table'
+    // refreshNode.selectId = row.id
+    // refreshNode.data = {
+    //   ...refreshNode.data,
+    //   [row.id]: row
+    // }
+    // console.log('-------sampleRecordChange------811-----------',refreshNode,row)
+  }
 }
 
 const onSampleDelete = (row,rowIndex) => {
@@ -799,6 +817,11 @@ const onSampleDelete = (row,rowIndex) => {
   table_data.value = cloneDeep(table_dataV)
   tableRef.value?.refreshTable()
   refreshNode.type = 'sample_table'
+  refreshNode.selectId = row.id
+  refreshNode.data = {
+    ...refreshNode.data,
+    [row.id]: row
+  }
 }
 
 const creatSample = async (row) => {
@@ -854,6 +877,11 @@ const creatSample = async (row) => {
     table_data.value = cloneDeep(table_dataV)
     tableRef.value?.refreshTable()
     refreshNode.type = 'sample_table'
+    refreshNode.selectId = rowData.id
+    refreshNode.data = {
+      ...refreshNode.data,
+      [rowData.id]: rowData
+    }
     return
 
     const params = {
@@ -887,6 +915,11 @@ const creatSample = async (row) => {
           table_data.value = cloneDeep(table_dataV)
           tableRef.value?.refreshTable()
           refreshNode.type = 'sample_table'
+          refreshNode.selectId = rowData.id
+          refreshNode.data = {
+            ...refreshNode.data,
+            [rowData.id]: rowData
+          }
         })
         useMessage('success', res.data.msg)
       }

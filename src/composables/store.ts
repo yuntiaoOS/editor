@@ -15,7 +15,7 @@ export const useStore = createGlobalState(() => {
   const options = ref<UmoEditorOptions>(defaultOptions)
   const page = ref<PageOption>(defaultOptions.page)
   const editor = ref<Editor>()
-  const refreshNode = reactive({ type: '', data: undefined })
+  const refreshNode = reactive({ type: '', data: undefined ,selectId: undefined })
   const painter = ref<{
     enabled: boolean
     once: boolean
@@ -64,7 +64,7 @@ export const useStore = createGlobalState(() => {
         {},
       ),
     )
-    
+
     const $locale = useState('locale')
     if (!$locale.value) {
       $locale.value = options.value.locale

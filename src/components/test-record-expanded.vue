@@ -113,7 +113,7 @@ const props = defineProps({
     default: false,
   },
 })
-
+const { refreshNode } = useStore()
 const attachmentFormItem = {
   "title": "附件",
   "type": "Attachment",
@@ -137,10 +137,17 @@ const attachmentFormItem = {
 
 const _value = computed({
   get() {
-    return props.modelValue
+    let data  = cloneDeep(props.modelValue)
+    if (refreshNode?.selectId && refreshNode?.selectId == props.modelValue?.id){
+      data = refreshNode.data[refreshNode.selectId]
+    }
+    return data
   },
   set(val) {
-    emits('update:modelValue', val)
+    refreshNode.data = {
+      ...refreshNode.data,
+      [val.id]: val
+    }
   }
 })
 
@@ -158,14 +165,22 @@ const _formData = computed({
     return _value.value?.formData ?? {}
   },
   set(val) {
-    emits('change', _sampleInfo.value)
+    emits('change', cloneDeep(_value.value))
     _value.value.formData = val
   }
 })
 
-watch(() => _sampleInfo.value?.record_table?.table_data, (val) => {
-  if (val) {
-    emits('change', _sampleInfo.value)
+// watch(() => props.modelValue, (val,oldValue) => {
+//   console.log('---------watch-----------------',props.modelValue)
+//   if (val && val !== oldValue) {
+//     _value.value = cloneDeep(val)
+//   }
+// }, { deep: true, immediate: true})
+
+watch(() => _sampleInfo.value?.record_table?.table_data, (val,oldValue) => {
+  // console.log('--------_sampleInfo--167--------',val,oldValue)
+  if (val && val !== oldValue) {
+    emits('change', cloneDeep(_value.value))
   }
 }, { deep: true, immediate: true})
 
@@ -216,7 +231,7 @@ const _columns = [
         // updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
         newData.splice(context.rowIndex, 1, context.newRowData)
         _sampleInfo.value.record_table.table_data = newData
-        emits('change', _sampleInfo.value)
+        emits('change', cloneDeep(_value.value))
         useMessage('success', 'Success')
       },
       // 触发校验的时机（when to validate)
@@ -301,7 +316,7 @@ const getNodeFullColKey = (node) => {
 const onSaveDataFunc = () => {
   putIngredientDevSampleFunc(_value.value).then(res=>{
     if (res.data.code === 2000) {
-      emits('change', _sampleInfo.value)
+      emits('change', cloneDeep(_value.value))
     }
   }).catch(err=>{
 
@@ -312,7 +327,7 @@ const onAddRowFunc = () => {
   makerecordDataFunc()
   putIngredientDevSampleFunc(_value.value).then(res=>{
     if (res.data.code === 2000) {
-      emits('change', _sampleInfo.value)
+      emits('change', cloneDeep(_value.value))
     }
   }).catch(err=>{
 
@@ -324,7 +339,7 @@ const deleteRowFunc = (row) => {
   _sampleInfo.value.record_table.table_data.splice(index, 1)
   putIngredientDevSampleFunc(_value.value).then(res=>{
     if (res.data.code === 2000) {
-      emits('change', _sampleInfo.value)
+      emits('change', cloneDeep(_value.value))
     }
   }).catch(err=>{
 
@@ -337,7 +352,7 @@ const copyRowFunc = (row) => {
   _sampleInfo.value.record_table.table_data.push(newRow)
   putIngredientDevSampleFunc(_value.value).then(res=>{
     if (res.data.code === 2000) {
-      emits('change', _sampleInfo.value)
+      emits('change', cloneDeep(_value.value))
       select_index_visible.value = false
     }
   }).catch(err=>{
@@ -404,7 +419,7 @@ const on_select_indexFunc = ()=>{
 
         _sampleInfo.value.record_table.table_data.push(rowData)
       })
-      emits('change', _sampleInfo.value)
+      emits('change', cloneDeep(_value.value))
       select_index_visible.value = false
 
 
@@ -433,7 +448,7 @@ const on_select_indexFunc = ()=>{
       makerecordDataFunc(true)
       putIngredientDevSampleFunc(_value.value).then(res=>{
         if (res.data.code === 2000) {
-          emits('change', _sampleInfo.value)
+          emits('change', cloneDeep(_value.value))
           select_index_visible.value = false
         }
       }).catch(err=>{

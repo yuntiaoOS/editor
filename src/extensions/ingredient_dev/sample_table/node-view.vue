@@ -59,12 +59,16 @@
             v-if="expandedRowKeys.includes(slotProps.row.id)"
             v-model="slotProps.row"
             :sample="slotProps.row.sample.id"
-            @change="sampleRecordChange(slotProps.row)"
+            @change="sampleRecordChange"
           ></TestRecordExpanded>
         </template>
         <template #type-slot-operate="{ col, row, rowIndex }">
           <div style="display: flex; align-items: center; gap: 10px">
-            <t-popconfirm v-if="false" content="确认留样吗" @confirm="onPostSampleFunc(row,rowIndex)">
+            <t-popconfirm
+              v-if="false"
+              content="确认留样吗"
+              @confirm="onPostSampleFunc(row, rowIndex)"
+            >
               <t-button
                 style="width: 50px"
                 title="留样"
@@ -73,12 +77,24 @@
                 variant="text"
                 @click.stop="null"
               >
-                {{row.sample.really_sample ? '更新样品': '留样'}}
+                {{ row.sample.really_sample ? '更新样品' : '留样' }}
               </t-button>
             </t-popconfirm>
-            <t-dropdown :options="row.sample.really_sample ? [{ content: '更新批次', value: 1 }] : [{ content: '留样', value: 1 }]" trigger="click" @click="onPostSampleFunc(row,rowIndex)">
+            <t-dropdown
+              :options="
+                row.sample.really_sample
+                  ? [{ content: '更新批次', value: 1 }]
+                  : [{ content: '留样', value: 1 }]
+              "
+              trigger="click"
+              @click="onPostSampleFunc(row, rowIndex)"
+            >
               <t-space>
-                <t-tag style="cursor: pointer" :theme="row.sample.really_sample ? 'success': 'warning'">{{row.sample.really_sample ? '已留样': '未留样'}}</t-tag>
+                <t-tag
+                  style="cursor: pointer"
+                  :theme="row.sample.really_sample ? 'success' : 'warning'"
+                  >{{ row.sample.really_sample ? '已留样' : '未留样' }}</t-tag
+                >
               </t-space>
             </t-dropdown>
             <t-button
@@ -101,18 +117,6 @@
             >
               试验数据
             </t-button>
-
-            <!-- <div v-else>
-              <t-link theme="primary" hover="color" @click.stop="onSave(row)">
-                保存
-              </t-link>
-              <t-link theme="primary" hover="color" @click.stop="onCancel(row)">
-                取消
-              </t-link>
-            </div> -->
-            <!--            <t-popconfirm content="确认删除吗" @confirm="() => onDelete(row)" >-->
-            <!--              <t-button title="删除" theme="danger" shape="square" variant="text" >删除</t-button>-->
-            <!--            </t-popconfirm>-->
           </div>
         </template>
       </t-table>
@@ -289,12 +293,13 @@ const _designParams = computed({
 
 const designResult = ref([])
 
-const table_data = computed({
-  get: () => node.attrs.table_data,
-  set(value) {
-    updateAttributes({ table_data: value })
-  },
-})
+const table_data = ref([])
+//   computed({
+//   get: () => node.attrs.table_data,
+//   set(value) {
+//     updateAttributes({ table_data: value })
+//   },
+// })
 
 const technologyColumns = ref([
   {
@@ -343,12 +348,18 @@ const technologyColumns = ref([
 ])
 
 const sampleRecordChange = (row) => {
-  refreshNode.type = 'record_sample_table'
-  refreshNode.data = cloneDeep(row)
+  if (row.sample?.record_table?.table_data?.length > 0) {
+    // refreshNode.type = 'record_sample_table'
+    // refreshNode.selectId = row.id
+    // refreshNode.data = {
+    //   ...refreshNode.data,
+    //   [row.id]: row
+    // }
+  }
+  // console.log('------------sampleRecordChange-----------',row)
 }
 
-const onPostSampleFunc = async (row,rowIndex) => {
-
+const onPostSampleFunc = async (row, rowIndex) => {
   const rowC = cloneDeep(row)
 
   let res = {}
@@ -362,7 +373,7 @@ const onPostSampleFunc = async (row,rowIndex) => {
       weight: rowC.sample.weight,
       value: rowC,
     }
-    res = await put_ingredient_dev_sample_fetch(rowC.sample.id,params)
+    res = await put_ingredient_dev_sample_fetch(rowC.sample.id, params)
   } else {
     const params = {
       experiment_theme: experiment_theme.value?.id,
@@ -382,7 +393,7 @@ const onPostSampleFunc = async (row,rowIndex) => {
       if (res.data.data && res.data.data.length > 0) {
         resD = res.data.data[0]
       }
-    }else {
+    } else {
       resD = res.data.data
     }
     if (resD) {
@@ -405,7 +416,11 @@ const onPostSampleFunc = async (row,rowIndex) => {
         table_data.value = cloneDeep(table_dataV)
         tableRef.value?.refreshTable()
         refreshNode.type = 'record_sample_table'
-        refreshNode.data = cloneDeep(rowData)
+        refreshNode.selectId = rowData.id
+        refreshNode.data = {
+          ...refreshNode.data,
+          [rowData.id]: rowData
+        }
       })
       useMessage('success', res.data.msg)
     } else {
@@ -441,17 +456,21 @@ const expandDataFunc = (row) => {
     )
   } else {
     expandedRowKeys.value.push(row.id)
+    refreshNode.type = 'record_sample_table'
+    refreshNode.selectId = row.id
+    refreshNode.data = {
+      ...refreshNode.data,
+      [row.id]: row
+    }
   }
 }
 
 const onAddFunc = async () => {
   await initData()
   // editSampleDialogVisible.value = true
-
 }
 
 const onTechnology = (row) => {
-
   selectRow.value = row
   technologyInfoVisible.value = true
 }
@@ -482,7 +501,6 @@ const onSubmit = async (row) => {
   const res = await post_ingredient_dev_sample_fetch(params)
 
   if (res.data.code === 2000) {
-
     group.value = res.data.data.group
     updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
     await initData()
@@ -492,7 +510,6 @@ const onSubmit = async (row) => {
 }
 
 const onDelete = async (row) => {
-
   const params = {
     group: group.value,
   }
@@ -546,12 +563,15 @@ columns.value = [
       showEditIcon: true,
       abortEditOnEvent: ['onEnter', 'onBlur'],
       onEdited: async (context) => {
-
         const newData = [...table_data.value]
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
         refreshNode.type = 'record_sample_table'
-        refreshNode.data = cloneDeep(context.newRowData)
+        refreshNode.selectId = context.newRowData.id
+        refreshNode.data = {
+          ...refreshNode.data,
+          [context.newRowData.id]: context.newRowData
+        }
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
       },
       // 触发校验的时机（when to validate)
@@ -559,12 +579,10 @@ columns.value = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext) => ({
         onBlur: (ctx) => {
-
           ctx?.e?.preventDefault()
         },
         onEnter: (ctx) => {
           ctx?.e?.preventDefault()
-
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -601,12 +619,15 @@ columns.value = [
       showEditIcon: true,
       abortEditOnEvent: ['onEnter', 'onBlur'],
       onEdited: async (context) => {
-
         const newData = [...table_data.value]
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
         refreshNode.type = 'record_sample_table'
-        refreshNode.data = cloneDeep(context.newRowData)
+        refreshNode.selectId = context.newRowData.id
+        refreshNode.data = {
+          ...refreshNode.data,
+          [context.newRowData.id]: context.newRowData
+        }
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
       },
       // 触发校验的时机（when to validate)
@@ -614,12 +635,10 @@ columns.value = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext) => ({
         onBlur: (ctx) => {
-
           ctx?.e?.preventDefault()
         },
         onEnter: (ctx) => {
           ctx?.e?.preventDefault()
-
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -656,7 +675,11 @@ columns.value = [
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
         refreshNode.type = 'record_sample_table'
-        refreshNode.data = cloneDeep(context.newRowData)
+        refreshNode.selectId = context.newRowData.id
+        refreshNode.data = {
+          ...refreshNode.data,
+          [context.newRowData.id]: context.newRowData
+        }
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
       },
       // 触发校验的时机（when to validate)
@@ -664,12 +687,10 @@ columns.value = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext) => ({
         onBlur: (ctx) => {
-
           ctx?.e?.preventDefault()
         },
         onEnter: (ctx) => {
           ctx?.e?.preventDefault()
-
         },
         // 默认是否为编辑状态
         defaultEditable: true,
@@ -679,7 +700,7 @@ columns.value = [
   {
     title: '操作',
     colKey: 'operate',
-    width: 180,
+    width: 190,
     cell: 'type-slot-operate',
   },
 ]
@@ -756,10 +777,8 @@ const initData = async () => {
 }
 
 
-watch(
-  () => refreshNode,
+watch(() => refreshNode,
   async (value) => {
-
     if (value.type === 'sample_table') {
       await initData()
       refreshNode.type = ''
@@ -769,7 +788,6 @@ watch(
 )
 
 onMounted(async () => {
-
   await initData()
 })
 </script>

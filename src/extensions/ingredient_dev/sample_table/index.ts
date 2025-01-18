@@ -19,7 +19,7 @@ export default xmNode.create({
   content: 'block*',
   atom: true,
   selectable: true,
- 
+
   parseHTML() {
     return [{ tag: 'sample_table' }]
   },
@@ -28,7 +28,7 @@ export default xmNode.create({
   },
   addAttributes() {
     const baseAttributes = xmNode.prototype.addAttributes.call(this);
-    return { 
+    return {
       ...baseAttributes,
       key: {
         default: ()=>{ return Xm_Table_key['sample_table']  + timeFormat(null,'yyyymmddhhMMss') },
@@ -45,19 +45,19 @@ export default xmNode.create({
           return { 'data-group': attributes.group };
         },
       },
-      table_data: {
-        default: [],
-        parseHTML: (element) => {
-          const table_data = element.getAttribute('data-table_data');
-          return JSON.parse(table_data as string || '[]');
-        },
-        renderHTML: (attributes) => {
-          if (!attributes.table_data) {
-            return [];
-          }
-          return { 'data-table_data': JSON.stringify(attributes.table_data)  };
-        },
-      },
+      // table_data: {
+      //   default: [],
+      //   parseHTML: (element) => {
+      //     const table_data = element.getAttribute('data-table_data');
+      //     return JSON.parse(table_data as string || '[]');
+      //   },
+      //   renderHTML: (attributes) => {
+      //     if (!attributes.table_data) {
+      //       return [];
+      //     }
+      //     return { 'data-table_data': JSON.stringify(attributes.table_data)  };
+      //   },
+      // },
       designParams: {
         default: [],
         parseHTML: (element) => {
@@ -84,7 +84,7 @@ export default xmNode.create({
   addNodeView() {
     return VueNodeViewRenderer(NodeView, {
       update: (props) => {
-        // 
+        //
         // 根据props来更新节点，这里只是一个示例，具体实现需要根据实际情况
         props.updateProps(); // 调用提供的更新props的函数
         return true; // 根据VueNodeViewRenderer的API，这里通常需要返回一个布尔值
@@ -125,5 +125,5 @@ export default xmNode.create({
       ...this.parent?.()
     }
   },
- 
+
 })
