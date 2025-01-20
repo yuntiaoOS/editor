@@ -59,11 +59,27 @@
           </div>
         </div>
       </template>
-      <template #type-slot-operate="{ col, row }">
+      <template #type-slot-operate="{ col, row, rowIndex }">
         <div class="table-operations">
-          <t-popconfirm content="确认删除吗" @confirm="() => onDelete(row)" >
-            <t-button title="删除" theme="danger" shape="square" variant="text" >删除</t-button>
+          <t-button  v-if="false" :disabled="rowIndex === 0 " variant="text" shape="square" hover="color" @click="onProcedureAdd('up',rowIndex,row)" > <t-icon name="arrow-up" ></t-icon> </t-button>
+          <t-button  v-if="false" :disabled="rowIndex === table_data.length - 1 " variant="text" shape="square" hover="color" @click="onProcedureAdd('down',rowIndex,row)" > <t-icon name="arrow-down" ></t-icon> </t-button>
+          <t-button  v-if="false" variant="text" shape="square" hover="color" @click="onProcedureAdd('insert',rowIndex,row)" > <t-icon name="download-1"></t-icon> </t-button>
+          <t-popconfirm  v-if="false" content="确认删除吗" @confirm="onProcedureAdd('delete',rowIndex,row)">
+            <t-button variant="text" shape="square" theme="danger" hover="color"> <t-icon name="delete"></t-icon> </t-button>
           </t-popconfirm>
+          <t-dropdown :options="[{content:'上移', value: 'up'},{content:'下移', value: 'down'},{content:'插入', value: 'insert'},{content:'删除', value: 'delete'}]" trigger="hover" @click="(operateI)=>{
+                    if(operateI.value === 'delete'){
+                      onProcedureAdd('delete',rowIndex,row)
+                    }else if(operateI.value === 'up'){
+                      onProcedureAdd('up',rowIndex,row)
+                    }else if(operateI.value === 'down'){
+                      onProcedureAdd('down',rowIndex,row)
+                    }else if(operateI.value === 'insert'){
+                      onProcedureAdd('insert',rowIndex,row)
+                    }
+                   }">
+            <t-button theme="primary" variant="text" shape="square" hover="color"> <t-icon name="ellipsis"></t-icon> </t-button>
+          </t-dropdown>
         </div>
       </template>
       <!-- <template #footerSummary >
@@ -538,6 +554,26 @@ const onOperateAdd = (type,index,rowIndex,row)=>{
   }
 
 }
+
+const procedureSelect = ref()
+const onProcedureAdd  = (type,index,row)=>{
+  if (type === 'insert') {
+    procedureSelect.value = cloneDeep( {type,index,row} )
+    procedureFormData.value.operates = []
+    add_parent_visible.value = true
+  }else if (type === 'up'){
+    const temp = table_data.value[index];
+    table_data.value[index] = table_data.value[index - 1];
+    table_data.value[index - 1] = temp;
+  }else if (type === 'down'){
+    const temp = table_data.value[index];
+    table_data.value[index] = table_data.value[index + 1];
+    table_data.value[index + 1] = temp;
+  }else if (type === 'delete'){
+    table_data.value.splice(index, 1);
+  }
+
+}
 // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
 function processValueItems(items) {
   const valueC = {};
@@ -881,7 +917,13 @@ const on_select_parentFunc = async ()=>{
       });
 
       nextTick(() => {
-        table_data.value.push(rowD)
+        if (procedureSelect.value) {
+          table_data.value.splice(procedureSelect.value.index+1,0,rowD )
+          procedureSelect.value = undefined
+        }else {
+          table_data.value.push(rowD)
+        }
+
       });
       add_parent_visible.value = false
 
@@ -1132,7 +1174,7 @@ const columns = ref([
   {
     title: '操作',
     colKey: 'operate',
-    width: 60,
+    width: 50,
     cell: 'type-slot-operate',
   },
 ])
@@ -1146,6 +1188,7 @@ function onAddWorkingProcedure(row=undefined) {
     operates:[]
   }
   add_parent_visible.value = true;
+  onProcedureAdd('insert',table_data.value.length-1,row)
 }
 
 
