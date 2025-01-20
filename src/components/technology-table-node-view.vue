@@ -1028,7 +1028,6 @@ const columns = ref([
     width: 140,
     colKey: 'name',
     title: '工序',
-    ellipsis: true,
     cell: (h , { row, rowIndex } ) => {
       return (
         <div title={row.type === "operate" ? "操作" : "评估"} style="width:100%;white-space: break-spaces;">
@@ -1088,7 +1087,6 @@ const columns = ref([
   {
     colKey: 'description',
     title: '描述',
-    ellipsis: true,
     width: 160,
     edit: {
       component: TTextarea,
@@ -1132,7 +1130,7 @@ const columns = ref([
     }
   },
   {
-    title: '操作栏',
+    title: '操作',
     colKey: 'operate',
     width: 60,
     cell: 'type-slot-operate',

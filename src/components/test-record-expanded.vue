@@ -204,7 +204,6 @@ const _columns = [
   {
     colKey: 'description',
     title: '记录',
-    ellipsis: true,
     width: 220,
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
@@ -252,7 +251,7 @@ const _columns = [
     },
   },
   {
-    title: '操作栏',
+    title: '操作',
     colKey: 'operate',
     width: 100,
     cell: 'type-slot-operate',
@@ -268,7 +267,7 @@ const select_record_form = ref()
 
 const suffixColumns = [
   {
-    title: '操作栏',
+    title: '操作',
     colKey: 'operate',
     width: 100,
     cell: 'type-slot-operate',

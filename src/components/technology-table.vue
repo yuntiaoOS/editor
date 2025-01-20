@@ -430,7 +430,6 @@ const columns = ref([
     width: 140,
     colKey: 'name',
     title: '名称',
-    ellipsis: true,
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
       // 2. 如果希望支持校验，组件还需包含 `status` 和 `tips` 属性。具体 API 含义参考 Input 组件
@@ -536,7 +535,6 @@ const columns = ref([
   {
     colKey: 'description',
     title: '描述',
-    ellipsis: true,
     minWidth: 200,
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。

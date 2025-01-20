@@ -7,16 +7,36 @@
     :pagination="pagination"
     :selected-row-keys="selectedRowKeys"
     bordered size="small"
+    height="100%"
     stripe
     lazy-load
     @change="rehandleChange"
     @page-change="onPageChange"
     @select-change="onSelectChange"
-  />
+  >
+    <template #topContent>
+      <div style="padding: 6px 0;display: block;">
+        <t-space>
+          <div>
+
+          </div>
+          <t-space>
+            <t-input v-model="searchText" placeholder="请输入物料名称" style="width: 200px" @change="onSearch">
+              <template #suffixIcon>
+                <search-icon :style="{ cursor: 'pointer' }" />
+              </template>
+            </t-input>
+          </t-space>
+        </t-space>
+      </div>
+    </template>
+  </t-table>
 </template>
 <script setup lang="jsx">
 import { ref, onMounted } from 'vue';
 import { getIngredient_dev_materialListFetch } from '@/api/material'
+import { SearchIcon } from 'tdesign-icons-vue-next';
+
 const emits = defineEmits(['selectChange']);
 
 const columns = [
@@ -67,11 +87,11 @@ const columns = [
   {
     colKey: 'description',
     title: '描述',
-    ellipsis: true,
     minWidth: 100,
   },
 ];
 
+const searchText = ref('');
 const data = ref([]);
 const isLoading = ref(false);
 const selectedRowKeys = ref([]);
@@ -82,12 +102,16 @@ const pagination = ref({
   defaultCurrent: 1,
 });
 
-const fetchData = async (paginationInfo) => {
+const fetchData = async (paginationInfo,search='') => {
   try {
     isLoading.value = true;
     const { current, pageSize } = paginationInfo;
     // 请求可能存在跨域问题
-    const res = await getIngredient_dev_materialListFetch({page: current,limit: pageSize});
+    let params = {page: current,limit: pageSize}
+    if (search && search !== '') {
+      params.keyword = search
+    }
+    const res = await getIngredient_dev_materialListFetch(params);
 
     if ( res.data.code === 2000 ){
       data.value = res.data.data;
@@ -102,6 +126,13 @@ const fetchData = async (paginationInfo) => {
     data.value = [];
   }
   isLoading.value = false;
+};
+
+const onSearch = async () => {
+  await fetchData({
+    current: 1,
+    pageSize: pagination.value.pageSize || pagination.value.defaultPageSize,
+  },searchText.value);
 };
 
 // BaseTable 中只有 page-change 事件，没有 change 事件

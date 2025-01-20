@@ -52,12 +52,15 @@
     </div>
     <t-dialog destroyOnClose
       v-model:visible="add_dialog_visible"
-      header="新增物料"
+      header="新增物料" placement="center"
       width="80%" attach="body"
       :confirm-on-enter="true"
       :on-confirm="on_select_materialFunc"
     >
-      <materialSelect @select-change="onSelectChange"/>
+      <div style="height: 74vh;">
+        <materialSelect @select-change="onSelectChange"/>
+      </div>
+
     </t-dialog>
     <t-dialog destroyOnClose
       v-model:visible="add_parent_visible"
@@ -313,7 +316,6 @@ columns.value = [
   {
     colKey: 'description',
     title: '描述',
-    ellipsis: true,
     minWidth: 100,
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
@@ -380,7 +382,7 @@ columns.value = [
     },
   },
   {
-    title: '操作栏',
+    title: '操作',
     colKey: 'operate',
     width: 80,
     cell: 'type-slot-operate',

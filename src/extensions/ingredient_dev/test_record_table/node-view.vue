@@ -641,7 +641,7 @@ const frontColumns = [
 ]
 const suffixColumns = [
   {
-    title: '操作栏',
+    title: '操作',
     colKey: 'operate',
     width: 150,
     cell: 'type-slot-operate',
@@ -682,14 +682,13 @@ columns.value = [
   {
     colKey: 'formItems',
     title: '工艺要求',
-    minWidth: 220,
+    width: 280,
     cell: 'type-slot-operate-router',
   },
   {
     colKey: 'description',
     title: '实验记录',
-    ellipsis: true,
-    minWidth: 220,
+    width: 220,
     cell: 'slot-description',
     edit: {
       // 1. 支持任意组件。需保证组件包含 `value` 和 `onChange` 两个属性，且 onChange 的第一个参数值为 new value。
@@ -745,7 +744,7 @@ columns.value = [
     },
   },
   // {
-  //   title: '操作栏',
+  //   title: '操作',
   //   colKey: 'operate',
   //   width: 120,
   //   cell: 'type-slot-operate',

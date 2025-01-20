@@ -294,7 +294,6 @@ const columns = ref([
     width: 140,
     colKey: 'name',
     title: '名称',
-    ellipsis: true,
   },
   {
     colKey: 'step_type',
@@ -317,7 +316,6 @@ const columns = ref([
   {
     colKey: 'description',
     title: '描述',
-    ellipsis: true,
     minWidth: 200,
   },
 ])
