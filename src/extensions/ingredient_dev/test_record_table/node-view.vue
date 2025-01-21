@@ -513,14 +513,17 @@ const expandDataFunc = (row) => {
     )
   } else {
     expandedRowKeys.value.push(row.id)
-    nextTick(()=> {
-      refreshNode.type = 'sample_table'
-      refreshNode.selectId = row.id
-      refreshNode.data = {
-        ...refreshNode.data,
-        [row.id]: row
-      }
-    })
+    if (row.sample?.record_table?.table_data?.length > 0) {
+      nextTick(()=> {
+        refreshNode.type = 'sample_table'
+        refreshNode.selectId = row.id
+        refreshNode.data = {
+          ...refreshNode.data,
+          [row.id]: row
+        }
+      })
+    }
+
   }
 }
 

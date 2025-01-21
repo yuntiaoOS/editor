@@ -457,6 +457,14 @@ const expandDataFunc = (row) => {
     )
   } else {
     expandedRowKeys.value.push(row.id)
+    if (row.sample?.record_table?.table_data?.length > 0) {
+      refreshNode.type = 'record_sample_table'
+      refreshNode.selectId = row.id
+      refreshNode.data = {
+        ...refreshNode.data,
+        [row.id]: row,
+      }
+    }
   }
 }
 
