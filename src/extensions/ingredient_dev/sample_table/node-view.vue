@@ -414,12 +414,14 @@ const onPostSampleFunc = async (row, rowIndex) => {
         table_dataV.splice(rowIndex, 1, rowData)
         table_data.value = cloneDeep(table_dataV)
         tableRef.value?.refreshTable()
-        refreshNode.type = 'record_sample_table'
-        refreshNode.selectId = rowData.id
-        refreshNode.data = {
-          ...refreshNode.data,
-          [rowData.id]: rowData
-        }
+        nextTick(()=> {
+          refreshNode.type = 'record_sample_table'
+          refreshNode.selectId = rowData.id
+          refreshNode.data = {
+            ...refreshNode.data,
+            [rowData.id]: rowData
+          }
+        })
       })
       useMessage('success', res.data.msg)
     } else {
@@ -455,12 +457,6 @@ const expandDataFunc = (row) => {
     )
   } else {
     expandedRowKeys.value.push(row.id)
-    refreshNode.type = 'record_sample_table'
-    refreshNode.selectId = row.id
-    refreshNode.data = {
-      ...refreshNode.data,
-      [row.id]: row
-    }
   }
 }
 
@@ -565,12 +561,14 @@ columns.value = [
         const newData = [...table_data.value]
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
-        refreshNode.type = 'record_sample_table'
-        refreshNode.selectId = context.newRowData.id
-        refreshNode.data = {
-          ...refreshNode.data,
-          [context.newRowData.id]: context.newRowData
-        }
+        nextTick(()=> {
+          refreshNode.type = 'record_sample_table'
+          refreshNode.selectId = context.newRowData.id
+          refreshNode.data = {
+            ...refreshNode.data,
+            [context.newRowData.id]: context.newRowData
+          }
+        })
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
       },
       // 触发校验的时机（when to validate)
@@ -621,12 +619,14 @@ columns.value = [
         const newData = [...table_data.value]
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
-        refreshNode.type = 'record_sample_table'
-        refreshNode.selectId = context.newRowData.id
-        refreshNode.data = {
-          ...refreshNode.data,
-          [context.newRowData.id]: context.newRowData
-        }
+        nextTick(()=> {
+          refreshNode.type = 'record_sample_table'
+          refreshNode.selectId = context.newRowData.id
+          refreshNode.data = {
+            ...refreshNode.data,
+            [context.newRowData.id]: context.newRowData
+          }
+        })
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
       },
       // 触发校验的时机（when to validate)
@@ -672,12 +672,14 @@ columns.value = [
         const newData = [...table_data.value]
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
-        refreshNode.type = 'record_sample_table'
-        refreshNode.selectId = context.newRowData.id
-        refreshNode.data = {
-          ...refreshNode.data,
-          [context.newRowData.id]: context.newRowData
-        }
+        nextTick(()=> {
+          refreshNode.type = 'record_sample_table'
+          refreshNode.selectId = context.newRowData.id
+          refreshNode.data = {
+            ...refreshNode.data,
+            [context.newRowData.id]: context.newRowData
+          }
+        })
         updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
       },
       // 触发校验的时机（when to validate)

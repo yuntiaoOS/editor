@@ -144,10 +144,12 @@ const _value = computed({
     return data
   },
   set(val) {
-    refreshNode.data = {
-      ...refreshNode.data,
-      [val.id]: val
-    }
+    nextTick(()=>{
+      refreshNode.data = {
+        ...refreshNode.data,
+        [val.id]: val
+      }
+    })
   }
 })
 

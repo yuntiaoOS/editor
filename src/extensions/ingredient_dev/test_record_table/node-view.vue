@@ -513,12 +513,14 @@ const expandDataFunc = (row) => {
     )
   } else {
     expandedRowKeys.value.push(row.id)
-    refreshNode.type = 'sample_table'
-    refreshNode.selectId = row.id
-    refreshNode.data = {
-      ...refreshNode.data,
-      [row.id]: row
-    }
+    nextTick(()=> {
+      refreshNode.type = 'sample_table'
+      refreshNode.selectId = row.id
+      refreshNode.data = {
+        ...refreshNode.data,
+        [row.id]: row
+      }
+    })
   }
 }
 
@@ -716,12 +718,14 @@ columns.value = [
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
         if (context.newRowData.operateType === '样品') {
-          refreshNode.type = 'sample_table'
-          refreshNode.selectId = context.newRowData.id
-          refreshNode.data = {
-            ...refreshNode.data,
-            [context.newRowData.id]: context.newRowData
-          }
+          nextTick(()=> {
+            refreshNode.type = 'sample_table'
+            refreshNode.selectId = context.newRowData.id
+            refreshNode.data = {
+              ...refreshNode.data,
+              [context.newRowData.id]: context.newRowData
+            }
+          })
         }
 
         useMessage('success', 'Success')
@@ -804,7 +808,7 @@ const sampleRecordChange = (row) => {
     //   ...refreshNode.data,
     //   [row.id]: row
     // }
-    // console.log('-------sampleRecordChange------811-----------',refreshNode,row)
+    console.log('-------sampleRecordChange------811-----------',refreshNode,row)
   }
 }
 
@@ -815,12 +819,14 @@ const onSampleDelete = (row,rowIndex) => {
   table_dataV.splice(rowIndex, 1)
   table_data.value = cloneDeep(table_dataV)
   tableRef.value?.refreshTable()
-  refreshNode.type = 'sample_table'
-  refreshNode.selectId = row.id
-  refreshNode.data = {
-    ...refreshNode.data,
-    [row.id]: row
-  }
+  nextTick(()=> {
+    refreshNode.type = 'sample_table'
+    refreshNode.selectId = row.id
+    refreshNode.data = {
+      ...refreshNode.data,
+      [row.id]: row
+    }
+  })
 }
 
 const creatSample = async (row) => {
@@ -875,12 +881,14 @@ const creatSample = async (row) => {
     table_dataV.splice(rowIndex + 1, 0, rowData)
     table_data.value = cloneDeep(table_dataV)
     tableRef.value?.refreshTable()
-    refreshNode.type = 'sample_table'
-    refreshNode.selectId = rowData.id
-    refreshNode.data = {
-      ...refreshNode.data,
-      [rowData.id]: rowData
-    }
+    nextTick(()=> {
+      refreshNode.type = 'sample_table'
+      refreshNode.selectId = rowData.id
+      refreshNode.data = {
+        ...refreshNode.data,
+        [rowData.id]: rowData
+      }
+    })
     return
 
     const params = {
@@ -913,12 +921,14 @@ const creatSample = async (row) => {
           table_dataV.splice(rowIndex + 1, 0, rowData)
           table_data.value = cloneDeep(table_dataV)
           tableRef.value?.refreshTable()
-          refreshNode.type = 'sample_table'
-          refreshNode.selectId = rowData.id
-          refreshNode.data = {
-            ...refreshNode.data,
-            [rowData.id]: rowData
-          }
+          nextTick(()=> {
+            refreshNode.type = 'sample_table'
+            refreshNode.selectId = rowData.id
+            refreshNode.data = {
+              ...refreshNode.data,
+              [rowData.id]: rowData
+            }
+          })
         })
         useMessage('success', res.data.msg)
       }
