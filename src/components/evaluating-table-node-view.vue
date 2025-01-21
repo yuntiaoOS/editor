@@ -613,14 +613,22 @@ const onSelectDialogFunc = async () => {
   const docD = cloneDeep(props.editor.getJSON())
   if (docD) {
     // 物料表
-    const sample_table = docD.content.filter(
-      (ele) => ele.type === 'sample_table',
+    const test_record_table = docD.content.filter(
+      (ele) => ele.type === 'test_record_table',
     )
-    if (sample_table.length === 0) {
+    if (test_record_table.length === 0) {
       TMessagePlugin.warning('请先创建样品表单并在里面留样')
+      _table_data.value = []
       return // 物料表不存在，返回
     }
-    sample_group_options.value = sample_table.map((ele) => ele.attrs.table_data).reduce((a, b) => a.concat(b)).filter((ele) => ele.sample.really_sample).map((ele) => ele.sample)
+    sample_group_options.value = test_record_table
+      .map((ele) => ele.attrs.table_data)
+      .reduce((pre, cur) => pre.concat(cur), [])
+      .filter((ele) => ele.is_sample && ele.sample && ele.sample.really_sample )
+      .map((ele) => ({
+        id: ele.sample.id,
+        name: ele.sample.name,
+      }))
   } else {
     TMessagePlugin.warning('当前文档中没有数据错误')
   }
