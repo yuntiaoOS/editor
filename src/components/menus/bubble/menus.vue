@@ -107,6 +107,11 @@
     <menus-bubble-code-copy />
     <menus-bubble-node-delete />
   </template>
+  <template v-else-if="editor?.isActive('raw_material_table') || editor?.isActive('sample_table') ||
+    editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
+    editor?.isActive('evaluating_table')|| editor?.isActive('experimental_design')" >
+
+  </template>
   <template v-else>
     <template v-if="options.assistant?.enabled">
       <menus-bubble-assistant />

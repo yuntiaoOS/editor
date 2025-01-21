@@ -18,8 +18,8 @@ export default xmNode.create({
   group: 'block',
   content: 'block*',
   atom: true,
-  selectable: false,
- 
+  selectable: true,
+
   parseHTML() {
     return [{ tag: 'evaluating_table' }]
   },
@@ -28,7 +28,7 @@ export default xmNode.create({
   },
   addAttributes() {
     const baseAttributes = xmNode.prototype.addAttributes.call(this);
-    return { 
+    return {
       ...baseAttributes,
       key: {
         default: ()=>{ return Xm_Table_key['evaluating_table']  + timeFormat(null,'yyyymmddhhMMss')  },
@@ -61,7 +61,7 @@ export default xmNode.create({
             return [];
           }
           return { 'data-columns': JSON.stringify(attributes.columns)  };
-        }  
+        }
       },
       // 组信息
       group: {
@@ -90,7 +90,7 @@ export default xmNode.create({
   addNodeView() {
     return VueNodeViewRenderer(NodeView, {
       update: (props) => {
-        // 
+        //
         // 根据props来更新节点，这里只是一个示例，具体实现需要根据实际情况
         props.updateProps(); // 调用提供的更新props的函数
         return true; // 根据VueNodeViewRenderer的API，这里通常需要返回一个布尔值
@@ -111,14 +111,14 @@ export default xmNode.create({
                 table_data: option?.table_data || [],
                 id: uuid(),
               },
-              content: [
-                {
-                  type: 'paragraph',
-                  content: [
-                    { type: 'text', text: ' ' },
-                  ],
-                }
-              ],
+              // content: [
+              //   {
+              //     type: 'paragraph',
+              //     content: [
+              //       { type: 'text', text: ' ' },
+              //     ],
+              //   }
+              // ],
             };
             return commands.insertContent(content);
           },
@@ -130,5 +130,5 @@ export default xmNode.create({
       ...this.parent?.()
     }
   },
- 
+
 })

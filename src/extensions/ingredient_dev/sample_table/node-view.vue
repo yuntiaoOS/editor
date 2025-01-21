@@ -120,7 +120,7 @@
           </div>
         </template>
       </t-table>
-      <node-view-content :node="node"></node-view-content>
+<!--      <node-view-content :node="node"></node-view-content>-->
     </div>
     <editSampleView
       v-if="editSampleDialogVisible"
@@ -742,6 +742,8 @@ const initData = async () => {
     )
     if (test_record_table.length === 0) {
       TMessagePlugin.warning('请先在试验数据表中出样')
+      table_data.value = []
+      loading.value = false
       return // 物料表不存在，返回
     }
     const sample_table = test_record_table

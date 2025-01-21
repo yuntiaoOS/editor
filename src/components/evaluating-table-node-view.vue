@@ -57,7 +57,7 @@
         </div>
       </template>
     </t-table>
-    <node-view-content :node="node" ></node-view-content>
+<!--    <node-view-content :node="node" ></node-view-content>-->
   </div>
   <t-dialog
     v-model:visible="select_design_visible"
@@ -234,7 +234,8 @@ const columns = computed({
 
 function safeJSONParse(str, fallback = {}) {
   try {
-    return JSON.parse(str);
+    const data = JSON.parse(str)
+    return data? data : {} ;
   } catch {
     return fallback;
   }

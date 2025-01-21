@@ -140,7 +140,7 @@ const emits = defineEmits([
 const defaultOptionsR: UmoEditorOptions = {
   ...defaultOptions,
   document: {
-    placeholder: '请输入',
+    placeholder: '输入 / 唤起更多',
     title: '文档',
     content: _value.value ?? '<p>请输入</p>',
   },
@@ -433,7 +433,7 @@ defineExpose({
 
 .umo-editor-container {
   height: 100%;
-  min-height: 100px;
+  min-height: 20px;
   background: #fff;
 }
 .umo-scrollbar {

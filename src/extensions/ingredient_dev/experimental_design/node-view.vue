@@ -58,7 +58,7 @@
           </template>
         </t-card>
 
-        <node-view-content :node="node" ></node-view-content>
+<!--        <node-view-content :node="node" ></node-view-content>-->
       </div>
     </div>
     <t-dialog

@@ -20,7 +20,7 @@
     </TText> -->
     <!-- <xm-form v-model:form-data="xmValue" /> -->
 <!--     <UmoEditor ref="editorRef" v-bind="options" />-->
-    <UmoSimpleEditor v-if="true" ref="editorRef" v-bind="options" @change="changeEdit" />
+    <UmoSimpleEditor v-if="true" ref="editorRef" v-bind="options" @changed="changeEdit" />
   </div>
 </template>
 
@@ -443,10 +443,10 @@ const options = $ref({
       "catalog": null
     },
     umo_domain: 'http://192.168.2.11:8003/api',
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM3MTczNDIyLCJpYXQiOjE3MzcwODcwMjIsImp0aSI6ImYxYzVkMzk5MTZhOTQwNDA4Y2RlYzQ1NzQ0ZTI0YTIxIiwidXNlcl9pZCI6Ijg1Mjg4NThmLTdjYjgtNDc3ZS1iZjE3LWZkZTNkMmZiYjIzZSJ9.JAGtiEFRWPBAxvl4XCKTbrz2oT-5xlmHxn_ePSza9lU',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM3NTEzMDgxLCJpYXQiOjE3Mzc0MjY2ODEsImp0aSI6IjVkMTRhM2I3Mzc3NTQyMzdiMzZhODlkNDA1OTk5MGVmIiwidXNlcl9pZCI6Ijg1Mjg4NThmLTdjYjgtNDc3ZS1iZjE3LWZkZTNkMmZiYjIzZSJ9.aRVU9l7Oo9GELnGrMN8UEr5-U0BCM8-fQmM0zYeSTkY',
   },
   document: {
-    placeholder: '请输入',
+    placeholder: '输入 / 唤起更多',
     content: localStorage.getItem('document.content') ?? "<p>请输入</p>",
   },
   templates,
@@ -580,7 +580,7 @@ const inputstring = ref('测试导入word')
 
 const changeEdit = (data: any) => {
   if (editorRef && editorRef.editorInstance) {
-
+    console.log('changeEdit', data)
   }
 }
 
@@ -779,17 +779,17 @@ onMounted(() => {
       {
         "type": "technology_table",
         "attrs": {
-          "id": "43de3071-935d-49f4-a61f-ddef77711316",
+          "id": "5c0e2018-8a8e-4018-b93c-1ceffc61e2a2",
           "updateTime": "",
-          "key": "technology_table20250106141139",
-          "name": "eb4c38af-a017-4f89-9ff2-51daf7235ebf",
+          "key": "technology_table20250118135540",
+          "name": "2765042c-1b9f-4c95-a072-5fb7da496e44",
           "isChanged": false,
           "change_log": {},
           "is_integration": false,
           "table_data": [
             {
-              "id": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
-              "rowKey": "8a141a32-907d-4d4f-aafd-ee988e75fe8c/3hv76bbv",
+              "id": "500cf083-fcfc-4493-add7-122cc8ec2112",
+              "rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8",
               "name": "准备操作",
               "type": "procedure",
               "description": "",
@@ -819,7 +819,7 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "2/niv9zl5m"
+                        "rowKey": "2/peqtp7z7"
                       },
                       {
                         "id": 4,
@@ -839,11 +839,11 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "4/twz1y01o"
+                        "rowKey": "4/672f3oyc"
                       }
                     ],
-                    "rowKey": "2/bri89yfg",
-                    "key": "2/bri89yfg",
+                    "rowKey": "2/g3q16i63",
+                    "key": "2/g3q16i63",
                     "title": "准备物料",
                     "operateType": "操作"
                   },
@@ -888,7 +888,7 @@ onMounted(() => {
                           ],
                           "abstract": false,
                           "dictType": null,
-                          "multiple": true,
+                          "multiple": false,
                           "required": false,
                           "expanding": false,
                           "validation": null,
@@ -897,7 +897,7 @@ onMounted(() => {
                         "key": "yuan_cai_liao",
                         "attribute_type": "single",
                         "multiple": false,
-                        "rowKey": "1/x77rd3xv",
+                        "rowKey": "1/c17oqzq0",
                         "description": ""
                       },
                       {
@@ -918,7 +918,7 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "2/52hw2z5n"
+                        "rowKey": "2/rwp0wyu5"
                       },
                       {
                         "id": 4,
@@ -938,24 +938,24 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "4/hdtm4fcg"
+                        "rowKey": "4/jjisdl97"
                       }
                     ],
-                    "rowKey": "4/kzgxnfj9",
-                    "key": "4/kzgxnfj9",
+                    "rowKey": "4/u5ss2c5h",
+                    "key": "4/u5ss2c5h",
                     "title": "粉碎",
                     "operateType": "物料"
                   }
                 ],
                 "formData": {
                   "description": "",
-                  "2/bri89yfg": {
+                  "2/g3q16i63": {
                     "shi_jian_unit": "",
                     "shi_jian": "",
                     "zhi_liang_unit": "",
                     "zhi_liang": ""
                   },
-                  "4/kzgxnfj9": {
+                  "4/u5ss2c5h": {
                     "yuan_cai_liao": [],
                     "shi_jian_unit": "",
                     "shi_jian": "",
@@ -966,8 +966,8 @@ onMounted(() => {
               }
             },
             {
-              "id": "594ba324-6dea-478a-b13e-d3dca94934a6",
-              "rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4",
+              "id": "96bd6373-3439-4ed7-b972-ab9230c90aed",
+              "rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu",
               "name": "粉碎过程",
               "type": "procedure",
               "description": "",
@@ -1044,11 +1044,11 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "3/9xajce9z"
+                        "rowKey": "3/dks1hoxx"
                       }
                     ],
-                    "rowKey": "1/565e2skg",
-                    "key": "1/565e2skg",
+                    "rowKey": "1/t99aojvc",
+                    "key": "1/t99aojvc",
                     "title": "添加物料",
                     "operateType": "物料"
                   },
@@ -1102,7 +1102,7 @@ onMounted(() => {
                         "key": "yuan_cai_liao",
                         "attribute_type": "single",
                         "multiple": false,
-                        "rowKey": "1/j11nqaei",
+                        "rowKey": "1/bbkucetc",
                         "description": ""
                       },
                       {
@@ -1123,7 +1123,7 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "2/0xr3v7d3"
+                        "rowKey": "2/odrjw1z7"
                       },
                       {
                         "id": 4,
@@ -1143,21 +1143,21 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "4/j6kdfdrn"
+                        "rowKey": "4/d8xl9vwu"
                       }
                     ],
-                    "rowKey": "4/5590x3em",
-                    "key": "4/5590x3em",
+                    "rowKey": "4/uk0z6996",
+                    "key": "4/uk0z6996",
                     "title": "粉碎",
                     "operateType": "物料"
                   }
                 ],
                 "formData": {
                   "description": "",
-                  "1/565e2skg": {
+                  "1/t99aojvc": {
                     "wu_liao": []
                   },
-                  "4/5590x3em": {
+                  "4/uk0z6996": {
                     "yuan_cai_liao": [],
                     "shi_jian_unit": "",
                     "shi_jian": "",
@@ -1168,7 +1168,7 @@ onMounted(() => {
               }
             }
           ],
-          "title": "工艺202501061411"
+          "title": "工艺202501181355"
         },
         "content": [
           {
@@ -1198,26 +1198,50 @@ onMounted(() => {
         }
       },
       {
+        "type": "paragraph",
+        "attrs": {
+          "indent": null,
+          "margin": {},
+          "textAlign": "left",
+          "lineHeight": 1.5
+        }
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "indent": null,
+          "margin": {},
+          "textAlign": "left",
+          "lineHeight": 1.5
+        },
+        "content": [
+          {
+            "text": "cr3r23r3r23r23fdswqdw",
+            "type": "text"
+          }
+        ]
+      },
+      {
         "type": "test_record_table",
         "attrs": {
-          "id": "a7396e83-1d00-4b7a-947a-dd7f0df217e6",
-          "updateTime": "2025-01-15 11:43:34",
-          "key": "test_record_table20250115114114",
-          "name": "3257d9c2-c760-4274-8cf7-146c26a3057d",
+          "id": "33dc8cc0-3825-407d-87d0-9e0ea37908c9",
+          "updateTime": "2025-01-18 18:43:16",
+          "key": "test_record_table20250118184252",
+          "name": "1c411602-8ce9-4d0d-a5ef-2cdbe1b6b969",
           "isChanged": false,
           "customerParams": {},
           "group": "",
           "table_data": [
             {
-              "id": "71cc9a46-fb38-4278-a8c8-a08690cf48fd",
-              "procedure_rowKey": "8a141a32-907d-4d4f-aafd-ee988e75fe8c/3hv76bbv",
-              "operate_rowKey": "2/bri89yfg",
+              "id": "f5ff8bec-ab08-4707-8058-2357390c67cf",
+              "procedure_rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8",
+              "operate_rowKey": "2/g3q16i63",
               "operateType": "操作",
               "formData": {
-                "shi_jian_unit": "s",
-                "shi_jian": "123",
-                "zhi_liang_unit": "g",
-                "zhi_liang": "234"
+                "shi_jian_unit": "y",
+                "shi_jian": "2",
+                "zhi_liang_unit": "kg",
+                "zhi_liang": "3"
               },
               "formItems": {
                 "id": 2,
@@ -1243,7 +1267,7 @@ onMounted(() => {
                     "attribute_type": "single",
                     "multiple": false,
                     "description": "",
-                    "rowKey": "2/niv9zl5m"
+                    "rowKey": "2/peqtp7z7"
                   },
                   {
                     "id": 4,
@@ -1263,332 +1287,43 @@ onMounted(() => {
                     "attribute_type": "single",
                     "multiple": false,
                     "description": "",
-                    "rowKey": "4/twz1y01o"
+                    "rowKey": "4/672f3oyc"
                   }
                 ],
-                "rowKey": "2/bri89yfg",
-                "key": "2/bri89yfg",
+                "rowKey": "2/g3q16i63",
+                "key": "2/g3q16i63",
                 "title": "准备物料",
                 "operateType": "操作"
               },
               "description": "",
               "procedure": {
-                "id": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
+                "id": "500cf083-fcfc-4493-add7-122cc8ec2112",
                 "title": "准备操作",
-                "key": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
-                "rowKey": "8a141a32-907d-4d4f-aafd-ee988e75fe8c/3hv76bbv"
+                "key": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                "rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8"
               },
               "is_sample": false,
               "sample": {},
               "operate_router": {
                 "id": 2,
                 "title": "准备物料",
-                "key": "2/bri89yfg",
-                "rowKey": "2/bri89yfg"
+                "key": "2/g3q16i63",
+                "rowKey": "2/g3q16i63"
               }
             },
             {
-              "id": "74212f27-0eed-4e13-8cd4-db3f3664cc4f",
-              "procedure_rowKey": "8a141a32-907d-4d4f-aafd-ee988e75fe8c/3hv76bbv",
-              "operate_rowKey": "4/kzgxnfj9",
+              "id": "92b69a24-6165-4606-b9ef-208761fd542f",
+              "procedure_rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8",
+              "operate_rowKey": "4/u5ss2c5h",
               "operateType": "物料",
               "formData": {
                 "yuan_cai_liao": [
-                  "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
+                  "2c8fc50f-fa87-4423-baba-06be739b8d07"
                 ],
                 "shi_jian_unit": "y",
-                "shi_jian": "32",
-                "zhi_liang_unit": "ml",
-                "zhi_liang": "123"
-              },
-              "formItems": {
-                "id": 4,
-                "name": "粉碎",
-                "description": "",
-                "type": "物料",
-                "attribute": [
-                  {
-                    "id": 1,
-                    "title": "原材料",
-                    "type": "SelectMaterial",
-                    "value": null,
-                    "props": {
-                      "http": {},
-                      "fixed": true,
-                      "hidden": false,
-                      "suffix": null,
-                      "options": [
-                        {
-                          "group": "物料202501061405",
-                          "children": [
-                            {
-                              "value": "2c8fc50f-fa87-4423-baba-06be739b8d07",
-                              "label": "测试11/111"
-                            },
-                            {
-                              "value": "aaa82945-a49e-49a7-bf3d-0119f5063ae4",
-                              "label": "测试标题模版/SN-2222222222"
-                            },
-                            {
-                              "value": "f066fd92-d037-4386-9383-69af99785dda",
-                              "label": "测试222/测试2222"
-                            },
-                            {
-                              "value": "1b7ae135-3075-4795-9014-41866959b111",
-                              "label": "测试/测试"
-                            }
-                          ]
-                        }
-                      ],
-                      "abstract": false,
-                      "dictType": null,
-                      "multiple": true,
-                      "required": false,
-                      "expanding": false,
-                      "validation": null,
-                      "enablePrint": true
-                    },
-                    "key": "yuan_cai_liao",
-                    "attribute_type": "single",
-                    "multiple": false,
-                    "rowKey": "1/x77rd3xv",
-                    "description": ""
-                  },
-                  {
-                    "id": 2,
-                    "title": "时间",
-                    "type": "NumberInput",
-                    "value": null,
-                    "props": {
-                      "unit": "y|M|d|h|m|s",
-                      "hidden": false,
-                      "suffix": "h",
-                      "abstract": false,
-                      "required": false,
-                      "precision": null,
-                      "enablePrint": true
-                    },
-                    "key": "shi_jian",
-                    "attribute_type": "single",
-                    "multiple": false,
-                    "description": "",
-                    "rowKey": "2/52hw2z5n"
-                  },
-                  {
-                    "id": 4,
-                    "title": "质量",
-                    "type": "NumberInput",
-                    "value": null,
-                    "props": {
-                      "unit": "kg|g|L|ml",
-                      "hidden": false,
-                      "suffix": "g",
-                      "abstract": false,
-                      "required": false,
-                      "precision": null,
-                      "enablePrint": true
-                    },
-                    "key": "zhi_liang",
-                    "attribute_type": "single",
-                    "multiple": false,
-                    "description": "",
-                    "rowKey": "4/hdtm4fcg"
-                  }
-                ],
-                "rowKey": "4/kzgxnfj9",
-                "key": "4/kzgxnfj9",
-                "title": "粉碎",
-                "operateType": "物料"
-              },
-              "description": "",
-              "procedure": {
-                "id": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
-                "title": "准备操作",
-                "key": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
-                "rowKey": "8a141a32-907d-4d4f-aafd-ee988e75fe8c/3hv76bbv"
-              },
-              "is_sample": false,
-              "sample": {},
-              "operate_router": {
-                "id": 4,
-                "title": "粉碎",
-                "key": "4/kzgxnfj9",
-                "rowKey": "4/kzgxnfj9"
-              }
-            },
-            {
-              "id": "f3f0ef56-e64f-4b23-b416-b1ee2fb6b0bf",
-              "procedure_rowKey": "8a141a32-907d-4d4f-aafd-ee988e75fe8c/3hv76bbv",
-              "operate_rowKey": "过程描述v207fllo",
-              "operateType": "过程描述",
-              "formData": {},
-              "formItems": {
-                "title": "过程描述"
-              },
-              "procedure": {
-                "id": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
-                "title": "准备操作",
-                "key": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
-                "rowKey": "8a141a32-907d-4d4f-aafd-ee988e75fe8c/3hv76bbv"
-              },
-              "is_sample": false,
-              "sample": {},
-              "operate_router": {
-                "title": "过程描述"
-              }
-            },
-            {
-              "id": "fa75fde0-fc38-49ca-98fe-4eb7d3f6caac",
-              "procedure_rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4",
-              "operate_rowKey": "1/565e2skg",
-              "operateType": "物料",
-              "formData": {
-                "wu_liao": [
-                  {
-                    "1": [
-                      "2c8fc50f-fa87-4423-baba-06be739b8d07"
-                    ],
-                    "4": "23"
-                  },
-                  {
-                    "1": [
-                      "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                    ],
-                    "4": "23"
-                  }
-                ],
-                "zhi_liang_unit": "ml"
-              },
-              "formItems": {
-                "id": 1,
-                "name": "添加物料",
-                "description": "",
-                "type": "物料",
-                "attribute": [
-                  {
-                    "id": 3,
-                    "title": "物料",
-                    "type": "TableList",
-                    "value": null,
-                    "props": {
-                      "hidden": false,
-                      "columns": [
-                        {
-                          "id": 1,
-                          "key": "yuan_cai_liao",
-                          "type": "SelectMaterial",
-                          "unit": null,
-                          "props": {
-                            "http": {},
-                            "fixed": true,
-                            "hidden": false,
-                            "suffix": null,
-                            "options": [
-                              {
-                                "group": "物料202501061405",
-                                "children": [
-                                  {
-                                    "value": "2c8fc50f-fa87-4423-baba-06be739b8d07",
-                                    "label": "测试11/111"
-                                  },
-                                  {
-                                    "value": "aaa82945-a49e-49a7-bf3d-0119f5063ae4",
-                                    "label": "测试标题模版/SN-2222222222"
-                                  },
-                                  {
-                                    "value": "f066fd92-d037-4386-9383-69af99785dda",
-                                    "label": "测试222/测试2222"
-                                  },
-                                  {
-                                    "value": "1b7ae135-3075-4795-9014-41866959b111",
-                                    "label": "测试/测试"
-                                  }
-                                ]
-                              }
-                            ],
-                            "abstract": false,
-                            "dictType": null,
-                            "multiple": false,
-                            "required": false,
-                            "expanding": false,
-                            "validation": null,
-                            "enablePrint": true
-                          },
-                          "title": "原材料",
-                          "value": null,
-                          "multiple": false,
-                          "attribute_type": "single"
-                        },
-                        {
-                          "id": 4,
-                          "key": "zhi_liang",
-                          "type": "NumberInput",
-                          "unit": null,
-                          "props": {
-                            "unit": "kg|g|L|ml",
-                            "hidden": false,
-                            "suffix": "g",
-                            "abstract": false,
-                            "required": false,
-                            "precision": null,
-                            "enablePrint": true
-                          },
-                          "title": "质量",
-                          "value": null,
-                          "multiple": false,
-                          "attribute_type": "single"
-                        }
-                      ],
-                      "maxSize": 0,
-                      "abstract": false,
-                      "required": false,
-                      "rowLayout": true,
-                      "showBorder": true,
-                      "enablePrint": true,
-                      "showSummary": false,
-                      "summaryColumns": []
-                    },
-                    "key": "wu_liao",
-                    "attribute_type": "single",
-                    "multiple": false,
-                    "description": "",
-                    "rowKey": "3/9xajce9z"
-                  }
-                ],
-                "rowKey": "1/565e2skg",
-                "key": "1/565e2skg",
-                "title": "添加物料",
-                "operateType": "物料"
-              },
-              "description": "",
-              "procedure": {
-                "id": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "title": "粉碎过程",
-                "key": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4"
-              },
-              "is_sample": false,
-              "sample": {},
-              "operate_router": {
-                "id": 1,
-                "title": "添加物料",
-                "key": "1/565e2skg",
-                "rowKey": "1/565e2skg"
-              }
-            },
-            {
-              "id": "d2207f54-0922-49cf-9b99-5be235393045",
-              "procedure_rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4",
-              "operate_rowKey": "4/5590x3em",
-              "operateType": "物料",
-              "formData": {
-                "yuan_cai_liao": [
-                  "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                ],
-                "shi_jian_unit": "h",
-                "shi_jian": "12",
-                "zhi_liang_unit": "ml",
-                "zhi_liang": "23"
+                "shi_jian": "1",
+                "zhi_liang_unit": "kg",
+                "zhi_liang": "2"
               },
               "formItems": {
                 "id": 4,
@@ -1640,7 +1375,7 @@ onMounted(() => {
                     "key": "yuan_cai_liao",
                     "attribute_type": "single",
                     "multiple": false,
-                    "rowKey": "1/j11nqaei",
+                    "rowKey": "1/c17oqzq0",
                     "description": ""
                   },
                   {
@@ -1661,7 +1396,7 @@ onMounted(() => {
                     "attribute_type": "single",
                     "multiple": false,
                     "description": "",
-                    "rowKey": "2/0xr3v7d3"
+                    "rowKey": "2/rwp0wyu5"
                   },
                   {
                     "id": 4,
@@ -1681,1011 +1416,55 @@ onMounted(() => {
                     "attribute_type": "single",
                     "multiple": false,
                     "description": "",
-                    "rowKey": "4/j6kdfdrn"
+                    "rowKey": "4/jjisdl97"
                   }
                 ],
-                "rowKey": "4/5590x3em",
-                "key": "4/5590x3em",
+                "rowKey": "4/u5ss2c5h",
+                "key": "4/u5ss2c5h",
                 "title": "粉碎",
                 "operateType": "物料"
               },
               "description": "",
               "procedure": {
-                "id": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "title": "粉碎过程",
-                "key": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4"
+                "id": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                "title": "准备操作",
+                "key": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                "rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8"
               },
               "is_sample": false,
               "sample": {},
               "operate_router": {
                 "id": 4,
                 "title": "粉碎",
-                "key": "4/5590x3em",
-                "rowKey": "4/5590x3em"
+                "key": "4/u5ss2c5h",
+                "rowKey": "4/u5ss2c5h"
               }
             },
             {
-              "id": "9ed7178e-49c6-4fef-929a-571db76f59a3",
-              "procedure_rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4",
-              "operate_rowKey": "过程描述gqmyr0qz",
+              "id": "b0c7c303-f3c0-4643-8ce6-7dd7c9999d6b",
+              "procedure_rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8",
+              "operate_rowKey": "过程描述sccjpymu",
               "operateType": "过程描述",
               "formData": {},
               "formItems": {
                 "title": "过程描述"
               },
               "procedure": {
-                "id": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "title": "粉碎过程",
-                "key": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4"
+                "id": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                "title": "准备操作",
+                "key": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                "rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8"
               },
               "is_sample": false,
               "sample": {},
               "operate_router": {
                 "title": "过程描述"
               }
-            }
-          ],
-          "designParams": {
-            "formItems": [
-              {
-                "formItems": [
-                  {
-                    "id": 2,
-                    "name": "准备物料",
-                    "description": "",
-                    "type": "操作",
-                    "attribute": [
-                      {
-                        "id": 2,
-                        "title": "时间",
-                        "type": "NumberInput",
-                        "value": null,
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "key": "shi_jian",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "2/niv9zl5m"
-                      },
-                      {
-                        "id": 4,
-                        "title": "质量",
-                        "type": "NumberInput",
-                        "value": null,
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "suffix": "g",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "key": "zhi_liang",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "4/twz1y01o"
-                      }
-                    ],
-                    "rowKey": "2/bri89yfg",
-                    "key": "2/bri89yfg",
-                    "title": "准备物料",
-                    "operateType": "操作"
-                  },
-                  {
-                    "id": 4,
-                    "name": "粉碎",
-                    "description": "",
-                    "type": "物料",
-                    "attribute": [
-                      {
-                        "id": 1,
-                        "title": "原材料",
-                        "type": "SelectMaterial",
-                        "value": null,
-                        "props": {
-                          "http": {},
-                          "fixed": true,
-                          "hidden": false,
-                          "suffix": null,
-                          "options": [
-                            {
-                              "group": "物料202501061405",
-                              "children": [
-                                {
-                                  "value": "2c8fc50f-fa87-4423-baba-06be739b8d07",
-                                  "label": "测试11/111"
-                                },
-                                {
-                                  "value": "aaa82945-a49e-49a7-bf3d-0119f5063ae4",
-                                  "label": "测试标题模版/SN-2222222222"
-                                },
-                                {
-                                  "value": "f066fd92-d037-4386-9383-69af99785dda",
-                                  "label": "测试222/测试2222"
-                                },
-                                {
-                                  "value": "1b7ae135-3075-4795-9014-41866959b111",
-                                  "label": "测试/测试"
-                                }
-                              ]
-                            }
-                          ],
-                          "abstract": false,
-                          "dictType": null,
-                          "multiple": true,
-                          "required": false,
-                          "expanding": false,
-                          "validation": null,
-                          "enablePrint": true
-                        },
-                        "key": "yuan_cai_liao",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "rowKey": "1/x77rd3xv",
-                        "description": ""
-                      },
-                      {
-                        "id": 2,
-                        "title": "时间",
-                        "type": "NumberInput",
-                        "value": null,
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "key": "shi_jian",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "2/52hw2z5n"
-                      },
-                      {
-                        "id": 4,
-                        "title": "质量",
-                        "type": "NumberInput",
-                        "value": null,
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "suffix": "g",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "key": "zhi_liang",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "4/hdtm4fcg"
-                      }
-                    ],
-                    "rowKey": "4/kzgxnfj9",
-                    "key": "4/kzgxnfj9",
-                    "title": "粉碎",
-                    "operateType": "物料"
-                  }
-                ],
-                "id": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
-                "key": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
-                "rowKey": "8a141a32-907d-4d4f-aafd-ee988e75fe8c/3hv76bbv",
-                "title": "准备操作",
-                "name": "准备操作"
-              },
-              {
-                "formItems": [
-                  {
-                    "id": 1,
-                    "name": "添加物料",
-                    "description": "",
-                    "type": "物料",
-                    "attribute": [
-                      {
-                        "id": 3,
-                        "title": "物料",
-                        "type": "TableList",
-                        "value": null,
-                        "props": {
-                          "hidden": false,
-                          "columns": [
-                            {
-                              "id": 1,
-                              "key": "yuan_cai_liao",
-                              "type": "SelectMaterial",
-                              "unit": null,
-                              "props": {
-                                "http": {},
-                                "fixed": true,
-                                "hidden": false,
-                                "suffix": null,
-                                "options": [
-                                  {
-                                    "group": "物料202501061405",
-                                    "children": [
-                                      {
-                                        "value": "2c8fc50f-fa87-4423-baba-06be739b8d07",
-                                        "label": "测试11/111"
-                                      },
-                                      {
-                                        "value": "aaa82945-a49e-49a7-bf3d-0119f5063ae4",
-                                        "label": "测试标题模版/SN-2222222222"
-                                      },
-                                      {
-                                        "value": "f066fd92-d037-4386-9383-69af99785dda",
-                                        "label": "测试222/测试2222"
-                                      },
-                                      {
-                                        "value": "1b7ae135-3075-4795-9014-41866959b111",
-                                        "label": "测试/测试"
-                                      }
-                                    ]
-                                  }
-                                ],
-                                "abstract": false,
-                                "dictType": null,
-                                "multiple": false,
-                                "required": false,
-                                "expanding": false,
-                                "validation": null,
-                                "enablePrint": true
-                              },
-                              "title": "原材料",
-                              "value": null,
-                              "multiple": false,
-                              "attribute_type": "single"
-                            },
-                            {
-                              "id": 4,
-                              "key": "zhi_liang",
-                              "type": "NumberInput",
-                              "unit": null,
-                              "props": {
-                                "unit": "kg|g|L|ml",
-                                "hidden": false,
-                                "suffix": "g",
-                                "abstract": false,
-                                "required": false,
-                                "precision": null,
-                                "enablePrint": true
-                              },
-                              "title": "质量",
-                              "value": null,
-                              "multiple": false,
-                              "attribute_type": "single"
-                            }
-                          ],
-                          "maxSize": 0,
-                          "abstract": false,
-                          "required": false,
-                          "rowLayout": true,
-                          "showBorder": true,
-                          "enablePrint": true,
-                          "showSummary": false,
-                          "summaryColumns": []
-                        },
-                        "key": "wu_liao",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "3/9xajce9z"
-                      }
-                    ],
-                    "rowKey": "1/565e2skg",
-                    "key": "1/565e2skg",
-                    "title": "添加物料",
-                    "operateType": "物料"
-                  },
-                  {
-                    "id": 4,
-                    "name": "粉碎",
-                    "description": "",
-                    "type": "物料",
-                    "attribute": [
-                      {
-                        "id": 1,
-                        "title": "原材料",
-                        "type": "SelectMaterial",
-                        "value": null,
-                        "props": {
-                          "http": {},
-                          "fixed": true,
-                          "hidden": false,
-                          "suffix": null,
-                          "options": [
-                            {
-                              "group": "物料202501061405",
-                              "children": [
-                                {
-                                  "value": "2c8fc50f-fa87-4423-baba-06be739b8d07",
-                                  "label": "测试11/111"
-                                },
-                                {
-                                  "value": "aaa82945-a49e-49a7-bf3d-0119f5063ae4",
-                                  "label": "测试标题模版/SN-2222222222"
-                                },
-                                {
-                                  "value": "f066fd92-d037-4386-9383-69af99785dda",
-                                  "label": "测试222/测试2222"
-                                },
-                                {
-                                  "value": "1b7ae135-3075-4795-9014-41866959b111",
-                                  "label": "测试/测试"
-                                }
-                              ]
-                            }
-                          ],
-                          "abstract": false,
-                          "dictType": null,
-                          "multiple": false,
-                          "required": false,
-                          "expanding": false,
-                          "validation": null,
-                          "enablePrint": true
-                        },
-                        "key": "yuan_cai_liao",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "rowKey": "1/j11nqaei",
-                        "description": ""
-                      },
-                      {
-                        "id": 2,
-                        "title": "时间",
-                        "type": "NumberInput",
-                        "value": null,
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "key": "shi_jian",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "2/0xr3v7d3"
-                      },
-                      {
-                        "id": 4,
-                        "title": "质量",
-                        "type": "NumberInput",
-                        "value": null,
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "suffix": "g",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "key": "zhi_liang",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "4/j6kdfdrn"
-                      }
-                    ],
-                    "rowKey": "4/5590x3em",
-                    "key": "4/5590x3em",
-                    "title": "粉碎",
-                    "operateType": "物料"
-                  }
-                ],
-                "id": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "key": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4",
-                "title": "粉碎过程",
-                "name": "粉碎过程"
-              }
-            ],
-            "formData": {
-              "8a141a32-907d-4d4f-aafd-ee988e75fe8c": {
-                "description": "",
-                "2/bri89yfg": {
-                  "shi_jian_unit": "s",
-                  "shi_jian": "123",
-                  "zhi_liang_unit": "g",
-                  "zhi_liang": "234"
-                },
-                "4/kzgxnfj9": {
-                  "yuan_cai_liao": [
-                    "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                  ],
-                  "shi_jian_unit": "y",
-                  "shi_jian": "32",
-                  "zhi_liang_unit": "ml",
-                  "zhi_liang": "123"
-                }
-              },
-              "594ba324-6dea-478a-b13e-d3dca94934a6": {
-                "description": "",
-                "1/565e2skg": {
-                  "wu_liao": [
-                    {
-                      "1": [
-                        "2c8fc50f-fa87-4423-baba-06be739b8d07"
-                      ],
-                      "4": "23"
-                    },
-                    {
-                      "1": [
-                        "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                      ],
-                      "4": "23"
-                    }
-                  ],
-                  "zhi_liang_unit": "ml"
-                },
-                "4/5590x3em": {
-                  "yuan_cai_liao": [
-                    "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                  ],
-                  "shi_jian_unit": "h",
-                  "shi_jian": "12",
-                  "zhi_liang_unit": "ml",
-                  "zhi_liang": "23"
-                }
-              }
             },
-            "stepData": {
-              "8a141a32-907d-4d4f-aafd-ee988e75fe8c": {
-                "description": "",
-                "2/bri89yfg": {
-                  "shi_jian_unit": "s",
-                  "shi_jian": "123",
-                  "zhi_liang_unit": "g",
-                  "zhi_liang": "234"
-                },
-                "4/kzgxnfj9": {
-                  "yuan_cai_liao": [
-                    "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                  ],
-                  "shi_jian_unit": "y",
-                  "shi_jian": "32",
-                  "zhi_liang_unit": "ml",
-                  "zhi_liang": "123"
-                }
-              },
-              "594ba324-6dea-478a-b13e-d3dca94934a6": {
-                "description": "",
-                "1/565e2skg": {
-                  "wu_liao": [
-                    {
-                      "1": [
-                        "2c8fc50f-fa87-4423-baba-06be739b8d07"
-                      ],
-                      "4": "23"
-                    },
-                    {
-                      "1": [
-                        "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                      ],
-                      "4": "23"
-                    }
-                  ],
-                  "zhi_liang_unit": "ml"
-                },
-                "4/5590x3em": {
-                  "yuan_cai_liao": [
-                    "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                  ],
-                  "shi_jian_unit": "h",
-                  "shi_jian": "12",
-                  "zhi_liang_unit": "ml",
-                  "zhi_liang": "23"
-                }
-              }
-            }
-          },
-          "designResult": {
-            "formData": {
-              "8a141a32-907d-4d4f-aafd-ee988e75fe8c": {
-                "description": "",
-                "2/bri89yfg": {
-                  "shi_jian_unit": "s",
-                  "shi_jian": "123",
-                  "zhi_liang_unit": "g",
-                  "zhi_liang": "234"
-                },
-                "4/kzgxnfj9": {
-                  "yuan_cai_liao": [
-                    "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                  ],
-                  "shi_jian_unit": "y",
-                  "shi_jian": "32",
-                  "zhi_liang_unit": "ml",
-                  "zhi_liang": "123"
-                }
-              },
-              "594ba324-6dea-478a-b13e-d3dca94934a6": {
-                "description": "",
-                "1/565e2skg": {
-                  "wu_liao": [
-                    {
-                      "1": [
-                        "2c8fc50f-fa87-4423-baba-06be739b8d07"
-                      ],
-                      "4": "23"
-                    },
-                    {
-                      "1": [
-                        "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                      ],
-                      "4": "23"
-                    }
-                  ],
-                  "zhi_liang_unit": "ml"
-                },
-                "4/5590x3em": {
-                  "yuan_cai_liao": [
-                    "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                  ],
-                  "shi_jian_unit": "h",
-                  "shi_jian": "12",
-                  "zhi_liang_unit": "ml",
-                  "zhi_liang": "23"
-                }
-              }
-            },
-            "formItems": [
-              {
-                "formItems": [
-                  {
-                    "id": 2,
-                    "name": "准备物料",
-                    "description": "",
-                    "type": "操作",
-                    "attribute": [
-                      {
-                        "id": 2,
-                        "title": "时间",
-                        "type": "NumberInput",
-                        "value": null,
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "key": "shi_jian",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "2/niv9zl5m"
-                      },
-                      {
-                        "id": 4,
-                        "title": "质量",
-                        "type": "NumberInput",
-                        "value": null,
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "suffix": "g",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "key": "zhi_liang",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "4/twz1y01o"
-                      }
-                    ],
-                    "rowKey": "2/bri89yfg",
-                    "key": "2/bri89yfg",
-                    "title": "准备物料",
-                    "operateType": "操作"
-                  },
-                  {
-                    "id": 4,
-                    "name": "粉碎",
-                    "description": "",
-                    "type": "物料",
-                    "attribute": [
-                      {
-                        "id": 1,
-                        "title": "原材料",
-                        "type": "SelectMaterial",
-                        "value": null,
-                        "props": {
-                          "http": {},
-                          "fixed": true,
-                          "hidden": false,
-                          "suffix": null,
-                          "options": [
-                            {
-                              "group": "物料202501061405",
-                              "children": [
-                                {
-                                  "value": "2c8fc50f-fa87-4423-baba-06be739b8d07",
-                                  "label": "测试11/111"
-                                },
-                                {
-                                  "value": "aaa82945-a49e-49a7-bf3d-0119f5063ae4",
-                                  "label": "测试标题模版/SN-2222222222"
-                                },
-                                {
-                                  "value": "f066fd92-d037-4386-9383-69af99785dda",
-                                  "label": "测试222/测试2222"
-                                },
-                                {
-                                  "value": "1b7ae135-3075-4795-9014-41866959b111",
-                                  "label": "测试/测试"
-                                }
-                              ]
-                            }
-                          ],
-                          "abstract": false,
-                          "dictType": null,
-                          "multiple": true,
-                          "required": false,
-                          "expanding": false,
-                          "validation": null,
-                          "enablePrint": true
-                        },
-                        "key": "yuan_cai_liao",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "rowKey": "1/x77rd3xv",
-                        "description": ""
-                      },
-                      {
-                        "id": 2,
-                        "title": "时间",
-                        "type": "NumberInput",
-                        "value": null,
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "key": "shi_jian",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "2/52hw2z5n"
-                      },
-                      {
-                        "id": 4,
-                        "title": "质量",
-                        "type": "NumberInput",
-                        "value": null,
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "suffix": "g",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "key": "zhi_liang",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "4/hdtm4fcg"
-                      }
-                    ],
-                    "rowKey": "4/kzgxnfj9",
-                    "key": "4/kzgxnfj9",
-                    "title": "粉碎",
-                    "operateType": "物料"
-                  }
-                ],
-                "id": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
-                "key": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
-                "rowKey": "8a141a32-907d-4d4f-aafd-ee988e75fe8c/3hv76bbv",
-                "title": "准备操作",
-                "name": "准备操作"
-              },
-              {
-                "formItems": [
-                  {
-                    "id": 1,
-                    "name": "添加物料",
-                    "description": "",
-                    "type": "物料",
-                    "attribute": [
-                      {
-                        "id": 3,
-                        "title": "物料",
-                        "type": "TableList",
-                        "value": null,
-                        "props": {
-                          "hidden": false,
-                          "columns": [
-                            {
-                              "id": 1,
-                              "key": "yuan_cai_liao",
-                              "type": "SelectMaterial",
-                              "unit": null,
-                              "props": {
-                                "http": {},
-                                "fixed": true,
-                                "hidden": false,
-                                "suffix": null,
-                                "options": [
-                                  {
-                                    "group": "物料202501061405",
-                                    "children": [
-                                      {
-                                        "value": "2c8fc50f-fa87-4423-baba-06be739b8d07",
-                                        "label": "测试11/111"
-                                      },
-                                      {
-                                        "value": "aaa82945-a49e-49a7-bf3d-0119f5063ae4",
-                                        "label": "测试标题模版/SN-2222222222"
-                                      },
-                                      {
-                                        "value": "f066fd92-d037-4386-9383-69af99785dda",
-                                        "label": "测试222/测试2222"
-                                      },
-                                      {
-                                        "value": "1b7ae135-3075-4795-9014-41866959b111",
-                                        "label": "测试/测试"
-                                      }
-                                    ]
-                                  }
-                                ],
-                                "abstract": false,
-                                "dictType": null,
-                                "multiple": false,
-                                "required": false,
-                                "expanding": false,
-                                "validation": null,
-                                "enablePrint": true
-                              },
-                              "title": "原材料",
-                              "value": null,
-                              "multiple": false,
-                              "attribute_type": "single"
-                            },
-                            {
-                              "id": 4,
-                              "key": "zhi_liang",
-                              "type": "NumberInput",
-                              "unit": null,
-                              "props": {
-                                "unit": "kg|g|L|ml",
-                                "hidden": false,
-                                "suffix": "g",
-                                "abstract": false,
-                                "required": false,
-                                "precision": null,
-                                "enablePrint": true
-                              },
-                              "title": "质量",
-                              "value": null,
-                              "multiple": false,
-                              "attribute_type": "single"
-                            }
-                          ],
-                          "maxSize": 0,
-                          "abstract": false,
-                          "required": false,
-                          "rowLayout": true,
-                          "showBorder": true,
-                          "enablePrint": true,
-                          "showSummary": false,
-                          "summaryColumns": []
-                        },
-                        "key": "wu_liao",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "3/9xajce9z"
-                      }
-                    ],
-                    "rowKey": "1/565e2skg",
-                    "key": "1/565e2skg",
-                    "title": "添加物料",
-                    "operateType": "物料"
-                  },
-                  {
-                    "id": 4,
-                    "name": "粉碎",
-                    "description": "",
-                    "type": "物料",
-                    "attribute": [
-                      {
-                        "id": 1,
-                        "title": "原材料",
-                        "type": "SelectMaterial",
-                        "value": null,
-                        "props": {
-                          "http": {},
-                          "fixed": true,
-                          "hidden": false,
-                          "suffix": null,
-                          "options": [
-                            {
-                              "group": "物料202501061405",
-                              "children": [
-                                {
-                                  "value": "2c8fc50f-fa87-4423-baba-06be739b8d07",
-                                  "label": "测试11/111"
-                                },
-                                {
-                                  "value": "aaa82945-a49e-49a7-bf3d-0119f5063ae4",
-                                  "label": "测试标题模版/SN-2222222222"
-                                },
-                                {
-                                  "value": "f066fd92-d037-4386-9383-69af99785dda",
-                                  "label": "测试222/测试2222"
-                                },
-                                {
-                                  "value": "1b7ae135-3075-4795-9014-41866959b111",
-                                  "label": "测试/测试"
-                                }
-                              ]
-                            }
-                          ],
-                          "abstract": false,
-                          "dictType": null,
-                          "multiple": false,
-                          "required": false,
-                          "expanding": false,
-                          "validation": null,
-                          "enablePrint": true
-                        },
-                        "key": "yuan_cai_liao",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "rowKey": "1/j11nqaei",
-                        "description": ""
-                      },
-                      {
-                        "id": 2,
-                        "title": "时间",
-                        "type": "NumberInput",
-                        "value": null,
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "key": "shi_jian",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "2/0xr3v7d3"
-                      },
-                      {
-                        "id": 4,
-                        "title": "质量",
-                        "type": "NumberInput",
-                        "value": null,
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "suffix": "g",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "key": "zhi_liang",
-                        "attribute_type": "single",
-                        "multiple": false,
-                        "description": "",
-                        "rowKey": "4/j6kdfdrn"
-                      }
-                    ],
-                    "rowKey": "4/5590x3em",
-                    "key": "4/5590x3em",
-                    "title": "粉碎",
-                    "operateType": "物料"
-                  }
-                ],
-                "id": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "key": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4",
-                "title": "粉碎过程",
-                "name": "粉碎过程"
-              }
-            ],
-            "orthogonalDesign": {
-              "cycleNumber": 1,
-              "stepItems": []
-            },
-            "id": "621badde-c211-4553-9d99-6995fc4d10c9",
-            "title": "试验设计方案-20250115114334"
-          },
-          "selectRows": [],
-          "title": "试验记录202501151141"
-        },
-        "content": [
-          {
-            "type": "paragraph",
-            "attrs": {
-              "indent": null,
-              "textAlign": "left",
-              "lineHeight": 1.5,
-              "margin": {}
-            },
-            "content": [
-              {
-                "type": "text",
-                "text": " "
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "type": "paragraph",
-        "attrs": {
-          "indent": null,
-          "margin": {},
-          "textAlign": "left",
-          "lineHeight": 1.5
-        },
-        "content": [
-          {
-            "text": "cr3r23r3r23r23fdswqdw",
-            "type": "text"
-          }
-        ]
-      },
-      {
-        "type": "paragraph",
-        "attrs": {
-          "indent": null,
-          "margin": {},
-          "textAlign": "left",
-          "lineHeight": 1.5
-        }
-      },
-      {
-        "type": "test_record_table",
-        "attrs": {
-          "id": "67f26030-6b92-4332-86d6-96fcc592fd93",
-          "updateTime": "2025-01-15 11:56:00",
-          "key": "test_record_table20250115115539",
-          "name": "1ee5d031-c2b3-47ae-900b-c6db8a69cee6",
-          "isChanged": false,
-          "customerParams": {},
-          "group": "",
-          "table_data": [
             {
-              "id": "3927adc8-2d21-4b39-8273-6ec8e210ec21",
-              "procedure_rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4",
-              "operate_rowKey": "1/565e2skg",
+              "id": "6db7d03e-61a6-4e7c-abbc-84be9ced5537",
+              "procedure_rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu",
+              "operate_rowKey": "1/t99aojvc",
               "operateType": "物料",
               "formData": {
                 "wu_liao": [
@@ -2693,13 +1472,7 @@ onMounted(() => {
                     "1": [
                       "2c8fc50f-fa87-4423-baba-06be739b8d07"
                     ],
-                    "4": "23"
-                  },
-                  {
-                    "1": [
-                      "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                    ],
-                    "4": "12"
+                    "4": "1"
                   }
                 ],
                 "zhi_liang_unit": "kg"
@@ -2797,43 +1570,521 @@ onMounted(() => {
                     "attribute_type": "single",
                     "multiple": false,
                     "description": "",
-                    "rowKey": "3/9xajce9z"
+                    "rowKey": "3/dks1hoxx"
                   }
                 ],
-                "rowKey": "1/565e2skg",
-                "key": "1/565e2skg",
+                "rowKey": "1/t99aojvc",
+                "key": "1/t99aojvc",
                 "title": "添加物料",
                 "operateType": "物料"
               },
               "description": "",
               "procedure": {
-                "id": "594ba324-6dea-478a-b13e-d3dca94934a6",
+                "id": "96bd6373-3439-4ed7-b972-ab9230c90aed",
                 "title": "粉碎过程",
-                "key": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4"
+                "key": "96bd6373-3439-4ed7-b972-ab9230c90aed",
+                "rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu"
               },
               "is_sample": false,
               "sample": {},
               "operate_router": {
                 "id": 1,
                 "title": "添加物料",
-                "key": "1/565e2skg",
-                "rowKey": "1/565e2skg"
+                "key": "1/t99aojvc",
+                "rowKey": "1/t99aojvc"
               }
             },
             {
-              "id": "829758c9-57ad-4d8c-b76e-a13030d1c047",
-              "procedure_rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4",
-              "operate_rowKey": "4/5590x3em",
+              "id": "894992de-ca42-4cfa-8201-6696442478f5",
+              "procedure_rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu",
+              "operate_rowKey": "1/t99aojvc",
+              "operateType": "样品",
+              "formData": {},
+              "formItems": [
+                {
+                  "id": "f5ff8bec-ab08-4707-8058-2357390c67cf",
+                  "procedure_rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8",
+                  "operate_rowKey": "2/g3q16i63",
+                  "operateType": "操作",
+                  "formData": {
+                    "shi_jian_unit": "y",
+                    "shi_jian": "2",
+                    "zhi_liang_unit": "kg",
+                    "zhi_liang": "3"
+                  },
+                  "formItems": {
+                    "id": 2,
+                    "name": "准备物料",
+                    "description": "",
+                    "type": "操作",
+                    "attribute": [
+                      {
+                        "id": 2,
+                        "title": "时间",
+                        "type": "NumberInput",
+                        "value": null,
+                        "props": {
+                          "unit": "y|M|d|h|m|s",
+                          "hidden": false,
+                          "suffix": "h",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "key": "shi_jian",
+                        "attribute_type": "single",
+                        "multiple": false,
+                        "description": "",
+                        "rowKey": "2/peqtp7z7"
+                      },
+                      {
+                        "id": 4,
+                        "title": "质量",
+                        "type": "NumberInput",
+                        "value": null,
+                        "props": {
+                          "unit": "kg|g|L|ml",
+                          "hidden": false,
+                          "suffix": "g",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "key": "zhi_liang",
+                        "attribute_type": "single",
+                        "multiple": false,
+                        "description": "",
+                        "rowKey": "4/672f3oyc"
+                      }
+                    ],
+                    "rowKey": "2/g3q16i63",
+                    "key": "2/g3q16i63",
+                    "title": "准备物料",
+                    "operateType": "操作"
+                  },
+                  "description": "",
+                  "procedure": {
+                    "id": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                    "title": "准备操作",
+                    "key": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                    "rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8"
+                  },
+                  "is_sample": false,
+                  "sample": {},
+                  "operate_router": {
+                    "id": 2,
+                    "title": "准备物料",
+                    "key": "2/g3q16i63",
+                    "rowKey": "2/g3q16i63"
+                  }
+                },
+                {
+                  "id": "92b69a24-6165-4606-b9ef-208761fd542f",
+                  "procedure_rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8",
+                  "operate_rowKey": "4/u5ss2c5h",
+                  "operateType": "物料",
+                  "formData": {
+                    "yuan_cai_liao": [
+                      "2c8fc50f-fa87-4423-baba-06be739b8d07"
+                    ],
+                    "shi_jian_unit": "y",
+                    "shi_jian": "1",
+                    "zhi_liang_unit": "kg",
+                    "zhi_liang": "2"
+                  },
+                  "formItems": {
+                    "id": 4,
+                    "name": "粉碎",
+                    "description": "",
+                    "type": "物料",
+                    "attribute": [
+                      {
+                        "id": 1,
+                        "title": "原材料",
+                        "type": "SelectMaterial",
+                        "value": null,
+                        "props": {
+                          "http": {},
+                          "fixed": true,
+                          "hidden": false,
+                          "suffix": null,
+                          "options": [
+                            {
+                              "group": "物料202501061405",
+                              "children": [
+                                {
+                                  "value": "2c8fc50f-fa87-4423-baba-06be739b8d07",
+                                  "label": "测试11/111"
+                                },
+                                {
+                                  "value": "aaa82945-a49e-49a7-bf3d-0119f5063ae4",
+                                  "label": "测试标题模版/SN-2222222222"
+                                },
+                                {
+                                  "value": "f066fd92-d037-4386-9383-69af99785dda",
+                                  "label": "测试222/测试2222"
+                                },
+                                {
+                                  "value": "1b7ae135-3075-4795-9014-41866959b111",
+                                  "label": "测试/测试"
+                                }
+                              ]
+                            }
+                          ],
+                          "abstract": false,
+                          "dictType": null,
+                          "multiple": false,
+                          "required": false,
+                          "expanding": false,
+                          "validation": null,
+                          "enablePrint": true
+                        },
+                        "key": "yuan_cai_liao",
+                        "attribute_type": "single",
+                        "multiple": false,
+                        "rowKey": "1/c17oqzq0",
+                        "description": ""
+                      },
+                      {
+                        "id": 2,
+                        "title": "时间",
+                        "type": "NumberInput",
+                        "value": null,
+                        "props": {
+                          "unit": "y|M|d|h|m|s",
+                          "hidden": false,
+                          "suffix": "h",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "key": "shi_jian",
+                        "attribute_type": "single",
+                        "multiple": false,
+                        "description": "",
+                        "rowKey": "2/rwp0wyu5"
+                      },
+                      {
+                        "id": 4,
+                        "title": "质量",
+                        "type": "NumberInput",
+                        "value": null,
+                        "props": {
+                          "unit": "kg|g|L|ml",
+                          "hidden": false,
+                          "suffix": "g",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "key": "zhi_liang",
+                        "attribute_type": "single",
+                        "multiple": false,
+                        "description": "",
+                        "rowKey": "4/jjisdl97"
+                      }
+                    ],
+                    "rowKey": "4/u5ss2c5h",
+                    "key": "4/u5ss2c5h",
+                    "title": "粉碎",
+                    "operateType": "物料"
+                  },
+                  "description": "",
+                  "procedure": {
+                    "id": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                    "title": "准备操作",
+                    "key": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                    "rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8"
+                  },
+                  "is_sample": false,
+                  "sample": {},
+                  "operate_router": {
+                    "id": 4,
+                    "title": "粉碎",
+                    "key": "4/u5ss2c5h",
+                    "rowKey": "4/u5ss2c5h"
+                  }
+                },
+                {
+                  "id": "b0c7c303-f3c0-4643-8ce6-7dd7c9999d6b",
+                  "procedure_rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8",
+                  "operate_rowKey": "过程描述sccjpymu",
+                  "operateType": "过程描述",
+                  "formData": {},
+                  "formItems": {
+                    "title": "过程描述"
+                  },
+                  "procedure": {
+                    "id": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                    "title": "准备操作",
+                    "key": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                    "rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8"
+                  },
+                  "is_sample": false,
+                  "sample": {},
+                  "operate_router": {
+                    "title": "过程描述"
+                  }
+                },
+                {
+                  "id": "6db7d03e-61a6-4e7c-abbc-84be9ced5537",
+                  "procedure_rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu",
+                  "operate_rowKey": "1/t99aojvc",
+                  "operateType": "物料",
+                  "formData": {
+                    "wu_liao": [
+                      {
+                        "1": [
+                          "2c8fc50f-fa87-4423-baba-06be739b8d07"
+                        ],
+                        "4": "1"
+                      }
+                    ],
+                    "zhi_liang_unit": "kg"
+                  },
+                  "formItems": {
+                    "id": 1,
+                    "name": "添加物料",
+                    "description": "",
+                    "type": "物料",
+                    "attribute": [
+                      {
+                        "id": 3,
+                        "title": "物料",
+                        "type": "TableList",
+                        "value": null,
+                        "props": {
+                          "hidden": false,
+                          "columns": [
+                            {
+                              "id": 1,
+                              "key": "yuan_cai_liao",
+                              "type": "SelectMaterial",
+                              "unit": null,
+                              "props": {
+                                "http": {},
+                                "fixed": true,
+                                "hidden": false,
+                                "suffix": null,
+                                "options": [
+                                  {
+                                    "group": "物料202501061405",
+                                    "children": [
+                                      {
+                                        "value": "2c8fc50f-fa87-4423-baba-06be739b8d07",
+                                        "label": "测试11/111"
+                                      },
+                                      {
+                                        "value": "aaa82945-a49e-49a7-bf3d-0119f5063ae4",
+                                        "label": "测试标题模版/SN-2222222222"
+                                      },
+                                      {
+                                        "value": "f066fd92-d037-4386-9383-69af99785dda",
+                                        "label": "测试222/测试2222"
+                                      },
+                                      {
+                                        "value": "1b7ae135-3075-4795-9014-41866959b111",
+                                        "label": "测试/测试"
+                                      }
+                                    ]
+                                  }
+                                ],
+                                "abstract": false,
+                                "dictType": null,
+                                "multiple": false,
+                                "required": false,
+                                "expanding": false,
+                                "validation": null,
+                                "enablePrint": true
+                              },
+                              "title": "原材料",
+                              "value": null,
+                              "multiple": false,
+                              "attribute_type": "single"
+                            },
+                            {
+                              "id": 4,
+                              "key": "zhi_liang",
+                              "type": "NumberInput",
+                              "unit": null,
+                              "props": {
+                                "unit": "kg|g|L|ml",
+                                "hidden": false,
+                                "suffix": "g",
+                                "abstract": false,
+                                "required": false,
+                                "precision": null,
+                                "enablePrint": true
+                              },
+                              "title": "质量",
+                              "value": null,
+                              "multiple": false,
+                              "attribute_type": "single"
+                            }
+                          ],
+                          "maxSize": 0,
+                          "abstract": false,
+                          "required": false,
+                          "rowLayout": true,
+                          "showBorder": false,
+                          "enablePrint": true,
+                          "showSummary": false,
+                          "summaryColumns": []
+                        },
+                        "key": "wu_liao",
+                        "attribute_type": "single",
+                        "multiple": false,
+                        "description": "",
+                        "rowKey": "3/dks1hoxx"
+                      }
+                    ],
+                    "rowKey": "1/t99aojvc",
+                    "key": "1/t99aojvc",
+                    "title": "添加物料",
+                    "operateType": "物料"
+                  },
+                  "description": "",
+                  "procedure": {
+                    "id": "96bd6373-3439-4ed7-b972-ab9230c90aed",
+                    "title": "粉碎过程",
+                    "key": "96bd6373-3439-4ed7-b972-ab9230c90aed",
+                    "rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu"
+                  },
+                  "is_sample": false,
+                  "sample": {},
+                  "operate_router": {
+                    "id": 1,
+                    "title": "添加物料",
+                    "key": "1/t99aojvc",
+                    "rowKey": "1/t99aojvc"
+                  }
+                }
+              ],
+              "description": "",
+              "procedure": {
+                "id": "96bd6373-3439-4ed7-b972-ab9230c90aed",
+                "title": "粉碎过程",
+                "key": "96bd6373-3439-4ed7-b972-ab9230c90aed",
+                "rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu"
+              },
+              "is_sample": true,
+              "operate_router": {
+                "title": "样品检测"
+              },
+              "sample": {
+                "id": "2edf63a4-ba16-4a5a-9c10-2dfee3bc5455",
+                "name": "样品-2025011818438v",
+                "sn": "S202501182",
+                "weight": 1,
+                "record_table": {
+                  "id": "40de92b6-bcd2-4c6a-b3e7-e1659c6ea542",
+                  "title": "测试e80mn6fe",
+                  "table_data": [
+                    {
+                      "id": "bcf31ff1-64ec-4bb5-b2ed-450977889fc9",
+                      "index_type": {
+                        "id": 1,
+                        "title": "LAB_L",
+                        "props": {
+                          "unit": "k|gre|bf|gfd",
+                          "hidden": false,
+                          "suffix": "",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "key": "lab_l",
+                        "type": "NumberInput",
+                        "value": null,
+                        "unit": null,
+                        "attribute_type": "single"
+                      },
+                      "time": "2025-01-18 18:43:24",
+                      "data": "21",
+                      "description": "2121",
+                      "lab_l_unit": "k"
+                    },
+                    {
+                      "id": "ee373e59-e7bd-4ace-bf1e-e288c32667a3",
+                      "index_type": {
+                        "id": 2,
+                        "title": "LAB_A",
+                        "props": {
+                          "unit": "df|fg|f|fg",
+                          "hidden": false,
+                          "suffix": "",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "key": "lab_a",
+                        "type": "NumberInput",
+                        "value": null,
+                        "unit": null,
+                        "attribute_type": "single"
+                      },
+                      "time": "2025-01-18 18:43:24",
+                      "data": "12",
+                      "description": "",
+                      "lab_a_unit": "df"
+                    },
+                    {
+                      "id": "bca69277-7f01-4ea8-9155-3663634121ff",
+                      "index_type": {
+                        "id": 3,
+                        "title": "LAB_B",
+                        "props": {
+                          "hidden": false,
+                          "suffix": "",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "key": "lab_b",
+                        "type": "NumberInput",
+                        "value": null,
+                        "unit": null,
+                        "attribute_type": "single"
+                      },
+                      "time": "2025-01-18 18:43:24",
+                      "data": "",
+                      "description": ""
+                    }
+                  ],
+                  "columns": [
+                    {
+                      "title": "操作",
+                      "colKey": "operate",
+                      "width": 150,
+                      "cell": "type-slot-operate"
+                    }
+                  ],
+                  "params": {}
+                },
+                "description": "",
+                "really_sample": true
+              }
+            },
+            {
+              "id": "f5c35da8-3c25-403e-a4aa-51b55d8f5460",
+              "procedure_rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu",
+              "operate_rowKey": "4/uk0z6996",
               "operateType": "物料",
               "formData": {
                 "yuan_cai_liao": [
-                  "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
+                  "2c8fc50f-fa87-4423-baba-06be739b8d07"
                 ],
                 "shi_jian_unit": "y",
-                "shi_jian": "23",
+                "shi_jian": "1",
                 "zhi_liang_unit": "kg",
-                "zhi_liang": "12"
+                "zhi_liang": "2"
               },
               "formItems": {
                 "id": 4,
@@ -2885,7 +2136,7 @@ onMounted(() => {
                     "key": "yuan_cai_liao",
                     "attribute_type": "single",
                     "multiple": false,
-                    "rowKey": "1/j11nqaei",
+                    "rowKey": "1/bbkucetc",
                     "description": ""
                   },
                   {
@@ -2906,7 +2157,7 @@ onMounted(() => {
                     "attribute_type": "single",
                     "multiple": false,
                     "description": "",
-                    "rowKey": "2/0xr3v7d3"
+                    "rowKey": "2/odrjw1z7"
                   },
                   {
                     "id": 4,
@@ -2926,44 +2177,44 @@ onMounted(() => {
                     "attribute_type": "single",
                     "multiple": false,
                     "description": "",
-                    "rowKey": "4/j6kdfdrn"
+                    "rowKey": "4/d8xl9vwu"
                   }
                 ],
-                "rowKey": "4/5590x3em",
-                "key": "4/5590x3em",
+                "rowKey": "4/uk0z6996",
+                "key": "4/uk0z6996",
                 "title": "粉碎",
                 "operateType": "物料"
               },
               "description": "",
               "procedure": {
-                "id": "594ba324-6dea-478a-b13e-d3dca94934a6",
+                "id": "96bd6373-3439-4ed7-b972-ab9230c90aed",
                 "title": "粉碎过程",
-                "key": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4"
+                "key": "96bd6373-3439-4ed7-b972-ab9230c90aed",
+                "rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu"
               },
               "is_sample": false,
               "sample": {},
               "operate_router": {
                 "id": 4,
                 "title": "粉碎",
-                "key": "4/5590x3em",
-                "rowKey": "4/5590x3em"
+                "key": "4/uk0z6996",
+                "rowKey": "4/uk0z6996"
               }
             },
             {
-              "id": "2eebe472-4812-4757-99b5-4efe410dd83b",
-              "procedure_rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4",
-              "operate_rowKey": "过程描述xg0v6daj",
+              "id": "8ceec7f2-46ca-4952-9a42-389a4eb85ef1",
+              "procedure_rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu",
+              "operate_rowKey": "过程描述6x0sn3jb",
               "operateType": "过程描述",
               "formData": {},
               "formItems": {
                 "title": "过程描述"
               },
               "procedure": {
-                "id": "594ba324-6dea-478a-b13e-d3dca94934a6",
+                "id": "96bd6373-3439-4ed7-b972-ab9230c90aed",
                 "title": "粉碎过程",
-                "key": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4"
+                "key": "96bd6373-3439-4ed7-b972-ab9230c90aed",
+                "rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu"
               },
               "is_sample": false,
               "sample": {},
@@ -3000,7 +2251,7 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "2/niv9zl5m"
+                        "rowKey": "2/peqtp7z7"
                       },
                       {
                         "id": 4,
@@ -3020,11 +2271,11 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "4/twz1y01o"
+                        "rowKey": "4/672f3oyc"
                       }
                     ],
-                    "rowKey": "2/bri89yfg",
-                    "key": "2/bri89yfg",
+                    "rowKey": "2/g3q16i63",
+                    "key": "2/g3q16i63",
                     "title": "准备物料",
                     "operateType": "操作"
                   },
@@ -3069,7 +2320,7 @@ onMounted(() => {
                           ],
                           "abstract": false,
                           "dictType": null,
-                          "multiple": true,
+                          "multiple": false,
                           "required": false,
                           "expanding": false,
                           "validation": null,
@@ -3078,7 +2329,7 @@ onMounted(() => {
                         "key": "yuan_cai_liao",
                         "attribute_type": "single",
                         "multiple": false,
-                        "rowKey": "1/x77rd3xv",
+                        "rowKey": "1/c17oqzq0",
                         "description": ""
                       },
                       {
@@ -3099,7 +2350,7 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "2/52hw2z5n"
+                        "rowKey": "2/rwp0wyu5"
                       },
                       {
                         "id": 4,
@@ -3119,18 +2370,18 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "4/hdtm4fcg"
+                        "rowKey": "4/jjisdl97"
                       }
                     ],
-                    "rowKey": "4/kzgxnfj9",
-                    "key": "4/kzgxnfj9",
+                    "rowKey": "4/u5ss2c5h",
+                    "key": "4/u5ss2c5h",
                     "title": "粉碎",
                     "operateType": "物料"
                   }
                 ],
-                "id": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
-                "key": "8a141a32-907d-4d4f-aafd-ee988e75fe8c",
-                "rowKey": "8a141a32-907d-4d4f-aafd-ee988e75fe8c/3hv76bbv",
+                "id": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                "key": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                "rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8",
                 "title": "准备操作",
                 "name": "准备操作"
               },
@@ -3229,11 +2480,11 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "3/9xajce9z"
+                        "rowKey": "3/dks1hoxx"
                       }
                     ],
-                    "rowKey": "1/565e2skg",
-                    "key": "1/565e2skg",
+                    "rowKey": "1/t99aojvc",
+                    "key": "1/t99aojvc",
                     "title": "添加物料",
                     "operateType": "物料"
                   },
@@ -3287,7 +2538,7 @@ onMounted(() => {
                         "key": "yuan_cai_liao",
                         "attribute_type": "single",
                         "multiple": false,
-                        "rowKey": "1/j11nqaei",
+                        "rowKey": "1/bbkucetc",
                         "description": ""
                       },
                       {
@@ -3308,7 +2559,7 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "2/0xr3v7d3"
+                        "rowKey": "2/odrjw1z7"
                       },
                       {
                         "id": 4,
@@ -3328,166 +2579,314 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "4/j6kdfdrn"
+                        "rowKey": "4/d8xl9vwu"
                       }
                     ],
-                    "rowKey": "4/5590x3em",
-                    "key": "4/5590x3em",
+                    "rowKey": "4/uk0z6996",
+                    "key": "4/uk0z6996",
                     "title": "粉碎",
                     "operateType": "物料"
                   }
                 ],
-                "id": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "key": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4",
+                "id": "96bd6373-3439-4ed7-b972-ab9230c90aed",
+                "key": "96bd6373-3439-4ed7-b972-ab9230c90aed",
+                "rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu",
                 "title": "粉碎过程",
                 "name": "粉碎过程"
               }
             ],
             "formData": {
-              "8a141a32-907d-4d4f-aafd-ee988e75fe8c": {
+              "500cf083-fcfc-4493-add7-122cc8ec2112": {
                 "description": "",
-                "2/bri89yfg": {
+                "2/g3q16i63": {
                   "shi_jian_unit": "y",
-                  "shi_jian": "",
+                  "shi_jian": "2",
                   "zhi_liang_unit": "kg",
-                  "zhi_liang": ""
+                  "zhi_liang": "3"
                 },
-                "4/kzgxnfj9": {
-                  "yuan_cai_liao": [],
+                "4/u5ss2c5h": {
+                  "yuan_cai_liao": [
+                    "2c8fc50f-fa87-4423-baba-06be739b8d07"
+                  ],
                   "shi_jian_unit": "y",
-                  "shi_jian": "",
+                  "shi_jian": "1",
                   "zhi_liang_unit": "kg",
-                  "zhi_liang": ""
+                  "zhi_liang": "2"
                 }
               },
-              "594ba324-6dea-478a-b13e-d3dca94934a6": {
+              "96bd6373-3439-4ed7-b972-ab9230c90aed": {
                 "description": "",
-                "1/565e2skg": {
+                "1/t99aojvc": {
                   "wu_liao": [
                     {
                       "1": [
                         "2c8fc50f-fa87-4423-baba-06be739b8d07"
                       ],
-                      "4": "23"
-                    },
-                    {
-                      "1": [
-                        "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                      ],
-                      "4": "12"
+                      "4": "1"
                     }
                   ],
                   "zhi_liang_unit": "kg"
                 },
-                "4/5590x3em": {
+                "4/uk0z6996": {
                   "yuan_cai_liao": [
-                    "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
+                    "2c8fc50f-fa87-4423-baba-06be739b8d07"
                   ],
                   "shi_jian_unit": "y",
-                  "shi_jian": "23",
+                  "shi_jian": "1",
                   "zhi_liang_unit": "kg",
-                  "zhi_liang": "12"
+                  "zhi_liang": "2"
                 }
               }
             },
             "stepData": {
-              "8a141a32-907d-4d4f-aafd-ee988e75fe8c": {
+              "500cf083-fcfc-4493-add7-122cc8ec2112": {
                 "description": "",
-                "2/bri89yfg": {
+                "2/g3q16i63": {
                   "shi_jian_unit": "y",
-                  "shi_jian": "",
+                  "shi_jian": "2",
                   "zhi_liang_unit": "kg",
-                  "zhi_liang": ""
+                  "zhi_liang": "3"
                 },
-                "4/kzgxnfj9": {
-                  "yuan_cai_liao": [],
+                "4/u5ss2c5h": {
+                  "yuan_cai_liao": [
+                    "2c8fc50f-fa87-4423-baba-06be739b8d07"
+                  ],
                   "shi_jian_unit": "y",
-                  "shi_jian": "",
+                  "shi_jian": "1",
                   "zhi_liang_unit": "kg",
-                  "zhi_liang": ""
+                  "zhi_liang": "2"
                 }
               },
-              "594ba324-6dea-478a-b13e-d3dca94934a6": {
+              "96bd6373-3439-4ed7-b972-ab9230c90aed": {
                 "description": "",
-                "1/565e2skg": {
+                "1/t99aojvc": {
                   "wu_liao": [
                     {
                       "1": [
                         "2c8fc50f-fa87-4423-baba-06be739b8d07"
                       ],
-                      "4": "23"
-                    },
-                    {
-                      "1": [
-                        "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                      ],
-                      "4": "12"
+                      "4": "1"
                     }
                   ],
                   "zhi_liang_unit": "kg"
                 },
-                "4/5590x3em": {
+                "4/uk0z6996": {
                   "yuan_cai_liao": [
-                    "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
+                    "2c8fc50f-fa87-4423-baba-06be739b8d07"
                   ],
                   "shi_jian_unit": "y",
-                  "shi_jian": "23",
+                  "shi_jian": "1",
                   "zhi_liang_unit": "kg",
-                  "zhi_liang": "12"
+                  "zhi_liang": "2"
                 }
               }
             }
           },
           "designResult": {
             "formData": {
-              "8a141a32-907d-4d4f-aafd-ee988e75fe8c": {
+              "500cf083-fcfc-4493-add7-122cc8ec2112": {
                 "description": "",
-                "2/bri89yfg": {
+                "2/g3q16i63": {
                   "shi_jian_unit": "y",
-                  "shi_jian": "",
+                  "shi_jian": "2",
                   "zhi_liang_unit": "kg",
-                  "zhi_liang": ""
+                  "zhi_liang": "3"
                 },
-                "4/kzgxnfj9": {
-                  "yuan_cai_liao": [],
+                "4/u5ss2c5h": {
+                  "yuan_cai_liao": [
+                    "2c8fc50f-fa87-4423-baba-06be739b8d07"
+                  ],
                   "shi_jian_unit": "y",
-                  "shi_jian": "",
+                  "shi_jian": "1",
                   "zhi_liang_unit": "kg",
-                  "zhi_liang": ""
+                  "zhi_liang": "2"
                 }
               },
-              "594ba324-6dea-478a-b13e-d3dca94934a6": {
+              "96bd6373-3439-4ed7-b972-ab9230c90aed": {
                 "description": "",
-                "1/565e2skg": {
+                "1/t99aojvc": {
                   "wu_liao": [
                     {
                       "1": [
                         "2c8fc50f-fa87-4423-baba-06be739b8d07"
                       ],
-                      "4": "23"
-                    },
-                    {
-                      "1": [
-                        "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
-                      ],
-                      "4": "12"
+                      "4": "1"
                     }
                   ],
                   "zhi_liang_unit": "kg"
                 },
-                "4/5590x3em": {
+                "4/uk0z6996": {
                   "yuan_cai_liao": [
-                    "aaa82945-a49e-49a7-bf3d-0119f5063ae4"
+                    "2c8fc50f-fa87-4423-baba-06be739b8d07"
                   ],
                   "shi_jian_unit": "y",
-                  "shi_jian": "23",
+                  "shi_jian": "1",
                   "zhi_liang_unit": "kg",
-                  "zhi_liang": "12"
+                  "zhi_liang": "2"
                 }
               }
             },
             "formItems": [
+              {
+                "formItems": [
+                  {
+                    "id": 2,
+                    "name": "准备物料",
+                    "description": "",
+                    "type": "操作",
+                    "attribute": [
+                      {
+                        "id": 2,
+                        "title": "时间",
+                        "type": "NumberInput",
+                        "value": null,
+                        "props": {
+                          "unit": "y|M|d|h|m|s",
+                          "hidden": false,
+                          "suffix": "h",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "key": "shi_jian",
+                        "attribute_type": "single",
+                        "multiple": false,
+                        "description": "",
+                        "rowKey": "2/peqtp7z7"
+                      },
+                      {
+                        "id": 4,
+                        "title": "质量",
+                        "type": "NumberInput",
+                        "value": null,
+                        "props": {
+                          "unit": "kg|g|L|ml",
+                          "hidden": false,
+                          "suffix": "g",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "key": "zhi_liang",
+                        "attribute_type": "single",
+                        "multiple": false,
+                        "description": "",
+                        "rowKey": "4/672f3oyc"
+                      }
+                    ],
+                    "rowKey": "2/g3q16i63",
+                    "key": "2/g3q16i63",
+                    "title": "准备物料",
+                    "operateType": "操作"
+                  },
+                  {
+                    "id": 4,
+                    "name": "粉碎",
+                    "description": "",
+                    "type": "物料",
+                    "attribute": [
+                      {
+                        "id": 1,
+                        "title": "原材料",
+                        "type": "SelectMaterial",
+                        "value": null,
+                        "props": {
+                          "http": {},
+                          "fixed": true,
+                          "hidden": false,
+                          "suffix": null,
+                          "options": [
+                            {
+                              "group": "物料202501061405",
+                              "children": [
+                                {
+                                  "value": "2c8fc50f-fa87-4423-baba-06be739b8d07",
+                                  "label": "测试11/111"
+                                },
+                                {
+                                  "value": "aaa82945-a49e-49a7-bf3d-0119f5063ae4",
+                                  "label": "测试标题模版/SN-2222222222"
+                                },
+                                {
+                                  "value": "f066fd92-d037-4386-9383-69af99785dda",
+                                  "label": "测试222/测试2222"
+                                },
+                                {
+                                  "value": "1b7ae135-3075-4795-9014-41866959b111",
+                                  "label": "测试/测试"
+                                }
+                              ]
+                            }
+                          ],
+                          "abstract": false,
+                          "dictType": null,
+                          "multiple": false,
+                          "required": false,
+                          "expanding": false,
+                          "validation": null,
+                          "enablePrint": true
+                        },
+                        "key": "yuan_cai_liao",
+                        "attribute_type": "single",
+                        "multiple": false,
+                        "rowKey": "1/c17oqzq0",
+                        "description": ""
+                      },
+                      {
+                        "id": 2,
+                        "title": "时间",
+                        "type": "NumberInput",
+                        "value": null,
+                        "props": {
+                          "unit": "y|M|d|h|m|s",
+                          "hidden": false,
+                          "suffix": "h",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "key": "shi_jian",
+                        "attribute_type": "single",
+                        "multiple": false,
+                        "description": "",
+                        "rowKey": "2/rwp0wyu5"
+                      },
+                      {
+                        "id": 4,
+                        "title": "质量",
+                        "type": "NumberInput",
+                        "value": null,
+                        "props": {
+                          "unit": "kg|g|L|ml",
+                          "hidden": false,
+                          "suffix": "g",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "key": "zhi_liang",
+                        "attribute_type": "single",
+                        "multiple": false,
+                        "description": "",
+                        "rowKey": "4/jjisdl97"
+                      }
+                    ],
+                    "rowKey": "4/u5ss2c5h",
+                    "key": "4/u5ss2c5h",
+                    "title": "粉碎",
+                    "operateType": "物料"
+                  }
+                ],
+                "id": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                "key": "500cf083-fcfc-4493-add7-122cc8ec2112",
+                "rowKey": "500cf083-fcfc-4493-add7-122cc8ec2112/6b85fir8",
+                "title": "准备操作",
+                "name": "准备操作"
+              },
               {
                 "formItems": [
                   {
@@ -3583,11 +2982,11 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "3/9xajce9z"
+                        "rowKey": "3/dks1hoxx"
                       }
                     ],
-                    "rowKey": "1/565e2skg",
-                    "key": "1/565e2skg",
+                    "rowKey": "1/t99aojvc",
+                    "key": "1/t99aojvc",
                     "title": "添加物料",
                     "operateType": "物料"
                   },
@@ -3641,7 +3040,7 @@ onMounted(() => {
                         "key": "yuan_cai_liao",
                         "attribute_type": "single",
                         "multiple": false,
-                        "rowKey": "1/j11nqaei",
+                        "rowKey": "1/bbkucetc",
                         "description": ""
                       },
                       {
@@ -3662,7 +3061,7 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "2/0xr3v7d3"
+                        "rowKey": "2/odrjw1z7"
                       },
                       {
                         "id": 4,
@@ -3682,18 +3081,18 @@ onMounted(() => {
                         "attribute_type": "single",
                         "multiple": false,
                         "description": "",
-                        "rowKey": "4/j6kdfdrn"
+                        "rowKey": "4/d8xl9vwu"
                       }
                     ],
-                    "rowKey": "4/5590x3em",
-                    "key": "4/5590x3em",
+                    "rowKey": "4/uk0z6996",
+                    "key": "4/uk0z6996",
                     "title": "粉碎",
                     "operateType": "物料"
                   }
                 ],
-                "id": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "key": "594ba324-6dea-478a-b13e-d3dca94934a6",
-                "rowKey": "594ba324-6dea-478a-b13e-d3dca94934a6/d7khc9v4",
+                "id": "96bd6373-3439-4ed7-b972-ab9230c90aed",
+                "key": "96bd6373-3439-4ed7-b972-ab9230c90aed",
+                "rowKey": "96bd6373-3439-4ed7-b972-ab9230c90aed/y9zzv3lu",
                 "title": "粉碎过程",
                 "name": "粉碎过程"
               }
@@ -3702,11 +3101,11 @@ onMounted(() => {
               "cycleNumber": 1,
               "stepItems": []
             },
-            "id": "f4710b5d-9fc5-4719-a3b9-5addbcff2159",
-            "title": "试验设计方案-20250115115600"
+            "id": "bfb268b4-400b-4a94-9676-8687cf1905f3",
+            "title": "试验设计方案-20250118184312"
           },
           "selectRows": [],
-          "title": "试验记录202501151155"
+          "title": "试验记录202501181842"
         },
         "content": [
           {
@@ -3723,30 +3122,6 @@ onMounted(() => {
                 "text": " "
               }
             ]
-          }
-        ]
-      },
-      {
-        "type": "paragraph",
-        "attrs": {
-          "indent": null,
-          "margin": {},
-          "textAlign": "left",
-          "lineHeight": 1.5
-        }
-      },
-      {
-        "type": "paragraph",
-        "attrs": {
-          "indent": null,
-          "margin": {},
-          "textAlign": "left",
-          "lineHeight": 1.5
-        },
-        "content": [
-          {
-            "text": "cr3r23r3r23r23fdswqdw",
-            "type": "text"
           }
         ]
       },
@@ -3902,7 +3277,7 @@ onMounted(() => {
       },
     ]
   }
-  editorRef && editorRef.editorInstance?.commands.setContent(jsonContent)
+  // editorRef && editorRef.editorInstance?.commands.setContent(jsonContent)
 
   // editorRef.editorInstance?.chain().focus().addSample_tables({key: 'sample_table',title:'试验方式使用面板'}).run()
 })

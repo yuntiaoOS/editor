@@ -112,7 +112,36 @@ const duplicateNode = () => {
   editor.value?.commands.insertContentAt(getPosition(), copeNode?.toJSON())
 }
 const deleteNode = () => {
-  editor.value?.chain().focus().deleteSelectionNode().run()
+  const selectionNode = editor.value ? getSelectionNode(editor.value) : null
+  const getPosition = () => {
+    let point = 0
+    editor.value?.state.doc.descendants((node: Node, pos: number) => {
+      if (node === selectionNode) {
+        point = pos + node.nodeSize // 返回节点结束位置
+      }
+    })
+    return point
+  }
+
+  if (!selectionNode) {
+    return
+  }
+
+  const startPos = getPosition() - selectionNode.nodeSize
+  const endPos = getPosition()
+
+  // 使用 deleteRange 删除从起始位置到结束位置的节点
+  editor.value?.commands.deleteRange({ from: startPos, to: endPos })
+  // // 获取当前选中的节点ID
+  // const selectedNodeId = selectionNode.attrs.id
+  // // 使用该ID来定位并删除对应的 t-table
+  // const tableElement = document.querySelector(`#${selectedNodeId}`)
+  // console.log('tableElement-----139-------', tableElement,selectionNode, selectedNodeId)
+  // if (tableElement) {
+  //   tableElement.remove()  // 删除当前选中的 t-table
+  // }
+
+  // editor.value?.chain().focus().deleteSelectionNode().run()
 }
 </script>
 

@@ -106,14 +106,14 @@ export default xmNode.create({
                 table_data: option?.table_data || [],
                 id: uuid(),
               },
-              content: [
-                {
-                  type: 'paragraph',
-                  content: [
-                    { type: 'text', text: ' ' },
-                  ],
-                }
-              ],
+              // content: [
+              //   {
+              //     type: 'paragraph',
+              //     content: [
+              //       { type: 'text', text: ' ' },
+              //     ],
+              //   }
+              // ],
             };
             return commands.insertContent(content);
           },

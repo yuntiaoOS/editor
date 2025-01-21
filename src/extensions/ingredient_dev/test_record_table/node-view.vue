@@ -196,7 +196,7 @@
           </div>
         </template>
       </t-table>
-      <node-view-content :node="node"></node-view-content>
+<!--      <node-view-content :node="node"></node-view-content>-->
     </div>
     <!-- <t-dialog
       v-model:visible="select_design_visible"

@@ -3,7 +3,7 @@
     <technology-table-node-view
       v-model:nodeAttrs="_nodeAttrs" :node="node" :editor="editor" :get-attributes-function="getProcesses_attributeListFetch"
     :get-data-function="get_assign_record_process_dataFetch" :post-data-function="post_experiment_process_fetch"/>
-    <node-view-content :node="node" ></node-view-content> 
+<!--    <node-view-content :node="node" ></node-view-content> -->
   </node-view-wrapper>
 </template>
 

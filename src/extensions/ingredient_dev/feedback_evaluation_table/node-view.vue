@@ -45,7 +45,7 @@
           </div>
         </template>
       </t-table>
-      <node-view-content :node="node" ></node-view-content>
+<!--      <node-view-content :node="node" ></node-view-content>-->
     </div>
     <t-dialog destroyOnClose
       v-model:visible="add_dialog_visible"

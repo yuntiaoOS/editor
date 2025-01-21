@@ -89,7 +89,7 @@
         </div>
       </template> -->
     </t-table>
-    <node-view-content :node="_node" ></node-view-content>
+<!--    <node-view-content :node="_node" ></node-view-content>-->
   </div>
   <!-- <t-dialog
     v-model:visible="procedureVisible"
