@@ -181,7 +181,7 @@ const  addFunc = () => {
 
 const onSelectChange = ({value, params} )=>{
 
-  select_material.value = params.selectedRowData
+  select_material.value = params.selectedRowData.map(ele=>ele.row)
 }
 
 const on_select_parentFunc = async ()=>{
@@ -277,7 +277,7 @@ const columnsCheckboxs = ref([])
 
 const displayColumns = ref([]);
 const displayColumnsC = ref([]);
-displayColumns.value = ['name','batch', 'supplier', 'price', 'description', 'operate']
+displayColumns.value = ['name','batch', 'supplier', 'brand','brand_mode', 'description', 'operate']
 columns.value = [
   {
     colKey: 'name',
@@ -287,7 +287,7 @@ columns.value = [
       return (
         <div>
           <span>{row.name ? row.name : ''}</span>
-          <t-tag size="small">{row.sn ? row.sn : ''}</t-tag>
+          <t-tag size="small" style="margin-left:4px;">{row.sn ? row.sn : ''}</t-tag>
         </div>
       );
     },
@@ -303,16 +303,21 @@ columns.value = [
     title: '供应商',
     width: 160,
   },
-  {
-    colKey: 'price',
-    title: '价格',
-    width: 90,
-  },
   // {
-  //   colKey: 'cas',
-  //   title: 'CAS号',
-  //   width: 120,
+  //   colKey: 'price',
+  //   title: '价格',
+  //   width: 90,
   // },
+  {
+    colKey: 'brand',
+    title: '品牌',
+    width: 120,
+  },
+  {
+    colKey: 'brand_mode',
+    title: '品牌型号',
+    width: 120,
+  },
   {
     colKey: 'description',
     title: '描述',

@@ -89,7 +89,9 @@ const selectFormItems = ref([])
 // 正交设计相关参数
 const orthogonalDesign = ref({})
 
-const _designParams = computed({
+const _designParams = ref({})
+
+const designParamsId = computed({
   get: () => {
     return _nodeAttrs.value.designParams
   },
@@ -185,9 +187,10 @@ const getDesignParams = () => {
       stepData:{},
     }
     technology_table_data.forEach(eleT => {
-      designParams.formData[eleT.id] = eleT.formData
-      designParams.stepData[eleT.id] = eleT.formData
+      designParams.formData[eleT.id] = designResult.value?.formData && designResult.value?.formData[eleT.id] ? designResult.value?.formData[eleT.id] : eleT.formData
+      designParams.stepData[eleT.id] = designResult.value?.formData && designResult.value?.formData[eleT.id] ? designResult.value?.formData[eleT.id] : eleT.formData
     })
+
   }
 
   return designParams
@@ -285,12 +288,13 @@ const initialize = () => {
 
 onMounted(() => {
   initialize()
+  console.log('-------------_designParams.value---------------',_nodeAttrs.value,_designParams.value)
 
-
-  if (_nodeAttrs.value.designParams?.formItems && _nodeAttrs.value.designParams?.formItems.length > 0) {
-    experimental_design_visible.value = true
+  if (_nodeAttrs.value.designParams && _nodeAttrs.value.designParams.length > 0) {
+    selectTableForm.value.technology = designParamsId.value
+    on_select_designFunc()
   }else{
-    if (!designResult.value || !designResult.value.formItems || designResult.value.formItems.length === 0) {
+    if (!designResult.value?.formItems || designResult.value.formItems.length === 0) {
       setTimeout(() => {
         if (technologyOptions.value.length === 1 ) {
           selectTableForm.value.technology = technologyOptions.value[0].id

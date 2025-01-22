@@ -250,6 +250,9 @@ const selectRow = ref()
 const technologyInfoVisible = ref(false)
 const expandSampleData = ref([])
 
+// 试验记录集合
+const test_record_tables = ref([])
+
 const $key_data = JSON.parse(localStorage.getItem('key_data'))
 const experiment_record = computed(() => $key_data?.experiment_record)
 const experiment_theme = computed(() => $key_data?.experiment_theme)
@@ -475,6 +478,24 @@ const onAddFunc = async () => {
 
 const onTechnology = (row) => {
   selectRow.value = row
+  const docD = cloneDeep(editor.getJSON())
+  if (docD) {
+    // 物料表
+    const test_record_table = docD.content.filter(
+      (ele) => ele.type === 'test_record_table',
+    )
+    if (test_record_table.length === 0) {
+      TMessagePlugin.warning('请先在试验数据表中出样')
+      return // 物料表不存在，返回
+    }
+    const test_record = test_record_table.find(ele=> ele.attrs.id === row.test_record_table)
+    if (test_record) {
+      const table_data = test_record.attrs.table_data.filter(ele=> ele.operateType !== '样品' && ele.operateType !== '过程描述')
+      const index = table_data.findIndex((ele) => ele.procedure_rowKey === row.procedure_rowKey && ele.operate_rowKey === row.operate_rowKey)
+      selectRow.value.formItems = table_data.slice(0,index+1)
+    }
+    console.log('selectRow-----------487-------',test_record,test_record_table, selectRow.value,row)
+  }
   technologyInfoVisible.value = true
 }
 

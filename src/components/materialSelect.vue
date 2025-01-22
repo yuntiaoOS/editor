@@ -1,67 +1,68 @@
 <template>
-  <t-table
-    :data="data"
+  <EnhancedTable
+    ref="MTTableRef" bordered stripe
     :columns="columns"
-    :row-key="rowKey"
-    :loading="isLoading"
-    :pagination="pagination"
+    :data="data"
     :selected-row-keys="selectedRowKeys"
-    bordered size="small"
-    height="100%"
-    stripe
-    lazy-load
-    @change="rehandleChange"
-    @page-change="onPageChange"
+    :tree="treeConfig"
+    :pagination="pagination"
+    :tree-expand-and-fold-icon="treeExpandIcon"
+    :row-key="rowKey"
+    size="small" lazy-load
     @select-change="onSelectChange"
   >
     <template #topContent>
-      <div style="padding: 6px 0;display: block;">
-        <t-space>
-          <div>
-
-          </div>
-          <t-space>
-            <t-input v-model="searchText" placeholder="请输入物料名称" style="width: 200px" @change="onSearch">
-              <template #suffixIcon>
-                <search-icon :style="{ cursor: 'pointer' }" />
-              </template>
-            </t-input>
-          </t-space>
-        </t-space>
+      <div style="margin-bottom: 10px;display: flex;flex-direction: row-reverse;">
+        <t-input v-model="searchText" placeholder="请输入物料名称" style="width: 200px;" @change="onSearch">
+          <template #suffixIcon>
+            <search-icon :style="{ cursor: 'pointer' }" />
+          </template>
+        </t-input>
       </div>
     </template>
-  </t-table>
+    <template #name="{row}">
+      <span>{{ row.name }}</span>
+      <t-tag size="small">{{ row.sn }}</t-tag>
+    </template>
+  </EnhancedTable>
 </template>
 <script setup lang="jsx">
 import { ref, onMounted } from 'vue';
 import { getIngredient_dev_materialListFetch } from '@/api/material'
-import { SearchIcon } from 'tdesign-icons-vue-next';
+import { EnhancedTable } from 'tdesign-vue-next';
+import { SearchIcon,ChevronRightIcon ,ChevronDownIcon ,AddRectangleIcon,MinusRectangleIcon } from 'tdesign-icons-vue-next';
 
 const emits = defineEmits(['selectChange']);
-
+const treeConfig = reactive({
+  childrenKey: 'children',
+  treeNodeColumnIndex: 1,
+  indent: 25,
+  expandTreeNodeOnClick: true,
+});
+const expandedTreeNodes = ref([]);
 const columns = [
   {
     colKey: 'row-select',
     type: 'multiple',
     width: 46,
   },
-  {
-    title: '序号',
-    colKey: 'serial-number',
-    width: 70,
-  },
+  // {
+  //   title: '序号',
+  //   colKey: 'serial-number',
+  //   width: 70,
+  // },
   {
     colKey: 'name',
     title: '物料',
-    cell: (h, { row, rowIndex }) => {
-      const status = rowIndex % 3;
-      return (
-        <div>
-          <span>{row.name}</span>
-          <t-tag size="small">{row.sn}</t-tag>
-        </div>
-      );
-    },
+    // cell: (h, { row, rowIndex }) => {
+    //   const status = rowIndex % 3;
+    //   return (
+    //     <div>
+    //       <span>{row.name}</span>
+    //       <t-tag size="small">{row.sn}</t-tag>
+    //     </div>
+    //   );
+    // },
     minWidth: 120,
   },
   {
@@ -74,10 +75,20 @@ const columns = [
     title: '供应商',
     width: 160,
   },
+  // {
+  //   colKey: 'price',
+  //   title: '价格',
+  //   width: 90,
+  // },
   {
-    colKey: 'price',
-    title: '价格',
-    width: 90,
+    colKey: 'brand',
+    title: '品牌',
+    width: 120,
+  },
+  {
+    colKey: 'brand_mode',
+    title: '品牌型号',
+    width: 120,
   },
   {
     colKey: 'cas',
@@ -95,9 +106,16 @@ const searchText = ref('');
 const data = ref([]);
 const isLoading = ref(false);
 const selectedRowKeys = ref([]);
-
+// 懒加载图标渲染
+const lazyLoadingTreeIconRender = (h, params) => {
+  const { type, row } = params;
+  return type === 'expand' ? <ChevronRightIcon /> : <ChevronDownIcon />;
+};
+const treeExpandIcon = computed(() => {
+  return lazyLoadingTreeIconRender;
+});
 const pagination = ref({
-  defaultPageSize: 20,
+  defaultPageSize: 10,
   total: 0,
   defaultCurrent: 1,
 });
@@ -127,7 +145,10 @@ const fetchData = async (paginationInfo,search='') => {
   }
   isLoading.value = false;
 };
-
+const fetchTableData = async ({ page, limit, keyword }) => {
+  const response = await getIngredient_dev_materialListFetch({ page, limit, keyword });
+  return response.data;
+};
 const onSearch = async () => {
   await fetchData({
     current: 1,
@@ -157,6 +178,7 @@ onMounted(async () => {
 });
 
 const onSelectChange = (value, params) => {
+  console.log('onSelectChange-----------222---------', value, params);
   selectedRowKeys.value = value;
 
   emits('selectChange', {value, params});

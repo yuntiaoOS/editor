@@ -73,16 +73,10 @@ export default xmNode.create({
       },
       // 生成表格时选择工艺路线的所有项
       designParams: {
-        default: {},
-        parseHTML: (element) => {
-          const designParams = element.getAttribute('data-designParams');
-          return JSON.parse(designParams as string || '{}');
-        },
+        default: '',
+        parseHTML: (element) => element.getAttribute('data-designParams'),
         renderHTML: (attributes) => {
-          if (!attributes.designParams) {
-            return {};
-          }
-          return { 'data-designParams': JSON.stringify(attributes.designParams)  };
+          return { 'data-designParams': attributes.designParams };
         },
       },
       // 当前表格用到的工艺项及数据

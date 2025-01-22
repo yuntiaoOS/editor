@@ -39,8 +39,12 @@
                 />
               </div>
               <t-space>
-                <t-button variant="outline" @click="onShowFunc">{{  '试验方法设计' }}</t-button>
-                <t-button variant="outline" @click="onAddFunc">{{ designResult.formItems ? '编辑': '新增' }}</t-button>
+                <t-button v-if="false" variant="outline" @click="onShowFunc">{{
+                  '试验方法设计'
+                }}</t-button>
+                <t-button variant="outline" @click="onAddFunc">{{
+                  designResult.formItems ? '编辑' : '新增'
+                }}</t-button>
                 <div
                   v-if="updateTime && updateTime.length > 10"
                   title="修改时间"
@@ -66,7 +70,12 @@
           </div>
         </template>
         <template #expandedRow="slotProps">
-          <TestRecordExpanded v-if="expandedRowKeys.includes(slotProps.row.id)" v-model="slotProps.row" :sample="slotProps.row.sample.id" @change="sampleRecordChange"></TestRecordExpanded>
+          <TestRecordExpanded
+            v-if="expandedRowKeys.includes(slotProps.row.id)"
+            v-model="slotProps.row"
+            :sample="slotProps.row.sample.id"
+            @change="sampleRecordChange"
+          ></TestRecordExpanded>
         </template>
         <template #type-slot-operate-router="{ col, row, rowIndex }">
           <div class="operate-router-class">
@@ -75,12 +84,13 @@
                 <span>{{ row.sample.name }} ：{{ row.sample.sn }}</span>
               </div>
             </div>
-            <t-space v-else-if="row.operateType !== '过程描述'" >
+            <t-space v-else-if="row.operateType !== '过程描述'">
               <template v-for="(item, index) in row.formItems.attribute">
-                <FormDesignRender class="node-form-design-render-class"
+                <FormDesignRender
+                  class="node-form-design-render-class"
                   v-model="row.formData[item.key]"
                   v-model:formData="row.formData"
-                  style="overflow: auto;"
+                  style="overflow: auto"
                   :label="item.title + '：'"
                   :mode="'READ'"
                   :config="item"
@@ -152,10 +162,16 @@
               <t-popconfirm
                 v-if="['样品'].includes(row.operateType)"
                 content="确认删除吗"
-                @confirm="() => onSampleDelete(row,rowIndex)"
+                @confirm="() => onSampleDelete(row, rowIndex)"
               >
-                <t-button title="删除" style="width: 50px"
-                  theme="danger" shape="square" variant="text" @click.stop="null" >
+                <t-button
+                  title="删除"
+                  style="width: 50px"
+                  theme="danger"
+                  shape="square"
+                  variant="text"
+                  @click.stop="null"
+                >
                   删除
                 </t-button>
               </t-popconfirm>
@@ -196,7 +212,7 @@
           </div>
         </template>
       </t-table>
-<!--      <node-view-content :node="node"></node-view-content>-->
+      <!--      <node-view-content :node="node"></node-view-content>-->
     </div>
     <!-- <t-dialog
       v-model:visible="select_design_visible"
@@ -227,14 +243,20 @@
       v-model:visible="result_design_visible"
       destroy-on-close
       :close-on-overlay-click="false"
-      header="试验方法设计" :cancel-btn="null"
-      width="80%" attach="body"
+      header="试验方法设计"
+      :cancel-btn="null"
+      width="80%"
+      attach="body"
       :confirmBtn="null"
       :confirm-on-enter="true"
       :on-cancel="onCancelFunc"
       :on-close="onCancelFunc"
     >
-      <experimental-design v-if="result_design_visible" v-model:designParams="designResult" readonly/>
+      <experimental-design
+        v-if="result_design_visible"
+        v-model:designParams="designResult"
+        readonly
+      />
     </t-dialog>
     <t-dialog
       v-model:visible="select_index_visible"
@@ -335,7 +357,7 @@ import Template from '@/components/menus/toolbar/insert/template.vue'
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
-const { options , refreshNode } = useStore()
+const { options, refreshNode } = useStore()
 const dialog_visible = ref(false)
 const tableRef = ref()
 const editableRowKeys = ref([])
@@ -445,11 +467,15 @@ const designResult = computed({
 })
 
 const submitExperimentalDesign = () => {
-
+  console.log(
+    '---------------submitExperimentalDesign----448--------',
+    designResult.value,
+  )
   select_design_visible.value = false
-  const table_dataV = []
-  designResult.value.formItems.forEach((procedure) => {
-    procedure.formItems.forEach((operate) => {
+  let table_dataV = table_data.value ? table_data.value : []
+  let rowIndex = 0
+  designResult.value.formItems.forEach((procedure, indexP) => {
+    procedure.formItems.forEach((operate, indexO) => {
       const row = {
         id: uuid(),
         procedure_rowKey: procedure.rowKey,
@@ -458,12 +484,34 @@ const submitExperimentalDesign = () => {
         formData: designResult.value.formData[procedure.key][operate.key],
         formItems: operate,
         description: operate.description,
-        procedure: { id: procedure.id, title: procedure.title,key: procedure.key,rowKey: procedure.rowKey },
+        procedure: {
+          id: procedure.id,
+          title: procedure.title,
+          key: procedure.key,
+          rowKey: procedure.rowKey,
+        },
         is_sample: false,
         sample: {},
-        operate_router: { id: operate.id, title: operate.title,key: operate.key,rowKey: operate.rowKey },
+        operate_router: {
+          id: operate.id,
+          title: operate.title,
+          key: operate.key,
+          rowKey: operate.rowKey,
+        },
       }
-      table_dataV.push(row)
+      const index = table_dataV.findIndex(
+        (ele) =>
+          ele.procedure_rowKey === row.procedure_rowKey &&
+          ele.operate_rowKey === row.operate_rowKey,
+      )
+      let oldRow = []
+      if (index > -1) {
+        oldRow = table_dataV.splice(index, 1)
+      }
+      console.log('----------oldRow--------511-----------',oldRow)
+      table_dataV.splice(rowIndex, 0, { ...row , description:oldRow[0].description})
+
+      rowIndex++
     })
     const row = {
       id: uuid(),
@@ -473,31 +521,65 @@ const submitExperimentalDesign = () => {
       formData: { description: procedure.description },
       formItems: { title: '过程描述' },
       description: procedure.description,
-      procedure: { id: procedure.id, title: procedure.title,key: procedure.key,rowKey: procedure.rowKey },
+      procedure: {
+        id: procedure.id,
+        title: procedure.title,
+        key: procedure.key,
+        rowKey: procedure.rowKey,
+      },
       is_sample: false,
       sample: {},
       operate_router: { title: '过程描述' },
     }
-
-    table_dataV.push(row)
+    const index = table_dataV.findIndex(
+      (ele) =>
+        ele.procedure_rowKey === row.procedure_rowKey &&
+        ele.operateType === '过程描述',
+    )
+    if (index === -1) {
+      table_dataV.splice(rowIndex, 0, row)
+    } else {
+      const oldRow = table_dataV.splice(index, 1)
+      table_dataV.splice(rowIndex, 0, oldRow[0])
+    }
+    rowIndex++
   })
-  table_data.value = cloneDeep(table_dataV)
-  updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
+  const sampleData = table_dataV.filter((ele) => ele.operateType === '样品')
+  table_dataV = table_dataV.filter((ele) => ele.operateType !== '样品')
+  sampleData.forEach((row) => {
+    const index = table_dataV.findIndex(
+      (ele) =>
+        ele.operateType !== '样品' &&
+        ele.procedure_rowKey === row.procedure_rowKey &&
+        ele.operate_rowKey === row.operate_rowKey,
+    )
+    if (index > -1) {
+      table_dataV.splice(index + 1, 0, row)
+    }
+  })
 
+  table_data.value = []
+  nextTick(() => {
+    table_data.value = cloneDeep(table_dataV)
+    tableRef.value?.refreshTable()
+    updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
+  })
+
+  console.log(
+    '---------------submitExperimentalDesign-----493-------',
+    table_data.value,table_dataV
+  )
 }
 
 const selectDesignCancel = () => {
-
   select_design_visible.value = false
 }
 
 const onShowFunc = () => {
-
   result_design_visible.value = true
 }
 
 const onAddFunc = () => {
-
   if (designResult.value.formItems && designResult.value.formItems.length > 0) {
     select_design_visible.value = true
   } else {
@@ -514,16 +596,15 @@ const expandDataFunc = (row) => {
   } else {
     expandedRowKeys.value.push(row.id)
     if (row.sample?.record_table?.table_data?.length > 0) {
-      nextTick(()=> {
+      nextTick(() => {
         refreshNode.type = 'sample_table'
         refreshNode.selectId = row.id
         refreshNode.data = {
           ...refreshNode.data,
-          [row.id]: row
+          [row.id]: row,
         }
       })
     }
-
   }
 }
 
@@ -630,12 +711,10 @@ const frontColumns = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext) => ({
         onBlur: (ctx) => {
-
           ctx?.e?.preventDefault()
         },
         onEnter: (ctx) => {
           ctx?.e?.preventDefault()
-
         },
         // 默认是否为编辑状态
         defaultEditable: false,
@@ -721,12 +800,12 @@ columns.value = [
         newData.splice(context.rowIndex, 1, context.newRowData)
         table_data.value = newData
         if (context.newRowData.operateType === '样品') {
-          nextTick(()=> {
+          nextTick(() => {
             refreshNode.type = 'sample_table'
             refreshNode.selectId = context.newRowData.id
             refreshNode.data = {
               ...refreshNode.data,
-              [context.newRowData.id]: context.newRowData
+              [context.newRowData.id]: context.newRowData,
             }
           })
         }
@@ -738,12 +817,10 @@ columns.value = [
       // 透传给 component: Input 的事件（也可以在 edit.props 中添加）
       on: (editContext) => ({
         onBlur: (ctx) => {
-
           ctx?.e?.preventDefault()
         },
         onEnter: (ctx) => {
           ctx?.e?.preventDefault()
-
         },
         // 默认是否为编辑状态
         defaultEditable: true,
@@ -769,22 +846,22 @@ const indeterminate = computed(
     ),
 )
 
-watch(() => refreshNode, (value) => {
-
-  if (value.type === 'record_sample_table') {
-    nextTick(() => {
-      let index = -1
-      index = table_data.value.findIndex(
-        (row) => row.id === value.selectId,
-      )
-      if (index > -1) {
-        table_data.value.splice(index, 1, value.data[value.selectId])
-        refreshNode.type = ''
-      }
-    })
-  }
-}, { deep: true, immediate: true })
-
+watch(
+  () => refreshNode,
+  (value) => {
+    if (value.type === 'record_sample_table') {
+      nextTick(() => {
+        let index = -1
+        index = table_data.value.findIndex((row) => row.id === value.selectId)
+        if (index > -1) {
+          table_data.value.splice(index, 1, value.data[value.selectId])
+          refreshNode.type = ''
+        }
+      })
+    }
+  },
+  { deep: true, immediate: true },
+)
 
 const handleSelectAll = (checked) => {
   displayColumnsC.value = checked ? [...displayColumns.value] : []
@@ -811,33 +888,33 @@ const sampleRecordChange = (row) => {
     //   ...refreshNode.data,
     //   [row.id]: row
     // }
-    console.log('-------sampleRecordChange------811-----------',refreshNode,row)
+    console.log(
+      '-------sampleRecordChange------811-----------',
+      refreshNode,
+      row,
+    )
   }
 }
 
-const onSampleDelete = (row,rowIndex) => {
-
+const onSampleDelete = (row, rowIndex) => {
   const table_dataV = cloneDeep(table_data.value)
   updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
   table_dataV.splice(rowIndex, 1)
   table_data.value = cloneDeep(table_dataV)
   tableRef.value?.refreshTable()
-  nextTick(()=> {
+  nextTick(() => {
     refreshNode.type = 'sample_table'
     refreshNode.selectId = row.id
     refreshNode.data = {
       ...refreshNode.data,
-      [row.id]: row
+      [row.id]: row,
     }
   })
 }
 
 const creatSample = async (row) => {
-
-  const rowIndex = table_data.value.findIndex(
-    (rowT) => rowT.id === row.id,
-  )
-  const sampleData = table_data.value.slice(0,rowIndex+1)
+  const rowIndex = table_data.value.findIndex((rowT) => rowT.id === row.id)
+  const sampleData = table_data.value.slice(0, rowIndex + 1)
   const $key_data = JSON.parse(localStorage.getItem('key_data'))
   const experiment_record = $key_data?.experiment_record
   const experiment_theme = $key_data?.experiment_theme
@@ -849,9 +926,10 @@ const creatSample = async (row) => {
       operate_rowKey: row.operate_rowKey,
       operateType: '样品',
       formData: {},
-      formItems: sampleData,
+      formItems: [],
       description: '',
       procedure: row.procedure,
+      test_record_table: node.attrs.id,
       is_sample: false,
       operate_router: { title: '样品检测' },
       sample: {
@@ -875,7 +953,7 @@ const creatSample = async (row) => {
       is_sample: true,
       sample: {
         ...rowC.sample,
-        really_sample: false
+        really_sample: false,
       },
     }
 
@@ -884,12 +962,12 @@ const creatSample = async (row) => {
     table_dataV.splice(rowIndex + 1, 0, rowData)
     table_data.value = cloneDeep(table_dataV)
     tableRef.value?.refreshTable()
-    nextTick(()=> {
+    nextTick(() => {
       refreshNode.type = 'sample_table'
       refreshNode.selectId = rowData.id
       refreshNode.data = {
         ...refreshNode.data,
-        [rowData.id]: rowData
+        [rowData.id]: rowData,
       }
     })
     return
@@ -924,12 +1002,12 @@ const creatSample = async (row) => {
           table_dataV.splice(rowIndex + 1, 0, rowData)
           table_data.value = cloneDeep(table_dataV)
           tableRef.value?.refreshTable()
-          nextTick(()=> {
+          nextTick(() => {
             refreshNode.type = 'sample_table'
             refreshNode.selectId = rowData.id
             refreshNode.data = {
               ...refreshNode.data,
-              [rowData.id]: rowData
+              [rowData.id]: rowData,
             }
           })
         })
@@ -945,7 +1023,6 @@ const creatSample = async (row) => {
 }
 
 const on_select_indexFunc = () => {
-
   select_record_form.value
     ?.validate({ showErrorMessage: true })
     .then((validateResult) => {
@@ -982,7 +1059,6 @@ const on_select_indexFunc = () => {
           paramsColumns.push(paramsColumn)
         })
 
-
         selectRecordTable.value.record_table.columns = [
           ...paramsColumns,
           ...suffixColumns,
@@ -1006,7 +1082,6 @@ const on_select_indexFunc = () => {
 }
 
 const makerecordDataFunc = (init = false) => {
-
   const rowD = { name: selectRecordTable.value.name }
 
   // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
@@ -1076,7 +1151,6 @@ const on_select_design_formFunc = () => {
     })
 }
 const on_select_designFunc = () => {
-
   // const makeData = ()=>{
   //   const experimental_designs = experimental_designOptions.value.filter(ele=> selectTableForm.value.experimental_design.includes(ele.id)).map(eleT => (eleT.designResult) )
   //   experimental_designs.forEach(ele=>{
@@ -1086,9 +1160,9 @@ const on_select_designFunc = () => {
   //       sn: `SF-${timeFormat(null,'yymmddhhMM')}${shortId(2)}`,
   //       weight: 1,
   //       is_sample: false,
-        // customData:{
-        //   photos:[]
-        // },
+  // customData:{
+  //   photos:[]
+  // },
   //       experimental_design: cloneDeep( ele ),
   //       record_table: {
   //         id: uuid(),
@@ -1123,7 +1197,6 @@ const getAssessmentOptionFunc = async (page = 1) => {
       assessmentOption.value = [...assessmentOption.value, ...resD.data]
     }
     pagination.value.total = resD.total
-
   }
 }
 
@@ -1181,16 +1254,13 @@ const initialize = () => {
 }
 
 onMounted(() => {
-
   initialize()
   if (node.attrs.customerParams?.is_select) {
     selectTableForm.value.experimental_design =
       node.attrs.customerParams?.experimental_design
     on_select_designFunc()
   } else {
-
     if (!table_data.value || table_data.value?.length === 0) {
-
       setTimeout(() => {
         if (
           designResult.value.formItems &&
@@ -1204,7 +1274,6 @@ onMounted(() => {
     }
   }
   if (group.value && group.value.length > 0 && table_data.value?.length === 0) {
-
     // await initData()
   } else if (is_integration.value) {
     const docD = cloneDeep(editor.getJSON())
@@ -1238,7 +1307,10 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-:deep(.node-form-design-render-class table td, .node-form-design-render-class table th) {
+:deep(
+  .node-form-design-render-class table td,
+  .node-form-design-render-class table th
+) {
   border: none;
 }
 .slot-description-S-class {
