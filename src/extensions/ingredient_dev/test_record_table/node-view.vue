@@ -275,7 +275,7 @@
         :data="selectTableForm"
         :colon="true"
       >
-        <t-form-item label="类型" name="type">
+        <t-form-item label="类型" name="type" v-if="false">
           <t-radio-group
             v-model="selectTableForm.type"
             variant="primary-filled"
@@ -508,8 +508,11 @@ const submitExperimentalDesign = () => {
       if (index > -1) {
         oldRow = table_dataV.splice(index, 1)
       }
-      console.log('----------oldRow--------511-----------',oldRow)
-      table_dataV.splice(rowIndex, 0, { ...row , description:oldRow[0].description})
+      table_dataV.splice(rowIndex, 0, {
+        ...row ,
+        formData: {...row.formData,attachment:oldRow.length > 0 ? oldRow[0].formData.attachment : []},
+        description:oldRow.length > 0 ? oldRow[0].description : ''
+      })
 
       rowIndex++
     })
@@ -595,7 +598,7 @@ const expandDataFunc = (row) => {
     )
   } else {
     expandedRowKeys.value.push(row.id)
-    if (row.sample?.record_table?.table_data?.length > 0) {
+    if (row.sample?.record_table?.table_data?.length > 0 || row.formData.attachment) {
       nextTick(() => {
         refreshNode.type = 'sample_table'
         refreshNode.selectId = row.id
@@ -881,19 +884,19 @@ const columnEditFunc = () => {
 }
 
 const sampleRecordChange = (row) => {
-  if (row.sample?.record_table?.table_data?.length > 0) {
+  if (row.sample?.record_table?.table_data?.length > 0 || row.formData.attachment) {
     // refreshNode.type = 'sample_table'
     // refreshNode.selectId = row.id
     // refreshNode.data = {
     //   ...refreshNode.data,
     //   [row.id]: row
     // }
-    console.log(
-      '-------sampleRecordChange------811-----------',
-      refreshNode,
-      row,
-    )
   }
+  console.log(
+    '-------sampleRecordChange------811-----------',
+    refreshNode,
+    row,
+  )
 }
 
 const onSampleDelete = (row, rowIndex) => {
@@ -962,14 +965,13 @@ const creatSample = async (row) => {
     table_dataV.splice(rowIndex + 1, 0, rowData)
     table_data.value = cloneDeep(table_dataV)
     tableRef.value?.refreshTable()
-    nextTick(() => {
-      refreshNode.type = 'sample_table'
-      refreshNode.selectId = rowData.id
-      refreshNode.data = {
-        ...refreshNode.data,
-        [rowData.id]: rowData,
-      }
-    })
+
+    refreshNode.type = 'sample_table'
+    refreshNode.selectId = rowData.id
+    refreshNode.data = {
+      ...refreshNode.data,
+      [rowData.id]: rowData,
+    }
     return
 
     const params = {

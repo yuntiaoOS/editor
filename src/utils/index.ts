@@ -40,7 +40,7 @@ export const fixedImageUrls = (urls:any[]) => {
 //统一提交前检测未保存数据并继续上传数据
 export function checkBeforeSaveDoc(content:any[],) {
   const changeDatas = content.filter(ele=> ele.isChanged)
-  
+
   if (changeDatas.length > 0) {
     const dialog = useConfirm({
       theme: 'warning',
@@ -62,7 +62,7 @@ export function checkBeforeSaveDoc(content:any[],) {
 
 // 取最下面层级数据 a.b.c.d = 1 用于表格数据显示 {a:{b:{c:{d:1}}}}
 export const getFieldValue = (field: string, row: any)=> {
-  // 
+  //
   let fieldName = ''
   if (!row || !field) {
     return fieldName
@@ -83,16 +83,16 @@ export const getFieldValue = (field: string, row: any)=> {
       fieldName = row[field]
     }
   } catch (error) {
-    
+
   }
 
-  // 
+  //
   return fieldName
 }
 
 // 取倒数第二层级数据 a.b.c = {d:1} 用于表格数据显示 {a:{b:{c:{d:1}}}}
 export const getPenultimateLayerFieldValue = (field: string, row: any)=> {
-  // 
+  //
   let fieldName = ''
   if (!row || !field) {
     return fieldName
@@ -114,10 +114,10 @@ export const getPenultimateLayerFieldValue = (field: string, row: any)=> {
       fieldName = row[field]
     }
   } catch (error) {
-    
+
   }
 
-  // 
+  //
   return fieldName
 }
 
@@ -153,3 +153,10 @@ export function mergeRowsByFields(fields:any,baseField:string, data:any) {
     return { rowspan: 1, colspan: 1 }; // 默认不合并
   };
 }
+export const formattedNumbers = (num: number) => {
+  if (num <= 9) {
+    return num.toString().padStart(2, '0'); // 小于等于9的数字转换为 '01', '02' 等
+  } else {
+    return num.toString(); // 十以上的数字直接转字符
+  }
+};

@@ -350,7 +350,7 @@ const technologyColumns = ref([
 ])
 
 const sampleRecordChange = (row) => {
-  if (row.sample?.record_table?.table_data?.length > 0) {
+  if (row.sample?.record_table?.table_data?.length > 0 || row.formData.attachment) {
     // refreshNode.type = 'record_sample_table'
     // refreshNode.selectId = row.id
     // refreshNode.data = {
@@ -460,7 +460,7 @@ const expandDataFunc = (row) => {
     )
   } else {
     expandedRowKeys.value.push(row.id)
-    if (row.sample?.record_table?.table_data?.length > 0) {
+    if (row.sample?.record_table?.table_data?.length > 0 || row.formData.attachment ) {
       refreshNode.type = 'record_sample_table'
       refreshNode.selectId = row.id
       refreshNode.data = {

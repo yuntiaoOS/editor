@@ -4,6 +4,8 @@ import NodeView from './node-view.vue'
 import type { XmTableOptionModel } from '@/types'
 import { timeFormat } from '@/utils/time-ago'
 import { v4 as uuid } from 'uuid'
+import { formattedNumbers } from '@/utils/index'
+import { cloneDeep } from 'lodash-es'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -83,7 +85,14 @@ export default xmNode.create({
           }
           return { 'data-designParams': JSON.stringify(attributes.designParams)  };
         },
-      }
+      },
+      title: {
+        default: '',
+        parseHTML: (element) => element.getAttribute('data-title'),
+        renderHTML: (attributes) => {
+          return { 'data-title': attributes.title };
+        },
+      },
     }
   },
 
@@ -101,12 +110,25 @@ export default xmNode.create({
     return {
       addEvaluating_tables:
         (option?:XmTableOptionModel<any>) =>
-          ({ commands }) => {
+          ({ commands,editor }) => {
             const currentOption = mergeAttributes(this.options, option as XmTableOptionModel<any>)
+            const $key_data = JSON.parse( localStorage.getItem('key_data'))
+            const experiment_record = computed(() => $key_data?.experiment_record)
+            const record_title = experiment_record.value?.title ?? ''
+            let count = '01'
+            const docD = cloneDeep(editor.getJSON())
+            if (docD) {
+              // 物料表
+              const raw_material_tables = docD.content.filter(
+                (ele) => ele.type === 'evaluating_table',
+              )
+              count = formattedNumbers(raw_material_tables.length + 1)
+            }
             const content = {
               type: this.name,
               attrs: {
                 ...currentOption,
+                title: currentOption?.title && currentOption.title.length > 0 ? currentOption.title : `${record_title}评测${count}`,
                 key: option?.key ? option?.key : Xm_Table_key['evaluating_table']  + timeFormat(null,'yyyymmddhhMMss'),
                 table_data: option?.table_data || [],
                 id: uuid(),

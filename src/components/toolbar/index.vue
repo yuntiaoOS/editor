@@ -32,19 +32,20 @@
       v-if="$toolbar.mode === 'source' && options.toolbar?.enableSourceEditor"
     />
     <div class="umo-toolbar-actions" :class="$toolbar.mode">
-      <t-popup
-        v-if="$toolbar.mode !== 'source' && editor?.isEditable"
-        v-model="statusPopup"
-        :attach="container"
-        trigger="click"
-        placement="bottom-right"
-        @visible-change="(visible: boolean) => (statusPopup = visible)"
-      >
+<!--      <t-popup-->
+<!--        v-if="$toolbar.mode !== 'source' && editor?.isEditable"-->
+<!--        v-model="statusPopup"-->
+<!--        :attach="container"-->
+<!--        trigger="click"-->
+<!--        placement="bottom-right"-->
+<!--        @visible-change="(visible: boolean) => (statusPopup = visible)"-->
+<!--      >-->
         <t-button
           class="umo-toolbar-actions-button"
           size="small"
           :theme="savedAt?'success':'warning' "
           :class="{ active: statusPopup }"
+          @click="saveContent"
         >
           <span class="umo-status">
             <span
@@ -60,38 +61,38 @@
             </span>
           </span>
         </t-button>
-        <template #content>
-          <div class="umo-document-status-container umo-status">
-            <div>
-              {{ t('save.network') }}
-              {{ online ? t('save.online') : t('save.offline') }}
-            </div>
-            <div>
-              {{ t('save.savedAt') }}
-              <span
-                v-if="savedAt"
-                v-text="t('save.savedAtText', { time: timeAgo(savedAt) })"
-              ></span>
-              <span v-else v-text="t('save.unsaved')"></span>
-            </div>
-            <div class="umo-document-button-container">
-              <t-button
-                size="small"
-                @click="saveContent"
-                v-text="t('save.text')"
-              ></t-button>
-              <t-button
-                v-if="false"
-                size="small"
-                variant="outline"
-                @click="setContentFromCache"
-                v-text="t('save.cache.text')"
-              >
-              </t-button>
-            </div>
-          </div>
-        </template>
-      </t-popup>
+<!--        <template #content>-->
+<!--          <div class="umo-document-status-container umo-status">-->
+<!--            <div>-->
+<!--              {{ t('save.network') }}-->
+<!--              {{ online ? t('save.online') : t('save.offline') }}-->
+<!--            </div>-->
+<!--            <div>-->
+<!--              {{ t('save.savedAt') }}-->
+<!--              <span-->
+<!--                v-if="savedAt"-->
+<!--                v-text="t('save.savedAtText', { time: timeAgo(savedAt) })"-->
+<!--              ></span>-->
+<!--              <span v-else v-text="t('save.unsaved')"></span>-->
+<!--            </div>-->
+<!--            <div class="umo-document-button-container">-->
+<!--              <t-button-->
+<!--                size="small"-->
+<!--                @click="saveContent"-->
+<!--                v-text="t('save.text')"-->
+<!--              ></t-button>-->
+<!--              <t-button-->
+<!--                v-if="false"-->
+<!--                size="small"-->
+<!--                variant="outline"-->
+<!--                @click="setContentFromCache"-->
+<!--                v-text="t('save.cache.text')"-->
+<!--              >-->
+<!--              </t-button>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </template>-->
+<!--      </t-popup>-->
       <t-dropdown
         v-if="false"
         trigger="click"

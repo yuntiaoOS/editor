@@ -101,35 +101,42 @@
 
           </div>
         </div>
-        <t-popup
-          v-if="visitorData"
-          trigger="click"
-          placement="bottom"
-          destroyOnClose
-          hideEmptyPopup
-          :on-visible-change=" (visible:boolean)=> visible && visitorDataInit()"
-        >
-          <div style="cursor: pointer;">
-            <t-icon name="book-open" size="14px" style="color: #a0a0a0"/>
-            <span class="Font12Color" style="margin-left:4px;">{{visitorData.length}} </span>
-          </div>
-          <template #content>
-            <div v-if="visitorData" style="padding:10px;">
-              <div style="padding-bottom: 4px;">
-                <span class="Font12Color">阅读者（{{visitorData.length}}）</span>
-              </div>
-              <div v-for=" participant in visitorData" :key="participant.id" style="padding-bottom: 6px;">
-                <t-space size="10px">
-                  <t-avatar size="20px" shape="round" :image="participant.user.avatar"> {{participant.user.name}} </t-avatar>
-                  <span class="Font12Color" >{{participant.user.name}}</span>
-                  <span class="Font12Color" >{{timeAgo(participant.update_datetime)}}</span>
-                </t-space>
-              </div>
+        <div style="display: flex;align-items: center;gap: 4px;">
+          <t-popup
+            v-if="visitorData"
+            trigger="click"
+            placement="bottom"
+            destroyOnClose
+            hideEmptyPopup
+            :on-visible-change=" (visible:boolean)=> visible && visitorDataInit()"
+          >
+            <div style="cursor: pointer;">
+              <t-icon name="book-open" size="14px" style="color: #a0a0a0"/>
+              <span class="Font12Color" style="margin-left:4px;">{{visitorData.length}} </span>
             </div>
+            <template #content>
+              <div v-if="visitorData" style="padding:10px;">
+                <div style="padding-bottom: 4px;">
+                  <span class="Font12Color">阅读者（{{visitorData.length}}）</span>
+                </div>
+                <div v-for=" participant in visitorData" :key="participant.id" style="padding-bottom: 6px;">
+                  <t-space size="10px">
+                    <t-avatar size="20px" shape="round" :image="participant.user.avatar"> {{participant.user.name}} </t-avatar>
+                    <span class="Font12Color" >{{participant.user.name}}</span>
+                    <span class="Font12Color" >{{timeAgo(participant.update_datetime)}}</span>
+                  </t-space>
+                </div>
+              </div>
 
-          </template>
+            </template>
 
-        </t-popup>
+          </t-popup>
+          <div class="Font12Color" style="margin-left:4px;">
+            <t-icon name="hashtag" size="14px" style="color: #a0a0a0"></t-icon>
+            <span title="创建时间">{{experiment_record.create_datetime}} </span>
+          </div>
+        </div>
+
 
       </div>
     </div>

@@ -10,6 +10,7 @@
           <t-space>
             <div>
               <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
+              <t-input v-model="_title" label="名称：" size="large" autofocus autoWidth borderless placeholder="请输入" />
             </div>
             <t-space>
               <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入物料名称" />
@@ -199,6 +200,13 @@ const isChanged = computed({
   get: () => _nodeAttrs.value? _nodeAttrs.value.isChanged : '',
   set(value) {
     _nodeAttrs.value.isChanged = value
+  },
+})
+
+const _title = computed({
+  get: () => _nodeAttrs.value? _nodeAttrs.value.title : '',
+  set(value) {
+    _nodeAttrs.value.title = value
   },
 })
 

@@ -298,6 +298,7 @@ onMounted(() => {
       setTimeout(() => {
         if (technologyOptions.value.length === 1 ) {
           selectTableForm.value.technology = technologyOptions.value[0].id
+          designParamsId.value = technologyOptions.value[0].id
           on_select_designFunc()
         }else{
           select_design_visible.value = true
