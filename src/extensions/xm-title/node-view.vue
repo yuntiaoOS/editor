@@ -133,7 +133,7 @@
           </t-popup>
           <div class="Font12Color" style="margin-left:4px;">
             <t-icon name="hashtag" size="14px" style="color: #a0a0a0"></t-icon>
-            <span title="创建时间">{{experiment_record.create_datetime}} </span>
+            <span title="创建时间">创建时间：{{experiment_record.create_datetime}} </span>
           </div>
         </div>
 
