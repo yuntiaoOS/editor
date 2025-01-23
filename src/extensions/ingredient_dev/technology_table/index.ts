@@ -100,17 +100,17 @@ export default xmNode.create({
         (option?:XmTableOptionModel<any>) =>
           ({ commands,editor }) => {
             const currentOption = mergeAttributes(this.options, option as XmTableOptionModel<any>)
-            const $key_data = JSON.parse( localStorage.getItem('key_data'))
+            const $key_data = JSON.parse( localStorage.getItem('key_data') ?? '{}' )
             const experiment_record = computed(() => $key_data?.experiment_record)
             const record_title = experiment_record.value?.title ?? ''
             let count = '01'
             const docD = cloneDeep(editor.getJSON())
             if (docD) {
               // 物料表
-              const raw_material_tables = docD.content.filter(
+              const raw_material_tables = docD.content?.filter(
                 (ele) => ele.type === 'technology_table',
               )
-              count = formattedNumbers(raw_material_tables.length + 1)
+              count = formattedNumbers((raw_material_tables?.length ?? 0) + 1)
             }
             const content = {
               type: this.name,
