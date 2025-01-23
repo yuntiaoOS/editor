@@ -116,7 +116,7 @@ export default xmNode.create({
               type: this.name,
               attrs: {
                 ...currentOption,
-                title: currentOption?.title && currentOption.title.length > 0 ? currentOption.title : `${record_title}工艺${count}`,
+                title: currentOption?.title && currentOption.title.length > 0 ? currentOption.title : `${record_title}/工艺${count}`,
                 key: currentOption?.key ? currentOption?.key : Xm_Table_key['technology_table']  + timeFormat(null,'yyyymmddhhMMss'),
                 table_data: option?.table_data || [],
                 id: uuid(),
