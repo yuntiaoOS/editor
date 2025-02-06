@@ -43,7 +43,7 @@
                   '试验方法设计'
                 }}</t-button>
                 <t-button variant="outline" @click="onAddFunc">{{
-                  designResult.formItems ? '编辑' : '新增'
+                  designResult.formItems ? '设计' : '新增'
                 }}</t-button>
                 <div
                   v-if="updateTime && updateTime.length > 10"
@@ -259,6 +259,23 @@
       />
     </t-dialog>
     <t-dialog
+      v-model:visible="sampleOrthogonalDialog"
+      destroy-on-close
+      :close-on-overlay-click="false"
+      header="变量选择"
+      :cancel-btn="null"
+      width="70%"
+      attach="body"
+      :confirm-on-enter="true"
+      :on-confirm="onSampleOrthogonalFunc"
+    >
+      <variable-sample-creat
+        v-if="sampleOrthogonalDialog && creatSampleOrthogonal"
+        :data="creatSampleOrthogonal.isOrthogonal"
+        @change="sampleOrthogonalChange"
+      />
+    </t-dialog>
+    <t-dialog
       v-model:visible="select_index_visible"
       destroy-on-close
       :close-on-overlay-click="false"
@@ -392,6 +409,10 @@ const expandedRowKeys = ref([])
 
 const selectRecordTable = ref()
 
+const creatSampleOrthogonal = ref({isOrthogonal:[] })
+const sampleOrthogonalDialog = ref(false)
+const selectSampleOrthogonal = ref()
+
 const selectTableForm = ref({
   type: 'group',
   index_type: [],
@@ -466,6 +487,10 @@ const designResult = computed({
   },
 })
 
+const sampleOrthogonalChange = (value) => {
+  selectSampleOrthogonal.value = value
+}
+
 const submitExperimentalDesign = () => {
   console.log(
     '---------------submitExperimentalDesign----448--------',
@@ -484,6 +509,7 @@ const submitExperimentalDesign = () => {
         formData: designResult.value.formData[procedure.key][operate.key],
         formItems: operate,
         description: operate.description,
+        params: operate.params,
         procedure: {
           id: procedure.id,
           title: procedure.title,
@@ -509,9 +535,12 @@ const submitExperimentalDesign = () => {
         oldRow = table_dataV.splice(index, 1)
       }
       table_dataV.splice(rowIndex, 0, {
-        ...row ,
-        formData: {...row.formData,attachment:oldRow.length > 0 ? oldRow[0].formData.attachment : []},
-        description:oldRow.length > 0 ? oldRow[0].description : ''
+        ...row,
+        formData: {
+          ...row.formData,
+          attachment: oldRow.length > 0 ? oldRow[0].formData.attachment : [],
+        },
+        description: oldRow.length > 0 ? oldRow[0].description : '',
       })
 
       rowIndex++
@@ -524,6 +553,7 @@ const submitExperimentalDesign = () => {
       formData: { description: procedure.description },
       formItems: { title: '过程描述' },
       description: procedure.description,
+      params: {},
       procedure: {
         id: procedure.id,
         title: procedure.title,
@@ -570,7 +600,8 @@ const submitExperimentalDesign = () => {
 
   console.log(
     '---------------submitExperimentalDesign-----493-------',
-    table_data.value,table_dataV
+    table_data.value,
+    table_dataV,
   )
 }
 
@@ -598,7 +629,10 @@ const expandDataFunc = (row) => {
     )
   } else {
     expandedRowKeys.value.push(row.id)
-    if (row.sample?.record_table?.table_data?.length > 0 || row.formData.attachment) {
+    if (
+      row.sample?.record_table?.table_data?.length > 0 ||
+      row.formData.attachment
+    ) {
       nextTick(() => {
         refreshNode.type = 'sample_table'
         refreshNode.selectId = row.id
@@ -884,7 +918,10 @@ const columnEditFunc = () => {
 }
 
 const sampleRecordChange = (row) => {
-  if (row.sample?.record_table?.table_data?.length > 0 || row.formData.attachment) {
+  if (
+    row.sample?.record_table?.table_data?.length > 0 ||
+    row.formData.attachment
+  ) {
     // refreshNode.type = 'sample_table'
     // refreshNode.selectId = row.id
     // refreshNode.data = {
@@ -892,11 +929,7 @@ const sampleRecordChange = (row) => {
     //   [row.id]: row
     // }
   }
-  console.log(
-    '-------sampleRecordChange------811-----------',
-    refreshNode,
-    row,
-  )
+  console.log('-------sampleRecordChange------811-----------', refreshNode, row)
 }
 
 const onSampleDelete = (row, rowIndex) => {
@@ -915,9 +948,17 @@ const onSampleDelete = (row, rowIndex) => {
   })
 }
 
-const creatSample = async (row) => {
-  const rowIndex = table_data.value.findIndex((rowT) => rowT.id === row.id)
-  const sampleData = table_data.value.slice(0, rowIndex + 1)
+const onSampleOrthogonalFunc = () => {
+  console.log('-----onSampleOrthogonalFunc---952------', creatSampleOrthogonal.value, selectSampleOrthogonal.value)
+  const params = []
+  selectSampleOrthogonal.value.forEach((ele) => {
+    params.push( {id: ele.id,formItems: { attribute:ele.formItems.attribute } }  )
+  })
+  creatSampleToTable(creatSampleOrthogonal.value.row, creatSampleOrthogonal.value.rowIndex, params)
+  sampleOrthogonalDialog.value = false
+}
+
+const creatSampleToTable = (row, rowIndex,params={}  ) => {
   const $key_data = JSON.parse(localStorage.getItem('key_data'))
   const experiment_record = $key_data?.experiment_record
   const experiment_theme = $key_data?.experiment_theme
@@ -935,6 +976,7 @@ const creatSample = async (row) => {
       test_record_table: node.attrs.id,
       is_sample: false,
       operate_router: { title: '样品检测' },
+      params: params,
       sample: {
         id: uuid(),
         name: `样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
@@ -972,56 +1014,35 @@ const creatSample = async (row) => {
       ...refreshNode.data,
       [rowData.id]: rowData,
     }
-    return
-
-    const params = {
-      experiment_theme: experiment_theme?.id,
-      record: experiment_record?.id,
-      type: '小试',
-      source: '自制',
-      count: row.count,
-      weight: row.weight,
-      data: [{ name: rowC.sample.name, value: rowC }],
-    }
-    const res = await post_ingredient_dev_sample_fetch(params)
-    if (res.data.code === 2000) {
-      if (res.data.data && res.data.data.length > 0) {
-        nextTick(() => {
-          const rowData = {
-            ...rowC,
-            is_sample: true,
-            sample: {
-              ...rowC.sample,
-              really_sample: true,
-              id: res.data.data[0].id,
-              // name: `样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
-              sn: res.data.data[0].sn,
-            },
-          }
-
-          const table_dataV = cloneDeep(table_data.value)
-          updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
-          table_dataV.splice(rowIndex + 1, 0, rowData)
-          table_data.value = cloneDeep(table_dataV)
-          tableRef.value?.refreshTable()
-          nextTick(() => {
-            refreshNode.type = 'sample_table'
-            refreshNode.selectId = rowData.id
-            refreshNode.data = {
-              ...refreshNode.data,
-              [rowData.id]: rowData,
-            }
-          })
-        })
-        useMessage('success', res.data.msg)
-      }
-    } else {
-      row.is_sample = false
-    }
   } else {
     row.is_sample = false
     useMessage('warning', '实验记录数据错误')
   }
+}
+
+const creatSample = async (row) => {
+  const rowIndex = table_data.value.findIndex((rowT) => rowT.id === row.id)
+  const sampleData = table_data.value.slice(0, rowIndex + 1)
+
+  // 出样前判断是否有正交变量操作属性存在
+  const filterOrthogonal = sampleData.filter(
+    (ele) => ele.operateType === '物料' || ele.operateType === '操作',
+  )
+  if (filterOrthogonal.length === 0) {
+    useMessage('warning', '请先添加物料或操作')
+    return
+  }
+  const isOrthogonal = filterOrthogonal.filter((ele) =>
+    ele.formItems.attribute.some((eleS) => eleS.props?.orthogonal),
+  )
+  console.log('------creatSample-----', isOrthogonal, filterOrthogonal)
+  if (isOrthogonal.length > 0) {
+    creatSampleOrthogonal.value = { isOrthogonal, row , rowIndex}
+    sampleOrthogonalDialog.value = true
+    return
+  }
+
+  creatSampleToTable(row, rowIndex)
 }
 
 const on_select_indexFunc = () => {

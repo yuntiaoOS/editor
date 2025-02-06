@@ -177,7 +177,7 @@ const getDesignParams = () => {
     }
   })
 
-  //[ ] TODO  待优化optionsGroup物料数据要插入更新
+  //[x] TODO  待优化optionsGroup物料数据要插入更新
   if (technology_table_data) {
     // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
     function processItems(items, optionsGroup) {

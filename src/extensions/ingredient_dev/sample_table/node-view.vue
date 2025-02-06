@@ -492,7 +492,19 @@ const onTechnology = (row) => {
     if (test_record) {
       const table_data = test_record.attrs.table_data.filter(ele=> ele.operateType !== '样品' && ele.operateType !== '过程描述')
       const index = table_data.findIndex((ele) => ele.procedure_rowKey === row.procedure_rowKey && ele.operate_rowKey === row.operate_rowKey)
-      selectRow.value.formItems = table_data.slice(0,index+1)
+      selectRow.value.formItems = table_data.slice(0,index+1).map(ele=>{
+        if (row.params && row.params.length > 0) {
+          const rowD = row.params.find((item) => item.id === ele.id)
+          if (rowD) {
+            const rowD_ids = rowD.formItems.attribute.map((item) => item.value)
+            ele.formItems.attribute = ele.formItems.attribute.filter((item) => rowD_ids.includes(item.key))
+          }
+        }
+
+        return ele
+      })
+
+
     }
     console.log('selectRow-----------487-------',test_record,test_record_table, selectRow.value,row)
   }
@@ -767,7 +779,6 @@ const initData = async () => {
 
   const docD = cloneDeep(editor.getJSON())
   if (docD) {
-    // 物料表
     const test_record_table = docD.content.filter(
       (ele) => ele.type === 'test_record_table',
     )

@@ -60,6 +60,8 @@
                     <xmFormDesignRender
                       style="overflow: auto"
                       v-model="_designParams.formData"
+                      v-model:attributes="slotProps.row.attribute"
+                      :itemIndex="index"
                       :label="item.title"
                       :valueKey=" getParentRowKeys(item, _designParams.formItems) "
                       :mode=" readonly ? 'READ' : 'RESP'"
@@ -417,7 +419,7 @@ onMounted(() => {
 })
 </script>
 <style lang="less" scoped>
-:deep(.umo-table__tree-op-icon) {
+:deep(.umo-table__tree-leaf-node .umo-table__tree-op-icon) {
   display: none;
 }
 :deep(.umo-table__content) {
