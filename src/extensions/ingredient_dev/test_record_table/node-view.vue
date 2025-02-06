@@ -73,7 +73,9 @@
           <TestRecordExpanded
             v-if="expandedRowKeys.includes(slotProps.row.id)"
             v-model="slotProps.row"
+            viewType="test_record_table"
             :sample="slotProps.row.sample.id"
+            :docJson="docJson"
             @change="sampleRecordChange"
           ></TestRecordExpanded>
         </template>
@@ -150,14 +152,14 @@
 
               <t-button
                 v-if="['样品'].includes(row.operateType)"
-                style="width: 80px"
+                style="width: 50px"
                 title="试验数据"
                 theme="primary"
                 shape="square"
                 variant="text"
                 @click.stop="expandDataFunc(row)"
               >
-                试验数据
+                详情
               </t-button>
               <t-popconfirm
                 v-if="['样品'].includes(row.operateType)"
@@ -465,6 +467,10 @@ const group = computed({
   set(value) {
     updateAttributes({ group: value })
   },
+})
+
+const docJson = computed(()=>{
+  return cloneDeep(editor.getJSON())
 })
 
 const pagination = ref({

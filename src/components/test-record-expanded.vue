@@ -14,76 +14,151 @@
       ></UploadFile>
     </div>
     <div v-if="_value.is_sample">
-      <t-table
-        ref="tableRef"
-        :loading="loading"
-        row-key="id"
-        :data="record_table_data"
-        :columns="_columns"
-        resizable
-      >
-        <template #defaultValueSlot="slotProps">
-          <div>
-            <FormDesignRender
-              v-model="slotProps.row[slotProps.col.colKey]"
-              v-model:formData="slotProps.row"
-              style="overflow: auto"
-              :mode="readonly ? 'READ' : 'NORMAL'"
-              :config="slotProps.row.index_type"
-            >
-            </FormDesignRender>
-          </div>
-        </template>
-        <template #topContent>
-          <div style="padding: 6px 0; display: block" v-if="!readonly">
-            <t-space>
-              <div>
-                <t-button v-if="false" variant="outline" @click="onSaveDataFunc"
-                  >保存数据</t-button
-                >
-                <!-- <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
-                <t-input v-model="_title" auto-width placeholder="请输入名称" /> -->
-              </div>
-              <t-space>
-                <t-button v-if="false" variant="outline" @click="onAddRowFunc"
-                  >新增</t-button
-                >
-                <t-button v-if="false" variant="outline" @click="onAddIndexFunc"
-                  >配置指标</t-button
-                >
-                <t-button variant="outline" @click="onAddIndexRowFunc"
-                  >新增</t-button
-                >
-              </t-space>
-            </t-space>
-          </div>
-        </template>
-        <template #type-slot-operate="slotProps">
-          <div style="display: flex; align-items: center; gap: 10px">
-            <t-link
-              theme="primary"
-              hover="color"
-              @click="copyRowFunc(slotProps.row)"
-            >
-              复制
-            </t-link>
-            <t-popconfirm
-              content="确认删除吗"
-              @confirm="deleteRowFunc(slotProps.row)"
-            >
-              <t-button
-                title="删除"
-                theme="danger"
-                shape="square"
-                variant="text"
-                >删除</t-button
+      <t-space direction="vertical" style="width: 100%;">
+        <t-table v-if="props.viewType === 'test_record_table' "
+          row-key="id"
+          :data="sampleTableData"
+          :columns="sampleColumns"
+          :showHeader="false"
+          lazy-load
+        >
+          <template #type-slot-operate="slotProps">
+            <div style="display: flex; align-items: center; gap: 10px">
+              <t-link
+                theme="primary"
+                hover="color"
+                @click="showTechnologyFunc(slotProps.row)"
               >
-            </t-popconfirm>
-          </div>
-        </template>
-      </t-table>
+                工艺
+              </t-link>
+            </div>
+          </template>
+        </t-table>
+        <t-table
+          ref="tableRef"
+          :loading="loading"
+          row-key="id"
+          :data="record_table_data"
+          :columns="_columns"
+          resizable
+        >
+          <template #defaultValueSlot="slotProps">
+            <div>
+              <FormDesignRender
+                v-model="slotProps.row[slotProps.col.colKey]"
+                v-model:formData="slotProps.row"
+                style="overflow: auto"
+                :mode="readonly ? 'READ' : 'NORMAL'"
+                :config="slotProps.row.index_type"
+              >
+              </FormDesignRender>
+            </div>
+          </template>
+          <template #topContent>
+            <div style="padding: 6px 0; display: block" v-if="!readonly">
+              <t-space>
+                <div>
+                  <t-tag theme="primary" v-if="props.viewType === 'test_record_table' ">试验数据</t-tag>
+                  <t-button v-if="false" variant="outline" @click="onSaveDataFunc"
+                  >保存数据</t-button
+                  >
+                  <!-- <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
+                  <t-input v-model="_title" auto-width placeholder="请输入名称" /> -->
+                </div>
+                <t-space>
+                  <t-button v-if="false" variant="outline" @click="onAddRowFunc"
+                  >新增</t-button
+                  >
+                  <t-button v-if="false" variant="outline" @click="onAddIndexFunc"
+                  >配置指标</t-button
+                  >
+                  <t-button variant="outline" @click="onAddIndexRowFunc"
+                  >新增</t-button
+                  >
+                </t-space>
+              </t-space>
+            </div>
+          </template>
+          <template #type-slot-operate="slotProps">
+            <div style="display: flex; align-items: center; gap: 10px">
+              <t-link
+                theme="primary"
+                hover="color"
+                @click="copyRowFunc(slotProps.row)"
+              >
+                复制
+              </t-link>
+              <t-popconfirm
+                content="确认删除吗"
+                @confirm="deleteRowFunc(slotProps.row)"
+              >
+                <t-button
+                  title="删除"
+                  theme="danger"
+                  shape="square"
+                  variant="text"
+                >删除</t-button
+                >
+              </t-popconfirm>
+            </div>
+          </template>
+        </t-table>
+      </t-space>
+
     </div>
   </t-space>
+  <t-dialog
+    destroyOnClose
+    v-model:visible="technologyInfoVisible"
+    header="工艺详情"
+    :footer="false"
+    width="70%"
+    attach="body"
+  >
+    <t-table
+      v-if="selectRow"
+      :rowspan-and-colspan="rowspanAndColspan"
+      ref="tableRef"
+      :loading="loading"
+      table-layout="auto"
+      :expandIcon="false"
+      row-key="id"
+      :data="selectRow.formItems"
+      :columns="technologyColumns"
+    >
+      <template #type-slot-operate-router="{ col, row, rowIndex }">
+        <div class="operate-router-class">
+          <div v-if="row.operateType === '样品'">
+            <div>
+              <span>{{ row.sample.name }} ：{{ row.sample.sn }}</span>
+            </div>
+          </div>
+          <t-space v-else-if="row.operateType !== '过程描述'">
+            <template v-for="(item, index) in row.formItems.attribute">
+              <FormDesignRender
+                v-model="row.formData[item.key]"
+                v-model:formData="row.formData"
+                style="overflow: auto"
+                :label="item.title + '：'"
+                :mode="'READ'"
+                :config="item"
+              >
+              </FormDesignRender>
+            </template>
+          </t-space>
+          <div v-else-if="row.operateType === '过程描述'">
+            <t-textarea
+              v-model="row.description"
+              placeholder="请输入过程描述"
+              readonly
+              name="description"
+              :autosize="true"
+            />
+          </div>
+        </div>
+      </template>
+    </t-table>
+  </t-dialog>
   <t-dialog
     v-model:visible="select_index_visible"
     destroy-on-close
@@ -146,6 +221,7 @@ import {
   get_ingredient_dev_sample_infoFetch,
 } from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
+import Template from '@/components/menus/toolbar/insert/template.vue'
 
 const emits = defineEmits(['update:modelValue', 'change', 'blur', 'enter'])
 const props = defineProps({
@@ -156,7 +232,7 @@ const props = defineProps({
   },
   viewType: {
     type: String,
-    default: 'nodeView',
+    default: 'sample_table',
   },
   sample: {
     type: String,
@@ -165,6 +241,10 @@ const props = defineProps({
   readonly: {
     type: Boolean,
     default: false,
+  },
+  docJson: {
+    type: Object,
+    default: () => ({}),
   },
 })
 const { refreshNode } = useStore()
@@ -242,6 +322,10 @@ const record_table_data = computed({
   },
 })
 
+const sampleTableData = computed(() => {
+  return _sampleInfo.value ? [_sampleInfo.value] : []
+})
+
 // watch(
 //   () => _sampleInfo.value?.record_table?.table_data,
 //   (val, oldValue) => {
@@ -252,6 +336,35 @@ const record_table_data = computed({
 //   },
 //   { deep: true, immediate: true },
 // )
+
+const sampleColumns = ref([
+  {
+    colKey: 'name',
+    title: '名称',
+    width: 200,
+  },
+  {
+    colKey: 'sn',
+    title: '编号',
+    width: 170,
+  },
+  {
+    colKey: 'weight',
+    title: '质量(g)',
+    width: 100,
+  },
+  {
+    colKey: 'description',
+    title: '描述',
+    minWidth: 120,
+  },
+  {
+    title: '操作',
+    colKey: 'operate',
+    width: 50,
+    cell: 'type-slot-operate',
+  },
+])
 
 const _columns = [
   {
@@ -331,6 +444,93 @@ const _columns = [
 const select_index_visible = ref(false)
 const assessmentOption = ref([])
 const select_record_form = ref()
+
+const technologyInfoVisible = ref(false)
+const selectRow = ref()
+const technologyColumns = ref([
+  {
+    title: '工序',
+    colKey: 'procedure',
+    width: 100,
+    cell: (h, { row }) => {
+      return row.procedure.title
+    },
+  },
+  {
+    colKey: 'operate_router',
+    title: '工艺线路',
+    width: 140,
+    cell: (h, { row }) => {
+      const theme =
+        row.operateType === '物料'
+          ? 'primary'
+          : row.operateType === '样品'
+            ? 'warning'
+            : 'success'
+      return (
+        <div>
+          {row.operateType !== '过程描述' && [
+            <t-tag size="small" style="margin-right:6px;" theme={theme}>
+              {row.operateType}
+            </t-tag>,
+          ]}
+          <span>{row.operate_router.title}</span>
+        </div>
+      )
+    },
+  },
+  {
+    colKey: 'formItems',
+    title: '工艺要求',
+    minWidth: 220,
+    cell: 'type-slot-operate-router',
+  },
+  {
+    colKey: 'description',
+    title: '实验记录',
+    minWidth: 220,
+  },
+])
+
+const showTechnologyFunc = (row) => {
+  console.log('---showTechnologyFunc--', row, _value.value)
+  onTechnology(_value.value)
+}
+
+const onTechnology = (row) => {
+  selectRow.value = row
+  const docD = props.docJson
+  if (docD) {
+    // 物料表
+    const test_record_table = docD.content.filter(
+      (ele) => ele.type === 'test_record_table',
+    )
+    if (test_record_table.length === 0) {
+      TMessagePlugin.warning('请先在试验数据表中出样')
+      return // 物料表不存在，返回
+    }
+    const test_record = test_record_table.find(ele=> ele.attrs.id === row.test_record_table)
+    if (test_record) {
+      const table_data = test_record.attrs.table_data.filter(ele=> ele.operateType !== '样品' && ele.operateType !== '过程描述')
+      const index = table_data.findIndex((ele) => ele.procedure_rowKey === row.procedure_rowKey && ele.operate_rowKey === row.operate_rowKey)
+      selectRow.value.formItems = table_data.slice(0,index+1).map(ele=>{
+        if (row.params && row.params.length > 0) {
+          const rowD = row.params.find((item) => item.id === ele.id)
+          if (rowD) {
+            const rowD_ids = rowD.formItems.attribute.map((item) => item.value)
+            ele.formItems.attribute = ele.formItems.attribute.filter((item) => rowD_ids.includes(item.key))
+          }
+        }
+
+        return ele
+      })
+
+
+    }
+    console.log('selectRow-----------487-------',test_record,test_record_table, selectRow.value,row)
+  }
+  technologyInfoVisible.value = true
+}
 
 const suffixColumns = [
   {

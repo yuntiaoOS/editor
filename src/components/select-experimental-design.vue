@@ -244,7 +244,7 @@ const getDesignParams = () => {
           return processItems([eleA], optionsGroup)[0]
         })
         // 判断当前工序里面是否有正交变量 eleA.props.orthogonal 有的话需要处理
-        const old_data = designResult.value.formItems.find(
+        const old_data = designResult.value.formItems?.find(
           (eleF) => eleF.id === ele.id
         )
         if (old_data) {

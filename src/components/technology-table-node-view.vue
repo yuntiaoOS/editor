@@ -765,7 +765,7 @@ const onAddOperateFunc = () => {
 const getgroupFields = () => {
   getEval_attribute_libraryListFetch({
     page: 1,
-    limit: 'all',
+    limit: 9999,
   })
     .then((res) => {
       if (res.data.value && res.data.value.code === 2000) {
@@ -1219,7 +1219,7 @@ const initData = async () => {
     params = {
       product: change_log.value.change_log,
       page: 1,
-      limit: 'all',
+      limit: 9999,
     }
   }
 
