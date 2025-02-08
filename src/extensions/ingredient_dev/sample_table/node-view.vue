@@ -58,6 +58,7 @@
           <TestRecordExpanded
             v-if="expandedRowKeys.includes(slotProps.row.id)"
             v-model="slotProps.row"
+            viewType="sample_table"
             :sample="slotProps.row.sample.id"
             @change="sampleRecordChange"
           ></TestRecordExpanded>
@@ -358,6 +359,7 @@ const sampleRecordChange = (row) => {
     //   [row.id]: row
     // }
   }
+  updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
   // console.log('------------sampleRecordChange-----------',row)
 }
 
@@ -460,14 +462,6 @@ const expandDataFunc = (row) => {
     )
   } else {
     expandedRowKeys.value.push(row.id)
-    if (row.sample?.record_table?.table_data?.length > 0 || row.formData.attachment ) {
-      refreshNode.type = 'record_sample_table'
-      refreshNode.selectId = row.id
-      refreshNode.data = {
-        ...refreshNode.data,
-        [row.id]: row,
-      }
-    }
   }
 }
 
@@ -485,7 +479,7 @@ const onTechnology = (row) => {
       (ele) => ele.type === 'test_record_table',
     )
     if (test_record_table.length === 0) {
-      TMessagePlugin.warning('请先在试验数据表中出样')
+      TMessagePlugin.warning('请先在试验记录表中出样')
       return // 物料表不存在，返回
     }
     const test_record = test_record_table.find(ele=> ele.attrs.id === row.test_record_table)
@@ -774,7 +768,7 @@ const columnEditFunc = () => {
   dialog_visible.value = true
 }
 
-const initData = async () => {
+const initData = () => {
   loading.value = true
 
   const docD = cloneDeep(editor.getJSON())
@@ -783,7 +777,7 @@ const initData = async () => {
       (ele) => ele.type === 'test_record_table',
     )
     if (test_record_table.length === 0) {
-      TMessagePlugin.warning('请先在试验数据表中出样')
+      TMessagePlugin.warning('请先在试验记录表中出样')
       table_data.value = []
       loading.value = false
       return // 物料表不存在，返回
@@ -801,36 +795,39 @@ const initData = async () => {
     TMessagePlugin.warning('当前文档中没有数据错误')
   }
   loading.value = false
-  return
-  const params = {
-    experiment_theme: experiment_theme.value?.id,
-    record: experiment_record.value?.id,
-  }
-
-  const res = await get_ingredient_dev_sampleListFetch(params)
-  loading.value = false
-  if (res.data.code === 2000 && res.data.data.length > 0) {
-    table_data.value = res.data.data
-    updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
-    if (isChanged.value) {
-      isChanged.value = false
-    }
-  }
+  // return
+  // const params = {
+  //   experiment_theme: experiment_theme.value?.id,
+  //   record: experiment_record.value?.id,
+  // }
+  //
+  // const res = await get_ingredient_dev_sampleListFetch(params)
+  // loading.value = false
+  // if (res.data.code === 2000 && res.data.data.length > 0) {
+  //   table_data.value = res.data.data
+  //   updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
+  //   if (isChanged.value) {
+  //     isChanged.value = false
+  //   }
+  // }
 }
 
 
 watch(() => refreshNode,
-  async (value) => {
+  (value) => {
     if (value.type === 'sample_table') {
-      await initData()
-      refreshNode.type = ''
+      nextTick(() => {
+        initData()
+        refreshNode.type = ''
+      })
+      updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
     }
   },
   { deep: true, immediate: true },
 )
 
-onMounted(async () => {
-  await initData()
+onMounted( () => {
+   initData()
 })
 </script>
 

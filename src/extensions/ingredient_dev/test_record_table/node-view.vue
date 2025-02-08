@@ -271,11 +271,24 @@
       :confirm-on-enter="true"
       :on-confirm="onSampleOrthogonalFunc"
     >
-      <variable-sample-creat
-        v-if="sampleOrthogonalDialog && creatSampleOrthogonal"
+      <variable-sample-creat style="margin-bottom: 20px;"
+        v-if="sampleOrthogonalDialog && creatSampleOrthogonal && creatSampleOrthogonal.isOrthogonal.length > 0"
         :data="creatSampleOrthogonal.isOrthogonal"
         @change="sampleOrthogonalChange"
       />
+      <t-form
+        ref="sampleFormRef"
+        :rules="FORM_RULES"
+        :data="sampleForm"
+        :colon="true"
+      >
+        <t-form-item label="样品名称" name="name" >
+          <t-input v-model="sampleForm.name" placeholder="请输入" />
+        </t-form-item>
+        <t-form-item label="样品编号" name="sn">
+          <t-input v-model="sampleForm.sn" placeholder="请输入" />
+        </t-form-item>
+      </t-form>
     </t-dialog>
     <t-dialog
       v-model:visible="select_index_visible"
@@ -415,12 +428,20 @@ const creatSampleOrthogonal = ref({isOrthogonal:[] })
 const sampleOrthogonalDialog = ref(false)
 const selectSampleOrthogonal = ref()
 
+const sampleFormRef = ref()
+const sampleForm = ref({
+  name: '',
+  sn: '',
+})
+
 const selectTableForm = ref({
   type: 'group',
   index_type: [],
   experimental_design: [],
 })
 const FORM_RULES = {
+  name: [{ required: true, message: '必填', trigger: ['blur'] }],
+  sn: [{ required: true, message: '必填', trigger: ['blur'] }],
   experimental_design: [
     { required: true, message: '必填', trigger: ['change'] },
   ],
@@ -889,18 +910,19 @@ const indeterminate = computed(
     ),
 )
 
-watch(
-  () => refreshNode,
+watch( () => refreshNode,
   (value) => {
     if (value.type === 'record_sample_table') {
       nextTick(() => {
         let index = -1
         index = table_data.value.findIndex((row) => row.id === value.selectId)
+        console.log('-------record_sample_table------', index, value)
         if (index > -1) {
           table_data.value.splice(index, 1, value.data[value.selectId])
           refreshNode.type = ''
         }
       })
+      updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
     }
   },
   { deep: true, immediate: true },
@@ -928,13 +950,13 @@ const sampleRecordChange = (row) => {
     row.sample?.record_table?.table_data?.length > 0 ||
     row.formData.attachment
   ) {
-    // refreshNode.type = 'sample_table'
-    // refreshNode.selectId = row.id
-    // refreshNode.data = {
-    //   ...refreshNode.data,
-    //   [row.id]: row
-    // }
+    let index = -1
+    index = table_data.value.findIndex((ele) => ele.id === row.id)
+    if (index > -1) {
+      table_data.value.splice(index, 1, row)
+    }
   }
+  updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
   console.log('-------sampleRecordChange------811-----------', refreshNode, row)
 }
 
@@ -956,15 +978,22 @@ const onSampleDelete = (row, rowIndex) => {
 
 const onSampleOrthogonalFunc = () => {
   console.log('-----onSampleOrthogonalFunc---952------', creatSampleOrthogonal.value, selectSampleOrthogonal.value)
-  const params = []
-  selectSampleOrthogonal.value.forEach((ele) => {
-    params.push( {id: ele.id,formItems: { attribute:ele.formItems.attribute } }  )
+  sampleFormRef.value.validate({ showErrorMessage: true }).then((validateResult) => {
+    if (validateResult && Object.keys(validateResult).length) {
+      const firstError = Object.values(validateResult)[0]?.[0]?.message;
+      useMessage('warning',firstError)
+    }else {
+      const params = []
+      selectSampleOrthogonal.value.forEach((ele) => {
+        params.push( {id: ele.id,formItems: { attribute:ele.formItems.attribute } }  )
+      })
+      creatSampleToTable(creatSampleOrthogonal.value.row, creatSampleOrthogonal.value.rowIndex, params)
+      sampleOrthogonalDialog.value = false
+    }
   })
-  creatSampleToTable(creatSampleOrthogonal.value.row, creatSampleOrthogonal.value.rowIndex, params)
-  sampleOrthogonalDialog.value = false
 }
 
-const creatSampleToTable = (row, rowIndex,params={}  ) => {
+const creatSampleToTable = (row, rowIndex,params=[]  ) => {
   const $key_data = JSON.parse(localStorage.getItem('key_data'))
   const experiment_record = $key_data?.experiment_record
   const experiment_theme = $key_data?.experiment_theme
@@ -985,8 +1014,8 @@ const creatSampleToTable = (row, rowIndex,params={}  ) => {
       params: params,
       sample: {
         id: uuid(),
-        name: `样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
-        sn: `SF-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
+        name: sampleForm.value.name, //`样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
+        sn: sampleForm.value.sn, //`SF-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
         weight: 1,
         record_table: {
           id: uuid(),
@@ -1044,11 +1073,11 @@ const creatSample = async (row) => {
   console.log('------creatSample-----', isOrthogonal, filterOrthogonal)
   if (isOrthogonal.length > 0) {
     creatSampleOrthogonal.value = { isOrthogonal, row , rowIndex}
-    sampleOrthogonalDialog.value = true
-    return
+  }else{
+    creatSampleOrthogonal.value = { isOrthogonal:[], row , rowIndex}
   }
+  sampleOrthogonalDialog.value = true
 
-  creatSampleToTable(row, rowIndex)
 }
 
 const on_select_indexFunc = () => {

@@ -58,7 +58,7 @@
             <div style="padding: 6px 0; display: block" v-if="!readonly">
               <t-space>
                 <div>
-                  <t-tag theme="primary" v-if="props.viewType === 'test_record_table' ">试验数据</t-tag>
+                  <t-tag theme="default" v-if="props.viewType === 'test_record_table' ">试验数据</t-tag>
                   <t-button v-if="false" variant="outline" @click="onSaveDataFunc"
                   >保存数据</t-button
                   >
@@ -142,6 +142,7 @@
                 :label="item.title + '：'"
                 :mode="'READ'"
                 :config="item"
+                @change="onUpdateModelValue"
               >
               </FormDesignRender>
             </template>
@@ -270,6 +271,8 @@ const attachmentFormItem = {
   },
 }
 
+let isInit = ref(false)
+
 const _value = computed({
   get() {
     console.log('---_value--195---', refreshNode,props.modelValue)
@@ -280,15 +283,23 @@ const _value = computed({
     return data
   },
   set(val) {
-    console.log('---_value--147---', val)
+    console.log('---_value--147---', val,props.viewType)
     nextTick(() => {
+      refreshNode.type = props.viewType === 'sample_table' ? 'record_sample_table' : 'sample_table'
+      refreshNode.selectId = val.id
       refreshNode.data = {
         ...refreshNode.data,
         [val.id]: val,
       }
+      emits('change', val)
     })
   },
 })
+
+const onUpdateModelValue = (val) => {
+  console.log('---onUpdateModelValue1111111111111111--', val)
+  _value.value = { ..._value.value, sample: { ..._value.value.sample, record_table : {..._value.value.sample.record_table,table_data: record_table_data.value   }  } }
+}
 
 const _sampleInfo = computed({
   get() {
@@ -306,7 +317,6 @@ const _formData = computed({
   },
   set(val) {
     console.log('---_value--172---', val)
-    emits('change', cloneDeep(_value.value))
     _value.value = { ..._value.value, formData: val }
   },
 })
@@ -317,10 +327,22 @@ const record_table_data = computed({
   },
   set(val) {
     console.log('---_value--182---', val)
-    emits('change', cloneDeep(_value.value))
     _value.value = { ..._value.value, sample: { ..._value.value.sample, record_table : {..._value.value.sample.record_table,table_data: val   }  } }
   },
 })
+
+// watch(
+//   () => record_table_data.value,
+//   (val, oldValue) => {
+//     if (val && oldValue && !isInit) {
+//       console.log('--------_sampleInfo--167--------',val,oldValue,isInit)
+//       isInit = false
+//       const valD = cloneDeep(_value.value)
+//       emits('change', { ...valD, sample: { ...valD.sample, record_table : {...valD.sample.record_table,table_data: val   }  } })
+//     }
+//   },
+//   { deep: true, immediate: true },
+// )
 
 const sampleTableData = computed(() => {
   return _sampleInfo.value ? [_sampleInfo.value] : []
@@ -412,7 +434,7 @@ const _columns = [
         // updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
         newData.splice(context.rowIndex, 1, context.newRowData)
         record_table_data.value = newData
-        emits('change', cloneDeep(_value.value))
+        // emits('change', cloneDeep(_value.value))
         useMessage('success', 'Success')
       },
       // 触发校验的时机（when to validate)
@@ -647,7 +669,11 @@ const onAddIndexFunc = () => {
 }
 
 const onAddIndexRowFunc = () => {
+  if (record_table_data.value.length > 0){
+    selectTableForm.value.index_type = record_table_data.value.map((ele) => ele.index_type.id)
+  }
   select_index_visible.value = true
+
 }
 
 const on_select_indexFunc = () => {
@@ -684,8 +710,8 @@ const on_select_indexFunc = () => {
         }
         const indexTypeOs = assessmentOption.value.filter((ele) =>
           selectTableForm.value.index_type.includes(ele.id),
-        )
-
+        ).filter(ele=> !record_table_data.value.map((ele) => ele.index_type.id).includes(ele.id) )
+        const record_table_dataC = []
         indexTypeOs.forEach((ele) => {
           let valueC = ''
           if (
@@ -709,10 +735,11 @@ const on_select_indexFunc = () => {
             data: valueC,
             description: '',
           }
-
-          record_table_data.value.push(rowData)
+          console.log('---on_select_indexFunc--', record_table_dataC)
+          record_table_dataC.push(rowData)
         })
-        emits('change', cloneDeep(_value.value))
+        record_table_data.value = record_table_data.value.concat(record_table_dataC)
+        // emits('change', cloneDeep(_value.value))
         select_index_visible.value = false
 
         return
@@ -854,9 +881,9 @@ const getSampleInfoFunc = async () => {
 onMounted(async () => {
   await getAssessmentOptionFunc()
   // 暂时停止使用接口获取样品试验记录数据
-  if (props.sample && false) {
-    await getSampleInfoFunc()
-  }
+  // if (props.sample && false) {
+  //   await getSampleInfoFunc()
+  // }
 })
 </script>
 

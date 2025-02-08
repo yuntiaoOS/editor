@@ -36,7 +36,7 @@
         <!-- <menus-toolbar-insert-ingredient_dev-table table-type="raw_material_table" /> -->
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
-           editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
+           editor?.isActive('sample_table') || editor?.isActive('sample_test_comparison') || editor?.isActive('evaluation_comparison') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
           ico="t-table"
           text="物料表格"
           :tooltip="false"
@@ -47,7 +47,7 @@
         <!-- <menus-toolbar-insert-ingredient_dev-table table-type="technology_table" /> -->
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
-          editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
+          editor?.isActive('sample_table') || editor?.isActive('sample_test_comparison') || editor?.isActive('evaluation_comparison') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
           ico="technology"
           text="工艺路线"
           :tooltip="false"
@@ -57,7 +57,7 @@
       <t-dropdown-item  v-if="false" >
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
-          editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
+          editor?.isActive('sample_table') || editor?.isActive('sample_test_comparison') || editor?.isActive('evaluation_comparison') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
           ico="experimental_design"
           text="试验方法设计"
           :tooltip="false"
@@ -67,7 +67,7 @@
       <t-dropdown-item >
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
-          editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
+          editor?.isActive('sample_table') || editor?.isActive('sample_test_comparison') || editor?.isActive('evaluation_comparison') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
           ico="test-records"
           text="试验记录"
           :tooltip="false"
@@ -75,20 +75,29 @@
         />
       </t-dropdown-item>
       <t-dropdown-item >
-        <!-- <menus-toolbar-insert-ingredient_dev-table table-type="sample_table" /> -->
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
-          editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
+          editor?.isActive('sample_table') || editor?.isActive('sample_test_comparison') || editor?.isActive('evaluation_comparison') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
           ico="sample"
           text="样品表格"
           :tooltip="false"
           @menu-click="editor?.chain().focus().addSample_tables({is_integration:true}).run()"
         />
       </t-dropdown-item>
+      <t-dropdown-item >
+        <menus-button
+          :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
+          editor?.isActive('sample_table') || editor?.isActive('sample_test_comparison') || editor?.isActive('evaluation_comparison') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
+          ico="test_comparison"
+          text="样品试验对比"
+          :tooltip="false"
+          @menu-click="editor?.chain().focus().addSample_test_comparisons().run()"
+        />
+      </t-dropdown-item>
       <t-dropdown-item  divider>
         <menus-button
           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
-          editor?.isActive('sample_table') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
+          editor?.isActive('sample_table') || editor?.isActive('sample_test_comparison') || editor?.isActive('evaluation_comparison') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
           ico="evaluating"
           text="评测表格"
           :tooltip="false"

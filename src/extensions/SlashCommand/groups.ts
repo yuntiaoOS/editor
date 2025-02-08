@@ -51,6 +51,14 @@ export function renderGroups(editor: Editor) {
           },
         },
         {
+          name: 'sample_test_comparison',
+          label: '样品试验对比',
+          iconName: 'test_comparison',
+          action: ({ editor, range }) => {
+            editor?.chain().focus().deleteRange(range).addSample_test_comparisons().run()
+          },
+        },
+        {
           name: 'evaluating_table',
           label: '评测表格',
           iconName: 'evaluating',

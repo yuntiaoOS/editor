@@ -2,7 +2,7 @@
 <template>
   <t-space direction="vertical">
     <t-space direction="vertical">
-      <t-check-tag-group
+      <t-check-tag-group v-if="false"
         v-model="designType"
         style="margin-right: 32px"
         :options="designTypeOptions"
@@ -10,7 +10,7 @@
         >选中/未选态</t-check-tag-group
       >
       <div style="width: calc(80vw - 100px)">
-        <t-checkbox disabled
+        <t-checkbox disabled  v-if="false"
           >为设定的默认显示上一次实验参数（也可以选择来源于某个样品）</t-checkbox
         >
         <t-enhanced-table

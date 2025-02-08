@@ -1,23 +1,25 @@
 <template>
-  <div class="item-parent" style="display: flex; align-items: center">
+  <div class="item-parent" style="display: flex; align-items: flex-start">
     <FormDesignRender
       v-model="_value"
       v-model:formData="_unitFormData"
       :label="label"
       :mode="mode"
       :config="config"
+      style="z-index: 0;"
     >
     </FormDesignRender>
-    <div class="item-children" style="padding:2px;margin-left: -10px;margin-top: -18px;z-index: 1;background-color: #fdfdfd;">
+    <div class="item-children" style="padding:2px;margin-left: -10px;margin-top: -1px;z-index: 1;background-color: #fdfdfd;"
+      :style="{'margin-top': config.type === 'MaterialList' ? '-1px' : '-1px'}">
       <t-icon
-        v-if="['NumberInput', 'TextInput'].includes(config.type)"
+        v-if="['NumberInput', 'TextInput','MaterialList'].includes(config.type)"
         name="add"
         title="插入"
         style="color:var(--td-brand-color);cursor: pointer;"
         @click="addAttributes"
       ></t-icon>
       <t-icon
-        v-if="['NumberInput', 'TextInput'].includes(config.type) && props.config.props.orthogonal "
+        v-if="['NumberInput', 'TextInput','MaterialList'].includes(config.type) && props.config.props.orthogonal "
         name="close"
         title="删除"
         style="color:red;cursor: pointer;"

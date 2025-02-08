@@ -55,6 +55,8 @@ import sample_table from './ingredient_dev/sample_table'
 import experimental_design from './ingredient_dev/experimental_design'
 import evaluating_table from './ingredient_dev/evaluating_table'
 import test_record_table from './ingredient_dev/test_record_table'
+import evaluation_comparison from './ingredient_dev/evaluation_comparison'
+import sample_test_comparison from './ingredient_dev/sample_test_comparison'
 
 // 批注
 import Comment from './comment/comment'
@@ -64,9 +66,9 @@ import atomUnselect from './atom-unselect'
 import xmTitleContent from './xm-title-content'
 import xmTitle from './xm-title'
 
-// 自定义formitem components 
+// 自定义formitem components
 import formItemComponent from './form/item/component'
-// 自定义formitem 
+// 自定义formitem
 import formItem from './form/item'
 // 自定义form
 import xmForm from './form'
@@ -109,6 +111,8 @@ export const extensions = [
   FormatPainter,
   FontFamily,
   raw_material_table,
+  evaluation_comparison,
+  sample_test_comparison,
   sample_table,
   technology_table,
   experimental_design,

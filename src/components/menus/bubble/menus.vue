@@ -109,6 +109,7 @@
   </template>
   <template v-else-if="editor?.isActive('raw_material_table') || editor?.isActive('sample_table') ||
     editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
+    editor?.isActive('sample_test_comparison') || editor?.isActive('evaluation_comparison') ||
     editor?.isActive('evaluating_table')|| editor?.isActive('experimental_design')" >
 
   </template>

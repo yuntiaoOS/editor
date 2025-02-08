@@ -140,7 +140,7 @@ const designResult = computed({
 // 递归函数，处理嵌套的 FieldsGroup 和 SelectMaterial
 function processItems(items, optionsGroup) {
   return items.map((eleI) => {
-    if (eleI.type === 'SelectMaterial') {
+    if (eleI.type === 'SelectMaterial' || eleI.type === 'MaterialList') {
       return {
         ...eleI,
         props: {
@@ -225,7 +225,7 @@ const getDesignParams = () => {
     }
   })
   // 插入样品组数据
-  optionsGroup.unshift({
+  optionsGroup.push({
     group: '样品',
     children: sampleOptions.value.map((ele) => {
       return { value: ele.id, label: `${ele.name}/${ele.sn}` }
@@ -375,7 +375,7 @@ const initialize = () => {
     const sample_tables = test_record_table
       .map((ele) => ele.attrs.table_data)
       .reduce((pre, cur) => pre.concat(cur), [])
-      .filter((ele) => ele.is_sample)
+      .filter((ele) => ele.is_sample && ele.sample?.really_sample)
     if (sample_tables.length > 0) {
       sampleOptions.value = sample_tables.map((ele) => { return { ...ele.sample  } })
     }

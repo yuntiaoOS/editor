@@ -51,20 +51,8 @@
 <!--      <node-view-content :node="node" ></node-view-content>-->
     </div>
     <t-dialog destroyOnClose
-      v-model:visible="add_dialog_visible"
-      header="新增物料" placement="center"
-      width="80%" attach="body"
-      :confirm-on-enter="true"
-      :on-confirm="on_select_materialFunc"
-    >
-      <div style="height: 74vh;">
-        <materialSelect @select-change="onSelectChange"/>
-      </div>
-
-    </t-dialog>
-    <t-dialog destroyOnClose
       v-model:visible="add_parent_visible"
-      header="选择物料表"
+      header="选择对比样品"
       width="40%" attach="body"
       :confirm-on-enter="true"
       :on-confirm="on_select_parentFunc"
@@ -180,9 +168,8 @@ const  addFunc = () => {
 }
 
 const onSelectChange = ({value, params} )=>{
-  const selectedRowData = params.selectedRowData.filter(ele=> !ele.children)
-  console.log('-----184----------',params.selectedRowData,selectedRowData)
-  select_material.value = selectedRowData.map(ele=>ele)
+
+  select_material.value = params.selectedRowData.map(ele=>ele.row)
 }
 
 const on_select_parentFunc = async ()=>{
