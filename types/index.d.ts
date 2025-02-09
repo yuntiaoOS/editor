@@ -229,6 +229,7 @@ declare type Recordable<T = any> = Record<string, T>;
 export interface XmTableOptionModel<T> {
   type?: string
   key?: string
+  params?: T
   table_data?: T
   option?: T
   title?: string

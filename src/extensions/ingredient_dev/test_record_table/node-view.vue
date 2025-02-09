@@ -271,8 +271,13 @@
       :confirm-on-enter="true"
       :on-confirm="onSampleOrthogonalFunc"
     >
-      <variable-sample-creat style="margin-bottom: 20px;"
-        v-if="sampleOrthogonalDialog && creatSampleOrthogonal && creatSampleOrthogonal.isOrthogonal.length > 0"
+      <variable-sample-creat
+        style="margin-bottom: 20px"
+        v-if="
+          sampleOrthogonalDialog &&
+          creatSampleOrthogonal &&
+          creatSampleOrthogonal.isOrthogonal.length > 0
+        "
         :data="creatSampleOrthogonal.isOrthogonal"
         @change="sampleOrthogonalChange"
       />
@@ -282,7 +287,7 @@
         :data="sampleForm"
         :colon="true"
       >
-        <t-form-item label="样品名称" name="name" >
+        <t-form-item label="样品名称" name="name">
           <t-input v-model="sampleForm.name" placeholder="请输入" />
         </t-form-item>
         <t-form-item label="样品编号" name="sn">
@@ -521,11 +526,16 @@ const sampleOrthogonalChange = (value) => {
 const submitExperimentalDesign = () => {
   console.log(
     '---------------submitExperimentalDesign----448--------',
-    designResult.value,
+    designResult.value,table_data.value
   )
   select_design_visible.value = false
   let table_dataV = table_data.value ? table_data.value : []
   let rowIndex = 0
+  const rowKeys = designResult.value.formItems.map((item) => item.formItems).reduce((pre, cur) => pre.concat(cur), []).map((item) => item.attribute)
+    .reduce((pre, cur) => pre.concat(cur), []).map((item) => item.rowKey)
+  table_dataV = table_dataV.filter((ele) => {
+    return  ele.operateType === '样品' || ele.operateType === '过程描述' || ( ele.formItems.attribute && ele.formItems.attribute.some(item => rowKeys.includes(item.rowKey)))
+  })
   designResult.value.formItems.forEach((procedure, indexP) => {
     procedure.formItems.forEach((operate, indexO) => {
       const row = {
@@ -984,9 +994,12 @@ const onSampleOrthogonalFunc = () => {
       useMessage('warning',firstError)
     }else {
       const params = []
-      selectSampleOrthogonal.value.forEach((ele) => {
-        params.push( {id: ele.id,formItems: { attribute:ele.formItems.attribute } }  )
-      })
+      if (selectSampleOrthogonal.value) {
+        selectSampleOrthogonal.value.forEach((ele) => {
+          params.push( {id: ele.id,formItems: { attribute:ele.formItems.attribute } }  )
+        })
+      }
+
       creatSampleToTable(creatSampleOrthogonal.value.row, creatSampleOrthogonal.value.rowIndex, params)
       sampleOrthogonalDialog.value = false
     }

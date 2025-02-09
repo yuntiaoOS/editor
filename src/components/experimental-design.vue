@@ -2,7 +2,8 @@
 <template>
   <t-space direction="vertical">
     <t-space direction="vertical">
-      <t-check-tag-group v-if="false"
+      <t-check-tag-group
+        v-if="false"
         v-model="designType"
         style="margin-right: 32px"
         :options="designTypeOptions"
@@ -10,7 +11,7 @@
         >选中/未选态</t-check-tag-group
       >
       <div style="width: calc(80vw - 100px)">
-        <t-checkbox disabled  v-if="false"
+        <t-checkbox disabled v-if="false"
           >为设定的默认显示上一次实验参数（也可以选择来源于某个样品）</t-checkbox
         >
         <t-enhanced-table
@@ -53,24 +54,23 @@
               >
               <div
                 v-if="!slotProps.row.formItems"
-                style="width: calc(100% - 150px);overflow-x: auto"
+                style="width: calc(100% - 150px); overflow-x: auto"
               >
-                <t-space >
+                <t-space>
                   <template v-for="(item, index) in slotProps.row.attribute">
                     <xmFormDesignRender
                       style="overflow: auto"
-                      v-model="_designParams.formData"
+                      v-model="tableData"
                       v-model:attributes="slotProps.row.attribute"
                       :itemIndex="index"
                       :label="item.title"
-                      :valueKey=" getParentRowKeys(item, _designParams.formItems) "
-                      :mode=" readonly ? 'READ' : 'RESP'"
+                      :valueKey="getParentRowKeys(item, _designParams.formItems)"
+                      :mode="readonly ? 'READ' : 'RESP'"
                       :config="item"
                     >
                     </xmFormDesignRender>
                   </template>
                 </t-space>
-
               </div>
             </div>
           </template>
@@ -137,7 +137,7 @@ const enhancedColumns = ref([
   {
     colKey: 'row-select',
     type: 'multiple',
-    disabled: ()=> props.readonly ,
+    disabled: () => props.readonly,
     width: 46,
     checkProps: ({ row }) => ({
       checked: designTreeChecked.value.includes(row[rowKey]),
@@ -179,8 +179,11 @@ const treeExpandAndFoldIconRender = (h, { type, row }) => {
 const lazyLoadingTreeIconRender = (h, params) => {
   const { type, row } = params
   if (row.formItems && row.formItems.length > 0) {
-    if (lazyLoadingData.value && lazyLoadingData.value[rowKey] === row[rowKey]) {
-      return <Loading size="14px" />;
+    if (
+      lazyLoadingData.value &&
+      lazyLoadingData.value[rowKey] === row[rowKey]
+    ) {
+      return <Loading size="14px" />
     }
     return type === 'expand' ? <AddRectangleIcon /> : <MinusRectangleIcon />
   } else {
@@ -195,14 +198,11 @@ const treeExpandIcon = computed(() => {
   return lazyLoadingTreeIconRender
 })
 const onExpandedTreeNodesChange = (expandedTreeNodes, context) => {
-
   // 全选不需要处理；仅处理懒加载
   if (!context.rowState) return
   onTreeExpandChange(context)
 }
-const onTreeExpandChange = (context) => {
-
-}
+const onTreeExpandChange = (context) => {}
 const onEdenhancedSelectChange = (value, params) => {
   designTreeChecked.value = value
   if (params.currentRowData.formItems) {
@@ -218,25 +218,36 @@ const onEdenhancedSelectChange = (value, params) => {
     }
   }
   const filterFormItems = (items, selectedKeys) => {
-    return items.map(item => {
-      // 如果 rowKey 不在 selectedKeys 中，直接跳过该项
-      if (!selectedKeys.includes(item.rowKey) && !item.formItems.some(formItem => selectedKeys.includes(formItem.rowKey))) {
-        return null;
-      }
+    return items
+      .map((item) => {
+        // 如果 rowKey 不在 selectedKeys 中，直接跳过该项
+        if (
+          !selectedKeys.includes(item.rowKey) &&
+          !item.formItems.some((formItem) =>
+            selectedKeys.includes(formItem.rowKey),
+          )
+        ) {
+          return null
+        }
 
-      // 过滤 formItems，保留 rowKey 在 selectedKeys 中的子项
-      const filteredFormItems = item.formItems.filter(formItem => selectedKeys.includes(formItem.rowKey));
+        // 过滤 formItems，保留 rowKey 在 selectedKeys 中的子项
+        const filteredFormItems = item.formItems.filter((formItem) =>
+          selectedKeys.includes(formItem.rowKey),
+        )
 
-      // 返回符合条件的数据结构
-      return {
-        ...item,
-        formItems: filteredFormItems
-      };
-    }).filter(Boolean); // 移除 null 值
-  };
+        // 返回符合条件的数据结构
+        return {
+          ...item,
+          formItems: filteredFormItems,
+        }
+      })
+      .filter(Boolean) // 移除 null 值
+  }
 
-  _selectFormItems.value = filterFormItems( cloneDeep(_designParams.value.formItems) , designTreeChecked.value);
-
+  _selectFormItems.value = filterFormItems(
+    cloneDeep(_designParams.value.formItems),
+    designTreeChecked.value,
+  )
 
   _designResult.value = _designResult.value.map((item) => {
     return {
@@ -244,7 +255,6 @@ const onEdenhancedSelectChange = (value, params) => {
       check: designTreeChecked.value.includes(item[rowKey.value]),
     }
   })
-
 }
 
 const selectedRowKeys = ref([])
@@ -286,17 +296,26 @@ watch(
   _designParams.value,
   (val) => {
     if (val) {
-
       if (val.formItems && val.formItems.length > 0) {
-
         emits('update:designParams', val)
       }
     }
   },
-  { immediate: true },
+  { deep: true, immediate: true },
 )
 
+const tableData = ref([])
 
+watch(
+  () => tableData.value,
+  (val) => {
+    if (val && Object.keys(val).length > 0 ) {
+      const designData = { ..._designParams.value }
+      emits('update:designParams', { ...designData, formData: val } )
+    }
+  },
+  { deep: true, immediate: true },
+)
 
 const designTypeOptions = [
   { label: '自定义', value: '自定义', disabled: true },
@@ -308,7 +327,7 @@ const designTypeOptions = [
 const designType = ref(['自定义'])
 
 const getParentRowKeys = (row, data) => {
-  //
+  console.log('-----getParentRowKeys---------', row, data)
   const parentKeys = []
   const findParentKeys = (node, targetRow) => {
     const node_formItems = node.formItems ? node.formItems : node.attribute
@@ -344,14 +363,19 @@ const onSelectChange = (value, params) => {
 
   const filterFormItems = (items, selectedKeys) => {
     return items
-      .filter(item => selectedKeys.includes(item.rowKey))
-      .map(item => ({
+      .filter((item) => selectedKeys.includes(item.rowKey))
+      .map((item) => ({
         ...item,
-        formItems: item.formItems ? filterFormItems(item.formItems, selectedKeys) : []
-      }));
-  };
+        formItems: item.formItems
+          ? filterFormItems(item.formItems, selectedKeys)
+          : [],
+      }))
+  }
 
-  _selectFormItems.value = filterFormItems(cloneDeep(_designParams.value.formItems) , selectedRowKeys.value);
+  _selectFormItems.value = filterFormItems(
+    cloneDeep(_designParams.value.formItems),
+    selectedRowKeys.value,
+  )
 
   _designResult.value = _designResult.value.map((item) => {
     return { ...item, check: selectedRowKeys.value.includes(item.id) }
@@ -359,7 +383,6 @@ const onSelectChange = (value, params) => {
 }
 
 const onSubmit = (row) => {
-
   _designResult.value.push(row)
   selectedRowKeys.value = [...selectedRowKeys.value, row.id]
 }
@@ -413,9 +436,9 @@ onMounted(() => {
         designTreeChecked.value,
       ),
     }
+    tableData.value = _designParams.value.formData
     _selectFormItems.value = [...props.designParams.formItems]
   }
-
 })
 </script>
 <style lang="less" scoped>

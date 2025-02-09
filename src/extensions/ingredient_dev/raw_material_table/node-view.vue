@@ -58,7 +58,7 @@
       :on-confirm="on_select_materialFunc"
     >
       <div style="height: 74vh;">
-        <materialSelect @select-change="onSelectChange"/>
+        <materialSelect v-if="add_dialog_visible"  v-model:selected="select_material" />
       </div>
 
     </t-dialog>
@@ -175,7 +175,7 @@ const is_integration = computed({
 })
 
 const  addFunc = () => {
-
+  select_material.value = cloneDeep(table_data.value)
   add_dialog_visible.value = true
 }
 
@@ -227,22 +227,8 @@ const on_select_materialFunc = async ()=>{
   //   await initData()
   // }
 
-  select_material.value.forEach((ele ) => {
-    const obj  = {
-      // ...ele,
-      id: uuid(),
-      material: ele.id,
-      batch: ele.batch,
-      name: ele.name,
-      price: ele.price,
-      sn: ele.sn,
-      state: ele.state,
-      supplier: ele.supplier,
-      description: ''
-      // content: '0.0',
-    }
-    table_data.value.push(obj)
-  });
+
+  table_data.value = cloneDeep(select_material.value)
   updateTime.value = timeFormat(null,'yyyy-mm-dd hh:MM:ss')
   add_dialog_visible.value = false
 
@@ -278,20 +264,25 @@ const columnsCheckboxs = ref([])
 
 const displayColumns = ref([]);
 const displayColumnsC = ref([]);
-displayColumns.value = ['name','batch', 'supplier', 'brand','brand_mode', 'description', 'operate']
+displayColumns.value = ['sn','name','batch', 'supplier', 'brand','brand_mode', 'description', 'operate']
 columns.value = [
+  {
+    colKey: 'sn',
+    title: '编号',
+    width: 140,
+  },
   {
     colKey: 'name',
     title: '物料',
-    cell: (h , { row, rowIndex } ) => {
-      const status = rowIndex % 3;
-      return (
-        <div>
-          <span>{row.name ? row.name : ''}</span>
-          <t-tag size="small" style="margin-left:4px;">{row.sn ? row.sn : ''}</t-tag>
-        </div>
-      );
-    },
+    // cell: (h , { row, rowIndex } ) => {
+    //   const status = rowIndex % 3;
+    //   return (
+    //     <div>
+    //       <span>{row.name ? row.name : ''}</span>
+    //       <t-tag size="small" style="margin-left:4px;">{row.sn ? row.sn : ''}</t-tag>
+    //     </div>
+    //   );
+    // },
     minWidth: 120,
   },
   {

@@ -10,16 +10,16 @@
     >
     </FormDesignRender>
     <div class="item-children" style="padding:2px;margin-left: -10px;margin-top: -1px;z-index: 1;background-color: #fdfdfd;"
-      :style="{'margin-top': config.type === 'MaterialList' ? '-1px' : '-1px'}">
+      :style="{'margin-top': config.type === 'MaterialList1' ? '-1px' : '-1px'}">
       <t-icon
-        v-if="['NumberInput', 'TextInput','MaterialList'].includes(config.type)"
+        v-if="['NumberInput', 'TextInput','MaterialList1'].includes(config.type)"
         name="add"
         title="插入"
         style="color:var(--td-brand-color);cursor: pointer;"
         @click="addAttributes"
       ></t-icon>
       <t-icon
-        v-if="['NumberInput', 'TextInput','MaterialList'].includes(config.type) && props.config.props.orthogonal "
+        v-if="['NumberInput', 'TextInput','MaterialList1'].includes(config.type) && props.config.props.orthogonal "
         name="close"
         title="删除"
         style="color:red;cursor: pointer;"

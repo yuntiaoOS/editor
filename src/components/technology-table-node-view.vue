@@ -639,7 +639,9 @@ const onAddOperateTemplateFunc = () => {
       operates = processesTemplateOption.value.filter(ele=> procedureFormData.value.process_template.includes(ele.id))
         .map(eleT=>{
           const attributeC =  eleT.attribute_info ?  cloneDeep(eleT.attribute_info) :  cloneDeep(eleT.attribute)
-          eleT.attribute = attributeC
+          eleT.attribute = attributeC.map(eleA=>{
+            return processItems([eleA], [])[0]
+          })
           // .map(eleA=>{
           //   return processItems([eleA], optionsGroup)[0]
           // })
@@ -719,6 +721,7 @@ const onAddOperateFunc = () => {
 
       operates = operationOption.value.filter(ele=> procedureFormData.value.operates.includes(ele.id))
           // .map(ele => processItems([ele], optionsGroup)[0])
+        .map(ele => processItems([ele], [])[0])
         .map(ele => ({...ele,operateType: '操作'}));
 
 
@@ -859,19 +862,23 @@ const on_select_parentFunc = async ()=>{
       if (procedureFormData.value.type === 'operate' ) {
         operates = operationOption.value.filter(ele=> procedureFormData.value.operates.includes(ele.id))
           // .map(ele => processItems([ele], optionsGroup)[0])
+          .map(ele => processItems([ele], [])[0])
           .map(ele => ({...ele,operateType: '操作'}));
       }else if (procedureFormData.value.type === 'template' ) {
         const processesTemplate = processesTemplateOption.value.find(ele=> procedureFormData.value.process_template === ele.id )
         const operateIds = processesTemplate? processesTemplate.attribute : []
         operates = operationOption.value.filter(ele=> operateIds.includes(ele.id))
           // .map(ele => processItems([ele], optionsGroup)[0])
+          .map(ele => processItems([ele], [])[0])
           .map(ele => ({...ele,operateType: processesTemplate.type}));
       } else {
         const processesProcedure = processesProcedureOption.value.find(ele=> procedureFormData.value.processProcedure === ele.id )
         if (processesProcedure) {
           processesProcedure.process_template_info = processesProcedure.process_template_info.map(eleT=>{
             const attributeC =  eleT.attribute_info ?  cloneDeep(eleT.attribute_info) :  cloneDeep(eleT.attribute)
-            eleT.attribute = attributeC
+            eleT.attribute = attributeC.map(eleA=>{
+              return processItems([eleA], [])[0]
+            })
             // .map(eleA=>{
             //   return processItems([eleA], optionsGroup)[0]
             // })
