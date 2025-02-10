@@ -194,6 +194,19 @@
         ::selection {
           background-color: transparent;
         }
+        .umo-textarea {
+          //&[defaulteditable='true'] {
+          //  ::selection {
+          //    background-color: var(--umo-text-selection-background);
+          //  }
+          //}
+          &:hover {
+            ::selection {
+              background-color: var(--umo-text-selection-background);
+            }
+          }
+        }
+
       }
     }
   }
