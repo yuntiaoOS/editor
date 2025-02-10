@@ -819,7 +819,7 @@ function processValueItems(items) {
   const valueC = {};
 
   items.forEach(eleI => {
-    if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(eleI.type)) {
+    if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'MaterialList', 'Attachment', 'SelectMaterial'].includes(eleI.type)) {
       valueC[eleI.key] = [];
     } else if (['FieldsGroup'].includes(eleI.type)) {
       valueC[eleI.key] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
@@ -845,7 +845,7 @@ const initData = async () => {
         let valC = {}
         ele.eval_standard.map(eleS=> eleS.attribute).forEach(eleS =>{
           let valueC = '';
-          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(eleS.type)) {
+          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'MaterialList', 'Attachment', 'SelectMaterial'].includes(eleS.type)) {
             valueC = [];
           } else if (['FieldsGroup'].includes(eleS.type)) {
             valueC = processValueItems(eleS.props.items); // 调用递归函数处理嵌套的 items

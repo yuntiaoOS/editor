@@ -579,7 +579,7 @@ function processValueItems(items) {
   const valueC = {};
 
   items.forEach(eleI => {
-    if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(eleI.type)) {
+    if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'MaterialList','Attachment', 'SelectMaterial'].includes(eleI.type)) {
       valueC[eleI.key] = [];
     } else if (['FieldsGroup'].includes(eleI.type)) {
       valueC[eleI.key] = processValueItems(eleI.props.items); // 递归处理嵌套的 items
@@ -678,7 +678,7 @@ const onAddOperateTemplateFunc = () => {
         eleP.attribute.forEach(ele => {
           let valueC = '';
 
-          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
+          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'MaterialList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
             valueC = [];
           } else if (['FieldsGroup'].includes(ele.type)) {
             valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
@@ -745,7 +745,7 @@ const onAddOperateFunc = () => {
       rowD.form.formItems.forEach(ele => {
         let valueC = '';
 
-        if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
+        if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'MaterialList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
           valueC = [];
         } else if (['FieldsGroup'].includes(ele.type)) {
           valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items
@@ -915,7 +915,7 @@ const on_select_parentFunc = async ()=>{
         eleP.attribute.forEach(ele => {
           let valueC = '';
 
-          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
+          if (['SelectInput', 'TimeRangePicker', 'DeptPicker', 'TableList', 'MaterialList', 'Attachment', 'SelectMaterial'].includes(ele.type)) {
             valueC = [];
           } else if (['FieldsGroup'].includes(ele.type)) {
             valueC = processValueItems(ele.props.items); // 调用递归函数处理嵌套的 items

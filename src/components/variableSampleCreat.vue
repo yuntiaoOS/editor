@@ -158,4 +158,13 @@ onMounted(()=>{
   </t-table>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+:deep(.umo-radio-group .umo-radio) {
+  display: flex;
+  flex-direction: column-reverse;
+  .umo-radio__input {
+    margin-top: -20px;
+    margin-left: -10px;
+  }
+}
+</style>

@@ -56,7 +56,7 @@
                 v-if="!slotProps.row.formItems"
                 style="width: calc(100% - 150px); overflow-x: auto"
               >
-                <t-space>
+                <div style="display: flex;flex-direction: row;flex-wrap: wrap;justify-content: flex-start;align-items: center;  ">
                   <template v-for="(item, index) in slotProps.row.attribute">
                     <xmFormDesignRender
                       style="overflow: auto"
@@ -70,7 +70,7 @@
                     >
                     </xmFormDesignRender>
                   </template>
-                </t-space>
+                </div>
               </div>
             </div>
           </template>
@@ -327,7 +327,6 @@ const designTypeOptions = [
 const designType = ref(['自定义'])
 
 const getParentRowKeys = (row, data) => {
-  console.log('-----getParentRowKeys---------', row, data)
   const parentKeys = []
   const findParentKeys = (node, targetRow) => {
     const node_formItems = node.formItems ? node.formItems : node.attribute

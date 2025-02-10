@@ -86,20 +86,20 @@
                 <span>{{ row.sample.name }} ：{{ row.sample.sn }}</span>
               </div>
             </div>
-            <t-space v-else-if="row.operateType !== '过程描述'">
+            <div v-else-if="row.operateType !== '过程描述'" style="display: flex;flex-direction: row;justify-content: flex-start;align-items: center;flex-wrap: wrap;">
               <template v-for="(item, index) in row.formItems.attribute">
                 <FormDesignRender
                   class="node-form-design-render-class"
                   v-model="row.formData[item.key]"
                   v-model:formData="row.formData"
-                  style="overflow: auto"
+                  style="width: auto;overflow: auto"
                   :label="item.title + '：'"
                   :mode="'READ'"
                   :config="item"
                 >
                 </FormDesignRender>
               </template>
-            </t-space>
+            </div>
             <div v-else-if="row.operateType === '过程描述'">
               <t-textarea
                 v-model="row.description"
