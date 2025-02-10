@@ -785,7 +785,7 @@ const initData = () => {
     const sample_table = test_record_table
       .map((ele) => ele.attrs.table_data)
       .reduce((pre, cur) => pre.concat(cur), [])
-      .filter((ele) => ele.is_sample)
+      .filter((ele) => ele.is_sample && !ele.sample?.params?.is_residue)
 
     nextTick(() => {
       table_data.value = cloneDeep(sample_table)

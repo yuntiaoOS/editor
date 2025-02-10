@@ -83,7 +83,9 @@
           <div class="operate-router-class">
             <div v-if="row.operateType === '样品'">
               <div>
-                <span>{{ row.sample.name }} ：{{ row.sample.sn }}</span>
+                <t-badge :count="row.sample?.params?.is_residue ? '液/渣' : '样品' " :color="row.sample?.params?.is_residue ? '#e37318':'#2ba471'">
+                  <span class="badge-block">{{ row.sample.name }} ：{{ row.sample.sn }}</span>
+                </t-badge>
               </div>
             </div>
             <div v-else-if="row.operateType !== '过程描述'" style="display: flex;flex-direction: row;justify-content: flex-start;align-items: center;flex-wrap: wrap;">
@@ -286,12 +288,22 @@
         :rules="FORM_RULES"
         :data="sampleForm"
         :colon="true"
+        labelWidth="120px"
       >
         <t-form-item label="样品名称" name="name">
           <t-input v-model="sampleForm.name" placeholder="请输入" />
         </t-form-item>
         <t-form-item label="样品编号" name="sn">
           <t-input v-model="sampleForm.sn" placeholder="请输入" />
+        </t-form-item>
+        <t-form-item label="是否提取液/滤渣" name="is_residue">
+<!--          <t-radio-group v-model="sampleForm.type">-->
+<!--            <t-radio value="sample">样品</t-radio>-->
+<!--            <t-radio value="residue">提取液/滤渣</t-radio>-->
+<!--          </t-radio-group>-->
+          <t-switch v-model="sampleForm.is_residue">
+            <template #label="slotProps">{{ slotProps.value ? '是' : '否' }}</template>
+          </t-switch>
         </t-form-item>
       </t-form>
     </t-dialog>
@@ -437,6 +449,7 @@ const sampleFormRef = ref()
 const sampleForm = ref({
   name: '',
   sn: '',
+  is_residue: false   //false:样品； true：提取液/滤渣
 })
 
 const selectTableForm = ref({
@@ -1037,6 +1050,9 @@ const creatSampleToTable = (row, rowIndex,params=[]  ) => {
           columns: [...suffixColumns],
           params: {},
         },
+        params: {
+          is_residue: sampleForm.value.is_residue,
+        },
         description: '',
       },
     }
@@ -1378,6 +1394,14 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.badge-block {
+  width: 40px;
+  height: 40px;
+  background: #eeeeee;
+  border: 1px solid #dcdcdc;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
 :deep(
   .node-form-design-render-class table td,
   .node-form-design-render-class table th

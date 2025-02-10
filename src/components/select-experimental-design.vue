@@ -234,7 +234,6 @@ const getDesignParams = () => {
 
   //[x] TODO  待优化optionsGroup物料数据要插入更新
   if (technology_table_data) {
-    console.log('------226-----------',designResult.value,technology_table_data)
     const formItems = technology_table_data.map((ele) => {
       const eleC = cloneDeep(ele)
       delete eleC.formData
@@ -258,6 +257,9 @@ const getDesignParams = () => {
             eleT.attribute = eleT.attribute.filter(eleO => !old_attribute.map(eleS=>eleS.key).includes(eleO.key) )
             eleT.attribute = eleT.attribute.concat(old_attribute)
             eleT.attribute = sortData(eleT.attribute)
+            eleT.attribute = eleT.attribute.map((eleA) => {
+              return processItems([eleA], optionsGroup)[0]
+            })
           }
         }
         return eleT
@@ -281,7 +283,7 @@ const getDesignParams = () => {
           : eleT.formData
     })
   }
-
+  console.log('------226-----------',designParams,designResult.value,technology_table_data)
   return designParams
 }
 const getNodeFullColKey = (node) => {
@@ -375,7 +377,7 @@ const initialize = () => {
     const sample_tables = test_record_table
       .map((ele) => ele.attrs.table_data)
       .reduce((pre, cur) => pre.concat(cur), [])
-      .filter((ele) => ele.is_sample && ele.sample?.really_sample)
+      .filter((ele) => ele.is_sample && (ele.sample?.really_sample || ele.sample?.params?.is_residue )  )
     if (sample_tables.length > 0) {
       sampleOptions.value = sample_tables.map((ele) => { return { ...ele.sample  } })
     }
@@ -386,11 +388,7 @@ const initialize = () => {
 
 onMounted(() => {
   initialize()
-  console.log(
-    '-------------_designParams.value---------------',
-    _nodeAttrs.value,
-    _designParams.value,
-  )
+  console.log('-------------_designParams.value---------------', _nodeAttrs.value, _designParams.value, )
 
   if (
     _nodeAttrs.value.designParams &&

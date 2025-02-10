@@ -274,7 +274,7 @@ const getSampleOptions = ()=>{
     const sample_table = test_record_table
       .map((ele) => ele.attrs.table_data)
       .reduce((pre, cur) => pre.concat(cur), [])
-      .filter((ele) => ele.is_sample)
+      .filter((ele) => ele.is_sample && !ele.sample?.params?.is_residue)
       .map((ele) => ele.sample)
 
     sampleOptions.value = cloneDeep(sample_table)
@@ -299,7 +299,7 @@ const initData = () => {
   if (docD) {
     console.log('--------------sample_table-----------', sampleOptions.value)
     if (_selectSamples.value && _selectSamples.value?.length > 0) {
-
+      makeTableData()
     }
 
   }
