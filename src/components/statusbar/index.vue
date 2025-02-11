@@ -30,21 +30,21 @@
           <icon name="spellcheck" color="red" />
         </t-button>
       </tooltip>
-      <tooltip
-        :content="
-          page.pagination ? t('pagination.disable') : t('pagination.title')
-        "
-      >
-        <t-button
-          class="umo-status-bar-button"
-          :class="{ active: page.pagination }"
-          variant="text"
-          size="small"
-          @click="togglePagination"
-        >
-          <icon name="page-break" />
-        </t-button>
-      </tooltip>
+<!--      <tooltip-->
+<!--        :content="-->
+<!--          page.pagination ? t('pagination.disable') : t('pagination.title')-->
+<!--        "-->
+<!--      >-->
+<!--        <t-button-->
+<!--          class="umo-status-bar-button"-->
+<!--          :class="{ active: page.pagination }"-->
+<!--          variant="text"-->
+<!--          size="small"-->
+<!--          @click="togglePagination"-->
+<!--        >-->
+<!--          <icon name="page-break" />-->
+<!--        </t-button>-->
+<!--      </tooltip>-->
       <tooltip :content="t('shortcut.title')">
         <t-button
           class="umo-status-bar-button"
@@ -71,7 +71,7 @@
           class="umo-status-bar-button"
           variant="text"
           size="small"
-          :href="`https://editor.umodoc.com/${locale === 'zh-CN' ? 'cn' : 'en'}/docs`"
+          :href="`https://jcgfkj.com`"
           target="_blank"
         >
           <icon name="home-page" />
@@ -82,7 +82,7 @@
           class="umo-status-bar-button"
           variant="text"
           size="small"
-          href="https://github.com/umodoc/editor/issues"
+          href="https://jcgfkj.com"
           target="_blank"
         >
           <icon name="message" />

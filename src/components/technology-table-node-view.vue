@@ -1092,7 +1092,7 @@ const columns = ref([
       );
     },
     edit: {
-      component: TTextarea,
+      component: TInput,
       props: {
         clearable: true,
         autofocus: true,
@@ -1128,7 +1128,7 @@ const columns = ref([
 
         },
         // 默认是否为编辑状态
-        defaultEditable: false,
+        defaultEditable: true,
       }),
     }
   },
@@ -1179,7 +1179,7 @@ const columns = ref([
 
         },
         // 默认是否为编辑状态
-        defaultEditable: false,
+        defaultEditable: true,
       }),
     }
   },

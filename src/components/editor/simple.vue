@@ -35,10 +35,15 @@
         <div class="umo-page-container" >
           <container-toc v-if="$key_data.experiment_record && page.showToc" @close="page.showToc = false" />
           <div class="umo-zoomable-container umo-scrollbar">
-            <div class="umo-zoomable-content" >
-              <div class="umo-page-content" >
+            <div class="umo-zoomable-content" :style="{
+              width: pageZoomWidth,
+            }">
+              <div class="umo-page-content" :style="{
+                width: pageZoomWidth ,
+                // transform: `scale(${page.zoomLevel ? page.zoomLevel / 100 : 1})`,
+              }">
                 <editor-content
-                  class="umo-editor-container"
+                  class="umo-editor-container1"
                   :class="{
                     'is-empty': isEmpty,
                     'show-line-number': page.showLineNumber,
@@ -63,7 +68,7 @@
                   "
                 />
               </div>
-              <div v-if="$key_data.experiment_theme&&$key_data.experiment_record" style="background-color: #fff;">
+              <div class="comment-bottom-class" v-if="$key_data.experiment_theme&&$key_data.experiment_record" style="background-color: #fff;">
                 <t-space direction="vertical" style="width: 100%;">
                   <t-divider dashed />
                   <comment-bottom  />
@@ -81,8 +86,17 @@
           />
           <container-search-replace />
 <!--          <container-print />-->
+          <t-back-top
+            :container="`${container} .umo-zoomable-container`"
+            :visible-height="800"
+            size="small"
+            :offset="['25px', '30px']"
+          />
         </div>
       </main>
+      <footer v-if="$toolbar.mode !== 'source'" class="umo-footer">
+        <statusbar />
+      </footer>
     </div>
   </t-config-provider>
 </template>
@@ -588,9 +602,21 @@ provide('saveContent', saveContent)
 provide('setLocale', setLocale)
 provide('reset', reset)
 
+// 页面大小
+const pageSize = $computed(() => {
+  const { width, height } = page.value.size ?? { width: 0, height: 0 }
+  return {
+    width: page.value.orientation === 'portrait' ? width : height,
+    height: page.value.orientation === 'portrait' ? height : width,
+  }
+})
+// 页面缩放后的大小
+const pageZoomWidth = $computed(() => {
+  return `calc(${pageSize.width}cm * ${page.value.zoomLevel ? page.value.zoomLevel / 100 : 1})`
+})
+
 onMounted(()=>{
   page.value.showToc = false
-
   // setToolbar({ mode: 'classic', show: false })
   loadTatexStyle()
   if (options.value?.requestOptions) {
@@ -666,11 +692,11 @@ defineExpose({
   }
 }
 .umo-main {
-  flex: 1;
+  //flex: 1;
   background-color: #fff;
   //background-color: var(--umo-container-background);
   overflow: visible !important;
-  height: calc(100% - 60px);
+  height: calc(100% - 76px);
 }
 :deep( .umo-menu-button-wrap:not(:last-child) ){
   margin-right: 1px ;
