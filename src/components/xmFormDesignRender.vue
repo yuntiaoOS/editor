@@ -9,7 +9,7 @@
       style="z-index: 0;"
     >
     </FormDesignRender>
-    <div class="item-children" style="padding:2px;margin-left: -10px;margin-top: -1px;z-index: 1;background-color: #fdfdfd;"
+    <div v-if="mode !== 'READ'" class="item-children" style="padding:2px;margin-left: -10px;margin-top: -1px;z-index: 1;background-color: #fdfdfd;"
       :style="{'margin-top': config.type === 'MaterialList' ? '-1px' : '-1px'}">
       <t-icon
         v-if="['NumberInput', 'TextInput','MaterialList'].includes(config.type)"

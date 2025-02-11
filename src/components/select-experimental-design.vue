@@ -220,7 +220,7 @@ const getDesignParams = () => {
     return {
       group: ele.title,
       children: ele.table_data.map((eleT) => {
-        return { value: eleT.id, label: `${eleT.name}/${eleT.sn}` }
+        return { value: eleT.id, label: `${eleT.name}/${eleT.sn}` ,is_liquid: eleT.is_liquid}
       }),
     }
   })
@@ -228,7 +228,7 @@ const getDesignParams = () => {
   optionsGroup.push({
     group: '样品',
     children: sampleOptions.value.map((ele) => {
-      return { value: ele.id, label: `${ele.name}/${ele.sn}` }
+      return { value: ele.id, label: `${ele.name}/${ele.sn}`,is_liquid: false }
     }),
   })
 

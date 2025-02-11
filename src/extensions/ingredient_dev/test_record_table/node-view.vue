@@ -83,7 +83,9 @@
           <div class="operate-router-class">
             <div v-if="row.operateType === '样品'">
               <div>
-                <t-badge :count="row.sample?.params?.is_residue ? '液/渣' : '样品' " :color="row.sample?.params?.is_residue ? '#e37318':'#2ba471'">
+                <t-badge :count="row.sample?.params?.is_residue ? '液/渣' : '样品' "
+                         :color="row.sample?.params?.is_residue ? '#e37318':'#2ba471'"
+                         :offset="[4, -4]">
                   <span class="badge-block">{{ row.sample.name }} ：{{ row.sample.sn }}</span>
                 </t-badge>
               </div>
