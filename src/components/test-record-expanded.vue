@@ -34,7 +34,7 @@
             </div>
           </template>
         </t-table>
-        <t-table v-if="_value.sample && !_value.sample.params?.is_residue"
+        <t-table v-if="_value.sample && _value.sample.params?.is_residue === 'sample' "
           ref="tableRef"
           :loading="loading"
           row-key="id"

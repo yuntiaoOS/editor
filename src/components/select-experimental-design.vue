@@ -377,7 +377,7 @@ const initialize = () => {
     const sample_tables = test_record_table
       .map((ele) => ele.attrs.table_data)
       .reduce((pre, cur) => pre.concat(cur), [])
-      .filter((ele) => ele.is_sample && (ele.sample?.really_sample || ele.sample?.params?.is_residue )  )
+      .filter((ele) => ele.is_sample && (ele.sample?.really_sample || ele.sample?.params?.is_residue !== 'sample' )  )
     if (sample_tables.length > 0) {
       sampleOptions.value = sample_tables.map((ele) => { return { ...ele.sample  } })
     }

@@ -274,7 +274,7 @@ const getSampleOptions = ()=>{
     const sample_table = test_record_table
       .map((ele) => ele.attrs.table_data)
       .reduce((pre, cur) => pre.concat(cur), [])
-      .filter((ele) => ele.is_sample && !ele.sample?.params?.is_residue)
+      .filter((ele) => ele.is_sample && ele.sample?.params?.is_residue === 'sample')
       .map((ele) => ele.sample)
 
     sampleOptions.value = cloneDeep(sample_table)

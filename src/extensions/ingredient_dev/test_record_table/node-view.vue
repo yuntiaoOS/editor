@@ -83,10 +83,10 @@
           <div class="operate-router-class">
             <div v-if="row.operateType === '样品'">
               <div>
-                <t-badge :count="row.sample?.params?.is_residue ? '液/渣' : '样品' "
-                         :color="row.sample?.params?.is_residue ? '#e37318':'#2ba471'"
+                <t-badge :count="row.sample?.params?.is_residue === 'sample' ? '样品' : row.sample?.params?.is_residue === 'residue' ? '滤渣' : '提取液' "
+                         :color="row.sample?.params?.is_residue === 'sample' ? '#2ba471' : row.sample?.params?.is_residue === 'residue' ? '#e37318':'#e37318'"
                          :offset="[4, -4]">
-                  <span class="badge-block">{{ row.sample.name }} ：{{ row.sample.sn }}</span>
+                  <span class="badge-block">样品：{{ row.sample.name }}， 编号：{{ row.sample.sn }}</span>
                 </t-badge>
               </div>
             </div>
@@ -298,14 +298,15 @@
         <t-form-item label="样品编号" name="sn">
           <t-input v-model="sampleForm.sn" placeholder="请输入" />
         </t-form-item>
-        <t-form-item label="是否提取液/滤渣" name="is_residue">
-<!--          <t-radio-group v-model="sampleForm.type">-->
-<!--            <t-radio value="sample">样品</t-radio>-->
-<!--            <t-radio value="residue">提取液/滤渣</t-radio>-->
-<!--          </t-radio-group>-->
-          <t-switch v-model="sampleForm.is_residue">
-            <template #label="slotProps">{{ slotProps.value ? '是' : '否' }}</template>
-          </t-switch>
+        <t-form-item label="样品类型" name="is_residue">
+          <t-radio-group v-model="sampleForm.is_residue">
+            <t-radio value="sample">样品</t-radio>
+            <t-radio value="extractionSolution">提取液</t-radio>
+            <t-radio value="residue">滤渣</t-radio>
+          </t-radio-group>
+<!--          <t-switch v-model="sampleForm.is_residue">-->
+<!--            <template #label="slotProps">{{ slotProps.value ? '是' : '否' }}</template>-->
+<!--          </t-switch>-->
         </t-form-item>
       </t-form>
     </t-dialog>
@@ -451,7 +452,7 @@ const sampleFormRef = ref()
 const sampleForm = ref({
   name: '',
   sn: '',
-  is_residue: false   //false:样品； true：提取液/滤渣
+  is_residue: 'sample'   //false:样品； true：提取液/滤渣
 })
 
 const selectTableForm = ref({
@@ -1430,6 +1431,13 @@ onMounted(() => {
 
 .operate-router-class:hover {
   cursor: pointer;
+}
+
+:deep(.t-badge--circle) {
+  z-index: 1;
+}
+:deep(.umo-badge--circle) {
+  z-index: 1;
 }
 
 :deep(.umo-table__top-content) {
