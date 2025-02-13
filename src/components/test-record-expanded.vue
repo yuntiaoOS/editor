@@ -283,7 +283,7 @@ const _value = computed({
     return data
   },
   set(val) {
-    console.log('---_value--147---', val,props.viewType)
+    // console.log('---_value--147---', val,props.viewType)
     nextTick(() => {
       refreshNode.type = props.viewType === 'sample_table' ? 'record_sample_table' : 'sample_table'
       refreshNode.selectId = val.id
@@ -306,7 +306,7 @@ const _sampleInfo = computed({
     return _value.value?.sample
   },
   set(val) {
-    console.log('---_value--162---', val)
+    // console.log('---_value--162---', val)
     _value.value = { ..._value.value, sample: val }
   },
 })
@@ -316,7 +316,7 @@ const _formData = computed({
     return _value.value?.formData ?? {}
   },
   set(val) {
-    console.log('---_value--172---', val)
+    // console.log('---_value--172---', val)
     _value.value = { ..._value.value, formData: val }
   },
 })
@@ -326,7 +326,7 @@ const record_table_data = computed({
     return _value.value?.sample?.record_table?.table_data ?? []
   },
   set(val) {
-    console.log('---_value--182---', val)
+    // console.log('---_value--182---', val)
     _value.value = { ..._value.value, sample: { ..._value.value.sample, record_table : {..._value.value.sample.record_table,table_data: val   }  } }
   },
 })
@@ -522,9 +522,9 @@ const showTechnologyFunc = (row) => {
 const onTechnology = (row) => {
   selectRow.value = row
   const docD = props.docJson
-  if (docD) {
+  if (docD && docD.content) {
     // 物料表
-    const test_record_table = docD.content.filter(
+    const test_record_table = docD.content?.filter(
       (ele) => ele.type === 'test_record_table',
     )
     if (test_record_table.length === 0) {

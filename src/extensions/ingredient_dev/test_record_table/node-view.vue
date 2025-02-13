@@ -942,7 +942,7 @@ watch( () => refreshNode,
       nextTick(() => {
         let index = -1
         index = table_data.value.findIndex((row) => row.id === value.selectId)
-        console.log('-------record_sample_table------', index, value)
+        // console.log('-------record_sample_table------', index, value)
         if (index > -1) {
           table_data.value.splice(index, 1, value.data[value.selectId])
           refreshNode.type = ''
@@ -983,7 +983,7 @@ const sampleRecordChange = (row) => {
     }
   }
   updateTime.value = timeFormat(null, 'yyyy-mm-dd hh:MM:ss')
-  console.log('-------sampleRecordChange------811-----------', refreshNode, row)
+  // console.log('-------sampleRecordChange------811-----------', refreshNode, row)
 }
 
 const onSampleDelete = (row, rowIndex) => {
@@ -1003,7 +1003,7 @@ const onSampleDelete = (row, rowIndex) => {
 }
 
 const onSampleOrthogonalFunc = () => {
-  console.log('-----onSampleOrthogonalFunc---952------', creatSampleOrthogonal.value, selectSampleOrthogonal.value)
+  // console.log('-----onSampleOrthogonalFunc---952------', creatSampleOrthogonal.value, selectSampleOrthogonal.value)
   sampleFormRef.value.validate({ showErrorMessage: true }).then((validateResult) => {
     if (validateResult && Object.keys(validateResult).length) {
       const firstError = Object.values(validateResult)[0]?.[0]?.message;
@@ -1102,7 +1102,7 @@ const creatSample = async (row) => {
   const isOrthogonal = filterOrthogonal.filter((ele) =>
     ele.formItems.attribute.some((eleS) => eleS.props?.orthogonal),
   )
-  console.log('------creatSample-----', isOrthogonal, filterOrthogonal)
+  // console.log('------creatSample-----', isOrthogonal, filterOrthogonal)
   if (isOrthogonal.length > 0) {
     creatSampleOrthogonal.value = { isOrthogonal, row , rowIndex}
   }else{

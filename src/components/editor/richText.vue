@@ -247,7 +247,7 @@ const editorInstance: Editor = new Editor({
 
     isEmpty = editor.commands.setPlaceholder('')
     isReady = true
-  }, 1000),
+  }, 100),
 })
 setEditor(editorInstance)
 function getOutput(editor: CoreEditor, output: 'html' | 'json' | 'text') {
