@@ -43,7 +43,7 @@
                 // transform: `scale(${page.zoomLevel ? page.zoomLevel / 100 : 1})`,
               }">
                 <editor-content
-                  class="umo-editor-container1"
+                  class="umo-editor-content"
                   :class="{
                     'is-empty': isEmpty,
                     'show-line-number': page.showLineNumber,
@@ -662,6 +662,12 @@ defineExpose({
   height: 100%;
   min-height: 100px;
   background: #fff;
+}
+.umo-editor-content {
+  height: 100%;
+  min-height: 100px;
+  background: #fff;
+  width: 100%;
 }
 .umo-scrollbar {
   overflow: auto;
