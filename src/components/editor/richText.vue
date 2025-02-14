@@ -134,6 +134,7 @@ const emits = defineEmits([
   'created',
   'changed',
   'print',
+  'blur',
   'update:modelValue',
 ])
 
@@ -231,9 +232,17 @@ const editorInstance: Editor = new Editor({
   onFocus: ({ editor }:any) => {
     setEditor(editor)
   },
+  onBlur: ({ editor }:any) => {
+    if (props.outputType === 'html') {
+      _value.value = getOutput(editor, 'html')
+    } else {
+      _value.value = getOutput(editor, 'json')
+    }
+    emits('blur',_value.value)
+  },
   onUpdate: throttle(({ editor }:any) => {
     setEditor(editor)
-    let output :any = getOutput(editor, 'html')
+    const output :any = getOutput(editor, 'html')
     emits('changed', {
       editor: editor,
       json: getOutput(editor, 'json'),
