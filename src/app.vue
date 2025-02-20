@@ -8,9 +8,9 @@
 
 <!--    </div>-->
 <!--    -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-    <div v-if="true" style="height:200px;">
-      <rich-text-editor ref="richTextEditorRef" v-model="content1" outputType="json" @print="onPrint" @blur="onBlur"/>
-    </div>
+<!--    <div v-if="true" style="height:200px;">-->
+<!--      <rich-text-editor ref="richTextEditorRef" v-model="content1" outputType="json" @print="onPrint" @blur="onBlur"/>-->
+<!--    </div>-->
 <!--    <FormRender :forms="[formItems]" v-model="xmValue"></FormRender>-->
     <!-- <FormDesignRender
       v-model="_value"
@@ -24,7 +24,7 @@
     </TText> -->
     <!-- <xm-form v-model:form-data="xmValue" /> -->
 <!--     <UmoEditor ref="editorRef" v-bind="options" />-->
-<!--    <UmoSimpleEditor v-if="true" ref="editorRef" v-bind="options" @changed="changeEdit" />-->
+    <UmoSimpleEditor v-if="true" ref="editorRef" v-bind="options" @changed="changeEdit" />
   </div>
 </template>
 
@@ -588,7 +588,7 @@ const options = $ref({
       "catalog": null
     },
     umo_domain: 'http://192.168.2.11:8003/api', // 'https://msyf.eva.rongzhuamao.com/api',//
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM5NTI2OTcxLCJpYXQiOjE3Mzk0NDA1NzEsImp0aSI6ImJmYjUzZjU2NmU3ZjQ5OWZhMTBlNzA2NDZmNzllNjQ2IiwidXNlcl9pZCI6Ijg1Mjg4NThmLTdjYjgtNDc3ZS1iZjE3LWZkZTNkMmZiYjIzZSJ9.QsuJVk9LcmlUMqLxnZrW4HbxDMqh7X4G18sBjFR-xdM',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQwMTI5OTM1LCJpYXQiOjE3NDAwNDM1MzUsImp0aSI6ImE0MmUwZmE1YWU5MjRiNDNhMTkxMTExNjA1YjE1YWM5IiwidXNlcl9pZCI6Ijg1Mjg4NThmLTdjYjgtNDc3ZS1iZjE3LWZkZTNkMmZiYjIzZSJ9.i-twmKB6CAArzMdFp7WyOAvzzz7qd6R7qbsnOYrC0Yc',
   },
   document: {
     placeholder: '输入 / 唤起更多',

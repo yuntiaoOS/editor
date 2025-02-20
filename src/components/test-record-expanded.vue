@@ -10,7 +10,8 @@
       <UploadFile
         v-model="_formData['attachment']"
         :multiple="true"
-        type="image"
+        :maxNumber="999"
+        type="file"
       ></UploadFile>
     </div>
     <div v-if="_value.is_sample">
