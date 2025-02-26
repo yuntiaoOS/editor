@@ -61,6 +61,7 @@ const buildConfig = {
     external: [
       'vue',
       'tdesign-vue-next',
+      'tdesign-icons-vue-next',
       './src/lib',
       'fuse.js',
       '../../../mzyc-platform-web-zzw/libs/mzyc-vue-components/outDist/lib',

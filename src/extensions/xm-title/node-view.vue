@@ -15,11 +15,19 @@
             @blur="tInputBlur" />
 <!--        </t-col>-->
 <!--        <t-col :span="6">-->
-          <h2 v-if="!isSnEdit && sn && sn.length>0" style="margin-top: 8px;" @click="HeditSnFunc">{{ sn }}</h2>
+          <div v-if="!isSnEdit && sn && sn.length>0" style="margin-top: 8px;display: flex;align-items: center;justify-content: flex-start;">
+            <hashtag-icon style="margin-right: 10px;color:var(--umo-primary-color)"/>
+            <h2 @click="HeditSnFunc">{{ sn }}</h2>
+          </div>
           <t-input
             v-else ref="xmTitleSnRef" v-model="sn"
-            :readonly="readOnly" autofocus borderless placeholder="sn编号" size="large" :inputClass="['xmTitleClass-sn']"
-            @blur="tInputBlur" />
+            :readonly="readOnly" autofocus borderless placeholder="实验测试编号" size="large" :inputClass="['xmTitleClass-sn']"
+            @blur="tInputBlur"
+          >
+            <template #prefix-icon>
+              <hashtag-icon />
+            </template>
+          </t-input>
 <!--        </t-col>-->
 <!--      </t-row>-->
 
@@ -173,7 +181,7 @@
 
 import { nodeViewProps, NodeViewWrapper ,NodeViewContent} from '@tiptap/vue-3'
 import { get_record_history_versionsFetch,get_record_history_infoFetch ,get_experiment_record_visitorListFetch} from '@/api/experiment'
-
+import { HashtagIcon } from 'tdesign-icons-vue-next'
 import { timeAgo } from '@/utils/time-ago'
 import { transform } from 'typescript';
 
@@ -336,9 +344,9 @@ h1 {
   font-weight:bold;
 }
 h2 {
-  font-size: 20px;
+  font-size: 14px;
   font-weight:bold;
-  color: #666;
+  color: #a7abac;
 }
 .Font12Color {
   font-size: 12px;
@@ -356,8 +364,9 @@ h2 {
   border: none !important;
   padding: 0;
   .umo-input__inner {
-    font-size:20px;
+    font-size:14px;
     font-weight:bold;
+    color: #a7abac;
   }
 }
 </style>

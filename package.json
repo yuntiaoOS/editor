@@ -131,6 +131,7 @@
     "sign-canvas-plus": "^2.0.3",
     "smooth-signature": "^1.0.15",
     "svg64": "^2.0.0",
+    "tdesign-icons-vue-next": "^0.3.4",
     "tippy.js": "^6.3.7",
     "ts-deepmerge": "^7.0.1",
     "uuid": "^11.0.3",
