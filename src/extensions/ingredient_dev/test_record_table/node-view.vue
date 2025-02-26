@@ -347,12 +347,23 @@
             clearable
             filterable
           >
-            <t-option
-              v-for="item in assessmentOption"
-              :key="item.id"
-              :value="item.id"
-              :label="item.title"
-            ></t-option>
+            <t-option-group
+              v-for="(list, index) in assessmentAllOption"
+              :key="index"
+              :label="
+              typeof list.group === 'object' ? list.group.title : list.group
+            "
+              divider
+            >
+              <t-option
+                v-for="item in list.children"
+                :key="item.id"
+                :value="item.id"
+                :label="item.title"
+              >
+                {{ item.title }}
+              </t-option>
+            </t-option-group>
           </t-select>
         </t-form-item>
       </t-form>
@@ -399,6 +410,7 @@ import { v4 as uuid } from 'uuid'
 import {
   getEval_attribute_libraryListFetch,
   get_ingredient_dev_sampleListFetch,
+  getIndexTypeGroupsFetch,
   post_ingredient_dev_sample_fetch,
 } from '@/api/experiment'
 import { timeFormat } from '@/utils/time-ago'
@@ -440,6 +452,8 @@ const experimental_design_visible = ref(false)
 const select_design_form = ref()
 
 const assessmentOption = ref([])
+const assessmentGroupOption = ref([])
+const assessmentAllOption = ref([])
 const expandedRowKeys = ref([])
 
 const selectRecordTable = ref()
@@ -1120,9 +1134,28 @@ const on_select_indexFunc = () => {
         const firstError = Object.values(validateResult)[0]?.[0]?.message
         useMessage('warning', firstError)
       } else {
-        const indexTypes = assessmentOption.value.filter((ele) =>
-          selectTableForm.value.index_type.includes(ele.id),
-        )
+        const indexTypes = []
+        selectTableForm.value.index_type.forEach((ele) => {
+          if (String(ele).includes('/G')) {
+            const group = assessmentGroupOption.value.find(
+              (item) => item.id == ele.replace('/G', ''),
+            )
+            group?.attribute?.forEach((item) => {
+              if (!indexTypes.some((eleI) => eleI.id == item.id)) {
+                indexTypes.push(item)
+              }
+            })
+          } else {
+            const attribute = assessmentOption.value.find(
+              (item) => item.id == ele,
+            )
+            if (attribute) {
+              if (! indexTypes.some(eleI=> eleI.id == attribute.id )) {
+                indexTypes.push(attribute)
+              }
+            }
+          }
+        })
         const paramsColumns = []
         const descriptionCol = {
           key: 'description',
@@ -1272,21 +1305,27 @@ const on_select_designFunc = () => {
 }
 
 const getAssessmentOptionFunc = async (page = 1) => {
-  const res = await getEval_attribute_libraryListFetch({ page, limit: 9999 })
-
-  let resD = {}
-  if (true) {
-    resD = res.data
-  } else {
-    resD = res.data.value ? res.data.value : res.data
-  }
-  if (resD.code === 2000) {
-    if (page === 1) {
-      assessmentOption.value = [...resD.data]
-    } else {
-      assessmentOption.value = [...assessmentOption.value, ...resD.data]
-    }
-    pagination.value.total = resD.total
+  const resGroups = await getIndexTypeGroupsFetch({ limit: 9999 })
+  const resAttribute = await getEval_attribute_libraryListFetch({ limit: 9999 })
+  if (resGroups.data.code === 2000 && resAttribute.data.code === 2000) {
+    assessmentAllOption.value = [
+      {
+        group: '检测组',
+        children: resGroups.data.data.map((ele) => ({
+          ...ele,
+          isGroup: true,
+          id: ele.id + '/G',
+          title: ele.group_name,
+        })),
+      },
+      {
+        group: '指标',
+        children: resAttribute.data.data,
+      },
+    ]
+    assessmentGroupOption.value = resGroups.data.data
+    assessmentOption.value = resAttribute.data.data
+    console.log('---assessmentOption--', assessmentOption.value)
   }
 }
 

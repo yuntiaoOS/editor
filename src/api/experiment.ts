@@ -124,6 +124,13 @@ export function getEval_attribute_libraryListFetch(params?: any) {
     params
   });
 }
+// 指标组
+export const getIndexTypeGroupsFetch = (params={}) => {
+  return request.get({
+    url:"/evaluation_metric/index_type_groups/",
+    params
+  });
+}
 export function postEvalAttributeLibraryFetch(params?: any) {
   return request.post({ url: Api.eval_attribute_library, data: params });
 }

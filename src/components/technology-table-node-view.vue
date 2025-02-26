@@ -874,7 +874,7 @@ const on_select_parentFunc = async ()=>{
       } else {
         const processesProcedure = processesProcedureOption.value.find(ele=> procedureFormData.value.processProcedure === ele.id )
         if (processesProcedure) {
-          processesProcedure.process_template_info = processesProcedure.process_template_info.map(eleT=>{
+          processesProcedure.process_template_info = processesProcedure.process_template_json?.map(eleT=>{
             const attributeC =  eleT.attribute_info ?  cloneDeep(eleT.attribute_info) :  cloneDeep(eleT.attribute)
             eleT.attribute = attributeC.map(eleA=>{
               return processItems([eleA], [])[0]

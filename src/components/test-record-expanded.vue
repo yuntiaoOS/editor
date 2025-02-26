@@ -15,8 +15,9 @@
       ></UploadFile>
     </div>
     <div v-if="_value.is_sample">
-      <t-space direction="vertical" style="width: 100%;">
-        <t-table v-if="props.viewType === 'test_record_table' "
+      <t-space direction="vertical" style="width: 100%">
+        <t-table
+          v-if="props.viewType === 'test_record_table'"
           row-key="id"
           :data="sampleTableData"
           :columns="sampleColumns"
@@ -35,7 +36,8 @@
             </div>
           </template>
         </t-table>
-        <t-table v-if="_value.sample && _value.sample.params?.is_residue === 'sample' "
+        <t-table
+          v-if="_value.sample && _value.sample.params?.is_residue === 'sample'"
           ref="tableRef"
           :loading="loading"
           row-key="id"
@@ -59,22 +61,32 @@
             <div style="padding: 6px 0; display: block" v-if="!readonly">
               <t-space>
                 <div>
-                  <t-tag theme="default" v-if="props.viewType === 'test_record_table' ">试验数据</t-tag>
-                  <t-button v-if="false" variant="outline" @click="onSaveDataFunc"
-                  >保存数据</t-button
+                  <t-tag
+                    theme="default"
+                    v-if="props.viewType === 'test_record_table'"
+                    >试验数据</t-tag
+                  >
+                  <t-button
+                    v-if="false"
+                    variant="outline"
+                    @click="onSaveDataFunc"
+                    >保存数据</t-button
                   >
                   <!-- <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
                   <t-input v-model="_title" auto-width placeholder="请输入名称" /> -->
                 </div>
                 <t-space>
                   <t-button v-if="false" variant="outline" @click="onAddRowFunc"
-                  >新增</t-button
+                    >新增</t-button
                   >
-                  <t-button v-if="false" variant="outline" @click="onAddIndexFunc"
-                  >配置指标</t-button
+                  <t-button
+                    v-if="false"
+                    variant="outline"
+                    @click="onAddIndexFunc"
+                    >配置指标</t-button
                   >
                   <t-button variant="outline" @click="onAddIndexRowFunc"
-                  >新增</t-button
+                    >新增</t-button
                   >
                 </t-space>
               </t-space>
@@ -98,14 +110,13 @@
                   theme="danger"
                   shape="square"
                   variant="text"
-                >删除</t-button
+                  >删除</t-button
                 >
               </t-popconfirm>
             </div>
           </template>
         </t-table>
       </t-space>
-
     </div>
   </t-space>
   <t-dialog
@@ -198,12 +209,23 @@
           clearable
           filterable
         >
-          <t-option
-            v-for="item in assessmentOption"
-            :key="item.id"
-            :value="item.id"
-            :label="item.title"
-          ></t-option>
+          <t-option-group
+            v-for="(list, index) in assessmentAllOption"
+            :key="index"
+            :label="
+              typeof list.group === 'object' ? list.group.title : list.group
+            "
+            divider
+          >
+            <t-option
+              v-for="item in list.children"
+              :key="item.id"
+              :value="item.id"
+              :label="item.title"
+            >
+              {{ item.title }}
+            </t-option>
+          </t-option-group>
         </t-select>
       </t-form-item>
     </t-form>
@@ -219,6 +241,7 @@ import {
   getEval_attribute_libraryListFetch,
   get_ingredient_dev_sampleListFetch,
   post_ingredient_dev_sample_fetch,
+  getIndexTypeGroupsFetch,
   put_ingredient_dev_sample_fetch,
   get_ingredient_dev_sample_infoFetch,
 } from '@/api/experiment'
@@ -276,9 +299,9 @@ let isInit = ref(false)
 
 const _value = computed({
   get() {
-    console.log('---_value--195---', refreshNode,props.modelValue)
+    console.log('---_value--195---', refreshNode, props.modelValue)
     let data = cloneDeep(props.modelValue)
-    if ( props.modelValue?.id ) {
+    if (props.modelValue?.id) {
       data = refreshNode.data[props.modelValue?.id] ?? props.modelValue
     }
     return data
@@ -286,7 +309,10 @@ const _value = computed({
   set(val) {
     // console.log('---_value--147---', val,props.viewType)
     nextTick(() => {
-      refreshNode.type = props.viewType === 'sample_table' ? 'record_sample_table' : 'sample_table'
+      refreshNode.type =
+        props.viewType === 'sample_table'
+          ? 'record_sample_table'
+          : 'sample_table'
       refreshNode.selectId = val.id
       refreshNode.data = {
         ...refreshNode.data,
@@ -299,7 +325,16 @@ const _value = computed({
 
 const onUpdateModelValue = (val) => {
   console.log('---onUpdateModelValue1111111111111111--', val)
-  _value.value = { ..._value.value, sample: { ..._value.value.sample, record_table : {..._value.value.sample.record_table,table_data: record_table_data.value   }  } }
+  _value.value = {
+    ..._value.value,
+    sample: {
+      ..._value.value.sample,
+      record_table: {
+        ..._value.value.sample.record_table,
+        table_data: record_table_data.value,
+      },
+    },
+  }
 }
 
 const _sampleInfo = computed({
@@ -328,7 +363,13 @@ const record_table_data = computed({
   },
   set(val) {
     // console.log('---_value--182---', val)
-    _value.value = { ..._value.value, sample: { ..._value.value.sample, record_table : {..._value.value.sample.record_table,table_data: val   }  } }
+    _value.value = {
+      ..._value.value,
+      sample: {
+        ..._value.value.sample,
+        record_table: { ..._value.value.sample.record_table, table_data: val },
+      },
+    }
   },
 })
 
@@ -466,6 +507,8 @@ const _columns = [
 
 const select_index_visible = ref(false)
 const assessmentOption = ref([])
+const assessmentAllOption = ref([])
+const assessmentGroupOption = ref([])
 const select_record_form = ref()
 
 const technologyInfoVisible = ref(false)
@@ -532,25 +575,39 @@ const onTechnology = (row) => {
       TMessagePlugin.warning('请先在试验数据表中出样')
       return // 物料表不存在，返回
     }
-    const test_record = test_record_table.find(ele=> ele.attrs.id === row.test_record_table)
+    const test_record = test_record_table.find(
+      (ele) => ele.attrs.id === row.test_record_table,
+    )
     if (test_record) {
-      const table_data = test_record.attrs.table_data.filter(ele=> ele.operateType !== '样品' && ele.operateType !== '过程描述')
-      const index = table_data.findIndex((ele) => ele.procedure_rowKey === row.procedure_rowKey && ele.operate_rowKey === row.operate_rowKey)
-      selectRow.value.formItems = table_data.slice(0,index+1).map(ele=>{
+      const table_data = test_record.attrs.table_data.filter(
+        (ele) => ele.operateType !== '样品' && ele.operateType !== '过程描述',
+      )
+      const index = table_data.findIndex(
+        (ele) =>
+          ele.procedure_rowKey === row.procedure_rowKey &&
+          ele.operate_rowKey === row.operate_rowKey,
+      )
+      selectRow.value.formItems = table_data.slice(0, index + 1).map((ele) => {
         if (row.params && row.params.length > 0) {
           const rowD = row.params.find((item) => item.id === ele.id)
           if (rowD) {
             const rowD_ids = rowD.formItems.attribute.map((item) => item.value)
-            ele.formItems.attribute = ele.formItems.attribute.filter((item) => rowD_ids.includes(item.key))
+            ele.formItems.attribute = ele.formItems.attribute.filter((item) =>
+              rowD_ids.includes(item.key),
+            )
           }
         }
 
         return ele
       })
-
-
     }
-    console.log('selectRow-----------487-------',test_record,test_record_table, selectRow.value,row)
+    console.log(
+      'selectRow-----------487-------',
+      test_record,
+      test_record_table,
+      selectRow.value,
+      row,
+    )
   }
   technologyInfoVisible.value = true
 }
@@ -626,9 +683,7 @@ const onAddRowFunc = () => {
 }
 
 const deleteRowFunc = (row) => {
-  const index = record_table_data.value.findIndex(
-    (ele) => ele.id === row.id,
-  )
+  const index = record_table_data.value.findIndex((ele) => ele.id === row.id)
   record_table_data.value.splice(index, 1)
   putIngredientDevSampleFunc(_value.value)
     .then((res) => {
@@ -670,11 +725,12 @@ const onAddIndexFunc = () => {
 }
 
 const onAddIndexRowFunc = () => {
-  if (record_table_data.value.length > 0){
-    selectTableForm.value.index_type = record_table_data.value.map((ele) => ele.index_type.id)
+  if (record_table_data.value.length > 0) {
+    selectTableForm.value.index_type = record_table_data.value.map(
+      (ele) => ele.index_type.id,
+    )
   }
   select_index_visible.value = true
-
 }
 
 const on_select_indexFunc = () => {
@@ -709,9 +765,29 @@ const on_select_indexFunc = () => {
 
           return valueC
         }
-        const indexTypeOs = assessmentOption.value.filter((ele) =>
-          selectTableForm.value.index_type.includes(ele.id),
-        ).filter(ele=> !record_table_data.value.map((ele) => ele.index_type.id).includes(ele.id) )
+
+        const indexTypeOs = []
+        selectTableForm.value.index_type.forEach((ele) => {
+          if (String(ele).includes('/G')) {
+            const group = assessmentGroupOption.value.find(
+              (item) => item.id == ele.replace('/G', ''),
+            )
+            group?.attribute?.forEach((item) => {
+              if (!indexTypeOs.some((eleI) => eleI.id == item.id)) {
+                indexTypeOs.push(item)
+              }
+            })
+          } else {
+            const attribute = assessmentOption.value.find(
+              (item) => item.id == ele,
+            )
+            if (attribute) {
+              if (! indexTypeOs.some(eleI=> eleI.id == attribute.id )) {
+                indexTypeOs.push(attribute)
+              }
+            }
+          }
+        })
         const record_table_dataC = []
         indexTypeOs.forEach((ele) => {
           let valueC = ''
@@ -739,7 +815,8 @@ const on_select_indexFunc = () => {
           console.log('---on_select_indexFunc--', record_table_dataC)
           record_table_dataC.push(rowData)
         })
-        record_table_data.value = record_table_data.value.concat(record_table_dataC)
+        record_table_data.value =
+          record_table_data.value.concat(record_table_dataC)
         // emits('change', cloneDeep(_value.value))
         select_index_visible.value = false
 
@@ -846,22 +923,28 @@ const makerecordDataFunc = (init = false) => {
   }
 }
 
-const getAssessmentOptionFunc = async (page = 1) => {
-  const res = await getEval_attribute_libraryListFetch({ page, limit: 9999 })
-
-  let resD = {}
-  if (true) {
-    resD = res.data
-  } else {
-    resD = res.data.value ? res.data.value : res.data
-  }
-  if (resD.code === 2000) {
-    if (page === 1) {
-      assessmentOption.value = [...resD.data]
-    } else {
-      assessmentOption.value = [...assessmentOption.value, ...resD.data]
-    }
-    pagination.value.total = resD.total
+const getAssessmentOptionFunc = async () => {
+  const resGroups = await getIndexTypeGroupsFetch({ limit: 9999 })
+  const resAttribute = await getEval_attribute_libraryListFetch({ limit: 9999 })
+  if (resGroups.data.code === 2000 && resAttribute.data.code === 2000) {
+    assessmentAllOption.value = [
+      {
+        group: '检测组',
+        children: resGroups.data.data.map((ele) => ({
+          ...ele,
+          isGroup: true,
+          id: ele.id + '/G',
+          title: ele.group_name,
+        })),
+      },
+      {
+        group: '指标',
+        children: resAttribute.data.data,
+      },
+    ]
+    assessmentGroupOption.value = resGroups.data.data
+    assessmentOption.value = resAttribute.data.data
+    console.log('---assessmentOption--', assessmentOption.value)
   }
 }
 
