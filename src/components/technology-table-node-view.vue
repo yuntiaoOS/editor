@@ -11,9 +11,9 @@
             </div>
             <t-space>
               <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入工艺步骤名称" />
-              <t-button variant="outline" @click="onAddWorkingProcedure">添加工序</t-button>
+              <t-button size="small" variant="outline" @click="onAddWorkingProcedure">添加工序</t-button>
               <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
-              <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
+              <t-button size="small" title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting"></t-icon></template></t-button>
             </t-space>
           </t-space>
         </div>
@@ -30,11 +30,11 @@
               </div>
               <template #action>
                 <div style="margin-right:10px;">
-                  <t-button :disabled="index === 0 " variant="text" shape="square" hover="color" @click="onOperateAdd('up',index,slotProps.rowIndex,slotProps.row)" > <t-icon name="arrow-up" ></t-icon> </t-button>
-                  <t-button :disabled="index === slotProps.row.form.formItems.length - 1 " variant="text" shape="square" hover="color" @click="onOperateAdd('down',index,slotProps.rowIndex,slotProps.row)" > <t-icon name="arrow-down" ></t-icon> </t-button>
-                  <t-button variant="text" shape="square" hover="color" @click="onOperateAdd('insert',index,slotProps.rowIndex,slotProps.row)" > <t-icon name="download-1"></t-icon> </t-button>
+                  <t-button size="small" :disabled="index === 0 " variant="text" shape="square" hover="color" @click="onOperateAdd('up',index,slotProps.rowIndex,slotProps.row)" > <t-icon name="arrow-up" ></t-icon> </t-button>
+                  <t-button size="small" :disabled="index === slotProps.row.form.formItems.length - 1 " variant="text" shape="square" hover="color" @click="onOperateAdd('down',index,slotProps.rowIndex,slotProps.row)" > <t-icon name="arrow-down" ></t-icon> </t-button>
+                  <t-button size="small" variant="text" shape="square" hover="color" @click="onOperateAdd('insert',index,slotProps.rowIndex,slotProps.row)" > <t-icon name="download-1"></t-icon> </t-button>
                   <t-popconfirm content="确认删除吗" @confirm="onOperateAdd('delete',index,slotProps.rowIndex,slotProps.row)">
-                    <t-button variant="text" shape="square" theme="danger" hover="color"> <t-icon name="delete"></t-icon> </t-button>
+                    <t-button size="small" variant="text" shape="square" theme="danger" hover="color"> <t-icon name="delete"></t-icon> </t-button>
                   </t-popconfirm>
 
                   <t-dropdown v-if="false" :options="[{content:'上移', value: 'up'},{content:'下移', value: 'down'},{content:'插入', value: 'insert'},{content:'删除', value: 'delete'}]" trigger="hover" @click="(operateI)=>{
@@ -61,11 +61,11 @@
       </template>
       <template #type-slot-operate="{ col, row, rowIndex }">
         <div class="table-operations">
-          <t-button  v-if="false" :disabled="rowIndex === 0 " variant="text" shape="square" hover="color" @click="onProcedureAdd('up',rowIndex,row)" > <t-icon name="arrow-up" ></t-icon> </t-button>
-          <t-button  v-if="false" :disabled="rowIndex === table_data.length - 1 " variant="text" shape="square" hover="color" @click="onProcedureAdd('down',rowIndex,row)" > <t-icon name="arrow-down" ></t-icon> </t-button>
-          <t-button  v-if="false" variant="text" shape="square" hover="color" @click="onProcedureAdd('insert',rowIndex,row)" > <t-icon name="download-1"></t-icon> </t-button>
+          <t-button size="small"  v-if="false" :disabled="rowIndex === 0 " variant="text" shape="square" hover="color" @click="onProcedureAdd('up',rowIndex,row)" > <t-icon name="arrow-up" ></t-icon> </t-button>
+          <t-button size="small"  v-if="false" :disabled="rowIndex === table_data.length - 1 " variant="text" shape="square" hover="color" @click="onProcedureAdd('down',rowIndex,row)" > <t-icon name="arrow-down" ></t-icon> </t-button>
+          <t-button size="small"  v-if="false" variant="text" shape="square" hover="color" @click="onProcedureAdd('insert',rowIndex,row)" > <t-icon name="download-1"></t-icon> </t-button>
           <t-popconfirm  v-if="false" content="确认删除吗" @confirm="onProcedureAdd('delete',rowIndex,row)">
-            <t-button variant="text" shape="square" theme="danger" hover="color"> <t-icon name="delete"></t-icon> </t-button>
+            <t-button size="small" variant="text" shape="square" theme="danger" hover="color"> <t-icon name="delete"></t-icon> </t-button>
           </t-popconfirm>
           <t-dropdown :options="[{content:'上移', value: 'up'},{content:'下移', value: 'down'},{content:'插入', value: 'insert'},{content:'删除', value: 'delete'}]" trigger="hover" @click="(operateI)=>{
                     if(operateI.value === 'delete'){
@@ -78,14 +78,14 @@
                       onProcedureAdd('insert',rowIndex,row)
                     }
                    }">
-            <t-button theme="primary" variant="text" shape="square" hover="color"> <t-icon name="ellipsis"></t-icon> </t-button>
+            <t-button size="small" theme="primary" variant="text" shape="square" hover="color"> <t-icon name="ellipsis"></t-icon> </t-button>
           </t-dropdown>
         </div>
       </template>
       <!-- <template #footerSummary >
         <div v-if="table_data.length > 0" style="display: flex;align-items: center;justify-content: space-between;">
           <div></div>
-          <t-button theme="primary" variant="text" @click="onExperimentalDesign" >试验设计</t-button>
+          <t-button size="small" theme="primary" variant="text" @click="onExperimentalDesign" >试验设计</t-button>
         </div>
       </template> -->
     </t-table>
@@ -123,14 +123,14 @@
           <t-option v-for="(item,index) in operationOption" :key="index" :value="item.id" :label="item.title"></t-option>
           <template #panelBottomContent>
             <div class="select-panel-footer">
-              <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
+              <t-button size="small" v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
                 >新增选项</t-button
               >
               <div v-else style="padding: 10px;">
                 <!-- <t-input v-model="newOption" autofocus></t-input> -->
                 <t-space>
                   <t-button size="small" style="margin-top: 8px" @click="onAddConfirm"> 确认 </t-button>
-                  <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
+                  <t-button size="small" theme="default" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
                     取消
                   </t-button>
                 </t-space>
@@ -144,13 +144,13 @@
 
           <template #panelBottomContent>
             <div class="select-panel-footer">
-              <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onProcessesTemplateAdd"
+              <t-button size="small" v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onProcessesTemplateAdd"
               >新增工序项</t-button
               >
               <div v-else style="padding: 10px;">
                 <t-space>
                   <t-button size="small" style="margin-top: 8px" @click="onAddConfirm"> 确认 </t-button>
-                  <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
+                  <t-button size="small" theme="default" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
                     取消
                   </t-button>
                 </t-space>
@@ -164,13 +164,13 @@
 
           <template #panelBottomContent>
             <div class="select-panel-footer">
-              <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onProcessesProcedureAdd"
+              <t-button size="small" v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onProcessesProcedureAdd"
                 >新增工序项</t-button
               >
               <div v-else style="padding: 10px;">
                 <t-space>
                   <t-button size="small" style="margin-top: 8px" @click="onAddConfirm"> 确认 </t-button>
-                  <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
+                  <t-button size="small" theme="default" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
                     取消
                   </t-button>
                 </t-space>
@@ -217,13 +217,13 @@
           <t-option v-for="(item,index) in processesTemplateOption" :key="index" :value="item.id" :label="item.name"></t-option>
           <template #panelBottomContent>
             <div class="select-panel-footer">
-              <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onProcessesTemplateAdd"
+              <t-button size="small" v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onProcessesTemplateAdd"
               >新增工艺模块</t-button
               >
               <div v-else style="padding: 10px;">
                 <t-space>
                   <t-button size="small" style="margin-top: 8px" @click="onAddConfirm"> 确认 </t-button>
-                  <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
+                  <t-button size="small" theme="default" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
                     取消
                   </t-button>
                 </t-space>
@@ -248,14 +248,14 @@
           <t-option v-for="(item,index) in operationOption" :key="index" :value="item.id" :label="item.title"></t-option>
           <template #panelBottomContent>
             <div class="select-panel-footer">
-              <t-button v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
+              <t-button size="small" v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onOperatesAdd"
                 >新增选项</t-button
               >
               <div v-else style="padding: 10px;">
                 <!-- <t-input v-model="newOption" autofocus></t-input> -->
                 <t-space>
                   <t-button size="small" style="margin-top: 8px" @click="onAddConfirm"> 确认 </t-button>
-                  <t-button theme="default" size="small" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
+                  <t-button size="small" theme="default" style="margin-top: 8px; margin-left: 8px" @click="onAddCancel">
                     取消
                   </t-button>
                 </t-space>

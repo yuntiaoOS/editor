@@ -35,7 +35,7 @@
                   auto-width
                   placeholder="请输入样品名称"
                 />
-                <t-button variant="outline" @click="onAddFunc">刷新</t-button>
+                <t-button size="small" variant="outline" @click="onAddFunc">刷新</t-button>
                 <div
                   v-if="updateTime && updateTime.length > 10"
                   title="修改时间"
@@ -46,9 +46,9 @@
                     style="color: #a0a0a0; margin-right: 4px"
                   /><span class="Font12Color">{{ updateTime }}</span>
                 </div>
-                <t-button title="设置" variant="outline" @click="columnEditFunc"
+                <t-button size="small" title="设置" variant="outline" @click="columnEditFunc"
                   ><template #icon>
-                    <t-icon name="setting" size="18px"></t-icon></template
+                    <t-icon name="setting"></t-icon></template
                 ></t-button>
               </t-space>
             </t-space>
@@ -70,7 +70,7 @@
               content="确认留样吗"
               @confirm="onPostSampleFunc(row, rowIndex)"
             >
-              <t-button
+              <t-button size="small"
                 style="width: 50px"
                 title="留样"
                 theme="primary"
@@ -98,7 +98,7 @@
                 >
               </t-space>
             </t-dropdown>
-            <t-button
+            <t-button size="small"
               style="width: 50px"
               title="工艺"
               theme="primary"
@@ -108,7 +108,7 @@
             >
               工艺
             </t-button>
-            <t-button
+            <t-button size="small"
               style="width: 80px"
               title="试验数据"
               theme="primary"

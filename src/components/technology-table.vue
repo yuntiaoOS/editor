@@ -10,8 +10,8 @@
             <t-input v-model="_title" label="名称：" size="large" placeholder="请输入名称" autofocus autoWidth borderless style="min-width: 250px;" />
             <t-space>
               <!-- <t-input  v-if="false" v-model="searchTitle" auto-width placeholder="请输入工艺步骤名称" /> -->
-              <t-button variant="outline" @click="onAddWorkingProcedure">添加工艺步骤</t-button>
-              <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
+              <t-button size="small" variant="outline" @click="onAddWorkingProcedure">添加工艺步骤</t-button>
+              <t-button size="small" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting"></t-icon></template>列配置</t-button>
             </t-space>
           </t-space>
         </div>
@@ -27,7 +27,7 @@
               <div v-for="(item, index) in slotProps.row.value" :key="index" style="margin-bottom: 8px;">
                 <xm-form :ref="(el) => setActiveItemRef(groupIndex, el)" v-model:form-data="slotProps.row.value[index]" :config="getConfig('form',slotProps.row)" :showSubmitBtn="false"/>
               </div>
-              <t-button @click.stop="slotProps.row.value.push({})">添加</t-button>
+              <t-button size="small" @click.stop="slotProps.row.value.push({})">添加</t-button>
             </div>
             <div v-else>
               <xm-form :ref="(el) => setActiveItemRef(0, el)" v-model:form-data="slotProps.row.value" :config="getConfig('form',slotProps.row)" :showSubmitBtn="false"/>
@@ -588,11 +588,11 @@ const columns = ref([
     cell: (h, { row }) => (
       <div class="tdesign-table-demo__table-operations">
         {row.step_type === "processes" && [
-          <t-button title="插入操作" theme="primary" onClick={(event) =>{event.stopPropagation();  appendTo(row)} }>插入操作</t-button>,
-          <t-button title="插入评估" theme="success" onClick={(event) =>{event.stopPropagation();  appendTo(row)} }>插入评估</t-button>
+          <t-button size="small" title="插入操作" theme="primary" onClick={(event) =>{event.stopPropagation();  appendTo(row)} }>插入操作</t-button>,
+          <t-button size="small" title="插入评估" theme="success" onClick={(event) =>{event.stopPropagation();  appendTo(row)} }>插入评估</t-button>
           ]}
         <t-popconfirm content="确认删除吗" onConfirm={() => onDeleteConfirm(row) }>
-          <t-button title="删除" theme="danger" shape="square" variant="text" icon={renderDelete} ></t-button>
+          <t-button size="small" title="删除" theme="danger" shape="square" variant="text" icon={renderDelete} ></t-button>
         </t-popconfirm>
       </div>
     ),

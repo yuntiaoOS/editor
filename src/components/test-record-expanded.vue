@@ -66,7 +66,7 @@
                     v-if="props.viewType === 'test_record_table'"
                     >试验数据</t-tag
                   >
-                  <t-button
+                  <t-button size="small"
                     v-if="false"
                     variant="outline"
                     @click="onSaveDataFunc"
@@ -76,16 +76,16 @@
                   <t-input v-model="_title" auto-width placeholder="请输入名称" /> -->
                 </div>
                 <t-space>
-                  <t-button v-if="false" variant="outline" @click="onAddRowFunc"
+                  <t-button size="small" v-if="false" variant="outline" @click="onAddRowFunc"
                     >新增</t-button
                   >
-                  <t-button
+                  <t-button size="small"
                     v-if="false"
                     variant="outline"
                     @click="onAddIndexFunc"
                     >配置指标</t-button
                   >
-                  <t-button variant="outline" @click="onAddIndexRowFunc"
+                  <t-button size="small" variant="outline" @click="onAddIndexRowFunc"
                     >新增</t-button
                   >
                 </t-space>
@@ -105,7 +105,7 @@
                 content="确认删除吗"
                 @confirm="deleteRowFunc(slotProps.row)"
               >
-                <t-button
+                <t-button size="small"
                   title="删除"
                   theme="danger"
                   shape="square"

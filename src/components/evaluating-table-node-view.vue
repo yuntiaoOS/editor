@@ -14,9 +14,9 @@
             </div>
             <t-space>
               <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入物料名称" />
-               <t-button variant="outline" @click="onSelectDialogFunc">配置</t-button>
+               <t-button size="small" variant="outline" @click="onSelectDialogFunc">配置</t-button>
               <div v-if="updateTime&&updateTime.length>10" title="修改时间"><t-icon name="time" size="13px" style="color: #a0a0a0;margin-right:4px;"/><span class="Font12Color">{{updateTime}}</span> </div>
-              <t-button title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template></t-button>
+              <t-button size="small" title="设置" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting"></t-icon></template></t-button>
             </t-space>
           </t-space>
         </div>
@@ -53,7 +53,7 @@
             </t-link>
           </div> -->
           <t-popconfirm content="确认删除吗" @confirm="() => onDelete(row)" >
-            <t-button title="删除" theme="danger" shape="square" variant="text" >删除</t-button>
+            <t-button size="small" title="删除" theme="danger" shape="square" variant="text" >删除</t-button>
           </t-popconfirm>
         </div>
       </template>

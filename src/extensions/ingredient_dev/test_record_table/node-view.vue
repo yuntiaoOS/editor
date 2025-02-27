@@ -39,10 +39,10 @@
                 />
               </div>
               <t-space>
-                <t-button v-if="false" variant="outline" @click="onShowFunc">{{
+                <t-button size="small" v-if="false" variant="outline" @click="onShowFunc">{{
                   '试验方法设计'
                 }}</t-button>
-                <t-button variant="outline" @click="onAddFunc">{{
+                <t-button size="small" variant="outline" @click="onAddFunc">{{
                   designResult.formItems ? '设计' : '新增'
                 }}</t-button>
                 <div
@@ -56,13 +56,13 @@
                   />
                   <span class="Font12Color">{{ updateTime }}</span>
                 </div>
-                <t-button
+                <t-button size="small"
                   title="设置"
                   variant="outline"
                   @click="columnEditFunc"
                 >
                   <template #icon>
-                    <t-icon name="setting" size="18px"></t-icon>
+                    <t-icon name="setting"></t-icon>
                   </template>
                 </t-button>
               </t-space>
@@ -131,7 +131,7 @@
             >
             <span v-else>{{ row.description }}</span>
             <div class="slot-description-S-class">
-              <t-button
+              <t-button size="small"
                 v-if="['物料', '操作'].includes(row.operateType)"
                 title="拍照"
                 style="width: 50px"
@@ -142,7 +142,7 @@
               >
                 拍照
               </t-button>
-              <t-button
+              <t-button size="small"
                 v-if="['物料', '操作'].includes(row.operateType)"
                 title="出样"
                 style="width: 50px"
@@ -154,7 +154,7 @@
                 出样
               </t-button>
 
-              <t-button
+              <t-button size="small"
                 v-if="['样品'].includes(row.operateType)"
                 style="width: 50px"
                 title="试验数据"
@@ -170,7 +170,7 @@
                 content="确认删除吗"
                 @confirm="() => onSampleDelete(row, rowIndex)"
               >
-                <t-button
+                <t-button size="small"
                   title="删除"
                   style="width: 50px"
                   theme="danger"
@@ -207,7 +207,7 @@
               content="确认删除吗"
               @confirm="() => onDelete(row)"
             >
-              <t-button
+              <t-button size="small"
                 title="删除"
                 theme="danger"
                 shape="square"

@@ -79,6 +79,11 @@ const onSelect = (checked, row) => {
     emits('update:selected', selected);
   }
 }
+const onReloadData = (pageConfig) => {
+  setTimeout(() => {
+    MTTableRef.value?.tableRef?.expandAll()
+  }, 100);
+}
 
 const emits = defineEmits(['update:selected',]);
 </script>
@@ -95,6 +100,7 @@ const emits = defineEmits(['update:selected',]);
     :tree-expand-and-fold-icon="lazyLoadingTreeIconRender"
     :pagination="true"
     size="small"
+    @update:pageConfig="onReloadData"
   >
 
     <template #tool-bar>

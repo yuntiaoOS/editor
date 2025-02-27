@@ -12,8 +12,8 @@
               <div></div>
               <t-space>
                 <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入物料名称" />
-                <t-button variant="outline" @click="add_dialog_visible = true;">新增</t-button>
-                <t-button variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting" size="18px"></t-icon></template>列配置</t-button>
+                <t-button size="small" variant="outline" @click="add_dialog_visible = true;">新增</t-button>
+                <t-button size="small" variant="outline" @click="columnEditFunc"><template #icon> <t-icon name="setting"></t-icon></template>列配置</t-button>
               </t-space>
             </t-space>
           </div>
@@ -40,7 +40,7 @@
               </t-link>
             </div> -->
             <t-popconfirm content="确认删除吗" @confirm="() => onDelete(row)" >
-              <t-button title="删除" theme="danger" shape="square" variant="text" >删除</t-button>
+              <t-button size="small" title="删除" theme="danger" shape="square" variant="text" >删除</t-button>
             </t-popconfirm>
           </div>
         </template>
