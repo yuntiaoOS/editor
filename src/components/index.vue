@@ -1,5 +1,6 @@
 <template>
   <t-config-provider
+    :key="options.editorKey"
     :global-config="{
       ...localeConfig[locale],
       classPrefix: 'umo',
@@ -33,12 +34,6 @@
       </header>
       <main class="umo-main">
         <container-page v-if="$toolbar.mode !== 'source'">
-          <template #page_header="slotProps">
-            <slot name="page_header" v-bind="slotProps" />
-          </template>
-          <template #page_footer="slotProps">
-            <slot name="page_footer" v-bind="slotProps" />
-          </template>
           <template #bubble_menu="slotProps">
             <slot name="bubble_menu" v-bind="slotProps" />
           </template>
@@ -61,13 +56,18 @@ import {
   isString,
 } from '@tool-belt/type-predicates'
 import domToImage from 'dom-to-image-more'
-import type { GlobalConfigProvider } from 'tdesign-vue-next'
+import type {
+  DialogOptions,
+  GlobalConfigProvider,
+  MessageOptions,
+} from 'tdesign-vue-next'
 import enConfig from 'tdesign-vue-next/esm/locale/en_US'
 import cnConfig from 'tdesign-vue-next/esm/locale/zh_CN'
 
 import { getSelectionNode, getSelectionText } from '@/extensions/selection'
 import { i18n } from '@/i18n'
 import { propsOptions } from '@/options'
+import type { PageOption, UmoEditorOptions } from '@/types'
 import type {
   AutoSaveOptions,
   DocumentOptions,
@@ -75,6 +75,10 @@ import type {
   WatermarkOption,
 } from '@/types'
 import { consoleCopyright } from '@/utils/copyright'
+import { getOpitons } from '@/utils/options'
+import { shortId } from '@/utils/short-id'
+
+import ruConfig from '../locales/tdesign/ru-RU'
 
 const { toBlob, toJpeg, toPng } = domToImage
 
@@ -109,29 +113,100 @@ const emits = defineEmits([
   'menuChange',
 ])
 
-// Store Setup
-const {
-  container,
-  toolbarKey,
-  options,
-  page,
-  tableOfContents,
-  savedAt,
-  editorDestroyed,
-  editor,
-  setOptions,
-  printing,
-  resetStore,
-} = useStore()
+// state Setup
+const container = $ref(`#umo-editor-${shortId(4)}`)
+const defaultOptions = inject('defaultOptions', {})
+const options = ref(getOpitons(props, defaultOptions))
+const editor = ref(null)
+const savedAt = ref(null)
+const page = ref({})
+const blockMenu = ref(false)
+const assistant = ref(false)
+const imageViewer = ref({ visible: false, current: null })
+const searchReplace = ref(false)
+const printing = ref(false)
+const fullscreen = ref(null)
+const exportFile = ref({ pdf: false, image: false })
+// const bookmark = ref(false)
+const destroyed = ref(false)
+provide('container', container)
+provide('options', options)
+provide('editor', editor)
+provide('savedAt', savedAt)
+provide('page', page)
+provide('blockMenu', blockMenu)
+provide('assistant', assistant)
+provide('imageViewer', imageViewer)
+provide('searchReplace', searchReplace)
+provide('printing', printing)
+provide('fullscreen', fullscreen)
+provide('exportFile', exportFile)
+// provide('bookmark', bookmark)
+provide('destroyed', destroyed)
 
-const $toolbar = useState('toolbar', props.editorKey)
-const $document = useState('document', props.editorKey)
+watch(
+  () => options.value.page,
+  ({
+    defaultBackground,
+    defaultMargin,
+    defaultOrientation,
+    watermark,
+    showBreakMarks,
+    showBookmark,
+  }: PageOption) => {
+    page.value = {
+      size: options.value.dicts?.pageSizes.find(
+        (item: { default: boolean }) => item.default,
+      ),
+      margin: defaultMargin,
+      background: defaultBackground,
+      orientation: defaultOrientation,
+      watermark,
+      showBreakMarks,
+      showBookmark,
+      showLineNumber: false,
+      showToc: false,
+      zoomLevel: 100,
+      autoWidth: false,
+      preview: {
+        enabled: false,
+        scale: 1,
+        zoom: 100,
+      },
+    }
+    if (showBreakMarks) {
+      editor.value?.commands.showInvisibleCharacters()
+    } else {
+      editor.value?.commands.hideInvisibleCharacters()
+    }
+  },
+  { immediate: true, deep: true },
+)
+watch(
+  () => options.value.document?.readOnly,
+  (val: boolean) => {
+    editor.value?.setEditable(!val)
+  },
+)
+onMounted(() => {
+  fullscreen.value = useFullscreen(document.querySelector(container))
+})
+
+const $toolbar = useState('toolbar', options)
+const $document = useState('document', options)
+
+let toolbarKey = $ref(shortId())
+watch(
+  () => [options.value.document?.readOnly, editor.value?.isEditable],
+  () => {
+    toolbarKey = shortId()
+  },
+)
 
 // Lifecycle Hooks
-onBeforeMount(() => setOptions(props))
 onMounted(() => {
   setTheme(options.value.theme)
-  consoleCopyright()
+  setTimeout(consoleCopyright)
 })
 onBeforeUnmount(() => {
   clearAutoSaveInterval()
@@ -149,6 +224,13 @@ watch(
   () => options.value.theme,
   (theme: 'light' | 'dark' | 'auto') => {
     setTheme(theme)
+  },
+)
+
+watch(
+  () => options.value.document,
+  (val: any) => {
+    $document.value = val
   },
 )
 
@@ -195,6 +277,7 @@ watch(
       return
     }
     editor.value.on('create', ({ editor }: any) => {
+      destroyed.value = false
       emits('created', { editor })
     })
     editor.value.on('update', ({ editor }: any) => {
@@ -205,14 +288,6 @@ watch(
       emits('changed:selection', { editor })
     })
     editor.value.on('transaction', ({ editor, transaction }: any) => {
-      //
-      const customTitleNode = editor.state.doc.nodeAt(0); // 假设标题是第一个节点
-      if (transaction.steps.some((step:any) => step.type === 'xmTitle')) {
-        if (customTitleNode) {
-          // 阻止删除操作
-          return false;
-        }
-      }
       emits('changed:transaction', { editor, transaction })
     })
     editor.value.on('focus', ({ editor, event }: any) => {
@@ -228,7 +303,6 @@ watch(
       emits('blur', { editor, event })
     })
     editor.value.on('destroy', () => {
-      resetStore()
       emits('destroy')
     })
   },
@@ -311,14 +385,22 @@ watch(
 
 // i18n Setup
 // @ts-ignore
-const { t, locale } = useI18n()
-const $locale = useState('locale')
+const { t, locale, mergeLocaleMessage } = useI18n()
+const $locale = useStorage('umo-editor:locale', options.value.locale)
+locale.value = $locale.value
+const getLocaleMessage = (lang: SupportedLocale) => {
+  const translations = options.value.translations?.[lang.replaceAll('-', '_')]
+  if (isRecord(translations)) {
+    return translations
+  }
+  return {}
+}
+mergeLocaleMessage(locale.value, getLocaleMessage(locale.value))
 const { appContext } = getCurrentInstance() ?? {}
 if (appContext) {
   appContext.config.globalProperties.t = t
   appContext.config.globalProperties.l = l
 }
-locale.value = $locale.value
 watch(
   () => locale.value,
   (locale: any, oldLocale: any) => {
@@ -330,16 +412,17 @@ watch(
 const localeConfig = $ref<Record<string, GlobalConfigProvider>>({
   'zh-CN': cnConfig as unknown as GlobalConfigProvider,
   'en-US': enConfig as unknown as GlobalConfigProvider,
+  'ru-RU': ruConfig as unknown as GlobalConfigProvider,
 })
 
-// Page Header/Footer Visibility
-const { hidePageHeader, hidePageFooter } = useStore()
-const slots = useSlots()
-if (slots.page_header) {
-  hidePageHeader.value = false
-}
-if (slots.page_footer) {
-  hidePageFooter.value = false
+// Options Setup
+const setOptions = (value: UmoEditorOptions) => {
+  options.value = getOpitons(value)
+  const $locale = useStorage('umo-editor:locale', options.value.locale)
+  if (!$locale.value) {
+    $locale.value = options.value.locale
+  }
+  return options.value
 }
 
 // Theme Setup
@@ -558,9 +641,6 @@ const setContent = (
     .setContent(content, options.emitUpdate)
     .focus(options.focusPosition as FocusPosition, options.focusOptions)
     .run()
-  setTimeout(() => {
-    if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging()
-  }, 200)
 }
 
 const getContent = (format = 'html') => {
@@ -579,36 +659,14 @@ const getContent = (format = 'html') => {
   throw new Error('format must be html, text or json')
 }
 
-// Pagination Methods
-const setPagination = (enabled: boolean) => {
-  if (!editor.value) {
-    throw new Error('editor is not ready!')
-  }
-  if (!isBoolean(enabled)) {
-    throw new Error('"enabled" must be a boolean.')
-  }
-  page.value.pagination = enabled
-}
-
-const autoPagination = (enabled: boolean) => {
-  if (!editor.value) {
-    throw new Error('editor is not ready!')
-  }
-  if (typeof enabled !== 'boolean') {
-    throw new Error('"enabled" must be a boolean.')
-  }
-  editor.value.commands.autoPaging(enabled)
-}
-
 // Locale Methods
 const setLocale = (params: SupportedLocale) => {
-  if (!['zh-CN', 'en-US'].includes(params)) {
-    throw new Error('"params" must be one of "zh-CN" or "en-US".')
+  if (!['zh-CN', 'en-US', 'ru-RU'].includes(params)) {
+    throw new Error('"params" must be one of "zh-CN", "en-US" or "ru-RU".')
   }
   if (locale.value === params) {
     return
   }
-  const $locale = useState('locale')
   $locale.value = params
   location.reload()
 }
@@ -660,9 +718,20 @@ const print = () => {
   }
 }
 
+const toggleFullscreen = (isFullscreen?: boolean) => {
+  if (isFullscreen !== undefined) {
+    if (!isBoolean(isFullscreen)) {
+      throw new Error('"isFullscreen" must be a boolean.')
+    }
+    void fullscreen.value?.[isFullscreen ? 'enter' : 'exit']()
+    return
+  }
+  void fullscreen.value?.toggle()
+}
+
 const reset = (silent: boolean) => {
   const resetFn = () => {
-    sessionStorage.clear()
+    localStorage.clear()
     location.reload()
   }
   if (silent) {
@@ -670,6 +739,7 @@ const reset = (silent: boolean) => {
     return
   }
   const dialog = useConfirm({
+    attach: container,
     theme: 'warning',
     header: t('resetAll.title'),
     body: t('resetAll.message'),
@@ -686,16 +756,18 @@ const reset = (silent: boolean) => {
 
 const destroy = () => {
   editor.value?.destroy()
-  resetStore()
+  removeAllHotkeys()
+  destroyed.value = true
 }
 
 // Content Saving Methods
-const saveContent = async () => {
+const saveContent = async (showMessage = true) => {
   if ($toolbar.value.mode === 'source' || options.value.document?.readOnly) {
     return
   }
   try {
-    const message = await useMessage('loading', {
+    useMessage('loading', {
+      attach: container,
       content: t('save.saving'),
       placement: 'bottom',
       closeBtn: true,
@@ -705,14 +777,15 @@ const saveContent = async () => {
       {
         html: editor.value?.getHTML(),
         json: editor.value?.getJSON(),
-        text: editor.value?.getHTML(),
+        text: editor.value?.getText(),
       },
-      page.value,
+      page.value.value,
       $document.value,
     )
     if (!success) {
-      message.close()
+      MessagePlugin.closeAll()
       useMessage('error', {
+        attach: container,
         content: t('save.failed'),
         placement: 'bottom',
         offset: [0, -20],
@@ -720,16 +793,20 @@ const saveContent = async () => {
       return
     }
     emits('saved')
-    message.close()
-    useMessage('success', {
-      content: t('save.success'),
-      placement: 'bottom',
-      offset: [0, -20],
-    })
+    if (showMessage) {
+      MessagePlugin.closeAll()
+      useMessage('success', {
+        attach: container,
+        content: t('save.success'),
+        placement: 'bottom',
+        offset: [0, -20],
+      })
+    }
     const time = useTimestamp({ offset: 0 })
     savedAt.value = time.value
   } catch (e) {
     useMessage('error', {
+      attach: container,
       content: t('save.error'),
       placement: 'bottom',
       offset: [0, -20],
@@ -737,7 +814,50 @@ const saveContent = async () => {
     console.error((e as Error).message)
   }
 }
-
+const getAllBookmarks = () => {
+  let bookmarkData: any = []
+  editor.value?.commands.getAllBookmarks(function (_data: any) {
+    bookmarkData = _data
+  })
+  return bookmarkData
+}
+const focusBookmark = (bookmarkName: string) => {
+  return editor.value?.commands.focusBookmark(bookmarkName)
+}
+const setBookmark = (bookmarkName: string) => {
+  return editor.value?.commands.setBookmark({ bookmarkName })
+}
+const deleteBookmark = (bookmarkName: string) => {
+  if (!bookmarkName) {
+    return false
+  }
+  const element = editor.value?.view.dom.querySelector(
+    `bookmark[bookmarkName="${bookmarkName}"]`,
+  )
+  if (!element) {
+    return false
+  }
+  const pos = editor.value?.view.posAtDOM(element, 0)
+  const { tr } = editor.value?.view.state ?? {}
+  if (!tr) {
+    return false
+  }
+  const marks = editor.value?.view.state.doc.resolve(pos + 1)?.marks()
+  if (marks !== null && marks.length > 0) {
+    for (const mark of marks) {
+      if (mark.type.name === 'bookmark') {
+        editor.value?.view.dispatch(
+          tr.removeMark(pos, pos + element.outerText.length, mark),
+        )
+      }
+    }
+  } else {
+    editor.value?.view.dispatch(
+      tr.removeMark(pos, pos + element.outerText.length),
+    )
+  }
+  return true
+}
 // Content Excerpt Methods
 const getContentExcerpt = (charLimit = 100, more = ' ...') => {
   const text = editor.value?.getText()
@@ -751,26 +871,39 @@ const getContentExcerpt = (charLimit = 100, more = ' ...') => {
 watch(
   () => $toolbar.value.mode,
   (val: any) => {
-    editorDestroyed.value = val === 'source'
+    destroyed.value = val === 'source'
   },
 )
 
 // Hotkeys Setup
-const unsetFormatPainter = () => editor.value?.commands.unsetFormatPainter()
-useHotkeys('ctrl+s,command+s', () => {
-  void saveContent()
-  unsetFormatPainter()
-})
-useHotkeys('ctrl+p,command+p', () => {
-  print()
-  unsetFormatPainter()
-})
-useHotkeys('esc', () => {
-  if (page.value.preview) {
-    page.value.preview.enabled = false
-  }
-  unsetFormatPainter()
-})
+watch(
+  () => editor.value,
+  () => {
+    const unsetFormatPainter = () => editor.value?.commands.unsetFormatPainter()
+    editor.value?.on('focus', () => {
+      useHotkeys('ctrl+s,command+s', () => {
+        void saveContent()
+        unsetFormatPainter()
+      })
+      useHotkeys('ctrl+p,command+p', () => {
+        print()
+        unsetFormatPainter()
+      })
+      useHotkeys('esc', () => {
+        if (page.value.preview) {
+          page.value.preview.enabled = false
+        }
+        unsetFormatPainter()
+      })
+      useHotkeys('ctrl+f, command+f', () => {
+        searchReplace.value = true
+      })
+    })
+    editor.value?.on('blur', () => {
+      removeAllHotkeys()
+    })
+  },
+)
 
 // Methods Exposed to Descendants
 provide('saveContent', saveContent)
@@ -788,9 +921,8 @@ defineExpose({
   setContent,
   setLocale,
   setTheme,
+  getPage: () => page.value,
   getContent,
-  setPagination,
-  autoPagination,
   getImage,
   getText,
   getHTML,
@@ -799,7 +931,7 @@ defineExpose({
   getContentExcerpt,
   getEditor: () => editor,
   useEditor: () => editor.value,
-  getTableOfContents: () => tableOfContents.value,
+  getTableOfContents: () => editor.value?.storage.tableOfContents.content,
   getSelectionText: () => (editor.value ? getSelectionText(editor.value) : ''),
   getSelectionNode: () =>
     editor.value ? getSelectionNode(editor.value) : null,
@@ -816,11 +948,22 @@ defineExpose({
   print,
   focus,
   blur,
+  toggleFullscreen,
   reset,
-  useAlert,
-  useConfirm,
-  useMessage,
+  useAlert(pramas: DialogOptions) {
+    return useAlert({ attach: container, ...pramas })
+  },
+  useConfirm(pramas: DialogOptions) {
+    return useConfirm({ attach: container, ...pramas })
+  },
+  useMessage(type: string, pramas: MessageOptions) {
+    return useMessage(type, { attach: container, ...pramas })
+  },
   destroy,
+  focusBookmark,
+  getAllBookmarks,
+  setBookmark,
+  deleteBookmark,
 })
 </script>
 

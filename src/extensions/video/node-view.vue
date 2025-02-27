@@ -18,13 +18,11 @@
         :max-height="maxHeight"
         :equal-proportion="true"
         @resize="onResize"
-        @resize-start="onResizeStart"
-        @resize-end="onResizeEnd"
-        @click="selected = true"
+        @focus="selected = true"
       >
         <video
           ref="videoRef"
-          :src="fixedImageUrl(node.attrs.src)"
+          :src="node.attrs.src"
           preload="metadata"
           controls
           crossorigin="anonymous"
@@ -42,12 +40,12 @@
 <script setup lang="ts">
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Drager from 'es-drager'
-import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
 
 import { mediaPlayer } from '@/utils/player'
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
-const { options, editor } = useStore()
+const options = inject('options')
+const container = inject('container')
 
 const containerRef = ref(null)
 let selected = $ref(false)
@@ -74,13 +72,16 @@ onMounted(async () => {
   player = mediaPlayer(videoRef)
   if (node.attrs.uploaded === false && node.attrs.file) {
     try {
-      const { url } =
+      const { id, url } =
         (await options.value?.onFileUpload?.(node.attrs.file)) ?? {}
       if (containerRef.value) {
-        updateAttributes({ src: url, file: null, uploaded: true })
+        updateAttributes({ id, src: url, file: null, uploaded: true })
       }
     } catch (error) {
-      useMessage('error', (error as Error).message)
+      useMessage('error', {
+        attach: container,
+        content: (error as Error).message,
+      })
     }
   }
 })
@@ -102,12 +103,6 @@ const onLoad = () => {
 }
 const onResize = ({ width, height }: { width: number; height: number }) => {
   updateAttributes({ width, height })
-}
-const onResizeStart = () => {
-  if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging(false)
-}
-const onResizeEnd = () => {
-  if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging(true)
 }
 onBeforeUnmount(() => {
   if (player) {

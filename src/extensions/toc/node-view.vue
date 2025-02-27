@@ -16,7 +16,7 @@
           v-for="heading in tableOfContents"
           :key="heading.id"
           class="umo-node-toc-item"
-          :class="`level-${heading.level}`"
+          :class="`level-${heading.originalLevel}`"
         >
           <a @click="headingClick(heading.id)">{{ heading.textContent }}</a>
         </li>
@@ -31,9 +31,10 @@ import { TextSelection } from '@tiptap/pm/state'
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 
 const { node } = defineProps(nodeViewProps)
-
-const { editor, tableOfContents } = useStore()
-
+const editor = inject('editor')
+const tableOfContents = computed(
+  () => editor.value?.storage.tableOfContents.content,
+)
 const nodeStyle = $computed(() => {
   const { margin } = node.attrs
   const marginTop =
@@ -74,8 +75,8 @@ const headingClick = (id: string) => {
       margin: 0;
       position: absolute;
       top: 0;
-      left: 1rem;
-      padding: 0.25rem 0.5rem;
+      left: 1em;
+      padding: 0.25em 0.5em;
       border-bottom-left-radius: 3px;
       border-bottom-right-radius: 3px;
       font-size: 12px;

@@ -1,6 +1,9 @@
 <template>
   <div class="umo-page-container">
-    <container-toc v-if="page.showToc" @close="page.showToc = false" />
+    <container-toc
+      v-if="pageOptions.showToc"
+      @close="pageOptions.showToc = false"
+    />
     <div class="umo-zoomable-container umo-scrollbar">
       <div
         class="umo-zoomable-content"
@@ -9,26 +12,56 @@
           height: pageZoomHeight,
         }"
       >
-        <div
+        <t-watermark
           class="umo-page-content"
+          :alpha="pageOptions.watermark.alpha"
+          v-bind="watermarkOptions"
+          :watermark-content="pageOptions.watermark"
           :style="{
+            '--umo-page-background': pageOptions.background,
+            '--umo-page-margin-top': (pageOptions.margin?.top ?? '0') + 'cm',
+            '--umo-page-margin-bottom':
+              (pageOptions.margin?.bottom ?? '0') + 'cm',
+            '--umo-page-margin-left': (pageOptions.margin?.left ?? '0') + 'cm',
+            '--umo-page-margin-right':
+              (pageOptions.margin?.right ?? '0') + 'cm',
+            '--umo-page-width': pageSize.width + 'cm',
+            '--umo-page-height': pageSize.height + 'cm',
             width: pageSize.width + 'cm',
-            transform: `scale(${page.zoomLevel ? page.zoomLevel / 100 : 1})`,
+            transform: `scale(${pageOptions.zoomLevel ? pageOptions.zoomLevel / 100 : 1})`,
           }"
         >
-          <editor>
-            <template #page_header="props">
-              <slot name="page_header" v-bind="props" />
-            </template>
-            <template #page_footer="props">
-              <slot name="page_footer" v-bind="props" />
-            </template>
-            <template #bubble_menu="props">
-              <slot name="bubble_menu" v-bind="props" />
-            </template>
-          </editor>
-        </div>
-        <container-comments />
+          <div class="umo-page-node-header" contenteditable="false">
+            <div
+              class="umo-page-corner corner-tl"
+              style="width: var(--umo-page-margin-left)"
+            ></div>
+
+            <div class="umo-page-node-header-content"></div>
+            <div
+              class="umo-page-corner corner-tr"
+              style="width: var(--umo-page-margin-right)"
+            ></div>
+          </div>
+          <div class="umo-page-node-content">
+            <editor>
+              <template #bubble_menu="props">
+                <slot name="bubble_menu" v-bind="props" />
+              </template>
+            </editor>
+          </div>
+          <div class="umo-page-node-footer" contenteditable="false">
+            <div
+              class="umo-page-corner corner-bl"
+              style="width: var(--umo-page-margin-left)"
+            ></div>
+            <div class="umo-page-node-footer-content"></div>
+            <div
+              class="umo-page-corner corner-br"
+              style="width: var(--umo-page-margin-right)"
+            ></div>
+          </div>
+        </t-watermark>
       </div>
     </div>
     <t-image-viewer
@@ -49,19 +82,23 @@
 </template>
 
 <script setup lang="ts">
-const { container, page, imageViewer } = useStore()
+import type { WatermarkOption } from '@/types'
+
+const container = inject('container')
+const imageViewer = inject('imageViewer')
+const pageOptions = inject('page')
 
 // 页面大小
 const pageSize = $computed(() => {
-  const { width, height } = page.value.size ?? { width: 0, height: 0 }
+  const { width, height } = pageOptions.value.size ?? { width: 0, height: 0 }
   return {
-    width: page.value.orientation === 'portrait' ? width : height,
-    height: page.value.orientation === 'portrait' ? height : width,
+    width: pageOptions.value.orientation === 'portrait' ? width : height,
+    height: pageOptions.value.orientation === 'portrait' ? height : width,
   }
 })
 // 页面缩放后的大小
 const pageZoomWidth = $computed(() => {
-  return `calc(${pageSize.width}cm * ${page.value.zoomLevel ? page.value.zoomLevel / 100 : 1})`
+  return `calc(${pageSize.width}cm * ${pageOptions.value.zoomLevel ? pageOptions.value.zoomLevel / 100 : 1})`
 })
 
 // 页面内容变化后更新页面高度
@@ -72,14 +109,13 @@ const setPageZoomHeight = () => {
     console.warn('The element <.umo-page-content> does not exist.')
     return
   }
-  pageZoomHeight = `${(el.clientHeight * (page.value.zoomLevel ?? 1)) / 100}px`
+  pageZoomHeight = `${(el.clientHeight * (pageOptions.value.zoomLevel ?? 1)) / 100}px`
 }
 watch(
   () => [
-    page.value.zoomLevel,
-    page.value.size,
-    page.value.orientation,
-    page.value.pagination,
+    pageOptions.value.zoomLevel,
+    pageOptions.value.size,
+    pageOptions.value.orientation,
   ],
   async () => {
     await nextTick()
@@ -90,12 +126,38 @@ watch(
   { immediate: true, deep: true },
 )
 
-const store = useStore()
+// FIXME:
+const editorInstance = inject('editor')
 watch(
-  () => store.editor.value?.getHTML(),
+  () => editorInstance.value?.getHTML(),
   () => {
     setPageZoomHeight()
   },
+)
+
+// 水印
+const watermarkOptions = $ref<{
+  x: number
+  y?: number
+  width?: number
+  height: number
+  type?: string
+}>({
+  x: 0,
+  height: 0,
+})
+watch(
+  () => pageOptions.value.watermark,
+  ({ type }: Partial<WatermarkOption> = { type: '' }) => {
+    if (type === 'compact') {
+      watermarkOptions.width = 320
+      watermarkOptions.y = 240
+    } else {
+      watermarkOptions.width = 480
+      watermarkOptions.y = 360
+    }
+  },
+  { deep: true, immediate: true },
 )
 
 // 图片预览
@@ -112,7 +174,7 @@ watch(
     }
     await nextTick()
     const images = document.querySelectorAll(
-      `${container} .umo-page-content img:not(.umo-icon)`,
+      `${container} .umo-page-node-content img[src]:not(.umo-icon)`,
     )
     Array.from(images).forEach((image, index) => {
       const src = image.getAttribute('src')
@@ -139,18 +201,104 @@ watch(
   scroll-behavior: smooth;
   .umo-zoomable-content {
     margin: 0 auto;
-    position: relative;
+    box-shadow:
+      rgba(0, 0, 0, 0.06) 0px 0px 10px 0px,
+      rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
     .umo-page-content {
       transform-origin: 0 0;
       box-sizing: border-box;
       display: flex;
       position: relative;
-      overflow: visible !important;
+      box-sizing: border-box;
+      background-color: var(--umo-page-background);
+      width: var(--umo-page-width);
+      min-height: var(--umo-page-height);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
       [contenteditable] {
         outline: none;
       }
     }
   }
+}
+
+.umo-page-node-header {
+  height: var(--umo-page-margin-top);
+  overflow: hidden;
+}
+
+.umo-page-node-footer {
+  height: var(--umo-page-margin-bottom);
+  overflow: hidden;
+}
+
+.umo-page-node-header,
+.umo-page-node-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.umo-page-corner {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 10;
+
+  @media print {
+    opacity: 0;
+  }
+
+  &::after {
+    position: absolute;
+    content: '';
+    display: block;
+    height: 1cm;
+    width: 1cm;
+    border: solid 1px var(--umo-border-color);
+  }
+
+  &.corner-tl::after {
+    border-top: none;
+    border-left: none;
+    bottom: 0;
+    right: 0;
+  }
+
+  &.corner-tr::after {
+    border-top: none;
+    border-right: none;
+    bottom: 0;
+    left: 0;
+  }
+
+  &.corner-bl::after {
+    border-bottom: none;
+    border-left: none;
+    top: 0;
+    right: 0;
+  }
+
+  &.corner-br::after {
+    border-bottom: none;
+    border-right: none;
+    top: 0;
+    left: 0;
+  }
+}
+
+.umo-page-node-header-content,
+.umo-page-node-footer-content {
+  flex: 1;
+}
+
+.umo-page-node-content {
+  position: relative;
+  box-sizing: border-box;
+  padding: 0 var(--umo-page-margin-right) 0 var(--umo-page-margin-left);
+  min-height: calc(
+    var(--umo-page-height) - var(--umo-page-margin-top) -
+      var(--umo-page-margin-bottom)
+  );
 }
 
 :deep(.umo-back-top) {

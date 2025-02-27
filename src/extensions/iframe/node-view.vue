@@ -17,11 +17,12 @@
         :min-height="200"
         :max-width="maxWidth"
         @resize="onResize"
-        @resize-start="onResizeStart"
-        @resize-end="onResizeEnd"
-        @click="selected = true"
+        @focus="selected = true"
       >
-        <iframe :src="node.attrs.src"></iframe>
+        <iframe
+          :src="node.attrs.src"
+          :style="{ pointerEvents: node.attrs.clickable ? 'auto' : 'none' }"
+        ></iframe>
       </drager>
     </div>
   </node-view-wrapper>
@@ -32,7 +33,6 @@ import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Drager from 'es-drager'
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
-const { editor } = useStore()
 const containerRef = ref(null)
 let selected = $ref(false)
 let maxWidth = $ref(0)
@@ -50,7 +50,8 @@ const nodeStyle = $computed(() => {
   }
 })
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick()
   if (containerRef.value) {
     const { offsetWidth } = containerRef.value.$el
 
@@ -63,14 +64,9 @@ onMounted(() => {
 const onResize = ({ width, height }: { width: number; height: number }) => {
   updateAttributes({ width, height })
 }
-const onResizeStart = () => {
-  if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging(false)
-}
-const onResizeEnd = () => {
-  if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging(true)
-}
 onClickOutside(containerRef, () => {
   selected = false
+  updateAttributes({ clickable: false })
 })
 </script>
 
@@ -85,12 +81,11 @@ onClickOutside(containerRef, () => {
     }
     iframe {
       display: block;
-      min-width: 400px;
+      min-width: 200px;
       min-height: 200px;
       width: 100%;
       height: 100%;
       border: none;
-      pointer-events: none;
       background-color: var(--umo-color-white);
     }
   }

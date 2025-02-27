@@ -20,9 +20,9 @@
 <script setup lang="ts">
 import { type Editor, loader, MonacoEditor } from '@vue-monaco/editor'
 
-const { options, editor } = useStore()
+const options = inject('options')
 const { locale } = useI18n()
-const $document = useState('document', options.value.editorKey)
+const $document = useState('document', options)
 
 loader.config({
   paths: {
@@ -48,7 +48,7 @@ const config = {
     horizontal: 'hidden',
   },
 }
-const code = $ref(editor.value?.getHTML() ?? $document.value.content)
+const code = $ref($document.value.content)
 
 const editorMount = (editor: Editor.ICodeEditor) => {
   if (editor) {

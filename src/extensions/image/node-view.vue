@@ -3,9 +3,7 @@
     :id="node.attrs.id"
     ref="containerRef"
     class="umo-node-view"
-    :class="{
-      'umo-node-view-empty': node.attrs.draggable,
-    }"
+    :class="{ 'umo-floating-node': node.attrs.draggable }"
     :style="nodeStyle"
     @dblclick="openImageViewer"
   >
@@ -13,12 +11,12 @@
       class="umo-node-container umo-node-image"
       :class="{
         'is-loading': node.attrs.src && isLoading,
-        'is-error': node.attrs.src && isError,
+        'is-error': node.attrs.src && error,
         'is-draggable': node.attrs.draggable,
         'umo-hover-shadow': !options.document?.readOnly,
         'umo-select-outline': !node.attrs.draggable,
       }"
-    >{{error}}
+    >
       <div
         v-if="node.attrs.src && isLoading"
         class="loading"
@@ -28,7 +26,7 @@
         {{ t('node.image.loading') }}
       </div>
       <div
-        v-else-if="node.attrs.src && isError"
+        v-else-if="node.attrs.src && error"
         class="error"
         :style="{ height: `${node.attrs.height}px` }"
       >
@@ -52,19 +50,16 @@
         :min-width="14"
         :min-height="14"
         :max-width="maxWidth"
-        :max-height="node.attrs.equalProportion ? maxHeight : undefined"
         :z-index="10"
         :equal-proportion="node.attrs.equalProportion"
         @rotate="onRotate"
         @resize="onResize"
-        @resize-start="onResizeStart"
-        @resize-end="onResizeEnd"
         @drag="onDrag"
-        @click="selected = true"
+        @focus="selected = true"
       >
         <img
           ref="imageRef"
-          :src="fixedImageUrl(node.attrs.src)"
+          :src="node.attrs.src"
           :style="{
             transform:
               node.attrs.flipX || node.attrs.flipY
@@ -74,7 +69,6 @@
           :data-id="node.attrs.id"
           loading="lazy"
           @load="onLoad"
-          @error="onError"
         />
         <div
           v-if="!node.attrs.uploaded && node.attrs.file !== null"
@@ -91,20 +85,19 @@
 import { nodeViewProps, NodeViewWrapper } from '@tiptap/vue-3'
 import Drager from 'es-drager'
 import { base64ToFile } from 'file64'
-import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
 
 import { shortId } from '@/utils/short-id'
 
+const container = inject('container')
+const imageViewer = inject('imageViewer')
 const { node, updateAttributes } = defineProps(nodeViewProps)
-const { options, editor, imageViewer } = useStore()
-let isError = $ref(false)
-let isLoading = $ref(false)
+const options = inject('options')
+const { isLoading, error } = useImage({ src: node.attrs.src })
 
 const containerRef = ref(null)
 const imageRef = $ref<HTMLImageElement | null>(null)
 let selected = $ref(false)
 let maxWidth = $ref(0)
-let maxHeight = $ref(200)
 
 const nodeStyle = $computed(() => {
   const { nodeAlign, margin } = node.attrs
@@ -131,7 +124,10 @@ const uploadImage = async () => {
       updateAttributes({ id, src: url, file: null, uploaded: true })
     }
   } catch (error) {
-    useMessage('error', (error as Error).message)
+    useMessage('error', {
+      attach: container,
+      content: (error as Error).message,
+    })
   }
 }
 const onLoad = async () => {
@@ -139,26 +135,12 @@ const onLoad = async () => {
     const { clientWidth = 1, clientHeight = 1 } = imageRef ?? {}
     maxWidth = containerRef.value?.$el.clientWidth
     const ratio = clientWidth / clientHeight
-    maxHeight = containerRef.value?.$el.clientWidth / ratio
     updateAttributes({ width: (200 * ratio).toFixed(2) })
   }
   if ([null, 'auto', 0].includes(node.attrs.height)) {
     await nextTick()
     const { height } = imageRef?.getBoundingClientRect() ?? {}
     updateAttributes({ height: height.toFixed(2) })
-  }
-  isLoading = false
-}
-// 正则：以 http://、https:// 或 blob: 开头 (大小写不敏感)
-const isHttpHttpsOrBlob = (src:string) => {
-  return /^(https?:\/\/|blob:|data:imag)/i.test(src);
-};
-const onError = (error:any) => {
-
-  isLoading = false
-  //判断node.attrs.src不是合法的图片地址 会触发isError = true
-  if (!node.attrs.src || node.attrs.src === '' || node.attrs.src === 'null' || node.attrs.src === 'undefined' || !isHttpHttpsOrBlob(node.attrs.src) ) {
-    isError = true
   }
 }
 
@@ -170,12 +152,6 @@ const onResize = ({ width, height }: { width: number; height: number }) => {
     width: width.toFixed(2),
     height: height.toFixed(2),
   })
-}
-const onResizeStart = () => {
-  if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging(false)
-}
-const onResizeEnd = () => {
-  if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging(true)
 }
 
 const onDrag = ({ left, top }: { left: number; top: number }) => {
@@ -203,7 +179,7 @@ watch(
 watch(
   () => node.attrs.src,
   async (src: string) => {
-    if (node.attrs.uploaded === false && !isError) {
+    if (node.attrs.uploaded === false && !error.value) {
       if (src?.startsWith('data:image')) {
         const [data, type] = src.split(';')[0].split(':')
         let [_, ext] = type.split('/')
@@ -226,7 +202,7 @@ watch(
   { immediate: true },
 )
 watch(
-  () => isError,
+  () => error.value,
   (errorValue: any) => {
     if (errorValue?.type) {
       updateAttributes({ error: errorValue.type === 'error' })

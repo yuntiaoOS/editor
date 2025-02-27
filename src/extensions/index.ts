@@ -1,332 +1,207 @@
 import SearchReplace from '@sereneinserenade/tiptap-search-and-replace'
 import Bold from '@tiptap/extension-bold'
 import CharacterCount from '@tiptap/extension-character-count'
+import { ColumnsExtension as Columns } from '@tiptap-extend/columns'
 import Color from '@tiptap/extension-color'
 import Dropcursor from '@tiptap/extension-dropcursor'
 import Focus from '@tiptap/extension-focus'
 import FontFamily from '@tiptap/extension-font-family'
 import Highlight from '@tiptap/extension-highlight'
-// 插入
 import Link from '@tiptap/extension-link'
+import NodeRange from '@tiptap-pro/extension-node-range'
+import Placeholder from '@tiptap/extension-placeholder'
 import Subscript from '@tiptap/extension-subscript'
 import Superscript from '@tiptap/extension-superscript'
+import Table from '@tiptap/extension-table'
 import TableRow from '@tiptap/extension-table-row'
 import TaskItem from '@tiptap/extension-task-item'
+import TaskList from '@tiptap/extension-task-list'
 import TextColor from '@tiptap/extension-text-style'
 import Typography from '@tiptap/extension-typography'
+import Mention from './mention'
+import getUsersSuggestion from './mention/suggestion'
 import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
-import type { Editor } from '@tiptap/vue-3'
+import type { Editor, Extension } from '@tiptap/vue-3'
+import InvisibleCharacters, {
+  HardBreakNode,
+  ParagraphNode,
+} from '@tiptap-pro/extension-invisible-characters'
 import Mathematics from '@tiptap-pro/extension-mathematics'
-import { TableOfContents } from '@tiptap-pro/extension-table-of-contents'
 import { getHierarchicalIndexes } from '@tiptap-pro/extension-table-of-contents'
-
-// 输入 ‘/’ 触发插入菜单
-import SlashCommand from './SlashCommand'
+import { TableOfContents } from '@tiptap-pro/extension-table-of-contents'
 
 import { shortId } from '@/utils/short-id'
 
 import Audio from './audio'
+import Bookmark from './bookmark'
 import BulletList from './bullet-list'
+import Callout from './callout'
+import Datetime from './datetime'
 import CodeBlock from './code-block'
-import { ColorHighlighter } from './color-highlighter'
+import Echarts from './echarts'
 import File from './file'
 import FileHandler from './file-handler'
 import FontSize from './font-size'
-// 基本
 import FormatPainter from './format-painter'
 import hr from './hr'
 import Iframe from './iframe'
 import Image from './image'
 import Indent from './indent'
+import InvisibleNode from './invisible-node'
 import LineHeight from './line-height'
-// 表格
-import Table from './list/table'
-import TaskList from './list/tasklist'
 import Margin from './margin'
 import NodeAlign from './node-align'
 import OrderedList from './ordered-list'
-import Placeholder from './placeholder'
-// 自定义数据表格
-
-import raw_material_table from './ingredient_dev/raw_material_table'
-import technology_table from './ingredient_dev/technology_table'
-import sample_table from './ingredient_dev/sample_table'
-import experimental_design from './ingredient_dev/experimental_design'
-import evaluating_table from './ingredient_dev/evaluating_table'
-import test_record_table from './ingredient_dev/test_record_table'
-import evaluation_comparison from './ingredient_dev/evaluation_comparison'
-import sample_test_comparison from './ingredient_dev/sample_test_comparison'
-
-// 批注
-import Comment from './comment/comment'
-
-// 自定义不能选中移动的节点
-import atomUnselect from './atom-unselect'
-import xmTitleContent from './xm-title-content'
-import xmTitle from './xm-title'
-
-// 自定义formitem components
-import formItemComponent from './form/item/component'
-// 自定义formitem
-import formItem from './form/item'
-// 自定义form
-import xmForm from './form'
-
-
-// 左右块布局
-import { Columns, Column } from './MultiColumn'
-// 其他
+import PageBreak from './page-break'
 import Selection from './selection'
 import TableCell from './table-cell'
 import TableHeader from './table-header'
+import Tag from './tag'
 import TextAlign from './text-align'
 import TextBox from './text-box'
-// 页面
 import Toc from './toc'
 import Video from './video'
 
-const { options, container, tableOfContents,commentBox } = useStore()
+export const getDefaultExtensions = ({
+  container,
+  options,
+}: {
+  container: string
+  options: any
+}) => {
+  const { dicts, document: doc, file } = options.value
+  return [
+    StarterKit.configure({
+      bold: false,
+      bulletList: false,
+      orderedList: false,
+      codeBlock: false,
+      horizontalRule: false,
+      dropcursor: false,
+    }),
+    Placeholder.configure({
+      placeholder: () => String(l(options.value.document.placeholder)),
+    }),
+    Focus.configure({
+      className: 'umo-node-focused',
+      mode: 'all',
+    }),
+    FormatPainter,
+    FontFamily,
+    FontSize,
+    Bold.extend({
+      renderHTML: ({ HTMLAttributes }) => ['b', HTMLAttributes, 0],
+    }),
+    Underline,
+    Subscript,
+    Superscript,
+    Color,
+    TextColor,
+    Highlight.configure({
+      multicolor: true,
+    }),
+    Indent,
+    BulletList,
+    OrderedList,
+    TextAlign,
+    NodeAlign,
+    TaskItem.configure({ nested: true }),
+    TaskList.configure({
+      HTMLAttributes: {
+        class: 'umo-task-list',
+      },
+    }),
+    LineHeight.configure({
+      types: ['heading', 'paragraph'],
+      defaultLineHeight: dicts.lineHeights.find((item: any) => item.default)
+        .value,
+    }),
+    Margin,
+    SearchReplace.configure({
+      searchResultClass: 'umo-search-result',
+    }),
+    Link,
+    Image,
+    Video,
+    Audio,
+    File,
+    TextBox,
+    CodeBlock,
+    hr,
+    Iframe,
+    Mathematics,
+    Columns,
+    Tag,
+    Callout,
+    Datetime,
+    Bookmark.configure({
+      class: 'umo-editor-bookmark',
+    }),
 
-const { dicts, document: doc, file } = options.value
+    // 表格
+    Table.configure({
+      allowTableNodeSelection: true,
+      resizable: true,
+    }),
+    TableRow,
+    TableHeader,
+    TableCell,
 
-export const extensions = [
-  StarterKit.configure({
-    document: false,
-    bold: false,
-    bulletList: false,
-    orderedList: false,
-    codeBlock: false,
-    horizontalRule: false,
-    dropcursor: false,
-  }),
-  Placeholder.configure({
-    placeholder: l(doc.placeholder),
-  }),
-  Focus.configure({
-    className: 'umo-node-focused',
-    mode: 'all',
-  }),
-  SlashCommand.configure({typeName: 'SlashCommand'}),
-  FormatPainter,
-  FontFamily,
-  raw_material_table,
-  evaluation_comparison,
-  sample_test_comparison,
-  sample_table,
-  technology_table,
-  experimental_design,
-  evaluating_table,
-  test_record_table,
-  atomUnselect,
-  xmTitle,
-  xmTitleContent,
-  formItemComponent,
-  formItem,
-  xmForm,
-  Columns, Column,
-  FontSize,
-  Bold.extend({
-    renderHTML: ({ HTMLAttributes }) => ['b', HTMLAttributes, 0],
-  }),
-  Underline,
-  Subscript,
-  Superscript,
-  Color,
-  TextColor,
-  Highlight.configure({
-    multicolor: true,
-  }),
-  BulletList,
-  OrderedList,
-  Indent,
-  TextAlign,
-  NodeAlign,
-  Comment.configure({ isCommentModeOn: () => commentBox.value }),
-  TaskItem.configure({ nested: true }),
-  TaskList.configure({
-    HTMLAttributes: {
-      class: 'umo-task-list',
-    },
-  }),
-  LineHeight.configure({
-    types: ['heading', 'paragraph'],
-    defaultLineHeight: dicts.lineHeights.find((item: any) => item.default)
-      .value,
-  }),
-  Margin,
-  SearchReplace.configure({
-    searchResultClass: 'umo-search-result',
-  }),
-  Link,
-  Image,
-  Video,
-  Audio,
-  File,
-  TextBox,
-  CodeBlock,
-  ColorHighlighter,
-  hr,
-  Iframe,
-  Mathematics,
+    // 页面
+    Toc,
+    InvisibleCharacters.configure({
+      visible: options.value.page.showBreakMarks,
+      builders: [new HardBreakNode(), new ParagraphNode(), new InvisibleNode()],
+    }),
+    PageBreak,
 
-  // 表格
-  Table.configure({
-    allowTableNodeSelection: true,
-    resizable: true,
-  }),
-  TableRow,
-  TableHeader,
-  TableCell,
-  // 页面
-  Toc,
-  // 其他
-  Selection,
-  TableOfContents.configure({
-    getIndex: getHierarchicalIndexes,
-    onUpdate: (content) => {
-      tableOfContents.value = content
-    },
-    scrollParent: () =>
-      document.querySelector(
-        `${container} .umo-zoomable-container`,
-      ) as HTMLElement,
-    getId: () => shortId(6),
-  }),
-  Typography.configure(doc.typographyRules),
-  CharacterCount.configure({
-    limit: doc.characterLimit !== 0 ? doc.characterLimit : undefined,
-  }),
-  FileHandler.configure({
-    allowedMimeTypes: file.allowedMimeTypes,
-    onPaste(editor: Editor, files: any) {
-      for (const file of files) {
-        editor.commands.insertFile({ file, autoType: true })
-      }
-    },
-    onDrop: (editor: Editor, files: any, pos: number) => {
-      for (const file of files) {
-        editor.commands.insertFile({ file, autoType: true, pos })
-      }
-    },
-  }),
-  Dropcursor.configure({
-    color: 'var(--umo-primary-color)',
-  }),
-]
+    // 其他
+    Mention.configure({
+      suggestion: getUsersSuggestion(options.value.users),
+    }),
+    Selection,
+    NodeRange,
+    TableOfContents.configure({
+      getIndex: getHierarchicalIndexes,
+      scrollParent: () =>
+        document.querySelector(
+          `${container} .umo-zoomable-container`,
+        ) as HTMLElement,
+      getId: () => shortId(6),
+    }),
+    Typography.configure(doc.typographyRules),
+    CharacterCount.configure({
+      limit: doc.characterLimit !== 0 ? doc.characterLimit : undefined,
+    }),
+    FileHandler.configure({
+      allowedMimeTypes: file.allowedMimeTypes,
+      onPaste(editor: Editor, files: any) {
+        for (const file of files) {
+          editor.commands.insertFile({ file, autoType: true })
+        }
+      },
+      onDrop: (editor: Editor, files: any, pos: number) => {
+        for (const file of files) {
+          editor.commands.insertFile({ file, autoType: true, pos })
+        }
+      },
+    }),
+    Dropcursor.configure({
+      color: 'var(--umo-primary-color)',
+    }),
+    Echarts,
+  ]
+}
 
-export const richTextExtensions = [
-  StarterKit.configure({
-    document: false,
-    bold: false,
-    bulletList: false,
-    orderedList: false,
-    codeBlock: false,
-    horizontalRule: false,
-    dropcursor: false,
-  }),
-  Placeholder.configure({
-    placeholder: l(doc.placeholder),
-  }),
-  Focus.configure({
-    className: 'umo-node-focused',
-    mode: 'all',
-  }),
-  SlashCommand.configure({typeName: 'richText'}),
-  FormatPainter,
-  FontFamily,
-  atomUnselect,
-  xmTitle,
-  xmTitleContent,
-  formItemComponent,
-  formItem,
-  xmForm,
-  Columns, Column,
-  FontSize,
-  Bold.extend({
-    renderHTML: ({ HTMLAttributes }) => ['b', HTMLAttributes, 0],
-  }),
-  Underline,
-  Subscript,
-  Superscript,
-  Color,
-  TextColor,
-  Highlight.configure({
-    multicolor: true,
-  }),
-  BulletList,
-  OrderedList,
-  Indent,
-  TextAlign,
-  NodeAlign,
-  TaskItem.configure({ nested: true }),
-  TaskList.configure({
-    HTMLAttributes: {
-      class: 'umo-task-list',
-    },
-  }),
-  LineHeight.configure({
-    types: ['heading', 'paragraph'],
-    defaultLineHeight: dicts.lineHeights.find((item: any) => item.default)
-      .value,
-  }),
-  Margin,
-  SearchReplace.configure({
-    searchResultClass: 'umo-search-result',
-  }),
-  Link,
-  Image,
-  Video,
-  Audio,
-  File,
-  TextBox,
-  CodeBlock,
-  ColorHighlighter,
-  hr,
-  Iframe,
-  Mathematics,
-
-  // 表格
-  Table.configure({
-    allowTableNodeSelection: true,
-    resizable: true,
-  }),
-  TableRow,
-  TableHeader,
-  TableCell,
-  // 页面
-  Toc,
-  // 其他
-  Selection,
-  TableOfContents.configure({
-    getIndex: getHierarchicalIndexes,
-    onUpdate: (content) => {
-      tableOfContents.value = content
-    },
-    scrollParent: () =>
-      document.querySelector(
-        `${container} .umo-zoomable-container`,
-      ) as HTMLElement,
-    getId: () => shortId(6),
-  }),
-  Typography.configure(doc.typographyRules),
-  CharacterCount.configure({
-    limit: doc.characterLimit !== 0 ? doc.characterLimit : undefined,
-  }),
-  FileHandler.configure({
-    allowedMimeTypes: file.allowedMimeTypes,
-    onPaste(editor: Editor, files: any) {
-      for (const file of files) {
-        editor.commands.insertFile({ file, autoType: true })
-      }
-    },
-    onDrop: (editor: Editor, files: any, pos: number) => {
-      for (const file of files) {
-        editor.commands.insertFile({ file, autoType: true, pos })
-      }
-    },
-  }),
-  Dropcursor.configure({
-    color: 'var(--umo-primary-color)',
-  }),
-]
+export const inputAndPasteRules = (options: any) => {
+  let enableRules: boolean | Extension[] = true
+  const $document = useState('document', options)
+  if (
+    !options.value.document?.enableMarkdown ||
+    !$document.value?.enableMarkdown
+  ) {
+    enableRules = [Mathematics, Typography, Image as Extension]
+  }
+  return enableRules
+}

@@ -92,15 +92,15 @@ Or submit bug reports via https://github.com/umodoc/editor/issues.
 
 ## Contributing Code
 
-### Contributors
-
 The development of Umo Editor could not have been possible without the support of the community. Below is the list of contributors who have contributed code to Umo Editor. We extend our thanks to them:
 
 - [Umo Team](https://github.com/umodoc): 👨‍💻 Core developers
-- [Cassielxd](https://github.com/Cassielxd): 💪 Implemented pagination and many important features for Umo Editor
-- [Na'aman Hirschfeld](https://github.com/Goldziher)：💪🏻 Enhanced TypeScript support, added test cases, and provided a better foundation for the development of Umo Editor
-- [ChenErik](https://github.com/ChenErik)：🛠️ Contributed code to Umo Editor
-- [Sherman Xu](https://github.com/xuzhenjun130): 🛠 Contributed code to Umo Editor
+- [Cassielxd](https://github.com/Cassielxd): 💪🏻 Implemented pagination and many important features for Umo Editor
+- [Na'aman Hirschfeld](https://github.com/Goldziher): 💪🏻 Enhanced TypeScript support, added tests, and provided a stronger foundation for Umo Editor's development
+- [SerRashin](https://github.com/SerRashin): 🛠️ Added Russian language support for Umo Editor
+- [ChenErik](https://github.com/ChenErik): 🛠️ Contributed code to Umo Editor
+- [china-wangxu](https://github.com/china-wangxu): 🛠️ Contributed code to Umo Editor
+- [Sherman Xu](https://github.com/xuzhenjun130): 🛠️ Contributed code to Umo Editor
 
 We welcome all forms of contributions, including but not limited to submitting bug reports, feature requests, and code contributions.
 
@@ -110,7 +110,7 @@ If you have any questions or suggestions, please contact us through the followin
 
 - Feedback: https://github.com/umodoc/editor/issues
 - Community: https://github.com/umodoc/editor/discussions
-- Email: [contact@umoteam.com](mailto:contact@umoteam.com)
+- Email: [contact@umodoc.com](mailto:contact@umodoc.com)
 
 ## Support Us
 

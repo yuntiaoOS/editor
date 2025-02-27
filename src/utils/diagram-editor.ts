@@ -1,6 +1,7 @@
 const locales = {
   'zh-CN': 'zh',
   'en-US': 'en',
+  'ru-RU': 'ru',
 }
 
 // https://www.diagrams.com/doc/faq/embed-mode
@@ -30,7 +31,7 @@ class DiagramEditor {
     container: string
   }) {
     this.domain = domain ?? this.domain
-    this.params = { ...params, ...this.params }
+    this.params = { ...this.params, ...params }
     this.container = container
   }
 

@@ -9,7 +9,9 @@
 </template>
 
 <script setup lang="ts">
-const { editor, options } = useStore()
+const container = inject('container')
+const editor = inject('editor')
+const options = inject('options')
 
 // 动态导入 mammoth.js
 onMounted(() => {
@@ -29,6 +31,7 @@ const importWord = () => {
   // @ts-expect-error, global variable injected by script
   if (!mammoth) {
     const dialog = useAlert({
+      attach: container,
       theme: 'warning',
       header: t('base.importWord.loadScript.title'),
       body: t('base.importWord.loadScript.message'),
@@ -52,10 +55,16 @@ const importWord = () => {
       return
     }
     if (file.size > 1024 * 1024 * 5) {
-      useMessage('error', t('base.importWord.limitSize'))
+      useMessage('error', {
+        attach: container,
+        content: t('base.importWord.limitSize'),
+      })
       return
     }
-    const message = await useMessage('loading', t('base.importWord.converting'))
+    const message = await useMessage('loading', {
+      attach: container,
+      content: t('base.importWord.converting'),
+    })
 
     // 使用用户自定义导入方法
     if (options.value.toolbar?.importWord?.useCustomMethod) {
@@ -64,22 +73,25 @@ const importWord = () => {
       message.close()
       try {
         if (result?.messages?.type === 'error') {
-          useMessage(
-            'error',
-            `${t('base.importWord.convertError')} (${result.messages.message})`,
-          )
+          useMessage('error', {
+            attach: container,
+            content: `${t('base.importWord.convertError')} (${result.messages.message})`,
+          })
           return
         }
         if (result?.value) {
           editor.value?.commands.setContent(result.value)
-          setTimeout(() => {
-            if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging()
-          }, 500)
         } else {
-          useMessage('error', t('base.importWord.importError'))
+          useMessage('error', {
+            attach: container,
+            content: t('base.importWord.importError'),
+          })
         }
       } catch {
-        useMessage('error', t('base.importWord.importError'))
+        useMessage('error', {
+          attach: container,
+          content: t('base.importWord.importError'),
+        })
       }
       return
     }
@@ -118,9 +130,11 @@ const importWord = () => {
       }
       const content = doc.body.innerHTML.toString()
       editor.value?.commands.setContent(content)
-      if (editor.value?.commands.autoPaging) editor.value?.commands.autoPaging()
     } catch {
-      useMessage('error', t('base.importWord.importError'))
+      useMessage('error', {
+        attach: container,
+        content: t('base.importWord.importError'),
+      })
     }
   })
 }

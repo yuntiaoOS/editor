@@ -33,8 +33,9 @@
 
 <script setup lang="ts">
 import { getShortcut } from '@/utils/shortcut'
-const { options } = useStore()
-const $document = useState('document', options.value.editorKey)
+
+const options = inject('options')
+const $document = useState('document', options)
 
 const shortcuts = $ref<
   {

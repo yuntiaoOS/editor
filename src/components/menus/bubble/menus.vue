@@ -2,7 +2,7 @@
   <template
     v-if="
       editor?.isActive('toc') ||
-      editor?.isActive('pagination') ||
+      editor?.isActive('pageBreak') ||
       editor?.isActive('horizontalRule') ||
       editor?.getAttributes('image').error
     "
@@ -25,7 +25,7 @@
     <div class="umo-bubble-menu-divider"></div>
     <menus-bubble-image-remove-background
       v-if="
-        editor?.getAttributes('image')?.type === 'image' ||
+        editor?.getAttributes('image')?.type.startsWith('image') ||
         ['image/png', 'image/jpeg'].includes(
           editor?.getAttributes('image')?.type,
         )
@@ -33,7 +33,7 @@
     />
     <menus-bubble-image-preview
       v-if="
-        editor?.getAttributes('image')?.type === 'image' ||
+        editor?.getAttributes('image')?.type.startsWith('image') ||
         ['image/png', 'image/jpeg'].includes(
           editor?.getAttributes('image')?.type,
         )
@@ -48,14 +48,12 @@
       "
     />
     <menus-bubble-node-tofile
-      v-if="editor?.getAttributes('image').previewType !== null"
+      v-if="
+        editor?.getAttributes('image').previewType !== null &&
+        editor?.getAttributes('image').type.startsWith('image')
+      "
     />
     <menus-bubble-node-delete />
-  </template>
-  <template v-else-if="editor?.isActive('columns') || editor?.isActive('column')">
-    <menus-bubble-columns-left />
-    <menus-bubble-columns-two />
-    <menus-bubble-columns-right />
   </template>
   <template
     v-else-if="
@@ -68,6 +66,14 @@
     <menus-toolbar-base-align-left />
     <menus-toolbar-base-align-center />
     <menus-toolbar-base-align-right />
+    <div class="umo-bubble-menu-divider"></div>
+    <menus-bubble-webpage-clickable />
+    <menus-toolbar-insert-web-page
+      ico="edit"
+      :page-type="editor?.getAttributes('iframe')?.type"
+      :page-url="editor?.getAttributes('iframe')?.src"
+    />
+    <menus-bubble-webpage-open />
     <div class="umo-bubble-menu-divider"></div>
     <menus-bubble-file-download
       v-if="
@@ -107,11 +113,22 @@
     <menus-bubble-code-copy />
     <menus-bubble-node-delete />
   </template>
-  <template v-else-if="editor?.isActive('raw_material_table') || editor?.isActive('sample_table') ||
-    editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
-    editor?.isActive('sample_test_comparison') || editor?.isActive('evaluation_comparison') ||
-    editor?.isActive('evaluating_table')|| editor?.isActive('experimental_design')" >
-
+  <template v-else-if="editor?.isActive('tag')">
+    <menus-bubble-tag-input />
+    <menus-bubble-tag-builtin />
+    <div class="umo-bubble-menu-divider"></div>
+    <menus-bubble-tag-color />
+    <menus-bubble-tag-background />
+    <div class="umo-bubble-menu-divider"></div>
+    <menus-bubble-tag-delete />
+  </template>
+  <template v-else-if="editor?.isActive('echarts')">
+    <menus-toolbar-base-align-left />
+    <menus-toolbar-base-align-center />
+    <menus-toolbar-base-align-right />
+    <div class="umo-bubble-menu-divider"></div>
+    <menus-toolbar-tools-echarts ico="setting" />
+    <menus-bubble-node-delete />
   </template>
   <template v-else>
     <template v-if="options.assistant?.enabled">
@@ -126,29 +143,30 @@
     <menus-toolbar-base-strike />
     <div class="umo-bubble-menu-divider"></div>
     <menus-toolbar-base-align-dropdown />
+    <menus-toolbar-insert-link />
     <div class="umo-bubble-menu-divider"></div>
     <menus-toolbar-base-color />
-    <menus-toolbar-base-background-color />
-    <menus-toolbar-base-highlight />
-    <div class="umo-bubble-menu-divider"></div>
-    <template v-if="editor?.isActive('textBox')">
+    <template v-if="!editor?.isActive('textBox')">
+      <menus-toolbar-base-background-color />
+      <menus-toolbar-base-highlight />
+    </template>
+    <template v-else>
       <menus-bubble-text-box-border />
       <menus-bubble-text-box-background />
       <div class="umo-bubble-menu-divider"></div>
+      <menus-bubble-node-delete />
     </template>
-    <template v-if="options.document?.enableComment">
-      <menus-bubble-comment />
-      <div class="umo-bubble-menu-divider"></div>
-    </template>
+    <div class="umo-bubble-menu-divider"></div>
     <slot name="bubble_menu" />
   </template>
 </template>
 
 <script setup lang="ts">
-const { options, editor } = useStore()
+const editor = inject('editor')
+const options = inject('options')
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .umo-bubble-menu-divider {
   width: 1px;
   border-right: solid 1px var(--umo-border-color-light);

@@ -15,11 +15,11 @@
             variant="default-filled"
           >
             <t-radio-button value="landscape">
-              <icon name="page" />
+              <icon class="icon-rotate" name="page" />
               {{ t('page.orientation.landscape') }}
             </t-radio-button>
             <t-radio-button value="portrait">
-              <icon class="icon-rotate" name="page" />
+              <icon name="page" />
               {{ t('page.orientation.portrait') }}
             </t-radio-button>
           </t-radio-group>
@@ -237,7 +237,9 @@ const props = defineProps({
 })
 const emits = defineEmits(['close'])
 
-const { container, options, page } = useStore()
+const container = inject('container')
+const page = inject('page')
+const options = inject('options')
 
 let pageOptions = $ref({})
 watch(

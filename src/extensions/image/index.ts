@@ -16,9 +16,6 @@ export default Image.extend({
       vnode: {
         default: true,
       },
-      id: {
-        default: null,
-      },
       type: {
         default: 'image',
       },
@@ -29,6 +26,9 @@ export default Image.extend({
         default: null,
       },
       file: {
+        default: null,
+      },
+      id: {
         default: null,
       },
       src: {
@@ -88,7 +88,7 @@ export default Image.extend({
     return {
       setImage:
         (
-          options: { src: string; alt?: string; title?: string },
+          options: { src: string; alt?: string; title?: string; id?: string },
           replace?: boolean,
         ) =>
         ({ commands, editor }: CommandProps) => {

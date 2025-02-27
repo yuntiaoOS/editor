@@ -9,13 +9,13 @@
 
 <script setup lang="ts">
 import { getSelectionNode } from '@/extensions/selection'
-import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
-const { editor } = useStore()
+
+const editor = inject('editor')
 
 const downloadFile = () => {
   const node = editor.value ? getSelectionNode(editor.value) : null
   const a = document.createElement('a')
-  a.href = fixedImageUrl(node?.attrs.url)
+  a.href = node?.attrs.url
   a.download = node?.attrs.name
   if (a) {
     document.body.appendChild(a)

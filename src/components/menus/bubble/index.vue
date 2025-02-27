@@ -1,20 +1,19 @@
 <template>
   <bubble-menu
-    v-show="!blockMenu && !painter.enabled && !editor!.isEmpty"
+    v-show="!editor?.view?.painter?.enabled && !editor?.isEmpty"
     class="umo-editor-bubble-menu"
-    :class="{ assistant: assistantBox }"
-    :editor="editorType === 'RICHTEXT' ? editorInstance:  editor!"
+    :class="{ assistant }"
+    :editor="editor!"
     :tippy-options="tippyOpitons"
   >
     <menus-bubble-menus
-      v-if="options?.document?.enableBubbleMenu && !assistantBox && !commentBox"
+      v-if="options?.document?.enableBubbleMenu && !assistant"
     >
       <template #bubble_menu="props">
         <slot name="bubble_menu" v-bind="props" />
       </template>
     </menus-bubble-menus>
-    <assistant-input v-if="options?.assistant?.enabled && assistantBox" />
-    <comment-input v-if="options?.document?.enableComment && commentBox" />
+    <assistant-input v-if="options?.assistant?.enabled && assistant" />
   </bubble-menu>
 </template>
 
@@ -22,22 +21,21 @@
 import { BubbleMenu } from '@tiptap/vue-3'
 import type { Instance } from 'tippy.js'
 
-const { options, editor, painter, blockMenu, assistantBox, commentBox } =
-  useStore()
-const editorInstance = inject('editorInstance', null);
-const editorType = inject('editorType', '');
+const editor = inject('editor')
+const assistant = inject('assistant')
+const options = inject('options')
+
 // 气泡菜单
 let tippyInstance = $ref<Instance | null>(null)
 const tippyOpitons = $ref<Partial<Instance>>({
   appendTo: 'parent',
   maxWidth: 580,
-  zIndex: 99,
+  zIndex: 110,
   onShow(instance: Instance) {
     tippyInstance = instance
   },
   onHide() {
-    assistantBox.value = false
-    commentBox.value = false
+    assistant.value = false
   },
   onDestroy() {
     tippyInstance = null
@@ -46,7 +44,7 @@ const tippyOpitons = $ref<Partial<Instance>>({
 
 // AI 助手
 watch(
-  () => [assistantBox.value, commentBox.value],
+  () => [assistant.value],
   (visible: any[]) => {
     tippyInstance?.setProps({
       placement: visible.includes(true) ? 'bottom' : 'top',

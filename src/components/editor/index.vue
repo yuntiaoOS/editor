@@ -1,70 +1,57 @@
 <template>
   <editor-content
-    class="umo-editor-container"
+    class="umo-editor-content"
     :class="{
-      'is-empty': isEmpty,
+      'show-bookmark': page.showBookmark,
       'show-line-number': page.showLineNumber,
-      'format-painter': painter.enabled,
-      'disable-page-break': !page.pagination,
+      'format-painter': editor?.view?.painter?.enabled,
+      'is-empty': editor?.isEmpty && editor?.state.doc.childCount <= 1,
+      'is-readonly': !editor?.editable,
     }"
     :editor="editor"
     :style="{
       lineHeight: defaultLineHeight,
-      '--umo-editor-placeholder': `'${l(options.document?.placeholder ?? {})}'`,
     }"
     :spellcheck="
       options.document?.enableSpellcheck && $document.enableSpellcheck
     "
   />
-  <menus-bubble v-if="editor && !page.preview?.enabled && !editorDestroyed" />
-  <menus-context-block
-    v-if="
-      options.document?.enableBlockMenu &&
-      !page.preview?.enabled &&
-      editor &&
-      !editorDestroyed
-    "
-  />
+  <template
+    v-if="editor && !destroyed && !page.preview?.enabled && editor.isEditable"
+  >
+    <menus-context-block v-if="options.document?.enableBlockMenu" />
+    <menus-bubble v-if="options.document?.enableBubbleMenu" />
+  </template>
 </template>
 
 <script setup lang="ts">
-import Typography from '@tiptap/extension-typography'
-import { Editor, EditorContent, type Extension } from '@tiptap/vue-3'
-import Mathematics from '@tiptap-pro/extension-mathematics'
-import Document from '@tiptap/extension-document'
+import { Editor, EditorContent } from '@tiptap/vue-3'
 
-import { extensions } from '@/extensions'
-import Image from '@/extensions/image'
-import Page from '@/extensions/page'
-import { pagePlugin } from '@/extensions/page/page-plugin'
+import { getDefaultExtensions, inputAndPasteRules } from '@/extensions'
 
-const { options, editor, page, painter, setEditor, editorDestroyed } =
-  useStore()
+const destroyed = inject('destroyed')
+const page = inject('page')
+const options = inject('options')
 
-const $document = useState('document', options.value.editorKey)
-
-let enableRules: boolean | Extension[] = true
-if (
-  !options.value.document?.enableMarkdown ||
-  !$document.value?.enableMarkdown
-) {
-  enableRules = [Mathematics, Typography, Image as Extension]
-}
+const $document = useState('document', options)
 
 const defaultLineHeight = $computed(
   () =>
     options.value.dicts?.lineHeights?.find((item: any) => item.default)?.value,
 )
 
-let isReady = $ref<boolean>(false)
-let isEmpty = $ref<boolean>(false)
+const container = inject('container')
+const extensions: any[] = getDefaultExtensions({
+  container,
+  options,
+})
 
 const editorInstance: Editor = new Editor({
   editable: !options.value.document?.readOnly,
   autofocus: options.value.document?.autofocus,
   content: options.value.document?.content,
-  enableInputRules: enableRules,
-  enablePasteRules: enableRules,
+  enableInputRules: inputAndPasteRules(options),
+  enablePasteRules: inputAndPasteRules(options),
   editorProps: {
     attributes: {
       class: 'umo-editor',
@@ -72,46 +59,20 @@ const editorInstance: Editor = new Editor({
     ...options.value.document?.editorProps,
   },
   parseOptions: options.value.document?.parseOptions,
-  extensions: [
-    Document.extend({ content: 'page+' }),
-    Page.configure({
-      types: options.value.page.nodesComputedOption?.types ?? [],
-      slots: useSlots(),
-    }),
-    ...extensions,
-    ...(options.value.extensions as Extension[]),
-  ],
-  onCreate({ editor }) {
-    isEmpty = editor.commands.setPlaceholder('')
-  },
+  extensions: [...extensions, ...options.value.extensions],
   onUpdate({ editor }) {
-
-    isEmpty = editor.commands.setPlaceholder('')
-    isReady = true
     $document.value.content = editor.getHTML()
   },
 })
-setEditor(editorInstance)
-
-// 注册分页组件
-const registerPagePlugin = async () => {
-  await nextTick()
-  const { nodesComputed } = options.value.page.nodesComputedOption ?? {}
-
-  editorInstance.registerPlugin(pagePlugin(editorInstance, nodesComputed ?? {}))
-  setTimeout(() => {
-    const tr = editorInstance.state.tr.setMeta('initSplit', true)
-    editorInstance.view.dispatch(tr)
-  }, 500)
-}
+const editor = inject('editor')
+editor.value = editorInstance
+editor.value.storage.container = container
 watch(
-  () => isReady,
+  () => options.value,
   () => {
-    if (isReady) {
-      void registerPagePlugin()
-    }
+    editor.value.storage.options = options.value
   },
-  { once: true },
+  { immediate: true, deep: true },
 )
 
 // 动态导入 katex 样式
@@ -129,7 +90,9 @@ const loadTatexStyle = () => {
   }
 }
 
-onMounted(loadTatexStyle)
+onMounted(() => {
+  loadTatexStyle()
+})
 
 // 销毁编辑器实例
 onBeforeUnmount(() => {

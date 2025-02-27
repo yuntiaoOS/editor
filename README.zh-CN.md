@@ -90,15 +90,15 @@ Nodejs 18.0.0 及以上版本。
 
 ## 贡献代码
 
-### 贡献者名单
-
 Umo Editor 的发展，离不开社区的支持，以下是为 Umo Editor 贡献过代码的贡献者名单，向他们致谢：
 
 - [Umo Team](https://github.com/umodoc)：👨‍💻 核心开发者
 - [Cassielxd](https://github.com/Cassielxd)：💪🏻 为 Umo Editor 实现了分页和很多重要的功能
 - [Na'aman Hirschfeld](https://github.com/Goldziher)：💪🏻 增强对 TypeScript 的支持，添加测试，为 Umo Editor 的发展提供更好的基础
-- [ChenErik](https://github.com/ChenErik)：🛠️ 为 Umo Editor 贡献了部分代码
-- [Sherman Xu](https://github.com/xuzhenjun130)：🛠️ 为 Umo Editor 贡献了部分代码
+- [SerRashin](https://github.com/SerRashin): 🛠️ 为 Umo Editor 添加了俄语支持
+- [ChenErik](https://github.com/ChenErik): 🛠️ 为 Umo Editor 贡献了部分代码
+- [china-wangxu](https://github.com/china-wangxu): 🛠️ 为 Umo Editor 贡献了部分代码
+- [Sherman Xu](https://github.com/xuzhenjun130): 🛠️ 为 Umo Editor 贡献了部分代码
 
 我们欢迎任何形式的贡献，包括但不限于提交 Bug 报告、功能请求、代码贡献等。
 
@@ -108,9 +108,9 @@ Umo Editor 的发展，离不开社区的支持，以下是为 Umo Editor 贡献
 
 - 反馈：[https://github.com/umodoc/editor/issues](https://github.com/umodoc/editor/issues) | [https://gitee.com/umodoc/editor/issues](https://gitee.com/umodoc/editor/issues)
 - 社区：[https://github.com/umodoc/editor/discussions](https://github.com/umodoc/editor/discussions)
-- 邮件：[contact@umoteam.com](mailto:contact@umoteam.com)
+- 邮件：[contact@umodoc.com](mailto:contact@umodoc.com)
 
-## QQ 技术交流群：
+## QQ 技术交流群
 
 - [Umo Editor 技术交流1群：994500039](https://qm.qq.com/cgi-bin/qm/qr?k=BH_TYEK3Om0BkN4VMT9TQLRvHzEhkUvp&jump_from=webapi&authKey=xIMvInBso7hjJHh8+44+8IMHhLjvpegQJC0wFtZRir76+vgrBFcw98FVoqCxV7XX)
 
@@ -120,10 +120,15 @@ Umo Editor 的发展，离不开社区的支持，以下是为 Umo Editor 贡献
 
 - ⭐ 给 [Umo Editor 仓库](https://github.com/umodoc/editor) 点个 Star，表示对项目的支持。
 - 🔗 如果您在项目中使用了 Umo Editor，请添加一个链接到 [https://github.com/umodoc/editor](https://github.com/umodoc/editor)。
+- 💰 请我们喝杯咖啡。
+
+![请我们喝杯咖啡](https://unpkg.com/@umoteam/editor-external@latest/static/wepay.png)
 
 ## 定制开发
 
 如果您需要定制化开发，请联系我们，我们可以提供付费的定制化解决方案。
+
+详细信息请访问 [定制开发](https://editor.umodoc.com/cn/docs/customization)。
 
 ## 开源协议
 

@@ -1,8 +1,7 @@
-import { type Editor, Extension, findParentNode } from '@tiptap/core'
-import { type NodeSelection, Plugin, PluginKey } from '@tiptap/pm/state'
+import { type Editor, Extension } from '@tiptap/core'
+import { Plugin, PluginKey } from '@tiptap/pm/state'
 import { Decoration, DecorationSet } from '@tiptap/pm/view'
 
-import { LIST_TYPE } from '@/extensions/page/node-names'
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
     setCurrentNodeSelection: {
@@ -46,17 +45,11 @@ export default Extension.create({
       setCurrentNodeSelection:
         () =>
         ({ editor, chain }) => {
-          const parentNode = findParentNode((node) =>
-            LIST_TYPE.includes(node.type.name),
-          )(editor.state.selection)
-          if (parentNode) {
-            return chain().setNodeSelection(parentNode.pos).run()
-          }
-          const { $anchor, node } = editor.state.selection as NodeSelection
-          const pos = node?.attrs?.vnode
-            ? $anchor.pos
-            : $anchor.pos - $anchor.parentOffset - 1
-          return chain().setNodeSelection(pos).run()
+          editor.commands.selectParentNode()
+          const { $anchor } = editor.state.selection
+          return chain()
+            .setNodeSelection($anchor.pos - $anchor.depth)
+            .run()
         },
       deleteSelectionNode:
         () =>
@@ -72,9 +65,12 @@ export default Extension.create({
               editor.isActive('audio') ||
               editor.isActive('file')
             ) {
-              const { options } = useStore()
+              const { options } = editor.storage
               const { id, src } = node.attrs
-              options.value.onFileDelete?.(id, src)
+              options.onFileDelete?.(id, src)
+            }
+            if (editor.isActive('textBox')) {
+              return chain().focus().deleteNode('textBox').run()
             }
             chain().focus().deleteSelection().run()
             return true
@@ -83,25 +79,20 @@ export default Extension.create({
             chain().focus().deleteTable().run()
             return true
           }
-          return chain().focus().deleteNode(node.type.name).run()
+          return chain()
+            .focus()
+            .deleteSelection()
+            .deleteNode(node.type.name)
+            .run()
         },
     }
   },
 })
 export function getSelectionNode(editor: Editor) {
-  const { node } = editor.state.selection as NodeSelection
-  if (node) {
-    return node
-  }
-  const parentNode = findParentNode((node) =>
-    LIST_TYPE.includes(node.type.name),
-  )(editor.state.selection)
-  const { $anchor } = editor.state.selection
-  if (parentNode) {
-    return $anchor.node(parentNode.depth)
-  }
   editor.commands.selectParentNode()
-  return (editor.state.selection as NodeSelection).node
+  // @ts-ignore
+  const { $anchor, node } = editor.state.selection
+  return $anchor.node(1) || node
 }
 export function getSelectionText(editor: Editor) {
   const { from, to, empty } = editor.state.selection

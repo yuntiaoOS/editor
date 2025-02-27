@@ -148,14 +148,28 @@
     "image": "Image",
     "link": {
       "text": "Link",
-      "title": "Insert Link",
       "insert": "Insert",
+      "remove": "Remove",
       "hrefText": "Link Text:",
       "hrefTextTip": "Enter or select link text",
       "href": "Link URL:",
-      "hrefTip": "Enter the link URL, usually starting with http:// or https://"
+      "hrefTip": "Usually starting with http:// or https://"
     },
     "math": "Mathematics",
+    "columns": "Columns",
+    "tag": "Tag",
+    "callout": "Callout",
+    "mention": "Mention",
+    "bookmark": {
+      "text": "Bookmark",
+      "set": "Set bookmarks",
+      "ok": "Confirmed",
+      "textName": "Bookmark name",
+      "placeholder": " Please enter the bookmark name...",
+      "actions": "Actions",
+      "delete": "Delete bookmark",
+      "emptyError": "Please enter the bookmark name or select the bookmark!"
+    },
     "symbol": "Symbol",
     "template": "Template",
     "textBox": "Text Box",
@@ -166,6 +180,8 @@
       "insert": "Insert",
       "title": "Insert Web Page",
       "tip": "Some web pages may not support embedding.",
+      "type": "Link Type:",
+      "url": "Page URL:",
       "placeholder": "Enter a web address, starting with http:// or https://"
     }
   },
@@ -281,6 +297,40 @@
       "preview": "Preview",
       "notEmpty": "Mermaid content cannot be empty"
     },
+    "echarts": {
+      "text": "Chart",
+      "add": "Create a new chart",
+      "edit": "Change Chart",
+      "source": "Advanced Mode",
+      "visualization": "Basic Mode",
+      "placeholder": "Please enter data in echarts format",
+      "sourceerror": "Echarts structure is incorrect, please confirm!",
+      "sourceerror2": "Echarts structure incorrect or undefined!",
+      "dataGrid": "Data Grid",
+      "setting": "Settings",
+      "settingerror": "Please confirm if the preview view is displayed correctly!",
+      "set": {
+        "bar": "Bar",
+        "line": "Line",
+        "pie": "Pie",
+        "top": "Top",
+        "bottom": "Bottom",
+        "left": "Left",
+        "center": "Center",
+        "right": "Right",
+        "horizontal": "Horizontal",
+        "vertical": "Vertical",
+        "smooth": "Smooth",
+        "seriesType": "Chart type",
+        "legend": "Show Legend",
+        "legendorient": "Legend layout",
+        "legendlocation": "Legend vertical",
+        "legendleft": "Legend horizontal",
+        "titleText": "Chart title",
+        "titleTextPlaceholder": "Please enter a title name...",
+        "titleleft": "Title Position"
+      }
+    },
     "mindMap": "Mind Map",
     "qrcode": {
       "text": "QR Code",
@@ -336,15 +386,8 @@
       "color4": "Sky Blue",
       "color5": "Dark Night\nBlack"
     },
+    "breakMarks": "Line Breaks",
     "break": "Page Break",
-    "footer": {
-      "show": "Show Footer",
-      "hide": "Hide Footer"
-    },
-    "header": {
-      "show": "Show Header",
-      "hide": "Hide Header"
-    },
     "lineNumber": "Line Numbers",
     "margin": "Margins",
     "orientation": {
@@ -396,7 +439,7 @@
     "pdf": {
       "text": "PDF Document",
       "title": "Export PDF Document",
-      "message": "Before exporting the PDF document, make sure that all images on the pages have finished loading. Then, in the print dialog box that appears, select 'Printer - Save as PDF', and click 'Save' button to save the document. If node backgrounds are not displayed, please check the 'Background graphics' option in the print dialog box.",
+      "message": "Before exporting the PDF document, please ensure that all images on the pages have finished loading. Then, in the pop-up print dialog, select 'Printer - Save as PDF', and click the 'Save' button. To ensure that all content is displayed correctly, please check the 'Background graphics' option in the print dialog box and set the 'Margins' to 'None.'",
       "confirm": "I Understand"
     },
     "text": "Text"
@@ -436,9 +479,8 @@
   },
   "blockMenu": {
     "insert": "Insert Content",
-    "select": "Insert Node",
     "template": "Insert Template",
-    "toogleNode": "Switch Block Type",
+    "toogleNode": "Switch Node Type",
     "common": "Common actions",
     "clearFormat": "Clear formatting",
     "duplicate": "Duplicate",
@@ -484,6 +526,20 @@
       "borderStyle": "Border Style",
       "noBorder": "No Border"
     },
+    "callout": {
+      "removeEmoji": "Remove Emoji",
+      "background": "Background Color"
+    },
+    "tag": {
+      "background": "Background Color",
+      "color": "Text Color",
+      "delete": "Delete Tag"
+    },
+    "webpage": {
+      "clickable": "Toggle Clickable",
+      "open": "Open in a new window"
+    },
+    "toFile": "Convert to File",
     "delete": "Delete"
   },
   "assistant": {
@@ -502,11 +558,9 @@
     "delete": "Delete Result",
     "error": {
       "title": "Error Message",
-      "message": "An error occurred with the AI Document Assistant result. Please try again!"
+      "message": "An error occurred with the AI Document Assistant result. Please try again!",
+      "confirm": "OK"
     }
-  },
-  "comment": {
-    "text": "Comment"
   },
   "pageOptions": {
     "title": "Page Settings",
@@ -554,11 +608,6 @@
     "enable": "Enable Spell Check",
     "disable": "Disable Spell Check"
   },
-  "pagination": {
-    "title": "Page Break",
-    "disable": "Exit Page Break",
-    "toggle": "Double Click to Switch Paging"
-  },
   "shortcut": {
     "title": "Keyboard Shortcuts",
     "text": "Text",
@@ -593,9 +642,7 @@
     "title": "Document Statistics",
     "input": "Characters Typed",
     "selection": "Selected Characters",
-    "limit": "Character Limit",
-    "currentPage": "Current Page",
-    "totalPage": "Total Pages"
+    "limit": "Character Limit"
   },
   "preview": {
     "title": "Presentation",
@@ -658,6 +705,12 @@
       "message": "Insertion of this file type is not allowed in the current document."
     }
   },
+  "callout": {
+    "placeholder": "Please enter content"
+  },
+  "mention": {
+    "noResult": "No result"
+  },
   "save": {
     "text": "Save",
     "saved": "Saved",
@@ -682,7 +735,7 @@
   "print": {
     "text": "Print",
     "title": "Print Document",
-    "message": "Before printing the document, please ensure that all images on the pages have finished loading. If node backgrounds are not displayed, please check the 'Background graphics' option in the print dialog box.",
+    "message": "Before printing the document, please ensure that all images on the pages have finished loading. To ensure that all content is displayed correctly, please check the 'Background graphics' option in the print dialog box and set the 'Margins' to 'None.'",
     "confirm": "Print Now"
   },
   "time": {

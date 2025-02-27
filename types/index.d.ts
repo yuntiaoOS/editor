@@ -1,8 +1,7 @@
 import type { Extension } from '@tiptap/core'
 import type { AsyncFunction } from '@tool-belt/type-predicates'
 
-import type { NodesComputed } from '@/extensions/page/types'
-export type SupportedLocale = 'en-US' | 'zh-CN'
+export type SupportedLocale = 'en-US' | 'zh-CN' | 'ru-RU'
 export interface MarginOption {
   left: number
   right: number
@@ -18,17 +17,13 @@ export interface WatermarkOption {
   fontWeight: string
   text: string
 }
-export interface NodesComputedOption {
-  types: string[]
-  nodesComputed: NodesComputed
-}
-
 export interface PageOption {
   defaultMargin?: MarginOption
   defaultOrientation?: string
   defaultBackground?: string
+  showBreakMarks?: boolean
+  showBookmark?: boolean
   watermark?: WatermarkOption
-  nodesComputedOption?: NodesComputedOption
   size?: {
     width: number
     height: number
@@ -47,7 +42,6 @@ export interface PageOption {
   footer?: boolean
   showLineNumber?: boolean
   showToc?: boolean
-  pagination?: boolean
   zoomLevel?: number
   bodyHeight?: number
   autoWidth?: boolean
@@ -94,12 +88,12 @@ export interface DocumentOptions {
   id?: string
   title: string
   content: string
-  placeholder?: Record<string, string> | string
+  placeholder?: Record<string, string>
   enableSpellcheck?: boolean
   enableMarkdown?: boolean
   enableBubbleMenu?: boolean
   enableBlockMenu?: boolean
-  enableComment?: boolean
+  // enableComment?: boolean
   readOnly?: boolean
   autofocus?: 'start' | 'end' | 'all' | number | boolean | null
   characterLimit?: number
@@ -109,7 +103,9 @@ export interface DocumentOptions {
   autoSave?: AutoSaveOptions
 }
 
-export type LocaleLabel = string | { 'en-US': string; 'zh-CN': string }
+export type LocaleLabel =
+  | string
+  | { en_US: string; zh_CN: string; ru_RU: string }
 
 export interface PageSize {
   label: LocaleLabel
@@ -153,6 +149,27 @@ export interface AssistantOptions {
   enabled: boolean
 }
 
+export interface EchartsOptions {
+  isRelative: boolean
+  cdnUrl: string
+  filePath: string
+  mode: number
+  haveImage: boolean
+}
+
+export interface UserItem {
+  id: string
+  label: string
+  avatar?: string
+}
+
+export interface WebPageItem {
+  label: LocaleLabel
+  icon: string
+  validate(url: string): boolean
+  transformURL?(url: string): string
+}
+
 export interface CommandItem {
   label: LocaleLabel
   value: LocaleLabel
@@ -178,6 +195,15 @@ export interface AssistantResult {
   command?: string
 }
 
+export interface FileOptions {
+  allowedMimeTypes: string[]
+  maxSize: number
+  preview: {
+    extensions?: string[]
+    url: string
+  }[]
+}
+
 export interface UmoEditorOptions {
   editorKey: string
   locale: SupportedLocale
@@ -193,66 +219,23 @@ export interface UmoEditorOptions {
   }
   toolbar?: ToolbarOptions
   page: PageOption
-  requestOptions?: Record<string, unknown>
   document?: DocumentOptions
   assistant?: AssistantOptions
+  echarts?: EchartsOptions
+  webPages?: WebPageItem[]
   templates?: Template[]
   cdnUrl?: string
   shareUrl?: string
   diagrams?: Record<string, unknown>
-  file?: { allowedMimeTypes: string[]; maxSize: number }
+  file?: FileOptions
   user?: Record<string, unknown>
+  users?: UserItem[]
   extensions?: Extension[]
   translations?: Record<string, unknown>
   onSave?: AsyncFunction
   onFileUpload?: (file: File) => Promise<{ id: string; url: string }>
   onFileDelete?: CallableFunction
+  onCustomizeChartSettings?: CallableFunction
   onAssistant?: AsyncFunction
   onCustomImportWordMethod?: AsyncFunction
-  // 获取实体表单接口方法
-  getEntityFormMethod?: (id: string) => Promise<unknown>
-}
-
-export interface XmTitleContentModel {
-  key: string
-  title: string
-  content: string
-}
-
-export interface XmTitleContentsModel {
-  content: XmTitleContentModel[]
-}
-
-
-declare type Recordable<T = any> = Record<string, T>;
-
-export interface XmTableOptionModel<T> {
-  type?: string
-  key?: string
-  params?: T
-  table_data?: T
-  option?: T
-  title?: string
-  designParams?: T[]
-  designResult?: T[]
-  designParam?: T
-  columns?: T[]
-  // 修改日志
-  change_log?: T
-  group?: string
-  is_integration?: boolean
-  // 自定义参数
-  customerParams?: T
-
-}
-
-export interface GeneralOptions<T> {
-  /** Enabled divider */
-  divider: boolean
-  /** Enabled spacer */
-  spacer: boolean
-  /** Button view function */
-  button: ButtonView<T>
-  /** Show on Toolbar */
-  toolbar?: boolean
 }

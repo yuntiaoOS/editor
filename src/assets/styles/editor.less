@@ -1,38 +1,9 @@
 @import '@/assets/styles/_mixins.less';
 
-.umo-editor-container {
-  flex: 1;
-  width: 100%;
-
-  @media print {
-    overflow: auto;
-    height: auto;
-  }
-
-  &.is-empty {
-    .umo-page-node-content > :first-child {
-      &::after {
-        content: var(--umo-editor-placeholder);
-        color: var(--umo-content-placeholder-color);
-        position: absolute;
-        top: 0;
-        cursor: text;
-      }
-    }
-    .umo-editor > :first-child {
-      &::after {
-        content: var(--umo-editor-placeholder);
-        color: var(--umo-content-placeholder-color);
-        position: absolute;
-        top: 0;
-        cursor: text;
-      }
-    }
-  }
-
+.umo-editor-content {
   &.show-line-number {
-    .umo-page-node-content {
-      > *:not([data-line-number='false']):not(div):not(.umo-node-focused) {
+    .umo-editor {
+      > *:not([data-line-number='false']):not(div) {
         position: relative;
 
         &::before {
@@ -54,76 +25,36 @@
     cursor: url('@/assets/images/format-painter.svg'), text;
   }
 
-
-  .ProseMirror {
-    // Column
-    & > *:first-child,
-    [data-type='column'] > * {
-      &:first-child {
-        margin-top: 0;
-      }
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-
-    [data-type='columns'] {
-      &.focus [data-type='column'],
-      &:hover [data-type='column'] {
-        background-color: #f0f0f0; // 假设 bg-accent 对应 #ffcc00
-      }
-
-      [data-type='column'].focus {
-        background-color: #f0f0f0; // 假设 bg-accent 对应 #ffcc00
-      }
-    }
-
-    [data-type='column'] {
-      border-radius: 0.25rem; // 假设 rounded 对应 0.25rem
-      border: 1px solid transparent; // 假设 border 对应 1px solid
-      padding: 0.25rem; // 假设 p-1 对应 0.25rem
-      transition: border 160ms cubic-bezier(0.45, 0.05, 0.55, 0.95);
-
-      &:hover {
-        border-color: #f3f4f6; // 假设 border-gray-50 对应 #f3f4f6
-        @media (prefers-color-scheme: dark) {
-          border-color: #1f2937; // 假设 dark:border-gray-900 对应 #1f2937
-        }
-      }
-
-      &:has(.is-active),
-      &.focus {
-        border-color: #e5e7eb; // 假设 border-neutral-100 对应 #e5e7eb
-        @media (prefers-color-scheme: dark) {
-          border-color: #4b5563; // 假设 dark:border-neutral-900 对应 #4b5563
-        }
-      }
+  &:not(.show-bookmark) {
+    .umo-editor-bookmark {
+      display: none;
     }
   }
 
   .umo-editor {
-    height: 100%;
-    width: 100%;
     outline: none;
     counter-reset: title;
     color: var(--umo-content-text-color);
+    width: 100%;
+    min-height: calc(
+      var(--umo-page-height) - var(--umo-page-margin-top) -
+        var(--umo-page-margin-bottom)
+    );
+    float: left;
+    > * {
+      position: relative;
+      z-index: 1;
 
-    @media print {
-      height: auto;
-      width: auto;
-    }
+      + *:not(.umo-floating-node) {
+        margin-top: var(--umo-content-node-bottom);
+      }
 
-    .umo-page-node-content {
-      > * {
-        position: relative;
-        z-index: 1;
-
-        + * {
-          margin-top: var(--umo-content-node-bottom);
-        }
-
-        &.umo-node-focused {
-          &:not(hr):not([data-type='columns']):not([data-type='column']):not(.tableWrapper):not(table):before {
+      &.umo-node-focused,
+      &.ProseMirror-selectednoderange {
+        @media screen {
+          &:not(.is-editor-empty):not(hr):not(.tableWrapper):not(
+              .umo-page-break
+            ):not(table):not(.umo-floating-node):before {
             content: '';
             display: block;
             position: absolute;
@@ -136,94 +67,70 @@
             pointer-events: none;
             z-index: -1;
           }
-
-          &:is(div):not(.umo-node-view-empty) {
-            &::before {
-              top: -8px !important;
-              bottom: -8px !important;
-            }
-          }
-          &.umo-node-view-empty {
-            &::before {
-              top: 3px !important;
-              bottom: auto;
-              height: 2px;
-              left: 0 !important;
-              right: 0 !important;
-              background: var(--umo-primary-color) !important;
-            }
-          }
-
-          &.umo-page-divider {
-            border-radius: var(--umo-radius);
-            background: var(--umo-content-node-selected-background);
-            margin-left: -8px;
-            margin-right: -8px;
-            padding-left: 8px;
-            padding-right: 8px;
-          }
-
-          .umo-select-outline {
+          &.umo-floating-node {
             outline: solid 1px var(--umo-primary-color);
-          }
-        }
-      }
-    }
-
-    .is-editor-empty {
-      &:first-child {
-        > * {
-          display: none;
-        }
-
-        &::before {
-          color: var(--umo-content-placeholder-color);
-          content: attr(data-placeholder);
-          float: left;
-          height: 0;
-          pointer-events: none;
-        }
-      }
-    }
-  }
-
-  // 选中样式透明 自定义的umo-table样式不要选中颜色
-  .umo-editor {
-    .umo-node-view {
-      .umo-table {
-        ::selection {
-          background-color: transparent;
-        }
-        .umo-textarea {
-          //&[defaulteditable='true'] {
-          //  ::selection {
-          //    background-color: var(--umo-text-selection-background);
-          //  }
-          //}
-          &:hover {
-            ::selection {
-              background-color: var(--umo-text-selection-background);
+            transform: translateY(
+              calc(var(--umo-content-node-bottom) / 2 - 1px)
+            );
+            & > * {
+              transform: translateY(
+                calc(-1 * (var(--umo-content-node-bottom) / 2 - 1px))
+              );
             }
           }
         }
-        .umo-input {
-          &:hover {
-            ::selection {
-              background-color: var(--umo-text-selection-background);
-            }
+        &.umo-page-divider {
+          border-radius: var(--umo-radius);
+          background: var(--umo-content-node-selected-background);
+          margin-left: -8px;
+          margin-right: -8px;
+          padding-left: 8px;
+          padding-right: 8px;
+        }
+        &.umo-page-break {
+          background-color: var(--umo-primary-color);
+          color: var(--umo-primary-color);
+          &::after {
+            border-color: var(--umo-primary-color);
           }
         }
 
+        .umo-select-outline {
+          outline: solid 1px var(--umo-primary-color);
+        }
       }
     }
   }
 
-  .umo-text-selection {
-    background-color: var(--umo-text-selection-background);
+  &.is-empty
+    .is-editor-empty:not(.umo-node-view):not(.tableWrapper)
+    :not(.column-block) {
+    &::after {
+      display: inline-block;
+      vertical-align: text-top;
+      line-height: 1;
+    }
+    &:first-child {
+      > *:not(table) {
+        display: none;
+      }
+
+      &::after {
+        color: var(--umo-content-placeholder-color);
+        content: attr(data-placeholder);
+        pointer-events: none;
+      }
+    }
   }
 
-  ::selection {
-    background-color: var(--umo-text-selection-background);
+  @media screen {
+    &:not(.is-readonly) .umo-text-selection {
+      background-color: var(--umo-text-selection-background);
+    }
+
+    ::selection {
+      background-color: var(--umo-text-selection-background);
+    }
   }
 
   a {
@@ -254,6 +161,11 @@
 
     li {
       padding: 0.25em 0 0.25em 3px;
+      ol,
+      ul {
+        margin-top: 0.25em;
+        padding-left: 1.5em;
+      }
 
       p {
         display: inline;
@@ -262,7 +174,6 @@
   }
 
   ol li p {
-    margin-left: 0.25em;
     word-break: break-all;
   }
 
@@ -490,8 +401,40 @@
     .umo-page-divider();
   }
 
-  .umo-node-view {
+  .umo-page-break {
     display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--umo-content-node-border);
+    break-before: page;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    position: relative;
+    &::after {
+      content: attr(data-content);
+      font-size: 10px;
+      border: solid 1px var(--umo-content-node-border);
+      padding: 1px 8px;
+      border-radius: 2px;
+      background-color: var(--umo-color-white);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    @media print {
+      height: 0;
+      margin-top: 0;
+      margin-bottom: 0;
+      page-break-before: always;
+      &::after {
+        display: none;
+      }
+    }
+  }
+
+  .umo-node-view {
+    display: flex;
     position: relative;
     max-height: 100%;
     .umo-node-container {
@@ -511,6 +454,18 @@
       height: 16px;
       margin-top: 8px;
       background-color: var(--umo-color-black);
+    }
+  }
+
+  .Tiptap-invisible-character {
+    text-indent: 0;
+    &--break::before {
+      content: '↓';
+      color: var(--umo-content-invisible-break-color);
+    }
+    &--paragraph::before {
+      content: '↵';
+      color: var(--umo-content-invisible-break-color);
     }
   }
 
@@ -555,21 +510,36 @@
       width: 1em;
     }
   }
+
+  .column-block {
+    width: 100%;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 12px;
+  }
+
+  .column {
+    overflow: auto;
+    background-color: var(--umo-content-table-selected-background);
+    border-radius: var(--umo-radius);
+    padding: 8px 12px;
+    &.umo-node-focused {
+      outline: 2px dashed var(--umo-primary-color);
+    }
+  }
+}
+.umo-editor-bookmark {
+  color: hsl(0, 1%, 68%);
+  @media print {
+    display: none;
+  }
 }
 
-.umo-editor-page-computed {
-  width: 100%;
-  height: 0;
-  position: absolute;
-  border: none;
+.umo-editor-bookmark::after {
+  content: '}';
 }
 
-.comment {
-  background: rgba(250, 250, 0, 0.25);
-  border-bottom: 2px rgb(255, 183, 0) solid;
-  -webkit-user-select: all;
-     -moz-user-select: all;
-          user-select: all;
-  padding: 0 2px 0 2px;
-  border-radius: 4px;
+.umo-editor-bookmark::before {
+  content: '{';
 }

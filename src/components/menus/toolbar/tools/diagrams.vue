@@ -34,7 +34,9 @@ const props = defineProps({
   },
 })
 
-const { container, options, editor } = useStore()
+const container = inject('container')
+const editor = inject('editor')
+const options = inject('options')
 
 let dialogVisible = $ref(false)
 let loading = $ref(false)
@@ -61,11 +63,7 @@ let image = $ref<
 >()
 
 const messageListener = (evt: MessageEvent) => {
-  if (
-    evt?.type !== 'message' ||
-    typeof evt?.data !== 'string' ||
-    evt?.origin !== options.value.diagrams?.domain
-  ) {
+  if (evt?.type !== 'message' || typeof evt?.data !== 'string') {
     return
   }
 
