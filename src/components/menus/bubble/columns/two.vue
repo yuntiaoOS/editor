@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { ColumnLayout } from '@/extensions/MultiColumn/Columns' 
-const { editor } = useStore()
- 
+import { ColumnLayout } from '@/extensions/MultiColumn/Columns'
+const editor = inject('editor')
+
 </script>

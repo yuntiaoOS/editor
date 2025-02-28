@@ -235,7 +235,8 @@ import cloneDeep from 'lodash/cloneDeep'
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
-const { options, refreshNode } = useStore()
+const { refreshNode } = useStore()
+const options = inject('options')
 const dialog_visible = ref(false)
 const tableRef = ref()
 const editableRowKeys = ref([])

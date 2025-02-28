@@ -37,7 +37,9 @@
 </template>
 
 <script setup lang="ts">
-const { options, editor, commentBox } = useStore()
+const { commentBox } = useStore()
+const editor = inject('editor')
+const options = inject('options')
 import { v4 as uuid } from 'uuid'
 const props = defineProps({
   user: {

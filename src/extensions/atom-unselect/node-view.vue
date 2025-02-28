@@ -16,13 +16,13 @@ import { nodeViewProps, NodeViewWrapper ,NodeViewContent} from '@tiptap/vue-3'
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
-const { options } = useStore()
+const options = inject('options')
 
 onMounted(() => {
-  
+
 })
 onBeforeUnmount(() => {
-   
+
 })
 
 </script>

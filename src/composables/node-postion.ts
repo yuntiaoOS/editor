@@ -1,4 +1,5 @@
-const { container, editor } = useStore()
+const container = inject('container')
+const editor = inject('editor')
 
 export const useNodePostion = () => {
   const pageNode = document.querySelector(`${container} .umo-page-node-content`) as HTMLElement

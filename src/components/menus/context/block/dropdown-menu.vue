@@ -221,7 +221,7 @@
       </t-dropdown-item>
     <!-- </t-dropdown-menu> -->
   </div>
-  
+
 </template>
 
 <script setup lang="ts">
@@ -229,7 +229,10 @@ import type { Level } from '@tiptap/extension-heading'
 
 import type { Template } from '@/types'
 
-const { container, options, editor, blockMenu, assistantBox } = useStore()
+const { blockMenu, assistantBox } = useStore()
+const container = inject('container')
+const editor = inject('editor')
+const options = inject('options')
 
 
 

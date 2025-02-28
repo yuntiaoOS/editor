@@ -3,7 +3,7 @@
     <div v-if="_config && _config.type">
       <xm-input v-model="_value" :config="_config"/>
     </div>
-    <node-view-content :node="node" ></node-view-content> 
+    <node-view-content :node="node" ></node-view-content>
   </node-view-wrapper>
 </template>
 
@@ -13,7 +13,7 @@ import { nodeViewProps, NodeViewWrapper,NodeViewContent } from '@tiptap/vue-3'
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
-const { options } = useStore()
+const options = inject('options')
 
 const _value = computed({
   get: () => {

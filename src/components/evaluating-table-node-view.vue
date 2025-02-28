@@ -260,7 +260,7 @@ const experiment_theme = computed(() => _nodeAttrs.value?.experiment_theme ? _no
 const test_condition_options = $dict_data['test_conditions'];
 const evaluating_test_period_options = $dict_data['evaluating_test_period'];
 
-const { options } = useStore()
+const editor = inject('editor')
 const dialog_visible = ref(false);
 const tableRef = ref();
 const editableRowKeys = ref([]);

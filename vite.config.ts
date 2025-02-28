@@ -63,7 +63,7 @@ const buildConfig = {
       'tdesign-icons-vue-next',
       './src/lib',
       'fuse.js',
-      '../../../mzyc-platform-web-zzw/libs/mzyc-vue-components/outDist/lib',
+      '../../../workspace/mzyc-platform-web-zzw/libs/mzyc-vue-components/outDist/lib',
       ...Object.keys(pkg.dependencies ?? {}),
       /^@vueuse\/.*/,
       /^@tiptap\/.*/,

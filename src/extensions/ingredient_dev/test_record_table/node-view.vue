@@ -421,7 +421,8 @@ import Template from '@/components/menus/toolbar/insert/template.vue'
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
-const { options, refreshNode } = useStore()
+const { refreshNode } = useStore()
+const options = inject('options')
 const dialog_visible = ref(false)
 const tableRef = ref()
 const editableRowKeys = ref([])

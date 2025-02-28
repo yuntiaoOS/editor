@@ -184,7 +184,8 @@ const get_raw_materialOptionsFunc = () => {
 
 }
 
-const { options ,editedComponentType} = useStore()
+const { editedComponentType} = useStore()
+const options = inject('options')
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
 
 const loading = ref(false)

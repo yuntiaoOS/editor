@@ -1,6 +1,6 @@
 <template>
-  <!-- 
-   TODO: 
+  <!--
+   TODO:
     1. 每个有评论的节点后面显示一个数字，点击后打开评论列表
     2. 点击文档中的标注正文也可以打开评论
   -->
@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import type { Editor } from '@tiptap/vue-3'
 
-const { page, editor } = useStore()
+const editor = inject('editor')
 
 let visible = $ref(true)
 let scrollTop = $ref(0)
@@ -63,7 +63,6 @@ watch(
   },
   { immediate: true },
 )
-watch(() => page.value.pagination, updatePostion)
 </script>
 
 <style lang="less" scoped>

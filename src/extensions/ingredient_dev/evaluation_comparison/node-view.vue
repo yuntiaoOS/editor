@@ -104,7 +104,8 @@ import cloneDeep from 'lodash/cloneDeep.js'
 
 const { node, editor, updateAttributes } = defineProps(nodeViewProps)
 
-const { options ,editedComponentType} = useStore()
+const { editedComponentType} = useStore()
+const options = inject('options')
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
 const experiment_record = computed(() => $key_data?.experiment_record)
 const experiment_theme = computed(() => $key_data?.experiment_theme)

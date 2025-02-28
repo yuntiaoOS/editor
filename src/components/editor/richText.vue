@@ -114,16 +114,14 @@ const props = defineProps({
   },
 })
 
-const {
-  options,
-  container,
-  imageViewer,
-  editorDestroyed,
-  editor,
-  setEditor,
-  printing,
-  setOptions,
-} = useStore()
+const { printing, } = useStore()
+
+const container = inject('container')
+const editor = inject('editor')
+const options = inject('options')
+const imageViewer = inject('imageViewer')
+
+
 
 const _value = computed({
   get: () => props.modelValue,
@@ -186,12 +184,11 @@ const defaultOptionsR: UmoEditorOptions = {
     }
   },
 }
-setOptions(defaultOptionsR)
 
 // i18n Setup
 // @ts-ignore
 const { t, locale } = useI18n()
-const $locale = useState('locale')
+
 const { appContext } = getCurrentInstance() ?? {}
 if (appContext) {
   appContext.config.globalProperties.t = t
@@ -221,16 +218,12 @@ const editorInstance: Editor = new Editor({
   extensions: [Document, ...richTextExtensions],
   onCreate({ editor }:any) {
     isEmpty = editor.commands.setPlaceholder('')
-    setEditor(editor)
   },
   onSelectionUpdate: ({ editor }:any) => {
-    setEditor(editor)
   },
   onTransaction: ({ editor }:any) => {
-    setEditor(editor)
   },
   onFocus: ({ editor }:any) => {
-    setEditor(editor)
   },
   onBlur: ({ editor }:any) => {
     if (props.outputType === 'html') {
@@ -241,7 +234,6 @@ const editorInstance: Editor = new Editor({
     emits('blur',_value.value)
   },
   onUpdate: throttle(({ editor }:any) => {
-    setEditor(editor)
     const output :any = getOutput(editor, 'html')
     emits('changed', {
       editor: editor,
@@ -258,7 +250,6 @@ const editorInstance: Editor = new Editor({
     isReady = true
   }, 100),
 })
-setEditor(editorInstance)
 function getOutput(editor: CoreEditor, output: 'html' | 'json' | 'text') {
   if (props.removeDefaultWrapper) {
     if (output === 'html') return editor.isEmpty ? '' : editor.getHTML()
@@ -397,7 +388,7 @@ provide('editorType', EDITORTYPE)
 provide('editorInstance', editorInstance)
 
 onMounted(() => {
-  setOptions(defaultOptionsR)
+
 
 })
 // 销毁编辑器实例

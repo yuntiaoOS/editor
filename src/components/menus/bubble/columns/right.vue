@@ -8,6 +8,6 @@
 
 <script setup lang="ts">
 import { ColumnLayout } from '@/extensions/MultiColumn/Columns'
-const { editor } = useStore()
+const editor = inject('editor')
 
 </script>

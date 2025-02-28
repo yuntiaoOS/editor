@@ -187,7 +187,8 @@ import { transform } from 'typescript';
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
-const { editor,options } = useStore()
+const editor = inject('editor')
+const options = inject('options')
 const $key_data = JSON.parse( localStorage.getItem('key_data') ?? '{}')
 const isEdit = ref(false)
 const isSnEdit = ref(false)

@@ -11,7 +11,8 @@ import { saveAs } from 'file-saver'
 
 import {  DocxSerializer,  defaultNodes, defaultMarks } from '@/extensions/docx'
 
-const { options, editor } = useStore()
+const editor = inject('editor')
+const options = inject('options')
 
 const docxSerializer = new DocxSerializer(defaultNodes, defaultMarks)
 

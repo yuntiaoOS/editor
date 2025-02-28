@@ -114,7 +114,7 @@ const emits = defineEmits([
 ])
 
 // state Setup
-const container = $ref(`#umo-editor-${shortId(4)}`)
+const container = $ref(`#${props.editorKey}`)
 const defaultOptions = inject('defaultOptions', {})
 const options = ref(getOpitons(props, defaultOptions))
 const editor = ref(null)
@@ -213,11 +213,40 @@ onBeforeUnmount(() => {
   destroy()
 })
 
+
+
+// Options Setup
+const setOptions = (value: UmoEditorOptions) => {
+  console.log('setOptions----------------------', value)
+  options.value = getOpitons(value)
+  const $locale = useStorage('umo-editor:locale', options.value.locale)
+  if (!$locale.value) {
+    $locale.value = options.value.locale
+  }
+  const {editorKey} = options.value
+  sessionStorage.setItem('editorKey', editorKey)
+  // TODO: 数据存储改为 localStorage.setItem(`${editorKey}:BASE_URL`, options.value.requestOptions.BASE_URL)，便于区分不同编辑器
+  // 若有 requestOptions，则需要在此处存储 requestOptions  和 umo_token 到 store 中
+  if (options.value.requestOptions) {
+    if (options.value.requestOptions.umo_domain) localStorage.setItem('BASE_URL', options.value.requestOptions.umo_domain)
+    if (options.value.requestOptions.umo_token) localStorage.setItem('mzyc_token', options.value.requestOptions.umo_token )
+    // localStorage.setItem('dict_data', JSON.stringify(options.value.requestOptions.dict_data)  )
+    localStorage.setItem('key_data', JSON.stringify({
+      experiment_theme: options.value.requestOptions.experiment_theme,
+      experiment_record: options.value.requestOptions.experiment_record
+    }))
+  }
+  return options.value
+}
+
 // Watchers
 watch(
   () => props,
-  () => setOptions(props),
-  { deep: true },
+  () =>{
+    setOptions(props)
+    console.log('setOptions----------------------',props)
+  },
+  { deep: true, immediate: true },
 )
 
 watch(
@@ -414,16 +443,6 @@ const localeConfig = $ref<Record<string, GlobalConfigProvider>>({
   'en-US': enConfig as unknown as GlobalConfigProvider,
   'ru-RU': ruConfig as unknown as GlobalConfigProvider,
 })
-
-// Options Setup
-const setOptions = (value: UmoEditorOptions) => {
-  options.value = getOpitons(value)
-  const $locale = useStorage('umo-editor:locale', options.value.locale)
-  if (!$locale.value) {
-    $locale.value = options.value.locale
-  }
-  return options.value
-}
 
 // Theme Setup
 const setTheme = (theme: 'light' | 'dark' | 'auto') => {

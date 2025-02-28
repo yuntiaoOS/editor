@@ -63,6 +63,15 @@ import TextBox from './text-box'
 import Toc from './toc'
 import Video from './video'
 
+import raw_material_table from './ingredient_dev/raw_material_table'
+import technology_table from './ingredient_dev/technology_table'
+import sample_table from './ingredient_dev/sample_table'
+import experimental_design from './ingredient_dev/experimental_design'
+import evaluating_table from './ingredient_dev/evaluating_table'
+import test_record_table from './ingredient_dev/test_record_table'
+import evaluation_comparison from './ingredient_dev/evaluation_comparison'
+import sample_test_comparison from './ingredient_dev/sample_test_comparison'
+
 export const getDefaultExtensions = ({
   container,
   options,
@@ -87,6 +96,14 @@ export const getDefaultExtensions = ({
       className: 'umo-node-focused',
       mode: 'all',
     }),
+    raw_material_table,
+    technology_table,
+    sample_table,
+    experimental_design,
+    evaluating_table,
+    test_record_table,
+    evaluation_comparison,
+    sample_test_comparison,
     FormatPainter,
     FontFamily,
     FontSize,

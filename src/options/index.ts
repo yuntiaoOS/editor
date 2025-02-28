@@ -154,6 +154,8 @@ const defaultOptions: UmoEditorOptions = {
       },
     ],
   },
+  // http 请求配置
+  requestOptions: {},
   user: {},
   users: [],
   extensions: [],
@@ -443,6 +445,15 @@ const ojbectSchema = new ObjectSchema({
         required: false,
       },
     },
+  },
+  requestOptions: {
+    merge: 'replace',
+    validate(value) {
+      if (value && !isRecord(value)) {
+        throw new Error('Key "requestOptions" must be a object.')
+      }
+    },
+    required: false,
   },
   page: {
     merge: 'replace',

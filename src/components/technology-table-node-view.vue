@@ -351,7 +351,8 @@ const _nodeAttrs = computed({
   }
 })
 
-const { options ,editedComponentType} = useStore()
+const { editedComponentType} = useStore()
+const options = inject('options')
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
 
 const loading = ref(false)

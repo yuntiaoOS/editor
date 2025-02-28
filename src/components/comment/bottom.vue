@@ -115,7 +115,7 @@
   const props = defineProps({
 
   });
-  const { options } = useStore();
+  const options = inject('options')
   const {user}  =  options.value;
   const savedAt = ref()
   const $key_data = JSON.parse( localStorage.getItem('key_data'))

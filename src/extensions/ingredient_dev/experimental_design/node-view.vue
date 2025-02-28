@@ -106,7 +106,7 @@ import { cloneDeep } from 'lodash-es';
 
 const { editor, node, updateAttributes } = defineProps(nodeViewProps)
 
-const { options } = useStore()
+const options = inject('options')
 const select_design_visible = ref(false);
 const $key_data = JSON.parse( localStorage.getItem('key_data'))
 const experiment_record = computed(() => $key_data?.experiment_record)

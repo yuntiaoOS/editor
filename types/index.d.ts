@@ -219,23 +219,66 @@ export interface UmoEditorOptions {
   }
   toolbar?: ToolbarOptions
   page: PageOption
+  requestOptions?: Record<string, unknown>
   document?: DocumentOptions
   assistant?: AssistantOptions
-  echarts?: EchartsOptions
-  webPages?: WebPageItem[]
   templates?: Template[]
   cdnUrl?: string
   shareUrl?: string
   diagrams?: Record<string, unknown>
-  file?: FileOptions
+  file?: { allowedMimeTypes: string[]; maxSize: number }
   user?: Record<string, unknown>
-  users?: UserItem[]
   extensions?: Extension[]
   translations?: Record<string, unknown>
   onSave?: AsyncFunction
   onFileUpload?: (file: File) => Promise<{ id: string; url: string }>
   onFileDelete?: CallableFunction
-  onCustomizeChartSettings?: CallableFunction
   onAssistant?: AsyncFunction
   onCustomImportWordMethod?: AsyncFunction
+  // 获取实体表单接口方法
+  getEntityFormMethod?: (id: string) => Promise<unknown>
+}
+
+export interface XmTitleContentModel {
+  key: string
+  title: string
+  content: string
+}
+
+export interface XmTitleContentsModel {
+  content: XmTitleContentModel[]
+}
+
+
+declare type Recordable<T = any> = Record<string, T>;
+
+export interface XmTableOptionModel<T> {
+  type?: string
+  key?: string
+  params?: T
+  table_data?: T
+  option?: T
+  title?: string
+  designParams?: T[]
+  designResult?: T[]
+  designParam?: T
+  columns?: T[]
+  // 修改日志
+  change_log?: T
+  group?: string
+  is_integration?: boolean
+  // 自定义参数
+  customerParams?: T
+
+}
+
+export interface GeneralOptions<T> {
+  /** Enabled divider */
+  divider: boolean
+  /** Enabled spacer */
+  spacer: boolean
+  /** Button view function */
+  button: ButtonView<T>
+  /** Show on Toolbar */
+  toolbar?: boolean
 }

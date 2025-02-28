@@ -16,16 +16,16 @@ import { nodeViewProps, NodeViewWrapper ,NodeViewContent} from '@tiptap/vue-3'
 
 const { node, updateAttributes } = defineProps(nodeViewProps)
 
-const { options } = useStore()
+const options = inject('options')
 const readOnly = computed(() => options.value.document?.readOnly)
 const title = computed(() => node.attrs.title)
 const content = computed(() => node.attrs.content)
 
 onMounted(() => {
-  
+
 })
 onBeforeUnmount(() => {
-   
+
 })
 
 </script>

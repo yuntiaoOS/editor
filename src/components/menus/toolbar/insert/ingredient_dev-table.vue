@@ -20,10 +20,10 @@
           :options="selectOptions"
           filterable
           multiple
-          :keys="{ label: 'name', value: 'id' }"  
+          :keys="{ label: 'name', value: 'id' }"
           placeholder="请选择操作"
-          :scroll="{type: 'virtual'}"  
-          :popup-props="{ overlayInnerStyle: { height: '300px' } }"  
+          :scroll="{type: 'virtual'}"
+          :popup-props="{ overlayInnerStyle: { height: '300px' } }"
           :status=" selectData !== '' ? 'success': 'error' "
           :tips="selectData !== '' ? '校验通过': '操作不能为空'"
         />
@@ -34,7 +34,7 @@
 
 <script setup lang="ts">
 
-const { editor } = useStore()
+const editor = inject('editor')
 const props = defineProps({
   tableType: {
     type: String,
