@@ -7,7 +7,7 @@
       <template #topContent>
         <div style="padding: 6px 0;display: block;">
           <t-space>
-            <t-input v-model="_title" label="名称：" size="large" placeholder="请输入名称" autofocus autoWidth borderless style="min-width: 250px;" />
+            <t-input v-model="_title" label="名称：" placeholder="请输入名称" autofocus autoWidth borderless style="min-width: 250px;" />
             <t-space>
               <!-- <t-input  v-if="false" v-model="searchTitle" auto-width placeholder="请输入工艺步骤名称" /> -->
               <t-button size="small" variant="outline" @click="onAddWorkingProcedure">添加工艺步骤</t-button>

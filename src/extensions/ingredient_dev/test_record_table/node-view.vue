@@ -31,7 +31,6 @@
                 <t-input
                   v-model="_title"
                   label="名称："
-                  size="large"
                   autofocus
                   autoWidth
                   borderless

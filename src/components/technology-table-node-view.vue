@@ -7,7 +7,7 @@
           <t-space>
             <div>
               <span :title=" isChanged?'未保存':'已保存' " style="width: 10px; height: 10px; border-radius: 50%;" :style="{background:isChanged? 'var(--td-error-color)' : 'var(--td-success-color)'}"></span>
-              <t-input v-model="_title" label="名称：" size="large" autofocus autoWidth borderless />
+              <t-input v-model="_title" label="名称：" autofocus autoWidth borderless />
             </div>
             <t-space>
               <t-input v-if="false" v-model="searchTitle" auto-width placeholder="请输入工艺步骤名称" />
