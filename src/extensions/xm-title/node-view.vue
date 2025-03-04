@@ -16,8 +16,8 @@
 <!--        </t-col>-->
 <!--        <t-col :span="6">-->
           <div v-if="!isSnEdit && sn && sn.length>0" style="margin-top: 8px;display: flex;align-items: center;justify-content: flex-start;">
-            <hashtag-icon style="margin-right: 10px;color:var(--umo-primary-color);"/>
-            <h2 style="min-width: 700px;" @click="HeditSnFunc">{{ sn }}</h2>
+            <hashtag-icon style="margin-right: 10px;color:var(--umo-primary-color)"/>
+            <h2 @click="HeditSnFunc">{{ sn }}</h2>
           </div>
           <t-input
             v-else ref="xmTitleSnRef" v-model="sn"
