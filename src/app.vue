@@ -588,7 +588,7 @@ const options = $ref({
       "catalog": null
     },
     umo_domain: 'http://192.168.2.11:8003/api', // 'https://msyf.eva.rongzhuamao.com/api',//
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQwMTI5OTM1LCJpYXQiOjE3NDAwNDM1MzUsImp0aSI6ImE0MmUwZmE1YWU5MjRiNDNhMTkxMTExNjA1YjE1YWM5IiwidXNlcl9pZCI6Ijg1Mjg4NThmLTdjYjgtNDc3ZS1iZjE3LWZkZTNkMmZiYjIzZSJ9.i-twmKB6CAArzMdFp7WyOAvzzz7qd6R7qbsnOYrC0Yc',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQxMDY3NDQxLCJpYXQiOjE3NDA5ODEwNDEsImp0aSI6IjZiZmY5ZjQ1MTMyZjQ4MDY4Y2FlMTQ4ZGQ4NjI1NTg0IiwidXNlcl9pZCI6Ijg1Mjg4NThmLTdjYjgtNDc3ZS1iZjE3LWZkZTNkMmZiYjIzZSJ9.zsKkKTgC98NoB8pb1Lo1_1LxcK1Ggfo651tK4tPmUrU',
   },
   document: {
     placeholder: '输入 / 唤起更多',

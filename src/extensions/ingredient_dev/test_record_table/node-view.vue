@@ -84,7 +84,7 @@
               <div>
                 <t-badge :count="row.sample?.params?.is_residue === 'sample' ? '样品' : row.sample?.params?.is_residue === 'residue' ? '滤渣' : '提取液' "
                          :color="row.sample?.params?.is_residue === 'sample' ? '#2ba471' : row.sample?.params?.is_residue === 'residue' ? '#e37318':'#e37318'"
-                         :offset="[4, -4]">
+                         :offset="[4, -4]" size="small">
                   <span class="badge-block">样品：{{ row.sample.name }}， 编号：{{ row.sample.sn }}</span>
                 </t-badge>
               </div>
