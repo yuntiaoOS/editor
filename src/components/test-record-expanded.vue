@@ -154,7 +154,7 @@
                 :label="item.title + '：'"
                 :mode="'READ'"
                 :config="item"
-                @change="onUpdateModelValue"
+                @changed="onUpdateModelValue"
               >
               </FormDesignRender>
             </template>

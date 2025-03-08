@@ -23,7 +23,7 @@
       </template>
       <template #defaultValueSlot="slotProps">
         <div >
-          <FormDesignRender style="overflow: auto;"  @change="onFormChange(slotProps.row, slotProps.col)"
+          <FormDesignRender style="overflow: auto;"  @changed="onFormChange(slotProps.row, slotProps.col)"
             v-model="slotProps.row['value'][slotProps.col.colKey.replace('value.','')]"
             v-model:formData="slotProps.row['value']"
             :mode=" 'NORMAL'"

@@ -38,9 +38,13 @@
                 />
               </div>
               <t-space>
-                <t-button size="small" v-if="false" variant="outline" @click="onShowFunc">{{
-                  '试验方法设计'
-                }}</t-button>
+                <t-button
+                  size="small"
+                  v-if="false"
+                  variant="outline"
+                  @click="onShowFunc"
+                  >{{ '试验方法设计' }}</t-button
+                >
                 <t-button size="small" variant="outline" @click="onAddFunc">{{
                   designResult.formItems ? '设计' : '新增'
                 }}</t-button>
@@ -55,7 +59,8 @@
                   />
                   <span class="Font12Color">{{ updateTime }}</span>
                 </div>
-                <t-button size="small"
+                <t-button
+                  size="small"
                   title="设置"
                   variant="outline"
                   @click="columnEditFunc"
@@ -82,20 +87,36 @@
           <div class="operate-router-class">
             <div v-if="row.operateType === '样品'">
               <div>
-                <t-badge :count="row.sample?.params?.is_residue === 'sample' ? '样品' : row.sample?.params?.is_residue === 'residue' ? '滤渣' : '提取液' "
-                         :color="row.sample?.params?.is_residue === 'sample' ? '#2ba471' : row.sample?.params?.is_residue === 'residue' ? '#e37318':'#e37318'"
-                         :offset="[4, -4]" size="small">
-                  <span class="badge-block">样品：{{ row.sample.name }}， 编号：{{ row.sample.sn }}</span>
+                <t-badge
+                  :count="residueOptions.find(ele=>ele.value === row.sample?.params?.is_residue)?.label"
+                  :color="residueOptions.find(ele=>ele.value === row.sample?.params?.is_residue)?.color"
+                  :offset="[4, -4]"
+                  size="small"
+                >
+                  <span class="badge-block"
+                    >样品：{{ row.sample.name }}， 编号：{{
+                      row.sample.sn
+                    }}</span
+                  >
                 </t-badge>
               </div>
             </div>
-            <div v-else-if="row.operateType !== '过程描述'" style="display: flex;flex-direction: row;justify-content: flex-start;align-items: center;flex-wrap: wrap;">
+            <div
+              v-else-if="row.operateType !== '过程描述'"
+              style="
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                flex-wrap: wrap;
+              "
+            >
               <template v-for="(item, index) in row.formItems.attribute">
                 <FormDesignRender
                   class="node-form-design-render-class"
                   v-model="row.formData[item.key]"
                   v-model:formData="row.formData"
-                  style="width: auto;overflow: auto"
+                  style="width: auto; overflow: auto"
                   :label="item.title + '：'"
                   :mode="'READ'"
                   :config="item"
@@ -130,7 +151,8 @@
             >
             <span v-else>{{ row.description }}</span>
             <div class="slot-description-S-class">
-              <t-button size="small"
+              <t-button
+                size="small"
                 v-if="['物料', '操作'].includes(row.operateType)"
                 title="拍照"
                 style="width: 50px"
@@ -141,7 +163,8 @@
               >
                 拍照
               </t-button>
-              <t-button size="small"
+              <t-button
+                size="small"
                 v-if="['物料', '操作'].includes(row.operateType)"
                 title="出样"
                 style="width: 50px"
@@ -153,7 +176,8 @@
                 出样
               </t-button>
 
-              <t-button size="small"
+              <t-button
+                size="small"
                 v-if="['样品'].includes(row.operateType)"
                 style="width: 50px"
                 title="试验数据"
@@ -169,7 +193,8 @@
                 content="确认删除吗"
                 @confirm="() => onSampleDelete(row, rowIndex)"
               >
-                <t-button size="small"
+                <t-button
+                  size="small"
                   title="删除"
                   style="width: 50px"
                   theme="danger"
@@ -206,7 +231,8 @@
               content="确认删除吗"
               @confirm="() => onDelete(row)"
             >
-              <t-button size="small"
+              <t-button
+                size="small"
                 title="删除"
                 theme="danger"
                 shape="square"
@@ -299,13 +325,8 @@
         </t-form-item>
         <t-form-item label="样品类型" name="is_residue">
           <t-radio-group v-model="sampleForm.is_residue">
-            <t-radio value="sample">样品</t-radio>
-            <t-radio value="extractionSolution">提取液</t-radio>
-            <t-radio value="residue">滤渣</t-radio>
+            <t-radio v-for="item in residueOptions" :value="item.value" >{{ item.label }}</t-radio>
           </t-radio-group>
-<!--          <t-switch v-model="sampleForm.is_residue">-->
-<!--            <template #label="slotProps">{{ slotProps.value ? '是' : '否' }}</template>-->
-<!--          </t-switch>-->
         </t-form-item>
       </t-form>
     </t-dialog>
@@ -350,8 +371,8 @@
               v-for="(list, index) in assessmentAllOption"
               :key="index"
               :label="
-              typeof list.group === 'object' ? list.group.title : list.group
-            "
+                typeof list.group === 'object' ? list.group.title : list.group
+              "
               divider
             >
               <t-option
@@ -444,6 +465,28 @@ const $key_data = JSON.parse(localStorage.getItem('key_data'))
 const experiment_record = computed(() => $key_data?.experiment_record)
 const experiment_theme = computed(() => $key_data?.experiment_theme)
 const select_design_visible = ref(false)
+const residueOptions = ref([
+  {
+    label: '样品',
+    value: 'sample',
+    color: '#2ba471',
+  },
+  {
+    label: '提取液',
+    value: 'extractionSolution',
+    color: '#e37318',
+  },
+  {
+    label: '滤渣',
+    value: 'residue',
+    color: '#e37318',
+  },
+  {
+    label: '浓缩液',
+    value: 'concentratedSolution',
+    color: '#e37318',
+  },
+])
 
 const result_design_visible = ref(false)
 const experimental_design_visible = ref(false)
@@ -457,7 +500,7 @@ const expandedRowKeys = ref([])
 
 const selectRecordTable = ref()
 
-const creatSampleOrthogonal = ref({isOrthogonal:[] })
+const creatSampleOrthogonal = ref({ isOrthogonal: [] })
 const sampleOrthogonalDialog = ref(false)
 const selectSampleOrthogonal = ref()
 
@@ -465,7 +508,7 @@ const sampleFormRef = ref()
 const sampleForm = ref({
   name: '',
   sn: '',
-  is_residue: 'sample'   //false:样品； true：提取液/滤渣
+  is_residue: 'sample', //false:样品； true：提取液/滤渣
 })
 
 const selectTableForm = ref({
@@ -524,7 +567,7 @@ const group = computed({
   },
 })
 
-const docJson = computed(()=>{
+const docJson = computed(() => {
   return cloneDeep(editor.getJSON())
 })
 
@@ -555,15 +598,25 @@ const sampleOrthogonalChange = (value) => {
 const submitExperimentalDesign = () => {
   console.log(
     '---------------submitExperimentalDesign----448--------',
-    designResult.value,table_data.value
+    designResult.value,
+    table_data.value,
   )
   select_design_visible.value = false
   let table_dataV = table_data.value ? table_data.value : []
   let rowIndex = 0
-  const rowKeys = designResult.value.formItems.map((item) => item.formItems).reduce((pre, cur) => pre.concat(cur), []).map((item) => item.attribute)
-    .reduce((pre, cur) => pre.concat(cur), []).map((item) => item.rowKey)
+  const rowKeys = designResult.value.formItems
+    .map((item) => item.formItems)
+    .reduce((pre, cur) => pre.concat(cur), [])
+    .map((item) => item.attribute)
+    .reduce((pre, cur) => pre.concat(cur), [])
+    .map((item) => item.rowKey)
   table_dataV = table_dataV.filter((ele) => {
-    return  ele.operateType === '样品' || ele.operateType === '过程描述' || ( ele.formItems.attribute && ele.formItems.attribute.some(item => rowKeys.includes(item.rowKey)))
+    return (
+      ele.operateType === '样品' ||
+      ele.operateType === '过程描述' ||
+      (ele.formItems.attribute &&
+        ele.formItems.attribute.some((item) => rowKeys.includes(item.rowKey)))
+    )
   })
   designResult.value.formItems.forEach((procedure, indexP) => {
     procedure.formItems.forEach((operate, indexO) => {
@@ -949,7 +1002,8 @@ const indeterminate = computed(
     ),
 )
 
-watch( () => refreshNode,
+watch(
+  () => refreshNode,
   (value) => {
     if (value.type === 'record_sample_table') {
       nextTick(() => {
@@ -1017,25 +1071,34 @@ const onSampleDelete = (row, rowIndex) => {
 
 const onSampleOrthogonalFunc = () => {
   // console.log('-----onSampleOrthogonalFunc---952------', creatSampleOrthogonal.value, selectSampleOrthogonal.value)
-  sampleFormRef.value.validate({ showErrorMessage: true }).then((validateResult) => {
-    if (validateResult && Object.keys(validateResult).length) {
-      const firstError = Object.values(validateResult)[0]?.[0]?.message;
-      useMessage('warning',firstError)
-    }else {
-      const params = []
-      if (selectSampleOrthogonal.value) {
-        selectSampleOrthogonal.value.forEach((ele) => {
-          params.push( {id: ele.id,formItems: { attribute:ele.formItems.attribute } }  )
-        })
-      }
+  sampleFormRef.value
+    .validate({ showErrorMessage: true })
+    .then((validateResult) => {
+      if (validateResult && Object.keys(validateResult).length) {
+        const firstError = Object.values(validateResult)[0]?.[0]?.message
+        useMessage('warning', firstError)
+      } else {
+        const params = []
+        if (selectSampleOrthogonal.value) {
+          selectSampleOrthogonal.value.forEach((ele) => {
+            params.push({
+              id: ele.id,
+              formItems: { attribute: ele.formItems.attribute },
+            })
+          })
+        }
 
-      creatSampleToTable(creatSampleOrthogonal.value.row, creatSampleOrthogonal.value.rowIndex, params)
-      sampleOrthogonalDialog.value = false
-    }
-  })
+        creatSampleToTable(
+          creatSampleOrthogonal.value.row,
+          creatSampleOrthogonal.value.rowIndex,
+          params,
+        )
+        sampleOrthogonalDialog.value = false
+      }
+    })
 }
 
-const creatSampleToTable = (row, rowIndex,params=[]  ) => {
+const creatSampleToTable = (row, rowIndex, params = []) => {
   const $key_data = JSON.parse(localStorage.getItem('key_data'))
   const experiment_record = $key_data?.experiment_record
   const experiment_theme = $key_data?.experiment_theme
@@ -1117,12 +1180,11 @@ const creatSample = async (row) => {
   )
   // console.log('------creatSample-----', isOrthogonal, filterOrthogonal)
   if (isOrthogonal.length > 0) {
-    creatSampleOrthogonal.value = { isOrthogonal, row , rowIndex}
-  }else{
-    creatSampleOrthogonal.value = { isOrthogonal:[], row , rowIndex}
+    creatSampleOrthogonal.value = { isOrthogonal, row, rowIndex }
+  } else {
+    creatSampleOrthogonal.value = { isOrthogonal: [], row, rowIndex }
   }
   sampleOrthogonalDialog.value = true
-
 }
 
 const on_select_indexFunc = () => {
@@ -1149,7 +1211,7 @@ const on_select_indexFunc = () => {
               (item) => item.id == ele,
             )
             if (attribute) {
-              if (! indexTypes.some(eleI=> eleI.id == attribute.id )) {
+              if (!indexTypes.some((eleI) => eleI.id == attribute.id)) {
                 indexTypes.push(attribute)
               }
             }
