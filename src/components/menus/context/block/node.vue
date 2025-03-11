@@ -33,6 +33,14 @@
       <t-dropdown-item class="umo-block-menu-group-name" disabled>
         {{ t('blockMenu.insert') }}
       </t-dropdown-item>
+      <t-dropdown-item  divider>
+        <menus-button
+          ico="table"
+          text="评测tag"
+          :tooltip="false"
+          @menu-click="editor?.chain().focus().insertChatBlock().run()"
+        />
+      </t-dropdown-item>
       <t-dropdown-item>
         <menus-button
           ico="table"

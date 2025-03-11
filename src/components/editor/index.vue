@@ -62,6 +62,8 @@ const editorInstance: Editor = new Editor({
   extensions: [...extensions, ...options.value.extensions],
   onUpdate({ editor }) {
     $document.value.content = editor.getHTML()
+    const json = editor.getJSON()
+    console.log('-------json-------',json)
   },
 })
 const editor = inject('editor')

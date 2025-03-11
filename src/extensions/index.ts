@@ -31,6 +31,7 @@ import Bookmark from './bookmark'
 import BreakMarks from './break-marks'
 import BulletList from './bullet-list'
 import Callout from './callout'
+import ChatBlock from './chat/block'
 import CodeBlock from './code-block'
 import Datetime from './datetime'
 import Echarts from './echarts'
@@ -90,6 +91,7 @@ export const getDefaultExtensions = ({
       renderHTML: ({ HTMLAttributes }) => ['b', HTMLAttributes, 0],
     }),
     Underline,
+    ChatBlock,
     Subscript,
     Superscript,
     Color,
