@@ -1,4 +1,4 @@
-import { type Dispatch, Extension } from '@tiptap/core'
+import { type Dispatch, type Editor, Extension } from '@tiptap/core'
 import {
   AllSelection,
   type EditorState,
@@ -6,8 +6,6 @@ import {
   type Transaction,
 } from '@tiptap/pm/state'
 import { isFunction } from '@tool-belt/type-predicates'
-
-import { getSelectionNode } from './selection'
 
 declare module '@tiptap/core' {
   interface Commands<ReturnType> {
@@ -124,10 +122,12 @@ export default Extension.create({
         tr,
         state,
         dispatch,
+        editor,
       }: {
         tr: Transaction
         state: EditorState
         dispatch: Dispatch
+        editor: Editor
       }) => {
         const { selection } = state
         tr.setSelection(selection)
@@ -148,11 +148,27 @@ export default Extension.create({
   addKeyboardShortcuts() {
     return {
       Tab: () => {
-        getSelectionNode(this.editor)
+        if (
+          this.editor.isActive('bulletList') ||
+          this.editor.isActive('orderedList')
+        ) {
+          return this.editor.commands.sinkListItem('listItem')
+        }
+        if (this.editor.isActive('taskList')) {
+          return this.editor.commands.sinkListItem('taskItem')
+        }
         return this.editor.commands.indent()
       },
       'Shift-Tab': () => {
-        getSelectionNode(this.editor)
+        if (
+          this.editor.isActive('bulletList') ||
+          this.editor.isActive('orderedList')
+        ) {
+          return this.editor.commands.liftListItem('listItem')
+        }
+        if (this.editor.isActive('taskList')) {
+          return this.editor.commands.liftListItem('taskItem')
+        }
         return this.editor.commands.outdent()
       },
     }
