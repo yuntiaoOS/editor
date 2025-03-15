@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import Typography from '@tiptap/extension-typography'
 import { Editor, EditorContent, type Extension } from '@tiptap/vue-3'
-import type { Editor as CoreEditor } from '@tiptap/core'
+import type { Editor as CoreEditor, FocusPosition } from '@tiptap/core'
 import { Document as TiptapDocument } from '@tiptap/extension-document'
 import Mathematics from '@tiptap-pro/extension-mathematics'
 
@@ -85,6 +85,9 @@ import { fixedImageUrls, fixedImageUrl } from '@/utils/index'
 import type { SupportedLocale, UmoEditorOptions } from '@/types'
 import { attachments_fileFetch } from '@/api'
 defineOptions({ name: 'UmoSimpleEditor' })
+
+const BASE_API_URL = localStorage.getItem('BASE_API_URL')
+if (BASE_API_URL) { localStorage.setItem('BASE_URL', BASE_API_URL) }
 
 const Document = TiptapDocument.extend({
   content: '(block|columns)+',
@@ -396,6 +399,40 @@ const EDITORTYPE = 'RICHTEXT'
 provide('editorType', EDITORTYPE)
 provide('editorInstance', editorInstance)
 
+const focus = (position = 'start', options = { scrollIntoView: true }) => {
+  console.log('focus----------',editor.value, position)
+  editor.value?.chain().focus(position as FocusPosition, options)
+}
+
+const blur = () => editor.value?.chain().blur().run()
+
+const setContent = (
+  content: any,
+  options = {
+    emitUpdate: true,
+    focusPosition: 'start',
+    focusOptions: { scrollIntoView: true },
+  },
+) => {
+  if (!editor.value) {
+    throw new Error('editor is not ready!')
+  }
+  try {
+    console.log('setContent----------',editor.value, content)
+    editor.value?.chain().focus('start', { scrollIntoView: true })
+    editor.value?.commands.clearContent(true)
+    setTimeout(() => {
+      editor.value?.chain()
+        .setContent(content, options.emitUpdate)
+        .focus(options.focusPosition , options.focusOptions)
+        .run()
+    }, 200)
+  } catch (error) {
+
+  }
+
+}
+
 onMounted(() => {
   setOptions(defaultOptionsR)
 
@@ -409,6 +446,9 @@ defineExpose({
   editorInstance,
   printHtmlString,
   reset,
+  setContent,
+  focus,
+  blur,
 })
 </script>
 
