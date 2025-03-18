@@ -19,6 +19,8 @@
       </t-dropdown-item>
       <t-dropdown-item>
         <menus-button
+          :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
+           editor?.isActive('sample_table') || editor?.isActive('sample_test_comparison') || editor?.isActive('evaluation_comparison') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
           ico="node-clear-format"
           :text="t('blockMenu.clearFormat')"
           :tooltip="false"
@@ -35,7 +37,9 @@
       </t-dropdown-item>
       <t-dropdown-item>
         <menus-button
-          ico="node-copy"
+           :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
+           editor?.isActive('sample_table') || editor?.isActive('sample_test_comparison') || editor?.isActive('evaluation_comparison') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
+           ico="node-copy"
           :text="t('blockMenu.copy')"
           :tooltip="false"
           @menu-click="copyNodeToClipboard"
@@ -43,6 +47,8 @@
       </t-dropdown-item>
       <t-dropdown-item>
         <menus-button
+          :disabled="editor?.isActive('raw_material_table') || editor?.isActive('technology_table') || editor?.isActive('test_record_table') ||
+           editor?.isActive('sample_table') || editor?.isActive('sample_test_comparison') || editor?.isActive('evaluation_comparison') || editor?.isActive('experimental_design') || editor?.isActive('evaluating_table')"
           ico="node-cut"
           :text="t('blockMenu.cut')"
           :tooltip="false"
@@ -66,6 +72,8 @@ import type { Node } from '@tiptap/pm/model'
 
 import { getSelectionNode } from '@/extensions/selection'
 import { shortId } from '@/utils/short-id'
+import { v4 as uuid } from 'uuid'
+import { timeFormat } from '@/utils/time-ago'
 
 const { container, editor, blockMenu } = useStore()
 
@@ -104,7 +112,9 @@ const duplicateNode = () => {
   const copeNode = selectionNode?.type.create(
     {
       ...selectionNode.attrs,
-      id: shortId(),
+      id: uuid(),
+      title: selectionNode?.attrs?.title + ' - 复制',
+      key: Xm_Table_key[selectionNode?.type.name]  + timeFormat(null,'yyyymmddhhMMss'),
     },
     selectionNode.content,
     selectionNode.marks,

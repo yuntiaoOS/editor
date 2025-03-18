@@ -486,6 +486,16 @@ const residueOptions = ref([
     value: 'concentratedSolution',
     color: '#e37318',
   },
+  {
+    label: '粉末',
+    value: 'powder',
+    color: '#e37318',
+  },
+  {
+    label: '混合液',
+    value: 'MixedLiquid',
+    color: '#e37318',
+  },
 ])
 
 const result_design_visible = ref(false)
@@ -1386,7 +1396,7 @@ const getAssessmentOptionFunc = async (page = 1) => {
     ]
     assessmentGroupOption.value = resGroups.data.data
     assessmentOption.value = resAttribute.data.data
-    console.log('---assessmentOption--', assessmentOption.value)
+    // console.log('---assessmentOption--', assessmentOption.value)
   }
 }
 

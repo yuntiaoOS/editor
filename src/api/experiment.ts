@@ -169,6 +169,13 @@ export function get_experiment_theme_infoFetch(id:string,params?: any) {
   });
 }
 
+export function get_experiment_theme_samplesFetch(id:string,params?: any) {
+  return request.get<ExperimentInfo>({
+    url: `${Api.experiment_theme}${id}/samples/`,
+    params
+  });
+}
+
 // 评论接口
 export function post_experiment_record_commentFetch(id:string,params?: any) {
   return request.post<ExperimentInfo>({

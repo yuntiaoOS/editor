@@ -944,7 +944,7 @@ const getAssessmentOptionFunc = async () => {
     ]
     assessmentGroupOption.value = resGroups.data.data
     assessmentOption.value = resAttribute.data.data
-    console.log('---assessmentOption--', assessmentOption.value)
+    // console.log('---assessmentOption--', assessmentOption.value)
   }
 }
 

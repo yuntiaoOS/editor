@@ -65,6 +65,7 @@ import { cloneDeep } from 'lodash-es'
 import { v4 as uuid } from 'uuid'
 
 import { timeFormat } from '@/utils/time-ago'
+import { get_experiment_theme_samplesFetch } from '@/api/experiment'
 
 const emits = defineEmits(['update:nodeAttrs', 'submit', 'cancel'])
 const props = defineProps({
@@ -98,6 +99,8 @@ const select_design_visible = ref(false)
 const $key_data = JSON.parse(localStorage.getItem('key_data'))
 const experiment_record = computed(() => $key_data?.experiment_record)
 const experiment_theme = computed(() => $key_data?.experiment_theme)
+
+const themeSamples = ref([]) // 试验主题样本
 
 const designTreeRef = ref()
 const experimental_design_visible = ref(false)
@@ -232,6 +235,14 @@ const getDesignParams = () => {
     }),
   })
 
+  //插入实验组样品
+  optionsGroup.push({
+    group: '实验本样品',
+    children: themeSamples.value.map((ele) => {
+      return { value: ele.id, label: `${ele.name}/${ele.sn}`,is_liquid: false }
+    }),
+  })
+
   //[x] TODO  待优化optionsGroup物料数据要插入更新
   if (technology_table_data) {
     const formItems = technology_table_data.map((ele) => {
@@ -349,7 +360,7 @@ const on_experimental_designFunc = async () => {
   experimental_design_visible.value = false
 }
 
-const initialize = () => {
+const initialize = async () => {
   const docD = cloneDeep(props.editor.getJSON())
   if (docD) {
     // 物料表
@@ -381,13 +392,21 @@ const initialize = () => {
     if (sample_tables.length > 0) {
       sampleOptions.value = sample_tables.map((ele) => { return { ...ele.sample  } })
     }
+
+    const res = await get_experiment_theme_samplesFetch(experiment_theme.value?.id )
+    if (res.data.code === 2000) {
+      const {data} = res.data
+      if (data.length > 0) {
+        themeSamples.value = data.filter((ele) => !(sampleOptions.value.some(sample=> sample.id === ele.id)) )
+      }
+    }
   } else {
     TMessagePlugin.warning('当前文档中没有数据错误')
   }
 }
 
-onMounted(() => {
-  initialize()
+onMounted(async () => {
+  await initialize()
   console.log('-------------_designParams.value---------------', _nodeAttrs.value, _designParams.value, )
 
   if (

@@ -11,6 +11,8 @@ import type { Node } from '@tiptap/pm/model'
 
 import { getSelectionNode } from '@/extensions/selection'
 import { shortId } from '@/utils/short-id'
+import { v4 as uuid } from 'uuid'
+import { timeFormat } from '@/utils/time-ago'
 
 const { editor } = useStore()
 
@@ -28,7 +30,9 @@ const duplicateNode = () => {
   const copeNode = selectionNode?.type.create(
     {
       ...selectionNode.attrs,
-      id: shortId(),
+      id: uuid(),
+      title: selectionNode?.attrs?.title + ' - 复制',
+      key: Xm_Table_key[selectionNode?.type.name]  + timeFormat(null,'yyyymmddhhMMss'),
     },
     selectionNode.content,
     selectionNode.marks,

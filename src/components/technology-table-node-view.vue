@@ -159,8 +159,18 @@
           </template>
         </t-select>
         <t-select  v-else  ref="selectOperationRef" v-model="procedureFormData.processProcedure" clearable filterable placeholder="请选择"
-          @focus="get_processes_procedureListFunc(1)">
-          <t-option v-for="(item,index) in [...processesProcedureOption,{id:'0',name:'自定义',attribute:[]}]" :key="index" :value="item.id" :label="item.name"></t-option>
+                   @focus="get_processes_procedureListFunc(1)">
+          <t-option v-for="(item,index) in [...processesProcedureOption,{id:'0',name:'自定义',attribute:[]}]" :key="index" :value="item.id" :label="item.name">
+            <template #content>
+              <div style="display: flex;justify-content: space-between;gap:2px;height: 100%;">
+                <div style="min-width: 100px;">{{item.name}}：</div>
+                <div style="display: flex;justify-content: flex-start;gap:2px;flex-wrap: wrap;">
+                  <t-tag v-for="process in item.process_template_json" :theme="process.type === '操作' ? 'success' : 'primary' " size="small">{{process.name}}</t-tag>
+                </div>
+              </div>
+            </template>
+
+          </t-option>
 
           <template #panelBottomContent>
             <div class="select-panel-footer">
@@ -214,7 +224,14 @@
       <t-form-item :label="'工艺模块'" :name="'process_template'">
         <t-select ref="selectOperationRef"  v-model="procedureFormData.process_template" v-model:popupVisible="popupVisible"
                   multiple clearable filterable placeholder="请选择" @focus="getprocessesTemplateOptionFunc(1)" >
-          <t-option v-for="(item,index) in processesTemplateOption" :key="index" :value="item.id" :label="item.name"></t-option>
+          <t-option v-for="(item,index) in processesTemplateOption" :key="index" :value="item.id" :label="item.name">
+            <div style="display: flex;justify-content: space-between;gap:2px;height: 100%;">
+              <div style="min-width: 140px;"><t-tag :theme="item.type === '操作' ? 'success' : 'primary' " size="small">{{item.type }}</t-tag> {{item.name}}：</div>
+              <div style="display: flex;justify-content: flex-start;gap:2px;flex-wrap: wrap;">
+                <t-tag v-for="attribute in item.attribute_info" size="small">{{attribute.title}}</t-tag>
+              </div>
+            </div>
+          </t-option>
           <template #panelBottomContent>
             <div class="select-panel-footer">
               <t-button size="small" v-if="true || editOrCreate === 'create'" theme="primary" variant="text" block @click="onProcessesTemplateAdd"
