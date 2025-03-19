@@ -65,7 +65,7 @@ import { cloneDeep } from 'lodash-es'
 import { v4 as uuid } from 'uuid'
 
 import { timeFormat } from '@/utils/time-ago'
-import { get_experiment_theme_samplesFetch } from '@/api/experiment'
+import { get_experiment_theme_samplesFetch, get_ingredient_dev_sampleListFetch } from '@/api/experiment'
 
 const emits = defineEmits(['update:nodeAttrs', 'submit', 'cancel'])
 const props = defineProps({
@@ -100,7 +100,8 @@ const $key_data = JSON.parse(localStorage.getItem('key_data'))
 const experiment_record = computed(() => $key_data?.experiment_record)
 const experiment_theme = computed(() => $key_data?.experiment_theme)
 
-const themeSamples = ref([]) // 试验主题样本
+const themeSamples = ref([]) // 试验主题样品
+const templateSamples = ref([]) // 样板样品
 
 const designTreeRef = ref()
 const experimental_design_visible = ref(false)
@@ -242,6 +243,15 @@ const getDesignParams = () => {
       return { value: ele.id, label: `${ele.name}/${ele.sn}`,is_liquid: false }
     }),
   })
+
+  //插入样板样品
+  optionsGroup.push({
+    group: '样板样品',
+    children: templateSamples.value.map((ele) => {
+      return { value: ele.id, label: `${ele.name}/${ele.sn}`,is_liquid: false }
+    }),
+  })
+
 
   //[x] TODO  待优化optionsGroup物料数据要插入更新
   if (technology_table_data) {
@@ -398,6 +408,13 @@ const initialize = async () => {
       const {data} = res.data
       if (data.length > 0) {
         themeSamples.value = data.filter((ele) => !(sampleOptions.value.some(sample=> sample.id === ele.id)) )
+      }
+    }
+    const resS = await get_ingredient_dev_sampleListFetch({ is_template: 1 } )
+    if (resS.data.code === 2000) {
+      const {data} = resS.data
+      if (data.length > 0) {
+        templateSamples.value = data.filter((ele) =>( !(sampleOptions.value.some(sample=> sample.id === ele.id)) && !(themeSamples.value.some(sample=> sample.id === ele.id)) ) )
       }
     }
   } else {
