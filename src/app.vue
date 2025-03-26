@@ -8,7 +8,8 @@
 
 <!--    </div>-->
 <!--    -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
-<!--    <div v-if="true" style="height:200px;">-->
+<!--    <div v-if="false" style="height:200px;">-->
+<!--      <t-button @click="richTextTest">测试</t-button>-->
 <!--      <rich-text-editor ref="richTextEditorRef" v-model="content1" outputType="json" @print="onPrint" @blur="onBlur"/>-->
 <!--    </div>-->
 <!--    <FormRender :forms="[formItems]" v-model="xmValue"></FormRender>-->
@@ -100,8 +101,32 @@ const formItems =
     valueType: "String"
   }
 
-const richTextEditorRef = ref()
-
+const richTextEditorRef = ref(null)
+const richTextTest = () => {
+  console.log('richTextTest',richTextEditorRef.value)
+  richTextEditorRef.value.focus()
+  return
+  richTextEditorRef.value.setContent({
+    "type": "doc",
+    "content": [
+      {
+        "type": "paragraph",
+        "attrs": {
+          "indent": null,
+          "textAlign": "left",
+          "lineHeight": 1.5,
+          "margin": {}
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "测试测试测试"
+          }
+        ]
+      }
+    ]
+  })
+}
 const resData = ref([])
 resData.value = [
   {
@@ -457,7 +482,7 @@ const options = $ref({
       ]
     },
     experiment_theme: {
-      "id": "2270b604-cbeb-47dc-96c7-f0bc2381e926",
+      "id": "dfaf5eed-fdf1-43bc-a402-bbff15ab7c7c",
       "modifier_name": "赵紫文",
       "dept_belong_id": null,
       "creator_name": "赵紫文",
@@ -465,60 +490,39 @@ const options = $ref({
       "update_datetime": "2024-12-19 17:41:51",
       "is_collect": false,
       "person_in_charge": {
-        "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-        "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
+        "id": "8528858f-7cb8-477e-bf17-fde3d2fbb23e",
+        "user_id": "8528858f-7cb8-477e-bf17-fde3d2fbb23e",
         "name": "赵紫文",
         "is_owner": true,
-        "avatar": "http://192.168.2.11:8002/media/avatar/abf0f9c664c6c4b3e4b0fbaf054c1db7_r9xK2Nq.png"
+        "avatar": "http://192.168.2.11:8002/media/avatar/8c51c4f5810b4bac61c5f1c4cba9c280_riejexI.jpg"
       },
       "participants": [
         {
-          "id": "cea15e47-dcdd-4880-8bf3-ca6829109cf7",
-          "user_id": "cea15e47-dcdd-4880-8bf3-ca6829109cf7",
-          "name": "张三丰",
+          "id": "15d99c30-13b7-4794-a3be-1c26be2b7577",
+          "user_id": "15d99c30-13b7-4794-a3be-1c26be2b7577",
+          "name": "孙佳兴",
           "is_owner": true,
-          "avatar": "http://192.168.2.11:8002/media/avatar/f21be6bb-34b9-481d-88dd-5c6c3d6ed66b.png"
+          "avatar": "http://192.168.2.11:8002/media/avatar/d11ff4ca-1921-42f9-819b-a45f347e59bb.png"
         },
         {
-          "id": "69d25690-2f7a-458e-8f10-1c38162a1c58",
-          "user_id": "69d25690-2f7a-458e-8f10-1c38162a1c58",
-          "name": "张大彪",
+          "id": "964a5926-317b-4acd-bfcc-31d6bbfb6242",
+          "user_id": "964a5926-317b-4acd-bfcc-31d6bbfb6242",
+          "name": "董",
           "is_owner": false,
-          "avatar": "http://192.168.2.11:8002/media/avatar/db1f268d-5b27-4bed-95f5-6426025519e0.png"
+          "avatar": "http://192.168.2.11:8002/media/avatar/b8550976b630a34fb53dd5edc173a0ba.png"
         },
         {
-          "id": "995dda9e-dbee-46db-af4f-02686c470357",
-          "user_id": "995dda9e-dbee-46db-af4f-02686c470357",
-          "name": "胡汉三",
-          "is_owner": false,
-          "avatar": "http://192.168.2.11:8002/media/avatar/5ea58e76-fcbd-43bc-9493-dde4ba269b3e.png"
-        },
-        {
-          "id": "9dc2696a-b931-4abb-bb81-5fa2d088947e",
-          "user_id": "9dc2696a-b931-4abb-bb81-5fa2d088947e",
-          "name": "等待",
-          "is_owner": false,
-          "avatar": "http://192.168.2.11:8002/media/avatar/26e35b37-d464-48f6-a423-b73f17ca2538.png"
-        },
-        {
-          "id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-          "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-          "name": "赵紫文",
+          "id": "2bd57e8e-0115-47a5-b1c8-15de24edef9c",
+          "user_id": "2bd57e8e-0115-47a5-b1c8-15de24edef9c",
+          "name": "白欣力",
           "is_owner": true,
-          "avatar": "http://192.168.2.11:8002/media/avatar/abf0f9c664c6c4b3e4b0fbaf054c1db7_r9xK2Nq.png"
-        },
-        {
-          "id": "63aed191-f093-4e9d-b4ef-4a159ffa3935",
-          "user_id": "63aed191-f093-4e9d-b4ef-4a159ffa3935",
-          "name": "小白1",
-          "is_owner": true,
-          "avatar": "http://192.168.2.11:8002/media/avatar/abf0f9c664c6c4b3e4b0fbaf054c1db7_l1HXx8V.jpg"
+          "avatar": "http://192.168.2.11:8002/media/avatar/d15c4ed8-5e8a-471c-b86c-400e4950ea97.png"
         }
       ],
       "description": "wdewd了了了2柔柔弱弱柔柔弱弱柔柔弱弱揉揉揉呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃",
       "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
       "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-      "name": "SY121916230001",
+      "name": "实验02251558",
       "sn": "SN-1734596573156",
       "icon": "/experiment/picture1.png",
       "label": null,
@@ -529,7 +533,7 @@ const options = $ref({
       "publish": false
     },
     experiment_record: {
-      "id": "1333b668-3df8-4e63-95db-dd0fbc781fc9",
+      "id": "d4e44063-b7e9-45f6-affa-42cbe28335e0",
       "modifier_name": "赵紫文",
       "dept_belong_id": null,
       "creator_name": "赵紫文",
@@ -571,7 +575,7 @@ const options = $ref({
       "description": null,
       "creator": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
       "modifier": "63aed191-f093-4e9d-b4ef-4a159ffa3938",
-      "title": "LJ12191625",
+      "title": "SY02251559",
       "sn": null,
       "start_time": null,
       "end_time": null,
@@ -588,7 +592,7 @@ const options = $ref({
       "catalog": null
     },
     umo_domain: 'http://192.168.2.11:8003/api', // 'https://msyf.eva.rongzhuamao.com/api',//
-    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQxMDY3NDQxLCJpYXQiOjE3NDA5ODEwNDEsImp0aSI6IjZiZmY5ZjQ1MTMyZjQ4MDY4Y2FlMTQ4ZGQ4NjI1NTg0IiwidXNlcl9pZCI6Ijg1Mjg4NThmLTdjYjgtNDc3ZS1iZjE3LWZkZTNkMmZiYjIzZSJ9.zsKkKTgC98NoB8pb1Lo1_1LxcK1Ggfo651tK4tPmUrU',
+    umo_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyODY4NjU4LCJpYXQiOjE3NDI3ODIyNTgsImp0aSI6IjdhMWY5YmMzMWFlZjRjODhiOTUyNzVjZTg0NjJjODY1IiwidXNlcl9pZCI6Ijg1Mjg4NThmLTdjYjgtNDc3ZS1iZjE3LWZkZTNkMmZiYjIzZSJ9.e0V7JSe-vMu3k2nqwL4_rSQiF_MFEwYwc7iFVhHWHHA',
   },
   document: {
     placeholder: '输入 / 唤起更多',
@@ -749,12 +753,12 @@ onMounted(() => {
       {
         "type": "xmTitle",
         "attrs": {
-          "id": "db0e9ce2-0858-4950-9de1-b4188d13bedc",
+          "id": "97bc2fa0-cc7f-4113-904c-4b3dd635ec28",
           "updateTime": "",
           "key": "baseTitle",
-          "name": "e87d20ab-c607-4f03-be05-9ae087e926d2",
+          "name": "925f4fc9-9fdf-486b-a1c5-663f7ee41c63",
           "isChanged": false,
-          "title": "SY02121629",
+          "title": "发生发撒",
           "sn": "",
           "showSubTitle": true
         }
@@ -780,7 +784,7 @@ onMounted(() => {
       {
         "type": "xmTitleContent",
         "attrs": {
-          "key": "f736e1b2-4b66-4686-8d38-33b620944fef",
+          "key": "81d4d47d-3734-4b82-9d6d-9578a9ec311e",
           "content": "目的",
           "title": "试验目的："
         },
@@ -823,92 +827,96 @@ onMounted(() => {
       {
         "type": "raw_material_table",
         "attrs": {
-          "id": "6b116d4c-793a-4aa6-9c4e-bfea68ab6e39",
-          "updateTime": "2025-02-12 16:29:43",
-          "key": "raw_material_table20250212162927",
-          "name": "a375c972-f43f-47aa-90a2-4ba1f3103736",
+          "id": "770a2fe0-fa5f-4ada-99bc-eddf5c51f224",
+          "updateTime": "2025-03-24 15:26:16",
+          "key": "raw_material_table20250324152609",
+          "name": "f104f5a9-f936-440c-881d-12a37d4c4293",
           "isChanged": false,
           "change_log": {},
           "is_integration": false,
           "table_data": [
             {
-              "id": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-              "sn": "111",
-              "cas": "1111",
-              "name": "111",
-              "batch": "1111",
+              "id": "edc4ea79-6a5e-4bba-ab4b-0e7e772ff63d",
+              "name": "12314532q35",
+              "sn": "1213123",
+              "batch": "1",
+              "cas": "123123",
               "brand": null,
-              "price": null,
-              "state": "Not-Started",
-              "creator": {
-                "id": "8528858f-7cb8-477e-bf17-fde3d2fbb23e",
-                "name": "赵紫文",
-                "avatar": "192.168.2.11:8002/media/avatar/8c51c4f5810b4bac61c5f1c4cba9c280.png"
-              },
-              "supplier": null,
-              "is_liquid": true,
               "brand_model": null,
-              "description": null,
-              "create_datetime": "2025-02-08 20:24:29"
-            },
-            {
-              "id": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-              "sn": "222222",
-              "cas": null,
-              "name": "测试共达到瓦大大哇哒",
-              "batch": "222222",
-              "brand": null,
-              "price": null,
-              "state": "Not-Started",
+              "create_datetime": "2025-03-18 10:31:35",
               "creator": {
                 "id": "2bd57e8e-0115-47a5-b1c8-15de24edef9c",
-                "name": "白欣力1",
-                "avatar": "192.168.2.11:8002/media/avatar/60576d2c-6bac-4dae-a7b9-b1856a833349.png"
+                "name": "白欣力",
+                "avatar": "http://192.168.2.11:8002/media/avatar/d15c4ed8-5e8a-471c-b86c-400e4950ea97.png"
               },
-              "supplier": null,
-              "is_liquid": false,
-              "brand_model": null,
-              "description": null,
-              "create_datetime": "2025-01-22 16:07:28"
-            },
-            {
-              "id": "54730f09-9ade-4967-9412-614c8df9dd79",
-              "sn": "E207",
-              "cas": "8001-21-6",
-              "name": "葵花籽油",
-              "batch": "E20725010801",
-              "brand": "品牌",
-              "price": 123,
-              "state": "Not-Started",
-              "creator": {
-                "id": "8528858f-7cb8-477e-bf17-fde3d2fbb23e",
-                "name": "赵紫文",
-                "avatar": "192.168.2.11:8002/media/avatar/8c51c4f5810b4bac61c5f1c4cba9c280.png"
-              },
-              "supplier": "供应商",
-              "is_liquid": false,
-              "brand_model": "品牌型号",
-              "description": "发士大夫大师傅",
-              "create_datetime": "2025-01-20 13:59:46"
-            },
-            {
-              "id": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-              "sn": "J003",
-              "cas": "128497-20-1",
-              "name": "澳洲坚果油",
-              "batch": "J003B24050901",
-              "brand": null,
               "price": null,
-              "state": "Not-Started",
-              "creator": null,
-              "supplier": null,
-              "is_liquid": false,
-              "brand_model": null,
               "description": null,
-              "create_datetime": "2025-01-20 13:58:51"
+              "state_id": "",
+              "supplier": null,
+              "is_liquid": true,
+              "margin_unit": null,
+              "shelf_life": null,
+              "state": null
+            },
+            {
+              "id": "d9e4d7ca-66f7-4438-b2c4-11463d1494fe",
+              "name": "吐温80（聚山梨醇酯80，化妆品级）",
+              "sn": "20250314151402357",
+              "batch": "nan",
+              "cas": "9005-65-6",
+              "brand": "nan",
+              "brand_model": "nan",
+              "create_datetime": "2025-03-14 15:14:02",
+              "creator": null,
+              "price": 0,
+              "description": "nan",
+              "state_id": "",
+              "supplier": "北京华誉德润科技有限公司",
+              "is_liquid": false,
+              "margin_unit": "g",
+              "shelf_life": null,
+              "state": null
+            },
+            {
+              "id": "496591d0-9895-4e16-9aeb-0440395c3081",
+              "name": "吐温80（聚山梨醇酯80，药辅级）",
+              "sn": "20250314151402356",
+              "batch": "20240401",
+              "cas": "9005-65-6",
+              "brand": "nan",
+              "brand_model": "nan",
+              "create_datetime": "2025-03-14 15:14:02",
+              "creator": null,
+              "price": 0,
+              "description": "nan",
+              "state_id": "",
+              "supplier": "天津市",
+              "is_liquid": false,
+              "margin_unit": "g",
+              "shelf_life": null,
+              "state": null
+            },
+            {
+              "id": "51e470a9-39a1-48e1-8f6c-7411ebed85cd",
+              "name": "二水合磷酸二氢钠（AR）",
+              "sn": "20250314151402355",
+              "batch": "B2202241",
+              "cas": "13472-35-1",
+              "brand": "nan",
+              "brand_model": "nan",
+              "create_datetime": "2025-03-14 15:14:02",
+              "creator": null,
+              "price": 0,
+              "description": "nan",
+              "state_id": "",
+              "supplier": "佛山西陇化工有限公司",
+              "is_liquid": false,
+              "margin_unit": "g",
+              "shelf_life": null,
+              "state": null
             }
           ],
-          "title": "SY02121629/物料01"
+          "title": "发生发撒/物料01"
         }
       },
       {
@@ -941,195 +949,172 @@ onMounted(() => {
       {
         "type": "technology_table",
         "attrs": {
-          "id": "28e759b7-23c5-451e-ad52-c4aaa6d7b79a",
+          "id": "211565b2-1845-4b92-b404-df52419284d3",
           "updateTime": "",
-          "key": "technology_table20250212162927",
-          "name": "19020beb-d966-4ae2-a786-82c4bb23003d",
+          "key": "technology_table20250324152609",
+          "name": "ec050beb-35bb-48c8-995f-a513901d18ea",
           "isChanged": false,
           "change_log": {},
           "is_integration": false,
           "table_data": [
             {
-              "id": "ec555345-a7ea-4393-9926-149642a027c6",
-              "form": {
-                "formData": {
-                  "2/thmapeoh": {
-                    "shi_jian": "",
-                    "zhi_liang": "",
-                    "shi_jian_unit": "",
-                    "zhi_liang_unit": ""
-                  },
-                  "4/g0rphwxk": {
-                    "shi_jian": "",
-                    "zhi_liang": "",
-                    "shi_jian_unit": "",
-                    "yuan_cai_liao": [],
-                    "zhi_liang_unit": ""
-                  },
-                  "description": ""
-                },
-                "formItems": [
-                  {
-                    "id": 2,
-                    "key": "2/thmapeoh",
-                    "name": "准备物料",
-                    "type": "操作",
-                    "title": "准备物料",
-                    "rowKey": "2/thmapeoh",
-                    "attribute": [
-                      {
-                        "id": 2,
-                        "key": "shi_jian",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "时间",
-                        "value": null,
-                        "rowKey": "2/00gpndbx",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 4,
-                        "key": "zhi_liang",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "suffix": "g",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "质量",
-                        "value": null,
-                        "rowKey": "4/cmkygq14",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      }
-                    ],
-                    "description": "",
-                    "operateType": "操作"
-                  },
-                  {
-                    "id": 4,
-                    "key": "4/g0rphwxk",
-                    "name": "粉碎",
-                    "type": "物料",
-                    "title": "粉碎",
-                    "rowKey": "4/g0rphwxk",
-                    "attribute": [
-                      {
-                        "id": 1,
-                        "key": "yuan_cai_liao",
-                        "type": "SelectMaterial",
-                        "props": {
-                          "http": {},
-                          "fixed": true,
-                          "hidden": false,
-                          "suffix": null,
-                          "options": [],
-                          "abstract": false,
-                          "dictType": null,
-                          "multiple": false,
-                          "required": false,
-                          "expanding": false,
-                          "validation": null,
-                          "enablePrint": true
-                        },
-                        "title": "原材料",
-                        "value": null,
-                        "rowKey": "1/kay52ekd",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 2,
-                        "key": "shi_jian",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "时间",
-                        "value": null,
-                        "rowKey": "2/wiu4z50k",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 4,
-                        "key": "zhi_liang",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "suffix": "g",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "质量",
-                        "value": null,
-                        "rowKey": "4/ih57g9by",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      }
-                    ],
-                    "description": "",
-                    "operateType": "物料"
-                  }
-                ]
-              },
+              "id": "c994c2f2-f16b-48cd-bd4a-c2530fb7ad7a",
+              "rowKey": "c994c2f2-f16b-48cd-bd4a-c2530fb7ad7a/lbe7qml0",
               "name": "准备操作",
               "type": "procedure",
-              "rowKey": "ec555345-a7ea-4393-9926-149642a027c6/umty9w1k",
-              "description": ""
-            },
-            {
-              "id": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f",
+              "description": "",
               "form": {
-                "formData": {
-                  "2/vgzdw3dl": {
-                    "shi_jian": "",
-                    "zhi_liang": "",
-                    "shi_jian_unit": "",
-                    "zhi_liang_unit": ""
-                  },
-                  "3/uikh6h09": {
-                    "shi_jian": "",
-                    "shi_jian_unit": "",
-                    "yuan_cai_liao": []
-                  },
-                  "description": ""
-                },
                 "formItems": [
                   {
+                    "id": 1,
+                    "name": "添加物料",
+                    "type": "物料",
+                    "attribute": [
+                      {
+                        "id": 3,
+                        "key": "wu_liao",
+                        "type": "TableList",
+                        "props": {
+                          "hidden": false,
+                          "columns": [
+                            {
+                              "id": 1,
+                              "key": "yuan_cai_liao",
+                              "type": "SelectMaterial",
+                              "unit": null,
+                              "props": {
+                                "http": {},
+                                "fixed": true,
+                                "hidden": false,
+                                "suffix": null,
+                                "options": [],
+                                "abstract": false,
+                                "dictType": null,
+                                "multiple": false,
+                                "required": false,
+                                "expanding": false,
+                                "validation": null,
+                                "enablePrint": true
+                              },
+                              "title": "原材料",
+                              "value": null,
+                              "multiple": false,
+                              "attribute_type": "single"
+                            },
+                            {
+                              "id": 4,
+                              "key": "zhi_liang",
+                              "type": "NumberInput",
+                              "unit": null,
+                              "props": {
+                                "unit": "kg|g|L|ml",
+                                "hidden": false,
+                                "suffix": "g",
+                                "abstract": false,
+                                "required": false,
+                                "precision": null,
+                                "enablePrint": true
+                              },
+                              "title": "质量",
+                              "value": null,
+                              "multiple": false,
+                              "attribute_type": "single"
+                            }
+                          ],
+                          "maxSize": 0,
+                          "abstract": false,
+                          "required": false,
+                          "rowLayout": true,
+                          "showBorder": true,
+                          "enablePrint": true,
+                          "showSummary": false,
+                          "summaryColumns": []
+                        },
+                        "title": "物料",
+                        "value": null,
+                        "multiple": false,
+                        "attribute_type": "single",
+                        "description": "",
+                        "rowKey": "3/7uwe4q32"
+                      }
+                    ],
+                    "description": "",
+                    "attribute_info": [
+                      {
+                        "id": 3,
+                        "key": "wu_liao",
+                        "type": "TableList",
+                        "props": {
+                          "hidden": false,
+                          "columns": [
+                            {
+                              "id": 1,
+                              "key": "yuan_cai_liao",
+                              "type": "SelectMaterial",
+                              "unit": null,
+                              "props": {
+                                "http": {},
+                                "fixed": true,
+                                "hidden": false,
+                                "suffix": null,
+                                "options": [],
+                                "abstract": false,
+                                "dictType": null,
+                                "multiple": false,
+                                "required": false,
+                                "expanding": false,
+                                "validation": null,
+                                "enablePrint": true
+                              },
+                              "title": "原材料",
+                              "value": null,
+                              "multiple": false,
+                              "attribute_type": "single"
+                            },
+                            {
+                              "id": 4,
+                              "key": "zhi_liang",
+                              "type": "NumberInput",
+                              "unit": null,
+                              "props": {
+                                "unit": "kg|g|L|ml",
+                                "hidden": false,
+                                "suffix": "g",
+                                "abstract": false,
+                                "required": false,
+                                "precision": null,
+                                "enablePrint": true
+                              },
+                              "title": "质量",
+                              "value": null,
+                              "multiple": false,
+                              "attribute_type": "single"
+                            }
+                          ],
+                          "maxSize": 0,
+                          "abstract": false,
+                          "required": false,
+                          "rowLayout": true,
+                          "showBorder": true,
+                          "enablePrint": true,
+                          "showSummary": false,
+                          "summaryColumns": []
+                        },
+                        "title": "物料",
+                        "value": null,
+                        "multiple": false,
+                        "attribute_type": "single"
+                      }
+                    ],
+                    "rowKey": "1/5l4kkwyq",
+                    "key": "1/5l4kkwyq",
+                    "title": "添加物料",
+                    "operateType": "物料"
+                  },
+                  {
                     "id": 2,
-                    "key": "2/vgzdw3dl",
                     "name": "准备物料",
                     "type": "操作",
-                    "title": "准备物料",
-                    "rowKey": "2/vgzdw3dl",
                     "attribute": [
                       {
                         "id": 2,
@@ -1146,9 +1131,50 @@ onMounted(() => {
                         },
                         "title": "时间",
                         "value": null,
-                        "rowKey": "2/6j00etej",
                         "multiple": false,
+                        "attribute_type": "single",
                         "description": "",
+                        "rowKey": "2/i4obqx13"
+                      },
+                      {
+                        "id": 4,
+                        "key": "zhi_liang",
+                        "type": "NumberInput",
+                        "props": {
+                          "unit": "kg|g|L|ml",
+                          "hidden": false,
+                          "suffix": "g",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "title": "质量",
+                        "value": null,
+                        "multiple": false,
+                        "attribute_type": "single",
+                        "description": "",
+                        "rowKey": "4/flxrcukb"
+                      }
+                    ],
+                    "description": "",
+                    "attribute_info": [
+                      {
+                        "id": 2,
+                        "key": "shi_jian",
+                        "type": "NumberInput",
+                        "props": {
+                          "unit": "y|M|d|h|m|s",
+                          "hidden": false,
+                          "suffix": "h",
+                          "abstract": false,
+                          "required": false,
+                          "precision": null,
+                          "enablePrint": true
+                        },
+                        "title": "时间",
+                        "value": null,
+                        "multiple": false,
                         "attribute_type": "single"
                       },
                       {
@@ -1166,148 +1192,41 @@ onMounted(() => {
                         },
                         "title": "质量",
                         "value": null,
-                        "rowKey": "4/31q9kkno",
                         "multiple": false,
-                        "description": "",
                         "attribute_type": "single"
                       }
                     ],
-                    "description": "",
-                    "operateType": "操作"
-                  },
-                  {
-                    "id": 3,
-                    "key": "3/uikh6h09",
-                    "name": "加热",
-                    "type": "操作",
-                    "title": "加热",
-                    "rowKey": "3/uikh6h09",
-                    "attribute": [
-                      {
-                        "id": 1,
-                        "key": "yuan_cai_liao",
-                        "type": "SelectMaterial",
-                        "props": {
-                          "http": {},
-                          "fixed": true,
-                          "hidden": false,
-                          "suffix": null,
-                          "options": [],
-                          "abstract": false,
-                          "dictType": null,
-                          "multiple": false,
-                          "required": false,
-                          "expanding": false,
-                          "validation": null,
-                          "enablePrint": true
-                        },
-                        "title": "原材料",
-                        "value": null,
-                        "rowKey": "1/zt5una53",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 2,
-                        "key": "shi_jian",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "时间",
-                        "value": null,
-                        "rowKey": "2/zpmztru3",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      }
-                    ],
-                    "description": "",
+                    "rowKey": "2/xgeppx5d",
+                    "key": "2/xgeppx5d",
+                    "title": "准备物料",
                     "operateType": "操作"
                   }
-                ]
-              },
-              "name": "提取物料",
-              "type": "procedure",
-              "rowKey": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f/ufy08yr5",
-              "description": ""
-            },
-            {
-              "id": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-              "form": {
+                ],
                 "formData": {
-                  "6/nlvt3wzh": {
-                    "liao_ye_bi": []
+                  "description": "",
+                  "1/5l4kkwyq": {
+                    "wu_liao": []
                   },
-                  "description": ""
-                },
-                "formItems": [
-                  {
-                    "id": 6,
-                    "key": "6/nlvt3wzh",
-                    "name": "料液比",
-                    "type": "物料",
-                    "title": "料液比",
-                    "rowKey": "6/nlvt3wzh",
-                    "attribute": [
-                      {
-                        "id": 6,
-                        "key": "liao_ye_bi",
-                        "type": "MaterialList",
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "options": [],
-                          "abstract": false,
-                          "required": false,
-                          "enablePrint": true
-                        },
-                        "title": "料液比",
-                        "value": null,
-                        "rowKey": "6/k8h3it0h",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      }
-                    ],
-                    "description": "",
-                    "operateType": "物料",
-                    "attribute_info": [
-                      {
-                        "id": 6,
-                        "key": "liao_ye_bi",
-                        "type": "MaterialList",
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "options": [],
-                          "abstract": false,
-                          "required": false,
-                          "enablePrint": true
-                        },
-                        "title": "料液比",
-                        "value": null,
-                        "multiple": false,
-                        "attribute_type": "single"
-                      }
-                    ]
+                  "2/xgeppx5d": {
+                    "shi_jian_unit": "",
+                    "shi_jian": "",
+                    "zhi_liang_unit": "",
+                    "zhi_liang": ""
                   }
-                ]
-              },
-              "name": "自定义",
-              "type": "procedure",
-              "rowKey": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025/555lenup",
-              "description": ""
+                }
+              }
             }
           ],
-          "title": "SY02121629/工艺01"
+          "title": "发生发撒/工艺01"
+        }
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "indent": null,
+          "textAlign": null,
+          "lineHeight": 1.5,
+          "margin": {}
         }
       },
       {
@@ -1322,2501 +1241,34 @@ onMounted(() => {
       {
         "type": "test_record_table",
         "attrs": {
-          "id": "facc2630-0f7c-4635-a9c1-558882221cb2",
-          "updateTime": "2025-02-12 18:53:18",
-          "key": "test_record_table20250212184946",
-          "name": "21f6db27-c83d-4692-826f-62743fcb65b2",
+          "id": "b3276132-6464-4a4e-9bde-d87169b4857b",
+          "updateTime": "",
+          "key": "test_record_table20250324152637",
+          "name": "0eb0ee6a-da01-4f4e-a83c-3f84ea9d7eb3",
           "isChanged": false,
           "customerParams": {},
           "group": "",
-          "table_data": [
-            {
-              "id": "3d30257a-2b14-44a6-b7cd-beb0e79e88d9",
-              "sample": {},
-              "formData": {
-                "shi_jian": "34",
-                "zhi_liang": "54",
-                "attachment": [],
-                "shi_jian_unit": "y",
-                "zhi_liang_unit": "kg"
-              },
-              "formItems": {
-                "id": 2,
-                "key": "2/thmapeoh",
-                "name": "准备物料",
-                "type": "操作",
-                "title": "准备物料",
-                "rowKey": "2/thmapeoh",
-                "attribute": [
-                  {
-                    "id": 2,
-                    "key": "shi_jian",
-                    "type": "NumberInput",
-                    "props": {
-                      "unit": "y|M|d|h|m|s",
-                      "hidden": false,
-                      "suffix": "h",
-                      "abstract": false,
-                      "required": false,
-                      "precision": null,
-                      "enablePrint": true
-                    },
-                    "title": "时间",
-                    "value": null,
-                    "rowKey": "2/00gpndbx",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  },
-                  {
-                    "id": 4,
-                    "key": "zhi_liang",
-                    "type": "NumberInput",
-                    "props": {
-                      "unit": "kg|g|L|ml",
-                      "hidden": false,
-                      "suffix": "g",
-                      "abstract": false,
-                      "required": false,
-                      "precision": null,
-                      "enablePrint": true
-                    },
-                    "title": "质量",
-                    "value": null,
-                    "rowKey": "4/cmkygq14",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  }
-                ],
-                "description": "",
-                "operateType": "操作"
-              },
-              "is_sample": false,
-              "procedure": {
-                "id": "ec555345-a7ea-4393-9926-149642a027c6",
-                "key": "ec555345-a7ea-4393-9926-149642a027c6",
-                "title": "准备操作",
-                "rowKey": "ec555345-a7ea-4393-9926-149642a027c6/umty9w1k"
-              },
-              "description": "",
-              "operateType": "操作",
-              "operate_router": {
-                "id": 2,
-                "key": "2/thmapeoh",
-                "title": "准备物料",
-                "rowKey": "2/thmapeoh"
-              },
-              "operate_rowKey": "2/thmapeoh",
-              "procedure_rowKey": "ec555345-a7ea-4393-9926-149642a027c6/umty9w1k"
-            },
-            {
-              "id": "f605bde8-c4aa-4652-add5-900177a2c885",
-              "sample": {},
-              "formData": {
-                "shi_jian": "45",
-                "zhi_liang": "43",
-                "attachment": [],
-                "shi_jian_unit": "y",
-                "yuan_cai_liao": "54730f09-9ade-4967-9412-614c8df9dd79",
-                "zhi_liang_unit": "kg"
-              },
-              "formItems": {
-                "id": 4,
-                "key": "4/g0rphwxk",
-                "name": "粉碎",
-                "type": "物料",
-                "title": "粉碎",
-                "rowKey": "4/g0rphwxk",
-                "attribute": [
-                  {
-                    "id": 1,
-                    "key": "yuan_cai_liao",
-                    "type": "SelectMaterial",
-                    "props": {
-                      "http": {},
-                      "fixed": true,
-                      "hidden": false,
-                      "suffix": null,
-                      "options": [
-                        {
-                          "group": "SY02121629/物料01",
-                          "children": [
-                            {
-                              "label": "111/111",
-                              "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                              "is_liquid": true
-                            },
-                            {
-                              "label": "测试共达到瓦大大哇哒/222222",
-                              "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                              "is_liquid": false
-                            },
-                            {
-                              "label": "葵花籽油/E207",
-                              "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                              "is_liquid": false
-                            },
-                            {
-                              "label": "澳洲坚果油/J003",
-                              "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                              "is_liquid": false
-                            }
-                          ]
-                        },
-                        {
-                          "group": "样品",
-                          "children": []
-                        }
-                      ],
-                      "abstract": false,
-                      "dictType": null,
-                      "multiple": false,
-                      "required": false,
-                      "expanding": false,
-                      "validation": null,
-                      "enablePrint": true
-                    },
-                    "title": "原材料",
-                    "value": null,
-                    "rowKey": "1/kay52ekd",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  },
-                  {
-                    "id": 2,
-                    "key": "shi_jian",
-                    "type": "NumberInput",
-                    "props": {
-                      "unit": "y|M|d|h|m|s",
-                      "hidden": false,
-                      "suffix": "h",
-                      "abstract": false,
-                      "required": false,
-                      "precision": null,
-                      "enablePrint": true
-                    },
-                    "title": "时间",
-                    "value": null,
-                    "rowKey": "2/wiu4z50k",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  },
-                  {
-                    "id": 4,
-                    "key": "zhi_liang",
-                    "type": "NumberInput",
-                    "props": {
-                      "unit": "kg|g|L|ml",
-                      "hidden": false,
-                      "suffix": "g",
-                      "abstract": false,
-                      "required": false,
-                      "precision": null,
-                      "enablePrint": true
-                    },
-                    "title": "质量",
-                    "value": null,
-                    "rowKey": "4/ih57g9by",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  }
-                ],
-                "description": "",
-                "operateType": "物料"
-              },
-              "is_sample": false,
-              "procedure": {
-                "id": "ec555345-a7ea-4393-9926-149642a027c6",
-                "key": "ec555345-a7ea-4393-9926-149642a027c6",
-                "title": "准备操作",
-                "rowKey": "ec555345-a7ea-4393-9926-149642a027c6/umty9w1k"
-              },
-              "description": "",
-              "operateType": "物料",
-              "operate_router": {
-                "id": 4,
-                "key": "4/g0rphwxk",
-                "title": "粉碎",
-                "rowKey": "4/g0rphwxk"
-              },
-              "operate_rowKey": "4/g0rphwxk",
-              "procedure_rowKey": "ec555345-a7ea-4393-9926-149642a027c6/umty9w1k"
-            },
-            {
-              "id": "219ab4d1-a058-4d3c-81bc-2305053acd16",
-              "params": {},
-              "sample": {},
-              "formData": {},
-              "formItems": {
-                "title": "过程描述"
-              },
-              "is_sample": false,
-              "procedure": {
-                "id": "ec555345-a7ea-4393-9926-149642a027c6",
-                "key": "ec555345-a7ea-4393-9926-149642a027c6",
-                "title": "准备操作",
-                "rowKey": "ec555345-a7ea-4393-9926-149642a027c6/umty9w1k"
-              },
-              "operateType": "过程描述",
-              "operate_router": {
-                "title": "过程描述"
-              },
-              "operate_rowKey": "过程描述ci89wftg",
-              "procedure_rowKey": "ec555345-a7ea-4393-9926-149642a027c6/umty9w1k"
-            },
-            {
-              "id": "7a0f9424-95e9-46cc-a7cc-5bbce8c510c7",
-              "sample": {},
-              "formData": {
-                "shi_jian": "23",
-                "zhi_liang": "32",
-                "attachment": [],
-                "shi_jian/2": "54",
-                "zhi_liang/4": "65",
-                "shi_jian/2/3": "43",
-                "shi_jian_unit": "y",
-                "zhi_liang_unit": "kg",
-                "shi_jian/2_unit": "y",
-                "zhi_liang/4_unit": "kg",
-                "shi_jian/2/3_unit": "y"
-              },
-              "formItems": {
-                "id": 2,
-                "key": "2/vgzdw3dl",
-                "name": "准备物料",
-                "type": "操作",
-                "title": "准备物料",
-                "rowKey": "2/vgzdw3dl",
-                "attribute": [
-                  {
-                    "id": 2,
-                    "key": "shi_jian",
-                    "type": "NumberInput",
-                    "props": {
-                      "unit": "y|M|d|h|m|s",
-                      "hidden": false,
-                      "suffix": "h",
-                      "abstract": false,
-                      "required": false,
-                      "precision": null,
-                      "orthogonal": true,
-                      "enablePrint": true
-                    },
-                    "title": "时间",
-                    "value": null,
-                    "rowKey": "2/6j00etej",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  },
-                  {
-                    "id": 2,
-                    "key": "shi_jian/2",
-                    "type": "NumberInput",
-                    "props": {
-                      "unit": "y|M|d|h|m|s",
-                      "hidden": false,
-                      "suffix": "h",
-                      "abstract": false,
-                      "required": false,
-                      "precision": null,
-                      "orthogonal": true,
-                      "enablePrint": true
-                    },
-                    "title": "时间",
-                    "value": null,
-                    "rowKey": "2/6j00etej2",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  },
-                  {
-                    "id": 2,
-                    "key": "shi_jian/2/3",
-                    "type": "NumberInput",
-                    "props": {
-                      "unit": "y|M|d|h|m|s",
-                      "hidden": false,
-                      "suffix": "h",
-                      "abstract": false,
-                      "required": false,
-                      "precision": null,
-                      "orthogonal": true,
-                      "enablePrint": true
-                    },
-                    "title": "时间",
-                    "value": null,
-                    "rowKey": "2/6j00etej23",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  },
-                  {
-                    "id": 4,
-                    "key": "zhi_liang",
-                    "type": "NumberInput",
-                    "props": {
-                      "unit": "kg|g|L|ml",
-                      "hidden": false,
-                      "suffix": "g",
-                      "abstract": false,
-                      "required": false,
-                      "precision": null,
-                      "orthogonal": true,
-                      "enablePrint": true
-                    },
-                    "title": "质量",
-                    "value": null,
-                    "rowKey": "4/31q9kkno",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  },
-                  {
-                    "id": 4,
-                    "key": "zhi_liang/4",
-                    "type": "NumberInput",
-                    "props": {
-                      "unit": "kg|g|L|ml",
-                      "hidden": false,
-                      "suffix": "g",
-                      "abstract": false,
-                      "required": false,
-                      "precision": null,
-                      "orthogonal": true,
-                      "enablePrint": true
-                    },
-                    "title": "质量",
-                    "value": null,
-                    "rowKey": "4/31q9kkno4",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  }
-                ],
-                "description": "",
-                "operateType": "操作"
-              },
-              "is_sample": false,
-              "procedure": {
-                "id": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f",
-                "key": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f",
-                "title": "提取物料",
-                "rowKey": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f/ufy08yr5"
-              },
-              "description": "",
-              "operateType": "操作",
-              "operate_router": {
-                "id": 2,
-                "key": "2/vgzdw3dl",
-                "title": "准备物料",
-                "rowKey": "2/vgzdw3dl"
-              },
-              "operate_rowKey": "2/vgzdw3dl",
-              "procedure_rowKey": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f/ufy08yr5"
-            },
-            {
-              "id": "248911cb-b295-41d3-adca-b95da34ff4e7",
-              "params": [
-                {
-                  "id": "7a0f9424-95e9-46cc-a7cc-5bbce8c510c7",
-                  "formItems": {
-                    "attribute": [
-                      {
-                        "items": [
-                          {
-                            "id": 2,
-                            "key": "shi_jian",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "y|M|d|h|m|s",
-                              "hidden": false,
-                              "suffix": "h",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "时间",
-                            "value": null,
-                            "rowKey": "2/6j00etej",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 2,
-                            "key": "shi_jian/2",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "y|M|d|h|m|s",
-                              "hidden": false,
-                              "suffix": "h",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "时间",
-                            "value": null,
-                            "rowKey": "2/6j00etej2",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 2,
-                            "key": "shi_jian/2/3",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "y|M|d|h|m|s",
-                              "hidden": false,
-                              "suffix": "h",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "时间",
-                            "value": null,
-                            "rowKey": "2/6j00etej23",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          }
-                        ],
-                        "value": "shi_jian"
-                      },
-                      {
-                        "items": [
-                          {
-                            "id": 4,
-                            "key": "zhi_liang",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "suffix": "g",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "质量",
-                            "value": null,
-                            "rowKey": "4/31q9kkno",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 4,
-                            "key": "zhi_liang/4",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "suffix": "g",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "质量",
-                            "value": null,
-                            "rowKey": "4/31q9kkno4",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          }
-                        ],
-                        "value": "zhi_liang"
-                      }
-                    ]
-                  }
-                }
-              ],
-              "sample": {
-                "id": "a903797c-b321-46b3-8cda-28dde0b1f66b",
-                "sn": "3534354343",
-                "name": "各部分的官方",
-                "params": {
-                  "is_residue": "sample"
-                },
-                "weight": 1,
-                "description": "",
-                "record_table": {
-                  "id": "4434fd28-0952-498d-add2-55dc2323a470",
-                  "title": "测试7t1ohqzl",
-                  "params": {},
-                  "columns": [
-                    {
-                      "cell": "type-slot-operate",
-                      "title": "操作",
-                      "width": 150,
-                      "colKey": "operate"
-                    }
-                  ],
-                  "table_data": [
-                    {
-                      "id": "1917b07f-ebd8-4838-a857-8691c271ce01",
-                      "data": "65",
-                      "time": "2025-02-12 18:53:18",
-                      "index_type": {
-                        "id": 2,
-                        "key": "lab_a",
-                        "type": "NumberInput",
-                        "unit": null,
-                        "props": {
-                          "unit": "df|fg|f|fg",
-                          "hidden": false,
-                          "suffix": "",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "LAB_A",
-                        "value": null,
-                        "attribute_type": "single",
-                        "indicators_evaluation_option": "3"
-                      },
-                      "lab_a_unit": "df",
-                      "description": ""
-                    },
-                    {
-                      "id": "a8162fe6-205d-4574-a8df-ffd2ebf4699d",
-                      "data": "67",
-                      "time": "2025-02-12 18:53:18",
-                      "index_type": {
-                        "id": 3,
-                        "key": "lab_b",
-                        "type": "NumberInput",
-                        "unit": null,
-                        "props": {
-                          "hidden": false,
-                          "suffix": "",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "LAB_B",
-                        "value": null,
-                        "attribute_type": "single",
-                        "indicators_evaluation_option": "1"
-                      },
-                      "description": ""
-                    }
-                  ]
-                },
-                "really_sample": false
-              },
-              "formData": {},
-              "formItems": [],
-              "is_sample": true,
-              "procedure": {
-                "id": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f",
-                "key": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f",
-                "title": "提取物料",
-                "rowKey": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f/ufy08yr5"
-              },
-              "description": "",
-              "operateType": "样品",
-              "operate_router": {
-                "title": "样品检测"
-              },
-              "operate_rowKey": "2/vgzdw3dl",
-              "procedure_rowKey": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f/ufy08yr5",
-              "test_record_table": "facc2630-0f7c-4635-a9c1-558882221cb2"
-            },
-            {
-              "id": "1aceae36-f470-46ed-acc7-531d5f99d768",
-              "sample": {},
-              "formData": {
-                "shi_jian": "23",
-                "attachment": [],
-                "shi_jian_unit": "y",
-                "yuan_cai_liao": "54fe20ed-86df-420c-afa6-dc3c04c03370"
-              },
-              "formItems": {
-                "id": 3,
-                "key": "3/uikh6h09",
-                "name": "加热",
-                "type": "操作",
-                "title": "加热",
-                "rowKey": "3/uikh6h09",
-                "attribute": [
-                  {
-                    "id": 1,
-                    "key": "yuan_cai_liao",
-                    "type": "SelectMaterial",
-                    "props": {
-                      "http": {},
-                      "fixed": true,
-                      "hidden": false,
-                      "suffix": null,
-                      "options": [
-                        {
-                          "group": "SY02121629/物料01",
-                          "children": [
-                            {
-                              "label": "111/111",
-                              "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                              "is_liquid": true
-                            },
-                            {
-                              "label": "测试共达到瓦大大哇哒/222222",
-                              "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                              "is_liquid": false
-                            },
-                            {
-                              "label": "葵花籽油/E207",
-                              "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                              "is_liquid": false
-                            },
-                            {
-                              "label": "澳洲坚果油/J003",
-                              "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                              "is_liquid": false
-                            }
-                          ]
-                        },
-                        {
-                          "group": "样品",
-                          "children": []
-                        }
-                      ],
-                      "abstract": false,
-                      "dictType": null,
-                      "multiple": false,
-                      "required": false,
-                      "expanding": false,
-                      "validation": null,
-                      "enablePrint": true
-                    },
-                    "title": "原材料",
-                    "value": null,
-                    "rowKey": "1/zt5una53",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  },
-                  {
-                    "id": 2,
-                    "key": "shi_jian",
-                    "type": "NumberInput",
-                    "props": {
-                      "unit": "y|M|d|h|m|s",
-                      "hidden": false,
-                      "suffix": "h",
-                      "abstract": false,
-                      "required": false,
-                      "precision": null,
-                      "enablePrint": true
-                    },
-                    "title": "时间",
-                    "value": null,
-                    "rowKey": "2/zpmztru3",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  }
-                ],
-                "description": "",
-                "operateType": "操作"
-              },
-              "is_sample": false,
-              "procedure": {
-                "id": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f",
-                "key": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f",
-                "title": "提取物料",
-                "rowKey": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f/ufy08yr5"
-              },
-              "description": "",
-              "operateType": "操作",
-              "operate_router": {
-                "id": 3,
-                "key": "3/uikh6h09",
-                "title": "加热",
-                "rowKey": "3/uikh6h09"
-              },
-              "operate_rowKey": "3/uikh6h09",
-              "procedure_rowKey": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f/ufy08yr5"
-            },
-            {
-              "id": "e94e90f8-e8d2-4b17-9cda-e6fdb47a0820",
-              "params": {},
-              "sample": {},
-              "formData": {},
-              "formItems": {
-                "title": "过程描述"
-              },
-              "is_sample": false,
-              "procedure": {
-                "id": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f",
-                "key": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f",
-                "title": "提取物料",
-                "rowKey": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f/ufy08yr5"
-              },
-              "operateType": "过程描述",
-              "operate_router": {
-                "title": "过程描述"
-              },
-              "operate_rowKey": "过程描述ouo6ebmi",
-              "procedure_rowKey": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f/ufy08yr5"
-            },
-            {
-              "id": "c7b173f0-f1a9-436a-b2ef-abde7acc1b45",
-              "sample": {},
-              "formData": {
-                "attachment": [],
-                "liao_ye_bi": [
-                  {
-                    "zhi_liang": "23",
-                    "yuan_cai_liao": "54fe20ed-86df-420c-afa6-dc3c04c03370"
-                  },
-                  {
-                    "zhi_liang": "43",
-                    "yuan_cai_liao": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3"
-                  }
-                ],
-                "percentages": {
-                  "liao_ye_weight": [
-                    65.7,
-                    34.3
-                  ],
-                  "liao_weight": [
-                    100
-                  ],
-                  "ye_weight": [
-                    100
-                  ]
-                },
-                "liao_ye_bi/1": [
-                  {
-                    "zhi_liang": "23",
-                    "yuan_cai_liao": "54730f09-9ade-4967-9412-614c8df9dd79"
-                  },
-                  {
-                    "zhi_liang": "12",
-                    "yuan_cai_liao": "54fe20ed-86df-420c-afa6-dc3c04c03370"
-                  }
-                ],
-                "zhi_liang_unit": "kg"
-              },
-              "formItems": {
-                "id": 6,
-                "key": "6/nlvt3wzh",
-                "name": "料液比",
-                "type": "物料",
-                "title": "料液比",
-                "rowKey": "6/nlvt3wzh",
-                "attribute": [
-                  {
-                    "id": 6,
-                    "key": "liao_ye_bi",
-                    "type": "MaterialList",
-                    "props": {
-                      "unit": "kg|g|L|ml",
-                      "hidden": false,
-                      "options": [
-                        {
-                          "group": "SY02121629/物料01",
-                          "children": [
-                            {
-                              "label": "111/111",
-                              "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                              "is_liquid": true
-                            },
-                            {
-                              "label": "测试共达到瓦大大哇哒/222222",
-                              "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                              "is_liquid": false
-                            },
-                            {
-                              "label": "葵花籽油/E207",
-                              "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                              "is_liquid": false
-                            },
-                            {
-                              "label": "澳洲坚果油/J003",
-                              "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                              "is_liquid": false
-                            }
-                          ]
-                        },
-                        {
-                          "group": "样品",
-                          "children": []
-                        }
-                      ],
-                      "abstract": false,
-                      "required": false,
-                      "orthogonal": true,
-                      "enablePrint": true
-                    },
-                    "title": "料液比",
-                    "value": null,
-                    "rowKey": "6/k8h3it0h",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  },
-                  {
-                    "id": 6,
-                    "key": "liao_ye_bi/1",
-                    "type": "MaterialList",
-                    "props": {
-                      "unit": "kg|g|L|ml",
-                      "hidden": false,
-                      "options": [
-                        {
-                          "group": "SY02121629/物料01",
-                          "children": [
-                            {
-                              "label": "111/111",
-                              "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                              "is_liquid": true
-                            },
-                            {
-                              "label": "测试共达到瓦大大哇哒/222222",
-                              "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                              "is_liquid": false
-                            },
-                            {
-                              "label": "葵花籽油/E207",
-                              "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                              "is_liquid": false
-                            },
-                            {
-                              "label": "澳洲坚果油/J003",
-                              "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                              "is_liquid": false
-                            }
-                          ]
-                        },
-                        {
-                          "group": "样品",
-                          "children": []
-                        }
-                      ],
-                      "abstract": false,
-                      "required": false,
-                      "orthogonal": true,
-                      "enablePrint": true
-                    },
-                    "title": "料液比",
-                    "value": null,
-                    "rowKey": "6/k8h3it0h1",
-                    "multiple": false,
-                    "description": "",
-                    "attribute_type": "single"
-                  }
-                ],
-                "description": "",
-                "operateType": "物料",
-                "attribute_info": [
-                  {
-                    "id": 6,
-                    "key": "liao_ye_bi",
-                    "type": "MaterialList",
-                    "props": {
-                      "unit": "kg|g|L|ml",
-                      "hidden": false,
-                      "options": [],
-                      "abstract": false,
-                      "required": false,
-                      "enablePrint": true
-                    },
-                    "title": "料液比",
-                    "value": null,
-                    "multiple": false,
-                    "attribute_type": "single"
-                  }
-                ]
-              },
-              "is_sample": false,
-              "procedure": {
-                "id": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-                "key": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-                "title": "自定义",
-                "rowKey": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025/555lenup"
-              },
-              "description": "",
-              "operateType": "物料",
-              "operate_router": {
-                "id": 6,
-                "key": "6/nlvt3wzh",
-                "title": "料液比",
-                "rowKey": "6/nlvt3wzh"
-              },
-              "operate_rowKey": "6/nlvt3wzh",
-              "procedure_rowKey": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025/555lenup"
-            },
-            {
-              "id": "15149cfa-d16f-4a9f-bc43-0029b48d9437",
-              "params": [
-                {
-                  "id": "7a0f9424-95e9-46cc-a7cc-5bbce8c510c7",
-                  "formItems": {
-                    "attribute": [
-                      {
-                        "items": [
-                          {
-                            "id": 2,
-                            "key": "shi_jian",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "y|M|d|h|m|s",
-                              "hidden": false,
-                              "suffix": "h",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "时间",
-                            "value": null,
-                            "rowKey": "2/6j00etej",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 2,
-                            "key": "shi_jian/2",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "y|M|d|h|m|s",
-                              "hidden": false,
-                              "suffix": "h",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "时间",
-                            "value": null,
-                            "rowKey": "2/6j00etej2",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 2,
-                            "key": "shi_jian/2/3",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "y|M|d|h|m|s",
-                              "hidden": false,
-                              "suffix": "h",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "时间",
-                            "value": null,
-                            "rowKey": "2/6j00etej23",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          }
-                        ],
-                        "value": "shi_jian/2/3"
-                      },
-                      {
-                        "items": [
-                          {
-                            "id": 4,
-                            "key": "zhi_liang",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "suffix": "g",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "质量",
-                            "value": null,
-                            "rowKey": "4/31q9kkno",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 4,
-                            "key": "zhi_liang/4",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "suffix": "g",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "质量",
-                            "value": null,
-                            "rowKey": "4/31q9kkno4",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          }
-                        ],
-                        "value": "zhi_liang/4"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "id": "c7b173f0-f1a9-436a-b2ef-abde7acc1b45",
-                  "formItems": {
-                    "attribute": [
-                      {
-                        "items": [
-                          {
-                            "id": 6,
-                            "key": "liao_ye_bi",
-                            "type": "MaterialList",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "options": [
-                                {
-                                  "group": "SY02121629/物料01",
-                                  "children": [
-                                    {
-                                      "label": "111/111",
-                                      "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                                      "is_liquid": true
-                                    },
-                                    {
-                                      "label": "测试共达到瓦大大哇哒/222222",
-                                      "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                                      "is_liquid": false
-                                    },
-                                    {
-                                      "label": "葵花籽油/E207",
-                                      "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                                      "is_liquid": false
-                                    },
-                                    {
-                                      "label": "澳洲坚果油/J003",
-                                      "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                                      "is_liquid": false
-                                    }
-                                  ]
-                                },
-                                {
-                                  "group": "样品",
-                                  "children": []
-                                }
-                              ],
-                              "abstract": false,
-                              "required": false,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "料液比",
-                            "value": null,
-                            "rowKey": "6/k8h3it0h",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 6,
-                            "key": "liao_ye_bi/1",
-                            "type": "MaterialList",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "options": [
-                                {
-                                  "group": "SY02121629/物料01",
-                                  "children": [
-                                    {
-                                      "label": "111/111",
-                                      "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                                      "is_liquid": true
-                                    },
-                                    {
-                                      "label": "测试共达到瓦大大哇哒/222222",
-                                      "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                                      "is_liquid": false
-                                    },
-                                    {
-                                      "label": "葵花籽油/E207",
-                                      "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                                      "is_liquid": false
-                                    },
-                                    {
-                                      "label": "澳洲坚果油/J003",
-                                      "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                                      "is_liquid": false
-                                    }
-                                  ]
-                                },
-                                {
-                                  "group": "样品",
-                                  "children": []
-                                }
-                              ],
-                              "abstract": false,
-                              "required": false,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "料液比",
-                            "value": null,
-                            "rowKey": "6/k8h3it0h1",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          }
-                        ],
-                        "value": "liao_ye_bi/1"
-                      }
-                    ]
-                  }
-                }
-              ],
-              "sample": {
-                "id": "421f4cdc-1f84-4918-be78-4c2c5944c96b",
-                "sn": "S202502123",
-                "name": "各部分的豆腐干反对",
-                "params": {
-                  "is_residue": "sample"
-                },
-                "weight": 1,
-                "description": "",
-                "record_table": {
-                  "id": "9de79b91-9888-4c3a-bce0-74d0a6f615a4",
-                  "title": "测试7n9suapc",
-                  "params": {},
-                  "columns": [
-                    {
-                      "cell": "type-slot-operate",
-                      "title": "操作",
-                      "width": 150,
-                      "colKey": "operate"
-                    }
-                  ],
-                  "table_data": [
-                    {
-                      "id": "c2d27b56-76ae-41d4-b1f7-76dd450595db",
-                      "data": "23",
-                      "time": "2025-02-12 18:53:03",
-                      "index_type": {
-                        "id": 1,
-                        "key": "lab_l",
-                        "type": "NumberInput",
-                        "unit": null,
-                        "props": {
-                          "unit": "k|gre|bf|gfd",
-                          "hidden": false,
-                          "suffix": "",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "LAB_L",
-                        "value": null,
-                        "attribute_type": "single",
-                        "indicators_evaluation_option": "3"
-                      },
-                      "lab_l_unit": "k",
-                      "description": ""
-                    },
-                    {
-                      "id": "a4eb8dca-8baa-446f-a8e8-a38611301539",
-                      "data": "34",
-                      "time": "2025-02-12 18:53:03",
-                      "index_type": {
-                        "id": 2,
-                        "key": "lab_a",
-                        "type": "NumberInput",
-                        "unit": null,
-                        "props": {
-                          "unit": "df|fg|f|fg",
-                          "hidden": false,
-                          "suffix": "",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "LAB_A",
-                        "value": null,
-                        "attribute_type": "single",
-                        "indicators_evaluation_option": "3"
-                      },
-                      "lab_a_unit": "df",
-                      "description": ""
-                    },
-                    {
-                      "id": "550ed633-dad0-45f7-acd2-55e3e6b39988",
-                      "data": "54",
-                      "time": "2025-02-12 18:53:03",
-                      "index_type": {
-                        "id": 3,
-                        "key": "lab_b",
-                        "type": "NumberInput",
-                        "unit": null,
-                        "props": {
-                          "hidden": false,
-                          "suffix": "",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "LAB_B",
-                        "value": null,
-                        "attribute_type": "single",
-                        "indicators_evaluation_option": "1"
-                      },
-                      "description": ""
-                    }
-                  ]
-                },
-                "really_sample": true
-              },
-              "formData": {},
-              "formItems": [],
-              "is_sample": true,
-              "procedure": {
-                "id": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-                "key": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-                "title": "自定义",
-                "rowKey": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025/555lenup"
-              },
-              "description": "",
-              "operateType": "样品",
-              "operate_router": {
-                "title": "样品检测"
-              },
-              "operate_rowKey": "6/nlvt3wzh",
-              "procedure_rowKey": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025/555lenup",
-              "test_record_table": "facc2630-0f7c-4635-a9c1-558882221cb2"
-            },
-            {
-              "id": "7721b3c6-4493-48c6-a806-c85326044e29",
-              "params": [
-                {
-                  "id": "7a0f9424-95e9-46cc-a7cc-5bbce8c510c7",
-                  "formItems": {
-                    "attribute": [
-                      {
-                        "items": [
-                          {
-                            "id": 2,
-                            "key": "shi_jian",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "y|M|d|h|m|s",
-                              "hidden": false,
-                              "suffix": "h",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "时间",
-                            "value": null,
-                            "rowKey": "2/6j00etej",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 2,
-                            "key": "shi_jian/2",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "y|M|d|h|m|s",
-                              "hidden": false,
-                              "suffix": "h",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "时间",
-                            "value": null,
-                            "rowKey": "2/6j00etej2",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 2,
-                            "key": "shi_jian/2/3",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "y|M|d|h|m|s",
-                              "hidden": false,
-                              "suffix": "h",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "时间",
-                            "value": null,
-                            "rowKey": "2/6j00etej23",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          }
-                        ],
-                        "value": "shi_jian"
-                      },
-                      {
-                        "items": [
-                          {
-                            "id": 4,
-                            "key": "zhi_liang",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "suffix": "g",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "质量",
-                            "value": null,
-                            "rowKey": "4/31q9kkno",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 4,
-                            "key": "zhi_liang/4",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "suffix": "g",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "质量",
-                            "value": null,
-                            "rowKey": "4/31q9kkno4",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          }
-                        ],
-                        "value": "zhi_liang"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "id": "c7b173f0-f1a9-436a-b2ef-abde7acc1b45",
-                  "formItems": {
-                    "attribute": [
-                      {
-                        "items": [
-                          {
-                            "id": 6,
-                            "key": "liao_ye_bi",
-                            "type": "MaterialList",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "options": [
-                                {
-                                  "group": "SY02121629/物料01",
-                                  "children": [
-                                    {
-                                      "label": "111/111",
-                                      "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                                      "is_liquid": true
-                                    },
-                                    {
-                                      "label": "测试共达到瓦大大哇哒/222222",
-                                      "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                                      "is_liquid": false
-                                    },
-                                    {
-                                      "label": "葵花籽油/E207",
-                                      "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                                      "is_liquid": false
-                                    },
-                                    {
-                                      "label": "澳洲坚果油/J003",
-                                      "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                                      "is_liquid": false
-                                    }
-                                  ]
-                                },
-                                {
-                                  "group": "样品",
-                                  "children": []
-                                }
-                              ],
-                              "abstract": false,
-                              "required": false,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "料液比",
-                            "value": null,
-                            "rowKey": "6/k8h3it0h",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 6,
-                            "key": "liao_ye_bi/1",
-                            "type": "MaterialList",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "options": [
-                                {
-                                  "group": "SY02121629/物料01",
-                                  "children": [
-                                    {
-                                      "label": "111/111",
-                                      "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                                      "is_liquid": true
-                                    },
-                                    {
-                                      "label": "测试共达到瓦大大哇哒/222222",
-                                      "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                                      "is_liquid": false
-                                    },
-                                    {
-                                      "label": "葵花籽油/E207",
-                                      "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                                      "is_liquid": false
-                                    },
-                                    {
-                                      "label": "澳洲坚果油/J003",
-                                      "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                                      "is_liquid": false
-                                    }
-                                  ]
-                                },
-                                {
-                                  "group": "样品",
-                                  "children": []
-                                }
-                              ],
-                              "abstract": false,
-                              "required": false,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "料液比",
-                            "value": null,
-                            "rowKey": "6/k8h3it0h1",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          }
-                        ],
-                        "value": "liao_ye_bi"
-                      }
-                    ]
-                  }
-                }
-              ],
-              "sample": {
-                "id": "08c591db-9378-43c6-bb3b-cf118ee8ac90",
-                "sn": "35343543432224",
-                "name": "各部分的官方滤渣",
-                "params": {
-                  "is_residue": "residue"
-                },
-                "weight": 1,
-                "description": "",
-                "record_table": {
-                  "id": "b6ee39fb-a367-46d3-b8b7-b4f77114471b",
-                  "title": "测试ptigk9kv",
-                  "params": {},
-                  "columns": [
-                    {
-                      "cell": "type-slot-operate",
-                      "title": "操作",
-                      "width": 150,
-                      "colKey": "operate"
-                    }
-                  ],
-                  "table_data": []
-                },
-                "really_sample": false
-              },
-              "formData": {},
-              "formItems": [],
-              "is_sample": true,
-              "procedure": {
-                "id": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-                "key": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-                "title": "自定义",
-                "rowKey": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025/555lenup"
-              },
-              "description": "",
-              "operateType": "样品",
-              "operate_router": {
-                "title": "样品检测"
-              },
-              "operate_rowKey": "6/nlvt3wzh",
-              "procedure_rowKey": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025/555lenup",
-              "test_record_table": "facc2630-0f7c-4635-a9c1-558882221cb2"
-            },
-            {
-              "id": "d93006bd-1143-4889-a1c5-f27f8ffba554",
-              "params": [
-                {
-                  "id": "7a0f9424-95e9-46cc-a7cc-5bbce8c510c7",
-                  "formItems": {
-                    "attribute": [
-                      {
-                        "items": [
-                          {
-                            "id": 2,
-                            "key": "shi_jian",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "y|M|d|h|m|s",
-                              "hidden": false,
-                              "suffix": "h",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "时间",
-                            "value": null,
-                            "rowKey": "2/6j00etej",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 2,
-                            "key": "shi_jian/2",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "y|M|d|h|m|s",
-                              "hidden": false,
-                              "suffix": "h",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "时间",
-                            "value": null,
-                            "rowKey": "2/6j00etej2",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 2,
-                            "key": "shi_jian/2/3",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "y|M|d|h|m|s",
-                              "hidden": false,
-                              "suffix": "h",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "时间",
-                            "value": null,
-                            "rowKey": "2/6j00etej23",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          }
-                        ],
-                        "value": "shi_jian"
-                      },
-                      {
-                        "items": [
-                          {
-                            "id": 4,
-                            "key": "zhi_liang",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "suffix": "g",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "质量",
-                            "value": null,
-                            "rowKey": "4/31q9kkno",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 4,
-                            "key": "zhi_liang/4",
-                            "type": "NumberInput",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "suffix": "g",
-                              "abstract": false,
-                              "required": false,
-                              "precision": null,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "质量",
-                            "value": null,
-                            "rowKey": "4/31q9kkno4",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          }
-                        ],
-                        "value": "zhi_liang"
-                      }
-                    ]
-                  }
-                },
-                {
-                  "id": "c7b173f0-f1a9-436a-b2ef-abde7acc1b45",
-                  "formItems": {
-                    "attribute": [
-                      {
-                        "items": [
-                          {
-                            "id": 6,
-                            "key": "liao_ye_bi",
-                            "type": "MaterialList",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "options": [
-                                {
-                                  "group": "SY02121629/物料01",
-                                  "children": [
-                                    {
-                                      "label": "111/111",
-                                      "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                                      "is_liquid": true
-                                    },
-                                    {
-                                      "label": "测试共达到瓦大大哇哒/222222",
-                                      "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                                      "is_liquid": false
-                                    },
-                                    {
-                                      "label": "葵花籽油/E207",
-                                      "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                                      "is_liquid": false
-                                    },
-                                    {
-                                      "label": "澳洲坚果油/J003",
-                                      "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                                      "is_liquid": false
-                                    }
-                                  ]
-                                },
-                                {
-                                  "group": "样品",
-                                  "children": []
-                                }
-                              ],
-                              "abstract": false,
-                              "required": false,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "料液比",
-                            "value": null,
-                            "rowKey": "6/k8h3it0h",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          },
-                          {
-                            "id": 6,
-                            "key": "liao_ye_bi/1",
-                            "type": "MaterialList",
-                            "props": {
-                              "unit": "kg|g|L|ml",
-                              "hidden": false,
-                              "options": [
-                                {
-                                  "group": "SY02121629/物料01",
-                                  "children": [
-                                    {
-                                      "label": "111/111",
-                                      "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                                      "is_liquid": true
-                                    },
-                                    {
-                                      "label": "测试共达到瓦大大哇哒/222222",
-                                      "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                                      "is_liquid": false
-                                    },
-                                    {
-                                      "label": "葵花籽油/E207",
-                                      "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                                      "is_liquid": false
-                                    },
-                                    {
-                                      "label": "澳洲坚果油/J003",
-                                      "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                                      "is_liquid": false
-                                    }
-                                  ]
-                                },
-                                {
-                                  "group": "样品",
-                                  "children": []
-                                }
-                              ],
-                              "abstract": false,
-                              "required": false,
-                              "orthogonal": true,
-                              "enablePrint": true
-                            },
-                            "title": "料液比",
-                            "value": null,
-                            "rowKey": "6/k8h3it0h1",
-                            "multiple": false,
-                            "description": "",
-                            "attribute_type": "single"
-                          }
-                        ],
-                        "value": "liao_ye_bi/1"
-                      }
-                    ]
-                  }
-                }
-              ],
-              "sample": {
-                "id": "25b57fae-edd8-492a-9c0f-b883a90fd942",
-                "sn": "353435434322",
-                "name": "各部分的官方提取液",
-                "params": {
-                  "is_residue": "extractionSolution"
-                },
-                "weight": 1,
-                "description": "",
-                "record_table": {
-                  "id": "79ba631b-8aaf-4946-bf42-2debd4067e0c",
-                  "title": "测试u707wrnt",
-                  "params": {},
-                  "columns": [
-                    {
-                      "cell": "type-slot-operate",
-                      "title": "操作",
-                      "width": 150,
-                      "colKey": "operate"
-                    }
-                  ],
-                  "table_data": []
-                },
-                "really_sample": false
-              },
-              "formData": {},
-              "formItems": [],
-              "is_sample": true,
-              "procedure": {
-                "id": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-                "key": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-                "title": "自定义",
-                "rowKey": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025/555lenup"
-              },
-              "description": "",
-              "operateType": "样品",
-              "operate_router": {
-                "title": "样品检测"
-              },
-              "operate_rowKey": "6/nlvt3wzh",
-              "procedure_rowKey": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025/555lenup",
-              "test_record_table": "facc2630-0f7c-4635-a9c1-558882221cb2"
-            },
-            {
-              "id": "d9d780cf-7dea-4901-842e-d8cff23e22af",
-              "params": {},
-              "sample": {},
-              "formData": {},
-              "formItems": {
-                "title": "过程描述"
-              },
-              "is_sample": false,
-              "procedure": {
-                "id": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-                "key": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-                "title": "自定义",
-                "rowKey": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025/555lenup"
-              },
-              "operateType": "过程描述",
-              "operate_router": {
-                "title": "过程描述"
-              },
-              "operate_rowKey": "过程描述vugn0vgr",
-              "procedure_rowKey": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025/555lenup"
-            }
-          ],
-          "designParams": "28e759b7-23c5-451e-ad52-c4aaa6d7b79a",
-          "designResult": {
-            "id": "d6024e1b-1368-4c47-ba4c-7552690f4d0c",
-            "title": "试验设计方案-20250212185041",
-            "formData": {
-              "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f": {
-                "2/vgzdw3dl": {
-                  "shi_jian": "23",
-                  "zhi_liang": "32",
-                  "shi_jian/2": "54",
-                  "zhi_liang/4": "65",
-                  "shi_jian/2/3": "43",
-                  "shi_jian_unit": "y",
-                  "zhi_liang_unit": "kg",
-                  "shi_jian/2_unit": "y",
-                  "zhi_liang/4_unit": "kg",
-                  "shi_jian/2/3_unit": "y"
-                },
-                "3/uikh6h09": {
-                  "shi_jian": "23",
-                  "shi_jian_unit": "y",
-                  "yuan_cai_liao": "54fe20ed-86df-420c-afa6-dc3c04c03370"
-                },
-                "description": ""
-              },
-              "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025": {
-                "6/nlvt3wzh": {
-                  "liao_ye_bi": [
-                    {
-                      "zhi_liang": "23",
-                      "yuan_cai_liao": "54fe20ed-86df-420c-afa6-dc3c04c03370"
-                    },
-                    {
-                      "zhi_liang": "43",
-                      "yuan_cai_liao": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3"
-                    }
-                  ],
-                  "percentages": {
-                    "ye_weight": [
-                      100
-                    ],
-                    "liao_weight": [
-                      100
-                    ],
-                    "liao_ye_weight": [
-                      65.7,
-                      34.3
-                    ]
-                  },
-                  "liao_ye_bi/1": [
-                    {
-                      "zhi_liang": "23",
-                      "yuan_cai_liao": "54730f09-9ade-4967-9412-614c8df9dd79"
-                    },
-                    {
-                      "zhi_liang": "12",
-                      "yuan_cai_liao": "54fe20ed-86df-420c-afa6-dc3c04c03370"
-                    }
-                  ],
-                  "zhi_liang_unit": "kg"
-                },
-                "description": ""
-              },
-              "ec555345-a7ea-4393-9926-149642a027c6": {
-                "2/thmapeoh": {
-                  "shi_jian": "34",
-                  "zhi_liang": "54",
-                  "shi_jian_unit": "y",
-                  "zhi_liang_unit": "kg"
-                },
-                "4/g0rphwxk": {
-                  "shi_jian": "45",
-                  "zhi_liang": "43",
-                  "shi_jian_unit": "y",
-                  "yuan_cai_liao": "54730f09-9ade-4967-9412-614c8df9dd79",
-                  "zhi_liang_unit": "kg"
-                },
-                "description": ""
-              }
-            },
-            "formItems": [
-              {
-                "id": "ec555345-a7ea-4393-9926-149642a027c6",
-                "key": "ec555345-a7ea-4393-9926-149642a027c6",
-                "name": "准备操作",
-                "title": "准备操作",
-                "rowKey": "ec555345-a7ea-4393-9926-149642a027c6/umty9w1k",
-                "formItems": [
-                  {
-                    "id": 2,
-                    "key": "2/thmapeoh",
-                    "name": "准备物料",
-                    "type": "操作",
-                    "title": "准备物料",
-                    "rowKey": "2/thmapeoh",
-                    "attribute": [
-                      {
-                        "id": 2,
-                        "key": "shi_jian",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "时间",
-                        "value": null,
-                        "rowKey": "2/00gpndbx",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 4,
-                        "key": "zhi_liang",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "suffix": "g",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "质量",
-                        "value": null,
-                        "rowKey": "4/cmkygq14",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      }
-                    ],
-                    "description": "",
-                    "operateType": "操作"
-                  },
-                  {
-                    "id": 4,
-                    "key": "4/g0rphwxk",
-                    "name": "粉碎",
-                    "type": "物料",
-                    "title": "粉碎",
-                    "rowKey": "4/g0rphwxk",
-                    "attribute": [
-                      {
-                        "id": 1,
-                        "key": "yuan_cai_liao",
-                        "type": "SelectMaterial",
-                        "props": {
-                          "http": {},
-                          "fixed": true,
-                          "hidden": false,
-                          "suffix": null,
-                          "options": [
-                            {
-                              "group": "SY02121629/物料01",
-                              "children": [
-                                {
-                                  "label": "111/111",
-                                  "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                                  "is_liquid": true
-                                },
-                                {
-                                  "label": "测试共达到瓦大大哇哒/222222",
-                                  "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                                  "is_liquid": false
-                                },
-                                {
-                                  "label": "葵花籽油/E207",
-                                  "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                                  "is_liquid": false
-                                },
-                                {
-                                  "label": "澳洲坚果油/J003",
-                                  "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                                  "is_liquid": false
-                                }
-                              ]
-                            },
-                            {
-                              "group": "样品",
-                              "children": []
-                            }
-                          ],
-                          "abstract": false,
-                          "dictType": null,
-                          "multiple": false,
-                          "required": false,
-                          "expanding": false,
-                          "validation": null,
-                          "enablePrint": true
-                        },
-                        "title": "原材料",
-                        "value": null,
-                        "rowKey": "1/kay52ekd",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 2,
-                        "key": "shi_jian",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "时间",
-                        "value": null,
-                        "rowKey": "2/wiu4z50k",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 4,
-                        "key": "zhi_liang",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "suffix": "g",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "质量",
-                        "value": null,
-                        "rowKey": "4/ih57g9by",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      }
-                    ],
-                    "description": "",
-                    "operateType": "物料"
-                  }
-                ]
-              },
-              {
-                "id": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f",
-                "key": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f",
-                "name": "提取物料",
-                "title": "提取物料",
-                "rowKey": "9b88ce19-2ffa-4e04-a61f-3cfc99e81c6f/ufy08yr5",
-                "formItems": [
-                  {
-                    "id": 2,
-                    "key": "2/vgzdw3dl",
-                    "name": "准备物料",
-                    "type": "操作",
-                    "title": "准备物料",
-                    "rowKey": "2/vgzdw3dl",
-                    "attribute": [
-                      {
-                        "id": 2,
-                        "key": "shi_jian",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "orthogonal": true,
-                          "enablePrint": true
-                        },
-                        "title": "时间",
-                        "value": null,
-                        "rowKey": "2/6j00etej",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 2,
-                        "key": "shi_jian/2",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "orthogonal": true,
-                          "enablePrint": true
-                        },
-                        "title": "时间",
-                        "value": null,
-                        "rowKey": "2/6j00etej2",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 2,
-                        "key": "shi_jian/2/3",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "orthogonal": true,
-                          "enablePrint": true
-                        },
-                        "title": "时间",
-                        "value": null,
-                        "rowKey": "2/6j00etej23",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 4,
-                        "key": "zhi_liang",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "suffix": "g",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "orthogonal": true,
-                          "enablePrint": true
-                        },
-                        "title": "质量",
-                        "value": null,
-                        "rowKey": "4/31q9kkno",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 4,
-                        "key": "zhi_liang/4",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "suffix": "g",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "orthogonal": true,
-                          "enablePrint": true
-                        },
-                        "title": "质量",
-                        "value": null,
-                        "rowKey": "4/31q9kkno4",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      }
-                    ],
-                    "description": "",
-                    "operateType": "操作"
-                  },
-                  {
-                    "id": 3,
-                    "key": "3/uikh6h09",
-                    "name": "加热",
-                    "type": "操作",
-                    "title": "加热",
-                    "rowKey": "3/uikh6h09",
-                    "attribute": [
-                      {
-                        "id": 1,
-                        "key": "yuan_cai_liao",
-                        "type": "SelectMaterial",
-                        "props": {
-                          "http": {},
-                          "fixed": true,
-                          "hidden": false,
-                          "suffix": null,
-                          "options": [
-                            {
-                              "group": "SY02121629/物料01",
-                              "children": [
-                                {
-                                  "label": "111/111",
-                                  "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                                  "is_liquid": true
-                                },
-                                {
-                                  "label": "测试共达到瓦大大哇哒/222222",
-                                  "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                                  "is_liquid": false
-                                },
-                                {
-                                  "label": "葵花籽油/E207",
-                                  "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                                  "is_liquid": false
-                                },
-                                {
-                                  "label": "澳洲坚果油/J003",
-                                  "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                                  "is_liquid": false
-                                }
-                              ]
-                            },
-                            {
-                              "group": "样品",
-                              "children": []
-                            }
-                          ],
-                          "abstract": false,
-                          "dictType": null,
-                          "multiple": false,
-                          "required": false,
-                          "expanding": false,
-                          "validation": null,
-                          "enablePrint": true
-                        },
-                        "title": "原材料",
-                        "value": null,
-                        "rowKey": "1/zt5una53",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 2,
-                        "key": "shi_jian",
-                        "type": "NumberInput",
-                        "props": {
-                          "unit": "y|M|d|h|m|s",
-                          "hidden": false,
-                          "suffix": "h",
-                          "abstract": false,
-                          "required": false,
-                          "precision": null,
-                          "enablePrint": true
-                        },
-                        "title": "时间",
-                        "value": null,
-                        "rowKey": "2/zpmztru3",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      }
-                    ],
-                    "description": "",
-                    "operateType": "操作"
-                  }
-                ]
-              },
-              {
-                "id": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-                "key": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025",
-                "name": "自定义",
-                "title": "自定义",
-                "rowKey": "ddbe2ad1-b6a8-4f55-8011-f8245f5a5025/555lenup",
-                "formItems": [
-                  {
-                    "id": 6,
-                    "key": "6/nlvt3wzh",
-                    "name": "料液比",
-                    "type": "物料",
-                    "title": "料液比",
-                    "rowKey": "6/nlvt3wzh",
-                    "attribute": [
-                      {
-                        "id": 6,
-                        "key": "liao_ye_bi",
-                        "type": "MaterialList",
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "options": [
-                            {
-                              "group": "SY02121629/物料01",
-                              "children": [
-                                {
-                                  "label": "111/111",
-                                  "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                                  "is_liquid": true
-                                },
-                                {
-                                  "label": "测试共达到瓦大大哇哒/222222",
-                                  "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                                  "is_liquid": false
-                                },
-                                {
-                                  "label": "葵花籽油/E207",
-                                  "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                                  "is_liquid": false
-                                },
-                                {
-                                  "label": "澳洲坚果油/J003",
-                                  "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                                  "is_liquid": false
-                                }
-                              ]
-                            },
-                            {
-                              "group": "样品",
-                              "children": []
-                            }
-                          ],
-                          "abstract": false,
-                          "required": false,
-                          "orthogonal": true,
-                          "enablePrint": true
-                        },
-                        "title": "料液比",
-                        "value": null,
-                        "rowKey": "6/k8h3it0h",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      },
-                      {
-                        "id": 6,
-                        "key": "liao_ye_bi/1",
-                        "type": "MaterialList",
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "options": [
-                            {
-                              "group": "SY02121629/物料01",
-                              "children": [
-                                {
-                                  "label": "111/111",
-                                  "value": "54fe20ed-86df-420c-afa6-dc3c04c03370",
-                                  "is_liquid": true
-                                },
-                                {
-                                  "label": "测试共达到瓦大大哇哒/222222",
-                                  "value": "43c9812b-d6f6-4164-8f98-cb64ae69f7d3",
-                                  "is_liquid": false
-                                },
-                                {
-                                  "label": "葵花籽油/E207",
-                                  "value": "54730f09-9ade-4967-9412-614c8df9dd79",
-                                  "is_liquid": false
-                                },
-                                {
-                                  "label": "澳洲坚果油/J003",
-                                  "value": "cd1faf63-9d7d-4993-a314-6e566acad5ad",
-                                  "is_liquid": false
-                                }
-                              ]
-                            },
-                            {
-                              "group": "样品",
-                              "children": []
-                            }
-                          ],
-                          "abstract": false,
-                          "required": false,
-                          "orthogonal": true,
-                          "enablePrint": true
-                        },
-                        "title": "料液比",
-                        "value": null,
-                        "rowKey": "6/k8h3it0h1",
-                        "multiple": false,
-                        "description": "",
-                        "attribute_type": "single"
-                      }
-                    ],
-                    "description": "",
-                    "operateType": "物料",
-                    "attribute_info": [
-                      {
-                        "id": 6,
-                        "key": "liao_ye_bi",
-                        "type": "MaterialList",
-                        "props": {
-                          "unit": "kg|g|L|ml",
-                          "hidden": false,
-                          "options": [],
-                          "abstract": false,
-                          "required": false,
-                          "enablePrint": true
-                        },
-                        "title": "料液比",
-                        "value": null,
-                        "multiple": false,
-                        "attribute_type": "single"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "orthogonalDesign": {
-              "stepItems": [],
-              "cycleNumber": 1
-            }
-          },
+          "table_data": [],
+          "designParams": "211565b2-1845-4b92-b404-df52419284d3",
+          "designResult": {},
           "selectRows": [],
-          "title": "SY02121629/试验记录01"
+          "title": "发生发撒/试验记录01"
         }
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+          "indent": null,
+          "textAlign": null,
+          "lineHeight": 1.5,
+          "margin": {}
+        },
+        "content": [
+          {
+            "type": "text",
+            "text": "ffd"
+          }
+        ]
       },
       {
         "type": "paragraph",
@@ -3837,50 +1289,12 @@ onMounted(() => {
         }
       },
       {
-        "type": "sample_table",
-        "attrs": {
-          "id": "5b7af54c-80a5-4464-98eb-6a80059a5bc3",
-          "updateTime": "2025-02-12 19:22:21",
-          "key": "sample_table20250212185221",
-          "name": "8984658c-397b-4281-8c54-a592d2334d6d",
-          "isChanged": false,
-          "group": "",
-          "designParams": [],
-          "title": "SY02121629/样品01"
-        }
-      },
-      {
         "type": "paragraph",
         "attrs": {
           "indent": null,
           "textAlign": null,
           "lineHeight": 1.5,
           "margin": {}
-        }
-      },
-      {
-        "type": "paragraph",
-        "attrs": {
-          "indent": null,
-          "textAlign": null,
-          "lineHeight": 1.5,
-          "margin": {}
-        }
-      },
-      {
-        "type": "sample_test_comparison",
-        "attrs": {
-          "id": "7b5b68aa-9be5-45e3-80b4-84eba2b199a0",
-          "updateTime": "",
-          "key": "undefined20250212185328",
-          "name": "21e1bdb8-fb03-40a1-b77f-49aa83bb2965",
-          "isChanged": false,
-          "selectSamples": [
-            "a903797c-b321-46b3-8cda-28dde0b1f66b",
-            "421f4cdc-1f84-4918-be78-4c2c5944c96b"
-          ],
-          "params": {},
-          "title": "SY02121629/样品试验对比01"
         }
       },
       {
@@ -3904,7 +1318,7 @@ onMounted(() => {
       {
         "type": "xmTitleContent",
         "attrs": {
-          "key": "f736e1b2-4b66-4686-8d38-33b620944fef",
+          "key": "81d4d47d-3734-4b82-9d6d-9578a9ec311e",
           "content": "结论",
           "title": "试验结论："
         },
@@ -3916,8 +1330,8 @@ onMounted(() => {
               "textAlign": "left",
               "lineHeight": 1.5,
               "margin": {},
-              "id": "1o8wuv",
-              "data-toc-id": "1o8wuv",
+              "id": "41cs72",
+              "data-toc-id": "41cs72",
               "level": 2
             },
             "content": [

@@ -273,65 +273,65 @@ const editorInstance: Editor = new Editor({
   }, 1000),
   onTransaction: throttle(({ editor, transaction }:any) => {
     //
-    const customTitleNode = editor.state.doc.nodeAt(0); // 假设标题是第一个节点
-
-    if (transaction.docChanged) {
-      const interestedNodeTypes = ['xmTitle']
-      // 检查事务是否涉及到你感兴趣的节点
-      // 检查事务的步骤，判断是否有节点被删除
-      let nodeDeleted = false
-      let deletedNode :any = null
-      let deletedPosition :any = null
-
-      // 创建一个函数来检查变化
-      const checkChanges = (oldArr:any[], newArr:any[], interestedNodeTypes:string[])=> {
-        // 遍历 oldArr 和 newArr
-        for (let i = 0; i < oldArr.length; i++) {
-          if (interestedNodeTypes.includes(oldArr[i])) {
-            // 检查 newArr 中相同位置的项是否相同
-            if (oldArr[i] !== newArr[i]) {
-
-              return oldArr[i];
-            }
-          }
-        }
-
-        return null;
-      }
-
-      transaction.steps.forEach((step:any) => {
-        // if (step instanceof ReplaceStep || step instanceof ReplaceAroundStep) {
-          const { from, to } = step
-          const oldNode = transaction.before.nodeAt(from)
-          const newNode = transaction.doc.nodeAt(from)
-
-          const oldTypeArr = transaction.before.content.content.map((node:any) => node.type.name)
-          const newTypeArr = transaction.doc.content.content.map((node:any) => node.type.name)
-          const oldType = checkChanges(oldTypeArr, newTypeArr, interestedNodeTypes)
-          if ((oldNode && !newNode)  || (transaction.before.childCount > transaction.doc.childCount)
-            || (transaction.before.childCount === transaction.doc.childCount && oldNode?.type.name !== newNode?.type.name)
-            || oldType ) {
-            if (interestedNodeTypes.includes(oldNode?.type.name) || oldType) {
-              nodeDeleted = true
-              deletedNode = oldNode
-              deletedPosition = from
-
-              // 你可以在这里添加更多的逻辑来处理节点删除事件
-            }
-          }
-        // }
-      })
-
-      if (nodeDeleted) {
-
-        useMessage('warning', '该节点不能被删除')
-        // 创建一个新的交易来恢复被删除的节点
-        const tr :any = editor.state.tr
-        tr.insert(deletedPosition, deletedNode)
-        // 将新的交易分发到编辑器视图中，从而恢复被删除的节点。
-        editor.view.dispatch(tr)
-      }
-    }
+    // const customTitleNode = editor.state.doc.nodeAt(0); // 假设标题是第一个节点
+    //
+    // if (transaction.docChanged) {
+    //   const interestedNodeTypes = ['xmTitle']
+    //   // 检查事务是否涉及到你感兴趣的节点
+    //   // 检查事务的步骤，判断是否有节点被删除
+    //   let nodeDeleted = false
+    //   let deletedNode :any = null
+    //   let deletedPosition :any = null
+    //
+    //   // 创建一个函数来检查变化
+    //   const checkChanges = (oldArr:any[], newArr:any[], interestedNodeTypes:string[])=> {
+    //     // 遍历 oldArr 和 newArr
+    //     for (let i = 0; i < oldArr.length; i++) {
+    //       if (interestedNodeTypes.includes(oldArr[i])) {
+    //         // 检查 newArr 中相同位置的项是否相同
+    //         if (oldArr[i] !== newArr[i]) {
+    //
+    //           return oldArr[i];
+    //         }
+    //       }
+    //     }
+    //
+    //     return null;
+    //   }
+    //
+    //   transaction.steps.forEach((step:any) => {
+    //     // if (step instanceof ReplaceStep || step instanceof ReplaceAroundStep) {
+    //       const { from, to } = step
+    //       const oldNode = transaction.before.nodeAt(from)
+    //       const newNode = transaction.doc.nodeAt(from)
+    //
+    //       const oldTypeArr = transaction.before.content.content.map((node:any) => node.type.name)
+    //       const newTypeArr = transaction.doc.content.content.map((node:any) => node.type.name)
+    //       const oldType = checkChanges(oldTypeArr, newTypeArr, interestedNodeTypes)
+    //       if ((oldNode && !newNode)  || (transaction.before.childCount > transaction.doc.childCount)
+    //         || (transaction.before.childCount === transaction.doc.childCount && oldNode?.type.name !== newNode?.type.name)
+    //         || oldType ) {
+    //         if (interestedNodeTypes.includes(oldNode?.type.name) || oldType) {
+    //           nodeDeleted = true
+    //           deletedNode = oldNode
+    //           deletedPosition = from
+    //
+    //           // 你可以在这里添加更多的逻辑来处理节点删除事件
+    //         }
+    //       }
+    //     // }
+    //   })
+    //
+    //   if (nodeDeleted) {
+    //
+    //     useMessage('warning', '该节点不能被删除')
+    //     // 创建一个新的交易来恢复被删除的节点
+    //     const tr :any = editor.state.tr
+    //     tr.insert(deletedPosition, deletedNode)
+    //     // 将新的交易分发到编辑器视图中，从而恢复被删除的节点。
+    //     editor.view.dispatch(tr)
+    //   }
+    // }
   },1000),
   // onUpdate({ editor }) {
   //   isEmpty = editor.commands.setPlaceholder('')

@@ -1107,12 +1107,11 @@ const onSampleOrthogonalFunc = () => {
       }
     })
 }
-
+const userInfo = JSON.parse(localStorage.getItem('user'))
 const creatSampleToTable = (row, rowIndex, params = []) => {
   const $key_data = JSON.parse(localStorage.getItem('key_data'))
   const experiment_record = $key_data?.experiment_record
   const experiment_theme = $key_data?.experiment_theme
-
   if (experiment_record?.id) {
     const rowC = {
       id: uuid(),
@@ -1129,6 +1128,7 @@ const creatSampleToTable = (row, rowIndex, params = []) => {
       params: params,
       sample: {
         id: uuid(),
+        creat: userInfo?.memberInfo?.id,
         name: sampleForm.value.name, //`样品-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
         sn: sampleForm.value.sn, //`SF-${timeFormat(null, 'yymmddhhMM')}${shortId(2)}`,
         weight: 1,
